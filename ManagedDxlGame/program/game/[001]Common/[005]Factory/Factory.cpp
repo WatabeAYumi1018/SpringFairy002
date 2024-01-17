@@ -21,7 +21,7 @@
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemLoad.h"
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemPool.h"
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
-#include "../[000]Object/[004]UI/Score.h"
+#include "../[000]Object/[004]Score/Score.h"
 #include "../[000]Object//[005]Message/[001]CharaGraph/CharaGraph.h"
 #include "../[000]Object//[005]Message/[001]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Message/[001]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"

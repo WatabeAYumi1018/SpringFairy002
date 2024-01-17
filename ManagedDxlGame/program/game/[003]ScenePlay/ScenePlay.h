@@ -1,6 +1,6 @@
 #pragma once
 #include "../[000]GamEngine/[001]Scene/SceneBase.h"
-#include "../[002]ScenePlay/[000]Object/Object.h"
+#include "../[001]Common/[000]Object/Object.h"
 
 
 class Factory;

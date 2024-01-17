@@ -5,8 +5,8 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "gm_main.h"
 #include "[000]GamEngine/[001]Scene/SceneManager.h"
-#include "[001]SceneTitle/SceneTitle.h"
-#include "[002]ScenePlay/ScenePlay.h"
+#include "[002]SceneOP/SceneOp.h"
+#include "[003]ScenePlay/ScenePlay.h"
 
 //------------------------------------------------------------------------------------------------------------
 // ゲーム起動時に１度だけ実行されます

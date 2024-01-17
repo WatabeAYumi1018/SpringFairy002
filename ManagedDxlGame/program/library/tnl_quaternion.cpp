@@ -9,14 +9,18 @@ namespace tnl {
 	using namespace DirectX;
 
 
-	Quaternion Quaternion::RotationAxis(const Vector3& axis, const float rotate) noexcept {
-		XMFLOAT4 f4;		
-		XMStoreFloat4( &f4, XMQuaternionRotationAxis(XMLoadFloat3(&axis), rotate) );
+	Quaternion Quaternion::RotationAxis(const Vector3& axis, const float rotate) noexcept
+	{
+
+		XMFLOAT4 f4;
+		// 回転軸を指定	、回転角度を指定し、回転クォータニオンを作成
+		XMStoreFloat4(&f4, XMQuaternionRotationAxis(XMLoadFloat3(&axis), rotate));
+		// Quaternion型にキャストして返す
 		return static_cast<Quaternion>(f4);
 	}
 	Quaternion Quaternion::RotationRollPitchYawFromVector(const Vector3& angles) noexcept {
 		XMFLOAT4 f4;
-		XMStoreFloat4(&f4, XMQuaternionRotationRollPitchYawFromVector( XMLoadFloat3(&angles) ) );
+		XMStoreFloat4(&f4, XMQuaternionRotationRollPitchYawFromVector(XMLoadFloat3(&angles)));
 		return static_cast<Quaternion>(f4);
 	}
 
@@ -69,13 +73,13 @@ namespace tnl {
 
 		float tx, ty, tz;
 
-		if ( fabsf(m21-1.0f) < FLT_EPSILON )
+		if (fabsf(m21 - 1.0f) < FLT_EPSILON)
 		{
 			tx = PI / 2.f;
 			ty = 0;
-			tz = atan2f( m10, m00 );
+			tz = atan2f(m10, m00);
 		}
-		else if ( fabsf(m21+1.0f) < FLT_EPSILON )
+		else if (fabsf(m21 + 1.0f) < FLT_EPSILON)
 		{
 			tx = -PI / 2.0f;
 			ty = 0;
@@ -110,11 +114,19 @@ namespace tnl {
 		return static_cast<Quaternion>(q);
 	}
 
-	Quaternion Quaternion::LookAtAxisY(const Vector3& eye, const Vector3& look) {
-		Vector3 vn = Vector3::Normalize( (look - eye).xz() );
-		float angle = vn.angle({ 0, 0, 1 });
-		float y = (vn.x < 0) ? -1.0f : 1.0f;
-		return RotationAxis({0, y, 0}, angle);
+
+	// 向きの変換を行う
+	// arg1 ... 座標
+	// arg2 ... 座標＋向きたい方角のNormalize
+	Quaternion Quaternion::LookAtAxisY(const Vector3& eye, const Vector3& look)
+	{
+		Vector3 vn = Vector3::Normalize((look - eye).xz());
+
+		float angle = vn.angle({ 0, 0, -1 });
+
+		float y = (vn.x < 0) ? 1.0f : -1.0f;
+
+		return RotationAxis({ 0, y, 0 }, angle);
 	}
 
 }

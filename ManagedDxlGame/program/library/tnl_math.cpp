@@ -150,11 +150,18 @@ namespace tnl {
     }
 
     //--------------------------------------------------------------------------------------------------------------------------------
-    float GetRandomDistributionFloat(float min, float max) {
+    float GetRandomDistributionFloat(float min, float max) 
+    {
         std::uniform_real_distribution<> param(static_cast<double>(min), static_cast<double>(max));
         return static_cast<float>(param(g_mersenne));
     }
 
+    int GetRandomDistributionInt(int min, int max) 
+	{
+		std::uniform_int_distribution<> param(min, max);
+
+		return param(g_mersenne);
+	}
 
     //--------------------------------------------------------------------------------------------------------------------------------
     int GetSidesPointAndPlane(const Vector3& v, const Vector3& pn, const Vector3& pv)

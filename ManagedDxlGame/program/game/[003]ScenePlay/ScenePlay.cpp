@@ -1,9 +1,9 @@
 #include "ScenePlay.h"
 #include "../[000]GamEngine/[001]Scene/SceneManager.h"
-#include "../[002]ScenePlay/[005]Factory/Factory.h"
-#include "[001]Camera/GameCamera.h"
-#include "../[002]ScenePlay/[003]Phase/StagePhase.h"
-#include "[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
+#include "../[001]Common/[005]Factory/Factory.h"
+#include "../[001]Common/[001]Camera/GameCamera.h"
+#include "../[003]ScenePlay/ScenePlay.h"
+#include "../[001]Common/[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
 
 
 ScenePlay::ScenePlay() : m_factory(std::make_shared<Factory>())

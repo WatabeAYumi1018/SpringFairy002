@@ -39,6 +39,117 @@
     <Filter Include="program\[001] dxlib_ext\create_mesh">
       <UniqueIdentifier>{11d8e443-8d64-409c-92f1-6895cd2dbbce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\[000]GameEngine">
+      <UniqueIdentifier>{1101a3dc-0d9c-40d7-8422-dd53b733a393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common">
+      <UniqueIdentifier>{e88c9bb1-ddd9-4ba4-b35e-bd1dc16b592a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[002]SceneOp">
+      <UniqueIdentifier>{90c74924-6090-4381-ad5b-fba23ae2bdaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[003]ScenePlay">
+      <UniqueIdentifier>{cf060e49-c498-4ab9-b3d6-a8254f2abd71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[000]GameEngine\[000]Engine">
+      <UniqueIdentifier>{aa17744f-39ca-4d04-b50a-782458fd273b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[000]GameEngine\[001]Scene">
+      <UniqueIdentifier>{16f93680-4f8b-4355-a5dd-389b1603504c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[000]GameEngine\[002]Music">
+      <UniqueIdentifier>{a3d2bed8-e302-4c55-a349-0693a06c5889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[000]GameEngine\[003]Transform">
+      <UniqueIdentifier>{68249300-0d2e-4751-b187-a41184a5f285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object">
+      <UniqueIdentifier>{507a8372-f6cc-4253-9fe6-2e97ad6c737b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[001]Camera">
+      <UniqueIdentifier>{89a64230-604b-47a0-aac3-6492951d492c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[002]Mediator">
+      <UniqueIdentifier>{7a5c7fe3-aa26-455f-be88-abe177f98051}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[003]Phase">
+      <UniqueIdentifier>{e667bf97-52b4-4d6d-9e70-c759d6fac7ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[004]Factory">
+      <UniqueIdentifier>{57db2471-5e99-4519-806c-1144cd65605b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[001]Camera\[000]CameraFunction">
+      <UniqueIdentifier>{83a0afd8-33d2-41a4-afe4-60b792ad95b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage">
+      <UniqueIdentifier>{88d540be-0bf7-42de-b8a7-7887f59d3c1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character">
+      <UniqueIdentifier>{b5c4a5e8-aaab-46a4-9e29-5a3fca2dfc5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[002]Item">
+      <UniqueIdentifier>{cf873a0d-1a5e-4fde-96eb-501270bd2400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[003]Effect">
+      <UniqueIdentifier>{98828e77-34cb-47d5-ba36-2d904a63be72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Message">
+      <UniqueIdentifier>{d9d79915-b812-4800-8715-e8c5335736d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox">
+      <UniqueIdentifier>{7c3d1d32-0965-4b9b-9129-1f3ea0040e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane">
+      <UniqueIdentifier>{f002e19f-114f-4f74-bac0-db78ad5e9a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[002]Floor">
+      <UniqueIdentifier>{329eb292-8d6d-452f-9d46-1685a0dd0b9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model">
+      <UniqueIdentifier>{14ada333-ccc3-4a07-b990-9f903cc15ccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction">
+      <UniqueIdentifier>{0fdef970-4027-406b-8498-44927f431cf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction">
+      <UniqueIdentifier>{04bdf5c5-270e-44f0-b47c-b7e151cab276}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner">
+      <UniqueIdentifier>{1d255a47-0f8d-4501-8c03-734364aa0997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer">
+      <UniqueIdentifier>{f3a0b5c8-4b00-4610-9192-fce76c35d30e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player">
+      <UniqueIdentifier>{db16480d-17b2-4f9a-8fb4-1043e3a03c42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction">
+      <UniqueIdentifier>{26e9bf99-195c-4940-9b15-34d2526b8b77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction">
+      <UniqueIdentifier>{89267a6f-e8c2-4769-ad37-895e6e91ccac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction">
+      <UniqueIdentifier>{a7e0a97a-7982-4345-9f30-cb064f346f22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[004]Score">
+      <UniqueIdentifier>{323efee6-b030-4447-82f6-0984dd691149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text">
+      <UniqueIdentifier>{fe808cfa-da22-41a4-a67d-b7218841dc17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph">
+      <UniqueIdentifier>{8a3cec28-e0c6-49e5-bac7-a3b22bce7a9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction">
+      <UniqueIdentifier>{e5ec91ee-d431-49a5-8172-41a33b204b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphicFunction">
+      <UniqueIdentifier>{65a8888a-2362-469f-a87d-5379e651761f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[002]wta_library">
+      <UniqueIdentifier>{3fcc14bf-0315-444b-8ace-738e0917d5ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">
@@ -196,6 +307,129 @@
     </ClCompile>
     <ClCompile Include="program\dxlib_ext\gui\dxlib_ext_gui_check_box.cpp">
       <Filter>program\[001] dxlib_ext\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[000]GamEngine\[001]Scene\SceneManager.cpp">
+      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[000]GamEngine\[003]Transform\Transform.cpp">
+      <Filter>program\[003] game\[000]GameEngine\[003]Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[005]Factory\Factory.cpp">
+      <Filter>program\[003] game\[001]Common\[004]Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[003]Phase\GamePhase.cpp">
+      <Filter>program\[003] game\[001]Common\[003]Phase</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[003]Phase\StagePhase.cpp">
+      <Filter>program\[003] game\[001]Common\[003]Phase</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[002]Mediator\Mediator.cpp">
+      <Filter>program\[003] game\[001]Common\[002]Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[001]Camera\GameCamera.cpp">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneMove.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[002]Floor\Floor.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[002]Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\Model.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\Character.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\Player.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerCollision.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerDraw.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMove.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMoveLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerSkill.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\Partner.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerDraw.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerMove.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CameraTargetPlayer.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemDraw.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemGenerator.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemPool.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\Item.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[004]Score\Score.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[004]Score</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\Text.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction\TextDraw.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction\TextLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\CharaGraph.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphicFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphicFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[002]SceneOP\SceneOp.cpp">
+      <Filter>program\[003] game\[002]SceneOp</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[003]ScenePlay\ScenePlay.cpp">
+      <Filter>program\[003] game\[003]ScenePlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -403,6 +637,150 @@
     </ClInclude>
     <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_screen_efffect.h">
       <Filter>program\[001] dxlib_ext\example</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GamEngine\[000]Engine\Engine.h">
+      <Filter>program\[003] game\[000]GameEngine\[000]Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GamEngine\[001]Scene\SceneBase.h">
+      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GamEngine\[001]Scene\SceneManager.h">
+      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GamEngine\[003]Transform\Transform.h">
+      <Filter>program\[003] game\[000]GameEngine\[003]Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[005]Factory\Factory.h">
+      <Filter>program\[003] game\[001]Common\[004]Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[003]Phase\GamePhase.h">
+      <Filter>program\[003] game\[001]Common\[003]Phase</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[003]Phase\StagePhase.h">
+      <Filter>program\[003] game\[001]Common\[003]Phase</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h">
+      <Filter>program\[003] game\[001]Common\[002]Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[001]Camera\GameCamera.h">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.h">
+      <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\Object.h">
+      <Filter>program\[003] game\[001]Common\[000]Object</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneMove.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[002]Floor\Floor.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[002]Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\Model.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\Character.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\Player.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerCollision.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerDraw.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMove.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMoveLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerSkill.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\Partner.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerDraw.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerMove.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CameraTargetPlayer.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemDraw.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemGenerator.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemPool.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\Item.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[004]Score\Score.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[004]Score</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\Text.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction\TextDraw.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction\TextLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\CharaGraph.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphicFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphicFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[002]SceneOP\SceneOp.h">
+      <Filter>program\[003] game\[002]SceneOp</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[003]ScenePlay\ScenePlay.h">
+      <Filter>program\[003] game\[003]ScenePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="program\wta_library\wta_Astar.h">
+      <Filter>program\[002]wta_library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\wta_library\wta_Collision.h">
+      <Filter>program\[002]wta_library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\wta_library\wta_Convert.h">
+      <Filter>program\[002]wta_library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\wta_library\wta_SimplexNoise.h">
+      <Filter>program\[002]wta_library</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

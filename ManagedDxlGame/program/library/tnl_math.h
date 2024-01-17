@@ -35,6 +35,9 @@ namespace tnl {
 	// tips... この関数を使用する場合 SetSeedMersenneTwister32 で乱数シードを設定してください
 	float GetRandomDistributionFloat(float min, float max);
 
+	// 整数の取得
+	// tips... この関数を使用する場合 SetSeedMersenneTwister32 で乱数シードを設定してください
+	int GetRandomDistributionInt(int min, int max);
 
 	//----------------------------------------------------------------------------------------------
 	// work... 指定座標が平面の表裏どちらに存在するか判定する
