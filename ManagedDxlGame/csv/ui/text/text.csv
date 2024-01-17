@@ -1,0 +1,12 @@
+識別番号,テキスト終了フラグ,一行目,二行目
+text_op_001,FALSE,遥かなる　花の国,夢見る精霊は　今日も舞う
+text_op_002,TRUE,さあ,のぞいてみましょうか
+text_message_001,FALSE,,
+text_message_002,FALSE,,
+text_message_003,TRUE,,
+text_message_004,FALSE,,
+text_message_005,TRUE,,
+text_message_006,TRUE,,
+text_message_007,,,
+text_message_008,,,
+text_message_009,,,

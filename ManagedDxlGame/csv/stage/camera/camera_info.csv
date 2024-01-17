@@ -1,0 +1,11 @@
+レーンID,カメラタイプ
+0,fixed
+1,right_side
+2,left_side
+3,right_side_back
+4,left_side_back
+5,front
+6,bottom
+7,rotate
+8,follow
+9,control

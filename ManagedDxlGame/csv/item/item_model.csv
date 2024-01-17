@@ -1,0 +1,6 @@
+モデルID,モデル ファイルパス,テクスチャ ファイルパス
+0,model/flower/flower.mv1,model/flower/flower_yellow.png
+1,model/flower/flower.mv1,model/flower/flower_red.png
+2,model/flower/flower.mv1,model/flower/flower_blue.png
+3,model/flower/flower.mv1,model/flower/flower_orange.png
+4,model/flower/flower.mv1,model/flower/flower_purple.png

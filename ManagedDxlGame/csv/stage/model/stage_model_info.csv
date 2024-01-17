@@ -1,0 +1,9 @@
+モデルID,モデル ファイルパス,テクスチャ ファイルパス1,テクスチャ ファイルパス2,テクスチャ ファイルパス3,マテリアル名1,マテリアル名2,マテリアル名3
+0,model/stage/tree/blossom.mv1,model/stage/tree/oak_branch.png,model/stage/tree/oak_leaf.png,,branch,sakura,
+1,model/stage/tree/blossom.mv1,model/stage/tree/oak_branch.png,model/stage/tree/birch_leaf.png,,branch,sakura,
+2,model/stage/tree/blossom.mv1,model/stage/tree/oak_branch.png,model/stage/tree/blossom.png,,branch,sakura,
+3,model/stage/tree/blossom.mv1,model/stage/tree/oak_branch.png,model/stage/tree/maple.png,,branch,sakura,
+4,model/stage/flowers/grass.mv1,model/stage/flowers/plant.png,,,grass,,
+5,model/stage/flowers/lavender.mv1,model/stage/flowers/plant.png,,,lavender,,
+6,model/stage/flowers/marguerite.mv1,model/stage/flowers/plant.png,,,marguerite,,
+7,model/stage/flowers/tanpopo.mv1,model/stage/flowers/tanpopo_flower.png,model/stage/flowers/tanpopo_leaf.png,model/stage/flowers/tanpopo_steam.png,flower,branch,steam
