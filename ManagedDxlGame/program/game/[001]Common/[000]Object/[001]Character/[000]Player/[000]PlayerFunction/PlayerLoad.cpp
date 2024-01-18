@@ -1,17 +1,17 @@
-#include "PlayerMoveLoad.h"
+#include "PlayerLoad.h"
 
 
-PlayerMoveLoad::PlayerMoveLoad()
+PlayerLoad::PlayerLoad()
 {
 	LoadPlayerMoveInfo();
 }
 
-PlayerMoveLoad::~PlayerMoveLoad()
+PlayerLoad::~PlayerLoad()
 {
 	m_csv_player_move.clear();
 }
 
-void PlayerMoveLoad::LoadPlayerMoveInfo()
+void PlayerLoad::LoadPlayerMoveInfo()
 {
 	m_csv_player_move 
 		= tnl::LoadCsv<float>("csv/player/player_move.csv");

@@ -70,6 +70,8 @@ private:
 
 public:
 
+	void CreateGroupMesh();
+
 	void Initialize() override;
 
 	void Update(float delta_time) override;
@@ -77,12 +79,11 @@ public:
 	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
 
 
-	void SetMediator(std::shared_ptr<Mediator> mediator)
+	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;
 	}
 };
-
 
 
 //enum class eWorldType 

@@ -38,10 +38,13 @@ void Item::Initialize()
 void Item::Update(float delta_time)
 {
 	VECTOR pos_vec = wta::ConvertToVECTOR(m_pos);
+
+	// マトリックス
 	MV1SetPosition(m_item_data.s_model_hdl, pos_vec);
 
 	tnl_sequence_.update(delta_time);
 
+	// 毎フレームあかん
 	MoveFlower(delta_time);
 }
 
@@ -127,16 +130,16 @@ void Item::MoveFlower(const float delta_time)
 
 		// 乱数を使って回転をランダムで決定(ラジアンで指定)
 		// 0~360度 : ランダムな回転角度の決定
-		tnl::Vector3 rot = { tnl::GetRandomDistributionFloat(0,DirectX::XMConvertToRadians(360))
-							 ,tnl::GetRandomDistributionFloat(0, DirectX::XMConvertToRadians(360))
-							 ,tnl::GetRandomDistributionFloat(0, DirectX::XMConvertToRadians(360)) };
+		tnl::Vector3 rot = { tnl::ToRadian( tnl::GetRandomDistributionFloat(0, 360))
+							 ,tnl::ToRadian(tnl::GetRandomDistributionFloat(0, 360))
+							 ,tnl::ToRadian(tnl::GetRandomDistributionFloat(0, 360)) };
 
 		// 回転をランダムで決定
 		tnl::Quaternion target_rot 
 			= tnl::Quaternion::RotationRollPitchYawFromVector(rot);
 
 		// 回転を適用
-		m_rot.slerp(target_rot, delta_time * 100);
+		m_rot.slerp(target_rot, 1);
 	}
 }
 

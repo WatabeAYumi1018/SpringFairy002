@@ -5,7 +5,7 @@
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[002]Floor/Floor.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
-#include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMoveLoad.h"
+#include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerDraw.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerSkill.h"
@@ -21,6 +21,8 @@
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemLoad.h"
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemPool.h"
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
+#include "../[000]Object/[003]Effect/Effect.h"
+#include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
 #include "../[000]Object/[004]Score/Score.h"
 #include "../[000]Object//[005]Message/[001]CharaGraph/CharaGraph.h"
 #include "../[000]Object//[005]Message/[001]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
@@ -73,7 +75,7 @@ void Factory::CreateObject()
 	m_character = std::make_shared<Character>();
 
 	m_player = std::make_shared<Player>();
-	m_playerMoveLoad = std::make_shared<PlayerMoveLoad>();
+	m_playerLoad = std::make_shared<PlayerLoad>();
 	m_playerMove = std::make_shared<PlayerMove>();
 	m_playerDraw = std::make_shared<PlayerDraw>();
 	m_playerSkill = std::make_shared<PlayerSkill>();
@@ -90,6 +92,9 @@ void Factory::CreateObject()
 	m_itemLoad = std::make_shared<ItemLoad>();
 	m_itemGenerator = std::make_shared<ItemGenerator>();
 	m_itemPool = std::make_shared<ItemPool>();
+
+	m_effect = std::make_shared<Effect>();
+	m_effectLoad = std::make_shared<EffectLoad>();
 
 	m_score = std::make_shared<Score>();
 
@@ -111,7 +116,7 @@ void Factory::SetObjectReference()
 	m_mediator->SetLaneMove(m_laneMove);
 	m_mediator->SetCharacter(m_character);
 	m_mediator->SetPlayer(m_player);
-	m_mediator->SetPlayerMoveLoad(m_playerMoveLoad);
+	m_mediator->SetPlayerLoad(m_playerLoad);
 	m_mediator->SetPlayerMove(m_playerMove);
 	m_mediator->SetPlayerDraw(m_playerDraw);
 	m_mediator->SetPlayerSkill(m_playerSkill);
@@ -126,6 +131,7 @@ void Factory::SetObjectReference()
 	m_mediator->SetItemLoad(m_itemLoad);
 	m_mediator->SetItemGenerator(m_itemGenerator);
 	m_mediator->SetItemPool(m_itemPool);
+	m_mediator->SetEffectLoad(m_effectLoad);
 	m_mediator->SetCharaGraphLoad(m_charaGraphLoad);
 	m_mediator->SetCharaGraphDraw(m_charaGraphDraw);
 	m_mediator->SetGameCamera(m_gameCamera);
@@ -147,6 +153,7 @@ void Factory::SetObjectReference()
 	m_partnerDraw->SetMediator(m_mediator);
 	m_cameraTargetPlayer->SetMediator(m_mediator);
 	m_itemGenerator->SetMediator(m_mediator);
+	m_effect->SetMediator(m_mediator);
 	m_charaGraph->SetMediator(m_mediator);
 	m_charaGraphDraw->SetMediator(m_mediator);
 	m_gameCamera->SetMediator(m_mediator);
@@ -188,6 +195,7 @@ void Factory::StorageObject()
 	m_objects.emplace_back(m_cameraTargetPlayer);
 	m_objects.emplace_back(m_partner);
 	m_objects.emplace_back(m_player);
+	m_objects.emplace_back(m_effect);
 	m_objects.emplace_back(m_score);
 	m_objects.emplace_back(m_charaGraph);
 }

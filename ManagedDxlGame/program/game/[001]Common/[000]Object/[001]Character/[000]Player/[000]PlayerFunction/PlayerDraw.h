@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../../../../library/tnl_sequence.h"
-#include "../../../../../[000]GamEngine/[000]Engine/Engine.h"
+#include "../../../../../[000]GameEngine/[000]Engine/Engine.h"
 
 class Mediator;
 
@@ -56,6 +56,8 @@ private:
 	// danceアニメーションのオフセット
 	float m_anim_dance_offset = 80;
 
+	bool m_is_attack = false;
+
 	eDirection m_direction = eDirection::none;
 
 	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_fly;
@@ -97,12 +99,12 @@ public:
 	void Draw();
 
 
-	int GetModelHdl() const
-	{
-		return m_model_hdl;
-	}
+	int GetModelHdl() const { return m_model_hdl; }
 
-	void SetMediator(std::shared_ptr<Mediator> mediator)
+	bool GetIsAttack() const { return m_is_attack; }
+
+
+	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;
 	}

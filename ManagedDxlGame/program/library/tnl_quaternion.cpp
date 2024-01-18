@@ -11,16 +11,21 @@ namespace tnl {
 
 	Quaternion Quaternion::RotationAxis(const Vector3& axis, const float rotate) noexcept
 	{
-
+		// XMFLOAT4 : 4つの浮動小数点数を格納する構造体
 		XMFLOAT4 f4;
 		// 回転軸を指定	、回転角度を指定し、回転クォータニオンを作成
 		XMStoreFloat4(&f4, XMQuaternionRotationAxis(XMLoadFloat3(&axis), rotate));
 		// Quaternion型にキャストして返す
 		return static_cast<Quaternion>(f4);
 	}
-	Quaternion Quaternion::RotationRollPitchYawFromVector(const Vector3& angles) noexcept {
+	Quaternion Quaternion::RotationRollPitchYawFromVector(const Vector3& angles) noexcept 
+	{
+		// XMFLOAT4 : 4つの浮動小数点数を格納する構造体
 		XMFLOAT4 f4;
+		// XMQuaternionRotationRollPitchYawFromVector関数で
+		// ロール、ピッチ、ヨー角度を表すVecからQuaを生成
 		XMStoreFloat4(&f4, XMQuaternionRotationRollPitchYawFromVector(XMLoadFloat3(&angles)));
+		// Quaternion型にキャスト
 		return static_cast<Quaternion>(f4);
 	}
 

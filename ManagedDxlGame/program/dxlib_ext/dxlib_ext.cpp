@@ -189,7 +189,6 @@ void DrawLine3DEx(const Shared<dxe::Camera> camera, const tnl::Vector3& st, cons
 //------------------------------------------------------------------------------------------------------------------------------
 void DrawGridGround(const Shared<dxe::Camera> camera)
 {
-
 	MATRIX view, proj;
 	memcpy(view.m, camera->view_.m, sizeof(float) * 16);
 	memcpy(proj.m, camera->proj_.m, sizeof(float) * 16);
@@ -216,9 +215,7 @@ void DrawGridGround(const Shared<dxe::Camera> camera)
 	//	n += square_size;
 	//}
 	//DrawLine3D({ 0, l, 0 }, { 0, -l, 0 }, 0xff00ff00);
-
 }
-
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 void DrawHexagonGround(const Shared<dxe::Camera> camera, const float hex_width, int row_num, bool is_draw_center_line, int color) {

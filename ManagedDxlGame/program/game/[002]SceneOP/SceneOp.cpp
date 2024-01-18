@@ -1,10 +1,10 @@
-//#include "SceneTitle.h"
+//#include "SceneOp.h"
 //#include "../[002]ScenePlay/[005]Factory/Factory.h"
 //#include "../[000]GamEngine/[001]Scene/SceneManager.h"
 //#include "[001]Camera/GameCamera.h"
 //
 //
-//SceneTitle::SceneTitle() : m_factory(std::make_shared<Factory>())
+//SceneOp::SceneOp() : m_factory(std::make_shared<Factory>())
 //{
 //	Initialize();
 //
@@ -12,21 +12,21 @@
 //	SetDefaultLightParameter("directional_light_parameter.bin");
 //}
 //
-//SceneTitle::~SceneTitle()
+//SceneOp::~SceneOp()
 //{
 //	Finalize();
 //}
 //
-//bool SceneTitle::SeqStart(const float delta_time)
+//bool SceneOp::SeqStart(const float delta_time)
 //{
 //	SceneManager* scene = SceneManager::GetInstance();
 //
-//	scene->ChangeScene(new SceneTitle());
+//	scene->ChangeScene(new SceneOp());
 //
 //	return true;
 //}
 //
-//void SceneTitle::Initialize()
+//void SceneOp::Initialize()
 //{
 //	// 各オブジェクトの参照をFactoryクラスから取得
 //	m_objects = m_factory->GetObjects();
@@ -41,7 +41,7 @@
 //	}
 //}
 //
-//void SceneTitle::Update(const float delta_time)
+//void SceneOp::Update(const float delta_time)
 //{
 //	for (std::shared_ptr<Object>& object : m_objects)
 //	{
@@ -49,7 +49,7 @@
 //	}
 //}
 //
-//void SceneTitle::Draw(const float delta_time)
+//void SceneOp::Draw(const float delta_time)
 //{
 //	//DrawDefaultLightGuiController();
 //	DrawGridGround(m_gameCamera);
@@ -63,7 +63,7 @@
 //	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
 //}
 //
-//void SceneTitle::Finalize()
+//void SceneOp::Finalize()
 //{
 //	m_objects.clear();
 //

@@ -108,4 +108,15 @@ namespace wta
 
 		return tnl_matrix;
 	}
+
+    // tnl::Vector3‚ðtnl::Matrix‚É•ÏŠ·‚·‚é
+    inline tnl::Matrix ConvertTnlToMatrix(const tnl::Vector3& tnl_pos)
+	{
+		tnl::Matrix mat;
+		
+        mat.Translation(tnl_pos);
+		
+        return mat;
+	}
+
 }

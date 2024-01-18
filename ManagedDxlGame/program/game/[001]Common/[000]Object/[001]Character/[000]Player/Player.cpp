@@ -76,19 +76,16 @@ void Player::UpdateMatrix(float delta_time)
 
 tnl::Vector3 Player::Forward()
 {
-	tnl::Vector3 forward(0, 0, -1);
+	// 標準的な前方向ベクトル（例えば、Z軸方向）
+	tnl::Vector3 init_forward(0, 0, -1);
 
-	tnl::Quaternion vec_rot = tnl::Quaternion(m_pos.x, m_pos.y, m_pos.z, 0);
+	// m_rot の共役を計算
+	tnl::Quaternion rot_conjugate(-m_rot.x, -m_rot.y, -m_rot.z, m_rot.w);
 
-	tnl::Quaternion rot = m_rot;
+	// 現在の回転に基づいて前方向ベクトルを計算
+	tnl::Quaternion rot_forward_vec 
+		= m_rot * tnl::Quaternion(init_forward.x, init_forward.y, init_forward.z, 0) * rot_conjugate;
 
-	rot.x *= -1;
-	rot.y *= -1;
-	rot.z *= -1;
-
-	tnl::Quaternion rotation = m_rot * vec_rot * rot;
-
-	tnl::Vector3 result = tnl::Vector3(rotation.x, rotation.y, rotation.z);
-
-	return result;
+	// 回転後の前方向ベクトルを返す
+	return tnl::Vector3(rot_forward_vec.x, rot_forward_vec.y, rot_forward_vec.z);
 }

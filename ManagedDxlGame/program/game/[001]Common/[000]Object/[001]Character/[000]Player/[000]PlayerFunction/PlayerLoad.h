@@ -1,14 +1,14 @@
 #include "../dxlib_ext/dxlib_ext.h"
 
 
-class PlayerMoveLoad
+class PlayerLoad
 {
 
 public:
 
-	PlayerMoveLoad();
+	PlayerLoad();
 
-	~PlayerMoveLoad();
+	~PlayerLoad();
 
 private:
 

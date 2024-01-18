@@ -30,7 +30,7 @@ class Floor;
 class Character;
 
 class Player;
-class PlayerMoveLoad;
+class PlayerLoad;
 class PlayerMove;
 class PlayerDraw;
 class PlayerSkill;
@@ -51,6 +51,9 @@ class ItemLoad;
 class ItemGenerator;
 class ItemPool;
 
+class Effect;
+class EffectLoad;
+
 class Score;
 
 class CharaGraph;
@@ -59,7 +62,6 @@ class CharaGraphDraw;
 
 class GameCamera;
 class CameraLoad;
-//class CameraFrustum;
 
 class Mediator;
 
@@ -69,6 +71,7 @@ class Factory
 public:
 
 	Factory();
+	
 	~Factory();
 
 private:
@@ -92,7 +95,7 @@ private:
 	std::shared_ptr<Character> m_character = nullptr;
 
 	std::shared_ptr<Player> m_player = nullptr;
-	std::shared_ptr<PlayerMoveLoad> m_playerMoveLoad = nullptr;
+	std::shared_ptr<PlayerLoad> m_playerLoad = nullptr;
 	std::shared_ptr<PlayerMove> m_playerMove = nullptr;
 	std::shared_ptr<PlayerDraw> m_playerDraw = nullptr;
 	std::shared_ptr<PlayerSkill> m_playerSkill = nullptr;
@@ -112,6 +115,9 @@ private:
 	std::shared_ptr<ItemGenerator> m_itemGenerator = nullptr;
 	std::shared_ptr<ItemPool> m_itemPool = nullptr;
 
+	std::shared_ptr<Effect> m_effect = nullptr;
+	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
+
 	std::shared_ptr<Score> m_score = nullptr;
 
 	std::shared_ptr<CharaGraph> m_charaGraph = nullptr;
@@ -120,7 +126,6 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
-	//std::shared_ptr<CameraFrustum> m_cameraFrustum = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 

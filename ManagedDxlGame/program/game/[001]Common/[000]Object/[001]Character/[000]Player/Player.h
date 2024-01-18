@@ -19,9 +19,12 @@ private:
 	// s—ñ‚ÌXVˆ—
 	void UpdateMatrix(float delta_time);
 
-	tnl::Vector3 Forward();
 
 public:
+
+	tnl::Vector3 Forward();
+
+	tnl::Vector3 Back();
 
 	// ‰Šú‰»
 	void Initialize() override;
@@ -29,6 +32,4 @@ public:
 	void Update(float delta_time) override;
 	// •`‰æˆ—
 	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
-
-	tnl::Vector3 Back();
 };

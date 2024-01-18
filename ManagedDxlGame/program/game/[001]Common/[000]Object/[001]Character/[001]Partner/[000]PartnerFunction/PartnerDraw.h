@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../../../../library/tnl_sequence.h"
-#include "../../../../../[000]GamEngine/[000]Engine/Engine.h"
+#include "../../../../../[000]GameEngine/[000]Engine/Engine.h"
 #include "../Partner.h"
 
 class Mediator;

@@ -43,10 +43,24 @@ namespace tnl {
 	}
 
 	//-----------------------------------------------------------------------------------------------------
-	Vector3 Vector3::TransformCoord(const Vector3& v, const Quaternion& q) noexcept {
-		XMVECTOR xv = XMVector3Rotate( XMLoadFloat3(&v), XMLoadFloat4(&q));
+	// Vector3をQuaternionに準じて変換する関数
+	Vector3 Vector3::TransformCoord(const Vector3& v, const Quaternion& q) noexcept
+	{
+		// XMVECTOR : DirectXMathライブラリで使用されるベクトル型
+		// XMLoadFloat3 : XMFLOAT3型（Vector3）のデータをXMVECTOR型に変換
+		// XMLoadFloat4 : XMFLOAT4型（Quaternion）のデータをXMVECTOR型に変換
+		// XMVector3Rotate : 一つのベクトル（v）をもう一つのベクトル（Quaternion qを表すベクトル）を用いて回転
+		XMVECTOR xv = XMVector3Rotate(XMLoadFloat3(&v), XMLoadFloat4(&q));
+
+		// XMFLOAT3 : 3つのfloat値を持つ構造体
+		// DirectXMathで3D空間の点やベクトルを表す
 		XMFLOAT3 f3;
-		XMStoreFloat3(&f3, xv); 
+
+		// XMStoreFloat3はXMVECTOR型のxvをXMFLOAT3型に変換
+		// f3に格納
+		XMStoreFloat3(&f3, xv);
+
+		// f3をVector3型にキャスト
 		return static_cast<Vector3>(f3);
 	}
 	//-----------------------------------------------------------------------------------------------------

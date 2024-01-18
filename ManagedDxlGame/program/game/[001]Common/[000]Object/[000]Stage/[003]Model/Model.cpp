@@ -6,7 +6,9 @@
 
 Model::Model()//, eWorldType world_type) 
 	//, m_world_type(world_type)
-{}
+{
+
+}
 
 //Model::Model(int model_hdl, int id)
 //	: m_model_hdl(model_hdl), m_id(id)
@@ -58,6 +60,9 @@ void Model::Initialize()
 	m_tree_models = m_mediator->GetStageTreeVector();
 
 	m_grass_models = m_mediator->GetStageGrassVector();
+
+	DrawGrass();
+	//CreateGroupMesh();
 }
 
 void Model::Update(float delta_time)
@@ -67,11 +72,32 @@ void Model::Update(float delta_time)
 
 void Model::Draw(std::shared_ptr<GameCamera> gameCamera)
 {
-	DrawGrass();
-
-	DrawModelSet(m_grass_models, 4, 1000);
+	//DrawModelSet(m_grass_models, 4, 1000);
 	
-	DrawModelSet(m_tree_models, 4, 10000);
+	//DrawModelSet(m_tree_models, 4, 10000);
+}
+
+void Model::CreateGroupMesh()
+{
+	std::vector<tnl::Matrix> world_matrixs;
+	
+	for (Model::sStageModel& model : m_tree_models) 
+	{
+		tnl::Matrix world_matrix
+			= tnl::Matrix::Translation(model.s_pos.x, model.s_pos.y, model.s_pos.z);
+		
+		world_matrixs.emplace_back(world_matrix);
+	}
+
+	// 最初のモデルを基準にグループメッシュを作成
+	if (!m_tree_models.empty()) 
+	{
+		int base_model_id = m_tree_models.front().s_id;
+		
+		// モデルハンドルから Shared<Mesh> インスタンスを取得または作成
+		Shared<dxe::Mesh> base_mesh 
+			= dxe::Mesh::CreateFromFileMV(m_model_map[base_model_id].s_model_path);
+	}
 }
 
 void Model::SetLight(int model_hdl)
@@ -124,6 +150,8 @@ void Model::SetTextureIndex(sStageModelType& model)
 
 void Model::DrawGrass()
 {
+	std::vector<tnl::Matrix> grass_world_matrixs;
+
 	// IDが4のモデルを取得
 	sStageModelType& model_grass = m_model_map[4];
 	// グリッドのサイズ
@@ -140,23 +168,28 @@ void Model::DrawGrass()
 	{
 		for (int j = -half_grid_size; j < half_grid_size; j++)
 		{
+			// ライティング設定
+			SetLight(model_grass.s_model_hdl);
+
 			// 各フロアの座標を計算
 			float x = static_cast<float> (i * spacing);
 			float z = static_cast<float> (j * spacing);
 
 			tnl::Vector3 pos = { x, distance, z };
 
-			// モデルの位置を設定
-			VECTOR pos_vec = wta::ConvertToVECTOR(pos);
+			//MV1SetPosition(model_grass.s_model_hdl, pos_vec);
 
-			MV1SetPosition(model_grass.s_model_hdl, pos_vec);
+			tnl::Matrix world_matrix = wta::ConvertTnlToMatrix(pos);
 
-			// ライティング設定
-			SetLight(model_grass.s_model_hdl);
+			grass_world_matrixs.emplace_back(world_matrix);
 
 			// モデルを描画
-			MV1DrawModel(model_grass.s_model_hdl);
+			//MV1DrawModel(model_grass.s_model_hdl);
 		}
+
+		// グループメッシュの作成
+		std::shared_ptr<dxe::Mesh> grass_base_mesh
+			= dxe::Mesh::CreateFromFileMV(model_grass.s_model_path);
 	}
 }
 

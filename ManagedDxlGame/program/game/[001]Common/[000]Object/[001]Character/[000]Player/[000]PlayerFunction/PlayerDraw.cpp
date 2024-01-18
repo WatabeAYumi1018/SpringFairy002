@@ -200,8 +200,12 @@ bool PlayerDraw::SeqBloom(float delta_time)
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(m_time_count_bloom * 2 , delta_time, [&]()
 	{
+		m_is_attack = true;
+
 		AnimBloom(delta_time);
 	});
+
+	m_is_attack = false;
 
 	m_elapsed_time_bloom = 0;
 

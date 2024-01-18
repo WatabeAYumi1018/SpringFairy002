@@ -2,7 +2,7 @@
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
-#include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMoveLoad.h"
+#include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerDraw.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerSkill.h"
@@ -15,6 +15,7 @@
 //#include "../[000]Object/[002]Item/[000]ItemFunction/ItemDraw.h"
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemPool.h"
+#include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
 #include "../[000]Object/[005]Message/[000]Text/Text.h"
 #include "../[000]Object/[005]Message/[000]Text/[000]TextFunction/TextLoad.h"
 #include "../[000]Object/[005]Message/[000]Text/[000]TextFunction/TextDraw.h"
@@ -147,36 +148,36 @@ Lane::sLane Mediator::CurrentPlayerLane()
 	return m_character->CurrentMoveLane();
 }
 
-tnl::Vector3 Mediator::PlayerBack()
+tnl::Vector3 Mediator::PlayerForward()
 {
-	return m_player->Back();
+	return m_player->Forward();
 }
 
-// playerMoveLoad
+// playerLoad
 
 float Mediator::GetPlayerMoveSpeed() const
 {
-	return m_playerMoveLoad->GetMoveSpeed();
+	return m_playerLoad->GetMoveSpeed();
 }
 
 float Mediator::GetPlayerMoveRot() const
 {
-	return m_playerMoveLoad->GetMoveRot();
+	return m_playerLoad->GetMoveRot();
 }
 
 float Mediator::GetPlayerSaltoTotalTime() const
 {
-	return m_playerMoveLoad->GetSaltoTotalTime();
+	return m_playerLoad->GetSaltoTotalTime();
 }
 
 float Mediator::GetPlayerSaltoRadius() const
 {
-	return m_playerMoveLoad->GetSaltoRadius();
+	return m_playerLoad->GetSaltoRadius();
 }
 
 float Mediator::GetPlayerSaltoMoveSpeed() const
 {
-	return m_playerMoveLoad->GetSaltoMoveSpeed();
+	return m_playerLoad->GetSaltoMoveSpeed();
 }
 
 // playerMove
@@ -235,6 +236,12 @@ int Mediator::GetPlayerModelHdl() const
 {
 	return m_playerDraw->GetModelHdl();
 }
+
+bool Mediator::GetIsPlayerAttack() const
+{
+	return m_playerDraw->GetIsAttack();
+}
+
 
 // playerSkill
 
@@ -487,6 +494,19 @@ bool Mediator::GetIsItemFlowerActive() const
 //}
 
 //--------------------------//
+
+
+//----------Effect----------//
+
+// EffectLoad
+
+const std::vector<Effect::sEffectType>& Mediator::GetEffectLoadInfo() const
+{
+	return m_effectLoad->GetEffectType();
+}
+
+//--------------------------//
+
 
 
 

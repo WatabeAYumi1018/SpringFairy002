@@ -36,12 +36,12 @@ public:
 	{
 		m_items = items;
 	}
-	void SetPlayer(std::shared_ptr<Player> player)
+	void SetPlayer(std::shared_ptr<Player>& player)
 	{
 		m_player = player;
 	}
 
-	void SetCollision(std::shared_ptr<wta::Collision<Player, Item>> collision)
+	void SetCollision(std::shared_ptr<wta::Collision<Player, Item>>& collision)
 	{
 		m_collision = collision;
 	}

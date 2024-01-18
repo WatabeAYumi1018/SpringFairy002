@@ -186,8 +186,8 @@
     <ClCompile Include="program\dxlib_ext\mesh\dxlib_ext_mesh_mtrl_gui_controller.cpp" />
     <ClCompile Include="program\dxlib_ext\OBJLoader.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
-    <ClCompile Include="program\game\[000]GamEngine\[001]Scene\SceneManager.cpp" />
-    <ClCompile Include="program\game\[000]GamEngine\[003]Transform\Transform.cpp" />
+    <ClCompile Include="program\game\[000]GameEngine\[001]Scene\SceneManager.cpp" />
+    <ClCompile Include="program\game\[000]GameEngine\[003]Transform\Transform.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneLoad.cpp" />
@@ -201,7 +201,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerCollision.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerDraw.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMove.cpp" />
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMoveLoad.cpp" />
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerSkill.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\Partner.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerDraw.cpp" />
@@ -212,6 +212,8 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemGenerator.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemPool.cpp" />
+    <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.cpp" />
+    <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[004]Score\Score.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\Text.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction\TextDraw.cpp" />
@@ -293,10 +295,10 @@
     <ClInclude Include="program\dxlib_ext\mesh\dxlib_ext_mesh_mtrl_gui_controller.h" />
     <ClInclude Include="program\dxlib_ext\OBJLoader.h" />
     <ClInclude Include="program\game\gm_main.h" />
-    <ClInclude Include="program\game\[000]GamEngine\[000]Engine\Engine.h" />
-    <ClInclude Include="program\game\[000]GamEngine\[001]Scene\SceneBase.h" />
-    <ClInclude Include="program\game\[000]GamEngine\[001]Scene\SceneManager.h" />
-    <ClInclude Include="program\game\[000]GamEngine\[003]Transform\Transform.h" />
+    <ClInclude Include="program\game\[000]GameEngine\[000]Engine\Engine.h" />
+    <ClInclude Include="program\game\[000]GameEngine\[001]Scene\SceneBase.h" />
+    <ClInclude Include="program\game\[000]GameEngine\[001]Scene\SceneManager.h" />
+    <ClInclude Include="program\game\[000]GameEngine\[003]Transform\Transform.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\Object.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.h" />
@@ -311,7 +313,7 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerCollision.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerDraw.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMove.h" />
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMoveLoad.h" />
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerSkill.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\Partner.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerDraw.h" />
@@ -322,6 +324,8 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemGenerator.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemPool.h" />
+    <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.h" />
+    <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[004]Score\Score.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\Text.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction\TextDraw.h" />

@@ -1,5 +1,5 @@
 #include "ScenePlay.h"
-#include "../[000]GamEngine/[001]Scene/SceneManager.h"
+#include "../[000]GameEngine/[001]Scene/SceneManager.h"
 #include "../[001]Common/[005]Factory/Factory.h"
 #include "../[001]Common/[001]Camera/GameCamera.h"
 #include "../[003]ScenePlay/ScenePlay.h"

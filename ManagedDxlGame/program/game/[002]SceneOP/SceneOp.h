@@ -6,14 +6,14 @@
 //class GameCamera;
 //
 //
-//class SceneTitle : public SceneBase
+//class SceneOp : public SceneBase
 //{
 //
 //public:
 //
-//	SceneTitle();
+//	SceneOp();
 //
-//	~SceneTitle();
+//	~SceneOp();
 //
 //private:
 //

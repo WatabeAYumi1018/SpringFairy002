@@ -150,6 +150,9 @@
     <Filter Include="program\[002]wta_library">
       <UniqueIdentifier>{3fcc14bf-0315-444b-8ace-738e0917d5ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction">
+      <UniqueIdentifier>{0a452713-813e-4a24-82c9-6df8f0951c08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">
@@ -308,12 +311,6 @@
     <ClCompile Include="program\dxlib_ext\gui\dxlib_ext_gui_check_box.cpp">
       <Filter>program\[001] dxlib_ext\gui</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[000]GamEngine\[001]Scene\SceneManager.cpp">
-      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[000]GamEngine\[003]Transform\Transform.cpp">
-      <Filter>program\[003] game\[000]GameEngine\[003]Transform</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[005]Factory\Factory.cpp">
       <Filter>program\[003] game\[001]Common\[004]Factory</Filter>
     </ClCompile>
@@ -371,7 +368,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMove.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMoveLoad.cpp">
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerSkill.cpp">
@@ -430,6 +427,18 @@
     </ClCompile>
     <ClCompile Include="program\game\[003]ScenePlay\ScenePlay.cpp">
       <Filter>program\[003] game\[003]ScenePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[000]GameEngine\[001]Scene\SceneManager.cpp">
+      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[000]GameEngine\[003]Transform\Transform.cpp">
+      <Filter>program\[003] game\[000]GameEngine\[003]Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -638,18 +647,6 @@
     <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_screen_efffect.h">
       <Filter>program\[001] dxlib_ext\example</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[000]GamEngine\[000]Engine\Engine.h">
-      <Filter>program\[003] game\[000]GameEngine\[000]Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[000]GamEngine\[001]Scene\SceneBase.h">
-      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[000]GamEngine\[001]Scene\SceneManager.h">
-      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[000]GamEngine\[003]Transform\Transform.h">
-      <Filter>program\[003] game\[000]GameEngine\[003]Transform</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[005]Factory\Factory.h">
       <Filter>program\[003] game\[001]Common\[004]Factory</Filter>
     </ClInclude>
@@ -710,7 +707,7 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMove.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMoveLoad.h">
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerSkill.h">
@@ -781,6 +778,24 @@
     </ClInclude>
     <ClInclude Include="program\wta_library\wta_SimplexNoise.h">
       <Filter>program\[002]wta_library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GameEngine\[000]Engine\Engine.h">
+      <Filter>program\[003] game\[000]GameEngine\[000]Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GameEngine\[001]Scene\SceneBase.h">
+      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GameEngine\[001]Scene\SceneManager.h">
+      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GameEngine\[003]Transform\Transform.h">
+      <Filter>program\[003] game\[000]GameEngine\[003]Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

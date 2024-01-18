@@ -4,6 +4,7 @@
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemLoad.h"
+#include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[005]Message/[001]CharaGraph/CharaGraph.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[003]Phase/StagePhase.h"
@@ -16,7 +17,7 @@ class LaneMove;
 class Character;
 
 class Player;
-class PlayerMoveLoad;
+class PlayerLoad;
 class PlayerMove;	
 class PlayerDraw;
 class PlayerSkill;
@@ -32,6 +33,8 @@ class Item;
 class ItemLoad;
 class ItemGenerator;
 class ItemPool;
+
+class EffectLoad;
 
 class Text;
 class TextLoad;
@@ -60,7 +63,7 @@ private:
 	std::shared_ptr<Character> m_character = nullptr;
 
 	std::shared_ptr<Player> m_player = nullptr;
-	std::shared_ptr<PlayerMoveLoad> m_playerMoveLoad = nullptr;
+	std::shared_ptr<PlayerLoad> m_playerLoad = nullptr;
 	std::shared_ptr<PlayerMove> m_playerMove = nullptr;
 	std::shared_ptr<PlayerDraw> m_playerDraw = nullptr;
 	std::shared_ptr<PlayerSkill> m_playerSkill = nullptr;
@@ -80,6 +83,8 @@ private:
 	std::shared_ptr<ItemLoad> m_itemLoad = nullptr;
 	std::shared_ptr<ItemGenerator> m_itemGenerator = nullptr;
 	std::shared_ptr<ItemPool> m_itemPool = nullptr;
+
+	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
 
 	std::shared_ptr<Text> m_text = nullptr;
 	std::shared_ptr<TextLoad> m_textLoad = nullptr;
@@ -216,39 +221,39 @@ public:
 	float GetPlayerCollisionSize() const;
 
 	// プレイヤーの前方向の取得
-	// 参照元 ... Player::tnl::Vector3 Back();
+	// 参照元 ... Player::tnl::Vector3 Forward();
 	// 参照先 ... 
-	tnl::Vector3 PlayerBack();
+	tnl::Vector3 PlayerForward();
 
 	// プレイヤーの足元レーンを取得
 	// 参照元 ... Player::CurrentLane
 	// 参照先 ... ItemGenerator::GenerateItem()
 	Lane::sLane CurrentPlayerLane();
 
-	// playerMoveLoad
+	// playerLoad
 
 	// プレイヤーの移動速度取得
-	// 参照元 ... PlayerMoveLoad::m_move_speed
+	// 参照元 ... PlayerLoad::m_move_speed
 	// 参照先 ... PlayerMove
 	float GetPlayerMoveSpeed() const;
 
 	// プレイヤーの移動回転取得
-	// 参照元 ... PlayerMoveLoad::m_rotate_speed
+	// 参照元 ... PlayerLoad::m_rotate_speed
 	// 参照先 ... PlayerMove
 	float GetPlayerMoveRot() const;
 
 	// プレイヤーの宙返り総時間取得
-	// 参照元 ... PlayerMoveLoad::m_salto_total_time
+	// 参照元 ... PlayerLoad::m_salto_total_time
 	// 参照先 ... PlayerMove
 	float GetPlayerSaltoTotalTime() const;
 
 	// プレイヤーの宙返り半径取得
-	// 参照元 ... PlayerMoveLoad::m_salto_radius
+	// 参照元 ... PlayerLoad::m_salto_radius
 	// 参照先 ... PlayerMove
 	float GetPlayerSaltoRadius() const;
 
 	// プレイヤーの宙返り移動速度取得
-	// 参照元 ... PlayerMoveLoad::m_salto_move_speed
+	// 参照元 ... PlayerLoad::m_salto_move_speed
 	// 参照先 ... PlayerMove
 	float GetPlayerSaltoMoveSpeed() const;
 
@@ -305,6 +310,11 @@ public:
 	// 参照元 ... PlayerDraw::m_model_hdl
 	// 参照先 ... Player::Player()
 	int GetPlayerModelHdl() const ;
+
+	// 攻撃フラグ取得
+	// 参照元 ... PlayerDraw::m_is_attack
+	// 参照先 ... Player::Update(float delta_time)
+	bool GetIsPlayerAttack() const;
 
 	// playerSkill
 
@@ -557,6 +567,17 @@ public:
 	//--------------------------//
 
 
+	//----------Effect----------//
+
+	// EffectLoad
+
+	// エフェクト情報の取得
+	// 参照元 ... EffectLoad::m_effect_info
+	// 参照先 ... Effect::関連する関数
+	const std::vector<Effect::sEffectType>& GetEffectLoadInfo() const;
+
+	//--------------------------//
+
 	//------------Text-----------//
 
 	// TextDraw
@@ -716,9 +737,9 @@ public:
 		m_player = player;
 	}
 
-void SetPlayerMoveLoad(std::shared_ptr<PlayerMoveLoad>& playerMoveLoad)
+void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 	{
-		m_playerMoveLoad = playerMoveLoad;
+		m_playerLoad = playerLoad;
 	}
 
 	void SetPlayerMove(std::shared_ptr<PlayerMove>& playerMove)
@@ -789,6 +810,11 @@ void SetPlayerMoveLoad(std::shared_ptr<PlayerMoveLoad>& playerMoveLoad)
 	void SetItemPool(std::shared_ptr<ItemPool>& itemPool)
 	{
 		m_itemPool = itemPool;
+	}
+
+	void SetEffectLoad(std::shared_ptr<EffectLoad>& effectLoad)
+	{
+		m_effectLoad = effectLoad;
 	}
 
 	void SetText(std::shared_ptr<Text>& text)
