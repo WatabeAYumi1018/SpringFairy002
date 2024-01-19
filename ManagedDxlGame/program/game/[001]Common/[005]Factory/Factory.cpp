@@ -191,11 +191,11 @@ void Factory::StorageObject()
 {
 	m_objects.emplace_back(m_skyBox);
 	m_objects.emplace_back(m_floor);
-	m_objects.emplace_back(m_model);
+	//m_objects.emplace_back(m_model);
 	m_objects.emplace_back(m_cameraTargetPlayer);
 	m_objects.emplace_back(m_partner);
 	m_objects.emplace_back(m_player);
-	m_objects.emplace_back(m_effect);
+	//m_objects.emplace_back(m_effect);
 	m_objects.emplace_back(m_score);
 	m_objects.emplace_back(m_charaGraph);
 }

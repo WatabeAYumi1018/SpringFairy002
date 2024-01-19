@@ -56,7 +56,12 @@ private:
 	// danceアニメーションのオフセット
 	float m_anim_dance_offset = 80;
 
+	float m_blend_timer = 0;
+
+	float m_blend_dance_timer = 0;
+
 	bool m_is_attack = false;
+
 
 	eDirection m_direction = eDirection::none;
 
@@ -71,24 +76,35 @@ private:
 
 	// ライトの設定
 	void SetLight();
+	// アニメーションのブレンド処理
+	void AnimBlend(const float delta_time, int current_anim_index, int next_anim_index);
+
+	void AnimAttach(int& anim_index, int anim_bone_hdl, float& time_count,float offset = 0);
+
 
 	// move ループ再生の時間設定
-	void AnimMove(float delta_time);
-	// idle ループ再生の時間設定　
-	void AnimIdle(float delta_time);
+	void AnimMove(const float delta_time);
 	// bloom 単発再生の時間設定
-	void AnimBloom(float delta_time);
+	void AnimBloom(const float delta_time);
 	// dance 単発再生の時間設定
-	void AnimDance(float delta_time);
+	void AnimDance(const float delta_time);
+
+	// idle ループ再生の時間設定　
+	void AnimIdle(const float delta_time);
 
 	// 移動状態
 	bool SeqMove(const float delta_time);
-	// アイドル状態
-	bool SeqIdle(const float delta_time);
 	// ブルーム状態
 	bool SeqBloom(const float delta_time);
+	// moveアニメーションへの遷移
+	bool SeqBloomToMove(const float delta_time);
 	// ダンス状態
 	bool SeqDance(const float delta_time);
+	// danceアニメーションへの遷移
+	bool SeqDanceToMove(const float delta_time);
+
+	// アイドル状態
+	bool SeqIdle(const float delta_time);
 
 
 public:

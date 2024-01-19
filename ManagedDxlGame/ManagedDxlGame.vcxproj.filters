@@ -329,9 +329,6 @@
     <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane</Filter>
     </ClCompile>
@@ -439,6 +436,9 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -668,9 +668,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\Object.h">
       <Filter>program\[003] game\[001]Common\[000]Object</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane</Filter>
     </ClInclude>
@@ -796,6 +793,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
