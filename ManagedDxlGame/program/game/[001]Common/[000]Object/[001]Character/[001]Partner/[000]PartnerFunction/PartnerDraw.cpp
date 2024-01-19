@@ -26,11 +26,11 @@ void PartnerDraw::LoadAndInitModels()
 	m_texture_pink_hdl = LoadGraph("model/turnipa/pink.png");
 
 	// モデル読み取り
-	m_model_hdl = MV1LoadModel("model/turnipa/turnipa.mv1");
+	m_model_hdl = MV1LoadModel("model/turnipa/futaba.mv1");
 	// moveボーン
-	m_anim_bone_move_hdl = MV1LoadModel("model/turnipa/move.mv1");
+	m_anim_bone_move_hdl = MV1LoadModel("model/turnipa/futaba_move.mv1");
 	// idleボーン
-	m_anim_bone_idle_hdl = MV1LoadModel("model/turnipa/idle.mv1");
+	m_anim_bone_idle_hdl = MV1LoadModel("model/turnipa/futaba_idle.mv1");
 
 	MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_pink_hdl, FALSE);
 }
@@ -84,7 +84,7 @@ void PartnerDraw::AnimMove(float delta_time)
 
 	MV1SetAttachAnimTime(m_model_hdl
 						, m_anim_move_index
-						, m_elapsed_time_move + m_anim_move_offset);
+						, m_elapsed_time_move);
 }
 
 void PartnerDraw::AnimIdle(float delta_time)

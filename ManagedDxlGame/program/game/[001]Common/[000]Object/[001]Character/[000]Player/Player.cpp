@@ -7,7 +7,7 @@
 
 Player::Player() 
 {
-	m_collision_size =  120;
+	m_collision_size =  100;
 	//m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
 
 	for (int i = 0; i < 5; ++i)
@@ -59,10 +59,10 @@ void Player::Update(float delta_time)
 
 	//// 大体7秒で2000くらい？
 	//
-	////// 当たり判定デバッグ用
-	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
-	//pos.y += m_collision_size;
-	//DrawSphere3D(pos, m_collision_size,32, GetColor(255, 0, 0), GetColor(255,0,0), true);
+	//// 当たり判定デバッグ用
+	VECTOR pos = wta::ConvertToVECTOR(m_pos);
+	pos.y += m_collision_size;
+	DrawSphere3D(pos, m_collision_size,32, GetColor(255, 0, 0), GetColor(255,0,0), true);
 }
 
 void Player::Draw(std::shared_ptr<GameCamera> gameCamera)

@@ -44,7 +44,7 @@ private:
 	// アニメーションの速度
 	float m_anim_speed = 10;
 	// walkアニメーションのオフセット
-	float m_anim_move_offset = 80;
+	float m_anim_move_offset = 0;
 
 	// エネミーの種類（テクスチャ）
 	Partner::ePartnerType m_enemy_type = Partner::ePartnerType::green;
