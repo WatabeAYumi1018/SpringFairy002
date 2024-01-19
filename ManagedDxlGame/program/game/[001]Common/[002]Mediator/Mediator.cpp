@@ -63,16 +63,16 @@ const std::vector<Lane::sLane>& Mediator::GetStageLane()const
 
 // LaneMove
 
-void Mediator::MoveAstarMatrix(const float delta_time
+void Mediator::MoveAstarCharaMatrix(const float delta_time
 								, tnl::Vector3& pos
 								, tnl::Quaternion& rot)
 {
-	m_laneMove->MoveAstar(delta_time,pos,rot);
+	m_laneMove->MoveAstarChara(delta_time,pos,rot);
 }
 
-void Mediator::MoveAstarPosition(const float delta_time, tnl::Vector3& pos)
+void Mediator::MoveAstarTargetPos(const float delta_time, tnl::Vector3& pos)
 {
-	m_laneMove->MoveAstarPos(delta_time,pos);
+	m_laneMove->MoveAstarTarget(delta_time,pos);
 }
 
 void Mediator::SetPlayerLookSideRight(bool look_side)
@@ -151,6 +151,11 @@ Lane::sLane Mediator::CurrentPlayerLane()
 tnl::Vector3 Mediator::PlayerForward()
 {
 	return m_player->Forward();
+}
+
+const std::vector<std::shared_ptr<dxe::Mesh>>& Mediator::PlayerGetMeshs() const
+{
+	return m_player->GetMeshs();
 }
 
 // playerLoad
@@ -254,7 +259,9 @@ void Mediator::UpdatePlayerSkill(const float delta_time)
 
 void Mediator::InitCollisionRegister()
 {
-	m_playerCollision->CollisionRegister();
+	m_playerCollision->CollisionRegisterPlayerToItem();
+	m_playerCollision->CollisionRegisterMeshToItem();
+	m_playerCollision->CollisionRegisterPlayerToPartner();
 }
 
 void Mediator::UpdateCollisionCheck()
@@ -324,7 +331,7 @@ const tnl::Vector3& Mediator::GetCameraTargetPlayerPos() const
 	return m_cameraTargetPlayer->GetPos();
 }
 
-GameCamera::sCameraInfo Mediator::GetTargetCameraInfo() const
+const GameCamera::sCameraInfo& Mediator::GetTargetCameraInfo() const
 {
 	return m_cameraTargetPlayer->GetCameraInfo();
 }

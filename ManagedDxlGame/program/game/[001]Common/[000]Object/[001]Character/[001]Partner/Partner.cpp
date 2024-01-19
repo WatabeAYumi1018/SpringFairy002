@@ -4,7 +4,10 @@
 #include "Partner.h"
 
 
-Partner::Partner(){}
+Partner::Partner()
+{
+	m_collision_size = 200;
+}
 
 void Partner::Initialize()
 {

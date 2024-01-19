@@ -84,7 +84,7 @@ void CameraLoad::LoadCameraInfo()
 		camera_info.s_id = m_csv_camera_info[y][0].getInt();
 
 		std::string type = m_csv_camera_info[y][1].getString();
-		 
+		
 		camera_info.s_type = ConvertStringToType(type);
 
 		m_camera_info.emplace_back(camera_info);
@@ -93,13 +93,22 @@ void CameraLoad::LoadCameraInfo()
 
 GameCamera::eCameraType CameraLoad::ConvertStringToType(const std::string& type)
 {
-	for (int i = 1; i < m_camera_type; ++i)
+	static const std::unordered_map<std::string, GameCamera::eCameraType> type_map 
+		= {{"fixed", GameCamera::eCameraType::e_fixed}
+			,{"right_side", GameCamera::eCameraType::e_right_side}
+			,{"left_side", GameCamera::eCameraType::e_left_side}
+			,{"right_side_back", GameCamera::eCameraType::e_right_side_back}
+			,{"left_side_back", GameCamera::eCameraType::e_left_side_back}
+			,{"front", GameCamera::eCameraType::e_front}
+			,{"bottom", GameCamera::eCameraType::e_bottom}
+			,{"rotate", GameCamera::eCameraType::e_rotate}
+			,{"follow", GameCamera::eCameraType::e_follow}};
+
+	auto itr = type_map.find(type);
+
+	if (itr != type_map.end())
 	{
-		if (i < m_csv_camera_info.size() 
-			&& type == m_csv_camera_info[i][1].getString())
-		{
-			return static_cast<GameCamera::eCameraType>(i);
-		}
+		return itr->second;
 	}
 
 	return GameCamera::eCameraType::e_none;

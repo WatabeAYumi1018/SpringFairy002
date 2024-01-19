@@ -14,8 +14,6 @@ public:
 
 	enum class eCameraType
 	{
-		// アクセス不可
-		e_none,
 		// 固定された視点
 		e_fixed,
 		// サイドビュー(キャラクターを右側から見る)
@@ -35,7 +33,9 @@ public:
 		// プレイヤー追従(必要であれば)
 		e_follow,
 		// カメラ独自の操作(デバッグ用)
-		e_control
+		e_control,
+		// アクセス不可
+		e_none
 	};
 
 	struct sCamera

@@ -16,9 +16,12 @@ public:
 
 private:
 
+	std::vector<std::shared_ptr<dxe::Mesh>> m_meshs;
+
 	// s—ñ‚ÌXVˆ—
 	void UpdateMatrix(float delta_time);
 
+	void UpdateMesh(float delta_time);
 
 public:
 
@@ -32,4 +35,9 @@ public:
 	void Update(float delta_time) override;
 	// •`‰æˆ—
 	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
+
+	const std::vector<std::shared_ptr<dxe::Mesh>>& GetMeshs() const
+	{
+		return m_meshs;
+	}
 };

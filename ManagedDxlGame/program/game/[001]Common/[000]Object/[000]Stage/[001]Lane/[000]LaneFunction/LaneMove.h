@@ -21,6 +21,8 @@ private:
 	int m_now_step = 0;
 	int m_old_step = 0;
 
+	int m_size_to_center = 0;
+
 	// 移動速度
 	float m_move_speed = 200;
 	// 移動回転速度
@@ -42,49 +44,31 @@ private:
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-
-	// 自動運転による行列更新
-	void AutoMoveMatrix(const float delta_time
-						, tnl::Vector3& goal_pos
-						, tnl::Vector3& pos
-						, tnl::Quaternion& rot);
-
-	// 自動運転による座標更新
-	void AutoMovePos(float delta_time
-					 , tnl::Vector3& goal_pos
-					 , tnl::Vector3& pos);
-
 	// ゴールのレーンIDを取得
 	Lane::sLane GoalTile();
-	// 次のレーンに到達したか判定
-	bool ReachedNextLane(tnl::Vector3& goal_pos, tnl::Vector3& pos);
 
 
 public:
 
 	// ゴールまでの経路を取得
 	void GetAutoMove();
-	// Aスターによる自動運転行列更新処理
-	void MoveAstar(const float delta_time
-					, tnl::Vector3& pos
-					, tnl::Quaternion& rot);
 
-	void MoveAstarPos(const float delta_time, tnl::Vector3& pos);
-
-	//// 次のレーンに到達したか判定(他クラスでの使用のための簡易条件関数)
-	//bool NextLane();
+	// キャラクターの座標回転更新
+	void MoveAstarChara(const float delta_time, tnl::Vector3 & pos, tnl::Quaternion & rot);
+	// ターゲットの座標とレーン更新
+	void MoveAstarTarget(const float delta_time, tnl::Vector3& pos);
 
 	void SetLookSideRight(bool look_side_right) { m_look_side_right = look_side_right; }
 
 	void SetLookSideLeft(bool look_side_left) { m_look_side_left = look_side_left; }
 
 
-	void SetAstar(std::shared_ptr<wta::Astar<Lane::sLane>> astar)
+	void SetAstar(std::shared_ptr<wta::Astar<Lane::sLane>>& astar)
 	{
 		m_astar = astar;
 	}
 
-	void SetMediator(std::shared_ptr<Mediator> mediator)
+	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;
 	}
@@ -102,3 +86,31 @@ public:
 //void SetNowRot(tnl::Quaternion rot) { m_now_rot = rot; }
 
 //tnl::Quaternion GetNewRot() const { return m_new_rot; }
+
+
+	//// 自動運転による行列更新
+	//void AutoMoveMatrix(const float delta_time
+	//					, tnl::Vector3& goal_pos
+	//					, tnl::Vector3& pos
+	//					, tnl::Quaternion& rot);
+
+	//// 自動運転による座標更新
+	//void AutoMovePos(float delta_time
+	//				 , tnl::Vector3& goal_pos
+	//				 , tnl::Vector3& pos);
+
+	// Aスターによる自動運転行列更新処理
+	//void MoveAstar(const float delta_time
+	//				, tnl::Vector3& pos
+	//				, tnl::Quaternion& rot);
+
+
+	//void MoveToGridCenter(const float delta_time, tnl::Vector3& pos, tnl::Quaternion& rot);
+
+	//// 次のレーンに到達したか判定(他クラスでの使用のための簡易条件関数)
+	//bool NextLane();
+
+	//// 次のレーンに到達したか判定
+	//bool ReachedNextLane(tnl::Vector3& goal_pos, tnl::Vector3& pos);
+
+	//void UpdateRotation(const tnl::Vector3& direction, tnl::Quaternion& rot, const float delta_time);

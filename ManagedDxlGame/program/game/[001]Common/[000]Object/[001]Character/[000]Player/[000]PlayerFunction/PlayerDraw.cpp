@@ -8,15 +8,15 @@ PlayerDraw::PlayerDraw()
 	// テクスチャ
 	m_texture_hdl = LoadGraph("model/fairy/fairy.png");
 	// モデル読み取り
-	m_model_hdl = MV1LoadModel("model/fairy/fairy.mv1");
+	m_model_hdl = MV1LoadModel("model/fairy/fairy_new.mv1");
 	// idleボーン
 	m_anim_bone_idle_hdl = MV1LoadModel("model/fairy/idle.mv1");
 	// moveボーン
-	m_anim_bone_move_hdl = MV1LoadModel("model/fairy/move.mv1");
+	m_anim_bone_move_hdl = MV1LoadModel("model/fairy/move_new.mv1");
 	// bloomボーン
-	m_anim_bone_bloom_hdl = MV1LoadModel("model/fairy/bloom.mv1");
+	m_anim_bone_bloom_hdl = MV1LoadModel("model/fairy/bloom_new.mv1");
 	// danceボーン
-	m_anim_bone_dance_hdl = MV1LoadModel("model/fairy/dance.mv1");
+	m_anim_bone_dance_hdl = MV1LoadModel("model/fairy/dance_new.mv1");
 	// 材質の指定はないため引数は0
 	MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_hdl, FALSE);
 }
@@ -48,13 +48,13 @@ void PlayerDraw::Draw()
 void PlayerDraw::SetLight()
 {
 	//自己発光
-	DxLib::COLOR_F emissive = { 0.3f,0.3f,0.3f,1 };
+	DxLib::COLOR_F emissive = { 0.5f,0.5f,0.5f,1 };
 	//環境光
 	DxLib::COLOR_F ambient = { 1,1,1,1 };
 	//拡散光
-	DxLib::COLOR_F diffuse = { 0.3f,0.3f,0.3f,1 };
+	DxLib::COLOR_F diffuse = { 0.5f,0.5f,0.5f,1 };
 	//メタリック
-	DxLib::COLOR_F specular = { 0.2f,0.2f,0.2f,1 };
+	DxLib::COLOR_F specular = { 0,0,0,1 };
 
 	MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
 	MV1SetMaterialAmbColor(m_model_hdl, 0, ambient);
@@ -80,7 +80,7 @@ void PlayerDraw::AnimBlend(const float delta_time, int current_anim_index, int n
 	MV1SetAttachAnimBlendRate(m_model_hdl, next_anim_index, blend_rate);
 }
 
-void PlayerDraw::AnimAttach(int& anim_index, int anim_bone_hdl, float& time_count, float offset)
+void PlayerDraw::AnimAttach(int& anim_index, int anim_bone_hdl, float& time_count)
 {
 	// 新しいアニメーションをアタッチ
 	anim_index
@@ -88,8 +88,6 @@ void PlayerDraw::AnimAttach(int& anim_index, int anim_bone_hdl, float& time_coun
 
 	time_count
 		= MV1GetAttachAnimTotalTime(m_model_hdl, anim_index);
-
-	time_count -= offset;
 
 	// ブレンドタイマーのリセット
 	m_blend_timer = 0.0f;
@@ -108,7 +106,7 @@ void PlayerDraw::AnimMove(const float delta_time)
 
 	MV1SetAttachAnimTime(m_model_hdl
 						, m_anim_move_index
-						, m_elapsed_time_move + m_anim_move_offset);
+						, m_elapsed_time_move);
 }
 
 void PlayerDraw::AnimIdle(const float delta_time)
@@ -131,7 +129,7 @@ void PlayerDraw::AnimBloom(const float delta_time)
 
 	MV1SetAttachAnimTime(m_model_hdl
 						, m_anim_bloom_index
-						, m_elapsed_time_bloom + m_anim_bloom_offset);
+						, m_elapsed_time_bloom);
 }
 
 void PlayerDraw::AnimDance(const float delta_time)
@@ -141,7 +139,7 @@ void PlayerDraw::AnimDance(const float delta_time)
 
 	MV1SetAttachAnimTime(m_model_hdl
 						 , m_anim_dance_index
-						 , m_elapsed_time_dance + m_anim_dance_offset);
+						 , m_elapsed_time_dance);
 }
 
 //bool PlayerDraw::SeqMove(const float delta_time)
@@ -193,17 +191,13 @@ bool PlayerDraw::SeqMove(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		MV1DetachAnim(m_model_hdl, m_anim_bloom_index);
-
-		MV1DetachAnim(m_model_hdl, m_anim_dance_index);
+		MV1DetachAnim(m_model_hdl, m_anim_move_index);
 
 		m_anim_move_index
 			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_move_hdl);
 
 		m_time_count_move
 			= MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_move_index);
-
-		m_time_count_move -= m_anim_move_offset;
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X))
@@ -229,7 +223,7 @@ bool PlayerDraw::SeqBloom(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		AnimAttach(m_anim_bloom_index, m_anim_bone_bloom_hdl, m_time_count_bloom, m_anim_bloom_offset);
+		AnimAttach(m_anim_bloom_index, m_anim_bone_bloom_hdl, m_time_count_bloom);
 	}
 
 	// ブレンド処理
@@ -284,7 +278,7 @@ bool PlayerDraw::SeqDance(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		AnimAttach(m_anim_dance_index, m_anim_bone_dance_hdl, m_time_count_dance, m_anim_dance_offset);
+		AnimAttach(m_anim_dance_index, m_anim_bone_dance_hdl, m_time_count_dance);
 	}
 
 	// ブレンド処理
@@ -367,3 +361,8 @@ bool PlayerDraw::SeqIdle(const float delta_time)
 	TNL_SEQ_CO_END;
 }
 
+
+//
+//MV1SetAttachAnimTime(m_model_hdl
+//	, m_anim_dance_index
+//	, m_elapsed_time_dance + m_anim_dance_offset);

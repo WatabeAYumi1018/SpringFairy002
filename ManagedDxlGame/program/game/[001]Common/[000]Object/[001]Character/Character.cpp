@@ -85,6 +85,9 @@ GameCamera::sCamera Character::CurrentCamera()
 		// キャラがタイルの領域内にいるかを判定
 		if (chara_x == camera_lane_x && chara_z == camera_lane_z)
 		{
+			DrawStringEx(500, 50, -1, "レーン座標.x : %d", camera_lane_x);
+			DrawStringEx(500, 70, -1, "レーン座標.z : %d", camera_lane_z);
+
 			return camera_lane;
 		}
 	}

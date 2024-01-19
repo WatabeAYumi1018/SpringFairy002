@@ -153,7 +153,7 @@ bool GameCamera::SeqFixed(const float delta_time)
 		m_mediator->SetPlayerLookSideLeft(false);
 	}
 
-	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT))
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))
 	{
 		tnl_sequence_.change(&GameCamera::SeqControl);
 	}
@@ -163,8 +163,6 @@ bool GameCamera::SeqFixed(const float delta_time)
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
 		Fixed();
-		// キャラがスクリーン中心に近いかどうかで判定
-		//target_ += ( m_mediator->GetPlayerPos() - target_ ) * 0.01f;
 	});
 
 	TNL_SEQ_CO_END;

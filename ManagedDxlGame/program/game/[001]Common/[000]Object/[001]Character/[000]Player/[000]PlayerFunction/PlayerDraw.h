@@ -49,16 +49,8 @@ private:
 
 	// アニメーションの速度
 	float m_anim_speed = 10;
-	// walkアニメーションのオフセット
-	float m_anim_move_offset = 200;
-	// bllomアニメーションのオフセット
-	float m_anim_bloom_offset = 40;
-	// danceアニメーションのオフセット
-	float m_anim_dance_offset = 80;
 
 	float m_blend_timer = 0;
-
-	float m_blend_dance_timer = 0;
 
 	bool m_is_attack = false;
 
@@ -68,7 +60,7 @@ private:
 	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_fly;
 
 	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(PlayerDraw, &PlayerDraw::SeqIdle);
+	TNL_CO_SEQUENCE(PlayerDraw, &PlayerDraw::SeqMove);
 
 	// プレイヤーメディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
@@ -79,7 +71,7 @@ private:
 	// アニメーションのブレンド処理
 	void AnimBlend(const float delta_time, int current_anim_index, int next_anim_index);
 
-	void AnimAttach(int& anim_index, int anim_bone_hdl, float& time_count,float offset = 0);
+	void AnimAttach(int& anim_index, int anim_bone_hdl, float& time_count);
 
 
 	// move ループ再生の時間設定

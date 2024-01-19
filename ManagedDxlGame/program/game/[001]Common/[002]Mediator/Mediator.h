@@ -144,14 +144,14 @@ public:
 	// 自動移動による座標と回転更新
 	// 参照元 ... LoadMove::MoveAstar(float delta_time)
 	// 参照先 ... 自動経路による更新が必要な全クラス
-	void MoveAstarMatrix(const float delta_time
-						 ,tnl::Vector3& pos
-						 ,tnl::Quaternion& rot);
+	void MoveAstarCharaMatrix(const float delta_time
+							 ,tnl::Vector3& pos
+							 ,tnl::Quaternion& rot);
 
 	// 自動移動による座標更新
 	// 参照元 ... LoadMove::MoveAstarPos(float delta_time)
 	// 参照先 ... 自動経路による更新が必要な全クラス
-	void MoveAstarPosition(const float delta_time, tnl::Vector3& pos);
+	void MoveAstarTargetPos(const float delta_time, tnl::Vector3& pos);
 
 	// キャラの回転右フラグ設定
 	// 参照元 ... Player::m_look_side_right
@@ -229,6 +229,12 @@ public:
 	// 参照元 ... Player::CurrentLane
 	// 参照先 ... ItemGenerator::GenerateItem()
 	Lane::sLane CurrentPlayerLane();
+
+	// プレイヤーの直線当たり判定用メッシュを取得
+	// 参照元 ... Player::m_meshs
+	// 参照先 ... PlayerCollision::CollisionCheck()
+	const std::vector<std::shared_ptr<dxe::Mesh>>& PlayerGetMeshs() const;
+
 
 	// playerLoad
 
@@ -401,7 +407,7 @@ public:
 	// 現在のカメラタイプ取得
 	// 参照元 ... CameraTargetPlayer::m_camera_info
 	// 参照先 ... 
-	GameCamera::sCameraInfo GetTargetCameraInfo() const;
+	const GameCamera::sCameraInfo& GetTargetCameraInfo() const;
 
 	// キャラクターの足元アイテムレーンを取得
 	// 参照元 ... Character::Item::sItem CurrentItemLane()

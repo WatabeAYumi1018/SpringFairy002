@@ -9,8 +9,7 @@ void PartnerMove::Update(float delta_time)
 	m_rot = m_mediator->GetPartnerRot();
 
 	// Ž©“®Œo˜H‚É‚æ‚éˆÚ“®‚Æ‰ñ“]‚ÌXV
-	m_mediator->MoveAstarMatrix(delta_time, m_pos,m_rot);
-    //m_mediator->MoveAstarPosition(delta_time, m_pos);
+	m_mediator->MoveAstarCharaMatrix(delta_time, m_pos,m_rot);
 	
 	UpdatePos(delta_time);
 

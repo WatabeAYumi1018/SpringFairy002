@@ -40,9 +40,6 @@ void Effect::Update(float delta_time)
     // キャラの正面向きを取得
     tnl::Vector3 forward = m_mediator->PlayerForward();
 
-    // ベクトルを正規化
-    forward = tnl::Vector3::Normalize(forward);
-
     // オフセット値
     float offset = 100.0f;
 

@@ -80,7 +80,9 @@ private:
 	std::list<std::shared_ptr<Object>> m_objects;
 
 	std::shared_ptr<wta::Astar<Lane::sLane>> m_astar = nullptr;
-	std::shared_ptr<wta::Collision<Player, Item>> m_collision_item = nullptr;
+	std::shared_ptr<wta::Collision<Player, Item>> m_collision_player_item = nullptr;
+	std::shared_ptr<wta::Collision<dxe::Mesh, Item>> m_collision_mesh_item = nullptr;
+	std::shared_ptr<wta::Collision<Player, Partner>> m_collision_player_partner = nullptr;
 	//std::shared_ptr<wta::Collision<Player, GameCamera>> m_collision_camera = nullptr;
 
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;

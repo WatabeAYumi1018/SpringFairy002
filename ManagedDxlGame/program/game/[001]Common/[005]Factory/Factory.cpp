@@ -57,7 +57,9 @@ Factory::~Factory()
 void Factory::CreateObject()
 {
 	m_astar = std::make_shared<wta::Astar<Lane::sLane>>();
-	m_collision_item = std::make_shared<wta::Collision<Player,Item>>();
+	m_collision_player_item = std::make_shared<wta::Collision<Player,Item>>();
+	m_collision_mesh_item = std::make_shared<wta::Collision<dxe::Mesh, Item>>();
+	m_collision_player_partner = std::make_shared<wta::Collision<Player, Partner>>();
 	//m_collision_camera = std::make_shared<wta::Collision<Player, GameCamera>>();
 
 	m_stagePhase = std::make_shared<StagePhase>();
@@ -146,8 +148,11 @@ void Factory::SetObjectReference()
 	m_playerMove->SetMediator(m_mediator);
 	m_playerDraw->SetMediator(m_mediator);
 	m_playerSkill->SetMediator(m_mediator);
-	m_playerCollision->SetCollision(m_collision_item);
+	m_playerCollision->SetCollision(m_collision_player_item);
+	m_playerCollision->SetCollision(m_collision_mesh_item);
+	m_playerCollision->SetCollision(m_collision_player_partner);
 	m_playerCollision->SetPlayer(m_player);
+	m_playerCollision->SetPartner(m_partner);
 	m_partner->SetMediator(m_mediator);
 	m_partnerMove->SetMediator(m_mediator);
 	m_partnerDraw->SetMediator(m_mediator);
@@ -189,7 +194,7 @@ void Factory::PoolItemObject()
 
 void Factory::StorageObject()
 {
-	m_objects.emplace_back(m_skyBox);
+	//m_objects.emplace_back(m_skyBox);
 	m_objects.emplace_back(m_floor);
 	//m_objects.emplace_back(m_model);
 	m_objects.emplace_back(m_cameraTargetPlayer);

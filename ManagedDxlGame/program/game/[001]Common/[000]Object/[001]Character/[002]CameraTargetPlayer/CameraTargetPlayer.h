@@ -29,7 +29,7 @@ public:
 	// •`‰æˆ—
 	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
 
-	GameCamera::sCameraInfo GetCameraInfo() const
+	const GameCamera::sCameraInfo& GetCameraInfo() const
 	{
 		return m_camera_info; 
 	}

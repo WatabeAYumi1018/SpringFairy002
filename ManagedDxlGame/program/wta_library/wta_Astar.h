@@ -136,15 +136,16 @@ namespace wta
 		// マップの範囲内か判定
 		bool InMapRange(const std::pair<int, int>& grid_pos, int witdh, int height);
 
+		// 経路の再構築
+		std::vector<std::pair<int, int>> ReconstructPath(sNode* goalNode);
+
+	public:
+
 		// タイルIDを取得
 		int getTileID(const std::pair<int, int>& grid_pos
 						, const std::vector<T>& map_tiles
 						, int size);
 
-		// 経路の再構築
-		std::vector<std::pair<int, int>> ReconstructPath(sNode* goalNode);
-
-	public:
 
 		//A＊で最適なIDとその道順を取得
 		void SearchTileID_AStar(const tnl::Vector3& pos

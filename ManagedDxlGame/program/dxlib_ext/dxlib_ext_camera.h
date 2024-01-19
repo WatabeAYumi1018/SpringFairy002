@@ -31,7 +31,7 @@ namespace dxe {
 		// カメラのアスペクト比 ( 縦横比 )
 		float aspect_ = 1.0f;
 		// カメラに映る範囲の最近距離
-		float near_ = 2.0f;
+		float near_ = 100.0f;
 		// カメラに映る範囲の最遠距離
 		float far_ = 50000.0f;
 

@@ -13,9 +13,11 @@ void CameraTargetPlayer::Initialize()
 void CameraTargetPlayer::Update(float delta_time)
 {
 	// é©ìÆåoòHÇ…ÇÊÇÈà⁄ìÆÇ∆âÒì]ÇÃçXêV
-	m_mediator->MoveAstarPosition(delta_time, m_pos);
+	m_mediator->MoveAstarTargetPos(delta_time, m_pos);
 
 	m_camera_info = CurrentCameraType();
+
+	DrawStringEx(500,0,-1,"IDî‘çÜ : %d",m_camera_info.s_id);
 
 	m_item = CurrentItemLane();
 
