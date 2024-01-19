@@ -64,7 +64,9 @@ void PlayerCollision::CollisionRegisterPlayerToPartner()
 		if (m_collision_chara->IsIntersectSphere(player, player->GetCollisionSize()
 												 , partner, partner->GetCollisionSize()))
 		{
-			// パートナーの座標補正でちょっと弾けるように返す
+			// パートナーの座標補正
+			m_collision_chara->CorrectSphere(player, player->GetCollisionSize()
+											 , partner, partner->GetCollisionSize());
 		}
 	});
 }

@@ -104,6 +104,19 @@ namespace wta
 			return false;
 		}
 
+		// ‰~“¯m‚Ì•â³ˆ—(Object2‚ª’e‚©‚ê‚é)
+		void CorrectSphere(std::shared_ptr<T1> object1, float object1_radius
+							, std::shared_ptr<T2> object2, float object2_radius)
+		{
+			tnl::Vector3 center 
+				= (object1->GetPos() + object2->GetPos()) / 2.0f;
+						
+			tnl::Vector3 reverse 
+				= tnl::Vector3::Normalize(object1->GetPos() - object2->GetPos());
+			
+			object2->SetPos(center + (reverse * object2_radius));
+		}
+
 		// ‰~‚Æ’¼•û‘Ì‚ÌŒğ·”»’è(ŒÂ•Ê“¯m‚Ì”»’è)
 		// ’¼•û‘Ì‚Ì‘å‚«‚³‚â”ä—¦‚ÍˆÙ‚È‚é‚½‚ßAˆø”‚Åw’è‚·‚é
 		bool IsIntersectSphereAABB( std::shared_ptr<T1> object1
