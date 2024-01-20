@@ -150,12 +150,15 @@ namespace tnl {
     }
 
     //--------------------------------------------------------------------------------------------------------------------------------
+    // メルセンヌツイスターを使用した乱数生成(float)
     float GetRandomDistributionFloat(float min, float max) 
     {
+        // 0.0f ～ 1.0f の範囲の乱数を生成
         std::uniform_real_distribution<> param(static_cast<double>(min), static_cast<double>(max));
+        // 生成した乱数を返す
         return static_cast<float>(param(g_mersenne));
     }
-
+    // メルセンヌツイスターを使用した乱数生成(int)
     int GetRandomDistributionInt(int min, int max) 
 	{
 		std::uniform_int_distribution<> param(min, max);

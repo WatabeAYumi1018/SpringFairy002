@@ -14,13 +14,13 @@ class PartnerMove
 private:
 
 	// めり込む時間
-	const float SINK_DURATION = 0.3f;
+	const float SINK_DURATION = 0.5f;
 	// めり込み具合
-	const float SINK_VALUE = 5;
+	const float SINK_VALUE = 10;
 	// 弾かれる時間
-	const float PUSH_DURATION = 0.4f;
+	const float PUSH_DURATION = 1;
 	// 弾かれる具合
-	const float PUSH_VALUE = 10;
+	const float PUSH_VALUE = 8;
 
 	// 経過時間
 	float m_elapsed_time = 0;
@@ -69,23 +69,25 @@ private:
 	// プレイヤーメディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(PartnerMove, &PartnerMove::SeqPartnerIn);
+	//// コルーチンシーケンス
+	//TNL_CO_SEQUENCE(PartnerMove, &PartnerMove::SeqPartnerIn);
 
 
 	//// ランダムな行先計算処理
 	//void CalcRandomPos(const tnl::Vector3& player_pos);
 
-	void UpdatePos(float delta_time);
+	void UpdatePos(const float delta_time);
 
-	void UpdateRot(float delta_time);
+	void UpdateRot(const float delta_time);
 
-	// パートナーが若干のめり込み処理
-	bool SeqPartnerIn(const float delta_time);
-	// めり込み中の処理
-	bool SeqPartnerStay(const float delta_time);
-	// 離れる処理
-	bool SeqPartnerOut(const float delta_time);
+	void CorrectPos(const float delta_time);
+	//void ApplyForce();
+	//// パートナーが若干のめり込み処理
+	//bool SeqPartnerIn(const float delta_time);
+	////// めり込み中の処理
+	////bool SeqPartnerStay(const float delta_time);
+	//// 離れる処理
+	//bool SeqPartnerOut(const float delta_time);
 
 	//// 基盤の移動処理
 	//bool SeqNormal(const float delta_time);

@@ -65,7 +65,10 @@ void PlayerCollision::CollisionRegisterPlayerToPartner()
 		if (m_collision_chara->IsIntersectSphere(player, player->GetCollisionSize()
 												 , partner, partner->GetCollisionSize()))
 		{
-			m_mediator->SetIsPartnerPushed(true);
+			m_collision_chara->CorrectSphere(player, player->GetCollisionSize()
+											 , partner, partner->GetCollisionSize());
+
+			//m_mediator->SetIsPartnerPushed(true);
 		}
 	});
 }

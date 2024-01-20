@@ -6,7 +6,7 @@
 
 Partner::Partner()
 {
-	m_collision_size = 70;
+	m_collision_size = 60;
 }
 
 void Partner::Initialize()

@@ -38,16 +38,14 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 
 	// ゴールまでの経路を取得
 	std::pair<int, int> current_grid = m_goal_process[m_now_step];
-	
+	// 現在のグリッドの中心座標を取得
 	tnl::Vector3 current_center_pos
 		= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE)
 		+ tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
-	
+	// 現在の位置から中心座標への方向ベクトルを計算
 	tnl::Vector3 direction = current_center_pos - pos;
-	
-	float distance_to_center = direction.length();
-	
-	direction.normalize();
+	// 中心座標までの距離を計算
+	float distance_to_center = abs(direction.length());
 
 	if (distance_to_center <= Lane::LANE_SIZE / 100)
 	{
@@ -56,6 +54,8 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 	}
 	else 
 	{
+		// 単位ベクトルに変換
+		direction.normalize();
 		// 現在のグリッドの中心へ向かって移動
 		pos += direction * m_move_speed * delta_time;
 	}
@@ -81,16 +81,26 @@ void LaneMove::MoveAstarChara(const float delta_time, tnl::Vector3& pos, tnl::Qu
 
 	// 現在の位置から中心座標への方向ベクトルを計算
 	tnl::Vector3 direction = current_center_pos - pos;
+	// 単位ベクトルに変換
 	direction.normalize();
-
 	// グリッドの中心へ向かって移動
 	pos += direction * m_move_speed * delta_time;
 
 	// 新しい回転を算出
-	tnl::Quaternion new_rot = tnl::Quaternion::LookAtAxisY(pos, pos + direction);
+	tnl::Quaternion new_rot 
+		= tnl::Quaternion::LookAtAxisY(pos, pos + direction);
 
+	if (m_look_side_right || m_look_side_left)
+	{
+		tnl::Vector3 camera_direction = m_mediator->GetCameraForward();
+
+		new_rot = tnl::Quaternion::LookAtAxisY(pos, pos + camera_direction);
+	}
+
+	// 回転速度を算出
+	float rot_speed = delta_time * m_move_rotation / 4;
 	// 滑らかに回転を更新
-	rot.slerp(new_rot, delta_time * m_move_rotation);
+	rot.slerp(new_rot, rot_speed);
 }
 
 Lane::sLane LaneMove::GoalTile()
@@ -177,7 +187,7 @@ Lane::sLane LaneMove::GoalTile()
 //		m_goal_process.clear();
 //	}
 //}
-//
+
 //void LaneMove::AutoMoveMatrix(const float delta_time
 //							  , tnl::Vector3& goal_pos
 //							  , tnl::Vector3& pos

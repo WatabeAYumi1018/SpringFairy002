@@ -108,13 +108,32 @@ namespace wta
 		void CorrectSphere(std::shared_ptr<T1> object1, float object1_radius
 							, std::shared_ptr<T2> object2, float object2_radius)
 		{
-			tnl::Vector3 center 
-				= (object1->GetPos() + object2->GetPos()) / 2.0f;
-						
-			tnl::Vector3 reverse 
-				= tnl::Vector3::Normalize(object1->GetPos() - object2->GetPos());
-			
-			object2->SetPos(center - (reverse * object2_radius));
+			tnl::Vector3 pos1 = object1->GetPos();
+			tnl::Vector3 pos2 = object2->GetPos();
+
+			// 2つのオブジェクト間の距離ベクトルを計算
+			tnl::Vector3 distance_vec = pos2 - pos1;
+			// 距離ベクトルを正規化して方向を得る
+			distance_vec.normalize();
+			// 2つのオブジェクト間の距離を算出
+			float distance = distance_vec.length();
+
+			// 2つのオブジェクトの半径の合計
+			float total_radius = object1_radius + object2_radius;
+
+			// 衝突が発生している場合、位置を補正する
+			if (distance < total_radius)
+			{
+				// 重なりの量を計算
+				float overlap = total_radius - distance;
+
+				// 補正するための移動ベクトルを計算（片方または両方のオブジェクトを動かす）
+				tnl::Vector3 correct_vec = distance_vec * overlap;
+
+				// オブジェクトの位置を補正
+				object1->SetPos(pos1 - correct_vec * 0.03f);
+				object2->SetPos(pos2 + correct_vec * 0.03f);
+			}
 		}
 
 		// 円と直方体の交差判定(個別同士の判定)
