@@ -114,7 +114,7 @@ namespace wta
 			tnl::Vector3 reverse 
 				= tnl::Vector3::Normalize(object1->GetPos() - object2->GetPos());
 			
-			object2->SetPos(center + (reverse * object2_radius));
+			object2->SetPos(center - (reverse * object2_radius));
 		}
 
 		// ‰~‚Æ’¼•û‘Ì‚ÌŒğ·”»’è(ŒÂ•Ê“¯m‚Ì”»’è)

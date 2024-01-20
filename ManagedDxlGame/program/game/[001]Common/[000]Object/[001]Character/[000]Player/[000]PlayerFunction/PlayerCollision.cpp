@@ -1,3 +1,4 @@
+#include "../../../../[002]Mediator/Mediator.h"
 #include "../../../[002]Item/Item.h"
 #include "PlayerCollision.h"
 #include "../Player.h"
@@ -53,22 +54,20 @@ void PlayerCollision::CollisionRegisterMeshToItem()
 
 void PlayerCollision::CollisionRegisterPlayerToPartner()
 {
-	//// プレイヤーとパートナーの当たり判定
-	//std::string player_to_partner_key
-	//	= typeid(Player).name() + std::string(typeid(Partner).name());
+	// プレイヤーとパートナーの当たり判定
+	std::string player_to_partner_key
+		= typeid(Player).name() + std::string(typeid(Partner).name());
 
-	//m_collision_chara->registerIntersect(player_to_partner_key
-	//									 , [this](std::shared_ptr<Player> player
-	//									 , std::shared_ptr<Partner> partner)
-	//{
-	//	if (m_collision_chara->IsIntersectSphere(player, player->GetCollisionSize()
-	//											 , partner, partner->GetCollisionSize()))
-	//	{
-	//		// パートナーの座標補正
-	//		m_collision_chara->CorrectSphere(player, player->GetCollisionSize()
-	//										 , partner, partner->GetCollisionSize());
-	//	}
-	//});
+	m_collision_chara->registerIntersect(player_to_partner_key
+										 , [this](std::shared_ptr<Player> player
+										 , std::shared_ptr<Partner> partner)
+	{
+		if (m_collision_chara->IsIntersectSphere(player, player->GetCollisionSize()
+												 , partner, partner->GetCollisionSize()))
+		{
+			m_mediator->SetIsPartnerPushed(true);
+		}
+	});
 }
 
 void PlayerCollision::CollisionCheck()

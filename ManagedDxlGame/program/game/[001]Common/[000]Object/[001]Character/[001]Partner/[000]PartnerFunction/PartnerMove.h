@@ -13,6 +13,18 @@ class PartnerMove
 
 private:
 
+	// めり込む時間
+	const float SINK_DURATION = 0.3f;
+	// めり込み具合
+	const float SINK_VALUE = 5;
+	// 弾かれる時間
+	const float PUSH_DURATION = 0.4f;
+	// 弾かれる具合
+	const float PUSH_VALUE = 10;
+
+	// 経過時間
+	float m_elapsed_time = 0;
+
 	// 乱数
 	int m_random = -1;
 
@@ -32,6 +44,10 @@ private:
 	tnl::Vector3 m_pos;
 	// 移動座標オフセット
 	tnl::Vector3 m_offset;
+	// 衝突時の中点
+	tnl::Vector3 m_center;
+	// 衝突時の逆ベクトル（正規化）
+	tnl::Vector3 m_reverse;
 
 	// 現在回転
 	tnl::Quaternion m_rot;
@@ -40,6 +56,9 @@ private:
 
 	// 移動完了フラグ
 	bool m_is_moved = false;
+
+	// 衝突フラグ
+	bool m_is_pushed = false;
 
 	//// 上下左右の方向
 	//eDirection direction = eDirection::none;
@@ -50,6 +69,9 @@ private:
 	// プレイヤーメディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	// コルーチンシーケンス
+	TNL_CO_SEQUENCE(PartnerMove, &PartnerMove::SeqPartnerIn);
+
 
 	//// ランダムな行先計算処理
 	//void CalcRandomPos(const tnl::Vector3& player_pos);
@@ -57,6 +79,13 @@ private:
 	void UpdatePos(float delta_time);
 
 	void UpdateRot(float delta_time);
+
+	// パートナーが若干のめり込み処理
+	bool SeqPartnerIn(const float delta_time);
+	// めり込み中の処理
+	bool SeqPartnerStay(const float delta_time);
+	// 離れる処理
+	bool SeqPartnerOut(const float delta_time);
 
 	//// 基盤の移動処理
 	//bool SeqNormal(const float delta_time);
@@ -73,6 +102,8 @@ public:
 
 	void Update(float delta_time);
 
+
+	void SetIsPushed(bool is_pushed) { m_is_pushed = is_pushed ; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

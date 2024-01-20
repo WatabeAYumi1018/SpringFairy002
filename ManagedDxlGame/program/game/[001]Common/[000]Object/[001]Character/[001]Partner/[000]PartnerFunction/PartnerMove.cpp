@@ -69,6 +69,71 @@ void PartnerMove::UpdateRot(float delta_time)
     m_rot.slerp(m_target_rot, delta_time * 0.5f);
 }
 
+bool PartnerMove::SeqPartnerIn(const float delta_time)
+{
+	// 二つのオブジェクトの中心座標を求める
+	m_center = (m_mediator->GetPlayerPos() + m_mediator->GetPartnerPos()) / 2.0f;
+
+	// 中心座標からの単位ベクトルを求める
+	m_reverse = tnl::Vector3::Normalize(m_mediator->GetPartnerPos() - m_mediator->GetPlayerPos());
+
+	m_elapsed_time += delta_time;
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(SINK_DURATION, delta_time, [&]()
+	{
+		// 沈み込む動作
+		float sink = SINK_VALUE * (m_elapsed_time / SINK_DURATION);
+
+		float sink_size = m_mediator->GetPartnerCollisionSize();
+
+		tnl::Vector3 sink_vec = tnl::Vector3( m_center - (m_reverse * (sink_size - sink))));
+
+		m_mediator->SetPartnerPos(sink_vec);
+	});
+
+	tnl_sequence_.change(&PartnerMove::SeqPartnerStay);
+
+	TNL_SEQ_CO_END;
+}
+
+bool PartnerMove::SeqPartnerStay(const float delta_time)
+{
+	TNL_SEQ_CO_TIM_YIELD_RETURN(0.2f, delta_time, [&]()
+	{
+		tnl::Vector3 scaele = tnl::Vector3(0.7f);
+
+		//パートナーのサイズを若干小さくする
+		m_mediator->SetPartnerScale(scaele);
+	});
+
+	tnl::Vector3 scaele = tnl::Vector3(1);
+
+	m_mediator->SetPartnerScale(scaele);
+
+	tnl_sequence_.change(&PartnerMove::SeqPartnerStay);
+
+	TNL_SEQ_CO_END;
+}
+
+bool PartnerMove::SeqPartnerOut(const float delta_time)
+{
+	TNL_SEQ_CO_TIM_YIELD_RETURN(PUSH_DURATION, delta_time, [&]()
+	{
+		float push = PUSH_VALUE * ((m_elapsed_time - SINK_DURATION) / PUSH_DURATION);
+
+		float push_size = m_mediator->GetPartnerCollisionSize() + push;
+
+		tnl::Vector3 push_vec = tnl::Vector3(m_center - (m_reverse * push_size)));
+
+		m_mediator->SetPartnerPos(push_vec);
+	});
+
+	m_elapsed_time = 0;
+
+	tnl_sequence_.change(&PartnerMove::SeqPartnerStay);
+
+	TNL_SEQ_CO_END;
+}
 
 //bool PartnerMove::SeqTargetCalc(const float delta_time)
 //{

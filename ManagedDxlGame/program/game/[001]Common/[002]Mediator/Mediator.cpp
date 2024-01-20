@@ -296,12 +296,30 @@ const tnl::Quaternion& Mediator::GetPartnerRot() const
 	return m_partner->GetRot();
 }
 
+void Mediator::SetPartnerScale(tnl::Vector3& scale)
+{
+	m_partner->SetScale(scale);
+}
+
+
+const float Mediator::GetPartnerCollisionSize() const
+{
+	return m_partner->GetCollisionSize();
+}
+
+
 // PartnerMove
 
 void Mediator::UpdatePartnerMoveMatrix(const float delta_time)
 {
 	m_partnerMove->Update(delta_time);
 }
+
+void Mediator::SetIsPartnerPushed(bool is_pushed)
+{
+	m_partnerMove->SetIsPushed(is_pushed);
+}
+
 
 // PartnerDraw
 

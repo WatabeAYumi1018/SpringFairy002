@@ -6,7 +6,7 @@
 
 Partner::Partner()
 {
-	m_collision_size = 100;
+	m_collision_size = 70;
 }
 
 void Partner::Initialize()
@@ -39,10 +39,10 @@ void Partner::Draw(std::shared_ptr<GameCamera> gameCamera)
 	DrawStringEx(1000, 20, 1, "PartnerPos_y:%f", m_pos.y);
 	DrawStringEx(1000, 40, 1, "PartnerPos_z:%f", m_pos.z);
 
-	//// 当たり判定デバッグ用
-	VECTOR pos = wta::ConvertToVECTOR(m_pos);
-	pos.y += m_collision_size;
-	DrawSphere3D(pos, m_collision_size, 32, GetColor(255, 0, 0), GetColor(255, 0, 0), true);
+	////// 当たり判定デバッグ用
+	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
+	//pos.y += m_collision_size;
+	//DrawSphere3D(pos, m_collision_size, 32, GetColor(255, 0, 0), GetColor(255, 0, 0), true);
 
 }
 

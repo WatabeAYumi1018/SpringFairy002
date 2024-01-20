@@ -18,6 +18,8 @@ public:
 
 private:
 
+	bool m_is_partner_in = false;
+
 	std::vector<std::shared_ptr<Item>> m_items;
 
 	std::shared_ptr<Player> m_player = nullptr;
@@ -29,6 +31,8 @@ private:
 	std::shared_ptr<wta::Collision<dxe::Mesh,Item>> m_collision_mesh = nullptr;
 
 	std::shared_ptr<wta::Collision<Player, Partner>> m_collision_chara = nullptr;
+
+	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 public:
 
@@ -71,5 +75,10 @@ public:
 	void SetCollision(std::shared_ptr<wta::Collision<Player, Partner>>& collision)
 	{
 		m_collision_chara = collision;
+	}
+
+	void SetMediator(std::shared_ptr<Mediator>& mediator)
+	{
+		m_mediator = mediator;
 	}
 };

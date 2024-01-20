@@ -153,6 +153,7 @@ void Factory::SetObjectReference()
 	m_playerCollision->SetCollision(m_collision_player_partner);
 	m_playerCollision->SetPlayer(m_player);
 	m_playerCollision->SetPartner(m_partner);
+	m_playerCollision->SetMediator(m_mediator);
 	m_partner->SetMediator(m_mediator);
 	m_partnerMove->SetMediator(m_mediator);
 	m_partnerDraw->SetMediator(m_mediator);

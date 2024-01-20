@@ -363,6 +363,16 @@ public:
 	// 参照先 ... Partnerの回転が必要な全クラス
 	void SetPartnerRot(tnl::Quaternion& rot);
 
+	// パートナーのスケール設定
+	// 参照元 ... Partner::m_scale
+	// 参照先 ... Partnerのスケールが必要な全クラス
+	void SetPartnerScale(tnl::Vector3& scale);
+
+	// パートナーの当たり判定サイズ取得
+	// 参照元 ... Partner::m_collision_size
+	// 参照先 ... PartnerMove::Update(float delta_time)
+	const float GetPartnerCollisionSize() const;
+
 	// パートナーの回転取得
 	// 参照元 ... Partner::m_rot
 	// 参照先 ... Partnerの回転が必要な全クラス
@@ -374,6 +384,11 @@ public:
 	// 参照元 ... PartnerMove::Update(float delta_time)
 	// 参照先 ... Partner::Update(float delta_time)
 	void UpdatePartnerMoveMatrix(const float delta_time);
+
+	// パートナーの衝突フラグの設定
+	// 参照元 ... PartnerMove::m_is_pushed
+	// 参照先 ... Partner::Update(float delta_time)
+	void SetIsPartnerPushed(bool is_pushed);
 
 	// PartnerDraw
 
