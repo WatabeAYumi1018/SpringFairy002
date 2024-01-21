@@ -1,6 +1,6 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
-#include "../[000]Object/[005]Message/[001]CharaGraph/CharaGraph.h"
+#include "../[000]Object/[005]Event/[002]CharaGraph/CharaGraph.h"
 
 
 class Mediator;

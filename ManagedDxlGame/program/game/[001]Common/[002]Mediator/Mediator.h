@@ -5,7 +5,7 @@
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemLoad.h"
 #include "../[000]Object/[003]Effect/Effect.h"
-#include "../[000]Object/[005]Message/[001]CharaGraph/CharaGraph.h"
+#include "../[000]Object/[005]Event/[002]CharaGraph/CharaGraph.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[003]Phase/StagePhase.h"
 

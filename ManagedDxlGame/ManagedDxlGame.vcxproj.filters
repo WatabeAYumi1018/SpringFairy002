@@ -90,9 +90,6 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[003]Effect">
       <UniqueIdentifier>{98828e77-34cb-47d5-ba36-2d904a63be72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Message">
-      <UniqueIdentifier>{d9d79915-b812-4800-8715-e8c5335736d8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox">
       <UniqueIdentifier>{7c3d1d32-0965-4b9b-9129-1f3ea0040e0e}</UniqueIdentifier>
     </Filter>
@@ -132,18 +129,6 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[004]Score">
       <UniqueIdentifier>{323efee6-b030-4447-82f6-0984dd691149}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text">
-      <UniqueIdentifier>{fe808cfa-da22-41a4-a67d-b7218841dc17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph">
-      <UniqueIdentifier>{8a3cec28-e0c6-49e5-bac7-a3b22bce7a9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction">
-      <UniqueIdentifier>{e5ec91ee-d431-49a5-8172-41a33b204b23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphicFunction">
-      <UniqueIdentifier>{65a8888a-2362-469f-a87d-5379e651761f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[002]wta_library">
       <UniqueIdentifier>{3fcc14bf-0315-444b-8ace-738e0917d5ab}</UniqueIdentifier>
     </Filter>
@@ -155,6 +140,27 @@
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[004]ScreenShot">
       <UniqueIdentifier>{03d245ea-b60e-4123-91d3-b7c5cf35456e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event">
+      <UniqueIdentifier>{d9d79915-b812-4800-8715-e8c5335736d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event\[001]Text">
+      <UniqueIdentifier>{fe808cfa-da22-41a4-a67d-b7218841dc17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event\[001]Text\[000]TextFunction">
+      <UniqueIdentifier>{e5ec91ee-d431-49a5-8172-41a33b204b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph">
+      <UniqueIdentifier>{8a3cec28-e0c6-49e5-bac7-a3b22bce7a9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction">
+      <UniqueIdentifier>{65a8888a-2362-469f-a87d-5379e651761f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event\[000]Event">
+      <UniqueIdentifier>{fa33f7d1-01e0-4b71-ae67-a97b7693e2b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event\[000]Event\[000]EventFunction">
+      <UniqueIdentifier>{a7dd9777-62da-4881-84fe-6be2c4f86685}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -404,24 +410,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[004]Score\Score.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[004]Score</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\Text.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction\TextDraw.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction\TextLoad.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\CharaGraph.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphicFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphicFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[002]SceneOP\SceneOp.cpp">
       <Filter>program\[003] game\[002]SceneOp</Filter>
     </ClCompile>
@@ -448,6 +436,24 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraFlustum.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[001]Text\Text.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[001]Text</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[001]Text\[000]TextFunction\TextDraw.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[001]Text\[000]TextFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[001]Text\[000]TextFunction\TextLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[001]Text\[000]TextFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\CharaGraph.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -749,24 +755,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[004]Score\Score.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[004]Score</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\Text.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction\TextDraw.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction\TextLoad.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[000]Text\[000]TextFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\CharaGraph.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphicFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Message\[001]CharaGraph\[000]CharaGraphicFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[002]SceneOP\SceneOp.h">
       <Filter>program\[003] game\[002]SceneOp</Filter>
     </ClInclude>
@@ -811,6 +799,24 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraFlustum.h">
       <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[001]Text\Text.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[001]Text</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[001]Text\[000]TextFunction\TextDraw.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[001]Text\[000]TextFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[001]Text\[000]TextFunction\TextLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[001]Text\[000]TextFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\CharaGraph.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
