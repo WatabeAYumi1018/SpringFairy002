@@ -30,6 +30,6 @@ public:
 
 	~Lane() {}
 
-	static const int LANE_SIZE = 1000;
+	static const int LANE_SIZE = 800;
 
 };

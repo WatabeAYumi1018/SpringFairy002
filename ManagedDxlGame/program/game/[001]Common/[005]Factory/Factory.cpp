@@ -195,7 +195,7 @@ void Factory::PoolItemObject()
 
 void Factory::StorageObject()
 {
-	m_objects.emplace_back(m_skyBox);
+	//m_objects.emplace_back(m_skyBox);
 	m_objects.emplace_back(m_floor);
 	//m_objects.emplace_back(m_model);
 	m_objects.emplace_back(m_cameraTargetPlayer);

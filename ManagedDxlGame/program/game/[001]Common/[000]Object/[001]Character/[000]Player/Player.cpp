@@ -56,11 +56,7 @@ void Player::Update(float delta_time)
 	//pos.y += m_collision_size;
 	//DrawSphere3D(pos, m_collision_size,32, GetColor(255, 0, 0), GetColor(255,0,0), true);
 
-	tnl::Vector3 forward = Forward();
-
-	DrawStringEx(0, 60, -1, "PlayerForward_x:%f", forward.x);
-	DrawStringEx(0, 80, -1, "PlayerForward_y:%f", forward.y);
-	DrawStringEx(0, 100, -1, "PlayerForward_z:%f", forward.z);
+	//tnl::Vector3 forward = Forward();
 
 	//// 大体7秒で2000くらい？
 	//
@@ -119,13 +115,19 @@ void Player::UpdateMesh(float delta_time)
 
 tnl::Vector3 Player::Forward()
 {
-	// 標準的な前方向ベクトル（例えば、Z軸方向）
-	tnl::Vector3 init_forward(0, 0, -1);
+	// 基準の前方向ベクトル
+	tnl::Vector3 baseForward(0, 0, 1);
 
-	// 現在の回転に基づいて前方向ベクトルを計算
-	tnl::Quaternion rot_forward_vec 
-		= m_rot * tnl::Quaternion(init_forward.x, init_forward.y, init_forward.z, 0);
+	// プレイヤーの回転から行列を生成
+	tnl::Matrix rotMatrix = m_rot.getMatrix();
 
-	// 回転後の前方向ベクトルを返す
-	return tnl::Vector3(rot_forward_vec.x, rot_forward_vec.y, rot_forward_vec.z);
+	// 前方向ベクトルを回転行列で変換
+	tnl::Vector3 forward 
+		= tnl::Vector3::Transform(baseForward, rotMatrix);
+
+	DrawStringEx(0, 60, -1, "PlayerForward_x:%f", forward.x);
+	DrawStringEx(0, 80, -1, "PlayerForward_y:%f", forward.y);
+	DrawStringEx(0, 100, -1, "PlayerForward_z:%f", forward.z);
+
+	return forward;
 }

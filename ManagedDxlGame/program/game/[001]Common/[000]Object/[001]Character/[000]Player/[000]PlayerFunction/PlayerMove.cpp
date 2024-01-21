@@ -114,7 +114,7 @@ void PlayerMove::ControlMoveMatrix(float delta_time)
 	// ŒXÎ‚Ì‰Šú‰»
 	tnl::Quaternion tilt_rotation;
 	// ŒX‚¯‚éŠp“x
-	float tilt_angle = 0.1f;
+	float tilt_angle = 0.05f;
 
 	if (tnl::Input::IsKeyDown(eKeys::KB_UP))
 	{
