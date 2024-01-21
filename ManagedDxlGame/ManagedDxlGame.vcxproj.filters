@@ -446,6 +446,9 @@
     <ClCompile Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.cpp">
       <Filter>program\[003] game\[001]Common\[004]ScreenShot</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraFlustum.cpp">
+      <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -805,6 +808,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.h">
       <Filter>program\[003] game\[001]Common\[004]ScreenShot</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraFlustum.h">
+      <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

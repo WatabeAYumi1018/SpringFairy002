@@ -136,9 +136,9 @@ private:
 
 	// 周辺を360度回転制御
 	tnl::Vector3 RotateAroundPlayer(const tnl::Vector3& point
-		, const tnl::Vector3& pivot
-		, const tnl::Vector3& axis
-		, float angle);
+									, const tnl::Vector3& pivot
+									, const tnl::Vector3& axis
+									, float angle);
 
 	// プレイヤー追従
 	bool SeqFollow(const float delta_time);
@@ -148,10 +148,31 @@ private:
 
 	//--------------------//
 
+	
 
 public:
 
 	void update(const float delta_time) override;
+
+	//// ターゲットの概念を無くした姿勢処理
+	//inline tnl::Vector3 up()
+	//{
+	//	up_ = tnl::Vector3::TransformCoord({ 0, 1, 0 }, m_rot);
+	//	return up_;
+	//}
+	//inline tnl::Vector3 down() { return -up(); }
+
+	//inline tnl::Vector3 forward() override
+	//{
+	//	target_ = pos_ + tnl::Vector3::TransformCoord({ 0, 0, 1 }, m_rot);
+	//	return tnl::Vector3::Normalize(target_ - pos_);
+	//}
+
+	//inline tnl::Vector3 back() override { return -forward(); }
+
+	//inline tnl::Vector3 left() override { return tnl::Vector3::Cross(forward(), up()); }
+
+	//inline tnl::Vector3 right() override { return tnl::Vector3::Cross(up(), forward()); }
 
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)

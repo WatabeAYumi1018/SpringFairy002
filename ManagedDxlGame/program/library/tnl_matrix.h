@@ -107,12 +107,21 @@ namespace tnl {
 		//
 		// static inline function
 		//
-		static inline Matrix Translation(const float x, const float y, const float z) noexcept {
+
+		// 単位行列を生成
+		static inline Matrix Translation(const float x, const float y, const float z) noexcept 
+		{
+			// XMMATRIX : Mathライブラリにおける4x4の行列
+			// XMMatrixTranslation : x, y, zの値を基に移動行列を計算
 			DirectX::XMMATRIX xm = DirectX::XMMatrixTranslation(x, y, z);
+			// XMFLOAT4X4は、4x4の行列を表す構造体
 			DirectX::XMFLOAT4X4 f4x4;
+			// XMStoreFloat4x4 : XMMATRIXのデータをXMFLOAT4X4に変換して格納
 			XMStoreFloat4x4(&f4x4, xm);
+			// XMFLOAT4X4をMatrixクラスのインスタンスにキャスト
 			return static_cast<Matrix>(f4x4);
 		}
+
 		static inline Matrix Translation(const tnl::Vector3& v) noexcept {
 			return Translation(v.x, v.y, v.z);
 		}

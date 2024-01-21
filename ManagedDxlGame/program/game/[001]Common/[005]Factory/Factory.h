@@ -62,6 +62,7 @@ class CharaGraphDraw;
 
 class GameCamera;
 class CameraLoad;
+class CameraFlustum;
 
 class Mediator;
 
@@ -130,6 +131,7 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
+	std::shared_ptr<CameraFlustum> m_cameraFlustum = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 

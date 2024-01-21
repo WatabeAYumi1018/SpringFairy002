@@ -9,10 +9,33 @@ GameCamera::GameCamera()
 
 void GameCamera::update(const float delta_time)
 {
+	//// カメラの姿勢を更新
+	//target_ = pos_ + tnl::Vector3::TransformCoord({ 0, 0, 1 }, m_rot);
+	//// カメラのアッパーベクトルを更新
+	//up_ = tnl::Vector3::TransformCoord({ 0, 1, 0 }, m_rot);
+
 	dxe::Camera::update(delta_time);
 
 	tnl_sequence_.update(delta_time);
 
+	//for (int i = 0; i < 6; ++i)
+	//{
+	//	tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
+	//	float size = m_mediator->GetPlayerCollisionSize();
+
+	//	tnl::Vector3 v = getFlustumNormal(static_cast<dxe::Camera::eFlustum>(i));
+	//	tnl::Vector3 np = tnl::GetNearestPointPlane(player_pos, v, pos_);
+	//	float length = (np - player_pos).length();
+	//	if (length < size)
+	//	{
+	//		tnl::Vector3 pos = np + (v * size);
+	//		m_mediator->SetPlayerPos(pos);
+	//	}
+	//}
+
+
+	//m_mediator->IsIntersectCameraFlustum(delta_time);
+	
 	//m_mediator->UpdateCameraFrustum();
 	//
 	//// 座標デバッグ用

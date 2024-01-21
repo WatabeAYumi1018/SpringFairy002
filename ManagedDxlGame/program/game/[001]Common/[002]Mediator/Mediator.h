@@ -45,7 +45,7 @@ class CharaGraphDraw;
 
 class GameCamera;
 class CameraLoad;
-//class CameraFrustum;
+class CameraFlustum;
 
 class Mediator
 {
@@ -95,7 +95,7 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
-	//std::shared_ptr<CameraFrustum> m_cameraFrustum = nullptr;
+	std::shared_ptr<CameraFlustum> m_cameraFlustum = nullptr;
 
 	//------------------------------------------------//
 
@@ -665,25 +665,30 @@ public:
 	// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
 	const tnl::Vector3& GetCameraRight() const;
 
-	// カメラの上方向取得
-	// 参照元 ... dxe::GameCamera::left()
-	// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
-	const tnl::Vector3& GetCameraLeft() const;
+	//// カメラの上方向取得
+	//// 参照元 ... dxe::GameCamera::left()
+	//// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
+	//const tnl::Vector3& GetCameraLeft() const;
 
-	// カメラの下方向取得
-	// 参照元 ... dxe::GameCamera::back()
-	// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
-	const tnl::Vector3& GetCameraBack() const;
+	//// カメラの下方向取得
+	//// 参照元 ... dxe::GameCamera::back()
+	//// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
+	//const tnl::Vector3& GetCameraBack() const;
 
-	// カメラのビュー行列取得
-	// 参照元 ... dxe::Camera::view_
-	// 参照先 ... CameraFrustum::Update()
-	const tnl::Matrix& GetCameraView() const;
+	//// カメラのビュー行列取得
+	//// 参照元 ... dxe::Camera::view_
+	//// 参照先 ... CameraFrustum::Update()
+	//const tnl::Matrix& GetCameraView() const;
 
-	// カメラの射影行列取得
-	// 参照元 ... dxe::Camera::proj_
-	// 参照先 ... CameraFrustum::Update()
-	const tnl::Matrix& GetCameraProj() const;
+	//// カメラの射影行列取得
+	//// 参照元 ... dxe::Camera::proj_
+	//// 参照先 ... CameraFrustum::Update()
+	//const tnl::Matrix& GetCameraProj() const;
+
+	// フラスタムの法線ベクトル取得
+	// 参照元 ... dxe::Camera::getFlustumNormal(eFlustum flustum)
+	// 参照先 ... CameraFrustum
+	tnl::Vector3 GetFlustumNormal(dxe::Camera::eFlustum flusum);
 
 
 	// CameraLoad
@@ -708,7 +713,7 @@ public:
 	// 参照先 ... Camera::関連する関数
 	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
 
-	// CameraFrustum
+	// CameraFlustum
 
 	//// フラスタムの更新
 	//// 参照元 ... CameraFrustum::Update()
@@ -724,6 +729,11 @@ public:
 	//// 参照元 ... CameraFrustum::CollisionCheck()
 	//// 参照先 ... Camera::Update(float delta_time)
 	//void CollisionFrustumCheck();
+
+	// フラスタムの当たり判定処理
+	// 参照元 ... CameraFlustum::IsIntersectFlustum(const float delta_time)
+	// 参照先 ... Camera::Update(float delta_time)
+	void IsIntersectCameraFlustum(const float delta_time);
 
 	//---------------------------//
 
@@ -873,10 +883,10 @@ void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 		m_cameraLoad = cameraLoad;
 	}
 
-	//void SetCameraFrustum(std::shared_ptr<CameraFrustum>& cameraFrustum)
-	//{
-	//	m_cameraFrustum = cameraFrustum;
-	//}
+	void SetCameraFlustum(std::shared_ptr<CameraFlustum>& cameraFlustum)
+	{
+		m_cameraFlustum = cameraFlustum;
+	}
 
 	//------------------------------------------------//
 };

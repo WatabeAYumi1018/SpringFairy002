@@ -22,7 +22,7 @@
 #include "../[000]Object/[005]Message/[001]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Message/[001]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
-//#include "../[001]Camera/[000]CameraFunction/CameraFrustum.h"
+#include "../[001]Camera/[000]CameraFunction/CameraFlustum.h"
 
 
 //---------StagePhase---------//
@@ -600,31 +600,35 @@ const tnl::Vector3& Mediator::GetCameraRight() const
 	return m_gameCamera->right();
 }
 
-const tnl::Vector3& Mediator::GetCameraLeft() const
-{
-	return m_gameCamera->left();
-}
+//const tnl::Vector3& Mediator::GetCameraLeft() const
+//{
+//	return m_gameCamera->left();
+//}
+//
+//const tnl::Vector3& Mediator::GetCameraBack() const
+//{
+//	return m_gameCamera->back();
+//}
 
-const tnl::Vector3& Mediator::GetCameraBack() const
-{
-	return m_gameCamera->back();
-}
-
-const tnl::Matrix& Mediator::GetCameraView() const
-{
-	return m_gameCamera->GetView();
-}
-
-const tnl::Matrix& Mediator::GetCameraProj() const
-{
-	return m_gameCamera->GetProj();
-}
+//const tnl::Matrix& Mediator::GetCameraView() const
+//{
+//	return m_gameCamera->GetView();
+//}
+//
+//const tnl::Matrix& Mediator::GetCameraProj() const
+//{
+//	return m_gameCamera->GetProj();
+//}
 
 //GameCamera::sCameraInfo Mediator::CurrentGameCameraType()
 //{
 //	return m_gameCamera->CurrentCameraType();
 //}
 
+tnl::Vector3 Mediator::GetFlustumNormal(dxe::Camera::eFlustum flusum)
+{
+	return m_gameCamera->getFlustumNormal(flusum);
+}
 
 // CameraLoad
 
@@ -648,8 +652,14 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 	return m_cameraLoad->GetCameraInfoById(id);
 }
 
-// CameraFrustum
-//
+// CameraFlustum
+
+void Mediator::IsIntersectCameraFlustum(const float delta_time)
+{
+	m_cameraFlustum->IsIntersectFlustum(delta_time);
+}
+
+
 //void Mediator::UpdateCameraFrustum()
 //{
 //	m_cameraFrustum->Update();

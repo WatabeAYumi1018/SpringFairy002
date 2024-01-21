@@ -92,8 +92,12 @@ namespace tnl {
 
 
 	//-----------------------------------------------------------------------------------------------------
-	Vector3 Vector3::CreateScreenRay(const int screen_x, const int screen_y, const int screen_w, const int screen_h, const tnl::Matrix& view, const tnl::Matrix& proj) noexcept {
-
+	
+	// スクリーン上の2D座標から3D空間に向かうレイ（光線）を生成
+	Vector3 Vector3::CreateScreenRay(const int screen_x, const int screen_y, const int screen_w, const int screen_h, const tnl::Matrix& view, const tnl::Matrix& proj) noexcept
+	{
+		// ビュー行列と射影行列のコピーを作成
+		// 平行移動成分をリセット
 		Matrix mv, mp;
 		mv = view;
 		mp = proj;
@@ -102,14 +106,17 @@ namespace tnl {
 		mv._42 = 0.0f;
 		mv._43 = 0.0f;
 
-		// ビューポート行列を作成
+		// スクリーン座標系におけるビューポート行列を作成
 		Matrix view_mat;
 
 		view_mat._11 = (float)(screen_w >> 1);
+		// Y軸が上向きから下向きに変換されるため、負の値を乗算
 		view_mat._22 = -1.0f * (float)(screen_h >> 1);
+		// z軸はそのまま
 		view_mat._33 = 1.0f;
 		view_mat._41 = (float)(screen_w >> 1);
 		view_mat._42 = (float)(screen_h >> 1);
+		// z軸の平行移動成分は0
 		view_mat._43 = 0.0f;
 
 		// スクリーン位置をワールドへ
@@ -118,32 +125,45 @@ namespace tnl {
 		v.y = (float)screen_y;
 		v.z = 0.0f;
 
+		// 各行列の逆行列を計算
+		// 逆行列を計算することで、スクリーン座標系からワールド座標系へ変換
 		Matrix inv, inv_proj, inv_view;
 		inv = Matrix::Inverse(view_mat);
 		inv_proj = Matrix::Inverse(mp);
 		inv_view = Matrix::Inverse(mv);
 		//inv = inv_view * inv_proj * inv;
+		// 逆行列を掛け合わせて最終的な変換行列を作成
 		inv = inv * inv_proj * inv_view;
-
+		// 逆行列を掛け合わせた変換行列を用いてスクリーン座標系からワールド座標系へ変換
 		return Vector3::Normalize( Vector3::TransformCoord(v, inv) );
 	}
 
 	//-----------------------------------------------------------------------------------------------------
-	Vector3 Vector3::ConvertToScreen(const Vector3& v, const float screen_w, const float screen_h, const Matrix& view, const Matrix& proj) noexcept {
-
+	
+	// 3D空間の座標を2Dスクリーン空間の座標に変換
+	Vector3 Vector3::ConvertToScreen(const Vector3& v, const float screen_w, const float screen_h, const Matrix& view, const Matrix& proj) noexcept
+	{
+		// 変換後のスクリーン座標を初期化
 		Vector3 rv(0, 0, 0);
+		// スクリーンの中心座標を計算
 		float w = screen_w * 0.5f;
 		float h = screen_h * 0.5f;
+		// ビュー行列と射影行列のコピーを作成
 		Matrix wkMtx, tm;
-
+		// 与えられた3D座標に対して平行移動行列を作成
 		tm = Matrix::Translation(v);
+		// ビュー行列とプロジェクション行列wを乗算
 		wkMtx = view * proj;
+		// 3D座標をビュー空間とプロジェクション空間を通じて変換
 		wkMtx = tm * wkMtx;
-
+		// プロジェクション空間でのw成分でx,y成分を割り
+		// スクリーン空間の座標を計算
 		wkMtx._41 /= wkMtx._44;
 		wkMtx._42 /= wkMtx._44;
+		// 最終的なスクリーン座標を計算
 		rv.x = (w + (w * wkMtx._41));
 		rv.y = (h + (-h * wkMtx._42));
+		
 		return rv;
 	}
 

@@ -3,6 +3,7 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "../library/tnl_intersect.h"
 
+
 namespace wta
 {
 	template<class T1,class T2>

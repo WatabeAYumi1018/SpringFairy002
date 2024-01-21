@@ -73,6 +73,7 @@ namespace dxe {
 		// ret.... ‹‘ä•½–Ê‚Ì–@ü
 		// tips... none
 		enum class eFlustum { Left, Right, Bottom, Top, Near, Far, Max };
+
 		tnl::Vector3 getFlustumNormal(eFlustum flusum);
 
 

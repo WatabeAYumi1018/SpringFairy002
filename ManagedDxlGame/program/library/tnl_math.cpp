@@ -367,7 +367,8 @@ namespace tnl {
 
 
     //--------------------------------------------------------------------------------------------------------------------------------
-    tnl::Vector3 GetNearestPointPlane(const tnl::Vector3& v, const tnl::Vector3& pn, const tnl::Vector3& pv) {
+    tnl::Vector3 GetNearestPointPlane(const tnl::Vector3& v, const tnl::Vector3& pn, const tnl::Vector3& pv) 
+    {
         float d = tnl::Vector3::Dot(pn, pv);
         float t = tnl::Vector3::Dot(pn, v) - d;
         return v - (pn * t);

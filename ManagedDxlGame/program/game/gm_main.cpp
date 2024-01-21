@@ -172,6 +172,128 @@
 //    ptcl.reset();
 //}
 
+//-------------------------------------------------------------------------------------------------------
+//
+// 座標と姿勢で制御するカメラ
+//
+//class TransformCamera : public dxe::Camera {
+//public:
+//
+//    TransformCamera() {};
+//    TransformCamera(int screen_w, int screen_h) : dxe::Camera(screen_w, screen_h) {}
+//
+//    void update(const float delta_time) override;
+//
+//
+//    inline tnl::Vector3 up()
+//    {
+//        up_ = tnl::Vector3::TransformCoord({ 0, 1, 0 }, rot_);
+//        return up_;
+//    }
+//    inline tnl::Vector3 down() { return -up(); }
+//
+//    inline tnl::Vector3 forward() override {
+//        target_ = pos_ + tnl::Vector3::TransformCoord({ 0, 0, 1 }, rot_);
+//        return tnl::Vector3::Normalize(target_ - pos_);
+//    }
+//    inline tnl::Vector3 back() override { return -forward(); }
+//    inline tnl::Vector3 left() override { return tnl::Vector3::Cross(forward(), up()); }
+//    inline tnl::Vector3 right() override { return tnl::Vector3::Cross(up(), forward()); }
+//
+//    tnl::Quaternion rot_;
+//
+//};
+//
+//void TransformCamera::update(const float delta_time) {
+//
+//    //
+//    // 姿勢パラメータからターゲット座標とアッパーベクトルを計算
+//    //
+//
+//    target_ = pos_ + tnl::Vector3::TransformCoord({ 0, 0, 1 }, rot_);
+//    up_ = tnl::Vector3::TransformCoord({ 0, 1, 0 }, rot_);
+//    dxe::Camera::update(delta_time);
+//}
+//
+//
+//
+//Shared<TransformCamera> camera = nullptr;
+//Shared<dxe::Mesh> mesh = nullptr;
+//
+////------------------------------------------------------------------------------------------------------------
+//// ゲーム起動時に１度だけ実行されます
+//void gameStart() {
+//
+//    srand(time(0));
+//    SetBackgroundColor(32, 32, 32);
+//
+//    camera = std::make_shared<TransformCamera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+//    mesh = dxe::Mesh::CreateSphereMV(50);
+//    camera->pos_ = { 0, 100, -250 };
+//}
+//
+//
+////------------------------------------------------------------------------------------------------------------
+//// 毎フレーム実行されます
+//void gameMain(float delta_time) {
+//
+//    //----------------------------------------------------------------------------------------------------
+//    //
+//    // カメラ制御
+//    //
+//    tnl::Input::RunIndexKeyDown(
+//        [&](uint32_t index) {
+//            tnl::Vector3 v[4] = {
+//                camera->left(),
+//                camera->right(),
+//                tnl::Vector3::up,
+//                tnl::Vector3::down
+//            };
+//            camera->pos_ += v[index] * 3.0f;
+//
+//        }, eKeys::KB_A, eKeys::KB_D, eKeys::KB_W, eKeys::KB_S);
+//
+//    if (tnl::Input::IsMouseDown(tnl::Input::eMouse::RIGHT)) {
+//        tnl::Vector3 mvel = tnl::Input::GetMouseVelocity();
+//        camera->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(mvel.x * 0.2f));
+//        camera->rot_ *= tnl::Quaternion::RotationAxis(camera->right(), tnl::ToRadian(mvel.y * 0.2f));
+//    }
+//    camera->pos_ += camera->forward().xz() * tnl::Input::GetMouseWheel() * 0.3f;
+//
+//    mesh->rot_ = tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(1));
+//
+//    camera->update(delta_time);
+//
+//    for (int i = 0; i < 4; ++i)
+//    {
+//        tnl::Vector3 v = camera->getFlustumNormal(static_cast<dxe::Camera::eFlustum>(i));
+//        tnl::Vector3 np = tnl::GetNearestPointPlane(mesh->pos_, v, camera->pos_);
+//
+//        if ((np - mesh->pos_).length() < 50)
+//        {
+//            mesh->pos_ = np + (v * 50);
+//        }
+//    }
+//
+//    mesh->render(camera);
+//
+//    //----------------------------------------------------------------------------------------------------
+//    //
+//    // 描画処理
+//    //
+//
+//    DrawGridGround(camera);
+//
+//    DrawFpsIndicator({ DXE_WINDOW_WIDTH - 260, 0, 0 }, delta_time);
+//}
+//
+////------------------------------------------------------------------------------------------------------------
+//// ゲーム終了時に１度だけ実行されます
+//void gameEnd() {
+//}
+//
+
+
 
 
 
@@ -193,7 +315,7 @@ void gameStart()
 	tnl::SetSeedMersenneTwister32(time(0));
 
 	srand(time(0));
-	SetWindowText("Spring Fairy");
+	SetWindowText("FLOWER LAND");
 
 	// 背景の色を設定(さくら色)
 	//SetBackgroundColor(255, 222, 233);
