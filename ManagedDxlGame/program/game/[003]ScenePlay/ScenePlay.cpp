@@ -4,6 +4,7 @@
 #include "../[001]Common/[001]Camera/GameCamera.h"
 #include "../[003]ScenePlay/ScenePlay.h"
 #include "../[001]Common/[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
+#include "../[001]Common/[004]ScreenShot/ScreenShot.h"
 
 
 ScenePlay::ScenePlay() : m_factory(std::make_shared<Factory>())
@@ -41,6 +42,8 @@ void ScenePlay::Initialize()
 	m_stagePhase = m_factory->GetStagePhase();
 	// アイテムジェネレータの取得
 	m_itemGenerator = m_factory->GetItemGenerator();
+	// スクリーンショットの取得
+	m_screenShot = m_factory->GetScreenShot();
 
 	m_itemGenerator->Initialize();
 
@@ -68,6 +71,8 @@ void ScenePlay::Draw(const float delta_time)
 {
 	//DrawDefaultLightGuiController();
 	DrawGridGround(m_gameCamera);
+
+	m_screenShot->SaveScreenShot();
 
 	for (std::shared_ptr<Object>& object : m_objects)
 	{

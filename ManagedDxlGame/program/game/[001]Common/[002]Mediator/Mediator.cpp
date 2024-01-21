@@ -573,9 +573,9 @@ void Mediator::LoadCharacterGraph()
 	m_charaGraphDraw->LoadCharaGraph();
 }
 
-void Mediator::DrawCharacterGraph(tnl::Vector3 pos, int graph_id)
+void Mediator::DrawCharacterGraph(int graph_id)
 {
-	m_charaGraphDraw->DrawCharaGraph(pos, graph_id);
+	m_charaGraphDraw->DrawCharaGraph(graph_id);
 }
 
 //---------------------------//

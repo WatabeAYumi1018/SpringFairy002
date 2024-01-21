@@ -193,7 +193,7 @@ void gameStart()
 	tnl::SetSeedMersenneTwister32(time(0));
 
 	srand(time(0));
-	SetWindowText("FLOWER LAND");
+	SetWindowText("Spring Fairy");
 
 	// ”wŒi‚ÌF‚ğİ’è(‚³‚­‚çF)
 	//SetBackgroundColor(255, 222, 233);

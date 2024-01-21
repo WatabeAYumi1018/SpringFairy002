@@ -640,7 +640,7 @@ public:
 	// キャラクターグラフィックの描画
 	// 参照元 ... CharaGraphDraw::DrawCharaGraph()
 	// 参照先 ... CharaGraph
-	void DrawCharacterGraph(tnl::Vector3 pos, int graph_id);
+	void DrawCharacterGraph(int graph_id);
 
 
 	//---------------------------//

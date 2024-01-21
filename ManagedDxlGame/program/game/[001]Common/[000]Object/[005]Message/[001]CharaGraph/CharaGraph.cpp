@@ -31,8 +31,8 @@ void CharaGraph::Draw(std::shared_ptr<GameCamera> gameCamera)
 		DrawGraph(500, 400, m_window_hdl, TRUE);
 	}
 
-	m_mediator->DrawCharacterGraph(m_pos_partner_graph, 0);
-	m_mediator->DrawCharacterGraph(m_pos_player_graph, 5);
+	m_mediator->DrawCharacterGraph(0);
+	m_mediator->DrawCharacterGraph(5);
 }
 
 bool CharaGraph::SeqSlideIn(const float delta_time)

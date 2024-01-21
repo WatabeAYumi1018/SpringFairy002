@@ -24,7 +24,13 @@ public:
 
 	void LoadCharaGraph();
 
-	void DrawCharaGraph(tnl::Vector3 pos, int graph_id);
+	void DrawCharaGraph(int graph_id);
+
+
+	const std::vector<CharaGraph::sGraphInfo>& GetCharaGraph() const 
+	{
+		return m_chara_graph; 
+	}
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator) 
 	{

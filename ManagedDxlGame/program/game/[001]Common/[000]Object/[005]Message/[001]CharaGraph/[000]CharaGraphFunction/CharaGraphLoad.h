@@ -16,13 +16,15 @@ private:
 
 	int m_graph_total_num = 0;
 
-	// マップ情報の読み取り専用（csvファイル）
+	
+
+	// キャラ画像の読み取り専用（csvファイル）
 	std::vector<std::vector<tnl::CsvCell>> m_csv_graph_info;
-	// テキストデータを格納
+	// キャラ画像データを格納
 	std::vector<CharaGraph::sGraphInfo> m_graph_info;
 
 
-	// テキストデータを読み取る
+	// キャラ画像データを読み取る
 	void LoadGraphInfo();
 
 public:

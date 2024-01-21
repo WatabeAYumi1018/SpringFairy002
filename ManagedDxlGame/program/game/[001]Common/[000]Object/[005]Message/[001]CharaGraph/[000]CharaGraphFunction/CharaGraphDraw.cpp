@@ -22,7 +22,9 @@ void CharaGraphDraw::LoadCharaGraph()
 	}
 }
 
-void CharaGraphDraw::DrawCharaGraph(tnl::Vector3 pos, int graph_id)
+void CharaGraphDraw::DrawCharaGraph(int graph_id)
 {
-	DrawGraph(pos.x,pos.y,m_chara_graph[graph_id].s_graph_hdl,TRUE);
+	DrawGraph(m_chara_graph[graph_id].s_graph_pos.x
+			  , m_chara_graph[graph_id].s_graph_pos.y
+			  ,m_chara_graph[graph_id].s_graph_hdl,TRUE);
 }

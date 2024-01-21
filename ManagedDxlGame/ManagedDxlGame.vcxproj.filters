@@ -75,9 +75,6 @@
     <Filter Include="program\[003] game\[001]Common\[003]Phase">
       <UniqueIdentifier>{e667bf97-52b4-4d6d-9e70-c759d6fac7ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[004]Factory">
-      <UniqueIdentifier>{57db2471-5e99-4519-806c-1144cd65605b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[003] game\[001]Common\[001]Camera\[000]CameraFunction">
       <UniqueIdentifier>{83a0afd8-33d2-41a4-afe4-60b792ad95b9}</UniqueIdentifier>
     </Filter>
@@ -152,6 +149,12 @@
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction">
       <UniqueIdentifier>{0a452713-813e-4a24-82c9-6df8f0951c08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[005]Factory">
+      <UniqueIdentifier>{57db2471-5e99-4519-806c-1144cd65605b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[004]ScreenShot">
+      <UniqueIdentifier>{03d245ea-b60e-4123-91d3-b7c5cf35456e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -312,7 +315,7 @@
       <Filter>program\[001] dxlib_ext\gui</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[005]Factory\Factory.cpp">
-      <Filter>program\[003] game\[001]Common\[004]Factory</Filter>
+      <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[003]Phase\GamePhase.cpp">
       <Filter>program\[003] game\[001]Common\[003]Phase</Filter>
@@ -439,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.cpp">
+      <Filter>program\[003] game\[001]Common\[004]ScreenShot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -648,7 +654,7 @@
       <Filter>program\[001] dxlib_ext\example</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[005]Factory\Factory.h">
-      <Filter>program\[003] game\[001]Common\[004]Factory</Filter>
+      <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[003]Phase\GamePhase.h">
       <Filter>program\[003] game\[001]Common\[003]Phase</Filter>
@@ -796,6 +802,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.h">
+      <Filter>program\[003] game\[001]Common\[004]ScreenShot</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

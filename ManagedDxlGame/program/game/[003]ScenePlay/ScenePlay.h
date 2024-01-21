@@ -7,6 +7,7 @@ class Factory;
 class GameCamera;
 class StagePhase;
 class ItemGenerator;
+class ScreenShot;
 
 
 class ScenePlay : public SceneBase
@@ -25,6 +26,7 @@ private:
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
 	std::shared_ptr<ItemGenerator> m_itemGenerator = nullptr;
+	std::shared_ptr<ScreenShot> m_screenShot = nullptr;
 
 	std::list<std::shared_ptr<Object>> m_objects;
 

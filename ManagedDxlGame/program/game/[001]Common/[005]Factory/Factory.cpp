@@ -31,6 +31,7 @@
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
 //#include "../[001]Camera/[000]CameraFunction/CameraFrustum.h"
 #include "../[002]Mediator/Mediator.h"
+#include "../[004]ScreenShot/ScreenShot.h"
 #include "Factory.h"
 
 
@@ -109,6 +110,8 @@ void Factory::CreateObject()
 	//m_cameraFrustum = std::make_shared<CameraFrustum>();
 
 	m_mediator = std::make_shared<Mediator>();
+
+	m_screenShot = std::make_shared<ScreenShot>();
 }
 
 void Factory::SetObjectReference()
@@ -164,6 +167,7 @@ void Factory::SetObjectReference()
 	m_charaGraphDraw->SetMediator(m_mediator);
 	m_gameCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
+	m_screenShot->SetMediator(m_mediator);
 	//m_cameraFrustum->SetCollision(m_collision_camera);
 	//m_cameraFrustum->SetMediator(m_mediator);
 	//m_cameraFrustum->SetPlayer(m_player);

@@ -65,6 +65,8 @@ class CameraLoad;
 
 class Mediator;
 
+class ScreenShot;
+
 class Factory
 {
 
@@ -131,6 +133,8 @@ private:
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	std::shared_ptr<ScreenShot> m_screenShot = nullptr;
+
 
 	// 各オブジェクトの生成と初期化
 	void CreateObject();
@@ -168,5 +172,10 @@ public:
 	const std::shared_ptr<ItemGenerator>& GetItemGenerator() const
 	{
 		return m_itemGenerator;
+	}
+
+	const std::shared_ptr<ScreenShot>& GetScreenShot() const
+	{
+		return m_screenShot;
 	}
 };

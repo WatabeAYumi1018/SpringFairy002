@@ -33,6 +33,15 @@ void CharaGraphLoad::LoadGraphInfo()
 
 		graph_info.s_graph_side = m_csv_graph_info[y][1].getInt();
 
+		if (graph_info.s_graph_side == 0)
+		{
+			graph_info.s_graph_pos = tnl::Vector3(900, 400, 0);
+		}
+		else
+		{
+			graph_info.s_graph_pos = tnl::Vector3(100, 250, 0);
+		}
+
 		graph_info.s_graph_path = m_csv_graph_info[y][2].getString();
 
 		m_graph_info.emplace_back(graph_info);

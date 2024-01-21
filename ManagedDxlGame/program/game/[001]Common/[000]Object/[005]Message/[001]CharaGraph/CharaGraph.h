@@ -17,6 +17,8 @@ public:
 		std::string s_id;
 		// 描画位置
 		int s_graph_side;
+		// 描画座標
+		tnl::Vector3 s_graph_pos;
 		// 描画ハンドル
 		int s_graph_hdl;
 		// 画像ファイルパス
@@ -35,8 +37,6 @@ private:
 
 	bool m_window_active = true;
 
-	tnl::Vector3 m_pos_player_graph = { 100,250,0 };
-	tnl::Vector3 m_pos_partner_graph = { 900,400,0 };
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(CharaGraph, &CharaGraph::SeqSlideIn);

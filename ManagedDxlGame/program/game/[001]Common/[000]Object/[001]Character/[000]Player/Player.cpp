@@ -116,14 +116,14 @@ void Player::UpdateMesh(float delta_time)
 tnl::Vector3 Player::Forward()
 {
 	// 基準の前方向ベクトル
-	tnl::Vector3 baseForward(0, 0, 1);
+	tnl::Vector3 base_forward(0, 0, 1);
 
 	// プレイヤーの回転から行列を生成
 	tnl::Matrix rotMatrix = m_rot.getMatrix();
 
 	// 前方向ベクトルを回転行列で変換
 	tnl::Vector3 forward 
-		= tnl::Vector3::Transform(baseForward, rotMatrix);
+		= tnl::Vector3::Transform(base_forward, rotMatrix);
 
 	DrawStringEx(0, 60, -1, "PlayerForward_x:%f", forward.x);
 	DrawStringEx(0, 80, -1, "PlayerForward_y:%f", forward.y);

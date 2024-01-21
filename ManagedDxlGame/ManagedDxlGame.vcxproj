@@ -226,6 +226,7 @@
     <ClCompile Include="program\game\[001]Common\[002]Mediator\Mediator.cpp" />
     <ClCompile Include="program\game\[001]Common\[003]Phase\GamePhase.cpp" />
     <ClCompile Include="program\game\[001]Common\[003]Phase\StagePhase.cpp" />
+    <ClCompile Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.cpp" />
     <ClCompile Include="program\game\[001]Common\[005]Factory\Factory.cpp" />
     <ClCompile Include="program\game\[002]SceneOP\SceneOp.cpp" />
     <ClCompile Include="program\game\[003]ScenePlay\ScenePlay.cpp" />
@@ -338,6 +339,7 @@
     <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h" />
     <ClInclude Include="program\game\[001]Common\[003]Phase\GamePhase.h" />
     <ClInclude Include="program\game\[001]Common\[003]Phase\StagePhase.h" />
+    <ClInclude Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.h" />
     <ClInclude Include="program\game\[001]Common\[005]Factory\Factory.h" />
     <ClInclude Include="program\game\[002]SceneOP\SceneOp.h" />
     <ClInclude Include="program\game\[003]ScenePlay\ScenePlay.h" />
