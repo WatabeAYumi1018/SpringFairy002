@@ -69,7 +69,7 @@ Item::sItem Character::CurrentItemLane()
 
 GameCamera::sCamera Character::CurrentCamera()
 {
-	// カメラ座標をグリッド座標に変換
+	// キャラ座標をグリッド座標に変換
 	auto [chara_x, chara_z]
 		= wta::ConvertFloatToGridInt(m_pos, Lane::LANE_SIZE);
 
@@ -85,14 +85,47 @@ GameCamera::sCamera Character::CurrentCamera()
 		// キャラがタイルの領域内にいるかを判定
 		if (chara_x == camera_lane_x && chara_z == camera_lane_z)
 		{
-			DrawStringEx(500, 50, -1, "レーン座標.x : %d", camera_lane_x);
-			DrawStringEx(500, 70, -1, "レーン座標.z : %d", camera_lane_z);
-
+			DrawStringEx(500, 50, -1, "カメラレーン座標.x : %d", camera_lane_x);
+			DrawStringEx(500, 70, -1, "カメラレーン座標.z : %d", camera_lane_z);
+			
 			return camera_lane;
 		}
 	}
-	// 該当なし
+	// 該当なし(万一レーン反れてもfixedになるように)
 	return GameCamera::sCamera();
+}
+
+// 足元のイベントレーンを取得
+Lane::sLaneEvent Character::CurrentEventLane()
+{
+	// キャラ座標をグリッド座標に変換
+	auto [chara_x, chara_z]
+		= wta::ConvertFloatToGridInt(m_pos, Lane::LANE_SIZE);
+
+	std::vector<Lane::sLaneEvent> event_lane_vec
+		= m_mediator->GetStageLaneEvent();
+
+	// 配列を使用し、グリッド座標からタイルIDを取得
+	for (Lane::sLaneEvent& event_lane : event_lane_vec)
+	{
+		auto [event_lane_x, event_lane_z]
+			= wta::ConvertFloatToGridInt(event_lane.s_pos, Lane::LANE_SIZE);
+
+		// キャラがタイルの領域内にいるかを判定
+		if (chara_x == event_lane_x && chara_z == event_lane_z)
+		{
+			DrawStringEx(500, 90, -1, "イベントレーン座標.x : %d", event_lane_x);
+			DrawStringEx(500, 110, -1, "イベントレーン座標.z : %d", event_lane_z);
+
+			return event_lane;
+		}
+	}
+	// 該当なし
+	Lane::sLaneEvent no_event;
+	// idに-1を設定
+	no_event.s_id = -1;
+	// no_eventを返す
+	return no_event; 
 }
 
 MATRIX Character::CalcMatrix()

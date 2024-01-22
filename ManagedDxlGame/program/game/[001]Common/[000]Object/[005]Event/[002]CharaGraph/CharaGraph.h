@@ -14,7 +14,7 @@ public:
 	struct sGraphInfo
 	{
 		// csv‚Å’è‹`‚µ‚½¯•Ê”Ô†
-		std::string s_id;
+		int s_id;
 		// •`‰æˆÊ’u
 		int s_graph_side;
 		// •`‰æÀ•W

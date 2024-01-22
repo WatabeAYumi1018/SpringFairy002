@@ -156,12 +156,6 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction">
       <UniqueIdentifier>{65a8888a-2362-469f-a87d-5379e651761f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event\[000]Event">
-      <UniqueIdentifier>{fa33f7d1-01e0-4b71-ae67-a97b7693e2b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event\[000]Event\[000]EventFunction">
-      <UniqueIdentifier>{a7dd9777-62da-4881-84fe-6be2c4f86685}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">

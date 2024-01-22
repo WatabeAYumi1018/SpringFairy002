@@ -68,7 +68,7 @@ void GameCamera::ConditionType()
 		}
 		case eCameraType::e_right_side_back:
 		{
-			m_mediator->SetPlayerLookSideRight(true);
+			m_mediator->SetPlayerLookSide(true);
 
 			tnl_sequence_.change(&GameCamera::SeqRightSide);
 
@@ -76,7 +76,7 @@ void GameCamera::ConditionType()
 		}
 		case eCameraType::e_left_side_back:
 		{
-			m_mediator->SetPlayerLookSideLeft(true);
+			m_mediator->SetPlayerLookSide(true);
 
 			tnl_sequence_.change(&GameCamera::SeqLeftSide);
 
@@ -172,8 +172,8 @@ bool GameCamera::SeqFixed(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		m_mediator->SetPlayerLookSideRight(false);
-		m_mediator->SetPlayerLookSideLeft(false);
+		m_mediator->SetPlayerLookSide(false);
+		//m_mediator->SetPlayerLookSideLeft(false);
 	}
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))

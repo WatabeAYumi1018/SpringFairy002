@@ -1,14 +1,11 @@
+#include "../../../../[002]Mediator/Mediator.h"
+#include "../../../[000]Stage/[001]Lane/Lane.h"
 #include "TextLoad.h"
 
 
 TextLoad::TextLoad()
 {
-	m_csv_text
-		= tnl::LoadCsv<tnl::CsvCell>("csv/ui/text/text.csv");
-
 	LoadText();
-
-	LoadTextIDs();
 }
 
 TextLoad::~TextLoad()
@@ -16,72 +13,95 @@ TextLoad::~TextLoad()
 	m_csv_text.clear();
 }
 
-// 識別番号に基づいてテキストデータを取得
-Text::sTextInfo TextLoad::GetStoryText(const std::string& id)
+const std::vector<std::string>& TextLoad::GetTextsLane()
 {
-	// 識別番号に基づいてテキストデータを取得
-	for (const Text::sTextInfo& story_text : m_texts)
+	static std::vector<std::string> empty_lane;
+
+	m_texts_for_lane.clear();
+
+	Lane::sLaneEvent lane_event = m_mediator->GetEventLane();
+
+	if (lane_event.s_id == -1) 
 	{
-		if (story_text.s_id == id)
+		// 無効なレーンIDが返された場合は空のベクターを返す
+		return empty_lane;
+	}
+
+	int lane_id = lane_event.s_id;
+
+	// レーン番号に基づいてテキストデータを一括格納
+	for (const Text::sTextData& story_text : m_texts_all)
+	{
+		if (story_text.s_lane_id == lane_id)
 		{
-			return story_text;
+			m_texts_for_lane.emplace_back(story_text.s_text_line_first);
+			m_texts_for_lane.emplace_back(story_text.s_text_line_second);
 		}
 	}
 
-	// 見つからなければ空の構造体を返す
-	// 空の場合、構造体名()で生成（デフォルトコンストラクタ）
-	return Text::sTextInfo();
+	return m_texts_for_lane;
+
+	//// テキストデータをID順にソート
+	//std::sort(m_texts_for_lane.begin(), m_texts_for_lane.end(),
+	//	[](const Text::sTextData& a, const Text::sTextData& b)
+	//	{
+	//		return a.s_text_id < b.s_text_id;
+	//	});
 }
 
 // テキストデータを読み取る
 void TextLoad::LoadText()
 {
+	m_csv_text
+		= tnl::LoadCsv<tnl::CsvCell>("csv/ui/text/text.csv");
+
 	// csvの最初の行は題目なのでスキップ
 	for (int i = 1; i < m_csv_text.size();++i)
 	{
 		std::vector<tnl::CsvCell>& text = m_csv_text[i];
 		
-		Text::sTextInfo story_text;
+		Text::sTextData story_text;
 
-		// 識別番号を設定
-		story_text.s_id = text[0].getString();
+		// 対応するレーンIDを設定
+		story_text.s_lane_id = text[0].getInt();
 
-		// テキスト描画終了フラグを設定
-		story_text.s_text_end = text[1].getInt();
+		// グループ内でのIDを設定
+		story_text.s_text_id = text[1].getInt();
+
+		// プレイヤーグラフィックのIDを設定
+		story_text.s_player_graph_id = text[2].getInt();
+
+		// パートナーグラフィックのIDを設定
+		story_text.s_partner_graph_id = text[3].getInt();
 
 		// テキストの行を格納
-		for (int j = 2; j < text.size(); ++j)
-		{
-			// テキストが空白でなければ格納
-			if (!text[j].getString().empty())
-			{
-				// 識別番号で、行ごとにテキストを格納
-				story_text.s_text_lines.emplace_back(text[j].getString());
-			}
-		}
+		story_text.s_text_line_first = text[4].getString();
+
+		story_text.s_text_line_second = text[5].getString();
+
 		// テキストデータを格納
-		m_texts.emplace_back(story_text);
+		m_texts_all.emplace_back(story_text);
 	}
 }
 
-void TextLoad::LoadTextIDs()
-{
-	// オープニングに該当する最初の2行のid名を取得
-	for (const Text::sTextInfo& story_text : m_texts)
-	{
-		if (story_text.s_id[0] || story_text.s_id[1])
-		{
-			m_opning_text_ids.emplace_back(story_text.s_id);
-		}
-		/*else if (story_text.s_id[] || story_text.s_id[])
-		{
-			m_ending_text_ids.emplace_back(story_text.s_id);
-		}
-		else
-		{
-			m_event_text_ids.emplace_back(story_text.s_id);
-		}*/
-	}
-	
-}
+//void TextLoad::LoadTextIDs()
+//{
+//	// オープニングに該当する最初の2行のid名を取得
+//	for (const Text::sTextInfo& story_text : m_texts)
+//	{
+//		//if (story_text.s_lane_id[0])
+//		//{
+//		//	m_text_op_ids.emplace_back(story_text.s_id);
+//		//}
+//		/*else if (story_text.s_id[] || story_text.s_id[])
+//		{
+//			m_ending_text_ids.emplace_back(story_text.s_id);
+//		}
+//		else
+//		{
+//			m_event_text_ids.emplace_back(story_text.s_id);
+//		}*/
+//	}
+//	
+//}
 

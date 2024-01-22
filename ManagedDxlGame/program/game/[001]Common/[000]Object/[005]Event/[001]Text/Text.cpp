@@ -7,7 +7,7 @@ Text::Text()
 {
 	m_window_hdl = LoadGraph("graphics/Opning/text_window.png");
 
-	SetFontSize(30);
+	//SetFontSize(30);
 }
 
 Text::~Text()
@@ -15,19 +15,22 @@ Text::~Text()
 	DeleteGraph(m_window_hdl);
 }
 
-//void Text::Update(float delta_time)
-//{
-//	tnl_sequence_.update(delta_time);
-//	
-//	SeqEvent(delta_time);
-//
-//	m_mediator->UpdateTextMessage(delta_time);
-//}
-//
-//void Text::Draw(std::shared_ptr<GameCamera> gameCamera)
-//{
-//	m_mediator->DrawTextMessage();
-//}
+
+
+void Text::Update(float delta_time)
+{
+	//m_mediator->GetTextsLoadForLane();
+
+	//tnl_sequence_.update(delta_time);
+
+	m_mediator->UpdateTextMessage(delta_time);
+}
+
+void Text::Draw(std::shared_ptr<GameCamera> gameCamera)
+{
+	m_mediator->DrawTextMessage();
+}
+
 //
 //void Text::SetEventTextID()
 //{
@@ -46,13 +49,13 @@ Text::~Text()
 //	// 表示処理
 //	m_mediator->SetDrawTextID(textData.s_text_lines, story_id);
 //}
-//
+
 //void Text::SetTextIDs(std::vector<std::string> id)
 //{
-//	Text::sText textData
-//		= m_mediator->GetStoryTextData(id[m_now_text_index]);
+//	Text::sTextData textInfo
+//		= m_mediator->GetTextLoadInfo(id[m_now_text_index]);
 //
-//	m_mediator->SetDrawTextID(textData.s_text_lines, id[m_now_text_index]);
+//	m_mediator->SetTextDrawLine(textInfo.s_text_lines);
 //}
 //
 //void Text::SetNextText(float delta_time, std::vector<std::string> id)
@@ -74,13 +77,13 @@ Text::~Text()
 //		}
 //	}
 //}
-//
+
 //// オープニング
 //bool Text::SeqOpning(const float delta_time)
 //{
 //	if (tnl_sequence_.isStart())
 //	{
-//		SetTextIDs(m_opning_text_ids);
+//		SetTextIDs();
 //	}
 //
 //	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
@@ -102,34 +105,33 @@ Text::~Text()
 //
 //	TNL_SEQ_CO_END;
 //}
-//
+
 //// ルール説明
-//bool Text::SeqRule(const float delta_time)
+//bool Text::SeqMessage(const float delta_time)
 //{
 //	if (tnl_sequence_.isStart())
 //	{
-//		SetTextIDs(m_rule_text_ids);
+//		// 初期化処理
+//		m_now_text_index = 0;
+//
+//		m_mediator->GetTextsLoadForLane();
+//	}
+//
+//	// 表示が終了したら処理終了
+//	if (m_mediator->IsTextDrawEnd())
+//	{
+//		return false;
 //	}
 //
 //	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 //	{
 //		if (m_now_text_index < m_rule_text_ids.size())
 //		{
-//			// 表示終了していない場合
-//			if (!m_mediator->GetIsTextEnd())
-//			{
-//				return false;
-//			}
-//
 //			SetNextText(delta_time, m_rule_text_ids);
 //		}
 //		else
 //		{
 //			m_now_text_index = 0;
-//
-//			// 次のフェーズへ移行
-//			m_phaseManager->
-//				SetActionPhase(PhaseManager::eActionPhase::e_start);
 //
 //			TNL_SEQ_CO_END;
 //		}
@@ -137,7 +139,7 @@ Text::~Text()
 //
 //	TNL_SEQ_CO_END;
 //}
-//
+
 //// ★イベント(おそらく最初の一回しかなぜか実行されていない)
 //bool Text::SeqEvent(const float delta_time)
 //{

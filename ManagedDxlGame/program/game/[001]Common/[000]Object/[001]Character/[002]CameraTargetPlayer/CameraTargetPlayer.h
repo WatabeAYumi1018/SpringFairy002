@@ -20,6 +20,8 @@ private:
 
 	Item::sItem m_item;
 
+	Lane::sLaneEvent m_event;
+
 public:
 
 	// ‰Šú‰»
@@ -32,5 +34,10 @@ public:
 	const GameCamera::sCameraInfo& GetCameraInfo() const
 	{
 		return m_camera_info; 
+	}
+
+	const Lane::sLaneEvent& GetEvent() const
+	{
+		return m_event;
 	}
 };

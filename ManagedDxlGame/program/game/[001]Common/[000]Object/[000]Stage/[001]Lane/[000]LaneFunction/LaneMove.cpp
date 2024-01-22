@@ -90,7 +90,7 @@ void LaneMove::MoveAstarChara(const float delta_time, tnl::Vector3& pos, tnl::Qu
 	tnl::Quaternion new_rot 
 		= tnl::Quaternion::LookAtAxisY(pos, pos + direction);
 
-	if (m_look_side_right || m_look_side_left)
+	if (m_look_side)
 	{
 		tnl::Vector3 camera_direction = m_mediator->GetCameraForward();
 
@@ -105,7 +105,10 @@ void LaneMove::MoveAstarChara(const float delta_time, tnl::Vector3& pos, tnl::Qu
 
 Lane::sLane LaneMove::GoalTile()
 {
-	for (const auto& goal : m_mediator->GetStageLane())
+	std::vector<Lane::sLane> goal_process
+					= m_mediator->GetStageLane();
+
+	for (Lane::sLane& goal : goal_process)
 	{
 		if (goal.s_id == 2)
 		{

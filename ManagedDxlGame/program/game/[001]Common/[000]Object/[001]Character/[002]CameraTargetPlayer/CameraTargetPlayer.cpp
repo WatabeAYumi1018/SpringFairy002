@@ -17,9 +17,13 @@ void CameraTargetPlayer::Update(float delta_time)
 
 	m_camera_info = CurrentCameraType();
 
-	DrawStringEx(500,0,-1,"ID番号 : %d",m_camera_info.s_id);
-
 	m_item = CurrentItemLane();
+
+	m_event = CurrentEventLane();
+
+	DrawStringEx(500, 0, -1, "カメラID番号 : %d", m_camera_info.s_id);
+	DrawStringEx(500, 20, -1, "イベントID番号 : %d", m_event.s_id);
+
 
 	if (m_item.s_id == 1)
 	{

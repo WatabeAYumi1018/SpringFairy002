@@ -5,6 +5,7 @@
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemLoad.h"
 #include "../[000]Object/[003]Effect/Effect.h"
+#include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/CharaGraph.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[003]Phase/StagePhase.h"
@@ -36,7 +37,6 @@ class ItemPool;
 
 class EffectLoad;
 
-class Text;
 class TextLoad;
 class TextDraw;
 
@@ -134,10 +134,10 @@ public:
 	// 参照先 ... レーン配列の情報が必要な全クラス
 	const std::vector<Lane::sLane>& GetStageLane() const;
 
-	//// イベント配列の情報取得
-	//// 参照元 ... LaneLoad::m_lane_events
-	//// 参照先 ... イベント配列の情報が必要な全クラス
-	//const std::vector<Lane::sLane>& GetStageLaneEvent() const;
+	// イベント配列の情報取得
+	// 参照元 ... LaneLoad::m_lane_events
+	// 参照先 ... イベント配列の情報が必要な全クラス
+	const std::vector<Lane::sLaneEvent>& GetStageLaneEvent() const;
 
 	// LaneMove
 
@@ -156,12 +156,12 @@ public:
 	// キャラの回転右フラグ設定
 	// 参照元 ... Player::m_look_side_right
 	// 参照先 ... GameCamera::ConditionType()
-	void SetPlayerLookSideRight(bool look_side);
+	void SetPlayerLookSide(bool look_side);
 
-	// キャラの回転左フラグ取得
-	// 参照元 ... Player::m_look_side_left
-	// 参照先 ... GameCamera::ConditionType()
-	void SetPlayerLookSideLeft(bool look_side);
+	//// キャラの回転左フラグ取得
+	//// 参照元 ... Player::m_look_side_left
+	//// 参照先 ... GameCamera::ConditionType()
+	//void SetPlayerLookSideLeft(bool look_side);
 
 	//// 自動移動による次のレーン到達判定
 	//// 参照元 ... LoadMove::NextLane()
@@ -429,6 +429,12 @@ public:
 	// 参照先 ... ItemGenerator::GenerateItem()
 	Item::sItem CurrentTargetItemLane();
 
+	// キャラクターの足元イベントレーンを取得
+	// 参照元 ... Character::m_event
+	// 参照先 ... イベントレーンが必要な全クラス
+	const Lane::sLaneEvent& GetEventLane() const;
+
+
 	//--------------------------//
 
 
@@ -436,10 +442,10 @@ public:
 
 	// model
 
-	// モデルの座標設定
-	// 参照元 ... Model::m_pos
-	// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	const tnl::Vector3& GetModelPos() const;
+	//// モデルの座標設定
+	//// 参照元 ... Model::m_pos
+	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
+	//const tnl::Vector3& GetModelPos() const;
 
 	////モデルの世界属性取得
 	//// 参照元 ... Model::m_world_type
@@ -601,6 +607,13 @@ public:
 
 	//------------Text-----------//
 
+	// TextLoad
+
+	// レーンIDに該当するテキスト文字の取得
+	// 参照元 ... TextLoad::GetTextsLane()
+	// 参照先 ... Text::関連する関数
+	const std::vector<std::string>& GetTextsLoadLane();
+
 	// TextDraw
 
 	// テキストの処理
@@ -612,6 +625,16 @@ public:
 	// 参照元 ... TextDraw::Draw()
 	// 参照先 ... Text::Draw(std::shared_ptr<OriginalCamera> originalCamera)
 	void DrawTextMessage();
+
+	//// 描画テキストのID設定
+	//// 参照元 ... TextDraw::SetTextDrawLine(const std::vector<std::string>& text_lines)
+	//// 参照先 ... Text::Update(float delta_time)
+	//void SetTextDrawLine(const std::vector<std::string>& text_lines);
+
+	// 該当IDのテキストの表示終了フラグ
+	// 参照元 ... TextDraw::IsTextEnd()
+	// 参照先 ... Text::Update(float delta_time)
+	bool IsTextDrawEnd();
 
 	//---------------------------//
 

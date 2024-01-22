@@ -16,7 +16,6 @@
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
 #include "../[000]Object/[002]Item/[000]ItemFunction/ItemPool.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
-#include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextLoad.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
@@ -51,10 +50,10 @@ int Mediator::GetStageLaneHeight() const
 	return m_laneLoad->GetLaneHeight();
 }
 
-//const std::vector<Lane::sLane>& Mediator::GetStageLaneEvent() const
-//{
-//	return m_laneLoad->GetLaneEvent();
-//}
+const std::vector<Lane::sLaneEvent>& Mediator::GetStageLaneEvent() const
+{
+	return m_laneLoad->GetLaneEvent();
+}
 
 const std::vector<Lane::sLane>& Mediator::GetStageLane()const
 {
@@ -75,15 +74,15 @@ void Mediator::MoveAstarTargetPos(const float delta_time, tnl::Vector3& pos)
 	m_laneMove->MoveAstarTarget(delta_time,pos);
 }
 
-void Mediator::SetPlayerLookSideRight(bool look_side)
+void Mediator::SetPlayerLookSide(bool look_side)
 {
-	m_laneMove->SetLookSideRight(look_side);
+	m_laneMove->SetLookSide(look_side);
 }
 
-void Mediator::SetPlayerLookSideLeft(bool look_side)
-{
-	m_laneMove->SetLookSideLeft(look_side);
-}
+//void Mediator::SetPlayerLookSideLeft(bool look_side)
+//{
+//	m_laneMove->SetLookSideLeft(look_side);
+//}
 
 //bool Mediator::NextLaneMove()
 //{
@@ -356,8 +355,14 @@ const GameCamera::sCameraInfo& Mediator::GetTargetCameraInfo() const
 
 Item::sItem Mediator::CurrentTargetItemLane()
 {
-	return m_partner->CurrentItemLane();
+	return m_cameraTargetPlayer->CurrentItemLane();
 }
+
+const Lane::sLaneEvent& Mediator::GetEventLane() const
+{
+	return m_cameraTargetPlayer->GetEvent();
+}
+
 
 //--------------------------//
 
@@ -366,10 +371,10 @@ Item::sItem Mediator::CurrentTargetItemLane()
 
 // model
 
-const tnl::Vector3& Mediator::GetModelPos() const
-{
-	return m_model->GetPos();
-}
+//const tnl::Vector3& Mediator::GetModelPos() const
+//{
+//	return m_model->GetPos();
+//}
 //
 //Model::eWorldType Mediator::GetWorldModelType() const
 //{
@@ -533,9 +538,14 @@ const std::vector<Effect::sEffectType>& Mediator::GetEffectLoadInfo() const
 //--------------------------//
 
 
-
-
 //------------Text-----------//
+
+// TextLoad
+
+const std::vector<std::string>& Mediator::GetTextsLoadLane()
+{
+	return m_textLoad->GetTextsLane();
+}
 
 // TextDraw
 
@@ -547,6 +557,16 @@ void Mediator::UpdateTextMessage(const float delta_time)
 void Mediator::DrawTextMessage()
 {
 	m_textDraw->Draw();
+}
+
+//void Mediator::SetTextDrawLine(const std::vector<std::string>& text_lines)
+//{
+//	m_textDraw->ResetText(text_lines);
+//}
+
+bool Mediator::IsTextDrawEnd()
+{
+	return m_textDraw->IsTextEnd();
 }
 
 //---------------------------//

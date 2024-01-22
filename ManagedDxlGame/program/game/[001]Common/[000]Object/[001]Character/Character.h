@@ -30,7 +30,8 @@ public:
 	Lane::sLane CurrentMoveLane();
 	// 足元アイテムレーンを取得
 	Item::sItem CurrentItemLane();
-
+	// 足元のイベントレーンを取得
+	Lane::sLaneEvent CurrentEventLane();
 	// 足元のカメラ情報を取得
 	GameCamera::sCameraInfo CurrentCameraType();
 

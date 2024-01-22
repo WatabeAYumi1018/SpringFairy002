@@ -1,5 +1,6 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
+#include "../../../[001]Camera/GameCamera.h"
 #include "../../Object.h"
 
 
@@ -14,17 +15,12 @@ public:
 		tnl::Vector3 s_pos;
 	};
 
-	struct sLaneCameraInfo
+	struct sLaneEvent
 	{
 		int s_id;
-		std::string s_type;
+		tnl::Vector3 s_pos;
 	};
 
-	struct sLaneEventInfo
-	{
-		int s_id;
-		std::string s_type;
-	};
 
 	Lane() {}
 

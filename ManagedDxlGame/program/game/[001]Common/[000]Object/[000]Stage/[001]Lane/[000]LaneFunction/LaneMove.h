@@ -29,9 +29,9 @@ private:
 	float m_move_rotation = 10;
 
 	// 右からのサイド視点(視線先は左)
-	bool m_look_side_right = false;
+	bool m_look_side = false;
 	// 左からのサイド視点(視線先は右)
-	bool m_look_side_left = false;
+	//bool m_look_side_left = false;
 
 	tnl::Vector3 m_new_pos;
 
@@ -58,9 +58,9 @@ public:
 	// ターゲットの座標とレーン更新
 	void MoveAstarTarget(const float delta_time, tnl::Vector3& pos);
 
-	void SetLookSideRight(bool look_side_right) { m_look_side_right = look_side_right; }
+	void SetLookSide(bool look_side) { m_look_side = look_side; }
 
-	void SetLookSideLeft(bool look_side_left) { m_look_side_left = look_side_left; }
+	//void SetLookSideLeft(bool look_side_left) { m_look_side_left = look_side_left; }
 
 
 	void SetAstar(std::shared_ptr<wta::Astar<Lane::sLane>>& astar)

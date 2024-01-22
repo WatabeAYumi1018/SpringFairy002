@@ -1,20 +1,9 @@
+#include "../../../../[002]Mediator/Mediator.h"
 #include "TextDraw.h"
 
 
-
-void TextDraw::SetTextID(const std::vector<std::string>& text_lines)
-{
-    // 複数行格納されたベクターを初期化
-    m_text_ids.clear();
-    
-    for (const std::string& line : text_lines) 
-    {
-        // 一行ずつコピー作成
-        std::string processed_line = line;
-        
-        m_text_ids.emplace_back(processed_line);
-    }
-
+void TextDraw::ResetText()
+{    
     // 行のインデックスを初期化
     m_index_line = 0;
     // 文字のインデックスを初期化
@@ -25,26 +14,37 @@ void TextDraw::SetTextID(const std::vector<std::string>& text_lines)
 
 void TextDraw::Update(float delta_time)
 {
+    // 現在のレーンに対応する全IDの全テキストを取得
+    m_text_line = m_mediator->GetTextsLoadLane();
+
     // テキストの表示が終了している場合は何もしない
-    if (m_index_line < m_text_ids.size())
+    if (m_index_line < m_text_line.size())
     {
+        // 1文字ずつ表示する間隔を経過時間で計算
         m_elapsed_time_last_char += delta_time;
 
+        // 1文字ずつ表示する間隔を超えた場合
         if (m_elapsed_time_last_char >= m_char_interval)
         {
+            // 表示間隔のカウントを初期化
             m_elapsed_time_last_char = 0.0f;
         
             // 1文字ずつ表示(全角文字のため、2ずつ加算)
             m_index_char += 2;
 
-            // 現在の行の文字を全て表示したら、次の行に移行する
-            if (m_index_char >= m_text_ids[m_index_line].length())
+            // 現在の行を全て表示したら、次の行に移行する
+            if (m_index_char >= m_text_line[m_index_line].length())
             {
                 m_index_line++;
 
                 m_index_char = 0;
-            }
+            } 
         }
+    }
+    // テキストの表示が終了している場合は値を初期化
+    else
+    {
+        ResetText();
     }
 }
 
@@ -54,13 +54,15 @@ void TextDraw::Draw()
     int draw_y = 530;
     int draw_y_interval = 60;
 
-    for (int i = 0; i <= m_index_line && i < m_text_ids.size(); i++)
+    // 現在の行がidのサイズを越える（描画終了）
+    for (int i = 0; i <= m_index_line && i < m_text_line.size(); i++)
     {
-        std::string line_to_draw = m_text_ids[i];
+        // 現在の行の文字列を取得
+        std::string line_to_draw = m_text_line[i];
 
         if (i == m_index_line) 
         {
-            // 現在の行の描画中の文字のみ表示する
+            // 描画中の文字のみ表示
             line_to_draw = line_to_draw.substr(0, m_index_char);
         }
 
@@ -70,10 +72,10 @@ void TextDraw::Draw()
     }
 }
 
-bool TextDraw::IsTextEnd() const
+bool TextDraw::IsTextEnd()
 {
     // 現在の行がidのサイズを越える（描画終了）
-    return m_index_line >= m_text_ids.size();
+    return m_index_line >= m_text_line.size();
 }
 
 
