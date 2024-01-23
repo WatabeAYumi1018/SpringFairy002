@@ -23,7 +23,7 @@ void Text::Update(float delta_time)
 
 	//tnl_sequence_.update(delta_time);
 
-	m_mediator->UpdateTextMessage(delta_time);
+	m_mediator->UpdateText(delta_time);
 }
 
 void Text::Draw(std::shared_ptr<GameCamera> gameCamera)
@@ -50,33 +50,6 @@ void Text::Draw(std::shared_ptr<GameCamera> gameCamera)
 //	m_mediator->SetDrawTextID(textData.s_text_lines, story_id);
 //}
 
-//void Text::SetTextIDs(std::vector<std::string> id)
-//{
-//	Text::sTextData textInfo
-//		= m_mediator->GetTextLoadInfo(id[m_now_text_index]);
-//
-//	m_mediator->SetTextDrawLine(textInfo.s_text_lines);
-//}
-//
-//void Text::SetNextText(float delta_time, std::vector<std::string> id)
-//{
-//	float wait_time = 2.0f;
-//
-//	m_elasped_time += delta_time;
-//
-//	if (m_elasped_time >= wait_time)
-//	{
-//		m_now_text_index++;
-//
-//		m_elasped_time = 0.0f;
-//
-//		if (m_now_text_index < id.size())
-//		{
-//			// 次のテキストIDの準備
-//			SetTextIDs(id);
-//		}
-//	}
-//}
 
 //// オープニング
 //bool Text::SeqOpning(const float delta_time)

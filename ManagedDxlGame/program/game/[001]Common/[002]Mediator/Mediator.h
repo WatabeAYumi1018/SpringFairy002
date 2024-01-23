@@ -612,29 +612,48 @@ public:
 	// レーンIDに該当するテキスト文字の取得
 	// 参照元 ... TextLoad::GetTextsLane()
 	// 参照先 ... Text::関連する関数
-	const std::vector<std::string>& GetTextsLoadLane();
+	void GetTextsLoadLane();
+	//const std::vector<std::string>& GetTextsLoadLane();
+	//const std::vector<Text::sTextData>& GetTextsLoadLane();
+	
+	// レーンIDに該当す全ての構造体データの取得
+	// 参照元 ... TextLoad::m_texts_for_lane
+	// 参照先 ... Text::関連する関数
+	const std::vector<Text::sTextData>& GetTextsLoadForLane() const;
 
+	//// レーンIDに該当する全てのテキスト文字の取得
+	//// 参照元 ... TextLoad::m_texts_message_for_lane
+	//// 参照先 ... Text::関連する関数
+	//const std::vector<std::string>& GetTextsLoadMessageForLane() const;
+
+	 
+	 
 	// TextDraw
 
 	// テキストの処理
-	// 参照元 ... TextDraw::Update()
+	// 参照元 ... TextDraw::Update(const float delta_time)
 	// 参照先 ... Text::Update(float delta_time)
-	void UpdateTextMessage(const float delta_time);
+	void UpdateText(const float delta_time);
 
 	// テキストの描画
 	// 参照元 ... TextDraw::Draw()
 	// 参照先 ... Text::Draw(std::shared_ptr<OriginalCamera> originalCamera)
 	void DrawTextMessage();
 
+	// テキストの描画終了フラグの取得
+	// 参照元 ... TextDraw::m_is_end
+	// 参照先 ... TextLoad
+	void SetIsTextDrawEnd(bool is_end);
+
 	//// 描画テキストのID設定
 	//// 参照元 ... TextDraw::SetTextDrawLine(const std::vector<std::string>& text_lines)
 	//// 参照先 ... Text::Update(float delta_time)
 	//void SetTextDrawLine(const std::vector<std::string>& text_lines);
 
-	// 該当IDのテキストの表示終了フラグ
-	// 参照元 ... TextDraw::IsTextEnd()
-	// 参照先 ... Text::Update(float delta_time)
-	bool IsTextDrawEnd();
+	//// 該当IDのテキストの表示終了フラグ
+	//// 参照元 ... TextDraw::IsTextEnd()
+	//// 参照先 ... Text::Update(float delta_time)
+	//bool IsTextDrawEnd();
 
 	//---------------------------//
 

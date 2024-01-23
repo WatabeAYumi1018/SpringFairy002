@@ -220,8 +220,8 @@ void Factory::StorageObject()
 	m_objects.emplace_back(m_player);
 	//m_objects.emplace_back(m_effect);
 	m_objects.emplace_back(m_score);
-	m_objects.emplace_back(m_text);
 	m_objects.emplace_back(m_charaGraph);
+	m_objects.emplace_back(m_text);
 }
 
 //// èâä˙âª

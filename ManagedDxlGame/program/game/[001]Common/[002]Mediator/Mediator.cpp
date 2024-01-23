@@ -542,14 +542,36 @@ const std::vector<Effect::sEffectType>& Mediator::GetEffectLoadInfo() const
 
 // TextLoad
 
-const std::vector<std::string>& Mediator::GetTextsLoadLane()
+//const std::vector<std::string>& Mediator::GetTextsLoadLane()
+//{
+//	return m_textLoad->GetTextsLane();
+//}
+
+//const std::vector<Text::sTextData>& Mediator::GetTextsLoadLane()
+//{
+//	return m_textLoad->GetTextsLane();
+//}
+
+void Mediator::GetTextsLoadLane()
 {
-	return m_textLoad->GetTextsLane();
+	m_textLoad->GetTextsLane();
 }
+
+
+const std::vector<Text::sTextData>& Mediator::GetTextsLoadForLane() const
+{
+	return m_textLoad->GetTextsForLane();
+}
+
+//const std::vector<std::string>& Mediator::GetTextsLoadMessageForLane() const
+//{
+//	return m_textLoad->GetTextsMessageForLane();
+//}
+
 
 // TextDraw
 
-void Mediator::UpdateTextMessage(const float delta_time)
+void Mediator::UpdateText(const float delta_time)
 {
 	m_textDraw->Update(delta_time);
 }
@@ -559,15 +581,21 @@ void Mediator::DrawTextMessage()
 	m_textDraw->Draw();
 }
 
+void Mediator::SetIsTextDrawEnd(bool is_end)
+{
+	m_textDraw->SetIsEnd(is_end);
+}
+
+
 //void Mediator::SetTextDrawLine(const std::vector<std::string>& text_lines)
 //{
 //	m_textDraw->ResetText(text_lines);
 //}
 
-bool Mediator::IsTextDrawEnd()
-{
-	return m_textDraw->IsTextEnd();
-}
+//bool Mediator::IsTextDrawEnd()
+//{
+//	return m_textDraw->IsTextEnd();
+//}
 
 //---------------------------//
 
