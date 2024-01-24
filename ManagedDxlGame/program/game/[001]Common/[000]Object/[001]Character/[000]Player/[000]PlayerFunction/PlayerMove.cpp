@@ -191,9 +191,9 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 	// 現在の回転から目標の回転に向けてslerpを行う
 	m_rot.slerp(m_target_rot, delta_time * salt_move_speed);
 
-	// 座標、回転の更新
-	m_mediator->SetPlayerPos(m_pos);
-	m_mediator->SetPlayerRot(m_rot);
+	//// 座標、回転の更新
+	//m_mediator->SetPlayerPos(m_pos);
+	//m_mediator->SetPlayerRot(m_rot);
 }
 
 bool PlayerMove::SeqFly(const float delta_time)
@@ -217,8 +217,8 @@ bool PlayerMove::SeqFly(const float delta_time)
 	// 押すまでループ
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		m_mediator->SetPlayerPos(m_pos);
-		m_mediator->SetPlayerRot(m_rot);
+		m_pos = m_mediator->GetPlayerPos();
+		m_rot = m_mediator->GetPlayerRot();
 
 		// 自動経路による移動と回転の更新
 		m_mediator->MoveAstarCharaMatrix(delta_time, m_pos, m_rot);

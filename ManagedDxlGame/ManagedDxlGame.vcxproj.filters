@@ -84,9 +84,6 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character">
       <UniqueIdentifier>{b5c4a5e8-aaab-46a4-9e29-5a3fca2dfc5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[002]Item">
-      <UniqueIdentifier>{cf873a0d-1a5e-4fde-96eb-501270bd2400}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[003]Effect">
       <UniqueIdentifier>{98828e77-34cb-47d5-ba36-2d904a63be72}</UniqueIdentifier>
     </Filter>
@@ -123,9 +120,6 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction">
       <UniqueIdentifier>{89267a6f-e8c2-4769-ad37-895e6e91ccac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction">
-      <UniqueIdentifier>{a7e0a97a-7982-4345-9f30-cb064f346f22}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[004]Score">
       <UniqueIdentifier>{323efee6-b030-4447-82f6-0984dd691149}</UniqueIdentifier>
     </Filter>
@@ -155,6 +149,12 @@
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction">
       <UniqueIdentifier>{65a8888a-2362-469f-a87d-5379e651761f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[002]Gimmick">
+      <UniqueIdentifier>{cf873a0d-1a5e-4fde-96eb-501270bd2400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction">
+      <UniqueIdentifier>{a7e0a97a-7982-4345-9f30-cb064f346f22}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -386,21 +386,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CameraTargetPlayer.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemDraw.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemGenerator.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemLoad.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemPool.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Item\Item.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[004]Score\Score.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[004]Score</Filter>
     </ClCompile>
@@ -448,6 +433,21 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickDraw.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickPool.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -731,21 +731,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CameraTargetPlayer.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemDraw.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemGenerator.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemLoad.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\[000]ItemFunction\ItemPool.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item\[000]ItemFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Item\Item.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Item</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[004]Score\Score.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[004]Score</Filter>
     </ClInclude>
@@ -811,6 +796,21 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickDraw.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickPool.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

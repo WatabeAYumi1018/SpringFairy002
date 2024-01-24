@@ -17,7 +17,7 @@ void CameraTargetPlayer::Update(float delta_time)
 
 	m_camera_info = CurrentCameraType();
 
-	m_item = CurrentItemLane();
+	m_gimmick = CurrentGimmickLane();
 
 	m_event = CurrentEventLane();
 
@@ -25,10 +25,10 @@ void CameraTargetPlayer::Update(float delta_time)
 	DrawStringEx(500, 20, -1, "ƒCƒxƒ“ƒgID”Ô† : %d", m_event.s_id);
 
 
-	if (m_item.s_id == 1)
+	if (m_gimmick.s_id == 1)
 	{
-		Item::sItemType item_type 
-			= m_mediator->GetItemLoadInfoById(m_item.s_id);
+		Gimmick::sGimmickType gimmick_type
+			= m_mediator->GetGimmickLoadInfoById(m_gimmick.s_id);
 	}
 }
 

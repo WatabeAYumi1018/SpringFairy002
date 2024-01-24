@@ -6,18 +6,18 @@ class Mediator;
 // 生成位置と間隔をランダムに
 // ダンスした後のテクスチャ変更もランダムに
 
-class Item : public Object
+class Gimmick : public Object
 {
 
 public:
 
-	struct sItem
+	struct sGimmick
 	{
 		int s_id;
 		tnl::Vector3 s_pos;
 	};
 
-	struct sItemType
+	struct sGimmickType
 	{
 		int s_id;
 		int s_model_hdl;
@@ -27,9 +27,9 @@ public:
 	};
 
 
-	Item();
+	Gimmick();
 
-	~Item();
+	~Gimmick();
 
 private:
 
@@ -52,10 +52,10 @@ private:
 	DxLib::COLOR_F m_emissive = { 0.5f,0.5f,0.5f,1 };
 
 	// csvから読み取ったモデルの情報
-	sItemType m_item_data;
+	sGimmickType m_item_data;
 
 	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(Item, &Item::SeqNormal);
+	TNL_CO_SEQUENCE(Gimmick, &Gimmick::SeqNormal);
 
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;

@@ -11,10 +11,10 @@
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
-#include "../[000]Object/[002]Item/[000]ItemFunction/ItemLoad.h"
+#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 //#include "../[000]Object/[002]Item/[000]ItemFunction/ItemDraw.h"
-#include "../[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
-#include "../[000]Object/[002]Item/[000]ItemFunction/ItemPool.h"
+#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
+#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextLoad.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
@@ -353,9 +353,9 @@ const GameCamera::sCameraInfo& Mediator::GetTargetCameraInfo() const
 	return m_cameraTargetPlayer->GetCameraInfo();
 }
 
-Item::sItem Mediator::CurrentTargetItemLane()
+Gimmick::sGimmick Mediator::CurrentTargetGimmickLane()
 {
-	return m_cameraTargetPlayer->CurrentItemLane();
+	return m_cameraTargetPlayer->CurrentGimmickLane();
 }
 
 const Lane::sLaneEvent& Mediator::GetEventLane() const
@@ -456,60 +456,60 @@ std::vector<std::shared_ptr<Model>>& Mediator::GetPoolModels() const
 //--------------------------//
 
 
-//-----------ltem-----------//
+//-----------Gimmick-----------//
 
-// Item
+// Gimmick
 
-void Mediator::SetItemIsActive(bool is_active)
+void Mediator::SetGimmickIsActive(bool is_active)
 {
-	m_item->SetIsActive(is_active);
+	m_gimmick->SetIsActive(is_active);
 }
 
-bool Mediator::GetItemIsHit() const
+bool Mediator::GetGimmickIsHit() const
 {
-	return m_item->GetIsHit();
+	return m_gimmick->GetIsHit();
 }
 
-// ItemLoad
+// GimmickLoad
 
-int Mediator::GetItemIdNum() const
+int Mediator::GetGimmickIdNum() const
 {
-	return m_itemLoad->GetIdNum();
+	return m_gimmickLoad->GetIdNum();
 }
 
-const std::vector<Item::sItem>& Mediator::GetItemLoadLane() const
+const std::vector<Gimmick::sGimmick>& Mediator::GetGimmickLoadLane() const
 {
-	return m_itemLoad->GetItemLane();
+	return m_gimmickLoad->GetGimmickLane();
 }
 
-const std::vector<Item::sItemType>& Mediator::GetItemTypeInfo() const
+const std::vector<Gimmick::sGimmickType>& Mediator::GetGimmickTypeInfo() const
 {
-	return m_itemLoad->GetItemTypeInfo();
+	return m_gimmickLoad->GetGimmickTypeInfo();
 }
 	
-Item::sItemType Mediator::GetItemLoadInfoById(int id)
+Gimmick::sGimmickType Mediator::GetGimmickLoadInfoById(int id)
 {
-	return m_itemLoad->GetItemInfoById(id);
+	return m_gimmickLoad->GetGimmickInfoById(id);
 }
 
-// ItemPool
+// GimmickPool
 
-std::shared_ptr<Item> Mediator::GetNotActiveItemPool()
+std::shared_ptr<Gimmick> Mediator::GetNotActiveGimmickPool()
 {
-	return m_itemPool->GetNotActiveItem();
+	return m_gimmickPool->GetNotActiveGimmick();
 }
 
-const std::vector<std::shared_ptr<Item>>& Mediator::GetPoolItems() const
+const std::vector<std::shared_ptr<Gimmick>>& Mediator::GetPoolGimmick() const
 {
-	return m_itemPool->GetItems();
+	return m_gimmickPool->GetGimmicks();
 }
 
 
-// ItemGenerator
+// GimmickGenerator
 
-bool Mediator::GetIsItemFlowerActive() const
+bool Mediator::GetIsGimmickFlowerActive() const
 {
-	return m_itemGenerator->GetIsFlowerActive();
+	return m_gimmickGenerator->GetIsFlowerActive();
 }
 
 

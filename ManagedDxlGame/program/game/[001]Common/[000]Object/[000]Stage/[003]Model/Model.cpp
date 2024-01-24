@@ -7,7 +7,8 @@
 Model::Model()//, eWorldType world_type) 
 	//, m_world_type(world_type)
 {
-
+	// デバッグ用----------------------------------
+	//m_model_hdl = MV1LoadModel("model/stageModel.mv1");
 }
 
 //Model::Model(int model_hdl, int id)
@@ -16,52 +17,52 @@ Model::Model()//, eWorldType world_type)
 
 Model::~Model()
 {
-	for (auto& pair : m_model_map)
-	{
-		sStageModelType& data = pair.second;
+	//for (auto& pair : m_model_map)
+	//{
+	//	sStageModelType& data = pair.second;
 
-		MV1DeleteModel(data.s_model_hdl);
-		DeleteGraph(data.s_texture_a_hdl);
-		DeleteGraph(data.s_texture_b_hdl);
-		DeleteGraph(data.s_texture_c_hdl);
-	}
+	//	MV1DeleteModel(data.s_model_hdl);
+	//	DeleteGraph(data.s_texture_a_hdl);
+	//	DeleteGraph(data.s_texture_b_hdl);
+	//	DeleteGraph(data.s_texture_c_hdl);
+	//}
 }
 
 void Model::Initialize()
 {
-	for (int id = 0; id < 8; ++id)
-	{
-		sStageModelType model;
+	//for (int id = 0; id < 8; ++id)
+	//{
+	//	sStageModelType model;
 
-		// モデル読み取り
-		model = m_mediator->GetStageModelInfoById(id);
+	//	// モデル読み取り
+	//	model = m_mediator->GetStageModelInfoById(id);
 
-		// モデルの読み込み
-		model.s_model_hdl
-			= MV1LoadModel(model.s_model_path.c_str());
-		// テクスチャ読み取り
-		model.s_texture_a_hdl
-			= LoadGraph(model.s_texture_a_path.c_str());
-		// テクスチャ読み取り
-		model.s_texture_b_hdl
-			= LoadGraph(model.s_texture_b_path.c_str());
-		// テクスチャ読み取り
-		model.s_texture_c_hdl
-			= LoadGraph(model.s_texture_c_path.c_str());
-		// マテリアル数の設定
-		model.s_material_count
-			= MV1GetMaterialNum(model.s_model_hdl);
+	//	// モデルの読み込み
+	//	model.s_model_hdl
+	//		= MV1LoadModel(model.s_model_path.c_str());
+	//	// テクスチャ読み取り
+	//	model.s_texture_a_hdl
+	//		= LoadGraph(model.s_texture_a_path.c_str());
+	//	// テクスチャ読み取り
+	//	model.s_texture_b_hdl
+	//		= LoadGraph(model.s_texture_b_path.c_str());
+	//	// テクスチャ読み取り
+	//	model.s_texture_c_hdl
+	//		= LoadGraph(model.s_texture_c_path.c_str());
+	//	// マテリアル数の設定
+	//	model.s_material_count
+	//		= MV1GetMaterialNum(model.s_model_hdl);
 
-		SetTextureIndex(model);
-	
-		m_model_map[id] = model;
-	}
+	//	SetTextureIndex(model);
+	//
+	//	m_model_map[id] = model;
+	//}
 
-	m_tree_models = m_mediator->GetStageTreeVector();
+	//m_tree_models = m_mediator->GetStageTreeVector();
 
-	m_grass_models = m_mediator->GetStageGrassVector();
+	//m_grass_models = m_mediator->GetStageGrassVector();
 
-	DrawGrass();
+	//DrawGrass();
 	//CreateGroupMesh();
 }
 
@@ -75,6 +76,11 @@ void Model::Draw(std::shared_ptr<GameCamera> gameCamera)
 	//DrawModelSet(m_grass_models, 4, 1000);
 	
 	//DrawModelSet(m_tree_models, 4, 10000);
+
+	// デバッグ用----------------------------------
+	//SetLight(m_model_hdl);
+
+	//MV1DrawModel(m_model_hdl);
 }
 
 void Model::CreateGroupMesh()

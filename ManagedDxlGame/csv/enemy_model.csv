@@ -1,5 +1,0 @@
-敵ID,モデルファイルパス,テクスチャファイルパス,idleアニメーションパス,moveアニメーションパス,attackアニメーションパス
-0,model/turnipa/turnipa.mv1,model/turnipa/green.png,model/turnipa/idle.mv1,model/turnipa/move.mv1,model/turnipa/attack.mv1
-1,model/turnipa/turnipa.mv1,model/turnipa/black.png,model/turnipa/idle.mv1,model/turnipa/move.mv1,model/turnipa/attack.mv1
-2,model/turnipa/turnipa.mv1,model/turnipa/pink.png,model/turnipa/idle.mv1,model/turnipa/move.mv1,model/turnipa/attack.mv1
-3,model/fairy/fairy.mv1,model/fairy/queen.png,model/fairy/idle.mv1,model/fairy/walk.mv1,model/fairy/atack.mv1

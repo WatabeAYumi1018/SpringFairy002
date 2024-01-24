@@ -17,10 +17,10 @@
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
-#include "../[000]Object/[002]Item/Item.h"
-#include "../[000]Object/[002]Item/[000]ItemFunction/ItemLoad.h"
-#include "../[000]Object/[002]Item/[000]ItemFunction/ItemPool.h"
-#include "../[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
+#include "../[000]Object/[002]Gimmick/Gimmick.h"
+#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
+#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
+#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
 #include "../[000]Object/[004]Score/Score.h"
@@ -61,8 +61,8 @@ Factory::~Factory()
 void Factory::CreateObject()
 {
 	m_astar = std::make_shared<wta::Astar<Lane::sLane>>();
-	m_collision_player_item = std::make_shared<wta::Collision<Player,Item>>();
-	m_collision_mesh_item = std::make_shared<wta::Collision<dxe::Mesh, Item>>();
+	m_collision_player_item = std::make_shared<wta::Collision<Player,Gimmick>>();
+	m_collision_mesh_item = std::make_shared<wta::Collision<dxe::Mesh, Gimmick>>();
 	m_collision_player_partner = std::make_shared<wta::Collision<Player, Partner>>();
 	//m_collision_camera = std::make_shared<wta::Collision<Player, GameCamera>>();
 
@@ -95,9 +95,9 @@ void Factory::CreateObject()
 
 	//m_modelPool = std::make_shared<ModelPool>();
 
-	m_itemLoad = std::make_shared<ItemLoad>();
-	m_itemGenerator = std::make_shared<ItemGenerator>();
-	m_itemPool = std::make_shared<ItemPool>();
+	m_itemLoad = std::make_shared<GimmickLoad>();
+	m_itemGenerator = std::make_shared<GimmickGenerator>();
+	m_itemPool = std::make_shared<GimmickPool>();
 
 	m_effect = std::make_shared<Effect>();
 	m_effectLoad = std::make_shared<EffectLoad>();
@@ -140,9 +140,9 @@ void Factory::SetObjectReference()
 	m_mediator->SetModel(m_model);
 	m_mediator->SetModelLoad(m_modelLoad);
 	m_mediator->SetModelPool(m_modelPool);
-	m_mediator->SetItemLoad(m_itemLoad);
-	m_mediator->SetItemGenerator(m_itemGenerator);
-	m_mediator->SetItemPool(m_itemPool);
+	m_mediator->SetGimmickLoad(m_itemLoad);
+	m_mediator->SetGimmickGenerator(m_itemGenerator);
+	m_mediator->SetGimmickPool(m_itemPool);
 	m_mediator->SetEffectLoad(m_effectLoad);
 	m_mediator->SetText(m_text);
 	m_mediator->SetTextLoad(m_textLoad);
@@ -189,23 +189,23 @@ void Factory::SetObjectReference()
 
 void Factory::PoolItemObject()
 {
-	int create_num = m_itemPool->GetItemCreateNum();
+	int create_num = m_itemPool->GetGimmickCreateNum();
 
 	// アイテムを最初に20個生成して格納
 	for (int i = 0; i < create_num; ++i)
 	{
-		std::shared_ptr<Item> item = std::make_shared<Item>();
+		std::shared_ptr<Gimmick> item = std::make_shared<Gimmick>();
 		// メディエーターの設定
 		item->SetMediator(m_mediator);
 		// アイテムの設定
 		m_itemGenerator->SetItem(item);
 		// アイテムプールに格納
-		m_itemPool->AddItem(item);
+		m_itemPool->AddGimmick(item);
 		// オブジェクト型リストに追加（ポリモフィズムのため）
 		m_objects.emplace_back(item);
 	}
 
-	std::vector<std::shared_ptr<Item>> items = m_itemPool->GetItems();
+	std::vector<std::shared_ptr<Gimmick>> items = m_itemPool->GetGimmicks();
 
 	m_playerCollision->SetItems(items);
 }
@@ -214,14 +214,14 @@ void Factory::StorageObject()
 {
 	//m_objects.emplace_back(m_skyBox);
 	m_objects.emplace_back(m_floor);
-	//m_objects.emplace_back(m_model);
+	m_objects.emplace_back(m_model);
 	m_objects.emplace_back(m_cameraTargetPlayer);
 	m_objects.emplace_back(m_partner);
 	m_objects.emplace_back(m_player);
-	//m_objects.emplace_back(m_effect);
+	m_objects.emplace_back(m_effect);
 	m_objects.emplace_back(m_score);
-	m_objects.emplace_back(m_charaGraph);
-	m_objects.emplace_back(m_text);
+	//m_objects.emplace_back(m_charaGraph);
+	//m_objects.emplace_back(m_text);
 }
 
 //// 初期化

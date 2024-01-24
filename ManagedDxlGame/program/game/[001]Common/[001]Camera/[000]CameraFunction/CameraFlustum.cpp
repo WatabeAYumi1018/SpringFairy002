@@ -38,7 +38,6 @@ void CameraFlustum::InFlustumPlane(const float delta_time,tnl::Vector3& pos,floa
 
 		// プレイヤーをフラスタム内に留めるための補正を行う
 		pos -= (flustum_normal * (distance + size));
-		
 
 		// 近平面と遠平面との当たり判定と補正処理
 		if (i == 4 || i == 5)

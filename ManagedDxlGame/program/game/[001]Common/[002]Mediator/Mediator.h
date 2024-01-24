@@ -3,7 +3,7 @@
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
-#include "../[000]Object/[002]Item/[000]ItemFunction/ItemLoad.h"
+#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/CharaGraph.h"
@@ -30,10 +30,10 @@ class PartnerDraw;
 
 class CameraTargetPlayer;
 
-class Item;
-class ItemLoad;
-class ItemGenerator;
-class ItemPool;
+class Gimmick;
+class GimmickLoad;
+class GimmickGenerator;
+class GimmickPool;
 
 class EffectLoad;
 
@@ -79,10 +79,10 @@ private:
 	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
 	std::shared_ptr<ModelPool> m_modelPool = nullptr;
 
-	std::shared_ptr<Item> m_item = nullptr;
-	std::shared_ptr<ItemLoad> m_itemLoad = nullptr;
-	std::shared_ptr<ItemGenerator> m_itemGenerator = nullptr;
-	std::shared_ptr<ItemPool> m_itemPool = nullptr;
+	std::shared_ptr<Gimmick> m_gimmick = nullptr;
+	std::shared_ptr<GimmickLoad> m_gimmickLoad = nullptr;
+	std::shared_ptr<GimmickGenerator> m_gimmickGenerator = nullptr;
+	std::shared_ptr<GimmickPool> m_gimmickPool = nullptr;
 
 	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
 
@@ -427,7 +427,7 @@ public:
 	// キャラクターの足元アイテムレーンを取得
 	// 参照元 ... Character::Item::sItem CurrentItemLane()
 	// 参照先 ... ItemGenerator::GenerateItem()
-	Item::sItem CurrentTargetItemLane();
+	Gimmick::sGimmick CurrentTargetGimmickLane();
 
 	// キャラクターの足元イベントレーンを取得
 	// 参照元 ... Character::m_event
@@ -525,64 +525,64 @@ public:
 	//--------------------------//
 
 
-	//-----------ltem-----------//
+	//-----------Gimmick-----------//
 
-	// Item
+	// Gimmick
 
 	// アイテムのアクティブ化設定
-	// 参照元 ... Item::m_is_active
-	// 参照先 ... ItemGenerator::Update(const float delta_time)
-	void SetItemIsActive(bool is_active);
+	// 参照元 ... Gimmick::m_is_active
+	// 参照先 ... GimmickGenerator::Update(const float delta_time)
+	void SetGimmickIsActive(bool is_active);
 
 	// アイテムの当たり判定状態取得
-	// 参照元 ... Item::m_is_hit
+	// 参照元 ... Gimmick::m_is_hit
 	// 参照先 ... 当たり判定が必要な全クラス
-	bool GetItemIsHit() const;
+	bool GetGimmickIsHit() const;
 
-	// ItemLoad
+	// GimmickLoad
 
 	// アイテムモデルの総数取得
-	// 参照元 ... ItemLoad::m_id_num
-	// 参照先 ... Item::Initialize()
-	int GetItemIdNum() const;
+	// 参照元 ... GimmickLoad::m_id_num
+	// 参照先 ... Gimmick::Initialize()
+	int GetGimmickIdNum() const;
 
 	// アイテムレーン配列を取得
-	// 参照元 ... ItemLoad::m_item_lane
-	// 参照先 ... Item::関連する関数
-	const std::vector<Item::sItem>& GetItemLoadLane() const;
+	// 参照元 ... GimmickLoad::m_gimmick_lane
+	// 参照先 ... Gimmick::関連する関数
+	const std::vector<Gimmick::sGimmick>& GetGimmickLoadLane() const;
 
 	// アイテム情報配列を取得
-	// 参照元 ... ItemLoad::m_item_info
-	// 参照先 ... Item::関連する関数
-	const std::vector<Item::sItemType>& GetItemTypeInfo() const;
+	// 参照元 ... GimmickLoad::m_gimmick_info
+	// 参照先 ... Gimmick::関連する関数
+	const std::vector<Gimmick::sGimmickType>& GetGimmickTypeInfo() const;
 
 	// アイテムモデルのid取得
-	// 参照元 ... ItemLoad::GetItemInfoById()
-	// 参照先 ... Item::
-	Item::sItemType GetItemLoadInfoById(int id);
+	// 参照元 ... GimmickLoad::GetGimmickInfoById()
+	// 参照先 ... Gimmick::
+	Gimmick::sGimmickType GetGimmickLoadInfoById(int id);
 
-	// ItemPool
+	// GimmickPool
 
 	// アイテムプールのアクティブ状態取得
-	// 参照元 ... ItemPool::GetNotActiveItem()
-	// 参照先 ... ItemGenerator::
-	std::shared_ptr<Item> GetNotActiveItemPool();
+	// 参照元 ... GimmickPool::GetNotActiveGimmick()
+	// 参照先 ... GimmickGenerator::
+	std::shared_ptr<Gimmick> GetNotActiveGimmickPool();
 
 	// アイテムプールのベクター取得
-	// 参照元 ... ItemPool::GetItems()
-	// 参照先 ... ItemGenerator::SeqDelete(float delta_time)
-	const std::vector<std::shared_ptr<Item>>& GetPoolItems() const;
+	// 参照元 ... GimmickPool::GetGimmicks()
+	// 参照先 ... GimmickGenerator::SeqDelete(float delta_time)
+	const std::vector<std::shared_ptr<Gimmick>>& GetPoolGimmick() const;
 
-	// ItemGenerator
+	// GimmickGenerator
 
 	// アイテムフラワーのアクティブ状態取得
-	// 参照元 ... ItemGenerator::m_is_flower_active
+	// 参照元 ... GimmickGenerator::m_is_flower_active
 	// 参照先 ... 
-	bool GetIsItemFlowerActive() const ; 
+	bool GetIsGimmickFlowerActive() const ; 
 
 
 	//// アイテムの生成フラグ設定
-	//// 参照元 ... ItemGenerator::m_is_create
+	//// 参照元 ... GimmickGenerator::m_is_create
 	//// 参照先 ... LaneMove::MoveAstar( ... );
 	//void SetItemIsCreate(bool is_create);
 
@@ -870,19 +870,19 @@ void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 		m_modelPool = modelPool;
 	}
 
-	void SetItemLoad(std::shared_ptr<ItemLoad>& itemLoad)
+	void SetGimmickLoad(std::shared_ptr<GimmickLoad>& gimmickLoad)
 	{
-		m_itemLoad = itemLoad;
+		m_gimmickLoad = gimmickLoad;
 	}
 
-	void SetItemGenerator(std::shared_ptr<ItemGenerator>& itemGenerator)
+	void SetGimmickGenerator(std::shared_ptr<GimmickGenerator>& gimmickGenerator)
 	{
-		m_itemGenerator = itemGenerator;
+		m_gimmickGenerator = gimmickGenerator;
 	}
 
-	void SetItemPool(std::shared_ptr<ItemPool>& itemPool)
+	void SetGimmickPool(std::shared_ptr<GimmickPool>& gimmickPool)
 	{
-		m_itemPool = itemPool;
+		m_gimmickPool = gimmickPool;
 	}
 
 	void SetEffectLoad(std::shared_ptr<EffectLoad>& effectLoad)

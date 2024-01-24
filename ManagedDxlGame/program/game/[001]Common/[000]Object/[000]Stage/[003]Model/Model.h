@@ -40,6 +40,8 @@ public:
 
 private:
 
+	int m_model_hdl = 0;
+
 	int m_width = 0;
 	int m_height = 0;
 

@@ -1,5 +1,5 @@
 #include "../../../../[002]Mediator/Mediator.h"
-#include "../../../[002]Item/Item.h"
+#include "../../../[002]Gimmick/Gimmick.h"
 #include "PlayerCollision.h"
 #include "../Player.h"
 #include "../../[001]Partner/Partner.h"
@@ -14,11 +14,11 @@ void PlayerCollision::CollisionRegisterPlayerToItem()
 {
 	// プレイヤーとアイテムの当たり判定
 	std::string player_to_item_key
-		= typeid(Player).name() + std::string(typeid(Item).name());
+		= typeid(Player).name() + std::string(typeid(Gimmick).name());
 
 	m_collision_item->registerIntersect( player_to_item_key
 										, [this](std::shared_ptr<Player> player
-										, std::shared_ptr<Item> item)
+										, std::shared_ptr<Gimmick> item)
 	{
 		if(m_collision_item->IsIntersectSphere(player,player->GetCollisionSize()
 												, item, item->GetCollisionSize()))
@@ -35,11 +35,11 @@ void PlayerCollision::CollisionRegisterMeshToItem()
 {
 	// メッシュとアイテムの当たり判定
 	std::string mesh_to_item_key
-		= typeid(dxe::Mesh).name() + std::string(typeid(Item).name());
+		= typeid(dxe::Mesh).name() + std::string(typeid(Gimmick).name());
 
 	m_collision_mesh->registerIntersect(mesh_to_item_key
 										, [this](std::shared_ptr<dxe::Mesh> mesh
-										, std::shared_ptr<Item> item)
+										, std::shared_ptr<Gimmick> item)
 	{
 		if (m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
 												, item, item->GetCollisionSize()))
@@ -76,7 +76,7 @@ void PlayerCollision::CollisionRegisterPlayerToPartner()
 void PlayerCollision::CollisionCheck()
 {
 	// Player と Item の衝突判定
-	for (std::shared_ptr<Item>& item : m_items)
+	for (std::shared_ptr<Gimmick>& item : m_items)
 	{
 		m_collision_item->Intersect(m_player, item);
 	}
@@ -84,7 +84,7 @@ void PlayerCollision::CollisionCheck()
 	// PlayerのMesh と Item の衝突判定
 	for (const std::shared_ptr<dxe::Mesh>& mesh : m_player->GetMeshs())
 	{
-		for (std::shared_ptr<Item>& item : m_items)
+		for (std::shared_ptr<Gimmick>& item : m_items)
 		{
 			m_collision_mesh->Intersect(mesh, item);
 		}

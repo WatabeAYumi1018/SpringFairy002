@@ -2,7 +2,7 @@
 #include "../Object.h"
 #include "../../[001]Camera/GameCamera.h"
 #include "../[000]Stage/[001]Lane/Lane.h"
-#include "../[002]Item/Item.h"
+#include "../[002]Gimmick/Gimmick.h"
 
 
 class Character : public Object
@@ -29,7 +29,7 @@ public:
 	// 足元自動移動レーンを取得
 	Lane::sLane CurrentMoveLane();
 	// 足元アイテムレーンを取得
-	Item::sItem CurrentItemLane();
+	Gimmick::sGimmick CurrentGimmickLane();
 	// 足元のイベントレーンを取得
 	Lane::sLaneEvent CurrentEventLane();
 	// 足元のカメラ情報を取得

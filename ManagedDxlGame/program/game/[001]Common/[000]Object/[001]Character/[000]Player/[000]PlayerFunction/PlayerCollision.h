@@ -4,7 +4,7 @@
 
 class Player;
 class Partner;
-class Item;
+class Gimmick;
 
 
 class PlayerCollision
@@ -20,15 +20,15 @@ private:
 
 	bool m_is_partner_in = false;
 
-	std::vector<std::shared_ptr<Item>> m_items;
+	std::vector<std::shared_ptr<Gimmick>> m_items;
 
 	std::shared_ptr<Player> m_player = nullptr;
 
 	std::shared_ptr<Partner> m_partner = nullptr;
 
-	std::shared_ptr<wta::Collision<Player, Item>> m_collision_item = nullptr;
+	std::shared_ptr<wta::Collision<Player, Gimmick>> m_collision_item = nullptr;
 
-	std::shared_ptr<wta::Collision<dxe::Mesh,Item>> m_collision_mesh = nullptr;
+	std::shared_ptr<wta::Collision<dxe::Mesh,Gimmick>> m_collision_mesh = nullptr;
 
 	std::shared_ptr<wta::Collision<Player, Partner>> m_collision_chara = nullptr;
 
@@ -47,7 +47,7 @@ public:
 	void CollisionCheck();
 
 
-	void SetItems(std::vector<std::shared_ptr<Item>>& items)
+	void SetItems(std::vector<std::shared_ptr<Gimmick>>& items)
 	{
 		m_items = items;
 	}
@@ -62,12 +62,12 @@ public:
 		m_partner = partner;
 	}
 
-	void SetCollision(std::shared_ptr<wta::Collision<Player, Item>>& collision)
+	void SetCollision(std::shared_ptr<wta::Collision<Player, Gimmick>>& collision)
 	{
 		m_collision_item = collision;
 	}
 
-	void SetCollision(std::shared_ptr<wta::Collision<dxe::Mesh, Item>>& collision)
+	void SetCollision(std::shared_ptr<wta::Collision<dxe::Mesh, Gimmick>>& collision)
 	{
 		m_collision_mesh = collision;
 	}

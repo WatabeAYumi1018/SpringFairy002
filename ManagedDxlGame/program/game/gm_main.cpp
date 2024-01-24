@@ -172,9 +172,9 @@
 //    ptcl.reset();
 //}
 
-//-------------------------------------------------------------------------------------------------------
+////-------------------------------------------------------------------------------------------------------
 //
-// 座標と姿勢で制御するカメラ
+//// 座標と姿勢で制御するカメラ
 //
 //class TransformCamera : public dxe::Camera {
 //public:
@@ -192,13 +192,13 @@
 //    }
 //    inline tnl::Vector3 down() { return -up(); }
 //
-//    inline tnl::Vector3 forward() override {
-//        target_ = pos_ + tnl::Vector3::TransformCoord({ 0, 0, 1 }, rot_);
-//        return tnl::Vector3::Normalize(target_ - pos_);
-//    }
-//    inline tnl::Vector3 back() override { return -forward(); }
-//    inline tnl::Vector3 left() override { return tnl::Vector3::Cross(forward(), up()); }
-//    inline tnl::Vector3 right() override { return tnl::Vector3::Cross(up(), forward()); }
+//    //inline tnl::Vector3 forward() override {
+//    //    target_ = pos_ + tnl::Vector3::TransformCoord({ 0, 0, 1 }, rot_);
+//    //    return tnl::Vector3::Normalize(target_ - pos_);
+//    //}
+//    //inline tnl::Vector3 back() override { return -forward(); }
+//    //inline tnl::Vector3 left() override { return tnl::Vector3::Cross(forward(), up()); }
+//    //inline tnl::Vector3 right() override { return tnl::Vector3::Cross(up(), forward()); }
 //
 //    tnl::Quaternion rot_;
 //
@@ -292,7 +292,7 @@
 //void gameEnd() {
 //}
 //
-
+//
 
 
 
@@ -308,10 +308,12 @@
 #include "[002]SceneOP/SceneOp.h"
 #include "[003]ScenePlay/ScenePlay.h"
 
+
 //------------------------------------------------------------------------------------------------------------
 // ゲーム起動時に１度だけ実行されます
 void gameStart() 
 {
+
 	tnl::SetSeedMersenneTwister32(time(0));
 
 	srand(time(0));

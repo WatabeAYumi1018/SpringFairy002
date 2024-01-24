@@ -1,26 +1,26 @@
 #include <random>
 #include <algorithm>
-#include "ItemPool.h"
+#include "GimmickPool.h"
 
 
-ItemPool::~ItemPool()
+GimmickPool::~GimmickPool()
 {
-	m_items.clear();
+	m_gimmiks.clear();
 }
 
-void ItemPool::AddItem(std::shared_ptr<Item>& item)
+void GimmickPool::AddGimmick(std::shared_ptr<Gimmick>& item)
 {
-    m_items.emplace_back(item);
+    m_gimmiks.emplace_back(item);
 }
 
-std::shared_ptr<Item> ItemPool::GetNotActiveItem()
+std::shared_ptr<Gimmick> GimmickPool::GetNotActiveGimmick()
 {
-    for (std::shared_ptr<Item>& item : m_items)
+    for (std::shared_ptr<Gimmick>& gimmick : m_gimmiks)
     {
         // ”ñŠˆ«‰»ƒAƒCƒeƒ€‚ð’T‚·
-        if (!item->GetIsActive())
+        if (!gimmick->GetIsActive())
         {
-            return item;
+            return gimmick;
         }
     }
     return nullptr;

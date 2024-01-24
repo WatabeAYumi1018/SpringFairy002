@@ -83,12 +83,15 @@ private:
 	//// 足元のカメラ情報を取得
 	//sCameraInfo CurrentCameraType();
 
+	// フラスタムとの当たり判定
+	void IsInFlustum();
 	// 線形補間関数
 	tnl::Vector3 Lerp(const tnl::Vector3& start
 					  , const tnl::Vector3& end, float t);
-
 	// カメラの状態を取得
 	void ConditionType();
+
+
 	// カメラの固定処理
 	void Fixed();
 	// カメラのサイドビュー処理
@@ -155,12 +158,12 @@ public:
 	void update(const float delta_time) override;
 
 	//// ターゲットの概念を無くした姿勢処理
-	//inline tnl::Vector3 up()
-	//{
-	//	up_ = tnl::Vector3::TransformCoord({ 0, 1, 0 }, m_rot);
-	//	return up_;
-	//}
-	//inline tnl::Vector3 down() { return -up(); }
+	inline tnl::Vector3 up()
+	{
+		up_ = tnl::Vector3::TransformCoord({ 0, 1, 0 }, m_rot);
+		return up_;
+	}
+	inline tnl::Vector3 down() { return -up(); }
 
 	//inline tnl::Vector3 forward() override
 	//{

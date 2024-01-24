@@ -18,23 +18,9 @@ void GameCamera::update(const float delta_time)
 
 	tnl_sequence_.update(delta_time);
 
-	//for (int i = 0; i < 6; ++i)
-	//{
-	//	tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
-	//	float size = m_mediator->GetPlayerCollisionSize();
+	IsInFlustum();
 
-	//	tnl::Vector3 v = getFlustumNormal(static_cast<dxe::Camera::eFlustum>(i));
-	//	tnl::Vector3 np = tnl::GetNearestPointPlane(player_pos, v, pos_);
-	//	float length = (np - player_pos).length();
-	//	if (length < size)
-	//	{
-	//		tnl::Vector3 pos = np + (v * size);
-	//		m_mediator->SetPlayerPos(pos);
-	//	}
-	//}
-
-
-	//m_mediator->IsIntersectCameraFlustum(delta_time);
+	//_mediator->IsIntersectCameraFlustum(delta_time);
 	
 	//m_mediator->UpdateCameraFrustum();
 	//
@@ -42,6 +28,26 @@ void GameCamera::update(const float delta_time)
 	//DrawStringEx(0, 100, -1, "CameraPos_x:%f", pos_.x);
 	//DrawStringEx(0, 120, -1, "CameraPos_y:%f", pos_.y);
 	//DrawStringEx(0, 140, -1, "CameraPos_z:%f", pos_.z);
+}
+
+void GameCamera::IsInFlustum()
+{
+	int max = static_cast<int>(eFlustum::Max);
+
+	for (int i = 0; i < max; ++i)
+	{
+		tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
+		float size = m_mediator->GetPlayerCollisionSize();
+
+		tnl::Vector3 v = getFlustumNormal(static_cast<dxe::Camera::eFlustum>(i));
+		tnl::Vector3 np = tnl::GetNearestPointPlane(player_pos, v, pos_);
+		float length = (np - player_pos).length();
+		if (length < size)
+		{
+			tnl::Vector3 pos = np + (v * size);
+			m_mediator->SetPlayerPos(pos);
+		}
+	}
 }
 
 tnl::Vector3 GameCamera::Lerp(const tnl::Vector3& start

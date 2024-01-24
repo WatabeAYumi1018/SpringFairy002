@@ -1,26 +1,26 @@
 #include <random>
 #include "../../../../wta_library/wta_Convert.h"
 #include "../../[002]Mediator/Mediator.h"
-#include "Item.h"
+#include "Gimmick.h"
 
 
 // 最初は茶色のため、idは0で統一
-Item::Item()
+Gimmick::Gimmick()
 {
 	m_collision_size = { 50 };
 }
 
-Item::~Item()
+Gimmick::~Gimmick()
 {
 	MV1DeleteModel(m_item_data.s_model_hdl);
 	DeleteGraph(m_item_data.s_texture_hdl);
 }
 
-void Item::Initialize()
+void Gimmick::Initialize()
 {
 	// モデル読み取り
 	//ここですべてのモデルの情報を元に読み込み処理(GetItemLoadInfoById関数でfor分で各モデルを回すべき？)
-	m_item_data = m_mediator->GetItemLoadInfoById(0);
+	m_item_data = m_mediator->GetGimmickLoadInfoById(0);
 
 	// モデルの読み込み
 	m_item_data.s_model_hdl = MV1LoadModel(m_item_data.s_model_path.c_str());
@@ -32,10 +32,10 @@ void Item::Initialize()
 	MV1SetTextureGraphHandle(m_item_data.s_model_hdl, 0, m_item_data.s_texture_hdl, FALSE);
 
 	// アイテムの種類の総数を取得
-	m_id_num = m_mediator->GetItemIdNum();
+	m_id_num = m_mediator->GetGimmickIdNum();
 }
 
-void Item::Update(float delta_time)
+void Gimmick::Update(float delta_time)
 {
 	VECTOR pos_vec = wta::ConvertToVECTOR(m_pos);
 
@@ -48,7 +48,7 @@ void Item::Update(float delta_time)
 	MoveFlower(delta_time);
 }
 
-void Item::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Gimmick::Draw(std::shared_ptr<GameCamera> gameCamera)
 {
 	if (m_is_active)
 	{
@@ -58,7 +58,7 @@ void Item::Draw(std::shared_ptr<GameCamera> gameCamera)
 	}
 }
 
-void Item::Reset()
+void Gimmick::Reset()
 {
 	m_pos = { 0,0,0 };
 	m_is_active = false;
@@ -68,7 +68,7 @@ void Item::Reset()
 	m_emissive = { 0.5f,0.5f,0.5f,1 };
 }
 
-void Item::SetLight()
+void Gimmick::SetLight()
 {
 	// ライトの設定
 	//環境光
@@ -86,19 +86,19 @@ void Item::SetLight()
 	MV1SetMaterialSpcPower(m_item_data.s_model_hdl, 0, 0.5f);
 }
 
-int Item::RandomTexture()
+int Gimmick::RandomTexture()
 {
 	// ID 0 は除外
 	return tnl::GetRandomDistributionInt(1, m_id_num);
 }
 
-void Item::ChangeTexture()
+void Gimmick::ChangeTexture()
 {
 	int new_texture = RandomTexture();
 
 	// 新しいテクスチャ情報を取得
-	Item::sItemType new_texture_id 
-			= m_mediator->GetItemLoadInfoById(new_texture);
+	Gimmick::sGimmickType new_texture_id
+			= m_mediator->GetGimmickLoadInfoById(new_texture);
 
 	// 古いテクスチャを削除
 	DeleteGraph(m_item_data.s_texture_hdl);
@@ -111,9 +111,9 @@ void Item::ChangeTexture()
 	MV1SetTextureGraphHandle(m_item_data.s_model_hdl, 0, m_item_data.s_texture_hdl, FALSE);
 }
 
-void Item::MoveFlower(const float delta_time)
+void Gimmick::MoveFlower(const float delta_time)
 {
-	if (m_mediator->GetIsItemFlowerActive())
+	if (m_mediator->GetIsGimmickFlowerActive())
 	{
 		static float elapsed_time = 0.0f;
 
@@ -143,16 +143,16 @@ void Item::MoveFlower(const float delta_time)
 	}
 }
 
-void Item::MoveButterfly(const float delta_time)
+void Gimmick::MoveButterfly(const float delta_time)
 {
 
 }
 
-bool Item::SeqNormal(const float delta_time)
+bool Gimmick::SeqNormal(const float delta_time)
 {
 	if (m_is_draw_change)
 	{
-		tnl_sequence_.change(&Item::SeqLightUp);
+		tnl_sequence_.change(&Gimmick::SeqLightUp);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]() {});
@@ -160,7 +160,7 @@ bool Item::SeqNormal(const float delta_time)
 	TNL_SEQ_CO_END;
 }
 
-bool Item::SeqLightUp(const float delta_time)
+bool Gimmick::SeqLightUp(const float delta_time)
 {
 	m_time_elapsed += delta_time;
 
@@ -173,13 +173,13 @@ bool Item::SeqLightUp(const float delta_time)
 	{
 		m_time_elapsed = 0.0f;
 
-		tnl_sequence_.change(&Item::SeqLightDown);
+		tnl_sequence_.change(&Gimmick::SeqLightDown);
 	}
 
 	TNL_SEQ_CO_END;
 }
 
-bool Item::SeqLightDown(const float delta_time)
+bool Gimmick::SeqLightDown(const float delta_time)
 {
 	m_time_elapsed += delta_time;
 
@@ -191,13 +191,13 @@ bool Item::SeqLightDown(const float delta_time)
 	{
 		m_time_elapsed = 0.0f;
 
-		tnl_sequence_.change(&Item::SeqChangeEnd);
+		tnl_sequence_.change(&Gimmick::SeqChangeEnd);
 	}
 
 	TNL_SEQ_CO_END;
 }
 
-bool Item::SeqChangeEnd(const float delta_time)
+bool Gimmick::SeqChangeEnd(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{

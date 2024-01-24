@@ -46,10 +46,10 @@ class Model;
 class ModelLoad;
 class ModelPool;
 
-class Item;
-class ItemLoad;
-class ItemGenerator;
-class ItemPool;
+class Gimmick;
+class GimmickLoad;
+class GimmickGenerator;
+class GimmickPool;
 
 class Effect;
 class EffectLoad;
@@ -87,8 +87,8 @@ private:
 	std::list<std::shared_ptr<Object>> m_objects;
 
 	std::shared_ptr<wta::Astar<Lane::sLane>> m_astar = nullptr;
-	std::shared_ptr<wta::Collision<Player, Item>> m_collision_player_item = nullptr;
-	std::shared_ptr<wta::Collision<dxe::Mesh, Item>> m_collision_mesh_item = nullptr;
+	std::shared_ptr<wta::Collision<Player, Gimmick>> m_collision_player_item = nullptr;
+	std::shared_ptr<wta::Collision<dxe::Mesh, Gimmick>> m_collision_mesh_item = nullptr;
 	std::shared_ptr<wta::Collision<Player, Partner>> m_collision_player_partner = nullptr;
 	//std::shared_ptr<wta::Collision<Player, GameCamera>> m_collision_camera = nullptr;
 
@@ -120,9 +120,9 @@ private:
 	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
 	std::shared_ptr<ModelPool> m_modelPool = nullptr;
 
-	std::shared_ptr<ItemLoad> m_itemLoad = nullptr;
-	std::shared_ptr<ItemGenerator> m_itemGenerator = nullptr;
-	std::shared_ptr<ItemPool> m_itemPool = nullptr;
+	std::shared_ptr<GimmickLoad> m_itemLoad = nullptr;
+	std::shared_ptr<GimmickGenerator> m_itemGenerator = nullptr;
+	std::shared_ptr<GimmickPool> m_itemPool = nullptr;
 
 	std::shared_ptr<Effect> m_effect = nullptr;
 	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
@@ -179,7 +179,7 @@ public:
 		return m_stagePhase;
 	}
 
-	const std::shared_ptr<ItemGenerator>& GetItemGenerator() const
+	const std::shared_ptr<GimmickGenerator>& GetItemGenerator() const
 	{
 		return m_itemGenerator;
 	}

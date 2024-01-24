@@ -3,7 +3,7 @@
 #include "../[001]Common/[005]Factory/Factory.h"
 #include "../[001]Common/[001]Camera/GameCamera.h"
 #include "../[003]ScenePlay/ScenePlay.h"
-#include "../[001]Common/[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
+#include "../[001]Common/[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[001]Common/[004]ScreenShot/ScreenShot.h"
 
 
@@ -59,12 +59,13 @@ void ScenePlay::Update(const float delta_time)
 
 	m_itemGenerator->Update(delta_time);
 
-	m_gameCamera->update(delta_time);
 
 	for (std::shared_ptr<Object>& object : m_objects)
 	{
 		object->Update(delta_time);
 	}
+
+	m_gameCamera->update(delta_time);
 }
 
 void ScenePlay::Draw(const float delta_time)
