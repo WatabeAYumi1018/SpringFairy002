@@ -21,7 +21,6 @@
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
-#include "../[001]Camera/[000]CameraFunction/CameraFlustum.h"
 
 
 //---------StagePhase---------//
@@ -404,36 +403,36 @@ int Mediator::GetStageModelTotalNum() const
 	return m_modelLoad->GetModelTotalNum();
 }
 
-int Mediator::GetStageModelVecHeight() const
-{
-	return m_modelLoad->GetModelVecHeight();
-}
+//int Mediator::GetStageModelVecHeight() const
+//{
+//	return m_modelLoad->GetModelVecHeight();
+//}
+//
+//int Mediator::GetStageModelVecWidth() const
+//{
+//	return m_modelLoad->GetModelVecWidth();
+//}
 
-int Mediator::GetStageModelVecWidth() const
-{
-	return m_modelLoad->GetModelVecWidth();
-}
 
+//const std::vector<Model::sStageModel>& Mediator::GetStageTreeVector() const
+//{
+//	return m_modelLoad->GetTreeVector();
+//}
+//
+//const std::vector<Model::sStageModel>& Mediator::GetStageGrassVector() const
+//{
+//	return m_modelLoad->GetGrassVector();
+//}
 
-const std::vector<Model::sStageModel>& Mediator::GetStageTreeVector() const
-{
-	return m_modelLoad->GetTreeVector();
-}
-
-const std::vector<Model::sStageModel>& Mediator::GetStageGrassVector() const
-{
-	return m_modelLoad->GetGrassVector();
-}
-
-const std::vector<Model::sStageModelType>& Mediator::GetStageModelTypeInfo() const
+const std::vector<Model::sMeshModelType>& Mediator::GetStageModelTypeInfo() const
 {
 	return m_modelLoad ->GetModelTypeInfo();
 }
 
-Model::sStageModelType Mediator::GetStageModelInfoById(int id)
-{
-	return m_modelLoad -> GetModelInfoById(id);
-}
+//Model::sStageModelType Mediator::GetStageModelInfoById(int id)
+//{
+//	return m_modelLoad -> GetModelInfoById(id);
+//}
 
 // modelPool
 
@@ -698,13 +697,6 @@ const std::vector<GameCamera::sCamera>& Mediator::GetCameraLaneVector() const
 GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 {
 	return m_cameraLoad->GetCameraInfoById(id);
-}
-
-// CameraFlustum
-
-void Mediator::IsIntersectCameraFlustum(const float delta_time)
-{
-	m_cameraFlustum->IsIntersectFlustum(delta_time);
 }
 
 

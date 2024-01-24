@@ -10,28 +10,37 @@ class Model : public Object
 
 public:
 
-	struct sStageModel
+	//struct sStageModel
+	//{
+	//	int s_id;
+	//	tnl::Vector3 s_pos;
+	//};
+
+	struct sMeshModelType
 	{
 		int s_id;
-		tnl::Vector3 s_pos;
+		//int s_model_hdl;
+		//int s_texture_hdl;
+		std::string s_model_path;
+		std::string s_texture_path;
 	};
 
-	struct sStageModelType
-	{
-		int s_id;
-		int s_model_hdl;
-		int s_texture_a_hdl;
-		int s_texture_b_hdl;
-		int s_texture_c_hdl;
-		int s_material_count;
-		std::string s_model_path;
-		std::string s_texture_a_path;
-		std::string s_texture_b_path;
-		std::string s_texture_c_path;
-		std::string s_material_a_name;
-		std::string s_material_b_name;
-		std::string s_material_c_name;
-	};
+	//struct sStageModelType
+	//{
+	//	int s_id;
+	//	int s_model_hdl;
+	//	int s_texture_a_hdl;
+	//	int s_texture_b_hdl;
+	//	int s_texture_c_hdl;
+	//	int s_material_count;
+	//	std::string s_model_path;
+	//	std::string s_texture_a_path;
+	//	std::string s_texture_b_path;
+	//	std::string s_texture_c_path;
+	//	std::string s_material_a_name;
+	//	std::string s_material_b_name;
+	//	std::string s_material_c_name;
+	//};
 
 	Model();
 	//Model(int model_hdl,int id);
@@ -48,31 +57,44 @@ private:
 	// 個別のアクティブ状態
 	bool m_is_alive_active = false;
 
-	std::vector<Model::sStageModel> m_tree_models;
+	//std::vector<Model::sStageModel> m_tree_models;
 
-	std::vector<Model::sStageModel> m_grass_models;
+	//std::vector<Model::sStageModel> m_grass_models;
 
-	std::unordered_map<int, sStageModelType> m_model_map;
+	std::vector<sMeshModelType> m_models;
+	// 復元元のメッシュモデル
+	std::vector <std::shared_ptr<dxe::Mesh>> m_models_mesh_origin;
+	// コピーしたメッシュモデル
+	std::vector <std::shared_ptr<dxe::Mesh>> m_models_mesh_copy;
 
+	std::vector<tnl::Matrix> m_models_matrix;
+
+	// 復元元のメッシュモデル
+	std::shared_ptr<dxe::Mesh> m_mesh_origin = nullptr;
+	// コピーしたメッシュモデル
+	std::shared_ptr<dxe::Mesh> m_mesh_copy = nullptr;
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	std::shared_ptr<dxe::Mesh> mesh_copy = nullptr;
 
 	// ライトの設定
 	void SetLight(int model_hdl);
 
-	void SetTextureIndex(sStageModelType& model);
+	void GenerateMeshPositions(int x, int z, float spacing);
 
-	void DrawGrass();
+	//void SetTextureIndex(sMeshModelType& model);
+
+	//void DrawGrass();
 
 	//void DrawModel(const sStageModel& model);
 
-	void DrawModelSet(const std::vector<Model::sStageModel>& model_set
-					  , int num_sets, int spacing);
+	//void DrawModelSet(const std::vector<Model::sStageModel>& model_set
+	//				  , int num_sets, int spacing);
 
 public:
 
-	void CreateGroupMesh();
+	//void CreateGroupMesh();
 
 	void Initialize() override;
 

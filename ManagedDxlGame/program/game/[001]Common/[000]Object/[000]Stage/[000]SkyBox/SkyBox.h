@@ -15,6 +15,8 @@ private:
 
 	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
 
+	
+
 public:
 
 	void Update(float delta_time) override;

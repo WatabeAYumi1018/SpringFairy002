@@ -222,7 +222,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[001]Camera\GameCamera.cpp" />
-    <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraFlustum.cpp" />
     <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[002]Mediator\Mediator.cpp" />
     <ClCompile Include="program\game\[001]Common\[003]Phase\GamePhase.cpp" />
@@ -336,7 +335,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.h" />
     <ClInclude Include="program\game\[001]Common\[001]Camera\GameCamera.h" />
-    <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraFlustum.h" />
     <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.h" />
     <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h" />
     <ClInclude Include="program\game\[001]Common\[003]Phase\GamePhase.h" />

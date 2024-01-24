@@ -6,6 +6,8 @@ SkyBox::SkyBox()
 	m_mesh = dxe::Mesh::CreateCubeMV(50000, 40, 40);
 	m_mesh->setTexture(dxe::Texture::CreateFromFile("graphics/skybox/Magical.png"));
 	m_mesh->loadMaterial("material.bin");
+
+
 }
 
 void SkyBox::Update(float delta_time)

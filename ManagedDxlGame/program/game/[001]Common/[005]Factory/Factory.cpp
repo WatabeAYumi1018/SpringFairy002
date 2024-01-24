@@ -32,7 +32,6 @@
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
-#include "../[001]Camera/[000]CameraFunction/CameraFlustum.h"
 #include "../[002]Mediator/Mediator.h"
 #include "../[004]ScreenShot/ScreenShot.h"
 #include "Factory.h"
@@ -114,7 +113,6 @@ void Factory::CreateObject()
 
 	m_gameCamera = std::make_shared<GameCamera>();
 	m_cameraLoad = std::make_shared<CameraLoad>();
-	m_cameraFlustum = std::make_shared<CameraFlustum>();
 
 	m_mediator = std::make_shared<Mediator>();
 
@@ -151,7 +149,6 @@ void Factory::SetObjectReference()
 	m_mediator->SetCharaGraphDraw(m_charaGraphDraw);
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
-	m_mediator->SetCameraFlustum(m_cameraFlustum);
 
 	m_laneMove->SetAstar(m_astar);
 	m_laneMove->SetMediator(m_mediator);
@@ -181,7 +178,6 @@ void Factory::SetObjectReference()
 	m_gameCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
 	m_screenShot->SetMediator(m_mediator);
-	m_cameraFlustum->SetMediator(m_mediator);
 	//m_cameraFrustum->SetCollision(m_collision_camera);
 	//m_cameraFrustum->SetPlayer(m_player);
 	//m_cameraFrustum->SetGameCamera(m_gameCamera);

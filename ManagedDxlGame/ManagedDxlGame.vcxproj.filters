@@ -75,9 +75,6 @@
     <Filter Include="program\[003] game\[001]Common\[003]Phase">
       <UniqueIdentifier>{e667bf97-52b4-4d6d-9e70-c759d6fac7ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[001]Camera\[000]CameraFunction">
-      <UniqueIdentifier>{83a0afd8-33d2-41a4-afe4-60b792ad95b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage">
       <UniqueIdentifier>{88d540be-0bf7-42de-b8a7-7887f59d3c1c}</UniqueIdentifier>
     </Filter>
@@ -155,6 +152,9 @@
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction">
       <UniqueIdentifier>{a7e0a97a-7982-4345-9f30-cb064f346f22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[001]Camera\[000]CameraFunction">
+      <UniqueIdentifier>{70fcb5db-60bb-4f04-96ae-b6608e809683}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -329,9 +329,6 @@
     <ClCompile Include="program\game\[001]Common\[001]Camera\GameCamera.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.cpp">
-      <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane</Filter>
     </ClCompile>
@@ -413,9 +410,6 @@
     <ClCompile Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.cpp">
       <Filter>program\[003] game\[001]Common\[004]ScreenShot</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraFlustum.cpp">
-      <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[001]Text\Text.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[001]Text</Filter>
     </ClCompile>
@@ -448,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickPool.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -671,9 +668,6 @@
     <ClInclude Include="program\game\[001]Common\[001]Camera\GameCamera.h">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.h">
-      <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\Object.h">
       <Filter>program\[003] game\[001]Common\[000]Object</Filter>
     </ClInclude>
@@ -776,9 +770,6 @@
     <ClInclude Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.h">
       <Filter>program\[003] game\[001]Common\[004]ScreenShot</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraFlustum.h">
-      <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[001]Text\Text.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[001]Text</Filter>
     </ClInclude>
@@ -811,6 +802,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickPool.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.h">
+      <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

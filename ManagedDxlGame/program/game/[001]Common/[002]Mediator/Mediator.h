@@ -45,7 +45,6 @@ class CharaGraphDraw;
 
 class GameCamera;
 class CameraLoad;
-class CameraFlustum;
 
 class Mediator
 {
@@ -95,7 +94,6 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
-	std::shared_ptr<CameraFlustum> m_cameraFlustum = nullptr;
 
 	//------------------------------------------------//
 
@@ -474,35 +472,35 @@ public:
 	// 参照先 ... ModelPool::関連する関数
 	int GetStageModelTotalNum() const;
 
-	// ステージモデルのベクター高さ取得
-	// 参照元 ... ModelLoad::m_model_vec_height
-	// 参照先 ... Model::Initialize()
-	int GetStageModelVecHeight() const ;
+	//// ステージモデルのベクター高さ取得
+	//// 参照元 ... ModelLoad::m_model_vec_height
+	//// 参照先 ... Model::Initialize()
+	//int GetStageModelVecHeight() const ;
 
-	// ステージモデルのベクター幅取得
-	// 参照元 ... ModelLoad::m_model_vec_width
-	// 参照先 ... Model::Initialize()
-	int GetStageModelVecWidth() const ;
+	//// ステージモデルのベクター幅取得
+	//// 参照元 ... ModelLoad::m_model_vec_width
+	//// 参照先 ... Model::Initialize()
+	//int GetStageModelVecWidth() const ;
 
-	// ステージモデルのベクター取得
-	// 参照元 ... ModelLoad::m_stage_tree
-	// 参照先 ... Model::関連する関数
-	const std::vector<Model::sStageModel>& GetStageTreeVector() const;
+	//// ステージモデルのベクター取得
+	//// 参照元 ... ModelLoad::m_stage_tree
+	//// 参照先 ... Model::関連する関数
+	//const std::vector<Model::sStageModel>& GetStageTreeVector() const;
 
-	// ステージモデルのベクター取得
-	// 参照元 ... ModelLoad::m_stage_grass
-	// 参照先 ... Model::関連する関数
-	const std::vector<Model::sStageModel>& GetStageGrassVector() const;
+	//// ステージモデルのベクター取得
+	//// 参照元 ... ModelLoad::m_stage_grass
+	//// 参照先 ... Model::関連する関数
+	//const std::vector<Model::sStageModel>& GetStageGrassVector() const;
 
 	// ステージモデルの情報取得
 	// 参照元 ... ModelLoad::m_model_info
 	// 参照先 ... ModelPool::関連する関数
-	const std::vector<Model::sStageModelType>& GetStageModelTypeInfo() const;
+	const std::vector<Model::sMeshModelType>& GetStageModelTypeInfo() const;
 
-	// ステージモデルのid取得
-	// 参照元 ... ModelLoad::GetModelInfoById(int id)
-	// 参照先 ... ModelPool::関連する関数
-	Model::sStageModelType GetStageModelInfoById(int id);
+	//// ステージモデルのid取得
+	//// 参照元 ... ModelLoad::GetModelInfoById(int id)
+	//// 参照先 ... ModelPool::関連する関数
+	//Model::sStageModelType GetStageModelInfoById(int id);
 
 	// modelPool
 
@@ -880,9 +878,9 @@ void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 		m_gimmickGenerator = gimmickGenerator;
 	}
 
-	void SetGimmickPool(std::shared_ptr<GimmickPool>& gimmickPool)
+	void SetGimmickPool(std::shared_ptr<GimmickPool>& itemPool)
 	{
-		m_gimmickPool = gimmickPool;
+		m_gimmickPool = itemPool;
 	}
 
 	void SetEffectLoad(std::shared_ptr<EffectLoad>& effectLoad)
@@ -923,11 +921,6 @@ void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 	void SetCameraLoad(std::shared_ptr<CameraLoad>& cameraLoad)
 	{
 		m_cameraLoad = cameraLoad;
-	}
-
-	void SetCameraFlustum(std::shared_ptr<CameraFlustum>& cameraFlustum)
-	{
-		m_cameraFlustum = cameraFlustum;
 	}
 
 	//------------------------------------------------//
