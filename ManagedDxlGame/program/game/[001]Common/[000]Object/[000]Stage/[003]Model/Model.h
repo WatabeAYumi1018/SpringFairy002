@@ -19,10 +19,13 @@ public:
 	struct sMeshModelType
 	{
 		int s_id;
-		//int s_model_hdl;
-		//int s_texture_hdl;
 		std::string s_model_path;
 		std::string s_texture_path;
+		int s_create_count_x;
+		int s_create_count_z;
+		int s_scale;
+		float s_interval;
+		tnl::Vector3 s_offset;
 	};
 
 	//struct sStageModelType
@@ -49,10 +52,10 @@ public:
 
 private:
 
-	int m_model_hdl = 0;
+	//int m_model_hdl = 0;
 
-	int m_width = 0;
-	int m_height = 0;
+	//int m_width = 0;
+	//int m_height = 0;
 
 	// 個別のアクティブ状態
 	bool m_is_alive_active = false;
@@ -61,27 +64,31 @@ private:
 
 	//std::vector<Model::sStageModel> m_grass_models;
 
-	std::vector<sMeshModelType> m_models;
-	// 復元元のメッシュモデル
-	std::vector <std::shared_ptr<dxe::Mesh>> m_models_mesh_origin;
-	// コピーしたメッシュモデル
-	std::vector <std::shared_ptr<dxe::Mesh>> m_models_mesh_copy;
+	//std::vector<sMeshModelType> m_models;
+	//// 復元元のメッシュモデル
+	//std::vector <std::shared_ptr<dxe::Mesh>> m_models_mesh_origin;
+	//// コピーしたメッシュモデル
+	//std::vector <std::shared_ptr<dxe::Mesh>> m_models_mesh_copy;
 
-	std::vector<tnl::Matrix> m_models_matrix;
+	//std::vector<tnl::Matrix> m_models_matrix;
 
-	// 復元元のメッシュモデル
-	std::shared_ptr<dxe::Mesh> m_mesh_origin = nullptr;
-	// コピーしたメッシュモデル
-	std::shared_ptr<dxe::Mesh> m_mesh_copy = nullptr;
+	//// 復元元のメッシュモデル
+	//std::shared_ptr<dxe::Mesh> m_mesh_origin = nullptr;
+	//// コピーしたメッシュモデル
+	//std::shared_ptr<dxe::Mesh> m_mesh_copy = nullptr;
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	std::shared_ptr<dxe::Mesh> mesh_copy = nullptr;
+	//std::shared_ptr<dxe::Mesh> mesh_copy = nullptr;
 
 	// ライトの設定
 	void SetLight(int model_hdl);
 
-	void GenerateMeshPositions(int x, int z, float spacing);
+	//void GenerateMeshPos(int x, int z, float spacing);
+
+	//void LoadGroupModelInfo();
+
+	//void CreateGroupMesh();
 
 	//void SetTextureIndex(sMeshModelType& model);
 

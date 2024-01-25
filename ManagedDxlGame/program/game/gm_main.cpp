@@ -391,23 +391,49 @@
 #include "[002]SceneOP/SceneOp.h"
 #include "[003]ScenePlay/ScenePlay.h"
 
+#include "../wta_library/wta_Convert.h"
+
+//Shared<dxe::Camera> camera = nullptr;
+//Shared<dxe::Mesh> mesh = nullptr;
+//Shared<dxe::Mesh> group = nullptr;
+
+
+//int model_handle = 0;
+//int tex_handle = 0;
 
 //------------------------------------------------------------------------------------------------------------
 // ƒQ[ƒ€‹N“®‚É‚P“x‚¾‚¯Às‚³‚ê‚Ü‚·
 void gameStart() 
 {
+	//mesh = dxe::Mesh::CreateFromFileMV("model/stage/flowers/marguerite.mv1");
+	//mesh->setTexture(dxe::Texture::CreateFromFile("model/stage/flowers/plant.png"));
+	//mesh->setBlendMode(DX_BLENDMODE_ALPHA);
+	//mesh->pos_ = { 0, 0, 0 };
+
+	//std::vector<tnl::Matrix> mats;
+	//mats.emplace_back(tnl::Matrix::Translation({ 0, 0, 0 }));
+	//mats.emplace_back(tnl::Matrix::Translation({ 50, 0, 0 }));
+	//group = dxe::Mesh::CreateStaticMeshGroupMV(mesh, mats);
+	//group->setTexture(dxe::Texture::CreateFromFile("model/stage/flowers/plant.png"));
+	//group->scl_ = { 100, 100, 100 };
 
 	tnl::SetSeedMersenneTwister32(time(0));
 
 	srand(time(0));
 	SetWindowText("Spring Fairy");
 
-	// ”wŒi‚ÌF‚ğİ’è(‚³‚­‚çF)
+	//// ”wŒi‚ÌF‚ğİ’è(‚³‚­‚çF)
 	//SetBackgroundColor(255, 222, 233);
 
 	// ŠDF‚Ì”wŒi
-	SetBackgroundColor(32, 32, 32);
+	//SetBackgroundColor(32, 32, 32);
 
+	//model_handle = MV1LoadModel("model/stage/flowers/marguerite.mv1");
+	//tex_handle = LoadGraph("model/stage/flowers/plant.png");
+	//MV1SetTextureGraphHandle(model_handle, 0, tex_handle, true);
+
+	//camera = std::make_shared<dxe::Camera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+	//camera->pos_ = { 0, 10, -300 };
 	SceneManager::GetInstance(new ScenePlay());
 }
 
@@ -415,7 +441,22 @@ void gameStart()
 // –ˆƒtƒŒ[ƒ€Às‚³‚ê‚Ü‚·
 void gameMain(float delta_time) 
 {
+	//camera->update(delta_time);
+
+	//group->render(camera);
+
 	SceneManager::GetInstance()->Update(delta_time);
+
+	//MV1SetPosition(model_handle, VGet(-100, 0, 0));
+	//MV1DrawModel(model_handle);
+
+	//MV1SetPosition(model_handle, VGet(100, 0, 0));
+	//MV1DrawModel(model_handle);
+
+
+	//DrawDefaultLightGuiController();
+
+	//mesh->render(camera);
 }
 
 //------------------------------------------------------------------------------------------------------------

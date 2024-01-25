@@ -19,6 +19,8 @@ Model::Model()//, eWorldType world_type)
 
 Model::~Model()
 {
+
+
 	//for (auto& pair : m_model_map)
 	//{
 	//	sStageModelType& data = pair.second;
@@ -32,19 +34,11 @@ Model::~Model()
 
 void Model::Initialize()
 {
+	m_mediator->ModelGeneInitialize();
 
-	//m_models = m_mediator->GetStageModelTypeInfo();
 
-	//for (const sMeshModelType& m_model : m_models)
-	//{
-	//	m_mesh_origin = dxe::Mesh::CreateFromFileMV(m_model.s_model_path);
-	//	m_mesh_origin->setTexture(dxe::Texture::CreateFromFile(m_model.s_texture_path));
-	//
-	//	m_models_mesh_origin.emplace_back(m_mesh_origin);
-	//}
+//	m_models_mesh_copy.clear(); // コピー用ベクターをクリア
 
-	m_mesh_origin = dxe::Mesh::CreateFromFileMV("model/stage/flowers/lavender.mv1");
-	m_mesh_origin->setTexture(dxe::Texture::CreateFromFile("model/stage/flowers/plant.png"));
 
 
 	//	for (int id = 0; id < 8; ++id)
@@ -85,36 +79,14 @@ void Model::Initialize()
 
 void Model::Update(float delta_time)
 {
-	//GenerateMeshPositions(10,10,100);
 
-	//m_models_mesh_copy.clear(); // コピー用ベクターをクリア
-
-	//for (std::shared_ptr<dxe::Mesh>& mesh : m_models_mesh_origin)
-	//{
-	//	std::shared_ptr<dxe::Mesh> mesh_copy
-	//		= dxe::Mesh::CreateStaticMeshGroupMV(mesh, m_models_matrix);
-	//
-	//	m_models_mesh_copy.emplace_back(mesh_copy);
-	//}
-
-	std::vector<tnl::Matrix> mats;
-	mats.emplace_back(tnl::Matrix::Translation(-100, 0, 100));// 座標を指定(csvで座標管理)
-	mats.emplace_back(tnl::Matrix::Translation(-200, 0, 200));
-	mats.emplace_back(tnl::Matrix::Translation(-300, 0, 300));
-	mats.emplace_back(tnl::Matrix::AffineTransformation({ -400, 50, 400 }, { 2, 2, 2 }, tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90))));
-
-
-	mesh_copy = dxe::Mesh::CreateStaticMeshGroupMV(m_mesh_origin, mats);
 }
 
 void Model::Draw(std::shared_ptr<GameCamera> gameCamera)
 {
-	mesh_copy->render(gameCamera);
+	m_mediator->ModelGeneDraw(gameCamera);
 
-	//for (auto& mesh : m_models_mesh_copy)
-	//{
-	//	mesh->render(gameCamera);
-	//}
+//	m_models_mesh_copy[0]->render(gameCamera);
 
 	// デバッグ用----------------------------------
 	//SetLight(m_model_hdl);
@@ -164,19 +136,6 @@ void Model::SetLight(int model_hdl)
 	MV1SetMaterialSpcPower(model_hdl, 0, 0.5f);
 }
 
-void Model::GenerateMeshPositions(int count_x, int count_z, float spacing)
-{
-	for (int x = 0; x < count_x; ++x)
-	{
-		for (int z = 0; z < count_z; ++z)
-		{
-			tnl::Matrix matrix 
-				= tnl::Matrix::Translation(x * spacing, 0, z * spacing);
-			
-			m_models_matrix.emplace_back(matrix);
-		}
-	}
-}
 
 //void Model::SetTextureIndex(sStageModelType& model)
 //{

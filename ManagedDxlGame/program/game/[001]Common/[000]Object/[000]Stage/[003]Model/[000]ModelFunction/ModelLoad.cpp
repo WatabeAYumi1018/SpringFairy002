@@ -107,6 +107,18 @@ void ModelLoad::LoadModelTypeInfo()
 
 		model_info.s_texture_path = m_csv_model_type_info[y][2].getString();
 
+		model_info.s_create_count_x = m_csv_model_type_info[y][3].getInt();
+
+		model_info.s_create_count_z = m_csv_model_type_info[y][4].getInt();
+
+		model_info.s_scale = m_csv_model_type_info[y][5].getInt();
+
+		model_info.s_interval = m_csv_model_type_info[y][6].getFloat();
+
+		tnl::Vector3 pos = { m_csv_model_type_info[y][7].getFloat(),0,m_csv_model_type_info[y][8].getFloat() };
+
+		model_info.s_offset = pos;
+
 		//if (!m_csv_model_type_info[y][3].getString().empty())
 		//{
 		//	model_info.s_texture_b_path = m_csv_model_type_info[y][3].getString();

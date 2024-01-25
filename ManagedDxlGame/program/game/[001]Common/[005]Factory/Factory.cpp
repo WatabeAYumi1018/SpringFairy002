@@ -4,6 +4,10 @@
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[002]Floor/Floor.h"
+#include "../[000]Object/[000]Stage/[003]Model/Model.h"
+#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
+#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
+#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelGenerator.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
@@ -14,9 +18,6 @@
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
-#include "../[000]Object/[000]Stage/[003]Model/Model.h"
-#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
-#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
 #include "../[000]Object/[002]Gimmick/Gimmick.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
@@ -47,7 +48,7 @@ Factory::Factory()
 
 	StorageObject();
 
-	PoolGimmickObject();
+	//PoolGimmickObject();
 
 	m_laneMove->GetAutoMove();
 }
@@ -76,6 +77,8 @@ void Factory::CreateObject()
 
 	m_model = std::make_shared<Model>();
 	m_modelLoad = std::make_shared<ModelLoad>();
+	m_modelPool = std::make_shared<ModelPool>();
+	m_modelGenerator = std::make_shared<ModelGenerator>();
 
 	m_character = std::make_shared<Character>();
 
@@ -124,6 +127,10 @@ void Factory::SetObjectReference()
 	m_mediator->SetStagePhase(m_stagePhase);
 	m_mediator->SetLaneLoad(m_laneLoad);
 	m_mediator->SetLaneMove(m_laneMove);
+	m_mediator->SetModel(m_model);
+	m_mediator->SetModelLoad(m_modelLoad);
+	m_mediator->SetModelPool(m_modelPool);
+	m_mediator->SetModelGenerator(m_modelGenerator);
 	m_mediator->SetCharacter(m_character);
 	m_mediator->SetPlayer(m_player);
 	m_mediator->SetPlayerLoad(m_playerLoad);
@@ -135,9 +142,6 @@ void Factory::SetObjectReference()
 	m_mediator->SetPartnerMove(m_partnerMove);
 	m_mediator->SetPartnerDraw(m_partnerDraw);
 	m_mediator->SetCameraTargetPlayer(m_cameraTargetPlayer);
-	m_mediator->SetModel(m_model);
-	m_mediator->SetModelLoad(m_modelLoad);
-	m_mediator->SetModelPool(m_modelPool);
 	m_mediator->SetGimmickLoad(m_gimmickLoad);
 	m_mediator->SetGimmickGenerator(m_gimmickGenerator);
 	m_mediator->SetGimmickPool(m_gimmickPool);
@@ -153,6 +157,8 @@ void Factory::SetObjectReference()
 	m_laneMove->SetAstar(m_astar);
 	m_laneMove->SetMediator(m_mediator);
 	m_model->SetMediator(m_mediator);
+	//m_modelPool->SetMediator(m_mediator);
+	m_modelGenerator->SetMediator(m_mediator);
 	m_character->SetMediator(m_mediator);
 	m_player->SetMediator(m_mediator);
 	m_playerMove->SetMediator(m_mediator);
@@ -208,7 +214,7 @@ void Factory::PoolGimmickObject()
 
 void Factory::StorageObject()
 {
-	//m_objects.emplace_back(m_skyBox);
+	m_objects.emplace_back(m_skyBox);
 	m_objects.emplace_back(m_floor);
 	m_objects.emplace_back(m_model);
 	m_objects.emplace_back(m_cameraTargetPlayer);

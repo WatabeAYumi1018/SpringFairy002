@@ -124,8 +124,10 @@ namespace dxe {
 		inline int getDxMvHdl() { return mv_hdl_; }
 
 		// テクスチャの設定
-		inline void setTexture(std::shared_ptr<Texture> texture, uint32_t slot_num = DIFFUSE) {
-			if (textures_.size() <= slot_num) {
+		inline void setTexture(std::shared_ptr<Texture> texture, uint32_t slot_num = DIFFUSE) 
+		{
+			if (textures_.size() <= slot_num) 
+			{
 				std::vector<std::shared_ptr<Texture>> new_buffer(slot_num+1);
 				memcpy(new_buffer.data(), textures_.data(), sizeof(std::shared_ptr<Texture>) * textures_.size() );
 				new_buffer[slot_num] = texture;

@@ -446,6 +446,9 @@
     <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelGenerator.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -689,9 +692,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\Character.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character</Filter>
     </ClInclude>
@@ -805,6 +805,12 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.h">
       <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelGenerator.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

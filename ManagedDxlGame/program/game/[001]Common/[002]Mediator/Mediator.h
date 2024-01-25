@@ -1,8 +1,6 @@
 #pragma once
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
-#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
-#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
@@ -14,6 +12,10 @@
 
 class LaneLoad;
 class LaneMove;
+
+class ModelLoad;
+class ModelPool;
+class ModelGenerator;
 
 class Character;
 
@@ -59,6 +61,11 @@ private:
 	std::shared_ptr<LaneLoad> m_laneLoad = nullptr;
 	std::shared_ptr<LaneMove> m_laneMove = nullptr;
 
+	std::shared_ptr<Model> m_model = nullptr;
+	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
+	std::shared_ptr<ModelPool> m_modelPool = nullptr;
+	std::shared_ptr<ModelGenerator> m_modelGenerator = nullptr;
+
 	std::shared_ptr<Character> m_character = nullptr;
 
 	std::shared_ptr<Player> m_player = nullptr;
@@ -73,10 +80,6 @@ private:
 	std::shared_ptr<PartnerDraw> m_partnerDraw = nullptr;
 
 	std::shared_ptr<CameraTargetPlayer> m_cameraTargetPlayer = nullptr;
-
-	std::shared_ptr<Model> m_model = nullptr;
-	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
-	std::shared_ptr<ModelPool> m_modelPool = nullptr;
 
 	std::shared_ptr<Gimmick> m_gimmick = nullptr;
 	std::shared_ptr<GimmickLoad> m_gimmickLoad = nullptr;
@@ -187,6 +190,110 @@ public:
 	//tnl::Quaternion GetMoveNewRot() const;
 
 	//---------------------------//
+
+
+	//----------Model-----------//
+
+	// model
+
+	//// モデルの座標設定
+	//// 参照元 ... Model::m_pos
+	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
+	//const tnl::Vector3& GetModelPos() const;
+
+	////モデルの世界属性取得
+	//// 参照元 ... Model::m_world_type
+	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
+	//Model::eWorldType GetWorldModelType() const;
+
+	//// モデルの個別アクティブフラグ設定
+	//// 参照元 ... Model::m_is_alive_active
+	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
+	//void SetIsModelAliveActive(bool is_active);
+
+	//// モデルの個別アクティブフラグ取得
+	//// 参照元 ... Model::m_is_alive_active
+	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
+	//int GetIsModelAliveActive() const;
+
+	//// アクティブ化切り替え
+	//// 参照元 ... Model::ToggleActive(bool is_world_active)
+	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
+	//void ToggleModelActive(bool is_world_active);
+
+	// modelLoad
+
+	// ステージモデルの総数取得
+	// 参照元 ... ModelLoad::m_model_total_num
+	// 参照先 ... ModelPool::関連する関数
+	int GetStageModelTotalNum() const;
+
+	//// ステージモデルのベクター高さ取得
+	//// 参照元 ... ModelLoad::m_model_vec_height
+	//// 参照先 ... Model::Initialize()
+	//int GetStageModelVecHeight() const ;
+
+	//// ステージモデルのベクター幅取得
+	//// 参照元 ... ModelLoad::m_model_vec_width
+	//// 参照先 ... Model::Initialize()
+	//int GetStageModelVecWidth() const ;
+
+	//// ステージモデルのベクター取得
+	//// 参照元 ... ModelLoad::m_stage_tree
+	//// 参照先 ... Model::関連する関数
+	//const std::vector<Model::sStageModel>& GetStageTreeVector() const;
+
+	//// ステージモデルのベクター取得
+	//// 参照元 ... ModelLoad::m_stage_grass
+	//// 参照先 ... Model::関連する関数
+	//const std::vector<Model::sStageModel>& GetStageGrassVector() const;
+
+	// ステージモデルの情報取得
+	// 参照元 ... ModelLoad::m_model_info
+	// 参照先 ... ModelPool::関連する関数
+	const std::vector<Model::sMeshModelType>& GetStageModelTypeInfo() const;
+
+	//// ステージモデルのid取得
+	//// 参照元 ... ModelLoad::GetModelInfoById(int id)
+	//// 参照先 ... ModelPool::関連する関数
+	//Model::sStageModelType GetStageModelInfoById(int id);
+
+	// modelPool
+
+	//// 世界変更によるモデルの一斉アクティブ化
+	//// 参照元 ... ModelPool::DeactivateAllModels(Model::eWorldType world_type)
+	//// 参照先 ... StagePhase::シーケンス関数
+	//void IsActivatePoolAllModels(Model::eWorldType world_type);
+
+	// 現実世界のベクター取得
+	// 参照元 ... ModelPool::GetModels()
+	// 参照先 ... StagePhase::シーケンス関数
+	std::vector<std::shared_ptr<Model>>& GetPoolModels() const;
+
+	//// ランダムなモデルのポインタを取得
+	//// 参照元 ... ModelPool::GetRandomModel(Model::eWorldType world_type)
+	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
+	//std::shared_ptr<Model> GetPoolRandomModel(Model::eWorldType world_type);
+
+
+	// ModelGenerator
+
+	// モデルのグル―プメッシュ生成
+	// 参照元 ... ModelGenerator::Initialize()
+	// 参照先 ... Model::Initialize()
+	void ModelGeneInitialize();
+
+	// モデルのグル―プメッシュの更新
+	// 参照元 ... ModelGenerator::Update(const float delta_time)
+	// 参照先 ... Model::Update(const float delta_time)
+	void ModelGeneUpdate(const float delta_time);
+
+	// モデルのグル―プメッシュの描画
+	// 参照元 ... ModelGenerator::Draw()
+	// 参照先 ... Model::Draw(std::shared_ptr<GameCamera> gameCamera)
+	void ModelGeneDraw(std::shared_ptr<GameCamera> gameCamera);
+
+	//--------------------------//
 
 
 	//----------Player----------//
@@ -436,91 +543,6 @@ public:
 	//--------------------------//
 
 
-	//----------Model-----------//
-
-	// model
-
-	//// モデルの座標設定
-	//// 参照元 ... Model::m_pos
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//const tnl::Vector3& GetModelPos() const;
-
-	////モデルの世界属性取得
-	//// 参照元 ... Model::m_world_type
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//Model::eWorldType GetWorldModelType() const;
-
-	//// モデルの個別アクティブフラグ設定
-	//// 参照元 ... Model::m_is_alive_active
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//void SetIsModelAliveActive(bool is_active);
-
-	//// モデルの個別アクティブフラグ取得
-	//// 参照元 ... Model::m_is_alive_active
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//int GetIsModelAliveActive() const;
-
-	//// アクティブ化切り替え
-	//// 参照元 ... Model::ToggleActive(bool is_world_active)
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//void ToggleModelActive(bool is_world_active);
-
-	// modelLoad
-
-	// ステージモデルの総数取得
-	// 参照元 ... ModelLoad::m_model_total_num
-	// 参照先 ... ModelPool::関連する関数
-	int GetStageModelTotalNum() const;
-
-	//// ステージモデルのベクター高さ取得
-	//// 参照元 ... ModelLoad::m_model_vec_height
-	//// 参照先 ... Model::Initialize()
-	//int GetStageModelVecHeight() const ;
-
-	//// ステージモデルのベクター幅取得
-	//// 参照元 ... ModelLoad::m_model_vec_width
-	//// 参照先 ... Model::Initialize()
-	//int GetStageModelVecWidth() const ;
-
-	//// ステージモデルのベクター取得
-	//// 参照元 ... ModelLoad::m_stage_tree
-	//// 参照先 ... Model::関連する関数
-	//const std::vector<Model::sStageModel>& GetStageTreeVector() const;
-
-	//// ステージモデルのベクター取得
-	//// 参照元 ... ModelLoad::m_stage_grass
-	//// 参照先 ... Model::関連する関数
-	//const std::vector<Model::sStageModel>& GetStageGrassVector() const;
-
-	// ステージモデルの情報取得
-	// 参照元 ... ModelLoad::m_model_info
-	// 参照先 ... ModelPool::関連する関数
-	const std::vector<Model::sMeshModelType>& GetStageModelTypeInfo() const;
-
-	//// ステージモデルのid取得
-	//// 参照元 ... ModelLoad::GetModelInfoById(int id)
-	//// 参照先 ... ModelPool::関連する関数
-	//Model::sStageModelType GetStageModelInfoById(int id);
-
-	// modelPool
-
-	//// 世界変更によるモデルの一斉アクティブ化
-	//// 参照元 ... ModelPool::DeactivateAllModels(Model::eWorldType world_type)
-	//// 参照先 ... StagePhase::シーケンス関数
-	//void IsActivatePoolAllModels(Model::eWorldType world_type);
-
-	// 現実世界のベクター取得
-	// 参照元 ... ModelPool::GetModels()
-	// 参照先 ... StagePhase::シーケンス関数
-	std::vector<std::shared_ptr<Model>>& GetPoolModels() const;
-
-	//// ランダムなモデルのポインタを取得
-	//// 参照元 ... ModelPool::GetRandomModel(Model::eWorldType world_type)
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//std::shared_ptr<Model> GetPoolRandomModel(Model::eWorldType world_type);
-
-
-	//--------------------------//
 
 
 	//-----------Gimmick-----------//
@@ -553,6 +575,7 @@ public:
 	//// 参照元 ... GimmickLoad::m_gimmick_info
 	//// 参照先 ... Gimmick::関連する関数
 	//const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeInfo() const;
+
 
 	// アイテムモデルのid取得
 	// 参照元 ... GimmickLoad::GetGimmickInfoById()
@@ -805,6 +828,26 @@ public:
 		m_laneMove = laneMove;
 	}
 
+	void SetModel(std::shared_ptr<Model>& model)
+	{
+		m_model = model;
+	}
+
+	void SetModelLoad(std::shared_ptr<ModelLoad>& modelLoad)
+	{
+		m_modelLoad = modelLoad;
+	}
+
+	void SetModelPool(std::shared_ptr<ModelPool>& modelPool)
+	{
+		m_modelPool = modelPool;
+	}
+
+	void SetModelGenerator(std::shared_ptr<ModelGenerator>& modelGenerator)
+	{
+		m_modelGenerator = modelGenerator;
+	}
+
 	void SetCharacter(std::shared_ptr<Character>& character)
 	{
 		m_character = character;
@@ -859,22 +902,6 @@ void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 	{
 		m_cameraTargetPlayer = cameraTargetPlayer;
 	}
-
-	void SetModel(std::shared_ptr<Model>& model)
-	{
-		m_model = model;
-	}
-
-	void SetModelLoad(std::shared_ptr<ModelLoad>& modelLoad)
-	{
-		m_modelLoad = modelLoad;
-	}
-
-	void SetModelPool(std::shared_ptr<ModelPool>& modelPool)
-	{
-		m_modelPool = modelPool;
-	}
-
 	void SetGimmickLoad(std::shared_ptr<GimmickLoad>& gimmickLoad)
 	{
 		m_gimmickLoad = gimmickLoad;

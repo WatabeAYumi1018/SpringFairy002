@@ -17,7 +17,7 @@ Floor::Floor()
 	m_floor->setTexture(dxe::Texture::CreateFromFile("graphics/floor/lawn.png"));
 	// プレーンを床とするため回転
 	m_floor->rot_
-		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(-90.0f));
+		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90.0f));
 	// 座標を調整（Y座標を下げて地面に配置)
     float distance = static_cast<float> (Floor::DRAW_DISTANCE);
 

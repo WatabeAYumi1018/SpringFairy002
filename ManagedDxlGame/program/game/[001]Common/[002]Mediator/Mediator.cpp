@@ -1,6 +1,9 @@
 #include "Mediator.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
+#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
+#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
+#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelGenerator.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
@@ -110,6 +113,111 @@ void Mediator::SetPlayerLookSide(bool look_side)
 //}
 
 //---------------------------//
+
+
+//----------Model-----------//
+
+// model
+
+//const tnl::Vector3& Mediator::GetModelPos() const
+//{
+//	return m_model->GetPos();
+//}
+//
+//Model::eWorldType Mediator::GetWorldModelType() const
+//{
+//	return m_model->GetWorldType();
+//}
+
+//void Mediator::SetIsModelAliveActive(bool is_active)
+//{
+//	m_model->SetIsAliveActive(is_active);
+//}
+
+//int Mediator::GetIsModelAliveActive() const
+//{
+//	return m_model->GetIsAliveActive();
+//}
+//
+//void Mediator::ToggleModelActive(bool is_world_active)
+//{
+//	m_model->ToggleActive(is_world_active);
+//}
+
+
+// modelLoad
+
+int Mediator::GetStageModelTotalNum() const
+{
+	return m_modelLoad->GetModelTotalNum();
+}
+
+//int Mediator::GetStageModelVecHeight() const
+//{
+//	return m_modelLoad->GetModelVecHeight();
+//}
+//
+//int Mediator::GetStageModelVecWidth() const
+//{
+//	return m_modelLoad->GetModelVecWidth();
+//}
+
+
+//const std::vector<Model::sStageModel>& Mediator::GetStageTreeVector() const
+//{
+//	return m_modelLoad->GetTreeVector();
+//}
+//
+//const std::vector<Model::sStageModel>& Mediator::GetStageGrassVector() const
+//{
+//	return m_modelLoad->GetGrassVector();
+//}
+
+const std::vector<Model::sMeshModelType>& Mediator::GetStageModelTypeInfo() const
+{
+	return m_modelLoad ->GetModelTypeInfo();
+}
+
+//Model::sStageModelType Mediator::GetStageModelInfoById(int id)
+//{
+//	return m_modelLoad -> GetModelInfoById(id);
+//}
+
+// modelPool
+
+//void Mediator::IsActivatePoolAllModels(Model::eWorldType world_type)
+//{
+//	m_modelPool->IsActivateAllModels(world_type);
+//}
+
+std::vector<std::shared_ptr<Model>>& Mediator::GetPoolModels() const
+{
+	return m_modelPool->GetModels();
+}
+
+//std::shared_ptr<Model> Mediator::GetPoolRandomModel(Model::eWorldType world_type)
+//{
+//	return m_modelPool->GetRandomModel(world_type);
+//}
+
+// ModelGenerator
+
+void Mediator::ModelGeneInitialize()
+{
+	m_modelGenerator->Initialize();
+}
+
+void Mediator::ModelGeneUpdate(const float delta_time)
+{
+	m_modelGenerator->Update(delta_time);
+}
+
+void Mediator::ModelGeneDraw(std::shared_ptr<GameCamera> gameCamera)
+{
+	m_modelGenerator->Draw(gameCamera);
+}
+
+//--------------------------//
 
 
 //----------Player----------//
@@ -365,94 +473,6 @@ const Lane::sLaneEvent& Mediator::GetEventLane() const
 
 //--------------------------//
 
-
-//----------Model-----------//
-
-// model
-
-//const tnl::Vector3& Mediator::GetModelPos() const
-//{
-//	return m_model->GetPos();
-//}
-//
-//Model::eWorldType Mediator::GetWorldModelType() const
-//{
-//	return m_model->GetWorldType();
-//}
-
-//void Mediator::SetIsModelAliveActive(bool is_active)
-//{
-//	m_model->SetIsAliveActive(is_active);
-//}
-
-//int Mediator::GetIsModelAliveActive() const
-//{
-//	return m_model->GetIsAliveActive();
-//}
-//
-//void Mediator::ToggleModelActive(bool is_world_active)
-//{
-//	m_model->ToggleActive(is_world_active);
-//}
-
-
-// modelLoad
-
-int Mediator::GetStageModelTotalNum() const
-{
-	return m_modelLoad->GetModelTotalNum();
-}
-
-//int Mediator::GetStageModelVecHeight() const
-//{
-//	return m_modelLoad->GetModelVecHeight();
-//}
-//
-//int Mediator::GetStageModelVecWidth() const
-//{
-//	return m_modelLoad->GetModelVecWidth();
-//}
-
-
-//const std::vector<Model::sStageModel>& Mediator::GetStageTreeVector() const
-//{
-//	return m_modelLoad->GetTreeVector();
-//}
-//
-//const std::vector<Model::sStageModel>& Mediator::GetStageGrassVector() const
-//{
-//	return m_modelLoad->GetGrassVector();
-//}
-
-const std::vector<Model::sMeshModelType>& Mediator::GetStageModelTypeInfo() const
-{
-	return m_modelLoad ->GetModelTypeInfo();
-}
-
-//Model::sStageModelType Mediator::GetStageModelInfoById(int id)
-//{
-//	return m_modelLoad -> GetModelInfoById(id);
-//}
-
-// modelPool
-
-//void Mediator::IsActivatePoolAllModels(Model::eWorldType world_type)
-//{
-//	m_modelPool->IsActivateAllModels(world_type);
-//}
-
-std::vector<std::shared_ptr<Model>>& Mediator::GetPoolModels() const
-{
-	return m_modelPool->GetModels();
-}
-
-//std::shared_ptr<Model> Mediator::GetPoolRandomModel(Model::eWorldType world_type)
-//{
-//	return m_modelPool->GetRandomModel(world_type);
-//}
-
-
-//--------------------------//
 
 
 //-----------Gimmick-----------//

@@ -27,6 +27,11 @@ class LaneMove;
 
 class Floor;
 
+class Model;
+class ModelLoad;
+class ModelPool;
+class ModelGenerator;
+
 class Character;
 
 class Player;
@@ -42,9 +47,6 @@ class PartnerDraw;
 
 class CameraTargetPlayer;
 
-class Model;
-class ModelLoad;
-class ModelPool;
 
 class Gimmick;
 class GimmickLoad;
@@ -100,6 +102,11 @@ private:
 
 	std::shared_ptr<Floor> m_floor = nullptr;
 
+	std::shared_ptr<Model> m_model = nullptr;
+	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
+	std::shared_ptr<ModelPool> m_modelPool = nullptr;
+	std::shared_ptr<ModelGenerator> m_modelGenerator = nullptr;
+
 	std::shared_ptr<Character> m_character = nullptr;
 
 	std::shared_ptr<Player> m_player = nullptr;
@@ -114,10 +121,6 @@ private:
 	std::shared_ptr<PartnerDraw> m_partnerDraw = nullptr;
 
 	std::shared_ptr<CameraTargetPlayer> m_cameraTargetPlayer = nullptr;
-
-	std::shared_ptr<Model> m_model = nullptr;
-	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
-	std::shared_ptr<ModelPool> m_modelPool = nullptr;
 
 	std::shared_ptr<GimmickLoad> m_gimmickLoad = nullptr;
 	std::shared_ptr<GimmickGenerator> m_gimmickGenerator = nullptr;

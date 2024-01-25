@@ -1,4 +1,4 @@
-モデルID,モデル ファイルパス,テクスチャ ファイルパス
-0,model/stage/flowers/lavender.mv1,model/stage/flowers/plant.png
-1,model/stage/flowers/marguerite.mv1,model/stage/flowers/plant.png
-2,model/stage/flowers/poppy.mv1,model/stage/flowers/poppy.png
+モデルID,モデル ファイルパス,テクスチャ ファイルパス,x軸の生成個数,z軸の生成個数,スケール,生成間隔,x座標オフセット,y座標オフセット,z座標オフセット
+0,model/stage/flowers/lavender.mv1,model/stage/flowers/plant.png,10,10,100,50,0,0,0
+1,model/stage/flowers/marguerite.mv1,model/stage/flowers/plant.png,10,10,100,100,50,0,50
+2,model/stage/flowers/poppy.mv1,model/stage/flowers/poppy.png,10,10,10,500,500,0,500
