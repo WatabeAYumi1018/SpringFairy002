@@ -11,19 +11,29 @@ class Gimmick : public Object
 
 public:
 
-	struct sGimmick
+	enum class eGimmickType
 	{
-		int s_id;
-		tnl::Vector3 s_pos;
+		plant,
+		tree,
+		sky_flower,
+		butterfly,
+		Max
 	};
 
-	struct sGimmickType
+	//struct sGimmick
+	//{
+	//	int s_id;
+	//	tnl::Vector3 s_pos;
+	//};
+
+	struct sGimmickTypeInfo
 	{
 		int s_id;
 		int s_model_hdl;
 		int s_texture_hdl;
 		std::string s_model_path;
 		std::string s_texture_path;
+		eGimmickType s_type;
 	};
 
 
@@ -52,7 +62,7 @@ private:
 	DxLib::COLOR_F m_emissive = { 0.5f,0.5f,0.5f,1 };
 
 	// csvから読み取ったモデルの情報
-	sGimmickType m_item_data;
+	sGimmickTypeInfo m_item_data;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(Gimmick, &Gimmick::SeqNormal);

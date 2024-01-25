@@ -34,20 +34,20 @@ void PlayerCollision::CollisionRegisterPlayerToItem()
 void PlayerCollision::CollisionRegisterMeshToItem()
 {
 	// ƒƒbƒVƒ…‚ÆƒAƒCƒeƒ€‚Ì“–‚½‚è”»’è
-	std::string mesh_to_item_key
+	std::string mesh_to_gimmick_key
 		= typeid(dxe::Mesh).name() + std::string(typeid(Gimmick).name());
 
-	m_collision_mesh->registerIntersect(mesh_to_item_key
+	m_collision_mesh->registerIntersect(mesh_to_gimmick_key
 										, [this](std::shared_ptr<dxe::Mesh> mesh
-										, std::shared_ptr<Gimmick> item)
+										, std::shared_ptr<Gimmick> gimmick)
 	{
 		if (m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
-												, item, item->GetCollisionSize()))
+												, gimmick, gimmick->GetCollisionSize()))
 		{
 			// “–‚½‚è”»’è”­¶‡}
-			item->SetIsHit(true);
+			gimmick->SetIsHit(true);
 			// •`‰æØ‚è‘Ö‚¦‡}
-			item->SetIsDrawChange(true);
+			gimmick->SetIsDrawChange(true);
 		}
 	});
 }

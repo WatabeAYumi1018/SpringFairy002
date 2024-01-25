@@ -119,9 +119,9 @@ private:
 	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
 	std::shared_ptr<ModelPool> m_modelPool = nullptr;
 
-	std::shared_ptr<GimmickLoad> m_itemLoad = nullptr;
-	std::shared_ptr<GimmickGenerator> m_itemGenerator = nullptr;
-	std::shared_ptr<GimmickPool> m_itemPool = nullptr;
+	std::shared_ptr<GimmickLoad> m_gimmickLoad = nullptr;
+	std::shared_ptr<GimmickGenerator> m_gimmickGenerator = nullptr;
+	std::shared_ptr<GimmickPool> m_gimmickPool = nullptr;
 
 	std::shared_ptr<Effect> m_effect = nullptr;
 	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
@@ -152,7 +152,7 @@ private:
 	// モデルオブジェクトのプール
 	//void PoolModelObject();
 	// アイテムオブジェクトのプール
-	void PoolItemObject();
+	void PoolGimmickObject();
 	// 生成したオブジェクトをlistに格納
 	void StorageObject();
 
@@ -177,9 +177,9 @@ public:
 		return m_stagePhase;
 	}
 
-	const std::shared_ptr<GimmickGenerator>& GetItemGenerator() const
+	const std::shared_ptr<GimmickGenerator>& GetGimmickGenerator() const
 	{
-		return m_itemGenerator;
+		return m_gimmickGenerator;
 	}
 
 	const std::shared_ptr<ScreenShot>& GetScreenShot() const

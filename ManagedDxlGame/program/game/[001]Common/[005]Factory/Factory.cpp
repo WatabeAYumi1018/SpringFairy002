@@ -47,7 +47,7 @@ Factory::Factory()
 
 	StorageObject();
 
-	PoolItemObject();
+	PoolGimmickObject();
 
 	m_laneMove->GetAutoMove();
 }
@@ -94,9 +94,9 @@ void Factory::CreateObject()
 
 	//m_modelPool = std::make_shared<ModelPool>();
 
-	m_itemLoad = std::make_shared<GimmickLoad>();
-	m_itemGenerator = std::make_shared<GimmickGenerator>();
-	m_itemPool = std::make_shared<GimmickPool>();
+	m_gimmickLoad = std::make_shared<GimmickLoad>();
+	m_gimmickGenerator = std::make_shared<GimmickGenerator>();
+	m_gimmickPool = std::make_shared<GimmickPool>();
 
 	m_effect = std::make_shared<Effect>();
 	m_effectLoad = std::make_shared<EffectLoad>();
@@ -138,9 +138,9 @@ void Factory::SetObjectReference()
 	m_mediator->SetModel(m_model);
 	m_mediator->SetModelLoad(m_modelLoad);
 	m_mediator->SetModelPool(m_modelPool);
-	m_mediator->SetGimmickLoad(m_itemLoad);
-	m_mediator->SetGimmickGenerator(m_itemGenerator);
-	m_mediator->SetGimmickPool(m_itemPool);
+	m_mediator->SetGimmickLoad(m_gimmickLoad);
+	m_mediator->SetGimmickGenerator(m_gimmickGenerator);
+	m_mediator->SetGimmickPool(m_gimmickPool);
 	m_mediator->SetEffectLoad(m_effectLoad);
 	m_mediator->SetText(m_text);
 	m_mediator->SetTextLoad(m_textLoad);
@@ -168,7 +168,7 @@ void Factory::SetObjectReference()
 	m_partnerMove->SetMediator(m_mediator);
 	m_partnerDraw->SetMediator(m_mediator);
 	m_cameraTargetPlayer->SetMediator(m_mediator);
-	m_itemGenerator->SetMediator(m_mediator);
+	m_gimmickGenerator->SetMediator(m_mediator);
 	m_effect->SetMediator(m_mediator);
 	m_text->SetMediator(m_mediator);
 	m_textLoad->SetMediator(m_mediator);
@@ -183,25 +183,25 @@ void Factory::SetObjectReference()
 	//m_cameraFrustum->SetGameCamera(m_gameCamera);
 }
 
-void Factory::PoolItemObject()
+void Factory::PoolGimmickObject()
 {
-	int create_num = m_itemPool->GetGimmickCreateNum();
+	int create_num = m_gimmickPool->GetGimmickCreateNum();
 
 	// アイテムを最初に20個生成して格納
 	for (int i = 0; i < create_num; ++i)
 	{
-		std::shared_ptr<Gimmick> item = std::make_shared<Gimmick>();
+		std::shared_ptr<Gimmick> gimmick = std::make_shared<Gimmick>();
 		// メディエーターの設定
-		item->SetMediator(m_mediator);
+		gimmick->SetMediator(m_mediator);
 		// アイテムの設定
-		m_itemGenerator->SetItem(item);
+		m_gimmickGenerator->SetGimmick(gimmick);
 		// アイテムプールに格納
-		m_itemPool->AddGimmick(item);
+		m_gimmickPool->AddGimmick(gimmick);
 		// オブジェクト型リストに追加（ポリモフィズムのため）
-		m_objects.emplace_back(item);
+		m_objects.emplace_back(gimmick);
 	}
 
-	std::vector<std::shared_ptr<Gimmick>> items = m_itemPool->GetGimmicks();
+	std::vector<std::shared_ptr<Gimmick>> items = m_gimmickPool->GetGimmicks();
 
 	m_playerCollision->SetItems(items);
 }

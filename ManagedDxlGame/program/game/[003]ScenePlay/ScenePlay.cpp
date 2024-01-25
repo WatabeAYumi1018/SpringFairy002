@@ -41,7 +41,7 @@ void ScenePlay::Initialize()
 	// ステージの取得
 	m_stagePhase = m_factory->GetStagePhase();
 	// アイテムジェネレータの取得
-	m_itemGenerator = m_factory->GetItemGenerator();
+	m_itemGenerator = m_factory->GetGimmickGenerator();
 	// スクリーンショットの取得
 	m_screenShot = m_factory->GetScreenShot();
 

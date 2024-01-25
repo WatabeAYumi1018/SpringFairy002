@@ -18,7 +18,7 @@ private:
 
 	GameCamera::sCameraInfo m_camera_info;
 
-	Gimmick::sGimmick m_gimmick;
+	//Gimmick::sGimmick m_gimmick;
 
 	Lane::sLaneEvent m_event;
 

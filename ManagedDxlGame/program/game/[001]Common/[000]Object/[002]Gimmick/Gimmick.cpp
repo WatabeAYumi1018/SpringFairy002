@@ -31,8 +31,8 @@ void Gimmick::Initialize()
 	// 材質の指定はないため引数は0
 	MV1SetTextureGraphHandle(m_item_data.s_model_hdl, 0, m_item_data.s_texture_hdl, FALSE);
 
-	// アイテムの種類の総数を取得
-	m_id_num = m_mediator->GetGimmickIdNum();
+	//// アイテムの種類の総数を取得
+	//m_id_num = m_mediator->GetGimmickIdNum();
 }
 
 void Gimmick::Update(float delta_time)
@@ -97,7 +97,7 @@ void Gimmick::ChangeTexture()
 	int new_texture = RandomTexture();
 
 	// 新しいテクスチャ情報を取得
-	Gimmick::sGimmickType new_texture_id
+	Gimmick::sGimmickTypeInfo new_texture_id
 			= m_mediator->GetGimmickLoadInfoById(new_texture);
 
 	// 古いテクスチャを削除

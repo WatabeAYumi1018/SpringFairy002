@@ -2,9 +2,13 @@
 #include "../dxlib_ext.h"
 #include "dxlib_ext_mesh.h"
 #include "dxlib_ext_inst_mesh.h"
+#include "../effects/shader/instatncing/shader_instancing_vs.h"
+#include "../effects/shader/instatncing/shader_instancing_ps.h"
 
 
 namespace dxe {
+
+#define DXE_INSTANCING_SHADER_COMPLIE 0
 
     using namespace DirectX;
 
@@ -83,6 +87,7 @@ namespace dxe {
         DxLib::COLOR_F  light_diffuse_ = { 0, 0, 0 };
         DxLib::COLOR_F  light_ambient_ = { 0, 0, 0 };
         DxLib::COLOR_F  light_specular_ = { 0, 0, 0 };
+        int             light_enable_ = 0;
     } INST_MESH_POOL_CBUFFER ;
 
     typedef struct _INSTANCE_DATA
@@ -122,7 +127,9 @@ namespace dxe {
         Shared<Mesh> clone = mesh->createClone();
         if (clone->getVertexs().empty()) {
 
-            auto info = MV1GetReferenceMesh(clone->getDxMvHdl(), 0, 0);
+            int err = MV1SetupReferenceMesh(clone->getDxMvHdl(), -1, 0, 0, -1);
+            auto info = MV1GetReferenceMesh(clone->getDxMvHdl(), -1, 0, 0, -1);
+            MV1TerminateReferenceMesh(clone->getDxMvHdl(), -1, 0, 0, -1);
 
             clone->idxs_.resize(info.PolygonNum * 3) ;
             clone->vtxs_.resize(info.PolygonNum * 3) ;
@@ -284,9 +291,27 @@ namespace dxe {
         index_buffer_.Attach(p_index_buffer);
         delete[] indexs;
 
+
+
+        // 頂点のインプットレイアウト
+        D3D11_INPUT_ELEMENT_DESC layout[] = {
+            { "SV_Position",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+            { "NORMAL",         0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+            { "TEXCOORD",       0, DXGI_FORMAT_R32G32_FLOAT,    0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+
+            { "MATRIX",         0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+            { "MATRIX",         1, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+            { "MATRIX",         2, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 32, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+            { "MATRIX",         3, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 48, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+            { "TEX_INDEX",      0, DXGI_FORMAT_R32_UINT,           1, 64, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+        };
+
         //-------------------------------------------------------------------------------------------------
         // 頂点シェーダーの作成
         ID3DBlob* p_blob_vertex = nullptr;
+
+
+#if DXE_INSTANCING_SHADER_COMPLIE 
 
         hr = D3DCompileFromFile(L"shader/instancing/instancing.hlsl", nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
             "VSMain", "vs_5_0", D3DCOMPILE_ENABLE_STRICTNESS, 0, &p_blob_vertex, &p_err);
@@ -308,20 +333,7 @@ namespace dxe {
             return;
         }
 
-
         //-------------------------------------------------------------------------------------------------
-        // 頂点のインプットレイアウト作成
-        D3D11_INPUT_ELEMENT_DESC layout[] = {
-            { "SV_Position",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-            { "NORMAL",         0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-            { "TEXCOORD",       0, DXGI_FORMAT_R32G32_FLOAT,    0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-
-            { "MATRIX",         0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
-            { "MATRIX",         1, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
-            { "MATRIX",         2, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 32, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
-            { "MATRIX",         3, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 48, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
-            { "TEX_INDEX",      0, DXGI_FORMAT_R32_UINT,           1, 64, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
-        };
         ID3D11InputLayout* il = nullptr;
         hr = pd3dDevice->CreateInputLayout(layout, ARRAYSIZE(layout),
             p_blob_vertex->GetBufferPointer(), p_blob_vertex->GetBufferSize(),
@@ -334,6 +346,37 @@ namespace dxe {
             return;
         }
 
+#else
+
+        ID3D11VertexShader* vertex_shader = nullptr;
+        hr = pd3dDevice->CreateVertexShader(&g_instancing_VSMain, sizeof(g_instancing_VSMain), NULL, &vertex_shader);
+        vertex_shader_.Attach(vertex_shader);
+        if (S_OK != hr) {
+            tnl::DebugTrace("-----------------------------------------------------------------\n");
+            tnl::DebugTrace("Error : Instancing Create Vertex Shader \n");
+            tnl::DebugTrace("-----------------------------------------------------------------\n");
+            return;
+        }
+
+        //-------------------------------------------------------------------------------------------------
+        // 頂点のインプットレイアウト作成
+        ID3D11InputLayout* il = nullptr;
+        hr = pd3dDevice->CreateInputLayout(layout, ARRAYSIZE(layout),
+            &g_instancing_VSMain, sizeof(g_instancing_VSMain),
+            &il);
+        input_layout_.Attach(il);
+        if (S_OK != hr) {
+            tnl::DebugTrace("-----------------------------------------------------------------\n");
+            tnl::DebugTrace("Error : Instancing Create Input Layout \n");
+            tnl::DebugTrace("-----------------------------------------------------------------\n");
+            return;
+        }
+
+#endif
+
+
+
+#if DXE_INSTANCING_SHADER_COMPLIE 
 
         //-------------------------------------------------------------------------------------------------
         // ピクセルシェーダの作成
@@ -357,7 +400,25 @@ namespace dxe {
             tnl::DebugTrace("-----------------------------------------------------------------\n");
             return;
         }
+#else
 
+        //
+        // コンパイル済みヘッダから作成
+        //
+        ID3D11PixelShader* ps = nullptr;
+        hr = pd3dDevice->CreatePixelShader(
+            &g_instancing_PSMain,
+            sizeof(g_instancing_PSMain), NULL, &ps);
+        pixel_shader_.Attach(ps);
+        if (S_OK != hr) {
+            tnl::DebugTrace("-----------------------------------------------------------------\n");
+            tnl::DebugTrace("Error : Particle Create Pixel Shader \n");
+            tnl::DebugTrace("-----------------------------------------------------------------\n");
+            return;
+        }
+
+
+#endif
 
         //-------------------------------------------------------------------------------------------------
         // シェーダ定数バッファの作成
@@ -375,54 +436,6 @@ namespace dxe {
             tnl::DebugTrace("-----------------------------------------------------------------\n");
             return;
         }
-
-        //-------------------------------------------------------------------------------------------------
-        // サンプラーステートの作成
-        D3D11_SAMPLER_DESC samplerDesc;
-        ::ZeroMemory(&samplerDesc, sizeof(D3D11_SAMPLER_DESC));
-        samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;         // サンプリング時に使用するフィルタ。ここでは異方性フィルターを使用する。
-        samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある u テクスチャー座標の描画方法
-        samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある v テクスチャー座標の描画方法
-        samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある w テクスチャー座標の描画方法
-        samplerDesc.MipLODBias = 0;                            // 計算されたミップマップ レベルからのバイアス
-        samplerDesc.MaxAnisotropy = 16;                        // サンプリングに異方性補間を使用している場合の限界値。有効な値は 1 ～ 16 。
-        samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;  // 比較オプション。
-
-        samplerDesc.BorderColor[0] = 0;
-        samplerDesc.BorderColor[1] = 0;
-        samplerDesc.BorderColor[2] = 0;
-        samplerDesc.BorderColor[3] = 0;
-
-        samplerDesc.MinLOD = 0;                                // アクセス可能なミップマップの下限値
-        samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;                // アクセス可能なミップマップの上限値
-        ID3D11SamplerState* st = nullptr;
-        hr = pd3dDevice->CreateSamplerState(&samplerDesc, &st);
-        sampler_state_.Attach(st);
-        if (S_OK != hr) {
-            tnl::DebugTrace("-----------------------------------------------------------------\n");
-            tnl::DebugTrace("Error : Instancing Create Sampler State \n");
-            tnl::DebugTrace("-----------------------------------------------------------------\n");
-            return;
-        }
-
-        //-------------------------------------------------------------------------------------------------
-        // ラスタライザステートの作成
-        ID3D11RasterizerState* rs = nullptr;
-        D3D11_RASTERIZER_DESC desc = {};
-        desc.CullMode = D3D11_CULL_NONE;
-        desc.FillMode = D3D11_FILL_SOLID;
-        desc.FrontCounterClockwise = true;
-        desc.ScissorEnable = false;
-        desc.MultisampleEnable = false;
-        hr = pd3dDevice->CreateRasterizerState(&desc, &rs);
-        if (S_OK != hr) {
-            tnl::DebugTrace("-----------------------------------------------------------------\n");
-            tnl::DebugTrace("Error : Instancing Create Rasterizer State \n");
-            tnl::DebugTrace("-----------------------------------------------------------------\n");
-            return;
-        }
-        rasterizer_state_.Attach(rs);
-
 
 
         //-------------------------------------------------------------------------------------------------
@@ -519,7 +532,7 @@ namespace dxe {
 
 
     //----------------------------------------------------------------------------------------------------------------------------
-    void InstMeshPool::mapInstances() {
+    void InstMeshPool::mapInstances(const Shared<dxe::Camera>& camera) {
 
         // 更新の必要はない
         if (!is_needs_updated_) return ;
@@ -545,7 +558,12 @@ namespace dxe {
         auto* instance = (INSTANCE_DATA*)mappedBuffer.pData;
         XMMATRIX matT, matS, matR, matW ;
         for (size_t i = 0; i < instance_num_; i++) {
-            matT = XMMatrixTranslation(TNL_DEP_V3(instances_[i]->pos_));
+            if (dxe::Camera::eDimension::Type3D == camera->dimension_) {
+                matT = XMMatrixTranslation(TNL_DEP_V3(instances_[i]->pos_));
+            }
+            else {
+                matT = XMMatrixTranslation(instances_[i]->pos_.x, -instances_[i]->pos_.y, 0);
+            }
             matR = DirectX::XMMatrixRotationQuaternion(DirectX::XMLoadFloat4(&instances_[i]->rot_) ) ;
             if (instances_[i]->draw_enable_) {
                 matS = XMMatrixScaling(TNL_DEP_V3(instances_[i]->scl_));
@@ -567,9 +585,9 @@ namespace dxe {
 
 
     //----------------------------------------------------------------------------------------------------------------------------
-    void InstMeshPool::render(Shared<dxe::Camera> camera) {
+    void InstMeshPool::render(const Shared<dxe::Camera>& camera) {
 
-        mapInstances();
+        mapInstances(camera);
 
         HRESULT hr = E_FAIL;
         ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
@@ -584,24 +602,30 @@ namespace dxe {
             // プリミティブ タイプおよびデータの順序に関する情報を設定
             pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-            if (render_param_.getDepthTestEnable() && render_param_.getWriteDepthBufferEnable()) {
-                pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_ON_T_ON), 0);
-            } 
-            else if (render_param_.getDepthTestEnable() && !render_param_.getWriteDepthBufferEnable()) {
-                pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_OFF_T_ON), 0);
+            if (dxe::Camera::eDimension::Type3D == camera->getDimension()) {
+                if (render_param_.getDepthTestEnable() && render_param_.getWriteDepthBufferEnable()) {
+                    pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_ON_T_ON), 0);
+                } 
+                else if (render_param_.getDepthTestEnable() && !render_param_.getWriteDepthBufferEnable()) {
+                    pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_OFF_T_ON), 0);
+                }
+                else if (!render_param_.getDepthTestEnable() && render_param_.getWriteDepthBufferEnable()) {
+                    pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_ON_T_OFF), 0);
+                }
+                else if (!render_param_.getDepthTestEnable() && !render_param_.getWriteDepthBufferEnable()) {
+                    pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_OFF_T_OFF), 0);
+                }
             }
-            else if (!render_param_.getDepthTestEnable() && render_param_.getWriteDepthBufferEnable()) {
-                pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_ON_T_OFF), 0);
-            }
-            else if (!render_param_.getDepthTestEnable() && !render_param_.getWriteDepthBufferEnable()) {
+            else {
                 pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_OFF_T_OFF), 0);
             }
+
 
             // 深度テストを無効にする
             pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_ON_T_ON), 0);
 
             // ラスタライザステート設定
-            ID3D11RasterizerState* rs = rasterizer_state_.Get();
+            ID3D11RasterizerState* rs = GetRasterizerState(rasterizer_state_);
             pImmediateContext->RSSetState(rs);
 
             // ブレンドステート設定
@@ -648,14 +672,14 @@ namespace dxe {
             pImmediateContext->PSSetShaderResources(0, 1, &sv);
 
             // サンプラステートを設定する
-            ID3D11SamplerState* st = sampler_state_.Get();
+            ID3D11SamplerState* st = GetSamplerState(sampler_state_);
             pImmediateContext->PSSetSamplers(0, 1, &st);
 
 
             XMMATRIX matView, matProj;
             matView = XMLoadFloat4x4(&camera->view_);
             matProj = XMLoadFloat4x4(&camera->proj_);
-
+  
             INST_MESH_POOL_CBUFFER sb;
             sb.mat_view_ = XMMatrixTranspose(matView);
             sb.mat_proj_ = XMMatrixTranspose(matProj);
@@ -674,6 +698,7 @@ namespace dxe {
             sb.light_diffuse_ = GetLightDifColor();
             sb.light_ambient_ = GetLightAmbColor();
             sb.light_specular_ = GetLightSpcColor();
+            sb.light_enable_ = (is_lighting_enable_ && camera->getDimension() == dxe::Camera::eDimension::Type3D) ? 1 : 0;
 
             ID3D11Buffer* cb = constant_buffer_.Get();
             pImmediateContext->UpdateSubresource(cb, 0, nullptr, &sb, 0, 0);

@@ -12,10 +12,10 @@ void GimmickGenerator::Update(const float delta_time)
 {
     tnl_sequence_.update(delta_time);
 
-    CheckItems(delta_time);
+    CheckGimmicks(delta_time);
 }
 
-void GimmickGenerator::CheckItems(const float delta_time)
+void GimmickGenerator::CheckGimmicks(const float delta_time)
 {
     // アイテムプール内のすべてのアイテムを反復処理
     for (std::shared_ptr<Gimmick>& item : m_gimmicks)
@@ -29,7 +29,7 @@ void GimmickGenerator::CheckItems(const float delta_time)
 	}
 }
 
-void GimmickGenerator::GenerateItem(const float delta_time)
+void GimmickGenerator::GenerateGimmick(const float delta_time)
 {
     // 1秒ごとに実行する
     static float elapsed_time = 0.0f;
@@ -45,15 +45,15 @@ void GimmickGenerator::GenerateItem(const float delta_time)
     {
         std::shared_ptr<Gimmick> active_item = m_mediator->GetNotActiveGimmickPool();
 
-        if (active_item
-            && m_gimmick_lane.s_id == m_mediator->CurrentTargetGimmickLane().s_id)
-        {
-            tnl::Vector3 pos = CalcRandomPos();
+        //if (active_item
+        //    && m_gimmick_lane.s_id == m_mediator->CurrentTargetGimmickLane().s_id)
+        //{
+        //    tnl::Vector3 pos = CalcRandomPos();
 
-            active_item->SetPos(pos);
+        //    active_item->SetPos(pos);
 
-            active_item->SetIsActive(true);
-        }
+        //    active_item->SetIsActive(true);
+        //}
 
         elapsed_time = 0.0f;
     }
@@ -75,26 +75,26 @@ tnl::Vector3 GimmickGenerator::CalcRandomPos()
 
 bool GimmickGenerator::SeqFlower(const float delta_time)
 {
-    // 足元idが1の場合移行
-    if (m_gimmick_lane.s_id == 1)
-    {
-        m_is_flower_active = false;
+ //   // 足元idが1の場合移行
+ //   if (m_gimmick_lane.s_id == 1)
+ //   {
+ //       m_is_flower_active = false;
 
-		tnl_sequence_.change(&GimmickGenerator::SeqButterfly);
-	}
+	//	tnl_sequence_.change(&GimmickGenerator::SeqButterfly);
+	//}
 
     // 5秒に一度だけ足元判定して処理軽減（アイテム生成はアバウトでokかと）
     TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
     {
         m_is_flower_active = true;
 
-        // ターゲットの座標に対応するレーンを取得
-        m_gimmick_lane = m_mediator->CurrentTargetGimmickLane();
+        //// ターゲットの座標に対応するレーンを取得
+        //m_gimmick_lane = m_mediator->CurrentTargetGimmickLane();
     });
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]() 
     {
-		GenerateItem(delta_time);
+		GenerateGimmick(delta_time);
     });
 
 	TNL_SEQ_CO_END;
@@ -103,16 +103,16 @@ bool GimmickGenerator::SeqFlower(const float delta_time)
 bool GimmickGenerator::SeqButterfly(const float delta_time)
 {
     // 足元idが1の場合移行
-    if (m_gimmick_lane.s_id == 0)
-    {
-        m_is_flower_active = true;
+    //if (m_gimmick_lane.s_id == 0)
+    //{
+    //    m_is_flower_active = true;
 
-        tnl_sequence_.change(&GimmickGenerator::SeqFlower);
-    }
+    //    tnl_sequence_.change(&GimmickGenerator::SeqFlower);
+    //}
 
     TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
     {
-        GenerateItem(delta_time);
+        GenerateGimmick(delta_time);
     });
 
     TNL_SEQ_CO_END;

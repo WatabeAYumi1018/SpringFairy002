@@ -377,58 +377,6 @@ namespace dxe {
             }
         }
 
-        //-------------------------------------------------------------------------------------------------
-        // サンプラーステートの作成
-        {
-            D3D11_SAMPLER_DESC samplerDesc;
-            ::ZeroMemory(&samplerDesc, sizeof(D3D11_SAMPLER_DESC));
-            samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;         // サンプリング時に使用するフィルタ。ここでは異方性フィルターを使用する。
-            samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある u テクスチャー座標の描画方法
-            samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある v テクスチャー座標の描画方法
-            samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある w テクスチャー座標の描画方法
-            samplerDesc.MipLODBias = 0;                            // 計算されたミップマップ レベルからのバイアス
-            samplerDesc.MaxAnisotropy = 16;                        // サンプリングに異方性補間を使用している場合の限界値。有効な値は 1 ～ 16 。
-            samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;  // 比較オプション。
-
-            samplerDesc.BorderColor[0] = 0;
-            samplerDesc.BorderColor[1] = 0;
-            samplerDesc.BorderColor[2] = 0;
-            samplerDesc.BorderColor[3] = 0;
-
-            samplerDesc.MinLOD = 0;                                // アクセス可能なミップマップの下限値
-            samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;                // アクセス可能なミップマップの上限値
-            ID3D11SamplerState* st = nullptr;
-            hr = pd3dDevice->CreateSamplerState(&samplerDesc, &st);
-            sampler_state_.Attach(st);
-            if (S_OK != hr) {
-                tnl::DebugTrace("-----------------------------------------------------------------\n");
-                tnl::DebugTrace("Error : Particle Create Sampler State \n");
-                tnl::DebugTrace("-----------------------------------------------------------------\n");
-                return;
-            }
-        }
-
-
-        //-------------------------------------------------------------------------------------------------
-        // ラスタライザステートの作成
-        {
-            ID3D11RasterizerState* rs = nullptr;
-            D3D11_RASTERIZER_DESC desc = {};
-            desc.CullMode = D3D11_CULL_NONE;
-            desc.FillMode = D3D11_FILL_SOLID;
-            desc.FrontCounterClockwise = true;
-            desc.ScissorEnable = false;
-            desc.MultisampleEnable = false;
-            hr = pd3dDevice->CreateRasterizerState(&desc, &rs);
-            if (S_OK != hr) {
-                tnl::DebugTrace("-----------------------------------------------------------------\n");
-                tnl::DebugTrace("Error : Particle Create Rasterizer State \n");
-                tnl::DebugTrace("-----------------------------------------------------------------\n");
-                return;
-            }
-            rasterizer_state_.Attach(rs);
-        }
-
 
     }
 
@@ -505,53 +453,6 @@ namespace dxe {
         }
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------------
-    //void Particle::createBlendState() {
-
-    //    HRESULT hr = E_FAIL;
-    //    ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
-    //    //-------------------------------------------------------------------------------------------------
-    //    // ブレンドステートの作成
-    //    D3D11_RENDER_TARGET_BLEND_DESC desc;
-    //    desc.BlendEnable = TRUE;
-
-    //    // 通常合成( アルファ有効 )
-    //    switch (blend_mode_) {
-    //    case eBlendMode::ALPHA:
-    //        desc.SrcBlend = D3D11_BLEND_SRC_ALPHA;
-    //        desc.DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-    //        break;
-    //    case eBlendMode::ADD:
-    //        desc.SrcBlend = D3D11_BLEND_ONE;
-    //        desc.DestBlend = D3D11_BLEND_ONE;
-    //        break;
-    //    case eBlendMode::SUB:
-    //        desc.SrcBlend = D3D11_BLEND_ZERO;
-    //        desc.DestBlend = D3D11_BLEND_INV_SRC_COLOR;
-    //        break;
-    //    case eBlendMode::MUL:
-    //        desc.SrcBlend = D3D11_BLEND_DEST_COLOR;
-    //        desc.DestBlend = D3D11_BLEND_ZERO;
-    //        break;
-    //    }
-    //    desc.BlendOp = D3D11_BLEND_OP_ADD;
-    //    desc.SrcBlendAlpha = D3D11_BLEND_ONE;
-    //    desc.DestBlendAlpha = D3D11_BLEND_ZERO;
-    //    desc.BlendOpAlpha = D3D11_BLEND_OP_ADD;
-    //    desc.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-    //    D3D11_BLEND_DESC blend_desc;
-    //    ::ZeroMemory(&blend_desc, sizeof(D3D11_BLEND_DESC));
-    //    ::CopyMemory(&blend_desc.RenderTarget[0], &desc, sizeof(D3D11_RENDER_TARGET_BLEND_DESC));
-    //    ID3D11BlendState* bs = nullptr;
-    //    hr = pd3dDevice->CreateBlendState(&blend_desc, &bs);
-    //    blend_state_.Attach(bs);
-    //    if (S_OK != hr) {
-    //        tnl::DebugTrace("-----------------------------------------------------------------\n");
-    //        tnl::DebugTrace("Error : Particle Create Blend State \n");
-    //        tnl::DebugTrace("-----------------------------------------------------------------\n");
-    //        return;
-    //    }
-    //}
 
 
     //--------------------------------------------------------------------------------------------------------------------------------
@@ -671,8 +572,9 @@ namespace dxe {
             XMMATRIX matView, matProj, matWVP, matWorld;
             D3D11_MAPPED_SUBRESOURCE mappedResource;
 
-            matProj = XMLoadFloat4x4(&camera->proj_) ;
+            matProj = XMLoadFloat4x4(&camera->proj_);
             matView = XMLoadFloat4x4(&camera->view_);
+
             matWorld = XMMatrixTranslation(TNL_DEP_V3(pos_));
 
             // 行列の合成
@@ -686,7 +588,12 @@ namespace dxe {
             // シェーダー内では列優先にしているので転置行列を作成する。
             cbuffer->mat_view_ = XMMatrixTranspose(matView);
             cbuffer->mat_proj_ = XMMatrixTranspose(matProj);
-            cbuffer->emitter_position_ = pos_;
+            if (dxe::Camera::eDimension::Type3D == camera->getDimension()) {
+                cbuffer->emitter_position_ = pos_;
+            }
+            else {
+                cbuffer->emitter_position_ = { pos_.x, -pos_.y, 0 };
+            }
             cbuffer->emissive_ = emissive_;
             cbuffer->size_x_ = size_x_;
             cbuffer->size_y_ = size_y_;
@@ -809,10 +716,15 @@ namespace dxe {
             pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
             // 書き込み OFF テスト ON
-            pImmediateContext->OMSetDepthStencilState( GetDepthStencilState(eDepthStenclil::DEPTH_W_OFF_T_ON), 0 );
+            if (dxe::Camera::eDimension::Type3D == camera->getDimension()) {
+                pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_OFF_T_ON), 0);
+            }
+            else {
+                pImmediateContext->OMSetDepthStencilState(GetDepthStencilState(eDepthStenclil::DEPTH_W_OFF_T_OFF), 0);
+            }
 
             // ラスタライザステート設定
-            ID3D11RasterizerState* rs = rasterizer_state_.Get();
+            ID3D11RasterizerState* rs = GetRasterizerState(rasterizer_state_);
             pImmediateContext->RSSetState(rs);
 
             // ブレンドステート設定
@@ -856,7 +768,7 @@ namespace dxe {
             pImmediateContext->PSSetShaderResources(0, 1, &srv);
 
             // サンプラステートを設定する
-            ID3D11SamplerState* st = sampler_state_.Get();
+            ID3D11SamplerState* st = GetSamplerState(sampler_state_);
             pImmediateContext->PSSetSamplers(0, 1, &st);
 
             // コンピュートシェーダーを無効にする。

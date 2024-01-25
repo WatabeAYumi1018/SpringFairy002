@@ -3,6 +3,41 @@
 
 namespace dxe {
 
+
+#define SLIDER(ady, field, type, get, set, mmin, mmax, lavel, tips) \
+        y += ady ;\
+        if (!field) {\
+        field = Shared<GuiValueSlider< Particle, type >>(\
+            new GuiValueSlider< Particle, type >\
+            (this\
+                , &Particle::##get\
+                , &Particle::##set\
+                , { pos.x, pos.y + y }\
+                , mmin\
+                , mmax\
+        , lavel));\
+        field->setDescription([&]() {\
+            description_str_ = tips;\
+            });\
+        }\
+
+#define INPUT_BOX(type, field, func, box_str, lavel, tips)\
+        y += height;\
+        if (!field) {\
+            field = Shared<GuiInputBox>(\
+                new GuiInputBox\
+                (GuiInputBox::eInputType::##type, func, 5));\
+            field->setPosition({ pos.x, pos.y + y });\
+            field->setBoxString(box_str);\
+            field->setLabel(lavel);\
+            field->setSize({ 330, 20 });\
+            field->setBoxWidth(101);\
+            field->setDescription([&]() {\
+                description_str_ = tips;\
+                });\
+        }\
+
+
     //---------------------------------------------------------------------------------------------------------------------------------------------
     void Particle::drawGuiController(const tnl::Vector2i& pos) {
 
@@ -147,14 +182,14 @@ namespace dxe {
                 new GuiMenuSelector(
                     [&](uint32_t select_index) {
                         setEjectType(static_cast<eEjectType>(select_index));
-                    }, "EjectType::DIFF", "EjectType::CONV"
+                    }, "EjectType::DIFF", "EjectType::CONV", "EjectType::ICONV"
                 ));
             gui_eject_type_->setCurrentIndex(static_cast<uint32_t>(eject_type_));
             gui_eject_type_->setWidth(250);
             gui_eject_type_->setPosition({ tx, pos.y + y });
             gui_eject_type_->setLocation(dxe::GuiMenuSelector::eLocation::RIGHT_DOWN);
             gui_eject_type_->setDescription([&]() {
-                description_str_ = "発生した粒子が拡散するか収束するか [ DIFF : 拡散 ] [ CONV : 収束 ]";
+                description_str_ = "発生した粒子が拡散するか収束するか [ DIFF : 拡散 ] [ CONV : 収束 ] [ ICONV : 本来の収束点から逆方向へ ]";
             }) ;
         }
 
@@ -317,479 +352,118 @@ namespace dxe {
 
 
         y = 0;
-        if (!gui_particle_num_) {
-            gui_particle_num_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        num = std::clamp(num, 5, 10000);
-                        setParticleNum(num);
-                        gui_particle_num_->setBoxString(std::to_string(getParticleNum()));
-                    }, 5));
-            gui_particle_num_->setPosition({ pos.x, pos.y + y });
+        height = 0;
+        std::function<void(const std::string&)> fc_particle_num = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            num = std::clamp(num, 5, 10000);
+            setParticleNum(num);
             gui_particle_num_->setBoxString(std::to_string(getParticleNum()));
-            gui_particle_num_->setLabel("particle num");
-            gui_particle_num_->setSize({ 330, 20 });
-            gui_particle_num_->setBoxWidth(101);
-            gui_particle_num_->setDescription([&]() {
-                description_str_ = "粒子の数 多いほど処理速度に影響を与えるので注意";
-                });
-        }
+            };
+        INPUT_BOX(INT, gui_particle_num_, fc_particle_num, std::to_string(getParticleNum()), "particle num", "粒子の数 多いほど処理速度に影響を与えるので注意");
 
         height = 20;
-        y += height;
-        if (!gui_time_limit_) {
-            gui_time_limit_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::FLOAT,
-                    [&](const std::string& input_string) {
-                        float num = (float)std::atof(input_string.c_str());
-                        num = std::clamp(num, 0.05f, 60.0f);
-                        setTimeLimit(num);
-                        gui_time_limit_->setBoxString(tnl::FloatToString(getTimeLimit(), "%.2f"));
-                    }, 5));
-            gui_time_limit_->setPosition({ pos.x, pos.y + y });
+        std::function<void(const std::string&)> fc_time_limit = [&](const std::string& input_string) {
+            float num = (float)std::atof(input_string.c_str());
+            num = std::clamp(num, 0.05f, 60.0f);
+            setTimeLimit(num);
             gui_time_limit_->setBoxString(tnl::FloatToString(getTimeLimit(), "%.2f"));
-            gui_time_limit_->setLabel("time limit");
-            gui_time_limit_->setSize({ 330, 20 });
-            gui_time_limit_->setBoxWidth(101);
-            gui_time_limit_->setDescription([&]() {
-                description_str_ = "粒子が生み出されてから消えるまでの制限時間 (秒)";
-                });
-        }
+            };
+        INPUT_BOX(FLOAT, gui_time_limit_, fc_time_limit, tnl::FloatToString(getTimeLimit(), "%.2f"), "time limit", "粒子が生み出されてから消えるまでの制限時間 (秒)");
 
-        y += height;
-        if (!gui_origin_range_) {
-            gui_origin_range_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        setOriginRange(static_cast<float>(num));
-                        gui_origin_range_->setBoxString(tnl::FloatToString(getOriginRange(), "%.0f"));
-                    }, 5));
-            gui_origin_range_->setPosition({ pos.x, pos.y + y });
+        std::function<void(const std::string&)> fc_origin_range = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            setOriginRange(static_cast<float>(num));
             gui_origin_range_->setBoxString(tnl::FloatToString(getOriginRange(), "%.0f"));
-            gui_origin_range_->setLabel("origin range");
-            gui_origin_range_->setSize({ 330, 20 });
-            gui_origin_range_->setBoxWidth(101);
-            gui_origin_range_->setDescription([&]() {
-                description_str_ = "粒子が発生する範囲 OriginMode で球状や円状にできます";
-                });
-        }
+            };
+        INPUT_BOX(INT, gui_origin_range_, fc_origin_range, tnl::FloatToString(getOriginRange(), "%.0f"), "origin range", "粒子が発生する範囲 OriginMode で球状や円状にできます");
 
-        y += height;
-        if (!gui_waver_factor_) {
-            gui_waver_factor_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        setWaverFactor(static_cast<float>(num));
-                        gui_waver_factor_->setBoxString(tnl::FloatToString(getWaverFactor(), "%.0f"));
-                    }, 5));
-            gui_waver_factor_->setPosition({ pos.x, pos.y + y });
+
+        std::function<void(const std::string&)> fc_waver_factor = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            setWaverFactor(static_cast<float>(num));
             gui_waver_factor_->setBoxString(tnl::FloatToString(getWaverFactor(), "%.0f"));
-            gui_waver_factor_->setLabel("waver factor");
-            gui_waver_factor_->setSize({ 330, 20 });
-            gui_waver_factor_->setBoxWidth(101);
-            gui_waver_factor_->setDescription([&]() {
-                description_str_ = "移動の揺らぎ係数";
-            });
-        }
+            };
+        INPUT_BOX(INT, gui_waver_factor_, fc_waver_factor, tnl::FloatToString(getWaverFactor(), "%.0f"), "waver factor", "移動の揺らぎ係数");
 
-        y += height;
-        if (!gui_start_velocity_) {
-            gui_start_velocity_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        setStartVelocity(static_cast<float>(num));
-                        gui_start_velocity_->setBoxString(tnl::FloatToString(getStartVelocity(), "%.0f"));
-                    }, 5));
-            gui_start_velocity_->setPosition({ pos.x, pos.y + y });
+        std::function<void(const std::string&)> fc_start_velocity = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            setStartVelocity(static_cast<float>(num));
             gui_start_velocity_->setBoxString(tnl::FloatToString(getStartVelocity(), "%.0f"));
-            gui_start_velocity_->setLabel("start vlcty");
-            gui_start_velocity_->setSize({ 330, 20 });
-            gui_start_velocity_->setBoxWidth(101);
-            gui_start_velocity_->setDescription([&]() {
-                description_str_ = "direction 方向へ放出される粒子の速度 EjectTypeをDIFFに設定したときのみ有効";
-                });
-        }
+            };
+        INPUT_BOX(INT, gui_start_velocity_, fc_start_velocity, tnl::FloatToString(getStartVelocity(), "%.0f"), "start vlcty", "direction 方向へ放出される粒子の速度 EjectType::CONV では無効");
 
-        y += height;
-        if (!gui_gravity_factor_) {
-            gui_gravity_factor_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        setGravityFactor(static_cast<float>(num));
-                        gui_gravity_factor_->setBoxString(tnl::FloatToString(getGravityFactor(), "%.0f"));
-                    }, 5));
-            gui_gravity_factor_->setPosition({ pos.x, pos.y + y });
+
+        std::function<void(const std::string&)> fc_gravity_factor = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            setGravityFactor(static_cast<float>(num));
             gui_gravity_factor_->setBoxString(tnl::FloatToString(getGravityFactor(), "%.0f"));
-            gui_gravity_factor_->setLabel("gravity factor");
-            gui_gravity_factor_->setSize({ 330, 20 });
-            gui_gravity_factor_->setBoxWidth(101);
-            gui_gravity_factor_->setDescription([&]() {
-                description_str_ = "重力係数 EjectTypeをDIFFに設定したときのみ有効";
-                });
-        }
+            };
+        INPUT_BOX(INT, gui_gravity_factor_, fc_gravity_factor, tnl::FloatToString(getGravityFactor(), "%.0f"), "gravity factor", "重力係数 EjectType::COMV では無効");
 
-        y += height;
-        if (!gui_position_x_) {
-            gui_position_x_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        setPosition({ static_cast<float>(num), getPosition().y, getPosition().z });
-                        gui_position_x_->setBoxString(tnl::FloatToString(getPosition().x, "%.0f"));
-                    }, 5));
-            gui_position_x_->setPosition({ pos.x, pos.y + y });
+
+        std::function<void(const std::string&)> fc_position_x = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            setPosition({ static_cast<float>(num), getPosition().y, getPosition().z });
             gui_position_x_->setBoxString(tnl::FloatToString(getPosition().x, "%.0f"));
-            gui_position_x_->setLabel("position x");
-            gui_position_x_->setSize({ 330, 20 });
-            gui_position_x_->setBoxWidth(101);
-        }
+            };
+        INPUT_BOX(INT, gui_position_x_, fc_position_x, tnl::FloatToString(getPosition().x, "%.0f"), "position x", "エミッター X 座標");
 
-        y += height;
-        if (!gui_position_y_) {
-            gui_position_y_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        setPosition({ getPosition().x, static_cast<float>(num), getPosition().z });
-                        gui_position_y_->setBoxString(tnl::FloatToString(getPosition().y, "%.0f"));
-                    }, 5));
-            gui_position_y_->setPosition({ pos.x, pos.y + y });
+        std::function<void(const std::string&)> fc_position_y = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            setPosition({ getPosition().x, static_cast<float>(num), getPosition().z });
             gui_position_y_->setBoxString(tnl::FloatToString(getPosition().y, "%.0f"));
-            gui_position_y_->setLabel("position y");
-            gui_position_y_->setSize({ 330, 20 });
-            gui_position_y_->setBoxWidth(101);
-        }
+            };
+        INPUT_BOX(INT, gui_position_y_, fc_position_y, tnl::FloatToString(getPosition().y, "%.0f"), "position y", "エミッター Y 座標");
 
-        y += height;
-        if (!gui_position_z_) {
-            gui_position_z_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        setPosition({ getPosition().x, getPosition().y, static_cast<float>(num) });
-                        gui_position_z_->setBoxString(tnl::FloatToString(getPosition().z, "%.0f"));
-                    }, 5));
-            gui_position_z_->setPosition({ pos.x, pos.y + y });
+        std::function<void(const std::string&)> fc_position_z = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            setPosition({ getPosition().x, getPosition().y, static_cast<float>(num) });
             gui_position_z_->setBoxString(tnl::FloatToString(getPosition().z, "%.0f"));
-            gui_position_z_->setLabel("position z");
-            gui_position_z_->setSize({ 330, 20 });
-            gui_position_z_->setBoxWidth(101);
-        }
+            };
+        INPUT_BOX(INT, gui_position_z_, fc_position_z, tnl::FloatToString(getPosition().z, "%.0f"), "position z", "エミッター Z 座標");
 
-        y += height;
-        if (!gui_conv_position_x_) {
-            gui_conv_position_x_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        setConvPosition({ static_cast<float>(num), getConvPosition().y, getConvPosition().z });
-                        gui_conv_position_x_->setBoxString(tnl::FloatToString(getConvPosition().x, "%.0f"));
-                    }, 5));
-            gui_conv_position_x_->setPosition({ pos.x, pos.y + y });
+
+        std::function<void(const std::string&)> fc_conv_position_x = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            setConvPosition({ static_cast<float>(num), getConvPosition().y, getConvPosition().z });
             gui_conv_position_x_->setBoxString(tnl::FloatToString(getConvPosition().x, "%.0f"));
-            gui_conv_position_x_->setLabel("conv position x");
-            gui_conv_position_x_->setSize({ 330, 20 });
-            gui_conv_position_x_->setBoxWidth(101);
-            gui_conv_position_x_->setDescription([&]() {
-                description_str_ = "粒子の収束座標 EjectTypeをCONVに設定したときのみ有効 この座標はPositionからの相対座標です";
-                });
-        }
+            };
+        INPUT_BOX(INT, gui_conv_position_x_, fc_conv_position_x, tnl::FloatToString(getConvPosition().x, "%.0f"), "conv position x", "粒子の収束座標 EjectTypeをCONV, ICONVで有効 この座標はPositionからの相対座標です");
 
-        y += height;
-        if (!gui_conv_position_y_) {
-            gui_conv_position_y_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        setConvPosition({ getConvPosition().x, static_cast<float>(num), getConvPosition().z });
-                        gui_conv_position_y_->setBoxString(tnl::FloatToString(getConvPosition().y, "%.0f"));
-                    }, 5));
-            gui_conv_position_y_->setPosition({ pos.x, pos.y + y });
+        std::function<void(const std::string&)> fc_conv_position_y = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            setConvPosition({ getConvPosition().x, static_cast<float>(num), getConvPosition().z });
             gui_conv_position_y_->setBoxString(tnl::FloatToString(getConvPosition().y, "%.0f"));
-            gui_conv_position_y_->setLabel("conv position y");
-            gui_conv_position_y_->setSize({ 330, 20 });
-            gui_conv_position_y_->setBoxWidth(101);
-            gui_conv_position_y_->setDescription([&]() {
-                description_str_ = "粒子の収束座標 EjectTypeをCONVに設定したときのみ有効 この座標はPositionからの相対座標です";
-                });
-        }
+            };
+        INPUT_BOX(INT, gui_conv_position_y_, fc_conv_position_y, tnl::FloatToString(getConvPosition().y, "%.0f"), "conv position y", "粒子の収束座標 EjectTypeをCONV, ICONVで有効 この座標はPositionからの相対座標です");
 
-        y += height;
-        if (!gui_conv_position_z_) {
-            gui_conv_position_z_ = Shared<GuiInputBox>(
-                new GuiInputBox
-                (GuiInputBox::eInputType::INT,
-                    [&](const std::string& input_string) {
-                        int num = std::atoi(input_string.c_str());
-                        setConvPosition({ getConvPosition().x, getConvPosition().y, static_cast<float>(num) });
-                        gui_conv_position_z_->setBoxString(tnl::FloatToString(getConvPosition().z, "%.0f"));
-                    }, 5));
-            gui_conv_position_z_->setPosition({ pos.x, pos.y + y });
+        std::function<void(const std::string&)> fc_conv_position_z = [&](const std::string& input_string) {
+            int num = std::atoi(input_string.c_str());
+            setConvPosition({ getConvPosition().x, getConvPosition().y, static_cast<float>(num) });
             gui_conv_position_z_->setBoxString(tnl::FloatToString(getConvPosition().z, "%.0f"));
-            gui_conv_position_z_->setLabel("conv position z");
-            gui_conv_position_z_->setSize({ 330, 20 });
-            gui_conv_position_z_->setBoxWidth(101);
-            gui_conv_position_z_->setDescription([&]() {
-                description_str_ = "粒子の収束座標 EjectTypeをCONVに設定したときのみ有効 この座標はPositionからの相対座標です";
-                });
-        }
+        };
+        INPUT_BOX(INT, gui_conv_position_z_, fc_conv_position_z, tnl::FloatToString(getConvPosition().z, "%.0f"), "conv position z", "粒子の収束座標 EjectTypeをCONV, ICONVで有効 この座標はPositionからの相対座標です");
 
         
-        y += 30;
-        if (!gui_emissive_) {
-            gui_emissive_ = Shared<GuiValueSlider< Particle, tnl::Vector3 >>(
-                new GuiValueSlider< Particle, tnl::Vector3 >
-                (this
-                    , &Particle::getEmissive
-                    , &Particle::setEmissive
-                    , { pos.x, pos.y + y }
-                    , { 0, 0, 0 }
-                    , { 5.0f, 5.0f, 5.0f }
-            , "emissive"));
-            gui_emissive_->setDescription([&]() {
-                description_str_ = "自己発光色";
-            });
-        }
-
+        height = 30;
+        SLIDER(height, gui_emissive_, tnl::Vector3, getEmissive, setEmissive, tnl::Vector3(0, 0, 0), tnl::Vector3(5, 5, 5), "emissive", "自己発光色");
         height = 60;
-        y += height;
-        if (!gui_diff_direction_) {
-            gui_diff_direction_ = Shared<GuiValueSlider< Particle, tnl::Vector3 >>(
-                new GuiValueSlider< Particle, tnl::Vector3 >
-                (this
-                    , &Particle::getDiffDirection
-                    , &Particle::setDiffDirection
-                    , { pos.x, pos.y + y }
-                    , { -1.0f, -1.0f, -1.0f }
-                    , { 1.0f, 1.0f, 1.0f }
-            , "diffusion dir"));
-            gui_diff_direction_->setDescription([&]() {
-                description_str_ = "拡散方向 EjectTypeをDIFFに設定したときのみ有効";
-            });
-        }
-        y += height;
-        if (!gui_gravity_direction_) {
-            gui_gravity_direction_ = Shared<GuiValueSlider< Particle, tnl::Vector3 >>(
-                new GuiValueSlider< Particle, tnl::Vector3 >
-                (this
-                    , &Particle::getGravityDirection
-                    , &Particle::setGravityDirection
-                    , { pos.x, pos.y + y }
-                    , { -1.0f, -1.0f, -1.0f }
-                    , { 1.0f, 1.0f, 1.0f }
-            , "gravity dir"));
-            gui_gravity_direction_->setDescription([&]() {
-                description_str_ = "重力方向 EjectTypeをDIFFに設定したときのみ有効";
-            });
-        }
-        y += height;
-        if (!gui_origin_axis_) {
-            gui_origin_axis_ = Shared<GuiValueSlider< Particle, tnl::Vector3 >>(
-                new GuiValueSlider< Particle, tnl::Vector3 >
-                (this
-                    , &Particle::getOriginAxis
-                    , &Particle::setOriginAxis
-                    , { pos.x, pos.y + y }
-                    , { -1.0f, -1.0f, -1.0f }
-                    , { 1.0f, 1.0f, 1.0f }
-            , "origin axis"));
-            gui_origin_axis_->setDescription([&]() {
-                description_str_ = "OriginMode を Axis に設定したときに有効な生成軸";
-                });
-        }
+        SLIDER(height, gui_diff_direction_, tnl::Vector3, getDiffDirection, setDiffDirection, tnl::Vector3(-1, -1, -1), tnl::Vector3(1, 1, 1), "diffusion dir", "拡散方向 EjectTypeをDIFFに設定したときのみ有効");
+        SLIDER(height, gui_gravity_direction_, tnl::Vector3, getGravityDirection, setGravityDirection, tnl::Vector3(-1, -1, -1), tnl::Vector3(1, 1, 1), "gravity dir", "重力方向 EjectType::CONV では無効");
+        SLIDER(height, gui_origin_axis_, tnl::Vector3, getOriginAxis, setOriginAxis, tnl::Vector3(-1, -1, -1), tnl::Vector3(1, 1, 1), "origin axis", "OriginMode を Axis に設定したときに有効な生成軸");
+        SLIDER(height, gui_time_scale_, float, getTimeScale, setTimeScale, 0.0001f, 3.0f, "time scale", "全体の時間スケール 最終的な調整に使用する事を推奨");
 
-
-        y += height;
         height = 20;
-        if (!gui_time_scale_) {
-            gui_time_scale_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getTimeScale
-                    , &Particle::setTimeScale
-                    , { pos.x, pos.y + y }
-                    , 0.001f
-                    , 3.0f
-                    , "time scale"));
-            gui_time_scale_->setDescription([&]() {
-                description_str_ = "全体の時間スケール 最終的な調整に使用する事を推奨";
-                });
-        }
-
-        y += height;
-        if (!gui_alpha_) {
-            gui_alpha_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getAlpha
-                    , &Particle::setAlpha
-                    , { pos.x, pos.y + y }
-                    , 0
-                    , 1.0f
-                    , "alpha"));
-            gui_alpha_->setDescription([&]() {
-                description_str_ = "全体の透明度";
-                });
-        }
-
-        y += height;
-        if (!gui_near_alpha_distance_) {
-            gui_near_alpha_distance_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getNearAlphaDistance
-                    , &Particle::setNearAlphaDistance
-                    , { pos.x, pos.y + y }
-                    , 0
-                    , 100.0f
-                    , "near alpha dist"));
-            gui_near_alpha_distance_->setDescription([&]() {
-                description_str_ = "カメラに近い場合に透明化する距離";
-                });
-        }
-
-        y += height;
-        if (!gui_size_x_) {
-            gui_size_x_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getSizeX
-                    , &Particle::setSizeX
-                    , { pos.x, pos.y + y }
-                    , 0
-                    , 10.0f
-                    , "size x"));
-            gui_size_x_->setDescription([&]() {
-                description_str_ = "粒子のサイズ X 大きいほど処理速度に影響を与えるので注意";
-                });
-        }
-        y += height;
-        if (!gui_size_y_) {
-            gui_size_y_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getSizeY
-                    , &Particle::setSizeY
-                    , { pos.x, pos.y + y }
-                    , 0
-                    , 10.0f
-                    , "size y"));
-            gui_size_y_->setDescription([&]() {
-                description_str_ = "粒子のサイズ Y 大きいほど処理速度に影響を与えるので注意";
-            });
-        }
-
-        y += height;
-        if (!gui_moving_decay_factor_) {
-            gui_moving_decay_factor_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getMovingDecayFactor
-                    , &Particle::setMovingDecayFactor
-                    , { pos.x, pos.y + y }
-                    , 0.0f
-                    , 5.0f
-                    , "move decay factor"));
-            gui_moving_decay_factor_->setDescription([&]() {
-                description_str_ = "放出された粒子の速度の減衰係数 EjectTypeをDIFFに設定したときのみ有効";
-                });
-        }
-
-        y += height;
-        if (!gui_diff_random_angle_range_) {
-            gui_diff_random_angle_range_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getDiffRandomAngleRange
-                    , &Particle::setDiffRandomAngleRange
-                    , { pos.x, pos.y + y }
-                    , 0.0f
-                    , 180.0f
-                    , "diffusion range"));
-            gui_diff_random_angle_range_->setDescription([&]() {
-                description_str_ = "diffusion dir から 一定の範囲角度を付けて拡散します EjectTypeをDIFFに設定したときのみ有効";
-                });
-        }
-
-        y += height;
-        if (!gui_lumi_wave_factor_) {
-            gui_lumi_wave_factor_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getLuminanceWaveFactor
-                    , &Particle::setLuminanceWaveFactor
-                    , { pos.x, pos.y + y }
-                    , 0.0f
-                    , 20.0f
-                    , "luminance wave"));
-            gui_lumi_wave_factor_->setDescription([&]() {
-                description_str_ = "輝度の揺らぎ係数";
-                });
-        }
-
-        y += height;
-        if (!gui_rotate_factor_) {
-            gui_rotate_factor_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getRotateFactor
-                    , &Particle::setRotateFactor
-                    , { pos.x, pos.y + y }
-                    , 0.0f
-                    , 5.0f
-                    , "rotate factor"));
-            gui_rotate_factor_->setDescription([&]() {
-                description_str_ = "回転係数 個々の粒子が指定値を最大としたランダムな回転をします PostureType::UpYD では適用されません";
-                });
-        }
-
-        y += height;
-        if (!gui_distortion_range_) {
-            gui_distortion_range_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getDistortionRange
-                    , &Particle::setDistortionRange
-                    , { pos.x, pos.y + y }
-                    , 0.0f
-                    , 10.0f
-                    , "distortion range"));
-            gui_distortion_range_->setDescription([&]() {
-                description_str_ = "形状の歪み係数 DistortionMode の設定と連携します";
-                });
-        }
-
-        y += height;
-        if (!gui_distortion_velocity_) {
-            gui_distortion_velocity_ = Shared<GuiValueSlider< Particle, float >>(
-                new GuiValueSlider< Particle, float >
-                (this
-                    , &Particle::getDistortionVelocity
-                    , &Particle::setDistortionVelocity
-                    , { pos.x, pos.y + y }
-                    , 0.0f
-                    , 10.0f
-                    , "distortion vlcty"));
-            gui_distortion_velocity_->setDescription([&]() {
-                description_str_ = "形状の歪みの速さ係数 DistortionMode の設定と連携します";
-                });
-        }
+        SLIDER(height, gui_alpha_, float, getAlpha, setAlpha, 0, 1, "alpha", "全体の透明度");
+        SLIDER(height, gui_near_alpha_distance_, float, getNearAlphaDistance, setNearAlphaDistance, 0, 100, "near alpha dist", "カメラに近い場合に透明化する距離");
+        SLIDER(height, gui_size_x_, float, getSizeX, setSizeX, 0, 10, "size x", "粒子のサイズ X 大きいほど処理速度に影響を与えるので注意");
+        SLIDER(height, gui_size_y_, float, getSizeY, setSizeY, 0, 10, "size y", "粒子のサイズ Y 大きいほど処理速度に影響を与えるので注意");
+        SLIDER(height, gui_moving_decay_factor_, float, getMovingDecayFactor, setMovingDecayFactor, 0, 5, "move decay factor", "放出された粒子の速度の減衰係数 EjectType::CONV では無効");
+        SLIDER(height, gui_diff_random_angle_range_, float, getDiffRandomAngleRange, setDiffRandomAngleRange, 0, 180, "diffusion range", "diffusion dir から 一定の範囲角度を付けて拡散します EjectTypeをDIFFに設定したときのみ有効");
+        SLIDER(height, gui_lumi_wave_factor_, float, getLuminanceWaveFactor, setLuminanceWaveFactor, 0, 20, "luminance wave", "輝度の揺らぎ係数");
+        SLIDER(height, gui_rotate_factor_, float, getRotateFactor, setRotateFactor, 0, 5, "rotate factor", "回転係数 個々の粒子が指定値を最大としたランダムな回転をします PostureType::UpYD では適用されません");
+        SLIDER(height, gui_distortion_range_, float, getDistortionRange, setDistortionRange, 0, 10, "distortion range", "形状の歪み係数 DistortionMode の設定と連携します");
+        SLIDER(height, gui_distortion_velocity_, float, getDistortionVelocity, setDistortionVelocity, 0, 10, "distortion vlcty", "形状の歪みの速さ係数 DistortionMode の設定と連携します");
 
 
 

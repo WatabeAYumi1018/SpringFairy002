@@ -422,10 +422,10 @@ public:
 	// 参照先 ... 
 	const GameCamera::sCameraInfo& GetTargetCameraInfo() const;
 
-	// キャラクターの足元アイテムレーンを取得
-	// 参照元 ... Character::Item::sItem CurrentItemLane()
-	// 参照先 ... ItemGenerator::GenerateItem()
-	Gimmick::sGimmick CurrentTargetGimmickLane();
+	//// キャラクターの足元アイテムレーンを取得
+	//// 参照元 ... Character::Item::sItem CurrentItemLane()
+	//// 参照先 ... ItemGenerator::GenerateItem()
+	//Gimmick::sGimmick CurrentTargetGimmickLane();
 
 	// キャラクターの足元イベントレーンを取得
 	// 参照元 ... Character::m_event
@@ -539,25 +539,32 @@ public:
 
 	// GimmickLoad
 
-	// アイテムモデルの総数取得
-	// 参照元 ... GimmickLoad::m_id_num
-	// 参照先 ... Gimmick::Initialize()
-	int GetGimmickIdNum() const;
+	//// アイテムモデルの総数取得
+	//// 参照元 ... GimmickLoad::m_id_num
+	//// 参照先 ... Gimmick::Initialize()
+	//int GetGimmickIdNum() const;
 
-	// アイテムレーン配列を取得
-	// 参照元 ... GimmickLoad::m_gimmick_lane
-	// 参照先 ... Gimmick::関連する関数
-	const std::vector<Gimmick::sGimmick>& GetGimmickLoadLane() const;
+	//// アイテムレーン配列を取得
+	//// 参照元 ... GimmickLoad::m_gimmick_lane
+	//// 参照先 ... Gimmick::関連する関数
+	//const std::vector<Gimmick::sGimmick>& GetGimmickLoadLane() const;
 
-	// アイテム情報配列を取得
-	// 参照元 ... GimmickLoad::m_gimmick_info
-	// 参照先 ... Gimmick::関連する関数
-	const std::vector<Gimmick::sGimmickType>& GetGimmickTypeInfo() const;
+	//// アイテム情報配列を取得
+	//// 参照元 ... GimmickLoad::m_gimmick_info
+	//// 参照先 ... Gimmick::関連する関数
+	//const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeInfo() const;
 
 	// アイテムモデルのid取得
 	// 参照元 ... GimmickLoad::GetGimmickInfoById()
 	// 参照先 ... Gimmick::
-	Gimmick::sGimmickType GetGimmickLoadInfoById(int id);
+	Gimmick::sGimmickTypeInfo GetGimmickLoadInfoById(int id);
+
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeLoadPlants() const;
+
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeLoadTrees() const;
+
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeLoadSkyFlowers() const;
+
 
 	// GimmickPool
 

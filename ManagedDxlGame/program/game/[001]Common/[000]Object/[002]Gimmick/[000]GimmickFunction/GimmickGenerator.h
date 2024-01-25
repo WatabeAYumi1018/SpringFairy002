@@ -21,7 +21,7 @@ private:
 
 	bool m_is_flower_active = false;
 
-	Gimmick::sGimmick m_gimmick_lane;
+	//Gimmick::sGimmick m_gimmick_lane;
 
 	//std::vector<Lane::sLane> m_lanes;
 
@@ -34,15 +34,15 @@ private:
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(GimmickGenerator, &GimmickGenerator::SeqFlower);
 
-	void CheckItems(const float delta_time);
-	// アイテムのランダム生成
-	void GenerateItem(const float delta_time);
-	// アイテムのランダム座標算出
+	void CheckGimmicks(const float delta_time);
+	// 空中でのランダム生成
+	void GenerateGimmick(const float delta_time);
+	// 空中のランダム座標算出
 	tnl::Vector3 CalcRandomPos();
 
-	// アイテムフラワーの生成処理
+	// フラワーの生成処理
 	bool SeqFlower(const float delta_time);
-	// アイテムバタフライの生成処理
+	// バタフライの生成処理
 	bool SeqButterfly(const float delta_time);
 
 public:
@@ -56,7 +56,7 @@ public:
 
 	bool GetIsFlowerActive() const { return m_is_flower_active; }
 
-	void SetItem(std::shared_ptr<Gimmick>& gimmick)
+	void SetGimmick(std::shared_ptr<Gimmick>& gimmick)
 	{
 		m_gimmick = gimmick;
 	}

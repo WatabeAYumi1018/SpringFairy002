@@ -684,24 +684,15 @@ namespace dxe {
 
 
 	//----------------------------------------------------------------------------------------
-	
-	// DXLib が対応している形式ファイルからメッシュを作成
 	Shared<Mesh> Mesh::CreateFromFileMV(const std::string& file_path, const float scl)
 	{
 		Shared<Mesh> mesh = Shared<Mesh>(new Mesh());
-		// メッシュの読み込み
 		mesh->mesh_format_ = Mesh::eMeshFormat::MESH_FMT_MV;
-		// パスからの読み込み
 		mesh->mv_hdl_ = MV1LoadModel(file_path.c_str());
-		// メッシュのスケール設定(デフォルト1)
 		mesh->scl_ = { scl, scl, scl };
-		// メッシュのバウンディングボックスの計算
 		mesh->desc_ = std::make_shared<dxe::MeshDescResouce>( file_path, scl );
-		// バウンディングボックス : メッシュを囲む最小の直方体で、メッシュの形状を大まかに表現
 		DxLib::VECTOR dxv = MV1GetMeshMaxPosition(mesh->mv_hdl_, 0);
-		// バウンディングボックスのサイズ
 		mesh->bd_box_size_ = tnl::Vector3(dxv.x, dxv.y, dxv.z) * 2.0f ;
-		// バウンディングスフィアの半径
 		mesh->bd_sphere_radius_ = mesh->bd_box_size_.length() * 0.5f ;
 
 		return mesh;
@@ -855,8 +846,7 @@ namespace dxe {
 		Shared<Mesh> new_mesh = Shared<Mesh>(new Mesh());
 		new_mesh->mesh_format_ = Mesh::eMeshFormat::MESH_FMT_MV;
 
-		std::string x_format = mesh->getXFormatString();		
-
+		std::string x_format = mesh->getXFormatString();
 		new_mesh->mv_hdl_ = MV1LoadModelFromMem(x_format.data(), (int)x_format.size(), FileReadFunc, FileReleaseFunc, NULL);
 
 		DxLib::VECTOR dxv = MV1GetMeshMaxPosition(new_mesh->mv_hdl_, 0);

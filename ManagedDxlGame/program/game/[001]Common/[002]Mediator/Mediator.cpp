@@ -352,10 +352,10 @@ const GameCamera::sCameraInfo& Mediator::GetTargetCameraInfo() const
 	return m_cameraTargetPlayer->GetCameraInfo();
 }
 
-Gimmick::sGimmick Mediator::CurrentTargetGimmickLane()
-{
-	return m_cameraTargetPlayer->CurrentGimmickLane();
-}
+//Gimmick::sGimmick Mediator::CurrentTargetGimmickLane()
+//{
+//	return m_cameraTargetPlayer->CurrentGimmickLane();
+//}
 
 const Lane::sLaneEvent& Mediator::GetEventLane() const
 {
@@ -471,25 +471,41 @@ bool Mediator::GetGimmickIsHit() const
 
 // GimmickLoad
 
-int Mediator::GetGimmickIdNum() const
-{
-	return m_gimmickLoad->GetIdNum();
-}
+//int Mediator::GetGimmickIdNum() const
+//{
+//	return m_gimmickLoad->GetIdNum();
+//}
 
-const std::vector<Gimmick::sGimmick>& Mediator::GetGimmickLoadLane() const
-{
-	return m_gimmickLoad->GetGimmickLane();
-}
+//const std::vector<Gimmick::sGimmick>& Mediator::GetGimmickLoadLane() const
+//{
+//	return m_gimmickLoad->GetGimmickLane();
+//}
 
-const std::vector<Gimmick::sGimmickType>& Mediator::GetGimmickTypeInfo() const
-{
-	return m_gimmickLoad->GetGimmickTypeInfo();
-}
+//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTypeInfo() const
+//{
+//	return m_gimmickLoad->GetGimmickTypeInfo();
+//}
 	
-Gimmick::sGimmickType Mediator::GetGimmickLoadInfoById(int id)
+Gimmick::sGimmickTypeInfo Mediator::GetGimmickLoadInfoById(int id)
 {
 	return m_gimmickLoad->GetGimmickInfoById(id);
 }
+
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTypeLoadPlants() const
+{
+	return m_gimmickLoad->GetGimmickTypePlants();
+}
+
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTypeLoadTrees() const
+{
+	return m_gimmickLoad->GetGimmickTypeTrees();
+}
+
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTypeLoadSkyFlowers() const
+{
+	return m_gimmickLoad->GetGimmickTypeSkyFlowers();
+}
+
 
 // GimmickPool
 

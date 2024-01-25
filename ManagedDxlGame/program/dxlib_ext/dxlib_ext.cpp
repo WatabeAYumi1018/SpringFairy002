@@ -187,35 +187,15 @@ void DrawLine3DEx(const Shared<dxe::Camera> camera, const tnl::Vector3& st, cons
 
 
 //------------------------------------------------------------------------------------------------------------------------------
-void DrawGridGround(const Shared<dxe::Camera> camera)
-{
+void DrawGridGround(const Shared<dxe::Camera> camera) {
+
 	MATRIX view, proj;
 	memcpy(view.m, camera->view_.m, sizeof(float) * 16);
 	memcpy(proj.m, camera->proj_.m, sizeof(float) * 16);
 	SetCameraViewMatrix(view);
 	SetupCamera_ProjectionMatrix(proj);
-
-	//MATRIX im;
-	//CreateIdentityMatrix(&im);
-	//SetTransformToWorld(&im);
-
-	//row_num = (1 == row_num % 2) ? row_num + 1 : row_num;
-
-	//float l = square_size * row_num * 0.5f;
-	//float n = -l;
-	//for (int i = 0; i < row_num + 1; ++i) {
-	//	if ((row_num >> 1) == i) {
-	//		DrawLine3D({ n, 0, l }, { n, 0, -l }, 0xff0000ff);
-	//		DrawLine3D({ l, 0, n }, { -l, 0, n }, 0xffff0000);
-	//	}
-	//	else {
-	//		DrawLine3D({ n, 0, l }, { n, 0, -l }, color);
-	//		DrawLine3D({ l, 0, n }, { -l, 0, n }, color);
-	//	}
-	//	n += square_size;
-	//}
-	//DrawLine3D({ 0, l, 0 }, { 0, -l, 0 }, 0xff00ff00);
 }
+
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 void DrawHexagonGround(const Shared<dxe::Camera> camera, const float hex_width, int row_num, bool is_draw_center_line, int color) {
@@ -647,10 +627,13 @@ namespace dxe {
 
 	static ComPtr<ID3D11DepthStencilState> g_state_depth_stencil[static_cast<int>(eDepthStenclil::MAX)] ;
 	static ComPtr<ID3D11BlendState> g_blend_states[static_cast<int>(eBlendState::MAX)];
+	static ComPtr<ID3D11SamplerState> g_sampler_states[static_cast<int>(eSamplerState::MAX)];
+	static ComPtr<ID3D11RasterizerState> g_rasterizer_states[static_cast<int>(eRasterizerState::MAX)];
 
 	ID3D11DepthStencilState* GetDepthStencilState(const eDepthStenclil mode) { return g_state_depth_stencil[static_cast<int>(mode)].Get(); }
 	ID3D11BlendState* GetBlendState(const eBlendState state) { return g_blend_states[static_cast<int>(state)].Get(); }
-
+	ID3D11SamplerState* GetSamplerState(const eSamplerState state) { return g_sampler_states[static_cast<int>(state)].Get(); }
+	ID3D11RasterizerState* GetRasterizerState(const eRasterizerState state) { return g_rasterizer_states[static_cast<int>(state)].Get(); }
 
 	void CreateDepthStencil(const eDepthStenclil e_ds, const D3D11_DEPTH_WRITE_MASK depth_write_mask, bool depth_enable) {
 		HRESULT hr = E_FAIL;
@@ -718,6 +701,102 @@ namespace dxe {
 			return;
 		}
 	}
+
+
+	void CreateSamplerState(const eSamplerState state) {
+
+		HRESULT hr = E_FAIL;
+		ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
+
+		//-------------------------------------------------------------------------------------------------
+		// サンプラーステートの作成
+		D3D11_SAMPLER_DESC samplerDesc;
+		::ZeroMemory(&samplerDesc, sizeof(D3D11_SAMPLER_DESC));
+
+		switch (state) {
+		case eSamplerState::ANISOTROPIC:
+			samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;        
+			samplerDesc.MaxAnisotropy = 16;                        // サンプリングに異方性補間を使用している場合の限界値。有効な値は 1 ～ 16 。
+			break;
+		case eSamplerState::BILINEAR:
+			samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+			samplerDesc.MaxAnisotropy = 1;                        
+			break;
+		case eSamplerState::NEAREST:
+			samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+			samplerDesc.MaxAnisotropy = 1;
+			break;
+		}
+
+		samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある u テクスチャー座標の描画方法
+		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある v テクスチャー座標の描画方法
+		samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある w テクスチャー座標の描画方法
+		samplerDesc.MipLODBias = 0;                            // 計算されたミップマップ レベルからのバイアス
+		samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;  // 比較オプション。
+
+		samplerDesc.BorderColor[0] = 0;
+		samplerDesc.BorderColor[1] = 0;
+		samplerDesc.BorderColor[2] = 0;
+		samplerDesc.BorderColor[3] = 0;
+
+		samplerDesc.MinLOD = 0;                                // アクセス可能なミップマップの下限値
+		samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;                // アクセス可能なミップマップの上限値
+		ID3D11SamplerState* st = nullptr;
+		hr = pd3dDevice->CreateSamplerState(&samplerDesc, &st);
+		g_sampler_states[static_cast<int>(state)].Attach(st);
+
+		if (S_OK != hr) {
+			tnl::DebugTrace("-----------------------------------------------------------------\n");
+			tnl::DebugTrace("Error : Instancing Create Sampler State \n");
+			tnl::DebugTrace("-----------------------------------------------------------------\n");
+			return;
+		}
+
+
+	}
+
+
+	void CreateRasterizerState(const eRasterizerState state) {
+
+		HRESULT hr = E_FAIL;
+		ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
+
+		ID3D11RasterizerState* rs = nullptr;
+		D3D11_RASTERIZER_DESC desc = {};
+
+		switch (state) {
+		case eRasterizerState::CULL_NONE :
+			desc.CullMode = D3D11_CULL_NONE;
+			desc.FillMode = D3D11_FILL_SOLID;
+			break;
+		case eRasterizerState::CULL_FRONT:
+			desc.CullMode = D3D11_CULL_FRONT;
+			desc.FillMode = D3D11_FILL_SOLID;
+			break;
+		case eRasterizerState::CULL_BACK:
+			desc.CullMode = D3D11_CULL_BACK;
+			desc.FillMode = D3D11_FILL_SOLID;
+			break;
+		case eRasterizerState::WIREFRAME:
+			desc.CullMode = D3D11_CULL_NONE;
+			desc.FillMode = D3D11_FILL_WIREFRAME;
+			break;
+		}
+
+		desc.FrontCounterClockwise = true;
+		desc.ScissorEnable = false;
+		desc.MultisampleEnable = false;
+		hr = pd3dDevice->CreateRasterizerState(&desc, &rs);
+		if (S_OK != hr) {
+			tnl::DebugTrace("-----------------------------------------------------------------\n");
+			tnl::DebugTrace("Error : Particle Create Rasterizer State \n");
+			tnl::DebugTrace("-----------------------------------------------------------------\n");
+			return;
+		}
+		g_rasterizer_states[static_cast<int>(state)].Attach(rs);
+
+	}
+
 
 
 	//------------------------------------------------------------------------------------------------------------------------------
@@ -807,6 +886,19 @@ namespace dxe {
 		CreateBlendState(eBlendState::ADD);
 		CreateBlendState(eBlendState::SUB);
 		CreateBlendState(eBlendState::MUL);
+
+		//-------------------------------------------------------------------------------------------------
+		// サンプラテート作成 
+		CreateSamplerState(eSamplerState::ANISOTROPIC);
+		CreateSamplerState(eSamplerState::BILINEAR);
+		CreateSamplerState(eSamplerState::NEAREST);
+
+		//-------------------------------------------------------------------------------------------------
+		// ラスタライザステート作成
+		CreateRasterizerState(eRasterizerState::CULL_NONE);
+		CreateRasterizerState(eRasterizerState::CULL_FRONT);
+		CreateRasterizerState(eRasterizerState::CULL_BACK);
+		CreateRasterizerState(eRasterizerState::WIREFRAME);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------------------
@@ -818,7 +910,12 @@ namespace dxe {
 		for (int i = 0; i < static_cast<int>(eBlendState::MAX); ++i) {
 			g_blend_states[i].Reset();
 		}
-
+		for (int i = 0; i < static_cast<int>(eSamplerState::MAX); ++i) {
+			g_sampler_states[i].Reset();
+		}
+		for (int i = 0; i < static_cast<int>(eRasterizerState::MAX); ++i) {
+			g_rasterizer_states[i].Reset();
+		}
 	}
 #endif
 }

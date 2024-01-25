@@ -41,31 +41,31 @@ Lane::sLane Character::CurrentMoveLane()
 	return Lane::sLane();
 }
 
-Gimmick::sGimmick Character::CurrentGimmickLane()
-{
-	// プレイヤー座標をグリッド座標に変換
-	auto [chara_x, chara_z]
-		= wta::ConvertFloatToGridInt(m_pos, Lane::LANE_SIZE);
-
-	std::vector<Gimmick::sGimmick> item_vec = m_mediator->GetGimmickLoadLane();
-
-	// 配列を使用し、グリッド座標からタイルIDを取得
-	for (Gimmick::sGimmick& item_lane : item_vec)
-	{
-		auto [item_lane_x, item_lane_z]
-			= wta::ConvertFloatToGridInt(item_lane.s_pos, Lane::LANE_SIZE);
-
-		// キャラがタイルの領域内にいるかを判定
-		if (chara_x == item_lane_x && chara_z == item_lane_z)
-		{
-			m_mediator->SetGimmickIsActive(true);
-
-			return item_lane;
-		}
-	}
-	// 該当なし
-	return Gimmick::sGimmick();
-}
+//Gimmick::sGimmick Character::CurrentGimmickLane()
+//{
+//	// プレイヤー座標をグリッド座標に変換
+//	auto [chara_x, chara_z]
+//		= wta::ConvertFloatToGridInt(m_pos, Lane::LANE_SIZE);
+//
+//	std::vector<Gimmick::sGimmick> item_vec = m_mediator->GetGimmickLoadLane();
+//
+//	// 配列を使用し、グリッド座標からタイルIDを取得
+//	for (Gimmick::sGimmick& item_lane : item_vec)
+//	{
+//		auto [item_lane_x, item_lane_z]
+//			= wta::ConvertFloatToGridInt(item_lane.s_pos, Lane::LANE_SIZE);
+//
+//		// キャラがタイルの領域内にいるかを判定
+//		if (chara_x == item_lane_x && chara_z == item_lane_z)
+//		{
+//			m_mediator->SetGimmickIsActive(true);
+//
+//			return item_lane;
+//		}
+//	}
+//	// 該当なし
+//	return Gimmick::sGimmick();
+//}
 
 GameCamera::sCamera Character::CurrentCamera()
 {
