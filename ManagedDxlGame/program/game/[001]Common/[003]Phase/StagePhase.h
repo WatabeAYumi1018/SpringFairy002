@@ -14,22 +14,25 @@ public:
 
 	enum class eStagePhase
 	{
-		e_fly,
-		e_ground
+		flower,
+		wood,
+		fancy
 	};
 
 private:
 
-	eStagePhase m_now_stage_phase = eStagePhase::e_fly;
+	eStagePhase m_now_stage_phase = eStagePhase::flower;
 
 	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(StagePhase, &StagePhase::SeqFly);
+	TNL_CO_SEQUENCE(StagePhase, &StagePhase::SeqFlower);
 
 
-	// 空中
-	bool SeqFly(const float delta_time);
-	// 地上
-	bool SeqGround(const float delta_time);
+	// お花エリア
+	bool SeqFlower(const float delta_time);
+	// 森林エリア
+	bool SeqWood(const float delta_time);
+	// 花の世界
+	bool SeqFancy(const float delta_time);
 
 public:
 

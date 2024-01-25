@@ -116,11 +116,12 @@ namespace dxe
 
 		void render(float scale, uint32_t color = 0xffffff00);
 
+		void SetPos(const tnl::Vector3& pos) { pos_ = pos; }
+
 		const tnl::Vector3& GetPos() const { return pos_; }
 
 		const tnl::Matrix& GetView() const { return view_; }
 
 		const tnl::Matrix& GetProj() const { return proj_; }
 	};
-
 }

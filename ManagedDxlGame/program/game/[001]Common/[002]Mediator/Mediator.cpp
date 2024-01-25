@@ -64,11 +64,17 @@ const std::vector<Lane::sLane>& Mediator::GetStageLane()const
 
 // LaneMove
 
-void Mediator::MoveAstarCharaMatrix(const float delta_time
-								, tnl::Vector3& pos
-								, tnl::Quaternion& rot)
+void Mediator::MoveAstarCharaUpdatePos(const float delta_time
+										, tnl::Vector3& pos)
 {
-	m_laneMove->MoveAstarChara(delta_time,pos,rot);
+	m_laneMove->MoveAstarCharaPos(delta_time,pos);
+}
+
+void Mediator::MoveAstarCharaUpdateRot(const float delta_time
+										, tnl::Vector3& pos
+										, tnl::Quaternion& rot)
+{
+	m_laneMove->MoveAstarCharaRot(delta_time, pos,rot);
 }
 
 void Mediator::MoveAstarTargetPos(const float delta_time, tnl::Vector3& pos)
@@ -668,6 +674,11 @@ void Mediator::DrawCharacterGraph(int graph_id)
 
 // GameCamera
 
+void Mediator::SetCameraPos(tnl::Vector3& pos)
+{
+	m_gameCamera->SetPos(pos);
+}
+
 const tnl::Vector3& Mediator::GetCameraPos() const
 {
 	return m_gameCamera->GetPos();
@@ -682,6 +693,12 @@ const tnl::Vector3& Mediator::GetCameraRight() const
 {
 	return m_gameCamera->right();
 }
+
+void Mediator::IsInCameraFlustum()
+{
+	m_gameCamera->IsInFlustum();
+}
+
 
 //const tnl::Vector3& Mediator::GetCameraLeft() const
 //{
@@ -708,10 +725,10 @@ const tnl::Vector3& Mediator::GetCameraRight() const
 //	return m_gameCamera->CurrentCameraType();
 //}
 
-tnl::Vector3 Mediator::GetFlustumNormal(dxe::Camera::eFlustum flusum)
-{
-	return m_gameCamera->getFlustumNormal(flusum);
-}
+//tnl::Vector3 Mediator::GetFlustumNormal(dxe::Camera::eFlustum flusum)
+//{
+//	return m_gameCamera->getFlustumNormal(flusum);
+//}
 
 // CameraLoad
 

@@ -34,6 +34,7 @@ private:
 	//bool m_look_side_left = false;
 
 	tnl::Vector3 m_new_pos;
+	tnl::Vector3 m_direction;
 
 
 	// A*からの経路
@@ -53,8 +54,10 @@ public:
 	// ゴールまでの経路を取得
 	void GetAutoMove();
 
-	// キャラクターの座標回転更新
-	void MoveAstarChara(const float delta_time, tnl::Vector3 & pos, tnl::Quaternion & rot);
+	// キャラクターの座標更新
+	void MoveAstarCharaPos(const float delta_time, tnl::Vector3 & pos);
+	
+	void MoveAstarCharaRot(const float delta_time, tnl::Vector3& pos, tnl::Quaternion& rot);
 	// ターゲットの座標とレーン更新
 	void MoveAstarTarget(const float delta_time, tnl::Vector3& pos);
 

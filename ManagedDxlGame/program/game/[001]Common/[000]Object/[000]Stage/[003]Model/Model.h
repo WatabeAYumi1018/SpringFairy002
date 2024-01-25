@@ -23,7 +23,7 @@ public:
 		std::string s_texture_path;
 		int s_create_count_x;
 		int s_create_count_z;
-		int s_scale;
+		float s_scale;
 		float s_interval;
 		tnl::Vector3 s_offset;
 	};

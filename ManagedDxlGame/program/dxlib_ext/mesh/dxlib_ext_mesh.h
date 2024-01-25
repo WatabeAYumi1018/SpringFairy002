@@ -67,6 +67,7 @@ namespace dxe {
 			if (mv_hdl_) MV1DeleteModel(mv_hdl_);
 		}
 
+
 		tnl::Vector3	pos_;
 		tnl::Vector3	scl_ = { 1,1,1 };
 		tnl::Quaternion rot_;

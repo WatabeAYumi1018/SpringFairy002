@@ -111,7 +111,7 @@ void ModelLoad::LoadModelTypeInfo()
 
 		model_info.s_create_count_z = m_csv_model_type_info[y][4].getInt();
 
-		model_info.s_scale = m_csv_model_type_info[y][5].getInt();
+		model_info.s_scale = m_csv_model_type_info[y][5].getFloat();
 
 		model_info.s_interval = m_csv_model_type_info[y][6].getFloat();
 

@@ -18,8 +18,6 @@ void GameCamera::update(const float delta_time)
 
 	tnl_sequence_.update(delta_time);
 
-	IsInFlustum();
-
 	//_mediator->IsIntersectCameraFlustum(delta_time);
 	
 	//m_mediator->UpdateCameraFrustum();
@@ -37,6 +35,7 @@ void GameCamera::IsInFlustum()
 	for (int i = 0; i < max; ++i)
 	{
 		tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
+		player_pos.y += 150;
 		float size = m_mediator->GetPlayerCollisionSize();
 
 		tnl::Vector3 v = getFlustumNormal(static_cast<dxe::Camera::eFlustum>(i));
@@ -44,7 +43,7 @@ void GameCamera::IsInFlustum()
 		float length = (np - player_pos).length();
 		if (length < size)
 		{
-			tnl::Vector3 pos = np + (v * size);
+			tnl::Vector3 pos = np + (v * size );
 			m_mediator->SetPlayerPos(pos);
 		}
 	}

@@ -145,9 +145,15 @@ public:
 	// 自動移動による座標と回転更新
 	// 参照元 ... LoadMove::MoveAstar(float delta_time)
 	// 参照先 ... 自動経路による更新が必要な全クラス
-	void MoveAstarCharaMatrix(const float delta_time
-							 ,tnl::Vector3& pos
-							 ,tnl::Quaternion& rot);
+	void MoveAstarCharaUpdatePos(const float delta_time
+								 ,tnl::Vector3& pos);
+
+	// 自動移動による回転更新
+	// 参照元 ... LoadMove::MoveAstarRot(float delta_time)
+	// 参照先 ... 自動経路による更新が必要な全クラス
+	void MoveAstarCharaUpdateRot(const float delta_time
+								 , tnl::Vector3& pos
+								 , tnl::Quaternion& rot);
 
 	// 自動移動による座標更新
 	// 参照元 ... LoadMove::MoveAstarPos(float delta_time)
@@ -720,20 +726,30 @@ public:
 
 	// GameCamera
 
+	// カメラの座標設定
+	// 参照元 ... GameCamera::pos_
+	// 参照先 ... PlayerMove::Update(const float delta_time)
+	void SetCameraPos(tnl::Vector3& pos);
+
 	// カメラの座標取得
 	// 参照元 ... GameCamera::pos_
 	// 参照先 ... PlayerMove::Update(const float delta_time)
 	const tnl::Vector3& GetCameraPos() const;
 
 	// カメラの前方向取得
-	// 参照元 ... dxe::GameCamera::forward()
+	// 参照元 ... GameCamera::forward()
 	// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
 	const tnl::Vector3& GetCameraForward() const;
 
 	// カメラの右方向取得
-	// 参照元 ... dxe::GameCamera::right()
+	// 参照元 ... GameCamera::right()
 	// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
 	const tnl::Vector3& GetCameraRight() const;
+
+	// カメラのフラスタム当たり判定
+	// 参照元 ... GameCamera::IsInFlustum()
+	// 参照先 ... PlayerMove::
+	void IsInCameraFlustum();
 
 	//// カメラの上方向取得
 	//// 参照元 ... dxe::GameCamera::left()
@@ -755,10 +771,10 @@ public:
 	//// 参照先 ... CameraFrustum::Update()
 	//const tnl::Matrix& GetCameraProj() const;
 
-	// フラスタムの法線ベクトル取得
-	// 参照元 ... dxe::Camera::getFlustumNormal(eFlustum flustum)
-	// 参照先 ... CameraFrustum
-	tnl::Vector3 GetFlustumNormal(dxe::Camera::eFlustum flusum);
+	//// フラスタムの法線ベクトル取得
+	//// 参照元 ... dxe::Camera::getFlustumNormal(eFlustum flustum)
+	//// 参照先 ... CameraFrustum
+	//tnl::Vector3 GetFlustumNormal(dxe::Camera::eFlustum flusum);
 
 
 	// CameraLoad

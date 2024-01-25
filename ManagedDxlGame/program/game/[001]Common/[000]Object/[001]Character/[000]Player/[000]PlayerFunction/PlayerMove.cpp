@@ -221,14 +221,16 @@ bool PlayerMove::SeqFly(const float delta_time)
 		m_rot = m_mediator->GetPlayerRot();
 
 		// 自動経路による移動と回転の更新
-		m_mediator->MoveAstarCharaMatrix(delta_time, m_pos, m_rot);
+		m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
+		m_mediator->MoveAstarCharaUpdateRot(delta_time, m_pos, m_rot);
 
 		if (PushButton())
 		{
 			ControlMoveMatrix(delta_time);
+
+			m_mediator->IsInCameraFlustum();
 		}
 
-		// モデルの座標と回転を更新
 		m_mediator->SetPlayerPos(m_pos);
 		m_mediator->SetPlayerRot(m_rot);
 	});
@@ -248,9 +250,9 @@ bool PlayerMove::SeqSaltoAction(const float delta_time)
 
 	// 押すまでループ
 	TNL_SEQ_CO_TIM_YIELD_RETURN(salto_total_time, delta_time, [&]()
-		{
-			SaltoActionMatrix(delta_time);
-		});
+	{
+		SaltoActionMatrix(delta_time);
+	});
 
 	m_salto_elapsed_time = 0;
 

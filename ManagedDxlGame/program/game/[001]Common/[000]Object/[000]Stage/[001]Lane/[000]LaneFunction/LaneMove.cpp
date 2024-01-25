@@ -61,7 +61,7 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 	}
 }
 
-void LaneMove::MoveAstarChara(const float delta_time, tnl::Vector3& pos, tnl::Quaternion& rot)
+void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 {
 	if (m_now_step >= m_goal_process.size()) 
 	{
@@ -71,24 +71,50 @@ void LaneMove::MoveAstarChara(const float delta_time, tnl::Vector3& pos, tnl::Qu
 		return;
 	}
 
-	// ゴールまでの経路を取得
-	std::pair<int, int> current_grid = m_goal_process[m_now_step];
+	//// ゴールまでの経路を取得
+	//std::pair<int, int> current_grid = m_goal_process[m_now_step];
 
-	// 現在のグリッドの中心座標を取得
-	tnl::Vector3 current_center_pos 
-		= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE)
+	//tnl::Vector3 goal_pos 
+	//	= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE) 
+	//	+ tnl::Vector3(Lane::LANE_SIZE , 0, Lane::LANE_SIZE );
+
+	//// 現在の位置から目標地点への方向ベクトルを計算
+	//m_direction = goal_pos - pos;
+	//// 方向を正規化して単位ベクトルにする
+	//m_direction.normalize();
+
+	//m_direction = tnl::Vector3::Transform(m_direction, rot_type.getMatrix());
+
+	// 移動速度に応じて位置を更新
+
+// 現在のグリッド位置
+	std::pair<int, int> currentGrid = m_goal_process[m_now_step];
+	// 次のグリッド位置（ここでは簡単のために次のステップとしていますが、実際には目標に応じて変更する）
+	std::pair<int, int> nextGrid = m_goal_process[m_now_step + 1];
+
+	// 両グリッドの中心座標を計算
+	tnl::Vector3 currentGridCenter = wta::ConvertGridIntToFloat(currentGrid, Lane::LANE_SIZE)
+		+ tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
+	tnl::Vector3 nextGridCenter = wta::ConvertGridIntToFloat(nextGrid, Lane::LANE_SIZE)
 		+ tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
 
-	// 現在の位置から中心座標への方向ベクトルを計算
-	tnl::Vector3 direction = current_center_pos - pos;
-	// 単位ベクトルに変換
-	direction.normalize();
-	// グリッドの中心へ向かって移動
-	pos += direction * m_move_speed * delta_time;
+	// 次のグリッドへの方向ベクトルを計算
+	tnl::Vector3 directionToNextGrid = (nextGridCenter - currentGridCenter);
+	directionToNextGrid.normalize();
 
+	// プレイヤーの移動
+	// ここでは、方向ベクトルと移動速度を使って、プレイヤーの新しい位置を計算します。
+	pos += directionToNextGrid * m_move_speed * delta_time;
+
+	//// 必要に応じて、プレイヤーの位置がカメラの視野内に収まるように調整します。
+	//AdjustPlayerPositionWithinCameraView(pos, cameraViewSize);
+}
+
+void LaneMove::MoveAstarCharaRot(const float delta_time, tnl::Vector3& pos, tnl::Quaternion& rot)
+{
 	// 新しい回転を算出
-	tnl::Quaternion new_rot 
-		= tnl::Quaternion::LookAtAxisY(pos, pos + direction);
+	tnl::Quaternion new_rot
+		= tnl::Quaternion::LookAtAxisY(pos, pos + m_direction);
 
 	if (m_look_side)
 	{

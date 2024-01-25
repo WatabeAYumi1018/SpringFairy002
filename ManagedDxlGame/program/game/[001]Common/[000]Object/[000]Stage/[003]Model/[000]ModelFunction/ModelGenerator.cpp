@@ -41,6 +41,8 @@ void ModelGenerator::LoadGroupModelInfo()
 	{
 		m_mesh_origin = dxe::Mesh::CreateFromFileMV(m_model.s_model_path);
 		m_mesh_origin->setTexture(dxe::Texture::CreateFromFile(m_model.s_texture_path));
+		m_mesh_origin->scl_ = { m_model.s_scale };
+		
 		GenerateMatrices(m_model);
 
 		m_models_mesh_origin.emplace_back(m_mesh_origin);
@@ -50,10 +52,10 @@ void ModelGenerator::LoadGroupModelInfo()
 void ModelGenerator::CreateGroupMesh()
 {
 	// グループメッシュの作成
-	for (std::shared_ptr<dxe::Mesh>& mesh : m_models_mesh_origin)
+	for (std::shared_ptr<dxe::Mesh>& mesh_origin : m_models_mesh_origin)
 	{
 		std::shared_ptr<dxe::Mesh> mesh_copy
-			= dxe::Mesh::CreateStaticMeshGroupMV(mesh, m_models_matrix);
+			= dxe::Mesh::CreateStaticMeshGroupMV(mesh_origin, m_models_matrix);
 
 		mesh_copy->setBlendMode(DX_BLENDMODE_ALPHA);
 

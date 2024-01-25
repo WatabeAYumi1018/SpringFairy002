@@ -57,7 +57,7 @@ private:
 
 	eDirection m_direction = eDirection::none;
 
-	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_fly;
+	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(PlayerDraw, &PlayerDraw::SeqMove);

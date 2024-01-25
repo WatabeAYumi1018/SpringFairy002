@@ -68,7 +68,7 @@ private:
 	tnl::Quaternion m_rot;
 
 
-	StagePhase::eStagePhase m_now_stage_phase = StagePhase::eStagePhase::e_fly;
+	StagePhase::eStagePhase m_now_stage_phase = StagePhase::eStagePhase::flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(GameCamera, &GameCamera::SeqFixed);
@@ -83,8 +83,6 @@ private:
 	//// 足元のカメラ情報を取得
 	//sCameraInfo CurrentCameraType();
 
-	// フラスタムとの当たり判定
-	void IsInFlustum();
 	// 線形補間関数
 	tnl::Vector3 Lerp(const tnl::Vector3& start
 					  , const tnl::Vector3& end, float t);
@@ -154,6 +152,9 @@ private:
 	
 
 public:
+
+	// フラスタムとの当たり判定
+	void IsInFlustum();
 
 	void update(const float delta_time) override;
 

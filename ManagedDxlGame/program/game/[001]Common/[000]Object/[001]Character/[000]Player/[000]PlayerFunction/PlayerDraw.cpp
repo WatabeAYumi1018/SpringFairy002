@@ -347,7 +347,7 @@ bool PlayerDraw::SeqIdle(const float delta_time)
 
 	// ƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚Ä‚¢‚éor‹ó’†ó‘Ô‚Ìê‡
 	if (m_mediator->GetPushButton()
-		|| m_stage_phase == StagePhase::eStagePhase::e_fly)
+		|| m_stage_phase == StagePhase::eStagePhase::flower)
 	{
 		tnl_sequence_.change(&PlayerDraw::SeqMove);
 	}
