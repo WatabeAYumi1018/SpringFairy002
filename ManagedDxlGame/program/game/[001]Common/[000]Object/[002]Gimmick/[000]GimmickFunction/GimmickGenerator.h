@@ -19,7 +19,20 @@ public:
 
 private:
 
+	tnl::Vector3 m_pos ;
+
 	bool m_is_flower_active = false;
+
+	GameCamera::sCamera m_camera_lane;
+
+	// ①草花のギミックモデル(静的)
+	std::vector<Gimmick::sGimmickTypeInfo> m_gimmick_plants;
+	// ②樹木のギミックモデル(静的)
+	std::vector<Gimmick::sGimmickTypeInfo> m_gimmick_trees;
+	// ③舞う花のギミックモデル(動的)
+	std::vector<Gimmick::sGimmickTypeInfo> m_gimmick_sky_flowers;
+	// ④蝶のギミックモデル(動的)
+	std::vector<Gimmick::sGimmickTypeInfo> m_gimmick_butterfly;
 
 	//Gimmick::sGimmick m_gimmick_lane;
 
@@ -33,6 +46,18 @@ private:
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(GimmickGenerator, &GimmickGenerator::SeqFlower);
+
+
+	void ActiveGimmick();
+
+	tnl::Vector3 CalcRandomPos(const tnl::Vector3& centerPos);
+
+	std::shared_ptr<Gimmick> InactiveGimmick(const std::vector<Gimmick::sGimmickTypeInfo>& gimmickList);
+
+	// レーン番号に対応するギミックのランダム配置
+	void CreateGimmick();
+
+	tnl::Vector3 CalcGroundRandomPos();
 
 	void CheckGimmicks(const float delta_time);
 	// 空中でのランダム生成

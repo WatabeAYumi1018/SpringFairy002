@@ -14,14 +14,14 @@ public:
 
 	enum class eStagePhase
 	{
-		flower,
-		wood,
-		fancy
+		e_flower,
+		e_wood,
+		e_fancy
 	};
 
 private:
 
-	eStagePhase m_now_stage_phase = eStagePhase::flower;
+	eStagePhase m_now_stage_phase = eStagePhase::e_flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(StagePhase, &StagePhase::SeqFlower);

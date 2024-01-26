@@ -13,7 +13,7 @@ bool StagePhase::SeqFlower(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		m_now_stage_phase = eStagePhase::flower;
+		m_now_stage_phase = eStagePhase::e_flower;
 	}
 
 	// カメラの回転→会話が終了したら
@@ -35,7 +35,7 @@ bool StagePhase::SeqWood(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		m_now_stage_phase = eStagePhase::wood;
+		m_now_stage_phase = eStagePhase::e_wood;
 	}
 
 	// 再び会話が終了したら
@@ -57,7 +57,7 @@ bool StagePhase::SeqFancy(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		m_now_stage_phase = eStagePhase::fancy;
+		m_now_stage_phase = eStagePhase::e_fancy;
 	}
 
 	// 再び会話が終了したら

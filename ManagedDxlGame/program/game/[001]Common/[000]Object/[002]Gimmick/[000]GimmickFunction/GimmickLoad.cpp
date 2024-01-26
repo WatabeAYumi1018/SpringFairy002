@@ -14,7 +14,7 @@ GimmickLoad::GimmickLoad()
 		= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/sky_flower.csv");
 
 	//m_csv_gimmick_butterfly
-//	= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/butterfly.csv");
+	//	= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/butterfly.csv");
 
 	LoadGimmickTypeInfo(m_csv_gimmick_plants
 						, m_gimmick_plants
@@ -72,6 +72,55 @@ void GimmickLoad::LoadGimmickTypeInfo(std::vector<std::vector<tnl::CsvCell>>& cs
 		gimmicks.emplace_back(gimmick_info);
 	}
 }
+//
+//void GimmickGenerator::ActivateTreeGimmicks()
+//{
+//	// プレイヤーの前方座標を取得
+//	tnl::Vector3 playerForwardPos = m_mediator->GetPlayerPos() + m_mediator->GetPlayerForward() * 1500; // 1500は前方への距離オフセット
+//
+//	// カメラレーンIDが4またはカメラの状態がside_backの場合のみ処理
+//	if (m_camera_lane.s_id == 4 || m_camera_lane.state == CameraState::side_back)
+//	{
+//		// 木のモデルを10個アクティブにする
+//		for (int i = 0; i < 10; ++i)
+//		{
+//			// アクティブでない木のギミックを取得
+//			auto treeGimmick = GetInactiveGimmick(m_gimmick_trees);
+//			if (treeGimmick)
+//			{
+//				// プレイヤーの前方にランダムな位置を計算
+//				tnl::Vector3 randomPos = CalcRandomPosAround(playerForwardPos);
+//
+//				// ギミックの位置を設定し、アクティブ化
+//				treeGimmick->SetPosition(randomPos);
+//				treeGimmick->SetActive(true);
+//			}
+//		}
+//	}
+//}
+//
+//tnl::Vector3 GimmickGenerator::CalcRandomPosAround(const tnl::Vector3& centerPos)
+//{
+//	// 中心位置からのランダムなオフセットを計算
+//	float range = 500.0f; // ランダム配置の範囲
+//	float offsetX = tnl::GetRandomDistributionFloat(-range, range);
+//	float offsetZ = tnl::GetRandomDistributionFloat(-range, range);
+//
+//	return tnl::Vector3(centerPos.x + offsetX, centerPos.y, centerPos.z + offsetZ);
+//}
+//
+//std::shared_ptr<Gimmick> GimmickGenerator::GetInactiveGimmick(const std::vector<Gimmick::sGimmickTypeInfo>& gimmickList)
+//{
+//	for (const auto& gimmickInfo : gimmickList)
+//	{
+//		auto gimmick = std::make_shared<Gimmick>(gimmickInfo);
+//		if (!gimmick->GetIsActive())
+//		{
+//			return gimmick;
+//		}
+//	}
+//	return nullptr; // アクティブでないギミックが見つからなかった場合
+//}
 
 //void GimmickLoad::LoadGimmickVector()
 //{

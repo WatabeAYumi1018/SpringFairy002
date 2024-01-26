@@ -32,15 +32,15 @@ bool PlayerMove::PushButton()
 	// ã
 	if (up)
 	{
-		direction = eDirection::front;
+		direction = eDirection::e_front;
 
 		if (right)
 		{
-			direction = eDirection::front_right;
+			direction = eDirection::e_front_right;
 		}
 		else if (left)
 		{
-			direction = eDirection::front_left;
+			direction = eDirection::e_front_left;
 		}
 
 		return true;
@@ -48,15 +48,15 @@ bool PlayerMove::PushButton()
 	// ‰º
 	else if (down)
 	{
-		direction = eDirection::back;
+		direction = eDirection::e_back;
 
 		if (right)
 		{
-			direction = eDirection::back_right;
+			direction = eDirection::e_back_right;
 		}
 		else if (left)
 		{
-			direction = eDirection::back_left;
+			direction = eDirection::e_back_left;
 		}
 
 		return true;
@@ -64,15 +64,15 @@ bool PlayerMove::PushButton()
 	// ‰E
 	else if (right)
 	{
-		direction = eDirection::right;
+		direction = eDirection::e_right;
 
 		if (up)
 		{
-			direction = eDirection::front_right;
+			direction = eDirection::e_front_right;
 		}
 		else if (down)
 		{
-			direction = eDirection::back_right;
+			direction = eDirection::e_back_right;
 		}
 
 		return true;
@@ -80,15 +80,15 @@ bool PlayerMove::PushButton()
 	// ¶
 	else if (left)
 	{
-		direction = eDirection::left;
+		direction = eDirection::e_left;
 
 		if (up)
 		{
-			direction = eDirection::front_left;
+			direction = eDirection::e_front_left;
 		}
 		else if (down)
 		{
-			direction = eDirection::back_left;
+			direction = eDirection::e_back_left;
 		}
 
 		return true;
@@ -227,8 +227,6 @@ bool PlayerMove::SeqFly(const float delta_time)
 		if (PushButton())
 		{
 			ControlMoveMatrix(delta_time);
-
-			m_mediator->IsInCameraFlustum();
 		}
 
 		m_mediator->SetPlayerPos(m_pos);

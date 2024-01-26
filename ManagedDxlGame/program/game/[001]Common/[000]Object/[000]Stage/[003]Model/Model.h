@@ -27,6 +27,11 @@ public:
 		float s_interval;
 		tnl::Vector3 s_offset;
 	};
+	struct sModelType
+	{
+		int s_model_hdl;
+		int s_texture_hdl;
+	};
 
 	//struct sStageModelType
 	//{
@@ -52,13 +57,20 @@ public:
 
 private:
 
-	//int m_model_hdl = 0;
+	int m_model_hdl = 0;
+	int m_texture_normal_hdl = 0;
+	int m_texture_yellow_hdl = 0;
+	int m_texture_pink_hdl = 0;
+	int m_texture_orange_hdl = 0;
+	int m_material_count = 0;
+
 
 	//int m_width = 0;
 	//int m_height = 0;
 
 	// 個別のアクティブ状態
 	bool m_is_alive_active = false;
+	
 
 	//std::vector<Model::sStageModel> m_tree_models;
 
@@ -81,6 +93,10 @@ private:
 
 	//std::shared_ptr<dxe::Mesh> mesh_copy = nullptr;
 
+	void LoadTexture();
+
+	void SetTextureIndex();
+
 	// ライトの設定
 	void SetLight(int model_hdl);
 
@@ -92,7 +108,8 @@ private:
 
 	//void SetTextureIndex(sMeshModelType& model);
 
-	//void DrawGrass();
+	// エリア１の背景花モデル生成
+	void DrawGrass();
 
 	//void DrawModel(const sStageModel& model);
 

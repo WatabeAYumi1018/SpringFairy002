@@ -1,16 +1,16 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "../../../../../wta_library/wta_Convert.h"
 #include "../../../[002]Mediator/Mediator.h"
+#include "../[002]Floor/Floor.h"
 #include "Model.h"
 
 
 Model::Model()//, eWorldType world_type) 
 	//, m_world_type(world_type)
 {
+	LoadTexture();
 
-
-	// デバッグ用----------------------------------
-	//m_model_hdl = MV1LoadModel("model/stage/testStageSize015.mv1");
+	SetTextureIndex();
 }
 
 //Model::Model(int model_hdl, int id)
@@ -19,7 +19,10 @@ Model::Model()//, eWorldType world_type)
 
 Model::~Model()
 {
-
+	MV1DeleteModel(m_model_hdl);
+	DeleteGraph(m_texture_normal_hdl);
+	DeleteGraph(m_texture_yellow_hdl);
+	DeleteGraph(m_texture_pink_hdl);
 
 	//for (auto& pair : m_model_map)
 	//{
@@ -34,20 +37,13 @@ Model::~Model()
 
 void Model::Initialize()
 {
-	m_mediator->ModelGeneInitialize();
-
-
-//	m_models_mesh_copy.clear(); // コピー用ベクターをクリア
-
-
+	//m_mediator->ModelGeneInitialize();
 
 	//	for (int id = 0; id < 8; ++id)
 //{
 //	sStageModelType model;
-
 //	// モデル読み取り
 //	model = m_mediator->GetStageModelInfoById(id);
-
 //	// モデルの読み込み
 //	model.s_model_hdl
 //		= MV1LoadModel(model.s_model_path.c_str());
@@ -63,7 +59,6 @@ void Model::Initialize()
 //	// マテリアル数の設定
 //	model.s_material_count
 //		= MV1GetMaterialNum(model.s_model_hdl);
-
 //	SetTextureIndex(model);
 //
 //	m_model_map[id] = model;
@@ -72,9 +67,6 @@ void Model::Initialize()
 	//m_tree_models = m_mediator->GetStageTreeVector();
 
 	//m_grass_models = m_mediator->GetStageGrassVector();
-
-	//DrawGrass();
-	//CreateGroupMesh();
 }
 
 void Model::Update(float delta_time)
@@ -84,58 +76,106 @@ void Model::Update(float delta_time)
 
 void Model::Draw(std::shared_ptr<GameCamera> gameCamera)
 {
-	m_mediator->ModelGeneDraw(gameCamera);
+	//m_mediator->ModelGeneDraw(gameCamera);
 
-//	m_models_mesh_copy[0]->render(gameCamera);
-
-	// デバッグ用----------------------------------
-	//SetLight(m_model_hdl);
-
-	//MV1DrawModel(m_model_hdl);
+	DrawGrass();
 }
 
-//void Model::CreateGroupMesh()
-//{
-//	std::vector<tnl::Matrix> world_matrixs;
-//	
-//	for (Model::sStageModel& model : m_tree_models) 
-//	{
-//		tnl::Matrix world_matrix
-//			= tnl::Matrix::Translation(model.s_pos.x, model.s_pos.y, model.s_pos.z);
-//		
-//		world_matrixs.emplace_back(world_matrix);
-//	}
-//
-//	// 最初のモデルを基準にグループメッシュを作成
-//	if (!m_tree_models.empty()) 
-//	{
-//		int base_model_id = m_tree_models.front().s_id;
-//		
-//		// モデルハンドルから Shared<Mesh> インスタンスを取得または作成
-//		Shared<dxe::Mesh> base_mesh 
-//			= dxe::Mesh::CreateFromFileMV(m_model_map[base_model_id].s_model_path);
-//	}
-//}
+void Model::LoadTexture()
+{
+	m_model_hdl = MV1LoadModel("model/stage/flowers/grass.mv1");
+
+	m_texture_normal_hdl = LoadGraph("model/stage/flowers/plant.png");
+	m_texture_yellow_hdl = LoadGraph("model/stage/flowers/plant_yellow.png");
+	m_texture_pink_hdl = LoadGraph("model/stage/flowers/plant_pink.png");
+	//m_texture_orange_hdl = LoadGraph("model/stage/flowers/plant_orange.png");
+
+	m_material_count = MV1GetMaterialNum(m_model_hdl);
+}
+
+void Model::SetTextureIndex()
+{
+	for (int i = 0; i < m_material_count; ++i)
+	{
+		if (i < 43) 
+		{
+			MV1SetTextureGraphHandle(m_model_hdl, i, m_texture_normal_hdl, FALSE);			
+		}
+		else if (i > 42 || i < 73)
+		{
+			MV1SetTextureGraphHandle(m_model_hdl, i, m_texture_yellow_hdl, FALSE);
+		}
+		else if (i > 72 || i < 102)
+		{
+			MV1SetTextureGraphHandle(m_model_hdl, i, m_texture_pink_hdl, FALSE);
+		}
+		//else if (i > 101 || i < 128)
+		//{
+		//	MV1SetTextureGraphHandle(m_model_hdl, i, m_texture_orange_hdl, FALSE);
+		//}
+	}
+
+	SetLight(m_model_hdl);
+}
 
 void Model::SetLight(int model_hdl)
 {
-	//自己発光
-	DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
-	//環境光
-	DxLib::COLOR_F ambient = { 1,1,1,1 };
-	//拡散光
-	DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
-	//メタリック
-	DxLib::COLOR_F specular = { 0,0,0,1 };
+	// 各マテリアルに対するライトの設定
+	for (int i = 0; i < m_material_count; ++i)
+	{
+		DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
+		DxLib::COLOR_F ambient = { 1,1,1,1 };
+		DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
+		DxLib::COLOR_F specular = { 0,0,0,1 };
 
-	MV1SetMaterialEmiColor(model_hdl, 0, emissive);
-	MV1SetMaterialAmbColor(model_hdl, 0, ambient);
-	MV1SetMaterialDifColor(model_hdl, 0, diffuse);
-	MV1SetMaterialSpcColor(model_hdl, 0, specular);
-	// 強いほど光が鋭くなる
-	MV1SetMaterialSpcPower(model_hdl, 0, 0.5f);
+		MV1SetMaterialEmiColor(model_hdl, i, emissive);
+		MV1SetMaterialAmbColor(model_hdl, i, ambient);
+		MV1SetMaterialDifColor(model_hdl, i, diffuse);
+		MV1SetMaterialSpcColor(model_hdl, i, specular);
+		MV1SetMaterialSpcPower(model_hdl, i, 0.5f);
+	}
 }
 
+void Model::DrawGrass()
+{
+	// モデルサイズとグリッドサイズ
+	int model_size = 1500;
+	int grid_size = 1500;
+
+	tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
+	
+	// プレイヤーの現在位置からグリッド座標を取得
+	int target_grid_x = static_cast<int>(target_pos.x / grid_size);
+	int target_grid_z = static_cast<int>(target_pos.z / grid_size);
+
+	// 描画範囲の設定（ターゲットの位置を中心に前方に向けて）
+	int draw_range = 6; 
+
+	for (int z = target_grid_z; z < target_grid_z + draw_range; z++) 
+	{
+		for (int x = target_grid_x - draw_range / 2; x <= target_grid_x + draw_range / 2; x++)
+		{
+			// 透明化処理（ある程度後方にあるモデルは描画しない）
+			if (z < target_grid_z - grid_size) continue;
+
+			// モデルの座標を計算
+			tnl::Vector3 pos;
+			pos.x = static_cast<float>(x * model_size);
+			pos.y = Floor::DRAW_DISTANCE;
+			// 前方を少し遠めに設定し突然のモデルの出現を防ぐ
+			pos.z = static_cast<float>(z * model_size) + 1000;
+
+			// モデルのワールド座標を設定
+			VECTOR pos_vec =wta::ConvertToVECTOR(pos);
+
+			// モデルの位置を設定
+			MV1SetPosition(m_model_hdl, pos_vec);
+
+			// モデルを描画
+			MV1DrawModel(m_model_hdl);
+		}
+	}
+}
 
 //void Model::SetTextureIndex(sStageModelType& model)
 //{
@@ -257,7 +297,6 @@ void Model::SetLight(int model_hdl)
 //
 //	MV1DrawModel(data.s_model_hdl);
 //}
-
 
 //void  Model::CopyInitModel(int texture_a
 //							,int texture_b

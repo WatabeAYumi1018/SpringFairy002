@@ -415,7 +415,7 @@ void gameStart()
 	//mats.emplace_back(tnl::Matrix::Translation({ 50, 0, 0 }));
 	//group = dxe::Mesh::CreateStaticMeshGroupMV(mesh, mats);
 	//group->setTexture(dxe::Texture::CreateFromFile("model/stage/flowers/plant.png"));
-	//group->scl_ = { 100, 100, 100 };
+	//group->scl_ = { 100 };
 
 	tnl::SetSeedMersenneTwister32(time(0));
 

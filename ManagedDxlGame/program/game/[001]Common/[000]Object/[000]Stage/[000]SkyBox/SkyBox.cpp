@@ -51,17 +51,17 @@ void SkyBox::Update(float delta_time)
 
 void SkyBox::Draw(std::shared_ptr<GameCamera> gameCamera)
 {
-	if (m_stage_phase == StagePhase::eStagePhase::flower) 
+	if (m_stage_phase == StagePhase::eStagePhase::e_flower) 
 	{
 		m_meshs[0]->render(gameCamera);
 	}
 
-	if (m_stage_phase == StagePhase::eStagePhase::wood)
+	if (m_stage_phase == StagePhase::eStagePhase::e_wood)
 	{
 		m_meshs[1]->render(gameCamera);
 	}
 
-	if (m_stage_phase == StagePhase::eStagePhase::fancy)
+	if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
 	{
 		m_meshs[2]->render(gameCamera);
 	}

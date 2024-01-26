@@ -21,7 +21,7 @@ public:
 
 private:
 
-	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::flower;
+	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_flower;
 
 	std::vector<std::vector<tnl::CsvCell>> m_csv_skybox_info;
 

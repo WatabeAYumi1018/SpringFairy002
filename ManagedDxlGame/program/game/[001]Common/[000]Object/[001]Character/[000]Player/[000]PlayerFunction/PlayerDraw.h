@@ -55,9 +55,9 @@ private:
 	bool m_is_attack = false;
 
 
-	eDirection m_direction = eDirection::none;
+	eDirection m_direction = eDirection::e_none;
 
-	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::flower;
+	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(PlayerDraw, &PlayerDraw::SeqMove);

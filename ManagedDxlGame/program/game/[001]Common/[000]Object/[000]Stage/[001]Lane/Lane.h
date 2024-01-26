@@ -26,6 +26,6 @@ public:
 
 	~Lane() {}
 
-	static const int LANE_SIZE = 800;
+	static const int LANE_SIZE = 1500;
 
 };

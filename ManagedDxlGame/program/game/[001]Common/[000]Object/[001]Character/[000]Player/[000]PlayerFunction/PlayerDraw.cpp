@@ -347,16 +347,16 @@ bool PlayerDraw::SeqIdle(const float delta_time)
 
 	// ボタンを押しているor空中状態の場合
 	if (m_mediator->GetPushButton()
-		|| m_stage_phase == StagePhase::eStagePhase::flower)
+		|| m_stage_phase == StagePhase::eStagePhase::e_flower)
 	{
 		tnl_sequence_.change(&PlayerDraw::SeqMove);
 	}
 
 	// ボタンが押されるまでループ
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-		{
-			AnimIdle(delta_time);
-		});
+	{
+		AnimIdle(delta_time);
+	});
 
 	TNL_SEQ_CO_END;
 }

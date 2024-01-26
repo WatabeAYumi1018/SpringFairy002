@@ -21,11 +21,12 @@ protected:
 	// キャラクターの行列計算
 	MATRIX CalcMatrix();
 
-	// 足元のカメラレーンを取得
-	GameCamera::sCamera CurrentCamera();
 
 public:
 
+	// 足元のカメラレーンを取得
+	GameCamera::sCamera CurrentCamera();
+	
 	// 足元自動移動レーンを取得
 	Lane::sLane CurrentMoveLane();
 	//// 足元アイテムレーンを取得

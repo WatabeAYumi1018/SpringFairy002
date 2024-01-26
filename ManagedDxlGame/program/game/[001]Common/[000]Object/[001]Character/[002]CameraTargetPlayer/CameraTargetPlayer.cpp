@@ -15,6 +15,7 @@ void CameraTargetPlayer::Update(float delta_time)
 	// 自動経路による移動と回転の更新
 	m_mediator->MoveAstarTargetPos(delta_time, m_pos);
 
+	// カメラレーンの取得
 	m_camera_info = CurrentCameraType();
 
 	//m_gimmick = CurrentGimmickLane();

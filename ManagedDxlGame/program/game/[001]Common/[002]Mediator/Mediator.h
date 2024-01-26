@@ -489,6 +489,12 @@ public:
 	// 参照先 ... Partnerの回転が必要な全クラス
 	const tnl::Quaternion& GetPartnerRot() const;
 
+	// 現在の足元カメラ取得
+	// 参照元 ... Partner::CurrentCamera()
+	// 参照先 ... GimmickGenerator::CalcGimmickRandomPos()
+	GameCamera::sCamera CurrentCameraLane();
+
+
 	// PartnerMove
 
 	// Partner移動による座標と回転の更新処理
@@ -524,6 +530,8 @@ public:
 	//----CameraTargetPlayer----//
 
 	// CameraTargetPlayer
+
+	GameCamera::sCameraInfo m_camera_info;
 
 	// カメラのターゲット座標取得
 	// 参照元 ... CameraTargetPlayer::GetPos()
@@ -588,11 +596,20 @@ public:
 	// 参照先 ... Gimmick::
 	Gimmick::sGimmickTypeInfo GetGimmickLoadInfoById(int id);
 
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeLoadPlants() const;
+	// 草花ギミックモデル一括取得
+	// 参照元 ... ModelLoad::m_gimmick_type_plants
+	// 参照先 ... GimmickPool::関連する関数
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickLoadTypePlants() const;
 
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeLoadTrees() const;
+	// 樹木ギミックモデル一括取得
+	// 参照元 ... ModelLoad::m_gimmick_type_trees
+	// 参照先 ... GimmickPool::関連する関数
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickLoadTypeTrees() const;
 
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeLoadSkyFlowers() const;
+	// 舞う花ギミックモデル一括取得
+	// 参照元 ... ModelLoad::m_gimmick_type_sky_flowers
+	// 参照先 ... GimmickPool::関連する関数
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickLoadTypeSkyFlowers() const;
 
 
 	// GimmickPool

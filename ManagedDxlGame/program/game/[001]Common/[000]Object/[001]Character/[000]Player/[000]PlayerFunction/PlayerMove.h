@@ -37,9 +37,9 @@ private:
 
 
 	// 上下左右の方向
-	eDirection direction = eDirection::none;
+	eDirection direction = eDirection::e_none;
 	// 現在のステージフェーズ
-	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::flower;
+	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(PlayerMove, &PlayerMove::SeqFly);

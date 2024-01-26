@@ -49,7 +49,7 @@ private:
 	// エネミーの種類（テクスチャ）
 	Partner::ePartnerType m_enemy_type = Partner::ePartnerType::green;
 
-	eDirection m_direction = eDirection::none;
+	eDirection m_direction = eDirection::e_none;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(PartnerDraw, &PartnerDraw::SeqIdle);

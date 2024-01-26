@@ -30,8 +30,8 @@ private:
 
 	// アイテムモデルの情報読み込み
 	void LoadGimmickTypeInfo(std::vector<std::vector<tnl::CsvCell>>& csv_gimmick
-							,std::vector<Gimmick::sGimmickTypeInfo>& gimmicks
-							,Gimmick::eGimmickType type);
+							 ,std::vector<Gimmick::sGimmickTypeInfo>& gimmicks
+							 ,Gimmick::eGimmickType type);
 
 public:
 

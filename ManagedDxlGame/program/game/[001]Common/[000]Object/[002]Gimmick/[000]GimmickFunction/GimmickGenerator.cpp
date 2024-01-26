@@ -1,18 +1,86 @@
-#include "GimmickGenerator.h"
+#include "../../../../../wta_library/wta_Convert.h"
 #include "../../../[002]Mediator/Mediator.h"
+#include "GimmickGenerator.h"
 
 
 void GimmickGenerator::Initialize()
 {
-	// レーン情報を取得
+	// poolギミックアイテム取得
     m_gimmicks = m_mediator->GetPoolGimmick();
+
+    m_gimmick_plants = m_mediator->GetGimmickLoadTypePlants();
+
+    m_gimmick_trees = m_mediator->GetGimmickLoadTypeTrees();
+
+    m_gimmick_sky_flowers = m_mediator->GetGimmickLoadTypeSkyFlowers();
+
+    // プールしたモデルを取得して、アクティブにする
+    // ランダムな座標を算出
+    // その位置に一気に描画する
+    for (Gimmick::sGimmickTypeInfo gimmick_type : m_gimmick_plants)
+    {
+        // ランダムな座標を算出
+        m_pos = CalcGroundRandomPos();
+
+        
+    }
+
 }
 
 void GimmickGenerator::Update(const float delta_time)
 {
+    // 現在のカメラレーンを取得
+    m_camera_lane = m_mediator->CurrentCameraLane();
+
     tnl_sequence_.update(delta_time);
 
     CheckGimmicks(delta_time);
+}
+
+void GimmickGenerator::CreateGimmick()
+{
+    switch (m_camera_lane.s_id)
+    {
+    // サイドビューの時は限定
+    case 3:
+    case 4:
+
+        break;
+
+    // それ以外は恒常
+    default:
+
+    	break;
+
+    }
+
+}
+
+tnl::Vector3 GimmickGenerator::CalcGroundRandomPos()
+{
+    //現在のカメラレーンをpairで取得
+    std::pair<int, int> current_pos;
+
+    current_pos.first = static_cast<int>(m_camera_lane.s_pos.x);
+    current_pos.second = static_cast<int>(m_camera_lane.s_pos.z);
+
+    // 現在のレーンのワールド座標を取得
+    tnl::Vector3 current_grid_pos 
+        = wta::ConvertGridIntToFloat(current_pos, Lane::LANE_SIZE);
+
+    // レーンの中点を算出
+    current_grid_pos.x += Lane::LANE_SIZE / 2;
+    current_grid_pos.z += Lane::LANE_SIZE / 2;
+;
+    float offset = Lane::LANE_SIZE / 2;
+
+    //　中点を基準にグリッドサイズの範囲でランダムな座標を算出
+	tnl::Vector3 random_pos
+        = {tnl::GetRandomDistributionFloat(current_grid_pos.x - offset , current_grid_pos.x + offset)
+           , 0
+           , tnl::GetRandomDistributionFloat(current_grid_pos.z - offset, current_grid_pos.z + offset)};
+
+	return random_pos;
 }
 
 void GimmickGenerator::CheckGimmicks(const float delta_time)

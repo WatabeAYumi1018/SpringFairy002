@@ -71,40 +71,34 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 		return;
 	}
 
-	//// ゴールまでの経路を取得
+	// ゴールまでの経路を取得
 	//std::pair<int, int> current_grid = m_goal_process[m_now_step];
-
 	//tnl::Vector3 goal_pos 
 	//	= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE) 
 	//	+ tnl::Vector3(Lane::LANE_SIZE , 0, Lane::LANE_SIZE );
-
 	//// 現在の位置から目標地点への方向ベクトルを計算
 	//m_direction = goal_pos - pos;
 	//// 方向を正規化して単位ベクトルにする
 	//m_direction.normalize();
-
 	//m_direction = tnl::Vector3::Transform(m_direction, rot_type.getMatrix());
-
 	// 移動速度に応じて位置を更新
 
-// 現在のグリッド位置
-	std::pair<int, int> currentGrid = m_goal_process[m_now_step];
+	// 現在のグリッド位置
+	std::pair<int, int> current_grid = m_goal_process[m_now_step];
 	// 次のグリッド位置（ここでは簡単のために次のステップとしていますが、実際には目標に応じて変更する）
-	std::pair<int, int> nextGrid = m_goal_process[m_now_step + 1];
+	std::pair<int, int> next_grid = m_goal_process[m_now_step + 1];
 
 	// 両グリッドの中心座標を計算
-	tnl::Vector3 currentGridCenter = wta::ConvertGridIntToFloat(currentGrid, Lane::LANE_SIZE)
-		+ tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
-	tnl::Vector3 nextGridCenter = wta::ConvertGridIntToFloat(nextGrid, Lane::LANE_SIZE)
-		+ tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
+	tnl::Vector3 current_grid_pos = wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE);
+	tnl::Vector3 next_grid_pos = wta::ConvertGridIntToFloat(next_grid, Lane::LANE_SIZE);
 
 	// 次のグリッドへの方向ベクトルを計算
-	tnl::Vector3 directionToNextGrid = (nextGridCenter - currentGridCenter);
-	directionToNextGrid.normalize();
+	m_direction = (next_grid_pos - current_grid_pos);
+	m_direction.normalize();
 
 	// プレイヤーの移動
 	// ここでは、方向ベクトルと移動速度を使って、プレイヤーの新しい位置を計算します。
-	pos += directionToNextGrid * m_move_speed * delta_time;
+	pos += m_direction * m_move_speed * delta_time;
 
 	//// 必要に応じて、プレイヤーの位置がカメラの視野内に収まるように調整します。
 	//AdjustPlayerPositionWithinCameraView(pos, cameraViewSize);

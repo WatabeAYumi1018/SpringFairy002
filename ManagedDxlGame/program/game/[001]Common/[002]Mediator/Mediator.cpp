@@ -184,6 +184,7 @@ const std::vector<Model::sMeshModelType>& Mediator::GetStageModelTypeInfo() cons
 	return m_modelLoad ->GetModelTypeInfo();
 }
 
+
 //Model::sStageModelType Mediator::GetStageModelInfoById(int id)
 //{
 //	return m_modelLoad -> GetModelInfoById(id);
@@ -413,10 +414,14 @@ void Mediator::SetPartnerScale(tnl::Vector3& scale)
 	m_partner->SetScale(scale);
 }
 
-
 const float Mediator::GetPartnerCollisionSize() const
 {
 	return m_partner->GetCollisionSize();
+}
+
+GameCamera::sCamera Mediator::CurrentCameraLane()
+{
+	return m_partner->CurrentCamera();
 }
 
 
@@ -517,17 +522,17 @@ Gimmick::sGimmickTypeInfo Mediator::GetGimmickLoadInfoById(int id)
 	return m_gimmickLoad->GetGimmickInfoById(id);
 }
 
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTypeLoadPlants() const
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickLoadTypePlants() const
 {
 	return m_gimmickLoad->GetGimmickTypePlants();
 }
 
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTypeLoadTrees() const
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickLoadTypeTrees() const
 {
 	return m_gimmickLoad->GetGimmickTypeTrees();
 }
 
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTypeLoadSkyFlowers() const
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickLoadTypeSkyFlowers() const
 {
 	return m_gimmickLoad->GetGimmickTypeSkyFlowers();
 }
