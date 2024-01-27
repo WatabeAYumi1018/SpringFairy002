@@ -1,7 +1,7 @@
 #pragma once
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
-#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
+#include "../[000]Object/[002]Gimmick/Gimmick.h"
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/CharaGraph.h"
@@ -160,10 +160,15 @@ public:
 	// 参照先 ... 自動経路による更新が必要な全クラス
 	void MoveAstarTargetPos(const float delta_time, tnl::Vector3& pos);
 
-	// キャラの回転右フラグ設定
-	// 参照元 ... Player::m_look_side_right
+	// キャラの回転フラグ設定
+	// 参照元 ... laneMove::m_look_side
 	// 参照先 ... GameCamera::ConditionType()
 	void SetPlayerLookSide(bool look_side);
+
+	// キャラの回転フラグ取得
+	// 参照元 ... laneMove::m_look_side
+	// 参照先 ... GimmickGenerator::CreateGimmick()
+	bool GetPlayerLookSide() const;
 
 	//// キャラの回転左フラグ取得
 	//// 参照元 ... Player::m_look_side_left
@@ -575,6 +580,27 @@ public:
 
 	// GimmickLoad
 
+	// 草花のギミック全種類取得
+	// 参照元 ... Gimmick::m_plants
+	// 参照先 ... GimmickGenerator::関連する関数
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickPlants() const;
+
+	// 樹木のギミック全種類取得
+	// 参照元 ... Gimmick::m_trees
+	// 参照先 ... GimmickGenerator::関連する関数
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTrees() const;
+
+	// 舞う花のギミック全種類取得
+	// 参照元 ... Gimmick::m_sky_flowers
+	// 参照先 ... GimmickGenerator::関連する関数
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickSkyFlowers() const;
+
+	// 舞う花のギミック全種類取得
+	// 参照元 ... Gimmick::m_butterflys
+	// 参照先 ... GimmickGenerator::関連する関数
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickButterflys() const;
+
+
 	//// アイテムモデルの総数取得
 	//// 参照元 ... GimmickLoad::m_id_num
 	//// 参照先 ... Gimmick::Initialize()
@@ -591,26 +617,10 @@ public:
 	//const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeInfo() const;
 
 
-	// アイテムモデルのid取得
-	// 参照元 ... GimmickLoad::GetGimmickInfoById()
-	// 参照先 ... Gimmick::
-	Gimmick::sGimmickTypeInfo GetGimmickLoadInfoById(int id);
-
-	// 草花ギミックモデル一括取得
-	// 参照元 ... ModelLoad::m_gimmick_type_plants
-	// 参照先 ... GimmickPool::関連する関数
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickLoadTypePlants() const;
-
-	// 樹木ギミックモデル一括取得
-	// 参照元 ... ModelLoad::m_gimmick_type_trees
-	// 参照先 ... GimmickPool::関連する関数
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickLoadTypeTrees() const;
-
-	// 舞う花ギミックモデル一括取得
-	// 参照元 ... ModelLoad::m_gimmick_type_sky_flowers
-	// 参照先 ... GimmickPool::関連する関数
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickLoadTypeSkyFlowers() const;
-
+	//// アイテムモデルのid取得
+	//// 参照元 ... GimmickLoad::GetGimmickInfoById()
+	//// 参照先 ... Gimmick::
+	//Gimmick::sGimmickTypeInfo GetGimmickLoadInfoById(int id,std::vector<Gimmick::sGimmickTypeInfo>& gimmick_type);
 
 	// GimmickPool
 
@@ -815,28 +825,6 @@ public:
 	// 参照元 ... CameraLoad::GetCameraInfoById(int id)
 	// 参照先 ... Camera::関連する関数
 	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
-
-	// CameraFlustum
-
-	//// フラスタムの更新
-	//// 参照元 ... CameraFrustum::Update()
-	//// 参照先 ... Camera::Update(float delta_time)
-	//void UpdateCameraFrustum();
-
-	//// フラスタムの当たり判定の登録
-	//// 参照元 ... CameraFrustum::CollisionRegister()
-	//// 参照先 ... Camera::Initialize()
-	//void CollisionFrustumRegister();
-
-	//// フラスタムの当たり判定の更新
-	//// 参照元 ... CameraFrustum::CollisionCheck()
-	//// 参照先 ... Camera::Update(float delta_time)
-	//void CollisionFrustumCheck();
-
-	// フラスタムの当たり判定処理
-	// 参照元 ... CameraFlustum::IsIntersectFlustum(const float delta_time)
-	// 参照先 ... Camera::Update(float delta_time)
-	void IsIntersectCameraFlustum(const float delta_time);
 
 	//---------------------------//
 

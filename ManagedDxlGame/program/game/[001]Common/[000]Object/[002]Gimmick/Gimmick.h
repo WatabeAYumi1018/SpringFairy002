@@ -62,7 +62,18 @@ private:
 	DxLib::COLOR_F m_emissive = { 0.5f,0.5f,0.5f,1 };
 
 	// csvから読み取ったモデルの情報
-	sGimmickTypeInfo m_item_data;
+	sGimmickTypeInfo m_gimmick_data;
+	
+
+	// ①草花のギミックモデル(静的)
+	std::vector<Gimmick::sGimmickTypeInfo> m_plants;
+	// ②樹木のギミックモデル(静的)
+	std::vector<Gimmick::sGimmickTypeInfo> m_trees;
+	// ③舞う花のギミックモデル(動的)
+	std::vector<Gimmick::sGimmickTypeInfo> m_sky_flowers;
+	// ④蝶のギミックモデル(動的)
+	std::vector<Gimmick::sGimmickTypeInfo> m_butterflys;
+
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(Gimmick, &Gimmick::SeqNormal);
@@ -70,6 +81,7 @@ private:
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	void SetGimmickInfo(std::vector<Gimmick::sGimmickTypeInfo>& gimmicks_info);
 
 	void SetLight();
 
@@ -96,7 +108,7 @@ public:
 	// モデルのロードと初期化
 	void Initialize() override;
 
-	void Update(float delta_time) override;
+	void Update(const float delta_time) override;
 
 	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
 
@@ -114,6 +126,31 @@ public:
 	void SetIsDrawChange(bool is_draw_change) { m_is_draw_change = is_draw_change; }
 
 	bool GetIsDrawChange() const { return m_is_draw_change; }
+
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetPlants() const 
+	{
+		return m_plants; 
+	}
+
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetTrees() const
+	{
+		return m_trees; 
+	}
+
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetSkyFlowers() const
+	{
+		return m_sky_flowers; 
+	}
+
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetButterflys() const
+	{
+		return m_butterflys; 
+	}
+
+	void SetGimmickData(sGimmickTypeInfo gimmick_info) 
+	{
+		m_gimmick_data =  gimmick_info;
+	}
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

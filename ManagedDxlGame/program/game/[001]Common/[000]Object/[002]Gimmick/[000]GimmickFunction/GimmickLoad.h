@@ -15,17 +15,17 @@ public:
 private:
 	
 	// ①草花のギミックモデル(静的)
-	std::vector<std::vector<tnl::CsvCell>> m_csv_gimmick_plants;
-	std::vector<Gimmick::sGimmickTypeInfo> m_gimmick_plants;
+	std::vector<std::vector<tnl::CsvCell>> m_csv_plants;
+	std::vector<Gimmick::sGimmickTypeInfo> m_plants;
 	// ②樹木のギミックモデル(静的)
-	std::vector<std::vector<tnl::CsvCell>> m_csv_gimmick_trees;
-	std::vector<Gimmick::sGimmickTypeInfo> m_gimmick_trees;
+	std::vector<std::vector<tnl::CsvCell>> m_csv_trees;
+	std::vector<Gimmick::sGimmickTypeInfo> m_trees;
 	// ③舞う花のギミックモデル(動的)
-	std::vector<std::vector<tnl::CsvCell>> m_csv_gimmick_sky_flowers;
-	std::vector<Gimmick::sGimmickTypeInfo> m_gimmick_sky_flowers;
+	std::vector<std::vector<tnl::CsvCell>> m_csv_sky_flowers;
+	std::vector<Gimmick::sGimmickTypeInfo> m_sky_flowers;
 	// ④蝶のギミックモデル(動的)
-	std::vector<std::vector<tnl::CsvCell>> m_csv_gimmick_butterfly;
-	std::vector<Gimmick::sGimmickTypeInfo> m_gimmick_butterfly;
+	std::vector<std::vector<tnl::CsvCell>> m_csv_butterflys;
+	std::vector<Gimmick::sGimmickTypeInfo> m_butterflys;
 
 
 	// アイテムモデルの情報読み込み
@@ -35,24 +35,29 @@ private:
 
 public:
 
-	// アイテムモデルのid取得
-	Gimmick::sGimmickTypeInfo GetGimmickInfoById(int id);
+	//// アイテムモデルのid取得
+	//Gimmick::sGimmickTypeInfo GetGimmickInfoById(int id
+	//											 ,std::vector<Gimmick::sGimmickTypeInfo>& gimmick_type);
 
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypePlants() const
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetPlants() const
 	{
-		return m_gimmick_plants;
+		return m_plants;
 	}
 
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeTrees() const
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetTrees() const
 	{
-		return m_gimmick_trees;
+		return m_trees;
 	}
 
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeSkyFlowers() const
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetSkyFlowers() const
 	{
-		return m_gimmick_sky_flowers;
+		return m_sky_flowers;
 	}
 
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetButterflys() const
+	{
+		return m_butterflys;
+	}
 };
 
 //int m_id_num = 0;

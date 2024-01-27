@@ -63,6 +63,8 @@ public:
 
 	void SetLookSide(bool look_side) { m_look_side = look_side; }
 
+	bool GetLookSide() const { return m_look_side; }
+
 	//void SetLookSideLeft(bool look_side_left) { m_look_side_left = look_side_left; }
 
 

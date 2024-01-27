@@ -8,9 +8,9 @@ GimmickPool::~GimmickPool()
 	m_gimmiks.clear();
 }
 
-void GimmickPool::AddGimmick(std::shared_ptr<Gimmick>& item)
+void GimmickPool::AddGimmick(std::shared_ptr<Gimmick>& gimmick)
 {
-    m_gimmiks.emplace_back(item);
+    m_gimmiks.emplace_back(gimmick);
 }
 
 std::shared_ptr<Gimmick> GimmickPool::GetNotActiveGimmick()

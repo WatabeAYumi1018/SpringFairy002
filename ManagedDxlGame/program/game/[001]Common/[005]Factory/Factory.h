@@ -1,6 +1,7 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
+#include "../[000]Object/[002]Gimmick/Gimmick.h"
 
 
 // 名前空間＋テンプレートの前方宣言
@@ -47,11 +48,9 @@ class PartnerDraw;
 
 class CameraTargetPlayer;
 
-
-class Gimmick;
 class GimmickLoad;
-class GimmickGenerator;
 class GimmickPool;
+class GimmickGenerator;
 
 class Effect;
 class EffectLoad;
@@ -155,7 +154,7 @@ private:
 	// モデルオブジェクトのプール
 	//void PoolModelObject();
 	// アイテムオブジェクトのプール
-	void PoolGimmickObject();
+	void PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types);
 	// 生成したオブジェクトをlistに格納
 	void StorageObject();
 

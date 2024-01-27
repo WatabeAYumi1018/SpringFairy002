@@ -7,7 +7,7 @@
 
 PlayerCollision::~PlayerCollision()
 {
-	m_items.clear();
+	m_gimmicks.clear();
 }
 
 void PlayerCollision::CollisionRegisterPlayerToItem()
@@ -76,7 +76,7 @@ void PlayerCollision::CollisionRegisterPlayerToPartner()
 void PlayerCollision::CollisionCheck()
 {
 	// Player ‚Æ Item ‚ÌÕ“Ë”»’è
-	for (std::shared_ptr<Gimmick>& item : m_items)
+	for (std::shared_ptr<Gimmick>& item : m_gimmicks)
 	{
 		m_collision_item->Intersect(m_player, item);
 	}
@@ -84,7 +84,7 @@ void PlayerCollision::CollisionCheck()
 	// Player‚ÌMesh ‚Æ Item ‚ÌÕ“Ë”»’è
 	for (const std::shared_ptr<dxe::Mesh>& mesh : m_player->GetMeshs())
 	{
-		for (std::shared_ptr<Gimmick>& item : m_items)
+		for (std::shared_ptr<Gimmick>& item : m_gimmicks)
 		{
 			m_collision_mesh->Intersect(mesh, item);
 		}

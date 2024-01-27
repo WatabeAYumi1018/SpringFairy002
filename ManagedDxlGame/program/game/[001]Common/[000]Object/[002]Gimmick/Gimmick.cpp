@@ -12,35 +12,36 @@ Gimmick::Gimmick()
 
 Gimmick::~Gimmick()
 {
-	MV1DeleteModel(m_item_data.s_model_hdl);
-	DeleteGraph(m_item_data.s_texture_hdl);
+	MV1DeleteModel(m_gimmick_data.s_model_hdl);
+	DeleteGraph(m_gimmick_data.s_texture_hdl);
 }
 
 void Gimmick::Initialize()
 {
 	// モデル読み取り
 	//ここですべてのモデルの情報を元に読み込み処理(GetItemLoadInfoById関数でfor分で各モデルを回すべき？)
-	m_item_data = m_mediator->GetGimmickLoadInfoById(0);
+	//m_gimmick_data = m_mediator->GetGimmickLoadInfoById(0);
+	m_plants = m_mediator->GetGimmickPlants();
 
-	// モデルの読み込み
-	m_item_data.s_model_hdl = MV1LoadModel(m_item_data.s_model_path.c_str());
+	m_trees = m_mediator->GetGimmickTrees();
 
-	// テクスチャ読み取り
-	m_item_data.s_texture_hdl = LoadGraph(m_item_data.s_texture_path.c_str());
+	m_sky_flowers = m_mediator->GetGimmickSkyFlowers();
 
-	// 材質の指定はないため引数は0
-	MV1SetTextureGraphHandle(m_item_data.s_model_hdl, 0, m_item_data.s_texture_hdl, FALSE);
+	SetGimmickInfo(m_plants);
+	SetGimmickInfo(m_trees);
+	SetGimmickInfo(m_sky_flowers);
+	//SetGimmickInfo(m_gimmick_butterfly);
 
 	//// アイテムの種類の総数を取得
 	//m_id_num = m_mediator->GetGimmickIdNum();
 }
 
-void Gimmick::Update(float delta_time)
+void Gimmick::Update(const float delta_time)
 {
 	VECTOR pos_vec = wta::ConvertToVECTOR(m_pos);
 
 	// マトリックス
-	MV1SetPosition(m_item_data.s_model_hdl, pos_vec);
+	MV1SetPosition(m_gimmick_data.s_model_hdl, pos_vec);
 
 	tnl_sequence_.update(delta_time);
 
@@ -54,7 +55,22 @@ void Gimmick::Draw(std::shared_ptr<GameCamera> gameCamera)
 	{
 		SetLight();
 
-		MV1DrawModel(m_item_data.s_model_hdl);
+		MV1DrawModel(m_gimmick_data.s_model_hdl);
+	}
+}
+
+void Gimmick::SetGimmickInfo(std::vector<Gimmick::sGimmickTypeInfo>& gimmicks_info)
+{
+	for (Gimmick::sGimmickTypeInfo& gimmick_info : gimmicks_info)
+	{
+		m_gimmick_data.s_model_hdl 
+			= MV1LoadModel(gimmick_info.s_model_path.c_str());
+		
+		m_gimmick_data.s_texture_hdl 
+			= LoadGraph(gimmick_info.s_texture_path.c_str());
+		
+		MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0
+								 , m_gimmick_data.s_texture_hdl, FALSE);
 	}
 }
 
@@ -78,12 +94,12 @@ void Gimmick::SetLight()
 	//メタリック
 	DxLib::COLOR_F specular = { 0,0,0,1 };
 
-	MV1SetMaterialEmiColor(m_item_data.s_model_hdl, 0, m_emissive);
-	MV1SetMaterialAmbColor(m_item_data.s_model_hdl, 0, ambient);
-	MV1SetMaterialDifColor(m_item_data.s_model_hdl, 0, diffuse);
-	MV1SetMaterialSpcColor(m_item_data.s_model_hdl, 0, specular);
+	MV1SetMaterialEmiColor(m_gimmick_data.s_model_hdl, 0, m_emissive);
+	MV1SetMaterialAmbColor(m_gimmick_data.s_model_hdl, 0, ambient);
+	MV1SetMaterialDifColor(m_gimmick_data.s_model_hdl, 0, diffuse);
+	MV1SetMaterialSpcColor(m_gimmick_data.s_model_hdl, 0, specular);
 	// 強いほど光が鋭くなる
-	MV1SetMaterialSpcPower(m_item_data.s_model_hdl, 0, 0.5f);
+	MV1SetMaterialSpcPower(m_gimmick_data.s_model_hdl, 0, 0.5f);
 }
 
 int Gimmick::RandomTexture()
@@ -97,18 +113,18 @@ void Gimmick::ChangeTexture()
 	int new_texture = RandomTexture();
 
 	// 新しいテクスチャ情報を取得
-	Gimmick::sGimmickTypeInfo new_texture_id
-			= m_mediator->GetGimmickLoadInfoById(new_texture);
+	//Gimmick::sGimmickTypeInfo new_texture_id
+	//		= m_mediator->GetGimmickLoadInfoById(new_texture);
 
 	// 古いテクスチャを削除
-	DeleteGraph(m_item_data.s_texture_hdl);
+	DeleteGraph(m_gimmick_data.s_texture_hdl);
 
 	// 新しいテクスチャを読み込み
-	m_item_data.s_texture_hdl 
-		= LoadGraph(new_texture_id.s_texture_path.c_str());
+	//m_gimmick_data.s_texture_hdl 
+	//	= LoadGraph(new_texture_id.s_texture_path.c_str());
 
-	// テクスチャをモデルに適用
-	MV1SetTextureGraphHandle(m_item_data.s_model_hdl, 0, m_item_data.s_texture_hdl, FALSE);
+	//// テクスチャをモデルに適用
+	//MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0, m_gimmick_data.s_texture_hdl, FALSE);
 }
 
 void Gimmick::MoveFlower(const float delta_time)

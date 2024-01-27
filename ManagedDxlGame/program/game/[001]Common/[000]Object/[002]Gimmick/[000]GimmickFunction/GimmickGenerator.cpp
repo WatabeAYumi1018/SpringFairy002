@@ -1,4 +1,5 @@
 #include "../../../../../wta_library/wta_Convert.h"
+#include "../../[000]Stage/[002]Floor/Floor.h"
 #include "../../../[002]Mediator/Mediator.h"
 #include "GimmickGenerator.h"
 
@@ -8,93 +9,82 @@ void GimmickGenerator::Initialize()
 	// poolギミックアイテム取得
     m_gimmicks = m_mediator->GetPoolGimmick();
 
-    m_gimmick_plants = m_mediator->GetGimmickLoadTypePlants();
-
-    m_gimmick_trees = m_mediator->GetGimmickLoadTypeTrees();
-
-    m_gimmick_sky_flowers = m_mediator->GetGimmickLoadTypeSkyFlowers();
-
-    // プールしたモデルを取得して、アクティブにする
-    // ランダムな座標を算出
-    // その位置に一気に描画する
-    for (Gimmick::sGimmickTypeInfo gimmick_type : m_gimmick_plants)
-    {
-        // ランダムな座標を算出
-        m_pos = CalcGroundRandomPos();
-
-        
-    }
-
 }
 
 void GimmickGenerator::Update(const float delta_time)
 {
     // 現在のカメラレーンを取得
-    m_camera_lane = m_mediator->CurrentCameraLane();
+    //m_camera_lane = m_mediator->CurrentCameraLane();
 
-    tnl_sequence_.update(delta_time);
+    //tnl_sequence_.update(delta_time);
 
-    CheckGimmicks(delta_time);
+    CreateGimmick();
+
+    //CheckGimmicks(delta_time);
 }
 
 void GimmickGenerator::CreateGimmick()
 {
-    switch (m_camera_lane.s_id)
+    if (m_mediator->GetPlayerLookSide())
     {
-    // サイドビューの時は限定
-    case 3:
-    case 4:
+        //if(e_flower || e_magical)
+        CalcGroundPos(m_mediator->GetGimmickPlants());
 
-        break;
+        //if(e_wood || e_magical)
+        CalcGroundPos(m_mediator->GetGimmickTrees());
+    }
+	else
+	{
+		//CalcSkyRandomPos();
 
-    // それ以外は恒常
-    default:
+        //if()
+	}
+}
 
-    	break;
+void GimmickGenerator::CalcGroundPos(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types)
+{
+    tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
+    
+    float distance = 500.0f;
+    
+    int num_gimmicks = 30;
 
+    for (int i = 0; i < num_gimmicks; ++i)
+    {
+        float angle = (360.0f / num_gimmicks) * i;
+    
+        float radian = tnl::ToRadian(angle);
+        
+        float x = target_pos.x + distance * cos(radian);
+        float z = target_pos.z + distance * sin(radian);
+
+        // 選択されたタイプの非アクティブなギミックを取得
+        std::shared_ptr<Gimmick> gimmick 
+                    = GetInactiveType(gimmick_types);
+
+        if (gimmick)
+        {
+            gimmick->SetPos({ x, Floor::DRAW_DISTANCE, z });
+            gimmick->SetIsActive(true);
+        }
+    }
+}
+
+std::shared_ptr<Gimmick> GimmickGenerator::GetInactiveType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types)
+{
+    for (const Gimmick::sGimmickTypeInfo& type_info : gimmick_types)
+    {
+        std::shared_ptr<Gimmick> gimmick = std::make_shared<Gimmick>();
+
+        gimmick->SetGimmickData(type_info);
+       
+        if (!gimmick->GetIsActive())
+        {
+            return gimmick;
+        }
     }
 
-}
-
-tnl::Vector3 GimmickGenerator::CalcGroundRandomPos()
-{
-    //現在のカメラレーンをpairで取得
-    std::pair<int, int> current_pos;
-
-    current_pos.first = static_cast<int>(m_camera_lane.s_pos.x);
-    current_pos.second = static_cast<int>(m_camera_lane.s_pos.z);
-
-    // 現在のレーンのワールド座標を取得
-    tnl::Vector3 current_grid_pos 
-        = wta::ConvertGridIntToFloat(current_pos, Lane::LANE_SIZE);
-
-    // レーンの中点を算出
-    current_grid_pos.x += Lane::LANE_SIZE / 2;
-    current_grid_pos.z += Lane::LANE_SIZE / 2;
-;
-    float offset = Lane::LANE_SIZE / 2;
-
-    //　中点を基準にグリッドサイズの範囲でランダムな座標を算出
-	tnl::Vector3 random_pos
-        = {tnl::GetRandomDistributionFloat(current_grid_pos.x - offset , current_grid_pos.x + offset)
-           , 0
-           , tnl::GetRandomDistributionFloat(current_grid_pos.z - offset, current_grid_pos.z + offset)};
-
-	return random_pos;
-}
-
-void GimmickGenerator::CheckGimmicks(const float delta_time)
-{
-    // アイテムプール内のすべてのアイテムを反復処理
-    for (std::shared_ptr<Gimmick>& item : m_gimmicks)
-    {
-		// アクティブアイテムかつ条件を満たせばリセット
-        if (item->GetIsActive() 
-            && item->GetPos().y < m_mediator->GetPlayerPos().y - 750)
-        {
-			item->Reset();
-		}
-	}
+    return nullptr;
 }
 
 void GimmickGenerator::GenerateGimmick(const float delta_time)
@@ -186,8 +176,71 @@ bool GimmickGenerator::SeqButterfly(const float delta_time)
     TNL_SEQ_CO_END;
 }
 
+//void GimmickGenerator::CheckGimmicks(const float delta_time)
+//{
+//    // アイテムプール内のすべてのアイテムを反復処理
+//    for (std::shared_ptr<Gimmick>& item : m_gimmicks)
+//    {
+//		// アクティブアイテムかつ条件を満たせばリセット
+//        if (item->GetIsActive() 
+//            && item->GetPos().y < m_mediator->GetPlayerPos().y - 750)
+//        {
+//			item->Reset();
+//		}
+//	}
+//}
+//
+//
+//void GimmickGenerator::ActiveGimmick()
+//{
+//	// プレイヤーの前方座標を取得
+//	tnl::Vector3 player_forward_pos 
+//        = m_mediator->GetPlayerPos() + m_mediator->PlayerForward() * 1500;
+//
+//	// カメラレーンIDが4またはカメラの状態がside_backの場合のみ処理
+//	if (m_camera_lane.s_id == 4 || m_camera_lane.state == CameraState::side_back)
+//	{
+//		// 木のモデルを10個アクティブにする
+//		for (int i = 0; i < 10; ++i)
+//		{
+//			// アクティブでない木のギミックを取得
+//			auto treeGimmick = GetInactiveGimmick(m_gimmick_trees);
+//			if (treeGimmick)
+//			{
+//				// プレイヤーの前方にランダムな位置を計算
+//				tnl::Vector3 randomPos = CalcRandomPosAround(player_forward_pos);
+//
+//				// ギミックの位置を設定し、アクティブ化
+//				treeGimmick->SetPosition(randomPos);
+//				treeGimmick->SetActive(true);
+//			}
+//		}
+//	}
+//}
+//
+//tnl::Vector3 GimmickGenerator::CalcRandomPos(const tnl::Vector3& center_pos)
+//{
+//	// 中心位置からのランダムなオフセットを計算
+//	float range = 500.0f; // ランダム配置の範囲
+//	float offsetX = tnl::GetRandomDistributionFloat(-range, range);
+//	float offsetZ = tnl::GetRandomDistributionFloat(-range, range);
+//
+//	return tnl::Vector3(center_pos.x + offsetX, center_pos.y, center_pos.z + offsetZ);
+//}
+//
+//std::shared_ptr<Gimmick> GimmickGenerator::GetInactiveGimmick(const std::vector<Gimmick::sGimmickTypeInfo>& gimmickList)
+//{
+//	for (const auto& gimmickInfo : gimmickList)
+//	{
+//		auto gimmick = std::make_shared<Gimmick>(gimmickInfo);
+//		if (!gimmick->GetIsActive())
+//		{
+//			return gimmick;
+//		}
+//	}
+//	return nullptr; // アクティブでないギミックが見つからなかった場合
+//}
 
-//tnl::Vector3 player_back_pos = m_mediator->PlayerBack();
 
 //bool ItemGenerator::SeqCreate(const float delta_time)
 //{

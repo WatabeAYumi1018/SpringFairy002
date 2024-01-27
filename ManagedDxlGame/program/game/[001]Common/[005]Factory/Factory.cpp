@@ -18,7 +18,6 @@
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
-#include "../[000]Object/[002]Gimmick/Gimmick.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
@@ -44,7 +43,11 @@ Factory::Factory()
 
 	SetObjectReference();
 
-	//PoolModelObject();
+	// 各ギミックタイプごとに処理
+	PoolGimmickType(m_gimmickLoad->GetPlants());
+	//PoolGimmickType(m_gimmickLoad->GetTrees());
+	//PoolGimmickType(m_gimmickLoad->GetSkyFlowers());
+	//PoolGimmickType(m_gimmickLoad->GetButterflys());
 
 	StorageObject();
 
@@ -189,27 +192,34 @@ void Factory::SetObjectReference()
 	//m_cameraFrustum->SetGameCamera(m_gameCamera);
 }
 
-void Factory::PoolGimmickObject()
+void Factory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types)
 {
-	int create_num = m_gimmickPool->GetGimmickCreateNum();
+	// 各タイプごとに生成するギミックの数
+	int create_num_per_type = m_gimmickPool->GetGimmickCreateNum();
 
-	// アイテムを最初に20個生成して格納
-	for (int i = 0; i < create_num; ++i)
+	for (int i = 0; i < create_num_per_type; ++i)
 	{
-		std::shared_ptr<Gimmick> gimmick = std::make_shared<Gimmick>();
-		// メディエーターの設定
-		gimmick->SetMediator(m_mediator);
-		// アイテムの設定
-		m_gimmickGenerator->SetGimmick(gimmick);
-		// アイテムプールに格納
-		m_gimmickPool->AddGimmick(gimmick);
-		// オブジェクト型リストに追加（ポリモフィズムのため）
-		m_objects.emplace_back(gimmick);
+		for (const Gimmick::sGimmickTypeInfo& typeInfo : gimmick_types)
+		{
+			std::shared_ptr<Gimmick> gimmick = std::make_shared<Gimmick>();
+
+			gimmick->SetGimmickData(typeInfo);
+
+			gimmick->SetMediator(m_mediator);
+			
+			m_gimmickGenerator->SetGimmick(gimmick);
+			
+			m_gimmickPool->AddGimmick(gimmick);
+			
+			m_objects.emplace_back(gimmick);
+		}
 	}
 
-	std::vector<std::shared_ptr<Gimmick>> items = m_gimmickPool->GetGimmicks();
-
-	m_playerCollision->SetItems(items);
+	// プレイヤー衝突オブジェクトの更新
+	std::vector<std::shared_ptr<Gimmick>> gimmicks
+						= m_gimmickPool->GetGimmicks();
+	
+	m_playerCollision->SetGimmicks(gimmicks);
 }
 
 void Factory::StorageObject()

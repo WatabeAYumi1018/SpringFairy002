@@ -87,6 +87,12 @@ void Mediator::SetPlayerLookSide(bool look_side)
 	m_laneMove->SetLookSide(look_side);
 }
 
+bool Mediator::GetPlayerLookSide() const
+{
+	return m_laneMove->GetLookSide();
+}
+
+
 //void Mediator::SetPlayerLookSideLeft(bool look_side)
 //{
 //	m_laneMove->SetLookSideLeft(look_side);
@@ -500,7 +506,29 @@ bool Mediator::GetGimmickIsHit() const
 	return m_gimmick->GetIsHit();
 }
 
+
 // GimmickLoad
+
+
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickPlants() const
+{
+	return m_gimmickLoad->GetPlants();
+}
+
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTrees() const
+{
+	return m_gimmickLoad->GetTrees();
+}
+
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickSkyFlowers() const
+{
+	return m_gimmickLoad->GetSkyFlowers();
+}
+
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickButterflys() const
+{
+	return m_gimmickLoad->GetButterflys();
+}
 
 //int Mediator::GetGimmickIdNum() const
 //{
@@ -517,25 +545,10 @@ bool Mediator::GetGimmickIsHit() const
 //	return m_gimmickLoad->GetGimmickTypeInfo();
 //}
 	
-Gimmick::sGimmickTypeInfo Mediator::GetGimmickLoadInfoById(int id)
-{
-	return m_gimmickLoad->GetGimmickInfoById(id);
-}
-
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickLoadTypePlants() const
-{
-	return m_gimmickLoad->GetGimmickTypePlants();
-}
-
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickLoadTypeTrees() const
-{
-	return m_gimmickLoad->GetGimmickTypeTrees();
-}
-
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickLoadTypeSkyFlowers() const
-{
-	return m_gimmickLoad->GetGimmickTypeSkyFlowers();
-}
+//Gimmick::sGimmickTypeInfo Mediator::GetGimmickLoadInfoById(int id,std::vector<Gimmick::sGimmickTypeInfo>& gimmick_type)
+//{
+//	return m_gimmickLoad->GetGimmickInfoById(id, gimmick_type);
+//}
 
 
 // GimmickPool
@@ -557,6 +570,7 @@ bool Mediator::GetIsGimmickFlowerActive() const
 {
 	return m_gimmickGenerator->GetIsFlowerActive();
 }
+
 
 
 //void Mediator::SetItemIsCreate(bool is_create)

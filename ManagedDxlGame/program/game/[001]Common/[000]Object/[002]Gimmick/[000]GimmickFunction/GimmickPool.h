@@ -15,7 +15,7 @@ public:
 private:
 
 	// 作成する各モデルの数
-	int m_gimmick_create_num = 20;
+	int m_gimmick_create_num = 5;
 
 	// モデルのベクター
 	std::vector<std::shared_ptr<Gimmick>> m_gimmiks;

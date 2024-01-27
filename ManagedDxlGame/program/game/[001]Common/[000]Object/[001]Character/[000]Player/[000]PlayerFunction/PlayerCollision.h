@@ -20,7 +20,7 @@ private:
 
 	bool m_is_partner_in = false;
 
-	std::vector<std::shared_ptr<Gimmick>> m_items;
+	std::vector<std::shared_ptr<Gimmick>> m_gimmicks;
 
 	std::shared_ptr<Player> m_player = nullptr;
 
@@ -47,9 +47,9 @@ public:
 	void CollisionCheck();
 
 
-	void SetItems(std::vector<std::shared_ptr<Gimmick>>& items)
+	void SetGimmicks(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
 	{
-		m_items = items;
+		m_gimmicks = gimmicks;
 	}
 	
 	void SetPlayer(std::shared_ptr<Player>& player)
