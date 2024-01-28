@@ -45,8 +45,6 @@ void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
     // ギミックのベクターの中身をランダムに並び替え
     std::shuffle(gimmicks.begin(), gimmicks.end(), std::mt19937(std::random_device()()));
 
-    tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
-
     // プレイヤーのforward方向ベクトル
     tnl::Vector3 forward = m_mediator->PlayerForward();
     forward.normalize();
@@ -54,8 +52,11 @@ void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
     // forward方向に垂直なベクトルを計算
     tnl::Vector3 perpendicular
         = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
-
     perpendicular.normalize();
+
+    tnl::Vector3 start_offset = perpendicular * 500.0f;
+    tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
+    target_pos += start_offset;
 
     // ギミックを配置
     for (int i = 0; i < gimmicks.size(); ++i)

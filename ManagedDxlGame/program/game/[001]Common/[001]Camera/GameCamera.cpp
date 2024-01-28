@@ -187,7 +187,10 @@ bool GameCamera::SeqFixed(const float delta_time)
 		m_mediator->SetIsGimmickGroundActive(false);
 
 		m_mediator->SetPlayerLookSide(false);
-		//m_mediator->SetPlayerLookSideLeft(false);
+
+		tnl::Vector3 pos = m_mediator->GetCameraTargetPlayerPos();
+
+		m_mediator->SetPlayerPos(pos);
 	}
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))

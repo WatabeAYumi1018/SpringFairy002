@@ -3,7 +3,7 @@
 #include "../[001]Common/[000]Object/Object.h"
 
 
-class Factory;
+class PlayFactory;
 class GameCamera;
 class StagePhase;
 class GimmickGenerator;
@@ -21,7 +21,7 @@ public:
 
 private:
 
-	std::shared_ptr<Factory> m_factory = nullptr;
+	std::shared_ptr<PlayFactory> m_factory = nullptr;
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;

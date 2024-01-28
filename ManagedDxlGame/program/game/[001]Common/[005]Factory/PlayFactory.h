@@ -72,14 +72,14 @@ class Mediator;
 
 class ScreenShot;
 
-class Factory
+class PlayFactory
 {
 
 public:
 
-	Factory();
+	PlayFactory();
 	
-	~Factory();
+	~PlayFactory();
 
 private:
 

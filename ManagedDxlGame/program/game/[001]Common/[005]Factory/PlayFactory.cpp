@@ -34,20 +34,14 @@
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
 #include "../[002]Mediator/Mediator.h"
 #include "../[004]ScreenShot/ScreenShot.h"
-#include "Factory.h"
+#include "PlayFactory.h"
 
 
-Factory::Factory()
+PlayFactory::PlayFactory()
 {
 	CreateObject();
 
 	SetObjectReference();
-
-	//// 各ギミックタイプごとに処理
-	//PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::plant));
-	//PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::tree));
-	//PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::sky_flower));
-	//PoolGimmickType(m_gimmickLoad->GetButterflys());
 
 	StorageObject();
 
@@ -56,12 +50,12 @@ Factory::Factory()
 	m_laneMove->GetAutoMove();
 }
 
-Factory::~Factory()
+PlayFactory::~PlayFactory()
 {
 	m_objects.clear();
 }
 
-void Factory::CreateObject()
+void PlayFactory::CreateObject()
 {
 	m_astar = std::make_shared<wta::Astar<Lane::sLane>>();
 	m_collision_player_item = std::make_shared<wta::Collision<Player,Gimmick>>();
@@ -125,7 +119,7 @@ void Factory::CreateObject()
 	m_screenShot = std::make_shared<ScreenShot>();
 }
 
-void Factory::SetObjectReference()
+void PlayFactory::SetObjectReference()
 {
 	m_mediator->SetStagePhase(m_stagePhase);
 	m_mediator->SetLaneLoad(m_laneLoad);
@@ -192,7 +186,7 @@ void Factory::SetObjectReference()
 	//m_cameraFrustum->SetGameCamera(m_gameCamera);
 }
 
-void Factory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types)
+void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types)
 {
 	// 各タイプごとに生成するギミックの数
 	int create_num_per_type = m_gimmickPool->GetGimmickCreateNum();
@@ -220,7 +214,7 @@ void Factory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimm
 	//m_playerCollision->SetGimmicks(gimmicks);
 }
 
-void Factory::StorageObject()
+void PlayFactory::StorageObject()
 {
 	m_objects.emplace_back(m_skyBox);
 	m_objects.emplace_back(m_floor);

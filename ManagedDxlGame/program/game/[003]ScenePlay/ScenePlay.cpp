@@ -1,13 +1,13 @@
 #include "ScenePlay.h"
 #include "../[000]GameEngine/[001]Scene/SceneManager.h"
-#include "../[001]Common/[005]Factory/Factory.h"
+#include "../[001]Common/[005]Factory/PlayFactory.h"
 #include "../[001]Common/[001]Camera/GameCamera.h"
 #include "../[003]ScenePlay/ScenePlay.h"
 #include "../[001]Common/[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[001]Common/[004]ScreenShot/ScreenShot.h"
 
 
-ScenePlay::ScenePlay() : m_factory(std::make_shared<Factory>())
+ScenePlay::ScenePlay() : m_factory(std::make_shared<PlayFactory>())
 {
 	Initialize();
 

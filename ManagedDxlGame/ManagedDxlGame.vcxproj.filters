@@ -156,6 +156,12 @@
     <Filter Include="program\[003] game\[001]Common\[001]Camera\[000]CameraFunction">
       <UniqueIdentifier>{70fcb5db-60bb-4f04-96ae-b6608e809683}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly">
+      <UniqueIdentifier>{b061350c-b7ca-42e5-9b0f-4e884b2a7884}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[006]Title">
+      <UniqueIdentifier>{be5d258a-f212-4c22-8cf0-ec116523cda9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">
@@ -314,7 +320,7 @@
     <ClCompile Include="program\dxlib_ext\gui\dxlib_ext_gui_check_box.cpp">
       <Filter>program\[001] dxlib_ext\gui</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[005]Factory\Factory.cpp">
+    <ClCompile Include="program\game\[001]Common\[005]Factory\PlayFactory.cpp">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[003]Phase\GamePhase.cpp">
@@ -451,6 +457,15 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[001]Camera\CinemaCamera.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[005]Factory\OpFactory.cpp">
+      <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\Butterfly.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[006]Title\Tile.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[006]Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -659,7 +674,7 @@
     <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_screen_efffect.h">
       <Filter>program\[001] dxlib_ext\example</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[005]Factory\Factory.h">
+    <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[003]Phase\GamePhase.h">
@@ -817,6 +832,15 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[001]Camera\CinemaCamera.h">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[005]Factory\OpFactory.h">
+      <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\Butterfly.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[006]Title\Tile.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[006]Title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
