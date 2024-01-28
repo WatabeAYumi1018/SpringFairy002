@@ -20,15 +20,9 @@ public:
 		Max
 	};
 
-	//struct sGimmick
-	//{
-	//	int s_id;
-	//	tnl::Vector3 s_pos;
-	//};
-
 	struct sGimmickTypeInfo
 	{
-		int s_id;
+		int s_id = 0;
 		int s_model_hdl;
 		int s_texture_hdl;
 		std::string s_model_path;
@@ -63,25 +57,12 @@ private:
 
 	// csvから読み取ったモデルの情報
 	sGimmickTypeInfo m_gimmick_data;
-	
-
-	// ①草花のギミックモデル(静的)
-	std::vector<Gimmick::sGimmickTypeInfo> m_plants;
-	// ②樹木のギミックモデル(静的)
-	std::vector<Gimmick::sGimmickTypeInfo> m_trees;
-	// ③舞う花のギミックモデル(動的)
-	std::vector<Gimmick::sGimmickTypeInfo> m_sky_flowers;
-	// ④蝶のギミックモデル(動的)
-	std::vector<Gimmick::sGimmickTypeInfo> m_butterflys;
-
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(Gimmick, &Gimmick::SeqNormal);
 
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
-
-	void SetGimmickInfo(std::vector<Gimmick::sGimmickTypeInfo>& gimmicks_info);
 
 	void SetLight();
 
@@ -105,6 +86,8 @@ private:
 
 public:
 
+	void LoadGimmickData(const Gimmick::sGimmickTypeInfo& gimmick_info);
+
 	// モデルのロードと初期化
 	void Initialize() override;
 
@@ -127,26 +110,6 @@ public:
 
 	bool GetIsDrawChange() const { return m_is_draw_change; }
 
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetPlants() const 
-	{
-		return m_plants; 
-	}
-
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetTrees() const
-	{
-		return m_trees; 
-	}
-
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetSkyFlowers() const
-	{
-		return m_sky_flowers; 
-	}
-
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetButterflys() const
-	{
-		return m_butterflys; 
-	}
-
 	void SetGimmickData(sGimmickTypeInfo gimmick_info) 
 	{
 		m_gimmick_data =  gimmick_info;
@@ -157,3 +120,40 @@ public:
 		m_mediator = mediator;
 	}
 };
+
+
+
+//struct sGimmick
+//{
+//	int s_id;
+//	tnl::Vector3 s_pos;
+//};
+
+	//// ①草花のギミックモデル(静的)
+	//std::vector<Gimmick::sGimmickTypeInfo> m_plants;
+	//// ②樹木のギミックモデル(静的)
+	//std::vector<Gimmick::sGimmickTypeInfo> m_trees;
+	//// ③舞う花のギミックモデル(動的)
+	//std::vector<Gimmick::sGimmickTypeInfo> m_sky_flowers;
+	//// ④蝶のギミックモデル(動的)
+	//std::vector<Gimmick::sGimmickTypeInfo> m_butterflys;
+
+	//const std::vector<Gimmick::sGimmickTypeInfo>& GetPlants() const 
+	//{
+	//	return m_plants; 
+	//}
+
+	//const std::vector<Gimmick::sGimmickTypeInfo>& GetTrees() const
+	//{
+	//	return m_trees; 
+	//}
+
+	//const std::vector<Gimmick::sGimmickTypeInfo>& GetSkyFlowers() const
+	//{
+	//	return m_sky_flowers; 
+	//}
+
+	//const std::vector<Gimmick::sGimmickTypeInfo>& GetButterflys() const
+	//{
+	//	return m_butterflys; 
+	//}

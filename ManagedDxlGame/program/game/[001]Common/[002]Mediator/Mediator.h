@@ -581,24 +581,24 @@ public:
 	// GimmickLoad
 
 	// 草花のギミック全種類取得
-	// 参照元 ... Gimmick::m_plants
+	// 参照元 ... Gimmick::GetGimmicksType(Gimmick::eGimmickType type)
 	// 参照先 ... GimmickGenerator::関連する関数
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickPlants() const;
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmicksTypeInfo(Gimmick::eGimmickType type) const;
 
-	// 樹木のギミック全種類取得
-	// 参照元 ... Gimmick::m_trees
-	// 参照先 ... GimmickGenerator::関連する関数
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTrees() const;
+	//// 樹木のギミック全種類取得
+	//// 参照元 ... Gimmick::m_trees
+	//// 参照先 ... GimmickGenerator::関連する関数
+	//const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTrees() const;
 
-	// 舞う花のギミック全種類取得
-	// 参照元 ... Gimmick::m_sky_flowers
-	// 参照先 ... GimmickGenerator::関連する関数
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickSkyFlowers() const;
+	//// 舞う花のギミック全種類取得
+	//// 参照元 ... Gimmick::m_sky_flowers
+	//// 参照先 ... GimmickGenerator::関連する関数
+	//const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickSkyFlowers() const;
 
-	// 舞う花のギミック全種類取得
-	// 参照元 ... Gimmick::m_butterflys
-	// 参照先 ... GimmickGenerator::関連する関数
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickButterflys() const;
+	//// 舞う花のギミック全種類取得
+	//// 参照元 ... Gimmick::m_butterflys
+	//// 参照先 ... GimmickGenerator::関連する関数
+	//const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickButterflys() const;
 
 
 	//// アイテムモデルの総数取得
@@ -625,14 +625,20 @@ public:
 	// GimmickPool
 
 	// アイテムプールのアクティブ状態取得
-	// 参照元 ... GimmickPool::GetNotActiveGimmick()
+	// 参照元 ... GimmickPool::GetNotActiveGimmick(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
 	// 参照先 ... GimmickGenerator::
-	std::shared_ptr<Gimmick> GetNotActiveGimmickPool();
+	std::shared_ptr<Gimmick> GetNotActiveGimmickPool(std::vector<std::shared_ptr<Gimmick>>& gimmicks);
 
-	// アイテムプールのベクター取得
-	// 参照元 ... GimmickPool::GetGimmicks()
-	// 参照先 ... GimmickGenerator::SeqDelete(float delta_time)
-	const std::vector<std::shared_ptr<Gimmick>>& GetPoolGimmick() const;
+	// ギミックプールのベクター取得
+	// 参照元 ... GimmickPool::GetGimmickPools()
+	const std::vector<std::shared_ptr<Gimmick>>& GetGimmickTypePools(Gimmick::eGimmickType type) const;
+
+	//// アイテムプールのベクター取得
+	//// 参照元 ... GimmickPool::GetGimmicks()
+	//// 参照先 ... GimmickGenerator::SeqDelete(float delta_time)
+	//const std::vector<std::shared_ptr<Gimmick>>& GetPoolGimmick() const;
+
+
 
 	// GimmickGenerator
 

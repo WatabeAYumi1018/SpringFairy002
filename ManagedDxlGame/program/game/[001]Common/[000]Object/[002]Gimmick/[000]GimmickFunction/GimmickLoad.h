@@ -30,34 +30,11 @@ private:
 
 	// アイテムモデルの情報読み込み
 	void LoadGimmickTypeInfo(std::vector<std::vector<tnl::CsvCell>>& csv_gimmick
-							 ,std::vector<Gimmick::sGimmickTypeInfo>& gimmicks
-							 ,Gimmick::eGimmickType type);
+							 ,std::vector<Gimmick::sGimmickTypeInfo>& gimmicks);
 
 public:
 
-	//// アイテムモデルのid取得
-	//Gimmick::sGimmickTypeInfo GetGimmickInfoById(int id
-	//											 ,std::vector<Gimmick::sGimmickTypeInfo>& gimmick_type);
-
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetPlants() const
-	{
-		return m_plants;
-	}
-
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetTrees() const
-	{
-		return m_trees;
-	}
-
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetSkyFlowers() const
-	{
-		return m_sky_flowers;
-	}
-
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetButterflys() const
-	{
-		return m_butterflys;
-	}
+	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmicksType(Gimmick::eGimmickType type) const;
 };
 
 //int m_id_num = 0;
@@ -78,6 +55,12 @@ public:
 //std::vector<std::vector<tnl::CsvCell>> m_csv_gimmick_type_info;
 //// アイテムモデルの情報格納用
 //std::vector<Gimmick::sGimmickTypeInfo> m_gimmick_type;
+
+
+	//// アイテムモデルのid取得
+	//Gimmick::sGimmickTypeInfo GetGimmickInfoById(int id
+	//											 ,std::vector<Gimmick::sGimmickTypeInfo>& gimmick_type);
+
 
 
 //// レーン配列の読み込み

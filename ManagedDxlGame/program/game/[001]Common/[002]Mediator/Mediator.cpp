@@ -509,26 +509,26 @@ bool Mediator::GetGimmickIsHit() const
 
 // GimmickLoad
 
-
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickPlants() const
+//
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmicksTypeInfo(Gimmick::eGimmickType type) const
 {
-	return m_gimmickLoad->GetPlants();
+	return m_gimmickLoad->GetGimmicksType(type);
 }
-
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTrees() const
-{
-	return m_gimmickLoad->GetTrees();
-}
-
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickSkyFlowers() const
-{
-	return m_gimmickLoad->GetSkyFlowers();
-}
-
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickButterflys() const
-{
-	return m_gimmickLoad->GetButterflys();
-}
+//
+//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTrees() const
+//{
+//	return m_gimmickLoad->GetTrees();
+//}
+//
+//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickSkyFlowers() const
+//{
+//	return m_gimmickLoad->GetSkyFlowers();
+//}
+//
+//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickButterflys() const
+//{
+//	return m_gimmickLoad->GetButterflys();
+//}
 
 //int Mediator::GetGimmickIdNum() const
 //{
@@ -553,15 +553,21 @@ const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickButterflys() c
 
 // GimmickPool
 
-std::shared_ptr<Gimmick> Mediator::GetNotActiveGimmickPool()
+std::shared_ptr<Gimmick> Mediator::GetNotActiveGimmickPool(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
 {
-	return m_gimmickPool->GetNotActiveGimmick();
+	return m_gimmickPool->GetNotActiveGimmick(gimmicks);
 }
 
-const std::vector<std::shared_ptr<Gimmick>>& Mediator::GetPoolGimmick() const
+const std::vector<std::shared_ptr<Gimmick>>& Mediator::GetGimmickTypePools(Gimmick::eGimmickType type) const
 {
-	return m_gimmickPool->GetGimmicks();
+	return m_gimmickPool->GetGimmickPools(type);
 }
+
+
+//const std::vector<std::shared_ptr<Gimmick>>& Mediator::GetPoolGimmick() const
+//{
+//	return m_gimmickPool->GetGimmickPlants();
+//}
 
 
 // GimmickGenerator

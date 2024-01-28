@@ -12,11 +12,11 @@ PlayerCollision::~PlayerCollision()
 
 void PlayerCollision::CollisionRegisterPlayerToItem()
 {
-	// プレイヤーとアイテムの当たり判定
-	std::string player_to_item_key
+	// プレイヤーとギミックの当たり判定
+	std::string player_to_gimmick_key
 		= typeid(Player).name() + std::string(typeid(Gimmick).name());
 
-	m_collision_item->registerIntersect( player_to_item_key
+	m_collision_item->registerIntersect( player_to_gimmick_key
 										, [this](std::shared_ptr<Player> player
 										, std::shared_ptr<Gimmick> item)
 	{
@@ -76,9 +76,9 @@ void PlayerCollision::CollisionRegisterPlayerToPartner()
 void PlayerCollision::CollisionCheck()
 {
 	// Player と Item の衝突判定
-	for (std::shared_ptr<Gimmick>& item : m_gimmicks)
+	for (std::shared_ptr<Gimmick>& gimmick : m_gimmicks)
 	{
-		m_collision_item->Intersect(m_player, item);
+		m_collision_item->Intersect(m_player, gimmick);
 	}
 
 	// PlayerのMesh と Item の衝突判定

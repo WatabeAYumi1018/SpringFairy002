@@ -78,7 +78,7 @@ void Model::Draw(std::shared_ptr<GameCamera> gameCamera)
 {
 	//m_mediator->ModelGeneDraw(gameCamera);
 
-	DrawGrass();
+	//DrawGrass();
 }
 
 void Model::LoadTexture()

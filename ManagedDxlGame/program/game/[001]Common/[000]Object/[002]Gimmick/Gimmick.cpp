@@ -18,19 +18,16 @@ Gimmick::~Gimmick()
 
 void Gimmick::Initialize()
 {
+	SetLight();
+
 	// モデル読み取り
 	//ここですべてのモデルの情報を元に読み込み処理(GetItemLoadInfoById関数でfor分で各モデルを回すべき？)
 	//m_gimmick_data = m_mediator->GetGimmickLoadInfoById(0);
-	m_plants = m_mediator->GetGimmickPlants();
+	//m_plants = m_mediator->GetGimmickPlants();
 
-	m_trees = m_mediator->GetGimmickTrees();
+	//m_trees = m_mediator->GetGimmickTrees();
 
-	m_sky_flowers = m_mediator->GetGimmickSkyFlowers();
-
-	SetGimmickInfo(m_plants);
-	SetGimmickInfo(m_trees);
-	SetGimmickInfo(m_sky_flowers);
-	//SetGimmickInfo(m_gimmick_butterfly);
+	//m_sky_flowers = m_mediator->GetGimmickSkyFlowers();
 
 	//// アイテムの種類の総数を取得
 	//m_id_num = m_mediator->GetGimmickIdNum();
@@ -53,25 +50,20 @@ void Gimmick::Draw(std::shared_ptr<GameCamera> gameCamera)
 {
 	if (m_is_active)
 	{
-		SetLight();
-
 		MV1DrawModel(m_gimmick_data.s_model_hdl);
 	}
 }
 
-void Gimmick::SetGimmickInfo(std::vector<Gimmick::sGimmickTypeInfo>& gimmicks_info)
+void Gimmick::LoadGimmickData(const Gimmick::sGimmickTypeInfo& gimmick_info)
 {
-	for (Gimmick::sGimmickTypeInfo& gimmick_info : gimmicks_info)
-	{
-		m_gimmick_data.s_model_hdl 
-			= MV1LoadModel(gimmick_info.s_model_path.c_str());
+	m_gimmick_data.s_model_hdl 
+		= MV1LoadModel(gimmick_info.s_model_path.c_str());
 		
-		m_gimmick_data.s_texture_hdl 
-			= LoadGraph(gimmick_info.s_texture_path.c_str());
+	m_gimmick_data.s_texture_hdl 
+		= LoadGraph(gimmick_info.s_texture_path.c_str());
 		
-		MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0
-								 , m_gimmick_data.s_texture_hdl, FALSE);
-	}
+	MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0
+								, m_gimmick_data.s_texture_hdl, FALSE);
 }
 
 void Gimmick::Reset()

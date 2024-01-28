@@ -1,6 +1,4 @@
-モデルID,モデル ファイルパス,テクスチャ ファイルパス
-0,model/gimmick/sky/flower/flower.mv1,model/gimmick/sky/flower/yellow.png
-1,model/gimmick/sky/flower/flower.mv1,model/gimmick/sky/flower/red.png
-2,model/gimmick/sky/flower/flower.mv1,model/gimmick/sky/flower/blue.png
-3,model/gimmick/sky/flower/flower.mv1,model/gimmick/sky/flower/orange.png
-4,model/gimmick/sky/flower/flower.mv1,model/gimmick/sky/flower/purple.png
+モデルID,モデル ファイルパス,テクスチャ ファイルパス,タイプ番号
+0,model/gimmick/sky/flower/flower.mv1,model/gimmick/sky/flower/yellow.png,3
+1,model/gimmick/sky/flower/flower.mv1,model/gimmick/sky/flower/red.png,3
+2,model/gimmick/sky/flower/flower.mv1,model/gimmick/sky/flower/blue.png,3

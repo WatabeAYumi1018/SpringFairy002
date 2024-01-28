@@ -18,15 +18,19 @@ private:
 	int m_gimmick_create_num = 5;
 
 	// モデルのベクター
-	std::vector<std::shared_ptr<Gimmick>> m_gimmiks;
+	std::vector<std::shared_ptr<Gimmick>> m_gimmick_plants;
+	std::vector<std::shared_ptr<Gimmick>> m_gimmick_trees;
+	std::vector<std::shared_ptr<Gimmick>> m_gimmick_sky_flowers;
+	std::vector<std::shared_ptr<Gimmick>> m_gimmick_butterflys;
 
 public:
 
 	// モデルの格納
-	void AddGimmick(std::shared_ptr<Gimmick>& gimmick);
+	void AddGimmick(std::shared_ptr<Gimmick>& gimmick
+					,Gimmick::eGimmickType type);
 
 	// 非活性化アイテムの取得
-	std::shared_ptr<Gimmick> GetNotActiveGimmick();
+	std::shared_ptr<Gimmick> GetNotActiveGimmick(std::vector<std::shared_ptr<Gimmick>>& gimmicks);
 
 
 	int GetGimmickCreateNum() const
@@ -34,8 +38,5 @@ public:
 		return m_gimmick_create_num;
 	}
 
-	const std::vector<std::shared_ptr<Gimmick>>& GetGimmicks() const
-	{
-		return m_gimmiks;
-	}
+	const std::vector<std::shared_ptr<Gimmick>>& GetGimmickPools(Gimmick::eGimmickType type) const;
 };

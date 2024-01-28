@@ -35,17 +35,14 @@ void ScenePlay::Initialize()
 	m_objects = m_factory->GetObjects();
 	// カメラの取得
 	m_gameCamera = m_factory->GetGameCamera();
-
-	//m_gameCamera->Initialize();
-
 	// ステージの取得
 	m_stagePhase = m_factory->GetStagePhase();
 	// アイテムジェネレータの取得
-	m_itemGenerator = m_factory->GetGimmickGenerator();
+	m_gimmickGenerator = m_factory->GetGimmickGenerator();
 	// スクリーンショットの取得
 	m_screenShot = m_factory->GetScreenShot();
 
-	m_itemGenerator->Initialize();
+	//m_gimmickGenerator->Initialize();
 
 	for (std::shared_ptr<Object>& object : m_objects)
 	{
@@ -57,7 +54,7 @@ void ScenePlay::Update(const float delta_time)
 {
 	m_stagePhase->Update(delta_time);
 
-	m_itemGenerator->Update(delta_time);
+	m_gimmickGenerator->Update(delta_time);
 
 
 	for (std::shared_ptr<Object>& object : m_objects)

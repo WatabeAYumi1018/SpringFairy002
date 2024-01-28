@@ -19,6 +19,66 @@ ModelLoad::~ModelLoad()
 	m_model_type.clear();
 }
 
+void ModelLoad::LoadModelTypeInfo()
+{
+	// csvファイルの読み込み
+	m_csv_model_type_info
+		= tnl::LoadCsv<tnl::CsvCell>("csv/stage/model/stage_group_model_info.csv");
+
+	// マップタイルの総数を取得
+	int max_num = m_csv_model_type_info.size();
+
+	m_model_total_num = max_num - 1;
+
+	// 0行目は説明文なので読み飛ばす
+	for (int y = 1; y < max_num; ++y)
+	{
+		Model::sMeshModelType model_info;
+
+		model_info.s_id = m_csv_model_type_info[y][0].getInt();
+
+		model_info.s_model_path = m_csv_model_type_info[y][1].getString();
+
+		model_info.s_texture_path = m_csv_model_type_info[y][2].getString();
+
+		model_info.s_create_count_x = m_csv_model_type_info[y][3].getInt();
+
+		model_info.s_create_count_z = m_csv_model_type_info[y][4].getInt();
+
+		model_info.s_scale = m_csv_model_type_info[y][5].getFloat();
+
+		model_info.s_interval = m_csv_model_type_info[y][6].getFloat();
+
+		tnl::Vector3 pos = { m_csv_model_type_info[y][7].getFloat(),0,m_csv_model_type_info[y][8].getFloat() };
+
+		model_info.s_offset = pos;
+
+		m_model_type.emplace_back(model_info);
+	}
+}
+
+//if (!m_csv_model_type_info[y][3].getString().empty())
+//{
+//	model_info.s_texture_b_path = m_csv_model_type_info[y][3].getString();
+//}
+
+//if (!m_csv_model_type_info[y][4].getString().empty())
+//{
+//	model_info.s_texture_c_path = m_csv_model_type_info[y][4].getString();
+//}
+
+//model_info.s_material_a_name = m_csv_model_type_info[y][5].getString();
+
+//if (!m_csv_model_type_info[y][6].getString().empty())
+//{
+//	model_info.s_material_b_name = m_csv_model_type_info[y][6].getString();
+//}
+
+//if (!m_csv_model_type_info[y][7].getString().empty())
+//{
+//	model_info.s_material_c_name = m_csv_model_type_info[y][7].getString();
+//}
+
 //Model::sStageModelType ModelLoad::GetModelInfoById(int id)
 //{
 //	for (const Model::sStageModelType& model : m_model_type)
@@ -84,64 +144,4 @@ ModelLoad::~ModelLoad()
 //		}
 //	}
 //}
-
-void ModelLoad::LoadModelTypeInfo()
-{
-	// csvファイルの読み込み
-	m_csv_model_type_info
-		= tnl::LoadCsv<tnl::CsvCell>("csv/stage/model/stage_group_model_info.csv");
-
-	// マップタイルの総数を取得
-	int max_num = m_csv_model_type_info.size();
-
-	m_model_total_num = max_num - 1;
-
-	// 0行目は説明文なので読み飛ばす
-	for (int y = 1; y < max_num; ++y)
-	{
-		Model::sMeshModelType model_info;
-
-		model_info.s_id = m_csv_model_type_info[y][0].getInt();
-
-		model_info.s_model_path = m_csv_model_type_info[y][1].getString();
-
-		model_info.s_texture_path = m_csv_model_type_info[y][2].getString();
-
-		model_info.s_create_count_x = m_csv_model_type_info[y][3].getInt();
-
-		model_info.s_create_count_z = m_csv_model_type_info[y][4].getInt();
-
-		model_info.s_scale = m_csv_model_type_info[y][5].getFloat();
-
-		model_info.s_interval = m_csv_model_type_info[y][6].getFloat();
-
-		tnl::Vector3 pos = { m_csv_model_type_info[y][7].getFloat(),0,m_csv_model_type_info[y][8].getFloat() };
-
-		model_info.s_offset = pos;
-
-		//if (!m_csv_model_type_info[y][3].getString().empty())
-		//{
-		//	model_info.s_texture_b_path = m_csv_model_type_info[y][3].getString();
-		//}
-
-		//if (!m_csv_model_type_info[y][4].getString().empty())
-		//{
-		//	model_info.s_texture_c_path = m_csv_model_type_info[y][4].getString();
-		//}
-
-		//model_info.s_material_a_name = m_csv_model_type_info[y][5].getString();
-
-		//if (!m_csv_model_type_info[y][6].getString().empty())
-		//{
-		//	model_info.s_material_b_name = m_csv_model_type_info[y][6].getString();
-		//}
-
-		//if (!m_csv_model_type_info[y][7].getString().empty())
-		//{
-		//	model_info.s_material_c_name = m_csv_model_type_info[y][7].getString();
-		//}
-
-		m_model_type.emplace_back(model_info);
-	}
-}
 

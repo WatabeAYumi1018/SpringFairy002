@@ -6,7 +6,6 @@
 
 class Mediator;
 
-// シンプレックスノイズを用いたアイテムの自動ランダム生成
 
 class GimmickGenerator
 {
@@ -23,13 +22,6 @@ private:
 
 	bool m_is_flower_active = false;
 
-	//GameCamera::sCamera m_camera_lane;
-
-
-	//Gimmick::sGimmick m_gimmick_lane;
-
-	//std::vector<Lane::sLane> m_lanes;
-
 	std::shared_ptr<Gimmick> m_gimmick = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
@@ -40,16 +32,16 @@ private:
 	TNL_CO_SEQUENCE(GimmickGenerator, &GimmickGenerator::SeqFlower);
 
 
-	std::shared_ptr<Gimmick> InactiveGimmick(const std::vector<Gimmick::sGimmickTypeInfo>& gimmickList);
+	//std::shared_ptr<Gimmick> InactiveGimmick(const std::vector<Gimmick::sGimmickTypeInfo>& gimmickList);
 
 	// レーン番号に対応するギミックのランダム配置
 	void CreateGimmick();
 
 	// 地上のギミック配置処理
-	void CalcGroundPos(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types);
+	void CalcGroundPos(Gimmick::eGimmickType type);
 
 	// 特定のギミックを取得
-	std::shared_ptr<Gimmick> GetInactiveType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types);
+	std::shared_ptr<Gimmick> GetInactiveType(std::vector<std::shared_ptr<Gimmick>>& gimmicks);
 
 
 	void CheckGimmicks(const float delta_time);
@@ -84,11 +76,3 @@ public:
 		m_mediator = mediator;
 	}
 };
-
-// 各ギミックがベクターで管理されてる
-// 各ギミックには描画するタイミングがある
-// 描画タイミングはカメラの状態で各々判断する
-// enumによってそれぞれ管理されている
-// ① tree限定的(エリア２かつsideのみ)
-// ② plant恒常的（fixedの前方など打てる時に限る）
-// ③④ 恒常的(蝶はエリア3のみ)

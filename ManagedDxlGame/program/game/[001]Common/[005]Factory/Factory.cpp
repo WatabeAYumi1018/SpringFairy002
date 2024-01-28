@@ -44,7 +44,7 @@ Factory::Factory()
 	SetObjectReference();
 
 	// 各ギミックタイプごとに処理
-	PoolGimmickType(m_gimmickLoad->GetPlants());
+	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::plant));
 	//PoolGimmickType(m_gimmickLoad->GetTrees());
 	//PoolGimmickType(m_gimmickLoad->GetSkyFlowers());
 	//PoolGimmickType(m_gimmickLoad->GetButterflys());
@@ -197,29 +197,29 @@ void Factory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimm
 	// 各タイプごとに生成するギミックの数
 	int create_num_per_type = m_gimmickPool->GetGimmickCreateNum();
 
-	for (int i = 0; i < create_num_per_type; ++i)
+	for (const Gimmick::sGimmickTypeInfo& type_info : gimmick_types)
 	{
-		for (const Gimmick::sGimmickTypeInfo& typeInfo : gimmick_types)
+		for (int i = 0; i < create_num_per_type; ++i)
 		{
 			std::shared_ptr<Gimmick> gimmick = std::make_shared<Gimmick>();
 
-			gimmick->SetGimmickData(typeInfo);
+			gimmick->LoadGimmickData(type_info);
 
 			gimmick->SetMediator(m_mediator);
 			
-			m_gimmickGenerator->SetGimmick(gimmick);
+			//m_gimmickGenerator->SetGimmick(gimmick);
 			
-			m_gimmickPool->AddGimmick(gimmick);
+			m_gimmickPool->AddGimmick(gimmick, type_info.s_type);
 			
 			m_objects.emplace_back(gimmick);
 		}
 	}
 
-	// プレイヤー衝突オブジェクトの更新
-	std::vector<std::shared_ptr<Gimmick>> gimmicks
-						= m_gimmickPool->GetGimmicks();
-	
-	m_playerCollision->SetGimmicks(gimmicks);
+	////// プレイヤー衝突オブジェクトの更新
+	//std::vector<std::shared_ptr<Gimmick>> gimmicks
+	//					= m_gimmickPool->GetGimmickPools(type_info.s_type);
+	//
+	//m_playerCollision->SetGimmicks(gimmicks);
 }
 
 void Factory::StorageObject()

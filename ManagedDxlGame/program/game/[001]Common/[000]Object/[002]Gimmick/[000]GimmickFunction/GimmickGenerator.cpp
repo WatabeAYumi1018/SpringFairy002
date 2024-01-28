@@ -7,8 +7,7 @@
 void GimmickGenerator::Initialize()
 {
 	// poolギミックアイテム取得
-    m_gimmicks = m_mediator->GetPoolGimmick();
-
+    //m_gimmicks = m_mediator->GetPoolGimmick();
 }
 
 void GimmickGenerator::Update(const float delta_time)
@@ -28,10 +27,10 @@ void GimmickGenerator::CreateGimmick()
     if (m_mediator->GetPlayerLookSide())
     {
         //if(e_flower || e_magical)
-        CalcGroundPos(m_mediator->GetGimmickPlants());
+        CalcGroundPos(Gimmick::eGimmickType::plant);
 
         //if(e_wood || e_magical)
-        CalcGroundPos(m_mediator->GetGimmickTrees());
+        //CalcGroundPos(Gimmick::eGimmickType::tree);
     }
 	else
 	{
@@ -41,80 +40,77 @@ void GimmickGenerator::CreateGimmick()
 	}
 }
 
-void GimmickGenerator::CalcGroundPos(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types)
+void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
 {
+    const std::vector<std::shared_ptr<Gimmick>>& gimmicks 
+                        = m_mediator->GetGimmickTypePools(type);
+
     tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
     
     float distance = 500.0f;
-    
-    int num_gimmicks = 30;
 
-    for (int i = 0; i < num_gimmicks; ++i)
+    int count = 0;
+
+    for (const std::shared_ptr<Gimmick>& gimmick : gimmicks)
     {
-        float angle = (360.0f / num_gimmicks) * i;
-    
-        float radian = tnl::ToRadian(angle);
-        
-        float x = target_pos.x + distance * cos(radian);
-        float z = target_pos.z + distance * sin(radian);
+        if (!gimmick->GetIsActive() && count < 5) 
+        {        
+            // 各種類に対して5個ずつ
+            float angle = (360.0f / 5) * count; 
+            float radian = tnl::ToRadian(angle);
+            
+            float x = target_pos.x + distance * cos(radian);
+            float z = target_pos.z + distance * sin(radian);
 
-        // 選択されたタイプの非アクティブなギミックを取得
-        std::shared_ptr<Gimmick> gimmick 
-                    = GetInactiveType(gimmick_types);
-
-        if (gimmick)
-        {
             gimmick->SetPos({ x, Floor::DRAW_DISTANCE, z });
             gimmick->SetIsActive(true);
+            
+            count++;
         }
     }
 }
 
-std::shared_ptr<Gimmick> GimmickGenerator::GetInactiveType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types)
+std::shared_ptr<Gimmick> GimmickGenerator::GetInactiveType(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
 {
-    for (const Gimmick::sGimmickTypeInfo& type_info : gimmick_types)
+    // GimmickPool から非アクティブな Gimmick を取得
+    std::shared_ptr<Gimmick> inactive_gimmick = m_mediator->GetNotActiveGimmickPool(gimmicks);
+
+    if (inactive_gimmick) 
     {
-        std::shared_ptr<Gimmick> gimmick = std::make_shared<Gimmick>();
-
-        gimmick->SetGimmickData(type_info);
-       
-        if (!gimmick->GetIsActive())
-        {
-            return gimmick;
-        }
+        return inactive_gimmick;
     }
-
+    
     return nullptr;
 }
 
 void GimmickGenerator::GenerateGimmick(const float delta_time)
 {
-    // 1秒ごとに実行する
-    static float elapsed_time = 0.0f;
+ //   // 1秒ごとに実行する
+ //   static float elapsed_time = 0.0f;
 
-    elapsed_time += delta_time;
+ //   elapsed_time += delta_time;
 
-    if (elapsed_time < 1.0f)
-    {
-		return;
-	}
+ //   if (elapsed_time < 1.0f)
+ //   {
+	//	return;
+	//}
 
-    else
-    {
-        std::shared_ptr<Gimmick> active_item = m_mediator->GetNotActiveGimmickPool();
+ //   else
+ //   {
+ //       std::shared_ptr<Gimmick> active_item = m_mediator->GetNotActiveGimmickPool();
 
-        //if (active_item
-        //    && m_gimmick_lane.s_id == m_mediator->CurrentTargetGimmickLane().s_id)
-        //{
-        //    tnl::Vector3 pos = CalcRandomPos();
+ //       //if (active_item
+ //       //    && m_gimmick_lane.s_id == m_mediator->CurrentTargetGimmickLane().s_id)
+ //       //{
+ //       //    tnl::Vector3 pos = CalcRandomPos();
 
-        //    active_item->SetPos(pos);
+ //       //    active_item->SetPos(pos);
 
-        //    active_item->SetIsActive(true);
-        //}
+ //       //    active_item->SetIsActive(true);
+ //       //}
 
-        elapsed_time = 0.0f;
-    }
+ //       elapsed_time = 0.0f;
+ //   }
  }
 
 tnl::Vector3 GimmickGenerator::CalcRandomPos()
