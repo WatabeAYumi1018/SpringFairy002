@@ -34,7 +34,9 @@ private:
 	//bool m_look_side_left = false;
 
 	tnl::Vector3 m_new_pos;
-	tnl::Vector3 m_direction;
+
+	tnl::Vector3 m_target_direction;
+	tnl::Vector3 m_chara_direction;
 
 
 	// A*‚©‚ç‚ÌŒo˜H
@@ -67,6 +69,15 @@ public:
 
 	//void SetLookSideLeft(bool look_side_left) { m_look_side_left = look_side_left; }
 
+	const tnl::Vector3& GetTargetDirection() const 
+	{
+		return m_target_direction; 
+	}
+
+	const std::vector<std::pair<int, int>>& GetGoalProcess() const
+	{
+		return m_goal_process;
+	}
 
 	void SetAstar(std::shared_ptr<wta::Astar<Lane::sLane>>& astar)
 	{
@@ -79,10 +90,6 @@ public:
 	}
 };
 
-//std::vector<std::pair<int, int>> GetGoalProcess()
-//{
-//	return m_goal_process;
-//}
 
 //void SetNowPos(tnl::Vector3 pos) { m_now_pos = pos; }
 

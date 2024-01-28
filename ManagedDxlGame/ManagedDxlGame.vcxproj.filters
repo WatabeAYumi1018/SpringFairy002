@@ -449,6 +449,9 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelGenerator.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[001]Camera\CinemaCamera.cpp">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -811,6 +814,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[001]Camera\CinemaCamera.h">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -92,6 +92,16 @@ bool Mediator::GetPlayerLookSide() const
 	return m_laneMove->GetLookSide();
 }
 
+const tnl::Vector3& Mediator::GetTargetMoveDirection() const
+{
+	return m_laneMove->GetTargetDirection();
+}
+
+const std::vector<std::pair<int, int>>& Mediator::GetGoalMoveProcess() const
+{
+	return m_laneMove->GetGoalProcess();
+}
+
 
 //void Mediator::SetPlayerLookSideLeft(bool look_side)
 //{

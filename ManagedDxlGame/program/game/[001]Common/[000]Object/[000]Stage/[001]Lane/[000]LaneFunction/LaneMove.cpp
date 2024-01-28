@@ -43,9 +43,9 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 		= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE)
 		+ tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
 	// 現在の位置から中心座標への方向ベクトルを計算
-	tnl::Vector3 direction = current_center_pos - pos;
+	m_target_direction = current_center_pos - pos;
 	// 中心座標までの距離を計算
-	float distance_to_center = abs(direction.length());
+	float distance_to_center = abs(m_target_direction.length());
 
 	if (distance_to_center <= Lane::LANE_SIZE / 100)
 	{
@@ -55,9 +55,9 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 	else 
 	{
 		// 単位ベクトルに変換
-		direction.normalize();
+		m_target_direction.normalize();
 		// 現在のグリッドの中心へ向かって移動
-		pos += direction * m_move_speed * delta_time;
+		pos += m_target_direction * m_move_speed * delta_time;
 	}
 }
 
@@ -93,12 +93,12 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 	tnl::Vector3 next_grid_pos = wta::ConvertGridIntToFloat(next_grid, Lane::LANE_SIZE);
 
 	// 次のグリッドへの方向ベクトルを計算
-	m_direction = (next_grid_pos - current_grid_pos);
-	m_direction.normalize();
+	m_chara_direction = (next_grid_pos - current_grid_pos);
+	m_chara_direction.normalize();
 
 	// プレイヤーの移動
 	// ここでは、方向ベクトルと移動速度を使って、プレイヤーの新しい位置を計算します。
-	pos += m_direction * m_move_speed * delta_time;
+	pos += m_chara_direction * m_move_speed * delta_time;
 
 	//// 必要に応じて、プレイヤーの位置がカメラの視野内に収まるように調整します。
 	//AdjustPlayerPositionWithinCameraView(pos, cameraViewSize);
@@ -108,7 +108,7 @@ void LaneMove::MoveAstarCharaRot(const float delta_time, tnl::Vector3& pos, tnl:
 {
 	// 新しい回転を算出
 	tnl::Quaternion new_rot
-		= tnl::Quaternion::LookAtAxisY(pos, pos + m_direction);
+		= tnl::Quaternion::LookAtAxisY(pos, pos + m_chara_direction);
 
 	if (m_look_side)
 	{

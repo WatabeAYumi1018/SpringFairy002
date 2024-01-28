@@ -170,6 +170,16 @@ public:
 	// 参照先 ... GimmickGenerator::CreateGimmick()
 	bool GetPlayerLookSide() const;
 
+	// ターゲットの進行方向取得
+	// 参照元 ... LaneMove::m_target_direction
+	// 参照先 ... GimmickGenerator::CreateGimmick()
+	const tnl::Vector3& GetTargetMoveDirection() const;
+
+	// ゴールまでの経路取得
+	// 参照元 ... LaneMove::m_goal_process
+	// 参照先 ... GimmickGenerator::CreateGimmick()
+	const std::vector<std::pair<int, int>>& GetGoalMoveProcess() const;
+
 	//// キャラの回転左フラグ取得
 	//// 参照元 ... Player::m_look_side_left
 	//// 参照先 ... GameCamera::ConditionType()

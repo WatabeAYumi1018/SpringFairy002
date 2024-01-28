@@ -40,47 +40,43 @@ void GimmickGenerator::CreateGimmick()
 void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
 {
     std::vector<std::shared_ptr<Gimmick>>& gimmicks
-                            = m_mediator->GetGimmickTypePools(type);
+        = m_mediator->GetGimmickTypePools(type);
 
     // ギミックのベクターの中身をランダムに並び替え
     std::shuffle(gimmicks.begin(), gimmicks.end(), std::mt19937(std::random_device()()));
 
-    
+    tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
+
+    // プレイヤーのforward方向ベクトル
     tnl::Vector3 forward = m_mediator->PlayerForward();
+    forward.normalize();
 
-    tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
+    // forward方向に垂直なベクトルを計算
+    tnl::Vector3 perpendicular
+        = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
 
-    // ギミック間の距離の設定
-    float min_distance_to_player = 200.0f;
-    float max_distance_to_player = 800.0f;
-    float min_distance_between_gimmicks = 300.0f;
-    float max_distance_between_gimmicks = 500.0f;
+    perpendicular.normalize();
 
-    // 前のギミックからのオフセット距離
-    float last_offset = min_distance_to_player;
-
-    for (std::shared_ptr<Gimmick>& gimmick : gimmicks)
+    // ギミックを配置
+    for (int i = 0; i < gimmicks.size(); ++i)
     {
-        if (gimmick && !gimmick->GetIsActive())
+        auto& gimmick = gimmicks[i];
+        if (!gimmick->GetIsActive())
         {
-            // プレイヤーからギミックへの距離をランダムに選ぶ
-            float distance_to_player 
-                = tnl::GetRandomDistributionFloat(min_distance_to_player, max_distance_to_player);
+            // 線分上のこのポイントからforward方向にランダムに配置するための距離
+            float random_forward_distance = tnl::GetRandomDistributionFloat(300.0f, 1500.0f);
 
-            // ギミック同士の距離をランダムに選ぶ
-            float distance_between_gimmicks 
-                = tnl::GetRandomDistributionFloat(min_distance_between_gimmicks, max_distance_between_gimmicks);
+            // ギミックの新しい位置を計算
+            tnl::Vector3 new_position = target_pos + perpendicular * random_forward_distance;
+            // y座標を地面の高さに設定
+            new_position.y = Floor::DRAW_DISTANCE;
 
-            // プレイヤーの位置に対して前方向に距離をかけて、新しい位置を決定する
-            tnl::Vector3 pos = player_pos + forward * (last_offset + distance_to_player);
-
-            // ギミックを配置する
-            gimmick->SetPos({ pos.x, Floor::DRAW_DISTANCE, pos.z });
-
+            // ギミックを配置
+            gimmick->SetPos(new_position);
             gimmick->SetIsActive(true);
 
-            // 次のギミックのためにオフセット距離を更新する
-            last_offset += distance_to_player + distance_between_gimmicks;
+            // 次のポイントを設定
+            target_pos += forward * 500.0f;
         }
     }
 }
