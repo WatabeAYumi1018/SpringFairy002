@@ -1,3 +1,4 @@
+#include <random>
 #include "../../../../../wta_library/wta_Convert.h"
 #include "../../[000]Stage/[002]Floor/Floor.h"
 #include "../../../[002]Mediator/Mediator.h"
@@ -12,8 +13,6 @@ void GimmickGenerator::Initialize()
 
 void GimmickGenerator::Update(const float delta_time)
 {
-    // 現在のカメラレーンを取得
-    //m_camera_lane = m_mediator->CurrentCameraLane();
 
     //tnl_sequence_.update(delta_time);
 
@@ -24,7 +23,7 @@ void GimmickGenerator::Update(const float delta_time)
 
 void GimmickGenerator::CreateGimmick()
 {
-    if (m_mediator->GetPlayerLookSide())
+    if (m_is_ground_active)
     {
         //if(e_flower || e_magical)
         CalcGroundPos(Gimmick::eGimmickType::plant);
@@ -35,37 +34,53 @@ void GimmickGenerator::CreateGimmick()
 	else
 	{
 		//CalcSkyRandomPos();
-
-        //if()
 	}
 }
 
 void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
 {
-    const std::vector<std::shared_ptr<Gimmick>>& gimmicks 
-                        = m_mediator->GetGimmickTypePools(type);
+    std::vector<std::shared_ptr<Gimmick>>& gimmicks
+                            = m_mediator->GetGimmickTypePools(type);
 
-    tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
+    // ギミックのベクターの中身をランダムに並び替え
+    std::shuffle(gimmicks.begin(), gimmicks.end(), std::mt19937(std::random_device()()));
+
     
-    float distance = 500.0f;
+    tnl::Vector3 forward = m_mediator->PlayerForward();
 
-    int count = 0;
+    tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
 
-    for (const std::shared_ptr<Gimmick>& gimmick : gimmicks)
+    // ギミック間の距離の設定
+    float min_distance_to_player = 200.0f;
+    float max_distance_to_player = 800.0f;
+    float min_distance_between_gimmicks = 300.0f;
+    float max_distance_between_gimmicks = 500.0f;
+
+    // 前のギミックからのオフセット距離
+    float last_offset = min_distance_to_player;
+
+    for (std::shared_ptr<Gimmick>& gimmick : gimmicks)
     {
-        if (!gimmick->GetIsActive() && count < 5) 
-        {        
-            // 各種類に対して5個ずつ
-            float angle = (360.0f / 5) * count; 
-            float radian = tnl::ToRadian(angle);
-            
-            float x = target_pos.x + distance * cos(radian);
-            float z = target_pos.z + distance * sin(radian);
+        if (gimmick && !gimmick->GetIsActive())
+        {
+            // プレイヤーからギミックへの距離をランダムに選ぶ
+            float distance_to_player 
+                = tnl::GetRandomDistributionFloat(min_distance_to_player, max_distance_to_player);
 
-            gimmick->SetPos({ x, Floor::DRAW_DISTANCE, z });
+            // ギミック同士の距離をランダムに選ぶ
+            float distance_between_gimmicks 
+                = tnl::GetRandomDistributionFloat(min_distance_between_gimmicks, max_distance_between_gimmicks);
+
+            // プレイヤーの位置に対して前方向に距離をかけて、新しい位置を決定する
+            tnl::Vector3 pos = player_pos + forward * (last_offset + distance_to_player);
+
+            // ギミックを配置する
+            gimmick->SetPos({ pos.x, Floor::DRAW_DISTANCE, pos.z });
+
             gimmick->SetIsActive(true);
-            
-            count++;
+
+            // 次のギミックのためにオフセット距離を更新する
+            last_offset += distance_to_player + distance_between_gimmicks;
         }
     }
 }
@@ -73,7 +88,8 @@ void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
 std::shared_ptr<Gimmick> GimmickGenerator::GetInactiveType(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
 {
     // GimmickPool から非アクティブな Gimmick を取得
-    std::shared_ptr<Gimmick> inactive_gimmick = m_mediator->GetNotActiveGimmickPool(gimmicks);
+    const std::shared_ptr<Gimmick> inactive_gimmick 
+            = m_mediator->GetNotActiveGimmickPool(gimmicks);
 
     if (inactive_gimmick) 
     {

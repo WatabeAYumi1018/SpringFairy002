@@ -631,7 +631,8 @@ public:
 
 	// ギミックプールのベクター取得
 	// 参照元 ... GimmickPool::GetGimmickPools()
-	const std::vector<std::shared_ptr<Gimmick>>& GetGimmickTypePools(Gimmick::eGimmickType type) const;
+	// 参照先 ... GimmickGenerator::関連する関数
+	std::vector<std::shared_ptr<Gimmick>>& GetGimmickTypePools(Gimmick::eGimmickType type);
 
 	//// アイテムプールのベクター取得
 	//// 参照元 ... GimmickPool::GetGimmicks()
@@ -647,6 +648,10 @@ public:
 	// 参照先 ... 
 	bool GetIsGimmickFlowerActive() const ; 
 
+	// 地面ギミックのアクティブ状態設定
+	// 参照元 ... GimmickGenerator::m_is_ground_active
+	// 参照先 ... Gimmick::Update(float delta_time)
+	void SetIsGroundActive(bool is_active);
 
 	//// アイテムの生成フラグ設定
 	//// 参照元 ... GimmickGenerator::m_is_create

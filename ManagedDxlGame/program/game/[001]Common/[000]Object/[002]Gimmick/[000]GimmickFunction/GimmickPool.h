@@ -38,5 +38,5 @@ public:
 		return m_gimmick_create_num;
 	}
 
-	const std::vector<std::shared_ptr<Gimmick>>& GetGimmickPools(Gimmick::eGimmickType type) const;
+	std::vector<std::shared_ptr<Gimmick>>& GetGimmickPools(Gimmick::eGimmickType type);
 };

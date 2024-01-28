@@ -43,10 +43,10 @@ Factory::Factory()
 
 	SetObjectReference();
 
-	// 各ギミックタイプごとに処理
-	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::plant));
-	//PoolGimmickType(m_gimmickLoad->GetTrees());
-	//PoolGimmickType(m_gimmickLoad->GetSkyFlowers());
+	//// 各ギミックタイプごとに処理
+	//PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::plant));
+	//PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::tree));
+	//PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::sky_flower));
 	//PoolGimmickType(m_gimmickLoad->GetButterflys());
 
 	StorageObject();
@@ -206,9 +206,7 @@ void Factory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimm
 			gimmick->LoadGimmickData(type_info);
 
 			gimmick->SetMediator(m_mediator);
-			
-			//m_gimmickGenerator->SetGimmick(gimmick);
-			
+						
 			m_gimmickPool->AddGimmick(gimmick, type_info.s_type);
 			
 			m_objects.emplace_back(gimmick);
@@ -228,6 +226,12 @@ void Factory::StorageObject()
 	m_objects.emplace_back(m_floor);
 	m_objects.emplace_back(m_model);
 	m_objects.emplace_back(m_cameraTargetPlayer);
+
+	// 各ギミックタイプごとに処理
+	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::plant));
+	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::tree));
+	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::sky_flower));
+
 	m_objects.emplace_back(m_partner);
 	m_objects.emplace_back(m_player);
 	m_objects.emplace_back(m_effect);

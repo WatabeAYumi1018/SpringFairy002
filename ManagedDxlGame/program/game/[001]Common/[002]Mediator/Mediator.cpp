@@ -553,12 +553,12 @@ const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmicksTypeInfo(Gimm
 
 // GimmickPool
 
-std::shared_ptr<Gimmick> Mediator::GetNotActiveGimmickPool(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
+std::shared_ptr<Gimmick> Mediator::GetNotActiveGimmickPool(std::vector<std::shared_ptr<Gimmick>>& gimmicks) 
 {
 	return m_gimmickPool->GetNotActiveGimmick(gimmicks);
 }
 
-const std::vector<std::shared_ptr<Gimmick>>& Mediator::GetGimmickTypePools(Gimmick::eGimmickType type) const
+std::vector<std::shared_ptr<Gimmick>>& Mediator::GetGimmickTypePools(Gimmick::eGimmickType type)
 {
 	return m_gimmickPool->GetGimmickPools(type);
 }
@@ -577,6 +577,10 @@ bool Mediator::GetIsGimmickFlowerActive() const
 	return m_gimmickGenerator->GetIsFlowerActive();
 }
 
+void Mediator::SetIsGroundActive(bool is_active)
+{
+	m_gimmickGenerator->SetIsGroundActive(is_active);
+}
 
 
 //void Mediator::SetItemIsCreate(bool is_create)

@@ -59,7 +59,7 @@ std::shared_ptr<Gimmick> GimmickPool::GetNotActiveGimmick(std::vector<std::share
     return nullptr;
 }
 
-const std::vector<std::shared_ptr<Gimmick>>& GimmickPool::GetGimmickPools(Gimmick::eGimmickType type) const
+std::vector<std::shared_ptr<Gimmick>>& GimmickPool::GetGimmickPools(Gimmick::eGimmickType type)
 {
     switch (type)
     {

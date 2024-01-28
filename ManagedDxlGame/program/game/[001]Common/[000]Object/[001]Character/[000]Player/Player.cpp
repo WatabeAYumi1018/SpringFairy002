@@ -66,6 +66,11 @@ void Player::Draw(std::shared_ptr<GameCamera> gameCamera)
 {
 	// ƒ‚ƒfƒ‹•`‰æˆ—
 	m_mediator->DrawPlayerModel();
+
+	for (std::shared_ptr<dxe::Mesh>& mesh : m_meshs)
+	{
+		mesh->render(gameCamera);
+	}
 }
 
 tnl::Vector3 Player::Back()

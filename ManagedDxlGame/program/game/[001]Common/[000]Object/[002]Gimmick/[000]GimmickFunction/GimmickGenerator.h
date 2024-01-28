@@ -20,19 +20,14 @@ private:
 
 	tnl::Vector3 m_pos ;
 
-	bool m_is_flower_active = false;
+	bool m_is_ground_active = false;
 
-	std::shared_ptr<Gimmick> m_gimmick = nullptr;
+	bool m_is_flower_active = false;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	std::vector<std::shared_ptr<Gimmick>> m_gimmicks;
-
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(GimmickGenerator, &GimmickGenerator::SeqFlower);
-
-
-	//std::shared_ptr<Gimmick> InactiveGimmick(const std::vector<Gimmick::sGimmickTypeInfo>& gimmickList);
 
 	// レーン番号に対応するギミックのランダム配置
 	void CreateGimmick();
@@ -43,8 +38,8 @@ private:
 	// 特定のギミックを取得
 	std::shared_ptr<Gimmick> GetInactiveType(std::vector<std::shared_ptr<Gimmick>>& gimmicks);
 
-
 	void CheckGimmicks(const float delta_time);
+
 	// 空中でのランダム生成
 	void GenerateGimmick(const float delta_time);
 	// 空中のランダム座標算出
@@ -66,10 +61,7 @@ public:
 
 	bool GetIsFlowerActive() const { return m_is_flower_active; }
 
-	void SetGimmick(std::shared_ptr<Gimmick>& gimmick)
-	{
-		m_gimmick = gimmick;
-	}
+	void SetIsGroundActive(bool is_active) { m_is_ground_active = is_active; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
