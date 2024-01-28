@@ -12,7 +12,7 @@ public:
 	Floor();
 	~Floor() {}
 
-	static const int DRAW_DISTANCE = -500;
+	static const int DRAW_DISTANCE = -400;
 
 private:
 

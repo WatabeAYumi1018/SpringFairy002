@@ -61,22 +61,26 @@ void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
     for (int i = 0; i < gimmicks.size(); ++i)
     {
         auto& gimmick = gimmicks[i];
+
         if (!gimmick->GetIsActive())
         {
             // 線分上のこのポイントからforward方向にランダムに配置するための距離
-            float random_forward_distance = tnl::GetRandomDistributionFloat(300.0f, 1500.0f);
+            float forward_distance 
+                = tnl::GetRandomDistributionFloat(-100.0f, 600.0f);
 
             // ギミックの新しい位置を計算
-            tnl::Vector3 new_position = target_pos + perpendicular * random_forward_distance;
+            tnl::Vector3 pos 
+                = target_pos + perpendicular * forward_distance;
+            
             // y座標を地面の高さに設定
-            new_position.y = Floor::DRAW_DISTANCE;
+            pos.y = Floor::DRAW_DISTANCE;
 
             // ギミックを配置
-            gimmick->SetPos(new_position);
+            gimmick->SetPos(pos);
             gimmick->SetIsActive(true);
 
             // 次のポイントを設定
-            target_pos += forward * 500.0f;
+            target_pos += forward * 300.0f;
         }
     }
 }

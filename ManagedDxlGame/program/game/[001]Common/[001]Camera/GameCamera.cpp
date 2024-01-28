@@ -218,12 +218,12 @@ bool GameCamera::SeqRightSide(const float delta_time)
 	// サイドへカメラを移動
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.3f, delta_time, [&]()
 	{
-		ToSide(delta_time,400);
+		ToSide(delta_time,500);
 	});
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		Side(400);
+		Side(500);
 
 		if (m_mediator->GetPlayerLookSide())
 		{
@@ -238,7 +238,7 @@ bool GameCamera::SeqRightSideToFix(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		Side(400);
+		Side(500);
 	});
 
 	// カメラを元の位置に戻す
@@ -267,12 +267,12 @@ bool GameCamera::SeqLeftSide(const float delta_time)
 	// サイドへカメラを移動
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.3f, delta_time, [&]()
 	{
-		ToSide(delta_time, -400);
+		ToSide(delta_time, -500);
 	});
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		Side(-400);
+		Side(-500);
 
 		if (m_mediator->GetPlayerLookSide())
 		{
@@ -287,7 +287,7 @@ bool GameCamera::SeqLeftSideToFix(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		Side(-400);
+		Side(-500);
 	});
 
 	// カメラを元の位置に戻す
