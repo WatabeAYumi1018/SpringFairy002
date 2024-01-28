@@ -69,15 +69,15 @@ public:
 
 	//void SetLookSideLeft(bool look_side_left) { m_look_side_left = look_side_left; }
 
-	const tnl::Vector3& GetTargetDirection() const 
-	{
-		return m_target_direction; 
-	}
+	//const tnl::Vector3& GetTargetDirection() const 
+	//{
+	//	return m_target_direction; 
+	//}
 
-	const std::vector<std::pair<int, int>>& GetGoalProcess() const
-	{
-		return m_goal_process;
-	}
+	//const std::vector<std::pair<int, int>>& GetGoalProcess() const
+	//{
+	//	return m_goal_process;
+	//}
 
 	void SetAstar(std::shared_ptr<wta::Astar<Lane::sLane>>& astar)
 	{

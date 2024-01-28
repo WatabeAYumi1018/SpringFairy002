@@ -170,15 +170,15 @@ public:
 	// 参照先 ... GimmickGenerator::CreateGimmick()
 	bool GetPlayerLookSide() const;
 
-	// ターゲットの進行方向取得
-	// 参照元 ... LaneMove::m_target_direction
-	// 参照先 ... GimmickGenerator::CreateGimmick()
-	const tnl::Vector3& GetTargetMoveDirection() const;
+	//// ターゲットの進行方向取得
+	//// 参照元 ... LaneMove::m_target_direction
+	//// 参照先 ... GimmickGenerator::CreateGimmick()
+	//const tnl::Vector3& GetTargetMoveDirection() const;
 
-	// ゴールまでの経路取得
-	// 参照元 ... LaneMove::m_goal_process
-	// 参照先 ... GimmickGenerator::CreateGimmick()
-	const std::vector<std::pair<int, int>>& GetGoalMoveProcess() const;
+	//// ゴールまでの経路取得
+	//// 参照元 ... LaneMove::m_goal_process
+	//// 参照先 ... GimmickGenerator::CreateGimmick()
+	//const std::vector<std::pair<int, int>>& GetGoalMoveProcess() const;
 
 	//// キャラの回転左フラグ取得
 	//// 参照元 ... Player::m_look_side_left
@@ -660,8 +660,13 @@ public:
 
 	// 地面ギミックのアクティブ状態設定
 	// 参照元 ... GimmickGenerator::m_is_ground_active
-	// 参照先 ... Gimmick::Update(float delta_time)
-	void SetIsGroundActive(bool is_active);
+	// 参照先 ... GameCamera::Update(float delta_time)
+	void SetIsGimmickGroundActive(bool is_active);
+
+	// 地面ギミックのアクティブ状態取得
+	// 参照元 ... GimmickGenerator::m_is_ground_active
+	// 参照先 ... Model::Draw(std::shared_ptr<GameCamera> gameCamera)
+	bool GetIsGimmickGroundActive() const;
 
 	//// アイテムの生成フラグ設定
 	//// 参照元 ... GimmickGenerator::m_is_create

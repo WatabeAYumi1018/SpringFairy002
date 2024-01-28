@@ -63,6 +63,8 @@ public:
 
 	void SetIsGroundActive(bool is_active) { m_is_ground_active = is_active; }
 
+	bool GetIsGroundActive() const { return m_is_ground_active; }
+
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;

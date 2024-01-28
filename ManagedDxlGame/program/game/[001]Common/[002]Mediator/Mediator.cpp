@@ -92,15 +92,15 @@ bool Mediator::GetPlayerLookSide() const
 	return m_laneMove->GetLookSide();
 }
 
-const tnl::Vector3& Mediator::GetTargetMoveDirection() const
-{
-	return m_laneMove->GetTargetDirection();
-}
-
-const std::vector<std::pair<int, int>>& Mediator::GetGoalMoveProcess() const
-{
-	return m_laneMove->GetGoalProcess();
-}
+//const tnl::Vector3& Mediator::GetTargetMoveDirection() const
+//{
+//	return m_laneMove->GetTargetDirection();
+//}
+//
+//const std::vector<std::pair<int, int>>& Mediator::GetGoalMoveProcess() const
+//{
+//	return m_laneMove->GetGoalProcess();
+//}
 
 
 //void Mediator::SetPlayerLookSideLeft(bool look_side)
@@ -587,10 +587,16 @@ bool Mediator::GetIsGimmickFlowerActive() const
 	return m_gimmickGenerator->GetIsFlowerActive();
 }
 
-void Mediator::SetIsGroundActive(bool is_active)
+void Mediator::SetIsGimmickGroundActive(bool is_active)
 {
 	m_gimmickGenerator->SetIsGroundActive(is_active);
 }
+
+bool Mediator::GetIsGimmickGroundActive() const
+{
+	return m_gimmickGenerator->GetIsGroundActive();
+}
+
 
 
 //void Mediator::SetItemIsCreate(bool is_create)

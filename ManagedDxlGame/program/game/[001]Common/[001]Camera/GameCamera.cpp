@@ -184,6 +184,8 @@ bool GameCamera::SeqFixed(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
+		m_mediator->SetIsGimmickGroundActive(false);
+
 		m_mediator->SetPlayerLookSide(false);
 		//m_mediator->SetPlayerLookSideLeft(false);
 	}
@@ -227,7 +229,7 @@ bool GameCamera::SeqRightSide(const float delta_time)
 
 		if (m_mediator->GetPlayerLookSide())
 		{
-			m_mediator->SetIsGroundActive(true);
+			m_mediator->SetIsGimmickGroundActive(true);
 		}
 	});
 
@@ -276,7 +278,7 @@ bool GameCamera::SeqLeftSide(const float delta_time)
 
 		if (m_mediator->GetPlayerLookSide())
 		{
-			m_mediator->SetIsGroundActive(true);
+			m_mediator->SetIsGimmickGroundActive(true);
 		}
 	});
 

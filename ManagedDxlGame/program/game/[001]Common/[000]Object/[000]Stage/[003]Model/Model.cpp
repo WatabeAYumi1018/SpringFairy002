@@ -78,7 +78,11 @@ void Model::Draw(std::shared_ptr<GameCamera> gameCamera)
 {
 	//m_mediator->ModelGeneDraw(gameCamera);
 
-	DrawGrass();
+	if (!m_mediator->GetIsGimmickGroundActive())
+	{
+		DrawGrass();
+	}
+
 }
 
 void Model::LoadTexture()
