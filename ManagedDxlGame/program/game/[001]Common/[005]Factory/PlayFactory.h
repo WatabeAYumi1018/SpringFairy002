@@ -85,6 +85,8 @@ private:
 
 	// オブジェクトを格納するlist
 	std::list<std::shared_ptr<Object>> m_objects;
+	// プレイヤー衝突オブジェクトを格納するlist
+	std::vector<std::shared_ptr<Gimmick>> m_gimmicks;
 
 	std::shared_ptr<wta::Astar<Lane::sLane>> m_astar = nullptr;
 	std::shared_ptr<wta::Collision<Player, Gimmick>> m_collision_player_item = nullptr;

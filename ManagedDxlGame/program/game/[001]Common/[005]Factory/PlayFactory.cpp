@@ -173,6 +173,7 @@ void PlayFactory::SetObjectReference()
 	m_cameraTargetPlayer->SetMediator(m_mediator);
 	m_gimmickGenerator->SetMediator(m_mediator);
 	m_effect->SetMediator(m_mediator);
+	m_score->SetMediator(m_mediator);
 	m_text->SetMediator(m_mediator);
 	m_textLoad->SetMediator(m_mediator);
 	m_textDraw->SetMediator(m_mediator);
@@ -205,15 +206,11 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 						
 			m_gimmickPool->AddGimmick(gimmick, type_info.s_type);
 			
-			m_objects.emplace_back(gimmick);
-		}
-	}
+			m_gimmicks.emplace_back(gimmick);
 
-	////// プレイヤー衝突オブジェクトの更新
-	//std::vector<std::shared_ptr<Gimmick>> gimmicks
-	//					= m_gimmickPool->GetGimmickPools(type_info.s_type);
-	//
-	//m_playerCollision->SetGimmicks(gimmicks);
+			m_objects.emplace_back(gimmick);
+		}	
+	}
 }
 
 void PlayFactory::StorageObject()
@@ -227,6 +224,8 @@ void PlayFactory::StorageObject()
 	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::plant));
 	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::tree));
 	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::sky_flower));
+
+	m_playerCollision->SetGimmicks(m_gimmicks);
 
 	m_objects.emplace_back(m_partner);
 	m_objects.emplace_back(m_player);

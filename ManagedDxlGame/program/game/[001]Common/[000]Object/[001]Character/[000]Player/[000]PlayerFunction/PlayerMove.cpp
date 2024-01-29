@@ -142,11 +142,23 @@ void PlayerMove::ControlMoveMatrix(float delta_time)
 	}
 	if (tnl::Input::IsKeyDown(eKeys::KB_DOWN))
 	{
-		move_direction.y -= delta_time * 10;
+		if (m_mediator->GetPlayerLookSideRight()
+			|| m_mediator->GetPlayerLookSideLeft())
+		{
+			move_direction.y -= delta_time / 10;
 
-		// 前に傾く
-		tilt_rotation
-			= tnl::Quaternion::RotationAxis(camera_right, tilt_angle);
+			// 傾き度合を大きくする
+			tilt_rotation
+				= tnl::Quaternion::RotationAxis(camera_right, tilt_angle * 3);
+		}
+		else
+		{
+			move_direction.y -= delta_time * 10;
+
+			// 前に傾く
+			tilt_rotation
+				= tnl::Quaternion::RotationAxis(camera_right, tilt_angle);
+		}
 	}
 
 	// 移動方向の正規化と速度の適用

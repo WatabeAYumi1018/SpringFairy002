@@ -16,24 +16,24 @@ void PlayerCollision::CollisionRegisterPlayerToItem()
 	std::string player_to_gimmick_key
 		= typeid(Player).name() + std::string(typeid(Gimmick).name());
 
-	m_collision_item->registerIntersect( player_to_gimmick_key
+	m_collision_gimmick->registerIntersect( player_to_gimmick_key
 										, [this](std::shared_ptr<Player> player
-										, std::shared_ptr<Gimmick> item)
+										, std::shared_ptr<Gimmick> gimmick)
 	{
-		if(m_collision_item->IsIntersectSphere(player,player->GetCollisionSize()
-												, item, item->GetCollisionSize()))
+		if(m_collision_gimmick->IsIntersectSphere(player,player->GetCollisionSize()
+												, gimmick, gimmick->GetCollisionSize()))
 		{
 			// 当たり判定発生合図
-			item->SetIsHit(true);
+			gimmick->SetIsHit(true);
 			// 描画切り替え合図
-			item->SetIsDrawChange(true);
+			gimmick->SetIsDrawChange(true);
 		}
 	});
 }
 
 void PlayerCollision::CollisionRegisterMeshToItem()
 {
-	// メッシュとアイテムの当たり判定
+	// メッシュとギミックの当たり判定
 	std::string mesh_to_gimmick_key
 		= typeid(dxe::Mesh).name() + std::string(typeid(Gimmick).name());
 
@@ -75,18 +75,18 @@ void PlayerCollision::CollisionRegisterPlayerToPartner()
 
 void PlayerCollision::CollisionCheck()
 {
-	// Player と Item の衝突判定
+	// Player と gimmick の衝突判定
 	for (std::shared_ptr<Gimmick>& gimmick : m_gimmicks)
 	{
-		m_collision_item->Intersect(m_player, gimmick);
+		m_collision_gimmick->Intersect(m_player, gimmick);
 	}
 
-	// PlayerのMesh と Item の衝突判定
+	// PlayerのMesh と gimmick の衝突判定
 	for (const std::shared_ptr<dxe::Mesh>& mesh : m_player->GetMeshs())
 	{
-		for (std::shared_ptr<Gimmick>& item : m_gimmicks)
+		for (std::shared_ptr<Gimmick>& gimmick : m_gimmicks)
 		{
-			m_collision_mesh->Intersect(mesh, item);
+			m_collision_mesh->Intersect(mesh, gimmick);
 		}
 	}
 

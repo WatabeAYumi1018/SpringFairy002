@@ -16,8 +16,8 @@ void GameCamera::update(const float delta_time)
 
 	dxe::Camera::update(delta_time);
 
+	// 最初のレーンだけプレイヤーに追従
 	tnl_sequence_.update(delta_time);
-
 //	IsInFlustum();
 
 	//
@@ -34,19 +34,18 @@ void GameCamera::IsInFlustum()
 	for (int i = 0; i < max; ++i)
 	{
 		tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
-		
-		player_pos.y += 150;
-		
+				
 		float size = m_mediator->GetPlayerCollisionSize();
 
 		tnl::Vector3 v 
 			= getFlustumNormal(static_cast<dxe::Camera::eFlustum>(i));
+
 		
 		tnl::Vector3 np 
 			= tnl::GetNearestPointPlane(player_pos, v, pos_);
 		
 		float length = (np - player_pos).length();
-		
+
 		if (length < size)
 		{
 			tnl::Vector3 pos = np + (v * size );

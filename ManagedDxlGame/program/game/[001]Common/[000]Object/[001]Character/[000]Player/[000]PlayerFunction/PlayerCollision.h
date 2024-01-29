@@ -26,7 +26,7 @@ private:
 
 	std::shared_ptr<Partner> m_partner = nullptr;
 
-	std::shared_ptr<wta::Collision<Player, Gimmick>> m_collision_item = nullptr;
+	std::shared_ptr<wta::Collision<Player, Gimmick>> m_collision_gimmick = nullptr;
 
 	std::shared_ptr<wta::Collision<dxe::Mesh,Gimmick>> m_collision_mesh = nullptr;
 
@@ -64,7 +64,7 @@ public:
 
 	void SetCollision(std::shared_ptr<wta::Collision<Player, Gimmick>>& collision)
 	{
-		m_collision_item = collision;
+		m_collision_gimmick = collision;
 	}
 
 	void SetCollision(std::shared_ptr<wta::Collision<dxe::Mesh, Gimmick>>& collision)

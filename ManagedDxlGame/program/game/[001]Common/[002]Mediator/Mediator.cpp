@@ -101,6 +101,12 @@ bool Mediator::GetPlayerLookSideLeft() const
 	return m_laneMove->GetLookSideLeft();
 }
 
+const tnl::Vector3& Mediator::GetCharaMoveDirection() const
+{
+	return m_laneMove->GetCharaDirection();
+}
+
+
 //const tnl::Vector3& Mediator::GetTargetMoveDirection() const
 //{
 //	return m_laneMove->GetTargetDirection();

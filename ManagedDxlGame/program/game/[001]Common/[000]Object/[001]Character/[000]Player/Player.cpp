@@ -7,6 +7,8 @@
 
 Player::Player() 
 {
+	m_pos = { 0 };
+
 	m_collision_size =  70;
 	//m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
 
@@ -48,7 +50,7 @@ void Player::Update(float delta_time)
 
 	m_mediator->UpdateCollisionCheck();
 
-	//m_mediator->IsInCameraFlustum();
+	m_mediator->IsInCameraFlustum();
 
 	// 座標デバッグ用
 	DrawStringEx(0, 0, -1, "PlayerPos_x:%f",m_pos.x);

@@ -81,6 +81,11 @@ public:
 	//	return m_target_direction; 
 	//}
 
+	const tnl::Vector3& GetCharaDirection() const
+	{
+		return m_chara_direction;
+	}
+
 	//const std::vector<std::pair<int, int>>& GetGoalProcess() const
 	//{
 	//	return m_goal_process;

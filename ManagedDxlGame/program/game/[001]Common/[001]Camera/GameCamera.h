@@ -56,6 +56,9 @@ public:
 
 private:
 
+	tnl::Vector3 CorrectPlayerPosition(const tnl::Vector3& playerPos, float playerSize, const tnl::Vector3& planeNormal, const tnl::Vector3& planePoint);
+
+
 	// 回転角度
 	float m_rot_angle = 0.0f;
 
@@ -63,7 +66,7 @@ private:
 
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
-	tnl::Vector3 m_offset = { 0, 200, -200 };
+	tnl::Vector3 m_offset = { 0, 200, -400 };
 	// 追従による座標補正
 	tnl::Vector3 m_fix_pos = { 0,0,0 };
 	// 自動経路による回転

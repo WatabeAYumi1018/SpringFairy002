@@ -185,6 +185,12 @@ public:
 	//// 参照先 ... GimmickGenerator::CreateGimmick()
 	//const tnl::Vector3& GetTargetMoveDirection() const;
 
+	// キャラの進行方向取得
+	// 参照元 ... LaneMove::m_chara_direction
+	// 参照先 ... GameCamera::InFlustum()
+	const tnl::Vector3& GetCharaMoveDirection() const;
+
+
 	//// ゴールまでの経路取得
 	//// 参照元 ... LaneMove::m_goal_process
 	//// 参照先 ... GimmickGenerator::CreateGimmick()

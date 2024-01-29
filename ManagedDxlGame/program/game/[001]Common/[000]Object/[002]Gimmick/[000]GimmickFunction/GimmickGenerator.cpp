@@ -22,19 +22,6 @@ void GimmickGenerator::Update(const float delta_time)
 
     //tnl_sequence_.update(delta_time);
 
-    int i = 0;
-
-    if (m_mediator->IsCameraFixed())
-    {
-        i = 0;
-    }
-    else
-    {
-        i = 1;
-    }
-    // bool型でtrueかfalseか文字出力
-    DrawStringEx(300, 0, -1, "fixed : %d", i);
-
     CreateGimmick(delta_time);
 }
 
@@ -81,6 +68,7 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
 
     tnl::Vector3 start_offset = perpendicular * 500.0f;
     tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
+  
     target_pos += start_offset;
 
     // ギミックを配置
@@ -93,7 +81,7 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
         {
             // 線分上のこのポイントからforward方向にランダムに配置するための距離
             float forward_distance
-                = tnl::GetRandomDistributionFloat(-100.0f, 600.0f);
+                = tnl::GetRandomDistributionFloat(100.0f, 600.0f);
 
             // ギミックの新しい位置を計算
             tnl::Vector3 pos
@@ -107,7 +95,7 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
             gimmick->SetIsActive(true);
 
             // 次のポイントを設定
-            target_pos += forward * 300.0f;
+            target_pos += forward * 100.0f;
         }
         else
         {

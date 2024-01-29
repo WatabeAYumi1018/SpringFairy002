@@ -367,10 +367,17 @@ namespace tnl {
 
 
     //--------------------------------------------------------------------------------------------------------------------------------
+    // work... 点と平面の平面上に存在する最近点
+    // arg2... 点座標
+    // arg3... 平面の法線
+    // arg4... 平面上の座標
     tnl::Vector3 GetNearestPointPlane(const tnl::Vector3& v, const tnl::Vector3& pn, const tnl::Vector3& pv) 
     {
+
         float d = tnl::Vector3::Dot(pn, pv);
+        
         float t = tnl::Vector3::Dot(pn, v) - d;
+
         return v - (pn * t);
     }
 

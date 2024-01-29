@@ -1,4 +1,6 @@
+#include "../../[002]Mediator/Mediator.h"
 #include "Score.h"
+
 
 
 Score::Score()
@@ -16,7 +18,10 @@ Score::~Score()
 
 void Score::Update(const float delta_time)
 {
-	m_score_total++;
+	if (m_mediator->GetGimmickIsHit())
+	{
+		AddScore();
+	}
 }
 
 void Score::Draw(std::shared_ptr<dxe::Camera> camera)
