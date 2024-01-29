@@ -29,5 +29,5 @@ public:
 
 	virtual void Update(const float delta_time) {}
 
-	virtual void Draw(std::shared_ptr<GameCamera> gameCamera) {}
+	virtual void Draw(std::shared_ptr<dxe::Camera> camera) {}
 };

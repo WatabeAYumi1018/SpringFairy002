@@ -33,7 +33,7 @@ void CameraTargetPlayer::Update(float delta_time)
 	//}
 }
 
-void CameraTargetPlayer::Draw(std::shared_ptr<GameCamera> gameCamera)
+void CameraTargetPlayer::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	//// 当たり判定デバッグ用
 	VECTOR pos = wta::ConvertToVECTOR(m_pos);

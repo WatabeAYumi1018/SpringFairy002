@@ -19,7 +19,7 @@ void Score::Update(const float delta_time)
 	m_score_total++;
 }
 
-void Score::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Score::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	ScoreAttach();
 }

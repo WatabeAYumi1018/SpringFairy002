@@ -26,7 +26,7 @@ void Text::Update(float delta_time)
 	m_mediator->UpdateText(delta_time);
 }
 
-void Text::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Text::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	m_mediator->DrawTextMessage();
 }

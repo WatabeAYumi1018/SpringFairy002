@@ -24,7 +24,7 @@ Floor::Floor()
 	m_floor->pos_ = { 0, distance, 0 };
 }
 
-void Floor::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Floor::Draw(std::shared_ptr<dxe::Camera> camera)
 {
     // グリッドのサイズ
     int grid_size = 20; 
@@ -47,7 +47,7 @@ void Floor::Draw(std::shared_ptr<GameCamera> gameCamera)
             m_floor->pos_ = { x, distance, z };
 
             // フロアを描画
-            m_floor->render(gameCamera);
+            m_floor->render(camera);
         }
     }
 }

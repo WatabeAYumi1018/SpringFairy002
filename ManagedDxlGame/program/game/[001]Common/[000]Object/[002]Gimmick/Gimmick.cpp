@@ -48,7 +48,7 @@ void Gimmick::Update(const float delta_time)
 	MoveFlower(delta_time);
 }
 
-void Gimmick::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Gimmick::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	if (m_is_active)
 	{

@@ -110,7 +110,7 @@ void LaneMove::MoveAstarCharaRot(const float delta_time, tnl::Vector3& pos, tnl:
 	tnl::Quaternion new_rot
 		= tnl::Quaternion::LookAtAxisY(pos, pos + m_chara_direction);
 
-	if (m_look_side)
+	if (m_look_side_right || m_look_side_left)
 	{
 		tnl::Vector3 camera_direction = m_mediator->GetCameraForward();
 

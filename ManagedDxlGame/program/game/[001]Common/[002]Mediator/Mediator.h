@@ -161,14 +161,24 @@ public:
 	void MoveAstarTargetPos(const float delta_time, tnl::Vector3& pos);
 
 	// キャラの回転フラグ設定
-	// 参照元 ... laneMove::m_look_side
+	// 参照元 ... laneMove::m_look_side_right
 	// 参照先 ... GameCamera::ConditionType()
-	void SetPlayerLookSide(bool look_side);
+	void SetPlayerLookSideRight(bool look_side);
 
 	// キャラの回転フラグ取得
-	// 参照元 ... laneMove::m_look_side
+	// 参照元 ... laneMove::m_look_side_right
 	// 参照先 ... GimmickGenerator::CreateGimmick()
-	bool GetPlayerLookSide() const;
+	bool GetPlayerLookSideRight() const;
+
+	// キャラの回転左フラグ取得
+	// 参照元 ... Player::m_look_side_left
+	// 参照先 ... GameCamera::ConditionType()
+	void SetPlayerLookSideLeft(bool look_side);
+
+	// キャラの回転左フラグ取得
+	// 参照元 ... Player::m_look_side_left
+	// 参照先 ... GimmickGenerator::CreateGimmick()
+	bool GetPlayerLookSideLeft() const;
 
 	//// ターゲットの進行方向取得
 	//// 参照元 ... LaneMove::m_target_direction
@@ -179,11 +189,6 @@ public:
 	//// 参照元 ... LaneMove::m_goal_process
 	//// 参照先 ... GimmickGenerator::CreateGimmick()
 	//const std::vector<std::pair<int, int>>& GetGoalMoveProcess() const;
-
-	//// キャラの回転左フラグ取得
-	//// 参照元 ... Player::m_look_side_left
-	//// 参照先 ... GameCamera::ConditionType()
-	//void SetPlayerLookSideLeft(bool look_side);
 
 	//// 自動移動による次のレーン到達判定
 	//// 参照元 ... LoadMove::NextLane()
@@ -804,6 +809,11 @@ public:
 	// 参照先 ... PlayerMove::
 	void IsInCameraFlustum();
 
+	// カメラの固定フラグ取得
+	// 参照元 ... GameCamera::m_is_fixed
+	// 参照先 ... GimmickGenerator::CheckGimmicks(const float delta_time,)
+	bool IsCameraFixed() const;
+
 	//// カメラの上方向取得
 	//// 参照元 ... dxe::GameCamera::left()
 	//// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
@@ -949,6 +959,12 @@ void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 	{
 		m_cameraTargetPlayer = cameraTargetPlayer;
 	}
+
+	void SetGimmick(std::shared_ptr<Gimmick>& gimmick)
+	{
+		m_gimmick = gimmick;
+	}
+
 	void SetGimmickLoad(std::shared_ptr<GimmickLoad>& gimmickLoad)
 	{
 		m_gimmickLoad = gimmickLoad;

@@ -49,20 +49,20 @@ void SkyBox::Update(float delta_time)
 	m_rot *= tnl::Quaternion::RotationAxis({ 0, 0, 1 }, tnl::ToRadian(180.0f));
 }
 
-void SkyBox::Draw(std::shared_ptr<GameCamera> gameCamera)
+void SkyBox::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	if (m_stage_phase == StagePhase::eStagePhase::e_flower) 
 	{
-		m_meshs[0]->render(gameCamera);
+		m_meshs[0]->render(camera);
 	}
 
 	if (m_stage_phase == StagePhase::eStagePhase::e_wood)
 	{
-		m_meshs[1]->render(gameCamera);
+		m_meshs[1]->render(camera);
 	}
 
 	if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
 	{
-		m_meshs[2]->render(gameCamera);
+		m_meshs[2]->render(camera);
 	}
 }

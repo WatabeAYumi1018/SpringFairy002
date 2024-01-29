@@ -91,7 +91,7 @@ public:
 
 	void Update(const float delta_time) override;
 
-	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
+	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
 	void Reset();
 

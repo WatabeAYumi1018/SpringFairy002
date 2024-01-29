@@ -23,5 +23,5 @@ private:
 
 public:
 
-	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
+	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 };

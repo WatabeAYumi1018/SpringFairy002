@@ -440,9 +440,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickDraw.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClCompile>
@@ -469,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\Object.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -815,9 +815,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickDraw.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClInclude>
@@ -844,6 +841,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[006]Title\Tile.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[006]Title</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

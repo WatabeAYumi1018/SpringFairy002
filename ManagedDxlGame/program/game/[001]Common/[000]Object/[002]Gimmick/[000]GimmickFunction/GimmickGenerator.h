@@ -18,11 +18,14 @@ public:
 
 private:
 
-	tnl::Vector3 m_pos ;
+	tnl::Vector3 m_pos;
 
 	bool m_is_ground_active = false;
 
-	bool m_is_flower_active = false;
+	bool m_is_sky_flower_active = false;
+
+	Gimmick::eGimmickType m_gimmick_type = Gimmick::eGimmickType::Max;
+
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
@@ -30,15 +33,17 @@ private:
 	TNL_CO_SEQUENCE(GimmickGenerator, &GimmickGenerator::SeqFlower);
 
 	// レーン番号に対応するギミックのランダム配置
-	void CreateGimmick();
+	void CreateGimmick(const float delta_time);
 
 	// 地上のギミック配置処理
-	void CalcGroundPos(Gimmick::eGimmickType type);
+	void CalcGroundPos(const float delta_time, Gimmick::eGimmickType type);
 
 	// 特定のギミックを取得
 	std::shared_ptr<Gimmick> GetInactiveType(std::vector<std::shared_ptr<Gimmick>>& gimmicks);
 
-	void CheckGimmicks(const float delta_time);
+	void CheckGimmicks(const float delta_time
+		, Gimmick::eGimmickType type
+		, std::shared_ptr<Gimmick> gimmick);
 
 	// 空中でのランダム生成
 	void GenerateGimmick(const float delta_time);
@@ -59,11 +64,11 @@ public:
 	void Update(const float delta_time);
 
 
-	bool GetIsFlowerActive() const { return m_is_flower_active; }
+	bool GetIsFlowerActive() const;
 
-	void SetIsGroundActive(bool is_active) { m_is_ground_active = is_active; }
+	void SetIsGroundActive(bool is_active);
 
-	bool GetIsGroundActive() const { return m_is_ground_active; }
+	bool GetIsGroundActive() const;
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

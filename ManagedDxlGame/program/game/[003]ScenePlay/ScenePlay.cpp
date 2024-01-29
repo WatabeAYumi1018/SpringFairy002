@@ -54,15 +54,14 @@ void ScenePlay::Update(const float delta_time)
 {
 	m_stagePhase->Update(delta_time);
 
+	m_gameCamera->update(delta_time);
+	
 	m_gimmickGenerator->Update(delta_time);
-
 
 	for (std::shared_ptr<Object>& object : m_objects)
 	{
 		object->Update(delta_time);
 	}
-
-	m_gameCamera->update(delta_time);
 }
 
 void ScenePlay::Draw(const float delta_time)

@@ -200,6 +200,8 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 			gimmick->LoadGimmickData(type_info);
 
 			gimmick->SetMediator(m_mediator);
+
+			m_mediator->SetGimmick(gimmick);
 						
 			m_gimmickPool->AddGimmick(gimmick, type_info.s_type);
 			
@@ -216,7 +218,7 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 
 void PlayFactory::StorageObject()
 {
-	m_objects.emplace_back(m_skyBox);
+	//m_objects.emplace_back(m_skyBox);
 	m_objects.emplace_back(m_floor);
 	m_objects.emplace_back(m_model);
 	m_objects.emplace_back(m_cameraTargetPlayer);

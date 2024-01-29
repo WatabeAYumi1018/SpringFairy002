@@ -80,7 +80,7 @@ void GameCamera::ConditionType()
 		}
 		case eCameraType::e_right_side_back:
 		{
-			m_mediator->SetPlayerLookSide(true);
+			m_mediator->SetPlayerLookSideRight(true);
 
 			tnl_sequence_.change(&GameCamera::SeqRightSide);
 
@@ -88,7 +88,7 @@ void GameCamera::ConditionType()
 		}
 		case eCameraType::e_left_side_back:
 		{
-			m_mediator->SetPlayerLookSide(true);
+			m_mediator->SetPlayerLookSideLeft(true);
 
 			tnl_sequence_.change(&GameCamera::SeqLeftSide);
 
@@ -184,9 +184,11 @@ bool GameCamera::SeqFixed(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		m_mediator->SetIsGimmickGroundActive(false);
+		m_is_fixed = true;
 
-		m_mediator->SetPlayerLookSide(false);
+		m_mediator->SetPlayerLookSideRight(false);
+
+		m_mediator->SetPlayerLookSideLeft(false);
 
 		tnl::Vector3 pos = m_mediator->GetCameraTargetPlayerPos();
 
@@ -195,6 +197,8 @@ bool GameCamera::SeqFixed(const float delta_time)
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))
 	{
+		m_is_fixed = false;
+
 		tnl_sequence_.change(&GameCamera::SeqControl);
 	}
 
@@ -210,6 +214,11 @@ bool GameCamera::SeqFixed(const float delta_time)
 
 bool GameCamera::SeqRightSide(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_is_fixed = false;
+	}
+
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
 	{
 		tnl_sequence_.change(&GameCamera::SeqRightSideToFix);
@@ -223,17 +232,17 @@ bool GameCamera::SeqRightSide(const float delta_time)
 	// サイドへカメラを移動
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.3f, delta_time, [&]()
 	{
-		ToSide(delta_time,500);
+		ToSide(delta_time,400);
 	});
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		Side(500);
+		Side(400);
 
-		if (m_mediator->GetPlayerLookSide())
-		{
-			m_mediator->SetIsGimmickGroundActive(true);
-		}
+		//if (m_mediator->GetPlayerLookSide())
+		//{
+		//	m_mediator->SetIsGimmickGroundActive(true);
+		//}
 	});
 
 	TNL_SEQ_CO_END;
@@ -243,7 +252,7 @@ bool GameCamera::SeqRightSideToFix(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		Side(500);
+		Side(400);
 	});
 
 	// カメラを元の位置に戻す
@@ -259,6 +268,11 @@ bool GameCamera::SeqRightSideToFix(const float delta_time)
 
 bool GameCamera::SeqLeftSide(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_is_fixed = false;
+	}
+
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
 	{
 		tnl_sequence_.change(&GameCamera::SeqLeftSideToFix);
@@ -272,17 +286,17 @@ bool GameCamera::SeqLeftSide(const float delta_time)
 	// サイドへカメラを移動
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.3f, delta_time, [&]()
 	{
-		ToSide(delta_time, -500);
+		ToSide(delta_time, -400);
 	});
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		Side(-500);
+		Side(-400);
 
-		if (m_mediator->GetPlayerLookSide())
-		{
-			m_mediator->SetIsGimmickGroundActive(true);
-		}
+		//if (m_mediator->GetPlayerLookSide())
+		//{
+		//	m_mediator->SetIsGimmickGroundActive(true);
+		//}
 	});
 
 	TNL_SEQ_CO_END;
@@ -292,7 +306,7 @@ bool GameCamera::SeqLeftSideToFix(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		Side(-500);
+		Side(-400);
 	});
 
 	// カメラを元の位置に戻す
@@ -308,6 +322,11 @@ bool GameCamera::SeqLeftSideToFix(const float delta_time)
 
 bool GameCamera::SeqFront(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_is_fixed = false;
+	}
+
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
 	{
 		tnl_sequence_.change(&GameCamera::SeqFrontToFix);
@@ -356,6 +375,11 @@ bool GameCamera::SeqFrontToFix(const float delta_time)
 
 bool GameCamera::SeqRotate(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_is_fixed = false;
+	}
+
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
 	{
 		tnl_sequence_.change(&GameCamera::SeqRotateToFix);

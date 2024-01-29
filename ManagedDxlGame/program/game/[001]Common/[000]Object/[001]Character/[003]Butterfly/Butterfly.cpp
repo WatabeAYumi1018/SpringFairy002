@@ -29,7 +29,7 @@ void Butterfly::Update(const float delta_time)
     MV1SetMatrix(m_model_hdl, m_matrix);
 }
 
-void Butterfly::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Butterfly::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 
 	MV1DrawModel(m_model_hdl);

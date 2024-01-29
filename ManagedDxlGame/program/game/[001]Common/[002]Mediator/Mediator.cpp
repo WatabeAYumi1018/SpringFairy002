@@ -15,7 +15,6 @@
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
-//#include "../[000]Object/[002]Item/[000]ItemFunction/ItemDraw.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
@@ -82,14 +81,24 @@ void Mediator::MoveAstarTargetPos(const float delta_time, tnl::Vector3& pos)
 	m_laneMove->MoveAstarTarget(delta_time,pos);
 }
 
-void Mediator::SetPlayerLookSide(bool look_side)
+void Mediator::SetPlayerLookSideRight(bool look_side)
 {
-	m_laneMove->SetLookSide(look_side);
+	m_laneMove->SetLookSideRight(look_side);
 }
 
-bool Mediator::GetPlayerLookSide() const
+bool Mediator::GetPlayerLookSideRight() const
 {
-	return m_laneMove->GetLookSide();
+	return m_laneMove->GetLookSideRight();
+}
+
+void Mediator::SetPlayerLookSideLeft(bool look_side)
+{
+	m_laneMove->SetLookSideLeft(look_side);
+}
+
+bool Mediator::GetPlayerLookSideLeft() const
+{
+	return m_laneMove->GetLookSideLeft();
 }
 
 //const tnl::Vector3& Mediator::GetTargetMoveDirection() const
@@ -743,6 +752,12 @@ void Mediator::IsInCameraFlustum()
 {
 	m_gameCamera->IsInFlustum();
 }
+
+bool Mediator::IsCameraFixed() const
+{
+	return m_gameCamera->IsFixed();
+}
+
 
 
 //const tnl::Vector3& Mediator::GetCameraLeft() const

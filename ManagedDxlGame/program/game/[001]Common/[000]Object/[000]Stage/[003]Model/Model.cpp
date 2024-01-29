@@ -76,7 +76,7 @@ void Model::Update(float delta_time)
 
 }
 
-void Model::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	//m_mediator->ModelGeneDraw(gameCamera);
 

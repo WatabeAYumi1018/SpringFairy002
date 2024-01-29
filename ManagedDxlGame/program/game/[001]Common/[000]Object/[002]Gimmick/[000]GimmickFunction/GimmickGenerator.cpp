@@ -7,40 +7,57 @@
 
 void GimmickGenerator::Initialize()
 {
-	// poolギミックアイテム取得
+    // poolギミックアイテム取得
     //m_gimmicks = m_mediator->GetPoolGimmick();
 }
 
 void GimmickGenerator::Update(const float delta_time)
 {
 
+    if(m_mediator->GetPlayerLookSideRight() 
+       || m_mediator->GetPlayerLookSideLeft())
+    {
+        m_is_ground_active = true;
+    }
+
     //tnl_sequence_.update(delta_time);
 
-    CreateGimmick();
+    int i = 0;
 
-    //CheckGimmicks(delta_time);
+    if (m_mediator->IsCameraFixed())
+    {
+        i = 0;
+    }
+    else
+    {
+        i = 1;
+    }
+    // bool型でtrueかfalseか文字出力
+    DrawStringEx(300, 0, -1, "fixed : %d", i);
+
+    CreateGimmick(delta_time);
 }
 
-void GimmickGenerator::CreateGimmick()
+void GimmickGenerator::CreateGimmick(const float delta_time)
 {
     if (m_is_ground_active)
     {
         //if(e_flower || e_magical)
-        CalcGroundPos(Gimmick::eGimmickType::plant);
+        CalcGroundPos(delta_time, Gimmick::eGimmickType::plant);
 
         //if(e_wood || e_magical)
         //CalcGroundPos(Gimmick::eGimmickType::tree);
     }
-	else
-	{
-		//CalcSkyRandomPos();
-	}
+    else
+    {
+        //CalcSkyRandomPos();
+    }
 }
 
-void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
+void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickType type)
 {
     std::vector<std::shared_ptr<Gimmick>>& gimmicks
-        = m_mediator->GetGimmickTypePools(type);
+                 = m_mediator->GetGimmickTypePools(type);
 
     // ギミックのベクターの中身をランダムに並び替え
     std::shuffle(gimmicks.begin(), gimmicks.end(), std::mt19937(std::random_device()()));
@@ -50,9 +67,17 @@ void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
     forward.normalize();
 
     // forward方向に垂直なベクトルを計算
-    tnl::Vector3 perpendicular
-        = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
-    perpendicular.normalize();
+    tnl::Vector3 perpendicular;
+    
+    if (m_mediator->GetPlayerLookSideRight())
+    {
+        perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
+    }
+    else if (m_mediator->GetPlayerLookSideLeft())
+    {
+       	perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
+    }
+        perpendicular.normalize();
 
     tnl::Vector3 start_offset = perpendicular * 500.0f;
     tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
@@ -61,18 +86,19 @@ void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
     // ギミックを配置
     for (int i = 0; i < gimmicks.size(); ++i)
     {
-        auto& gimmick = gimmicks[i];
+        std::shared_ptr<Gimmick>& gimmick = gimmicks[i];
 
+        // 活性化してなければ配置
         if (!gimmick->GetIsActive())
         {
             // 線分上のこのポイントからforward方向にランダムに配置するための距離
-            float forward_distance 
+            float forward_distance
                 = tnl::GetRandomDistributionFloat(-100.0f, 600.0f);
 
             // ギミックの新しい位置を計算
-            tnl::Vector3 pos 
+            tnl::Vector3 pos
                 = target_pos + perpendicular * forward_distance;
-            
+
             // y座標を地面の高さに設定
             pos.y = Floor::DRAW_DISTANCE;
 
@@ -83,52 +109,56 @@ void GimmickGenerator::CalcGroundPos(Gimmick::eGimmickType type)
             // 次のポイントを設定
             target_pos += forward * 300.0f;
         }
+        else
+        {
+             CheckGimmicks(delta_time, type, gimmick);
+        }
     }
 }
 
 std::shared_ptr<Gimmick> GimmickGenerator::GetInactiveType(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
 {
     // GimmickPool から非アクティブな Gimmick を取得
-    const std::shared_ptr<Gimmick> inactive_gimmick 
-            = m_mediator->GetNotActiveGimmickPool(gimmicks);
+    const std::shared_ptr<Gimmick> inactive_gimmick
+        = m_mediator->GetNotActiveGimmickPool(gimmicks);
 
-    if (inactive_gimmick) 
+    if (inactive_gimmick)
     {
         return inactive_gimmick;
     }
-    
+
     return nullptr;
 }
 
 void GimmickGenerator::GenerateGimmick(const float delta_time)
 {
- //   // 1秒ごとに実行する
- //   static float elapsed_time = 0.0f;
+    //   // 1秒ごとに実行する
+    //   static float elapsed_time = 0.0f;
 
- //   elapsed_time += delta_time;
+    //   elapsed_time += delta_time;
 
- //   if (elapsed_time < 1.0f)
- //   {
-	//	return;
-	//}
+    //   if (elapsed_time < 1.0f)
+    //   {
+       //	return;
+       //}
 
- //   else
- //   {
- //       std::shared_ptr<Gimmick> active_item = m_mediator->GetNotActiveGimmickPool();
+    //   else
+    //   {
+    //       std::shared_ptr<Gimmick> active_item = m_mediator->GetNotActiveGimmickPool();
 
- //       //if (active_item
- //       //    && m_gimmick_lane.s_id == m_mediator->CurrentTargetGimmickLane().s_id)
- //       //{
- //       //    tnl::Vector3 pos = CalcRandomPos();
+    //       //if (active_item
+    //       //    && m_gimmick_lane.s_id == m_mediator->CurrentTargetGimmickLane().s_id)
+    //       //{
+    //       //    tnl::Vector3 pos = CalcRandomPos();
 
- //       //    active_item->SetPos(pos);
+    //       //    active_item->SetPos(pos);
 
- //       //    active_item->SetIsActive(true);
- //       //}
+    //       //    active_item->SetIsActive(true);
+    //       //}
 
- //       elapsed_time = 0.0f;
- //   }
- }
+    //       elapsed_time = 0.0f;
+    //   }
+}
 
 tnl::Vector3 GimmickGenerator::CalcRandomPos()
 {
@@ -138,37 +168,37 @@ tnl::Vector3 GimmickGenerator::CalcRandomPos()
 
     tnl::Vector3 random_pos
         = tnl::Vector3(tnl::GetRandomDistributionFloat(player_pos.x - (offset * 2), player_pos.x - offset)
-                       ,800
-                       ,player_pos.z + offset);
+            , 800
+            , player_pos.z + offset);
 
     return random_pos;
 }
 
 bool GimmickGenerator::SeqFlower(const float delta_time)
 {
- //   // 足元idが1の場合移行
- //   if (m_gimmick_lane.s_id == 1)
- //   {
- //       m_is_flower_active = false;
+    //   // 足元idが1の場合移行
+    //   if (m_gimmick_lane.s_id == 1)
+    //   {
+    //       m_is_flower_active = false;
 
-	//	tnl_sequence_.change(&GimmickGenerator::SeqButterfly);
-	//}
+       //	tnl_sequence_.change(&GimmickGenerator::SeqButterfly);
+       //}
 
-    // 5秒に一度だけ足元判定して処理軽減（アイテム生成はアバウトでokかと）
+       // 5秒に一度だけ足元判定して処理軽減（アイテム生成はアバウトでokかと）
     TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
-    {
-        m_is_flower_active = true;
+        {
+            m_is_sky_flower_active = true;
 
-        //// ターゲットの座標に対応するレーンを取得
-        //m_gimmick_lane = m_mediator->CurrentTargetGimmickLane();
-    });
+            //// ターゲットの座標に対応するレーンを取得
+            //m_gimmick_lane = m_mediator->CurrentTargetGimmickLane();
+        });
 
-	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]() 
-    {
-		GenerateGimmick(delta_time);
-    });
+    TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+        {
+            GenerateGimmick(delta_time);
+        });
 
-	TNL_SEQ_CO_END;
+    TNL_SEQ_CO_END;
 }
 
 bool GimmickGenerator::SeqButterfly(const float delta_time)
@@ -182,28 +212,39 @@ bool GimmickGenerator::SeqButterfly(const float delta_time)
     //}
 
     TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-    {
-        GenerateGimmick(delta_time);
-    });
+        {
+            GenerateGimmick(delta_time);
+        });
 
     TNL_SEQ_CO_END;
 }
 
-//void GimmickGenerator::CheckGimmicks(const float delta_time)
-//{
-//    // アイテムプール内のすべてのアイテムを反復処理
-//    for (std::shared_ptr<Gimmick>& item : m_gimmicks)
-//    {
-//		// アクティブアイテムかつ条件を満たせばリセット
-//        if (item->GetIsActive() 
-//            && item->GetPos().y < m_mediator->GetPlayerPos().y - 750)
-//        {
-//			item->Reset();
-//		}
-//	}
-//}
-//
-//
+void GimmickGenerator::CheckGimmicks(const float delta_time
+                                     , Gimmick::eGimmickType type
+                                     , std::shared_ptr<Gimmick> gimmick)
+{
+    // 活性化していて条件を満たしていればリセット
+    if ((type == Gimmick::eGimmickType::plant
+        && m_mediator->IsCameraFixed())
+        || (type == Gimmick::eGimmickType::tree
+            && m_mediator->IsCameraFixed())
+        || (type == Gimmick::eGimmickType::sky_flower
+            && gimmick->GetPos().y < m_mediator->GetPlayerPos().y - 750))
+    {
+        gimmick->Reset();
+
+        m_is_ground_active = false;
+    }
+}
+
+
+bool GimmickGenerator::GetIsFlowerActive() const { return m_is_sky_flower_active; }
+
+void GimmickGenerator::SetIsGroundActive(bool is_active) { m_is_ground_active = is_active; }
+
+bool GimmickGenerator::GetIsGroundActive() const { return m_is_ground_active; }
+
+
 //void GimmickGenerator::ActiveGimmick()
 //{
 //	// プレイヤーの前方座標を取得

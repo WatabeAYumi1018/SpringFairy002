@@ -29,7 +29,7 @@ void Partner::Update(float delta_time)
 	//}
 }
 
-void Partner::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Partner::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	// ƒ‚ƒfƒ‹•`‰æˆ—
 	m_mediator->DrawPartnerModel();

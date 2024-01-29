@@ -61,7 +61,7 @@ void Effect::Update(float delta_time)
     }
 }
 
-void Effect::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Effect::Draw(std::shared_ptr<dxe::Camera> camera)
 {
     // パーティクルの描画開始
     dxe::Particle::renderBegin();
@@ -69,7 +69,7 @@ void Effect::Draw(std::shared_ptr<GameCamera> gameCamera)
     // パーティクルを描画
     for (std::shared_ptr<dxe::Particle>& particle : m_particles)
     {
-        particle->render(gameCamera);
+        particle->render(camera);
     }
     
     // パーティクルの描画終了

@@ -59,6 +59,8 @@ private:
 	// 回転角度
 	float m_rot_angle = 0.0f;
 
+	bool m_is_fixed = false;
+
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
 	tnl::Vector3 m_offset = { 0, 200, -200 };
@@ -66,7 +68,6 @@ private:
 	tnl::Vector3 m_fix_pos = { 0,0,0 };
 	// 自動経路による回転
 	tnl::Quaternion m_rot;
-
 
 	StagePhase::eStagePhase m_now_stage_phase = StagePhase::eStagePhase::e_flower;
 
@@ -158,7 +159,11 @@ public:
 		up_ = tnl::Vector3::TransformCoord({ 0, 1, 0 }, m_rot);
 		return up_;
 	}
+
 	inline tnl::Vector3 down() { return -up(); }
+
+
+	bool IsFixed() const { return m_is_fixed; }
 
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
