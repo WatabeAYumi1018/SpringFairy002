@@ -28,6 +28,11 @@ private:
 	// 移動回転速度
 	float m_move_rotation = 10;
 
+	// 補間が完了するまでの時間（秒）
+	float m_blend_time = 1.0f; 
+	// 現在の補間時間
+	float m_current_time = 0.0f;
+
 	// 右からのサイド視点(視線先は左)
 	bool m_look_side_right = false;
 	// 左からのサイド視点(視線先は右)

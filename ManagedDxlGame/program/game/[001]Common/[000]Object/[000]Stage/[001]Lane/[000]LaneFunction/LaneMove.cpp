@@ -71,30 +71,40 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 		return;
 	}
 
-	// ゴールまでの経路を取得
-	//std::pair<int, int> current_grid = m_goal_process[m_now_step];
-	//tnl::Vector3 goal_pos 
-	//	= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE) 
-	//	+ tnl::Vector3(Lane::LANE_SIZE , 0, Lane::LANE_SIZE );
-	//// 現在の位置から目標地点への方向ベクトルを計算
-	//m_direction = goal_pos - pos;
-	//// 方向を正規化して単位ベクトルにする
-	//m_direction.normalize();
-	//m_direction = tnl::Vector3::Transform(m_direction, rot_type.getMatrix());
-	// 移動速度に応じて位置を更新
-
 	// 現在のグリッド位置
 	std::pair<int, int> current_grid = m_goal_process[m_now_step];
 	// 次のグリッド位置（ここでは簡単のために次のステップとしていますが、実際には目標に応じて変更する）
 	std::pair<int, int> next_grid = m_goal_process[m_now_step + 1];
 
 	// 両グリッドの中心座標を計算
-	tnl::Vector3 current_grid_pos = wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE);
-	tnl::Vector3 next_grid_pos = wta::ConvertGridIntToFloat(next_grid, Lane::LANE_SIZE);
+	tnl::Vector3 current_grid_pos 
+		= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE);
+	
+	tnl::Vector3 next_grid_pos 
+		= wta::ConvertGridIntToFloat(next_grid, Lane::LANE_SIZE);
 
 	// 次のグリッドへの方向ベクトルを計算
 	m_chara_direction = (next_grid_pos - current_grid_pos);
 	m_chara_direction.normalize();
+
+	// 斜め移動の判定
+	if (current_grid.first != next_grid.first
+		&& current_grid.second != next_grid.second)
+	{
+		// current_timeを更新
+		m_current_time += delta_time;
+		// current_timeがblend_timeを超えないように制限
+		if (m_current_time > m_blend_time) m_current_time = m_blend_time;
+
+		// UniformLerpを使用して現在の方向と目標の方向を補間
+		m_chara_direction 
+			= tnl::Vector3::UniformLerp(m_chara_direction, m_target_direction, m_blend_time, m_current_time);
+	}
+	else
+	{
+		// 斜め移動でない場合はcurrent_timeをリセット
+		m_current_time = 0.0f;
+	}
 
 	// プレイヤーの移動
 	// ここでは、方向ベクトルと移動速度を使って、プレイヤーの新しい位置を計算します。
