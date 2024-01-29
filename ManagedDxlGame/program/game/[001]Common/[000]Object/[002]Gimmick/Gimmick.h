@@ -64,8 +64,6 @@ private:
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	void SetLight();
-
 	int RandomTexture();
 
 	void ChangeTexture();

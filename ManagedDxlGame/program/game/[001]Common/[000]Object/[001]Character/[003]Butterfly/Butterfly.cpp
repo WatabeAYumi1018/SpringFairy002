@@ -4,11 +4,16 @@
 Butterfly::Butterfly()
 {
 	m_pos = { 0 };
+
+	SetLight(m_model_hdl);
 }
 
 Butterfly::~Butterfly()
 {
-
+	// モデルのアンロード
+	MV1DeleteModel(m_model_hdl);
+	// テクスチャのアンロード
+	DeleteGraph(m_texture_hdl);
 }
 
 void Butterfly::Update(const float delta_time)
@@ -26,29 +31,10 @@ void Butterfly::Update(const float delta_time)
 
 void Butterfly::Draw(std::shared_ptr<GameCamera> gameCamera)
 {
-	SetLight();
 
 	MV1DrawModel(m_model_hdl);
 }
 
-void Butterfly::SetLight()
-{
-	//自己発光
-	DxLib::COLOR_F emissive = { 0.5f,0.5f,0.5f,1 };
-	//環境光
-	DxLib::COLOR_F ambient = { 1,1,1,1 };
-	//拡散光
-	DxLib::COLOR_F diffuse = { 0.5f,0.5f,0.5f,1 };
-	//メタリック
-	DxLib::COLOR_F specular = { 0,0,0,1 };
-
-	MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
-	MV1SetMaterialAmbColor(m_model_hdl, 0, ambient);
-	MV1SetMaterialDifColor(m_model_hdl, 0, diffuse);
-	MV1SetMaterialSpcColor(m_model_hdl, 0, specular);
-	// 強いほど光が鋭くなる
-	MV1SetMaterialSpcPower(m_model_hdl, 0, 0.5f);
-}
 
 
 void Butterfly::SetAnim()

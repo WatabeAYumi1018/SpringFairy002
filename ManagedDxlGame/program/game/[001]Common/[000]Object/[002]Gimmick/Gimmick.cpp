@@ -18,7 +18,9 @@ Gimmick::~Gimmick()
 
 void Gimmick::Initialize()
 {
-	SetLight();
+	SetLight(m_gimmick_data.s_model_hdl);
+
+	//SetLight();
 
 	// モデル読み取り
 	//ここですべてのモデルの情報を元に読み込み処理(GetItemLoadInfoById関数でfor分で各モデルを回すべき？)
@@ -74,24 +76,6 @@ void Gimmick::Reset()
 	m_emissive_value = 0.0f;
 	m_time_elapsed = 0.0f;
 	m_emissive = { 0.5f,0.5f,0.5f,1 };
-}
-
-void Gimmick::SetLight()
-{
-	// ライトの設定
-	//環境光
-	DxLib::COLOR_F ambient = { 1,1,1,1 };
-	//拡散光
-	DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
-	//メタリック
-	DxLib::COLOR_F specular = { 0,0,0,1 };
-
-	MV1SetMaterialEmiColor(m_gimmick_data.s_model_hdl, 0, m_emissive);
-	MV1SetMaterialAmbColor(m_gimmick_data.s_model_hdl, 0, ambient);
-	MV1SetMaterialDifColor(m_gimmick_data.s_model_hdl, 0, diffuse);
-	MV1SetMaterialSpcColor(m_gimmick_data.s_model_hdl, 0, specular);
-	// 強いほど光が鋭くなる
-	MV1SetMaterialSpcPower(m_gimmick_data.s_model_hdl, 0, 0.5f);
 }
 
 int Gimmick::RandomTexture()

@@ -11,6 +11,8 @@ Model::Model()//, eWorldType world_type)
 	LoadTexture();
 
 	SetTextureIndex();
+
+	SetLight(m_model_hdl);
 }
 
 //Model::Model(int model_hdl, int id)

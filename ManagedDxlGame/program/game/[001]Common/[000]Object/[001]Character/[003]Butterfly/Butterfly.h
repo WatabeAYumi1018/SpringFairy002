@@ -30,8 +30,6 @@ private:
 
 	float m_anim_speed = 0.0f;
 
-	void SetLight();
-
 	void SetAnim();
 
 	void AnimMove(const float delta_time);

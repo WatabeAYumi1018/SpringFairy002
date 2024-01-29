@@ -19,6 +19,8 @@ PlayerDraw::PlayerDraw()
 	m_anim_bone_dance_hdl = MV1LoadModel("model/fairy/dance_new.mv1");
 	// Ş¿‚Ìw’è‚Í‚È‚¢‚½‚ßˆø”‚Í0
 	MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_hdl, FALSE);
+
+	SetLight();
 }
 
 PlayerDraw::~PlayerDraw()
@@ -40,8 +42,6 @@ void PlayerDraw::Update(const float delta_time)
 
 void PlayerDraw::Draw()
 {
-	SetLight();
-
 	MV1DrawModel(m_model_hdl);
 }
 

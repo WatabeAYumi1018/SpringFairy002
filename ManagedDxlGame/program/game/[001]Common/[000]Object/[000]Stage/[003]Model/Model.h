@@ -98,7 +98,7 @@ private:
 	void SetTextureIndex();
 
 	// ƒ‰ƒCƒg‚Ìİ’è
-	void SetLight(int model_hdl);
+	void SetLight(int model_hdl) override;
 
 	//void GenerateMeshPos(int x, int z, float spacing);
 

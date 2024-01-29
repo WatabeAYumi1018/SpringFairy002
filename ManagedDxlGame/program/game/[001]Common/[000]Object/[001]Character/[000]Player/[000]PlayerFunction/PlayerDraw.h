@@ -68,6 +68,7 @@ private:
 
 	// ライトの設定
 	void SetLight();
+	
 	// アニメーションのブレンド処理
 	void AnimBlend(const float delta_time, int current_anim_index, int next_anim_index);
 

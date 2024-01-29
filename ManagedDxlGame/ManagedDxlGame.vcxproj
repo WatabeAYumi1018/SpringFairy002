@@ -188,6 +188,7 @@
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\[000]GameEngine\[001]Scene\SceneManager.cpp" />
     <ClCompile Include="program\game\[000]GameEngine\[003]Transform\Transform.cpp" />
+    <ClCompile Include="program\game\[001]Common\[000]Object\Object.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneLoad.cpp" />

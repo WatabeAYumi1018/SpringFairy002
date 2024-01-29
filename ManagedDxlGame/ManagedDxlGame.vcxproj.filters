@@ -467,6 +467,9 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[006]Title\Tile.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[006]Title</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\Object.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
