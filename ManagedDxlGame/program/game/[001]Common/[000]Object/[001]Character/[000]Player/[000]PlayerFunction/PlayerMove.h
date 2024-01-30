@@ -42,12 +42,15 @@ private:
 	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(PlayerMove, &PlayerMove::SeqFly);
+	TNL_CO_SEQUENCE(PlayerMove, &PlayerMove::SeqTrigger);
 
 
 	std::shared_ptr<wta::Astar<Lane::sLane>> m_astar = nullptr;
 	// プレイヤーメディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
+
+
+	void MoveMatrix(float delta_time);
 
 	// 空中移動でのモデル回転定義
 	void ControlMoveMatrix(float delta_time);
@@ -61,9 +64,14 @@ private:
 	//// 地上でのモデル回転定義
 	//void GroundMoveMatrix(float delta_time);
 
-
-	// 空中
-	bool SeqFly(const float delta_time);
+	// 通常の移動処理
+	bool SeqTrigger(const float delta_time);
+	// 停止処理
+	bool SeqStop(const float delta_time);
+	// 上昇処理
+	bool SeqUpMove(const float delta_time);
+	// 下降処理
+	bool SeqDownMove(const float delta_time);
 	//// 地面
 	//bool SeqGround(const float delta_time);
 	// 宙返りアクション

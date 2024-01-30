@@ -7,6 +7,9 @@ void PlayerMove::Update(float delta_time)
 {
 	tnl_sequence_.update(delta_time);
 
+	m_mediator->SetPlayerPos(m_pos);
+	m_mediator->SetPlayerRot(m_rot);
+
 	//GameCamera::eCameraType camera_type = GameCamera::eCameraType::e_none;
 
 	//if (camera_type == GameCamera::eCameraType::e_side)
@@ -95,6 +98,21 @@ bool PlayerMove::PushButton()
 	}
 
 	return false;
+}
+
+void PlayerMove::MoveMatrix(float delta_time)
+{
+	m_pos = m_mediator->GetPlayerPos();
+	m_rot = m_mediator->GetPlayerRot();
+
+	// 自動経路による移動と回転の更新
+	m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
+	m_mediator->MoveAstarCharaUpdateRot(delta_time, m_pos, m_rot);
+
+	if (PushButton())
+	{
+		ControlMoveMatrix(delta_time);
+	}
 }
 
 void PlayerMove::ControlMoveMatrix(float delta_time)
@@ -208,7 +226,7 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 	//m_mediator->SetPlayerRot(m_rot);
 }
 
-bool PlayerMove::SeqFly(const float delta_time)
+bool PlayerMove::SeqTrigger(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
@@ -225,24 +243,66 @@ bool PlayerMove::SeqFly(const float delta_time)
 	{
 		tnl_sequence_.change(&PlayerMove::SeqSaltoAction);
 	}
+	
+	if (m_mediator->GetEventLane().s_id == 4)
+	{
+		tnl_sequence_.change(&PlayerMove::SeqStop);
+	}
 
-	// 押すまでループ
+	if (m_mediator->GetEventLane().s_id == 7)
+	{
+		tnl_sequence_.change(&PlayerMove::SeqDownMove);
+	}
+
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		m_pos = m_mediator->GetPlayerPos();
-		m_rot = m_mediator->GetPlayerRot();
+		MoveMatrix(delta_time);
+	});
 
-		// 自動経路による移動と回転の更新
-		m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
-		m_mediator->MoveAstarCharaUpdateRot(delta_time, m_pos, m_rot);
+	TNL_SEQ_CO_END;
+}
 
-		if (PushButton())
-		{
-			ControlMoveMatrix(delta_time);
-		}
+bool PlayerMove::SeqStop(const float delta_time)
+{
+	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
+	{
+		// 数秒間座標更新を停止
+	});
 
-		m_mediator->SetPlayerPos(m_pos);
-		m_mediator->SetPlayerRot(m_rot);
+	tnl_sequence_.change(&PlayerMove::SeqUpMove);
+
+	TNL_SEQ_CO_END;
+}
+
+bool PlayerMove::SeqUpMove(const float delta_time)
+{
+	//if(既定座標へ移動完了)
+	//{
+	//	tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
+	//}
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+	{
+		MoveMatrix(delta_time);
+		// y座標を上昇
+		m_pos.y += delta_time * 10;
+	});
+
+	TNL_SEQ_CO_END;
+}
+
+bool PlayerMove::SeqDownMove(const float delta_time)
+{
+	//if(既定座標へ移動完了)
+	//{
+	//	tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
+	//}
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+	{
+		MoveMatrix(delta_time);
+		// y座標を下降
+		m_pos.y -= delta_time * 10;
 	});
 
 	TNL_SEQ_CO_END;
@@ -266,7 +326,7 @@ bool PlayerMove::SeqSaltoAction(const float delta_time)
 
 	m_salto_elapsed_time = 0;
 
-	tnl_sequence_.change(&PlayerMove::SeqFly);
+	tnl_sequence_.change(&PlayerMove::SeqTrigger);
 
 	TNL_SEQ_CO_END;
 }

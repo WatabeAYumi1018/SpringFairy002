@@ -512,6 +512,21 @@ const Lane::sLaneEvent& Mediator::GetEventLane() const
 	return m_cameraTargetPlayer->GetEvent();
 }
 
+bool Mediator::GetIsTargetSpeedUp() const
+{
+	return m_cameraTargetPlayer->GetIsSpeedUp();
+}
+
+bool Mediator::GetIsTargetMoveUp() const
+{
+	return m_cameraTargetPlayer->GetIsMoveUp();
+}
+
+bool Mediator::GetIsTargetMoveDown() const
+{
+	return m_cameraTargetPlayer->GetIsMoveDown();
+}
+
 
 //--------------------------//
 

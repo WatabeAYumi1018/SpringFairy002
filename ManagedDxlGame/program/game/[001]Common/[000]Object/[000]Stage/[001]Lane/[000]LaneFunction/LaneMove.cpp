@@ -46,7 +46,7 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 	m_target_direction = current_center_pos - pos;
 	// 中心座標までの距離を計算
 	float distance_to_center = abs(m_target_direction.length());
-
+	// 中心座標までの距離が一定以下になったら
 	if (distance_to_center <= Lane::LANE_SIZE / 100)
 	{
 		// 次のグリッドに進む
@@ -56,8 +56,17 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 	{
 		// 単位ベクトルに変換
 		m_target_direction.normalize();
-		// 現在のグリッドの中心へ向かって移動
-		pos += m_target_direction * m_move_speed * delta_time;
+
+		if (m_mediator->GetIsTargetMoveUp())
+		{
+			// 移動速度を上げる
+			pos += m_target_direction * m_move_speed * delta_time * 5;
+		}
+		else
+		{
+			// 現在のグリッドの中心へ向かって移動
+			pos += m_target_direction * m_move_speed * delta_time;
+		}
 	}
 }
 
@@ -106,10 +115,17 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 		m_current_time = 0.0f;
 	}
 
-	// プレイヤーの移動
-	// ここでは、方向ベクトルと移動速度を使って、プレイヤーの新しい位置を計算します。
-	pos += m_chara_direction * m_move_speed * delta_time;
-
+	if (m_mediator->GetIsTargetMoveUp())
+	{
+		// 移動速度を上げる
+		pos += m_chara_direction * m_move_speed * delta_time * 5;
+	}
+	else 
+	{
+		// プレイヤーの移動
+		// ここでは、方向ベクトルと移動速度を使って、プレイヤーの新しい位置を計算します。
+		pos += m_chara_direction * m_move_speed * delta_time;
+	}
 	//// 必要に応じて、プレイヤーの位置がカメラの視野内に収まるように調整します。
 	//AdjustPlayerPositionWithinCameraView(pos, cameraViewSize);
 }

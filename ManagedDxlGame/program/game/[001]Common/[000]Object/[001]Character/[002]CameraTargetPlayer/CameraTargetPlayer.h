@@ -20,6 +20,20 @@ private:
 
 	Lane::sLaneEvent m_event;
 
+	// コルーチンシーケンス
+	TNL_CO_SEQUENCE(CameraTargetPlayer, &CameraTargetPlayer::SeqTrigger);
+
+	void MoveMatrix(const float delta_time);
+
+	// 通常の移動処理
+	bool SeqTrigger(const float delta_time);
+	// 停止処理
+	bool SeqStop(const float delta_time);
+	// 上昇処理
+	bool SeqUpMove(const float delta_time);
+	// 下降処理
+	bool SeqDownMove(const float delta_time);
+
 public:
 
 	// 初期化

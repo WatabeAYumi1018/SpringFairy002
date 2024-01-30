@@ -579,6 +579,21 @@ public:
 	// 参照先 ... イベントレーンが必要な全クラス
 	const Lane::sLaneEvent& GetEventLane() const;
 
+	// ターゲットのスピードアップフラグ
+	// 参照元 ... Character::m_is_speed_up
+	// 参照先 ... LaneMove::自動移動に関連するクラス
+	bool GetIsTargetSpeedUp() const;
+
+	// ターゲットの上昇移動フラグ
+	// 参照元 ... Character::m_is_move_up
+	// 参照先 ... LaneMove::自動移動に関連するクラス
+	bool GetIsTargetMoveUp() const;
+
+	// ターゲットの下降移動フラグ
+	// 参照元 ... Character::m_is_move_down
+	// 参照先 ... LaneMove::自動移動に関連するクラス
+	bool GetIsTargetMoveDown() const;
+
 
 	//--------------------------//
 
