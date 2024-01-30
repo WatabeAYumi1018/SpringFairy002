@@ -1,28 +1,30 @@
 #include "Mediator.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
+#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
+#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
+//#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelGenerator.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerDraw.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerSkill.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
+#include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayer/CinemaPlayer.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
-#include "../[000]Object/[002]Item/[000]ItemFunction/ItemLoad.h"
-//#include "../[000]Object/[002]Item/[000]ItemFunction/ItemDraw.h"
-#include "../[000]Object/[002]Item/[000]ItemFunction/ItemGenerator.h"
-#include "../[000]Object/[002]Item/[000]ItemFunction/ItemPool.h"
+#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
+#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
+#include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
-#include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextLoad.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
-#include "../[001]Camera/[000]CameraFunction/CameraFlustum.h"
+#include "../[001]Camera/[001]CinemaCamera/CinemaCamera.h"
 
 
 //---------StagePhase---------//
@@ -51,10 +53,10 @@ int Mediator::GetStageLaneHeight() const
 	return m_laneLoad->GetLaneHeight();
 }
 
-//const std::vector<Lane::sLane>& Mediator::GetStageLaneEvent() const
-//{
-//	return m_laneLoad->GetLaneEvent();
-//}
+const std::vector<Lane::sLaneEvent>& Mediator::GetStageLaneEvent() const
+{
+	return m_laneLoad->GetLaneEvent();
+}
 
 const std::vector<Lane::sLane>& Mediator::GetStageLane()const
 {
@@ -63,11 +65,17 @@ const std::vector<Lane::sLane>& Mediator::GetStageLane()const
 
 // LaneMove
 
-void Mediator::MoveAstarCharaMatrix(const float delta_time
-								, tnl::Vector3& pos
-								, tnl::Quaternion& rot)
+void Mediator::MoveAstarCharaUpdatePos(const float delta_time
+										, tnl::Vector3& pos)
 {
-	m_laneMove->MoveAstarChara(delta_time,pos,rot);
+	m_laneMove->MoveAstarCharaPos(delta_time,pos);
+}
+
+void Mediator::MoveAstarCharaUpdateRot(const float delta_time
+										, tnl::Vector3& pos
+										, tnl::Quaternion& rot)
+{
+	m_laneMove->MoveAstarCharaRot(delta_time, pos,rot);
 }
 
 void Mediator::MoveAstarTargetPos(const float delta_time, tnl::Vector3& pos)
@@ -80,10 +88,42 @@ void Mediator::SetPlayerLookSideRight(bool look_side)
 	m_laneMove->SetLookSideRight(look_side);
 }
 
+bool Mediator::GetPlayerLookSideRight() const
+{
+	return m_laneMove->GetLookSideRight();
+}
+
 void Mediator::SetPlayerLookSideLeft(bool look_side)
 {
 	m_laneMove->SetLookSideLeft(look_side);
 }
+
+bool Mediator::GetPlayerLookSideLeft() const
+{
+	return m_laneMove->GetLookSideLeft();
+}
+
+const tnl::Vector3& Mediator::GetCharaMoveDirection() const
+{
+	return m_laneMove->GetCharaDirection();
+}
+
+
+//const tnl::Vector3& Mediator::GetTargetMoveDirection() const
+//{
+//	return m_laneMove->GetTargetDirection();
+//}
+//
+//const std::vector<std::pair<int, int>>& Mediator::GetGoalMoveProcess() const
+//{
+//	return m_laneMove->GetGoalProcess();
+//}
+
+
+//void Mediator::SetPlayerLookSideLeft(bool look_side)
+//{
+//	m_laneMove->SetLookSideLeft(look_side);
+//}
 
 //bool Mediator::NextLaneMove()
 //{
@@ -112,6 +152,112 @@ void Mediator::SetPlayerLookSideLeft(bool look_side)
 //}
 
 //---------------------------//
+
+
+//----------Model-----------//
+
+// model
+
+//const tnl::Vector3& Mediator::GetModelPos() const
+//{
+//	return m_model->GetPos();
+//}
+//
+//Model::eWorldType Mediator::GetWorldModelType() const
+//{
+//	return m_model->GetWorldType();
+//}
+
+//void Mediator::SetIsModelAliveActive(bool is_active)
+//{
+//	m_model->SetIsAliveActive(is_active);
+//}
+
+//int Mediator::GetIsModelAliveActive() const
+//{
+//	return m_model->GetIsAliveActive();
+//}
+//
+//void Mediator::ToggleModelActive(bool is_world_active)
+//{
+//	m_model->ToggleActive(is_world_active);
+//}
+
+
+// modelLoad
+
+int Mediator::GetStageModelTotalNum() const
+{
+	return m_modelLoad->GetModelTotalNum();
+}
+
+//int Mediator::GetStageModelVecHeight() const
+//{
+//	return m_modelLoad->GetModelVecHeight();
+//}
+//
+//int Mediator::GetStageModelVecWidth() const
+//{
+//	return m_modelLoad->GetModelVecWidth();
+//}
+
+
+//const std::vector<Model::sStageModel>& Mediator::GetStageTreeVector() const
+//{
+//	return m_modelLoad->GetTreeVector();
+//}
+//
+//const std::vector<Model::sStageModel>& Mediator::GetStageGrassVector() const
+//{
+//	return m_modelLoad->GetGrassVector();
+//}
+
+const std::vector<Model::sModelInfo>& Mediator::GetStageModelTypeInfo() const
+{
+	return m_modelLoad ->GetModelTypeInfo();
+}
+
+
+//Model::sStageModelType Mediator::GetStageModelInfoById(int id)
+//{
+//	return m_modelLoad -> GetModelInfoById(id);
+//}
+
+// modelPool
+
+//void Mediator::IsActivatePoolAllModels(Model::eWorldType world_type)
+//{
+//	m_modelPool->IsActivateAllModels(world_type);
+//}
+
+std::vector<std::shared_ptr<Model>>& Mediator::GetPoolModels() const
+{
+	return m_modelPool->GetModels();
+}
+
+//std::shared_ptr<Model> Mediator::GetPoolRandomModel(Model::eWorldType world_type)
+//{
+//	return m_modelPool->GetRandomModel(world_type);
+//}
+
+// ModelGenerator
+
+//void Mediator::ModelGeneInitialize()
+//{
+//	m_modelGenerator->Initialize();
+//}
+//
+//void Mediator::ModelGeneUpdate(const float delta_time)
+//{
+//	m_modelGenerator->Update(delta_time);
+//}
+//
+//void Mediator::ModelGeneDraw(std::shared_ptr<GameCamera> gameCamera)
+//{
+//	m_modelGenerator->Draw(gameCamera);
+//}
+
+//--------------------------//
 
 
 //----------Player----------//
@@ -247,6 +393,22 @@ bool Mediator::GetIsPlayerAttack() const
 	return m_playerDraw->GetIsAttack();
 }
 
+void Mediator::SetIsPlayerDance(bool is_dance)
+{
+	m_playerDraw->SetIsDance(is_dance);
+}
+
+bool Mediator::GetIsPlayerDance() const
+{
+	return m_playerDraw->GetIsDance();
+}
+
+void Mediator::UpdateCinemaCameraPlayer(const float delta_time)
+{
+	m_playerDraw->UpdateCinemaCamera(delta_time);
+}
+
+
 
 // playerSkill
 
@@ -268,6 +430,14 @@ void Mediator::UpdateCollisionCheck()
 {
 	m_playerCollision->CollisionCheck();
 }
+
+// CinemaPlayer
+
+const tnl::Vector3& Mediator::GetCinemaPlayerPos() const
+{
+	return m_cinemaPlayer->GetPos();
+}
+
 
 //--------------------------//
 
@@ -301,10 +471,14 @@ void Mediator::SetPartnerScale(tnl::Vector3& scale)
 	m_partner->SetScale(scale);
 }
 
-
 const float Mediator::GetPartnerCollisionSize() const
 {
 	return m_partner->GetCollisionSize();
+}
+
+GameCamera::sCamera Mediator::CurrentCameraLane()
+{
+	return m_partner->CurrentCamera();
 }
 
 
@@ -354,158 +528,131 @@ const GameCamera::sCameraInfo& Mediator::GetTargetCameraInfo() const
 	return m_cameraTargetPlayer->GetCameraInfo();
 }
 
-Item::sItem Mediator::CurrentTargetItemLane()
-{
-	return m_partner->CurrentItemLane();
-}
-
-//--------------------------//
-
-
-//----------Model-----------//
-
-// model
-
-const tnl::Vector3& Mediator::GetModelPos() const
-{
-	return m_model->GetPos();
-}
-//
-//Model::eWorldType Mediator::GetWorldModelType() const
+//Gimmick::sGimmick Mediator::CurrentTargetGimmickLane()
 //{
-//	return m_model->GetWorldType();
+//	return m_cameraTargetPlayer->CurrentGimmickLane();
 //}
 
-//void Mediator::SetIsModelAliveActive(bool is_active)
-//{
-//	m_model->SetIsAliveActive(is_active);
-//}
-
-//int Mediator::GetIsModelAliveActive() const
-//{
-//	return m_model->GetIsAliveActive();
-//}
-//
-//void Mediator::ToggleModelActive(bool is_world_active)
-//{
-//	m_model->ToggleActive(is_world_active);
-//}
-
-
-// modelLoad
-
-int Mediator::GetStageModelTotalNum() const
+const Lane::sLaneEvent& Mediator::GetEventLane() const
 {
-	return m_modelLoad->GetModelTotalNum();
+	return m_cameraTargetPlayer->GetEvent();
 }
 
-int Mediator::GetStageModelVecHeight() const
+bool Mediator::GetIsTargetSpeedUp() const
 {
-	return m_modelLoad->GetModelVecHeight();
+	return m_cameraTargetPlayer->GetIsSpeedUp();
 }
 
-int Mediator::GetStageModelVecWidth() const
+bool Mediator::GetIsTargetMoveUp() const
 {
-	return m_modelLoad->GetModelVecWidth();
+	return m_cameraTargetPlayer->GetIsMoveUp();
 }
 
-
-const std::vector<Model::sStageModel>& Mediator::GetStageTreeVector() const
+bool Mediator::GetIsTargetMoveDown() const
 {
-	return m_modelLoad->GetTreeVector();
+	return m_cameraTargetPlayer->GetIsMoveDown();
 }
-
-const std::vector<Model::sStageModel>& Mediator::GetStageGrassVector() const
-{
-	return m_modelLoad->GetGrassVector();
-}
-
-const std::vector<Model::sStageModelType>& Mediator::GetStageModelTypeInfo() const
-{
-	return m_modelLoad ->GetModelTypeInfo();
-}
-
-Model::sStageModelType Mediator::GetStageModelInfoById(int id)
-{
-	return m_modelLoad -> GetModelInfoById(id);
-}
-
-// modelPool
-
-//void Mediator::IsActivatePoolAllModels(Model::eWorldType world_type)
-//{
-//	m_modelPool->IsActivateAllModels(world_type);
-//}
-
-std::vector<std::shared_ptr<Model>>& Mediator::GetPoolModels() const
-{
-	return m_modelPool->GetModels();
-}
-
-//std::shared_ptr<Model> Mediator::GetPoolRandomModel(Model::eWorldType world_type)
-//{
-//	return m_modelPool->GetRandomModel(world_type);
-//}
 
 
 //--------------------------//
 
 
-//-----------ltem-----------//
 
-// Item
+//-----------Gimmick-----------//
 
-void Mediator::SetItemIsActive(bool is_active)
+// Gimmick
+
+void Mediator::SetGimmickIsActive(bool is_active)
 {
-	m_item->SetIsActive(is_active);
+	m_gimmick->SetIsActive(is_active);
 }
 
-bool Mediator::GetItemIsHit() const
+bool Mediator::GetGimmickIsHit() const
 {
-	return m_item->GetIsHit();
+	return m_gimmick->GetIsHit();
 }
 
-// ItemLoad
 
-int Mediator::GetItemIdNum() const
-{
-	return m_itemLoad->GetIdNum();
-}
+// GimmickLoad
 
-const std::vector<Item::sItem>& Mediator::GetItemLoadLane() const
+//
+const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmicksTypeInfo(Gimmick::eGimmickType type) const
 {
-	return m_itemLoad->GetItemLane();
+	return m_gimmickLoad->GetGimmicksType(type);
 }
+//
+//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTrees() const
+//{
+//	return m_gimmickLoad->GetTrees();
+//}
+//
+//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickSkyFlowers() const
+//{
+//	return m_gimmickLoad->GetSkyFlowers();
+//}
+//
+//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickButterflys() const
+//{
+//	return m_gimmickLoad->GetButterflys();
+//}
 
-const std::vector<Item::sItemType>& Mediator::GetItemTypeInfo() const
-{
-	return m_itemLoad->GetItemTypeInfo();
-}
+//int Mediator::GetGimmickIdNum() const
+//{
+//	return m_gimmickLoad->GetIdNum();
+//}
+
+//const std::vector<Gimmick::sGimmick>& Mediator::GetGimmickLoadLane() const
+//{
+//	return m_gimmickLoad->GetGimmickLane();
+//}
+
+//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTypeInfo() const
+//{
+//	return m_gimmickLoad->GetGimmickTypeInfo();
+//}
 	
-Item::sItemType Mediator::GetItemLoadInfoById(int id)
+//Gimmick::sGimmickTypeInfo Mediator::GetGimmickLoadInfoById(int id,std::vector<Gimmick::sGimmickTypeInfo>& gimmick_type)
+//{
+//	return m_gimmickLoad->GetGimmickInfoById(id, gimmick_type);
+//}
+
+
+// GimmickPool
+
+std::shared_ptr<Gimmick> Mediator::GetNotActiveGimmickPool(std::vector<std::shared_ptr<Gimmick>>& gimmicks) 
 {
-	return m_itemLoad->GetItemInfoById(id);
+	return m_gimmickPool->GetNotActiveGimmick(gimmicks);
 }
 
-// ItemPool
-
-std::shared_ptr<Item> Mediator::GetNotActiveItemPool()
+std::vector<std::shared_ptr<Gimmick>>& Mediator::GetGimmickTypePools(Gimmick::eGimmickType type)
 {
-	return m_itemPool->GetNotActiveItem();
-}
-
-const std::vector<std::shared_ptr<Item>>& Mediator::GetPoolItems() const
-{
-	return m_itemPool->GetItems();
+	return m_gimmickPool->GetGimmickPools(type);
 }
 
 
-// ItemGenerator
+//const std::vector<std::shared_ptr<Gimmick>>& Mediator::GetPoolGimmick() const
+//{
+//	return m_gimmickPool->GetGimmickPlants();
+//}
 
-bool Mediator::GetIsItemFlowerActive() const
+
+// GimmickGenerator
+
+bool Mediator::GetIsGimmickFlowerActive() const
 {
-	return m_itemGenerator->GetIsFlowerActive();
+	return m_gimmickGenerator->GetIsFlowerActive();
 }
+
+void Mediator::SetIsGimmickGroundActive(bool is_active)
+{
+	m_gimmickGenerator->SetIsGroundActive(is_active);
+}
+
+bool Mediator::GetIsGimmickGroundActive() const
+{
+	return m_gimmickGenerator->GetIsGroundActive();
+}
+
 
 
 //void Mediator::SetItemIsCreate(bool is_create)
@@ -533,13 +680,40 @@ const std::vector<Effect::sEffectType>& Mediator::GetEffectLoadInfo() const
 //--------------------------//
 
 
-
-
 //------------Text-----------//
+
+// TextLoad
+
+//const std::vector<std::string>& Mediator::GetTextsLoadLane()
+//{
+//	return m_textLoad->GetTextsLane();
+//}
+
+//const std::vector<Text::sTextData>& Mediator::GetTextsLoadLane()
+//{
+//	return m_textLoad->GetTextsLane();
+//}
+
+void Mediator::GetTextsLoadLane()
+{
+	m_textLoad->GetTextsLane();
+}
+
+
+const std::vector<Text::sTextData>& Mediator::GetTextsLoadForLane() const
+{
+	return m_textLoad->GetTextsForLane();
+}
+
+//const std::vector<std::string>& Mediator::GetTextsLoadMessageForLane() const
+//{
+//	return m_textLoad->GetTextsMessageForLane();
+//}
+
 
 // TextDraw
 
-void Mediator::UpdateTextMessage(const float delta_time)
+void Mediator::UpdateText(const float delta_time)
 {
 	m_textDraw->Update(delta_time);
 }
@@ -548,6 +722,22 @@ void Mediator::DrawTextMessage()
 {
 	m_textDraw->Draw();
 }
+
+void Mediator::SetIsTextDrawEnd(bool is_end)
+{
+	m_textDraw->SetIsEnd(is_end);
+}
+
+
+//void Mediator::SetTextDrawLine(const std::vector<std::string>& text_lines)
+//{
+//	m_textDraw->ResetText(text_lines);
+//}
+
+//bool Mediator::IsTextDrawEnd()
+//{
+//	return m_textDraw->IsTextEnd();
+//}
 
 //---------------------------//
 
@@ -585,6 +775,11 @@ void Mediator::DrawCharacterGraph(int graph_id)
 
 // GameCamera
 
+void Mediator::SetCameraPos(tnl::Vector3& pos)
+{
+	m_gameCamera->SetPos(pos);
+}
+
 const tnl::Vector3& Mediator::GetCameraPos() const
 {
 	return m_gameCamera->GetPos();
@@ -599,6 +794,18 @@ const tnl::Vector3& Mediator::GetCameraRight() const
 {
 	return m_gameCamera->right();
 }
+
+void Mediator::IsInCameraFlustum()
+{
+	m_gameCamera->IsInFlustum();
+}
+
+bool Mediator::IsCameraFixed() const
+{
+	return m_gameCamera->IsFixed();
+}
+
+
 
 //const tnl::Vector3& Mediator::GetCameraLeft() const
 //{
@@ -625,10 +832,10 @@ const tnl::Vector3& Mediator::GetCameraRight() const
 //	return m_gameCamera->CurrentCameraType();
 //}
 
-tnl::Vector3 Mediator::GetFlustumNormal(dxe::Camera::eFlustum flusum)
-{
-	return m_gameCamera->getFlustumNormal(flusum);
-}
+//tnl::Vector3 Mediator::GetFlustumNormal(dxe::Camera::eFlustum flusum)
+//{
+//	return m_gameCamera->getFlustumNormal(flusum);
+//}
 
 // CameraLoad
 
@@ -652,13 +859,6 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 	return m_cameraLoad->GetCameraInfoById(id);
 }
 
-// CameraFlustum
-
-void Mediator::IsIntersectCameraFlustum(const float delta_time)
-{
-	m_cameraFlustum->IsIntersectFlustum(delta_time);
-}
-
 
 //void Mediator::UpdateCameraFrustum()
 //{
@@ -674,6 +874,18 @@ void Mediator::IsIntersectCameraFlustum(const float delta_time)
 //{
 //	m_cameraFrustum->CollisionCheck();
 //}
+
+// CinemaCamera
+
+void Mediator::SetIsCinemaCameraActive(bool is_active)
+{
+	m_cinemaCamera->SetIsActive(is_active);
+}
+
+bool Mediator::GetIsCinemaCameraActive() const
+{
+	return m_cinemaCamera->GetIsActive();
+}
 
 //---------------------------//
 

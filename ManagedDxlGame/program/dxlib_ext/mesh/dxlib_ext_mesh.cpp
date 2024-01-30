@@ -846,8 +846,7 @@ namespace dxe {
 		Shared<Mesh> new_mesh = Shared<Mesh>(new Mesh());
 		new_mesh->mesh_format_ = Mesh::eMeshFormat::MESH_FMT_MV;
 
-		std::string x_format = mesh->getXFormatString();		
-
+		std::string x_format = mesh->getXFormatString();
 		new_mesh->mv_hdl_ = MV1LoadModelFromMem(x_format.data(), (int)x_format.size(), FileReadFunc, FileReleaseFunc, NULL);
 
 		DxLib::VECTOR dxv = MV1GetMeshMaxPosition(new_mesh->mv_hdl_, 0);

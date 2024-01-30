@@ -9,6 +9,9 @@ GameCamera::GameCamera()
 
 void GameCamera::update(const float delta_time)
 {
+	//if (!m_mediator->GetIsCinemaCameraActive())
+	//{
+	//
 	//// カメラの姿勢を更新
 	//target_ = pos_ + tnl::Vector3::TransformCoord({ 0, 0, 1 }, m_rot);
 	//// カメラのアッパーベクトルを更新
@@ -17,31 +20,43 @@ void GameCamera::update(const float delta_time)
 	dxe::Camera::update(delta_time);
 
 	tnl_sequence_.update(delta_time);
+//	IsInFlustum();
 
-	//for (int i = 0; i < 6; ++i)
-	//{
-	//	tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
-	//	float size = m_mediator->GetPlayerCollisionSize();
-
-	//	tnl::Vector3 v = getFlustumNormal(static_cast<dxe::Camera::eFlustum>(i));
-	//	tnl::Vector3 np = tnl::GetNearestPointPlane(player_pos, v, pos_);
-	//	float length = (np - player_pos).length();
-	//	if (length < size)
-	//	{
-	//		tnl::Vector3 pos = np + (v * size);
-	//		m_mediator->SetPlayerPos(pos);
-	//	}
-	//}
-
-
-	//m_mediator->IsIntersectCameraFlustum(delta_time);
-	
-	//m_mediator->UpdateCameraFrustum();
 	//
 	//// 座標デバッグ用
 	//DrawStringEx(0, 100, -1, "CameraPos_x:%f", pos_.x);
 	//DrawStringEx(0, 120, -1, "CameraPos_y:%f", pos_.y);
 	//DrawStringEx(0, 140, -1, "CameraPos_z:%f", pos_.z);
+
+	//}
+}
+
+void GameCamera::IsInFlustum()
+{
+	int max = static_cast<int>(eFlustum::Max);
+
+	for (int i = 0; i < max; ++i)
+	{
+		tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
+				
+		float size = m_mediator->GetPlayerCollisionSize();
+
+		tnl::Vector3 v 
+			= getFlustumNormal(static_cast<dxe::Camera::eFlustum>(i));
+
+		
+		tnl::Vector3 np 
+			= tnl::GetNearestPointPlane(player_pos, v, pos_);
+		
+		float length = (np - player_pos).length();
+
+		if (length < size)
+		{
+			tnl::Vector3 pos = np + (v * size );
+			
+			m_mediator->SetPlayerPos(pos);
+		}
+	}
 }
 
 tnl::Vector3 GameCamera::Lerp(const tnl::Vector3& start
@@ -172,12 +187,21 @@ bool GameCamera::SeqFixed(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
+		m_is_fixed = true;
+
 		m_mediator->SetPlayerLookSideRight(false);
+
 		m_mediator->SetPlayerLookSideLeft(false);
+
+		tnl::Vector3 pos = m_mediator->GetCameraTargetPlayerPos();
+
+		m_mediator->SetPlayerPos(pos);
 	}
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))
 	{
+		m_is_fixed = false;
+
 		tnl_sequence_.change(&GameCamera::SeqControl);
 	}
 
@@ -193,9 +217,19 @@ bool GameCamera::SeqFixed(const float delta_time)
 
 bool GameCamera::SeqRightSide(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_is_fixed = false;
+	}
+
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
 	{
 		tnl_sequence_.change(&GameCamera::SeqRightSideToFix);
+	}
+
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))
+	{
+		tnl_sequence_.change(&GameCamera::SeqControl);
 	}
 
 	// サイドへカメラを移動
@@ -207,6 +241,11 @@ bool GameCamera::SeqRightSide(const float delta_time)
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
 		Side(400);
+
+		//if (m_mediator->GetPlayerLookSide())
+		//{
+		//	m_mediator->SetIsGimmickGroundActive(true);
+		//}
 	});
 
 	TNL_SEQ_CO_END;
@@ -232,9 +271,19 @@ bool GameCamera::SeqRightSideToFix(const float delta_time)
 
 bool GameCamera::SeqLeftSide(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_is_fixed = false;
+	}
+
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
 	{
 		tnl_sequence_.change(&GameCamera::SeqLeftSideToFix);
+	}
+
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))
+	{
+		tnl_sequence_.change(&GameCamera::SeqControl);
 	}
 
 	// サイドへカメラを移動
@@ -246,6 +295,11 @@ bool GameCamera::SeqLeftSide(const float delta_time)
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
 		Side(-400);
+
+		//if (m_mediator->GetPlayerLookSide())
+		//{
+		//	m_mediator->SetIsGimmickGroundActive(true);
+		//}
 	});
 
 	TNL_SEQ_CO_END;
@@ -271,9 +325,19 @@ bool GameCamera::SeqLeftSideToFix(const float delta_time)
 
 bool GameCamera::SeqFront(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_is_fixed = false;
+	}
+
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
 	{
 		tnl_sequence_.change(&GameCamera::SeqFrontToFix);
+	}
+
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))
+	{
+		tnl_sequence_.change(&GameCamera::SeqControl);
 	}
 
 	// 正面へカメラを移動
@@ -314,9 +378,19 @@ bool GameCamera::SeqFrontToFix(const float delta_time)
 
 bool GameCamera::SeqRotate(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_is_fixed = false;
+	}
+
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
 	{
 		tnl_sequence_.change(&GameCamera::SeqRotateToFix);
+	}
+
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))
+	{
+		tnl_sequence_.change(&GameCamera::SeqControl);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
@@ -524,210 +598,4 @@ bool GameCamera::SeqControl(const float delta_time)
 //
 //	TNL_SEQ_CO_END;
 //
-//}
-
-
-//UpdateFrustumPlane();	
-
-//// どの時カメラを切り替えるか、その時にどんな動きにするかを記述
-//// 補間を使用してカメラ位置とターゲットを更新
-//float lerpRate = delta_time * 0.5f;
-//pos_ = Lerp(pos_, m_mediator->GetPlayerPos(), lerpRate);
-//target_ = Lerp(target_, m_mediator->GetPlayerPos(), lerpRate);
-
-//for (int i = 0; i < 6; i++) {
-//	DrawFrustumPlane(m_frustum_param[i].s_normal, m_frustum_param[i].s_d);
-//}
-
-//void OriginalCamera::DrawFrustumPlane(const tnl::Vector3& normal, float d)
-//{
-//	// 平面の中心点を計算
-//	tnl::Vector3 center = normal * d;
-//
-//	// 四角形の頂点を計算（簡単化のため、一定のサイズを仮定）
-//	float size = 100.0f; // 四角形のサイズ
-//	// 頂点の計算...
-//
-//	VECTOR center_vec = wta::ConvertToVECTOR(center);
-//	
-//	DrawSphere3D(center_vec, size, 32, -1, 1, true);
-//}
-
-//// フラスタムの各平面の法線ベクトルを計算し、
-//// 定数項でその平面の位置を特定することにより、フラスタムの境界を定義
-//void Camera::UpdateFrustumPlane()
-//{
-//	// ビュー行列と射影行列を合成
-//	// オブジェクトの世界座標系から2D画面空間への直接的な変換
-//	tnl::Matrix view_proj = view_ * proj_;
-//
-//	// ☆行列の乗算 : 座標変換（回転、拡大縮小、平行移動）
-//	// ☆行列の加算 : 座標変換の合成（複数の座標変換を一度に行い、新しいベクトル生成）
-//
-//	// 左平面
-//	// 左平面の法線ベクトル(平面に対する垂直ベクトル)を算出
-//	// view_proj._11 ～ view_proj._31 : 合成行列の1行目（カメラ空間における右方向ベクトル）
-//	// view_proj._12 ～ view_proj._32 : 合成行列の2行目（カメラ空間における上方向ベクトル）
-//	// view_proj._13 ～ view_proj._33 : 合成行列の3行目（カメラ空間における前方向ベクトル）
-//	// view_proj._14 ～ view_proj._34 : 合成行列の4行目（カメラ空間の原点からの変換ベクトル）
-//	// 加算することで左平面の法線ベクトルを算出（フラスタムの左平面と他の部分との境界）
-//	m_frustum_param[0].s_normal = tnl::Vector3(view_proj._14 + view_proj._11,
-//												view_proj._24 + view_proj._21,
-//												view_proj._34 + view_proj._31);
-//
-//	// フラスタム平面左平面の方程式における定数項を算出
-//	// 方程式 : Ax+By+Cz+D=0 (A,B,C : 法線ベクトルの成分 ・　D : 定数項)
-//	// 結果が 0 より大きい場合: 点は平面の一方の側（通常は「内側」）
-//	// 結果が 0 より小さい場合: 点は平面の他方の側（通常は「外側」）
-//	// 結果が 0 の場合: 点は平面上
-//	// _44 : Z軸に沿った深度（奥行き）の情報をスケール
-//	// _41 : X軸に沿った横幅の位置情報をスケール
-//	// 加算することで左平面が3D空間内でどのように位置するかを特定（カメラから見てどれだけ左側か）
-//	m_frustum_param[0].s_d = view_proj._44 + view_proj._41;
-//
-//	// 右平面
-//	m_frustum_param[1].s_normal = tnl::Vector3(view_proj._14 - view_proj._11,
-//												view_proj._24 - view_proj._21,
-//												view_proj._34 - view_proj._31);
-//	m_frustum_param[1].s_d = view_proj._44 - view_proj._41;
-//
-//	// 上平面
-//	m_frustum_param[2].s_normal = tnl::Vector3(view_proj._14 - view_proj._12,
-//												view_proj._24 - view_proj._22,
-//												view_proj._34 - view_proj._32);
-//	m_frustum_param[2].s_d = view_proj._44 - view_proj._42;
-//
-//	// 下平面
-//	m_frustum_param[3].s_normal = tnl::Vector3(view_proj._14 + view_proj._12,
-//												view_proj._24 + view_proj._22,
-//												view_proj._34 + view_proj._32);
-//	m_frustum_param[3].s_d = view_proj._44 + view_proj._42;
-//
-//	// 近平面
-//	// 近平面はカメラの法線ベクトルは前方向ベクトルと平行
-//	m_frustum_param[4].s_normal = tnl::Vector3(view_proj._13,
-//												view_proj._23,
-//												view_proj._33);
-//	m_frustum_param[4].s_d = view_proj._43;
-//
-//	// 遠平面
-//	m_frustum_param[5].s_normal = tnl::Vector3(view_proj._14 - view_proj._13,
-//												view_proj._24 - view_proj._23,
-//												view_proj._34 - view_proj._33);
-//	m_frustum_param[5].s_d = view_proj._44 - view_proj._43;
-//
-//	// 各平面の法線ベクトルを正規化
-//	// 法線ベクトルの長さが一定（通常は1）であることを保証することで、
-//	// フラスタムの平面とオブジェクトとの距離計算が一貫したものになる
-//	// 点と平面との距離は、点の位置ベクトルと法線ベクトルの内積
-//	// そして定数項を加算するだけで算出できる
-//	for (int i = 0; i < m_frustum_plane_num; i++)
-//	{
-//		m_frustum_param[i].s_normal.normalize();
-//	}
-//}
-//
-//bool Camera::IsInFrustum(const tnl::Vector3& pos)
-//{
-//	for (int i = 0; i < m_frustum_plane_num; i++)
-//	{
-//		// 内積を計算し、定数項を加算
-//		// 点と平面との距離を算出
-//		// 点と平面との距離が0より小さい場合、点は平面の外側にある
-//		float dot = tnl::Vector3::Dot(m_frustum_param[i].s_normal, pos);
-//
-//		dot += m_frustum_param[i].s_d;
-//
-//		if (dot < 0)
-//		{
-//			return false;
-//		}
-//	}
-//	return true;
-//}
-//
-//void Camera::ReturnPlayerPos(const tnl::Vector3& pos)
-//{
-//	// フラスタム境界外にプレイヤーの座標が移動した場合
-//	if (!IsInFrustum(pos))
-//	{
-//		// フラスタムの各面とプレイヤーの距離を格納する配列
-//		float distance[4];
-//		// フラスタムの各面とプレイヤーの距離を計算
-//		for (int i = 0; i < m_frustum_plane_num; i++)
-//		{
-//			distance[i] = tnl::Vector3::Dot(m_frustum_param[i].s_normal, pos)
-//						+ m_frustum_param[i].s_d;
-//		}
-//		// 一番近いフラスタムの面にプレイヤーを戻す
-//		  // フラスタムの境界に最も近い平面を見つける
-//		int min_index 
-//			= std::min_element(distance, distance + m_frustum_plane_num) - distance;
-//		// プレイヤーの座標をフラスタムの面に戻す
-//		tnl::Vector3 return_pos 
-//			= pos - m_frustum_param[min_index].s_normal * distance[min_index];
-//
-//		m_mediator->SetPlayerPos(return_pos);
-//	}
-//}
-
-//
-//void OriginalCamera::DrawFrustumPlane()
-//{
-//	// 逆行列を生成
-//	// 逆行列を生成することで、ビュー座標系からワールド座標系への変換を行う
-//	tnl::Matrix inv_view_proj = tnl::Matrix::Inverse(view_ * proj_);
-//	// フラスタムカリングのコーナー計算
-//	std::vector<tnl::Vector3> frustum_corners = CalculateFrustumCorners(inv_view_proj);
-//
-//	// 近平面と遠平面のコーナーを結ぶ
-//	for (int i = 0; i < 4; i++) 
-//	{
-//		// 近平面(0,1,2,3)
-//		// 近平面の各コーナーを次のコーナーと接続
-//		// % 4 : インデックスが3のときに次のコーナーが0に戻ることを保証
-//		// 3 + 1 = 4 ,4 % 4 = 0
-//		DrawLine3DEx(m_debug_camera, frustum_corners[i], frustum_corners[(i + 1) % 4], 1);
-//		// 遠平面(4,5,6,7)
-//		DrawLine3DEx(m_debug_camera, frustum_corners[i + 4], frustum_corners[((i + 1) % 4) + 4], 1);
-//		// 近平面と遠平面を結ぶ
-//		// 近平面(0,1,2,3)と遠平面(4,5,6,7)を結ぶ
-//		// 各々対応するコーナーと接続
-//		DrawLine3DEx(m_debug_camera, frustum_corners[i], frustum_corners[i + 4], 1);
-//	}
-//}
-//
-//std::vector<tnl::Vector3> OriginalCamera::CalculateFrustumCorners(const tnl::Matrix& inv_view_proj)
-//{
-//	// フラスタムカリングのコーナーを格納する配列を生成
-//	std::vector<tnl::Vector3> corners(8);
-//
-//	// ビュー座標系の8つのコーナーを計算
-//	// ビュー座標系のコーナーは、すべてのコーナーが原点を中心とした単位立方体にある
-//	// 単位立方体 : すべての辺の長さが1の立方体
-//
-//	// 左上手前
-//	corners[0] = tnl::Vector3(-1, 1, 0);
-//	// 右上手前
-//	corners[1] = tnl::Vector3(1, 1, 0);
-//	// 右下手前
-//	corners[2] = tnl::Vector3(1, -1, 0);
-//	// 左下手前
-//	corners[3] = tnl::Vector3(-1, -1, 0);
-//	// 左上奥
-//	corners[4] = tnl::Vector3(-1, 1, 1);
-//	// 右上奥
-//	corners[5] = tnl::Vector3(1, 1, 1);
-//	// 右下奥
-//	corners[6] = tnl::Vector3(1, -1, 1);
-//	// 左下奥
-//	corners[7] = tnl::Vector3(-1, -1, 1);
-//
-//	for (int i = 0; i < corners.size(); i++)
-//	{
-//		// ビュー座標系の8つのコーナーをワールド座標系に変換
-//		corners[i] = tnl::Vector3::Transform(corners[i], inv_view_proj);
-//	}
-//
-//	return corners;
 //}

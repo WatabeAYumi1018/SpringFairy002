@@ -5,17 +5,15 @@ LaneLoad::LaneLoad()
 {
 	LoadLaneVector();
 	
-	//LoadLaneEventVector();
-	//
-	//LoadLaneEventInfo();
+	LoadLaneEventVector();
 }
 
 LaneLoad::~LaneLoad()
 {
 	m_csv_lane.clear();
 	m_lanes.clear();
-	//m_csv_lane_event.clear();
-	//m_lane_event.clear();
+	m_csv_lane_event.clear();
+	m_lane_event.clear();
 	//m_csv_lane_event_info.clear();
 	//m_lane_event_info.clear();
 }
@@ -53,28 +51,36 @@ void LaneLoad::LoadLaneVector()
 	}
 }
 
-//void LaneLoad::LoadLaneEventVector()
-//{
-//	// csvファイルの読み込み
-//	m_csv_lane_event = tnl::LoadCsv<int>("csv/stage_event.csv");
-//
-//	Lane::sLane lane_event;
-//
-//	// レーン配列の情報取得と格納
-//	for (int y = 0; y < m_lane_height; y++)
-//	{
-//		for (int x = 0; x < m_lane_width; x++)
-//		{
-//			lane_event.s_id = m_csv_lane_event[y][x];
-//
-//			lane_event.s_pos
-//				= tnl::Vector3(x * Lane::LANE_SIZE, 0, y * Lane::LANE_SIZE);
-//
-//			m_lane_event.emplace_back(lane_event);
-//		}
-//	}
-//}
-//
+void LaneLoad::LoadLaneEventVector()
+{
+	// csvファイルの読み込み
+	m_csv_lane_event 
+		= tnl::LoadCsv<int>("csv/stage/event/event_lane.csv");
+
+	Lane::sLaneEvent lane_event;
+
+	// レーン配列の情報取得と格納
+	for (int y = 0; y < m_lane_height; y++)
+	{
+		for (int x = 0; x < m_lane_width; x++)
+		{
+			// －1は除外
+			if (m_csv_lane_event[y][x] == -1)
+			{
+				continue;
+			}
+
+			lane_event.s_id = m_csv_lane_event[y][x];
+
+			lane_event.s_pos 
+				= tnl::Vector3(x * Lane::LANE_SIZE, 0, y * Lane::LANE_SIZE);
+
+			m_lane_event.emplace_back(lane_event);
+		}
+	}
+}
+
+
 //void LaneLoad::LoadLaneEventInfo()
 //{
 //	// csvファイルの読み込み

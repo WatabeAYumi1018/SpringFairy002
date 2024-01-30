@@ -1,231 +1,296 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "../../../../../wta_library/wta_Convert.h"
 #include "../../../[002]Mediator/Mediator.h"
+#include "../../../[003]Phase/StagePhase.h"
+#include "../[002]Floor/Floor.h"
 #include "Model.h"
 
 
-Model::Model()//, eWorldType world_type) 
-	//, m_world_type(world_type)
+Model::Model()
 {
 
 }
 
-//Model::Model(int model_hdl, int id)
-//	: m_model_hdl(model_hdl), m_id(id)
-//{}
-
 Model::~Model()
 {
-	for (auto& pair : m_model_map)
+	for (sModelInfo& model_info : m_models_info)
 	{
-		sStageModelType& data = pair.second;
-
-		MV1DeleteModel(data.s_model_hdl);
-		DeleteGraph(data.s_texture_a_hdl);
-		DeleteGraph(data.s_texture_b_hdl);
-		DeleteGraph(data.s_texture_c_hdl);
+		MV1DeleteModel(model_info.s_model_hdl);
+		DeleteGraph(model_info.s_texture_a_hdl);
+		DeleteGraph(model_info.s_texture_b_hdl);
+		DeleteGraph(model_info.s_texture_c_hdl);
+		DeleteGraph(model_info.s_texture_d_hdl);
 	}
 }
 
 void Model::Initialize()
 {
-	for (int id = 0; id < 8; ++id)
+	// ステージモデルの情報を取得
+	m_models_info = m_mediator->GetStageModelTypeInfo();
+
+	for (sModelInfo& model_info : m_models_info)
 	{
-		sStageModelType model;
+		LoadModelInfo(model_info);
 
-		// モデル読み取り
-		model = m_mediator->GetStageModelInfoById(id);
+		SetLight(model_info);
 
-		// モデルの読み込み
-		model.s_model_hdl
-			= MV1LoadModel(model.s_model_path.c_str());
-		// テクスチャ読み取り
-		model.s_texture_a_hdl
-			= LoadGraph(model.s_texture_a_path.c_str());
-		// テクスチャ読み取り
-		model.s_texture_b_hdl
-			= LoadGraph(model.s_texture_b_path.c_str());
-		// テクスチャ読み取り
-		model.s_texture_c_hdl
-			= LoadGraph(model.s_texture_c_path.c_str());
-		// マテリアル数の設定
-		model.s_material_count
-			= MV1GetMaterialNum(model.s_model_hdl);
+		// ステージ毎のテクスチャ設定
+		if (model_info.s_id == 0)
+		{
+			SetTextureIndex(model_info, 43, 73, 102);
+		}
+		else if (model_info.s_id == 1)
+		{
+			SetTextureIndex(model_info, 15, 33, 37);
 
-		SetTextureIndex(model);
-	
-		m_model_map[id] = model;
+		}
+		else
+		{
+			SetTextureIndex(model_info, 43, 73, 102);
+		}
 	}
-
-	m_tree_models = m_mediator->GetStageTreeVector();
-
-	m_grass_models = m_mediator->GetStageGrassVector();
-
-	DrawGrass();
-	//CreateGroupMesh();
 }
 
 void Model::Update(float delta_time)
 {
-	//tnl_sequence_.update(delta_time);
+
 }
 
-void Model::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	//DrawModelSet(m_grass_models, 4, 1000);
+	if (!m_mediator->GetIsGimmickGroundActive())
+	{
+		if (m_mediator->GetNowStagePhaseState()
+					== StagePhase::eStagePhase::e_flower)
+		{
+			DrawStage(m_models_info, 0);
+		}
+		else if(m_mediator->GetNowStagePhaseState() 
+					== StagePhase::eStagePhase::e_wood)
+		{
+			DrawStage(m_models_info, 1);
+		}
+		else
+		{
+			DrawStage(m_models_info, 2);
+		}
+	}
+}
+
+void Model::LoadModelInfo(sModelInfo& model_info)
+{
+	model_info.s_model_hdl
+		= MV1LoadModel(model_info.s_model_path.c_str());
+
+	model_info.s_texture_a_hdl
+		= LoadGraph(model_info.s_texture_a_path.c_str());
+
+	model_info.s_texture_b_hdl
+		= LoadGraph(model_info.s_texture_b_path.c_str());
+
+	model_info.s_texture_c_hdl
+		= LoadGraph(model_info.s_texture_c_path.c_str());
+
+	model_info.s_texture_d_hdl
+		= LoadGraph(model_info.s_texture_d_path.c_str());
+
+	model_info.s_material_count
+		= MV1GetMaterialNum(model_info.s_model_hdl);
+}
+
+void Model::SetTextureIndex(sModelInfo& model_info,int a,int b,int c )
+{
+	for (int i = 0; i < model_info.s_material_count; ++i)
+	{
+		if (i < a) 
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+									, model_info.s_texture_a_hdl, FALSE);
+		}
+		else if (i >= a && i < b)
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+									, model_info.s_texture_b_hdl, FALSE);
+		}
+		else if (i >= b && i < c)
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+									, model_info.s_texture_c_hdl, FALSE);
+		}
+		else
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+									, model_info.s_texture_d_hdl, FALSE);
+		}
+	}
+}
+
+void Model::SetLight(sModelInfo& model_info)
+{
+	// 各マテリアルに対するライトの設定
+	for (int i = 0; i < model_info.s_material_count; ++i)
+	{
+		DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
+		DxLib::COLOR_F ambient = { 1,1,1,1 };
+		DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
+		DxLib::COLOR_F specular = { 0,0,0,1 };
+
+		MV1SetMaterialEmiColor(model_info.s_model_hdl, i, emissive);
+		MV1SetMaterialAmbColor(model_info.s_model_hdl, i, ambient);
+		MV1SetMaterialDifColor(model_info.s_model_hdl, i, diffuse);
+		MV1SetMaterialSpcColor(model_info.s_model_hdl, i, specular);
+		MV1SetMaterialSpcPower(model_info.s_model_hdl, i, 0.5f);
+	}
+}
+
+void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)
+{
+	// モデルサイズとグリッドサイズ
+	int model_size = 1500;
+	int grid_size = 1500;
+
+	tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
 	
-	//DrawModelSet(m_tree_models, 4, 10000);
-}
+	// プレイヤーの現在位置からグリッド座標を取得
+	int target_grid_x = static_cast<int>(target_pos.x / grid_size);
+	int target_grid_z = static_cast<int>(target_pos.z / grid_size);
 
-void Model::CreateGroupMesh()
-{
-	std::vector<tnl::Matrix> world_matrixs;
-	
-	for (Model::sStageModel& model : m_tree_models) 
+	// 描画範囲の設定（ターゲットの位置を中心に前方に向けて）
+	int draw_range = 6; 
+
+	for (int z = target_grid_z; z < target_grid_z + draw_range; z++) 
 	{
-		tnl::Matrix world_matrix
-			= tnl::Matrix::Translation(model.s_pos.x, model.s_pos.y, model.s_pos.z);
-		
-		world_matrixs.emplace_back(world_matrix);
-	}
-
-	// 最初のモデルを基準にグループメッシュを作成
-	if (!m_tree_models.empty()) 
-	{
-		int base_model_id = m_tree_models.front().s_id;
-		
-		// モデルハンドルから Shared<Mesh> インスタンスを取得または作成
-		Shared<dxe::Mesh> base_mesh 
-			= dxe::Mesh::CreateFromFileMV(m_model_map[base_model_id].s_model_path);
-	}
-}
-
-void Model::SetLight(int model_hdl)
-{
-	//自己発光
-	DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
-	//環境光
-	DxLib::COLOR_F ambient = { 1,1,1,1 };
-	//拡散光
-	DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
-	//メタリック
-	DxLib::COLOR_F specular = { 0,0,0,1 };
-
-	MV1SetMaterialEmiColor(model_hdl, 0, emissive);
-	MV1SetMaterialAmbColor(model_hdl, 0, ambient);
-	MV1SetMaterialDifColor(model_hdl, 0, diffuse);
-	MV1SetMaterialSpcColor(model_hdl, 0, specular);
-	// 強いほど光が鋭くなる
-	MV1SetMaterialSpcPower(model_hdl, 0, 0.5f);
-}
-
-void Model::SetTextureIndex(sStageModelType& model)
-{
-	for (int i = 0; i < MV1GetMaterialNum(model.s_model_hdl); i++)
-	{
-		const TCHAR* material_name = MV1GetMaterialName(model.s_model_hdl, i);
-
-		if (!model.s_material_a_name.empty()
-			&& _tcscmp(material_name, _T(model.s_material_a_name.c_str())) == 0)
+		for (int x = target_grid_x - draw_range / 2; x <= target_grid_x + draw_range / 2; x++)
 		{
-			MV1SetTextureGraphHandle(model.s_model_hdl, i
-									, model.s_texture_a_hdl, FALSE);
-		}
+			// 透明化処理（ある程度後方にあるモデルは描画しない）
+			if (z < target_grid_z - grid_size) continue;
 
-		if (!model.s_material_b_name.empty()
-			&& _tcscmp(material_name, _T(model.s_material_b_name.c_str())) == 0)
-		{
-			MV1SetTextureGraphHandle(model.s_model_hdl, i
-									, model.s_texture_b_hdl, FALSE);
-		}
+			// モデルの座標を計算
+			tnl::Vector3 pos;
+			pos.x = static_cast<float>(x * model_size);
+			pos.y = Floor::DRAW_DISTANCE;
+			// 前方を少し遠めに設定し突然のモデルの出現を防ぐ
+			pos.z = static_cast<float>(z * model_size) + 1000;
 
-		if (!model.s_material_c_name.empty()
-			&& _tcscmp(material_name, _T(model.s_material_c_name.c_str())) == 0)
-		{
-			MV1SetTextureGraphHandle(model.s_model_hdl
-									, i, model.s_texture_c_hdl, FALSE);
-		}
-	}
-}
-
-void Model::DrawGrass()
-{
-	std::vector<tnl::Matrix> grass_world_matrixs;
-
-	// IDが4のモデルを取得
-	sStageModelType& model_grass = m_model_map[4];
-	// グリッドのサイズ
-	int grid_size = 150;
-	// グリッドの半分のサイズ
-	int half_grid_size = grid_size / 2;
-	// フロア間のスペース
-	int spacing = 300;
-
-	float distance = -2000;
-
-	// 指定されたグリッド内でモデルを繰り返し描画
-	for (int i = -half_grid_size; i < half_grid_size; i++)
-	{
-		for (int j = -half_grid_size; j < half_grid_size; j++)
-		{
-			// ライティング設定
-			SetLight(model_grass.s_model_hdl);
-
-			// 各フロアの座標を計算
-			float x = static_cast<float> (i * spacing);
-			float z = static_cast<float> (j * spacing);
-
-			tnl::Vector3 pos = { x, distance, z };
-
-			//MV1SetPosition(model_grass.s_model_hdl, pos_vec);
-
-			tnl::Matrix world_matrix = wta::ConvertTnlToMatrix(pos);
-
-			grass_world_matrixs.emplace_back(world_matrix);
-
-			// モデルを描画
-			//MV1DrawModel(model_grass.s_model_hdl);
-		}
-
-		// グループメッシュの作成
-		std::shared_ptr<dxe::Mesh> grass_base_mesh
-			= dxe::Mesh::CreateFromFileMV(model_grass.s_model_path);
-	}
-}
-
-void Model::DrawModelSet(const std::vector<Model::sStageModel>& model_set
-						 , int num_sets, int spacing)
-{
-	// 各セットに対してループ
-	for (int set_index = 0; set_index < num_sets; set_index++)
-	{
-		// セットの基準座標を計算
-		float base_x = ((set_index % 2) == 0) ? spacing : -spacing;
-		float base_z = (set_index < 2) ? spacing : -spacing;
-
-		// CSVから読み込んだモデルの配列をループ
-		for (const Model::sStageModel& model : model_set)
-		{
-			if (model.s_id == -1) continue;
-
-			// 各モデルの座標をセットの基準座標に加算
-			float x = base_x + model.s_pos.x;
-			float y = model.s_pos.y;
-			float z = base_z + model.s_pos.z;
+			// モデルのワールド座標を設定
+			VECTOR pos_vec =wta::ConvertToVECTOR(pos);
 
 			// モデルの位置を設定
-			VECTOR pos_vec = wta::ConvertToVECTOR({ x, y, z });
-
-			MV1SetPosition(m_model_map[model.s_id].s_model_hdl, pos_vec);
-
-			// ライティング設定
-			SetLight(m_model_map[model.s_id].s_model_hdl);
+			MV1SetPosition(models_info[id].s_model_hdl, pos_vec);
 
 			// モデルを描画
-			MV1DrawModel(m_model_map[model.s_id].s_model_hdl);
+			MV1DrawModel(models_info[id].s_model_hdl);
 		}
 	}
 }
+
+//void Model::SetTextureIndex(sStageModelType& model)
+//{
+//	for (int i = 0; i < MV1GetMaterialNum(model.s_model_hdl); i++)
+//	{
+//		const TCHAR* material_name = MV1GetMaterialName(model.s_model_hdl, i);
+//
+//		if (!model.s_material_a_name.empty()
+//			&& _tcscmp(material_name, _T(model.s_material_a_name.c_str())) == 0)
+//		{
+//			MV1SetTextureGraphHandle(model.s_model_hdl, i
+//									, model.s_texture_a_hdl, FALSE);
+//		}
+//
+//		if (!model.s_material_b_name.empty()
+//			&& _tcscmp(material_name, _T(model.s_material_b_name.c_str())) == 0)
+//		{
+//			MV1SetTextureGraphHandle(model.s_model_hdl, i
+//									, model.s_texture_b_hdl, FALSE);
+//		}
+//
+//		if (!model.s_material_c_name.empty()
+//			&& _tcscmp(material_name, _T(model.s_material_c_name.c_str())) == 0)
+//		{
+//			MV1SetTextureGraphHandle(model.s_model_hdl
+//									, i, model.s_texture_c_hdl, FALSE);
+//		}
+//	}
+//}
+
+//void Model::DrawGrass()
+//{
+//	std::vector<tnl::Matrix> grass_world_matrixs;
+//
+//	// IDが4のモデルを取得
+//	sMeshModelType& model_grass = m_model_map[4];
+//	// グリッドのサイズ
+//	int grid_size = 150;
+//	// グリッドの半分のサイズ
+//	int half_grid_size = grid_size / 2;
+//	// フロア間のスペース
+//	int spacing = 300;
+//
+//	float distance = -2000;
+//
+//	// 指定されたグリッド内でモデルを繰り返し描画
+//	for (int i = -half_grid_size; i < half_grid_size; i++)
+//	{
+//		for (int j = -half_grid_size; j < half_grid_size; j++)
+//		{
+//			// ライティング設定
+//			SetLight(model_grass.s_model_hdl);
+//
+//			// 各フロアの座標を計算
+//			float x = static_cast<float> (i * spacing);
+//			float z = static_cast<float> (j * spacing);
+//
+//			tnl::Vector3 pos = { x, distance, z };
+//
+//			//MV1SetPosition(model_grass.s_model_hdl, pos_vec);
+//
+//			tnl::Matrix world_matrix = wta::ConvertTnlToMatrix(pos);
+//
+//			grass_world_matrixs.emplace_back(world_matrix);
+//
+//			// モデルを描画
+//			//MV1DrawModel(model_grass.s_model_hdl);
+//		}
+//
+//		// グループメッシュの作成
+//		std::shared_ptr<dxe::Mesh> grass_base_mesh
+//			= dxe::Mesh::CreateFromFileMV(model_grass.s_model_path);
+//	}
+//}
+
+//void Model::DrawModelSet(const std::vector<Model::sStageModel>& model_set
+//						 , int num_sets, int spacing)
+//{
+//	// 各セットに対してループ
+//	for (int set_index = 0; set_index < num_sets; set_index++)
+//	{
+//		// セットの基準座標を計算
+//		float base_x = ((set_index % 2) == 0) ? spacing : -spacing;
+//		float base_z = (set_index < 2) ? spacing : -spacing;
+//
+//		// CSVから読み込んだモデルの配列をループ
+//		for (const Model::sStageModel& model : model_set)
+//		{
+//			if (model.s_id == -1) continue;
+//
+//			// 各モデルの座標をセットの基準座標に加算
+//			float x = base_x + model.s_pos.x;
+//			float y = model.s_pos.y;
+//			float z = base_z + model.s_pos.z;
+//
+//			// モデルの位置を設定
+//			VECTOR pos_vec = wta::ConvertToVECTOR({ x, y, z });
+//
+//			MV1SetPosition(m_model_map[model.s_id].s_model_hdl, pos_vec);
+//
+//			// ライティング設定
+//			SetLight(m_model_map[model.s_id].s_model_hdl);
+//
+//			// モデルを描画
+//			MV1DrawModel(m_model_map[model.s_id].s_model_hdl);
+//		}
+//	}
+//}
 
 //void Model::DrawModel(const sStageModel& model)
 //{
@@ -239,7 +304,6 @@ void Model::DrawModelSet(const std::vector<Model::sStageModel>& model_set
 //
 //	MV1DrawModel(data.s_model_hdl);
 //}
-
 
 //void  Model::CopyInitModel(int texture_a
 //							,int texture_b

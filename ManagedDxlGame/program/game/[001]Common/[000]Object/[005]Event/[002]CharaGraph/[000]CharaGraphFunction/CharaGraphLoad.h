@@ -17,7 +17,6 @@ private:
 	int m_graph_total_num = 0;
 
 	
-
 	// キャラ画像の読み取り専用（csvファイル）
 	std::vector<std::vector<tnl::CsvCell>> m_csv_graph_info;
 	// キャラ画像データを格納

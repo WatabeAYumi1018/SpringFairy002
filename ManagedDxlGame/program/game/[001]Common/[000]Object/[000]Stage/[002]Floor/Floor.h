@@ -12,7 +12,7 @@ public:
 	Floor();
 	~Floor() {}
 
-	static const int DRAW_DISTANCE = -1000;
+	static const int DRAW_DISTANCE = -400;
 
 private:
 
@@ -23,5 +23,5 @@ private:
 
 public:
 
-	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
+	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 };

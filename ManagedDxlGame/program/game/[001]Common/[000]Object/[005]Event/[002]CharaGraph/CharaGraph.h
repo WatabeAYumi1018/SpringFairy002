@@ -14,7 +14,7 @@ public:
 	struct sGraphInfo
 	{
 		// csvで定義した識別番号
-		std::string s_id;
+		int s_id;
 		// 描画位置
 		int s_graph_side;
 		// 描画座標
@@ -66,7 +66,7 @@ public:
 
 	void Update(float delta_time) override;
 
-	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
+	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)

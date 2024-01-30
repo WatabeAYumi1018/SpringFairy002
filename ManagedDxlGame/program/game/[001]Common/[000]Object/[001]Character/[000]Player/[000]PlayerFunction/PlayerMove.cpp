@@ -5,7 +5,13 @@
 
 void PlayerMove::Update(float delta_time)
 {
+	m_pos = m_mediator->GetPlayerPos();
+	m_rot = m_mediator->GetPlayerRot();
+
 	tnl_sequence_.update(delta_time);
+
+	m_mediator->SetPlayerPos(m_pos);
+	m_mediator->SetPlayerRot(m_rot);
 
 	//GameCamera::eCameraType camera_type = GameCamera::eCameraType::e_none;
 
@@ -32,15 +38,15 @@ bool PlayerMove::PushButton()
 	// 上
 	if (up)
 	{
-		direction = eDirection::front;
+		direction = eDirection::e_front;
 
 		if (right)
 		{
-			direction = eDirection::front_right;
+			direction = eDirection::e_front_right;
 		}
 		else if (left)
 		{
-			direction = eDirection::front_left;
+			direction = eDirection::e_front_left;
 		}
 
 		return true;
@@ -48,15 +54,15 @@ bool PlayerMove::PushButton()
 	// 下
 	else if (down)
 	{
-		direction = eDirection::back;
+		direction = eDirection::e_back;
 
 		if (right)
 		{
-			direction = eDirection::back_right;
+			direction = eDirection::e_back_right;
 		}
 		else if (left)
 		{
-			direction = eDirection::back_left;
+			direction = eDirection::e_back_left;
 		}
 
 		return true;
@@ -64,15 +70,15 @@ bool PlayerMove::PushButton()
 	// 右
 	else if (right)
 	{
-		direction = eDirection::right;
+		direction = eDirection::e_right;
 
 		if (up)
 		{
-			direction = eDirection::front_right;
+			direction = eDirection::e_front_right;
 		}
 		else if (down)
 		{
-			direction = eDirection::back_right;
+			direction = eDirection::e_back_right;
 		}
 
 		return true;
@@ -80,21 +86,33 @@ bool PlayerMove::PushButton()
 	// 左
 	else if (left)
 	{
-		direction = eDirection::left;
+		direction = eDirection::e_left;
 
 		if (up)
 		{
-			direction = eDirection::front_left;
+			direction = eDirection::e_front_left;
 		}
 		else if (down)
 		{
-			direction = eDirection::back_left;
+			direction = eDirection::e_back_left;
 		}
 
 		return true;
 	}
 
 	return false;
+}
+
+void PlayerMove::MoveMatrix(float delta_time)
+{
+	// 自動経路による移動と回転の更新
+	m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
+	m_mediator->MoveAstarCharaUpdateRot(delta_time, m_pos, m_rot);
+
+	if (PushButton())
+	{
+		ControlMoveMatrix(delta_time);
+	}
 }
 
 void PlayerMove::ControlMoveMatrix(float delta_time)
@@ -142,11 +160,23 @@ void PlayerMove::ControlMoveMatrix(float delta_time)
 	}
 	if (tnl::Input::IsKeyDown(eKeys::KB_DOWN))
 	{
-		move_direction.y -= delta_time * 10;
+		if (m_mediator->GetPlayerLookSideRight()
+			|| m_mediator->GetPlayerLookSideLeft())
+		{
+			move_direction.y -= delta_time / 10;
 
-		// 前に傾く
-		tilt_rotation
-			= tnl::Quaternion::RotationAxis(camera_right, tilt_angle);
+			// 傾き度合を大きくする
+			tilt_rotation
+				= tnl::Quaternion::RotationAxis(camera_right, tilt_angle * 3);
+		}
+		else
+		{
+			move_direction.y -= delta_time * 10;
+
+			// 前に傾く
+			tilt_rotation
+				= tnl::Quaternion::RotationAxis(camera_right, tilt_angle);
+		}
 	}
 
 	// 移動方向の正規化と速度の適用
@@ -191,12 +221,12 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 	// 現在の回転から目標の回転に向けてslerpを行う
 	m_rot.slerp(m_target_rot, delta_time * salt_move_speed);
 
-	// 座標、回転の更新
-	m_mediator->SetPlayerPos(m_pos);
-	m_mediator->SetPlayerRot(m_rot);
+	//// 座標、回転の更新
+	//m_mediator->SetPlayerPos(m_pos);
+	//m_mediator->SetPlayerRot(m_rot);
 }
 
-bool PlayerMove::SeqFly(const float delta_time)
+bool PlayerMove::SeqTrigger(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
@@ -213,24 +243,66 @@ bool PlayerMove::SeqFly(const float delta_time)
 	{
 		tnl_sequence_.change(&PlayerMove::SeqSaltoAction);
 	}
+	
+	if (m_mediator->GetEventLane().s_id == 4)
+	{
+		tnl_sequence_.change(&PlayerMove::SeqStop);
+	}
 
-	// 押すまでループ
+	if (m_mediator->GetEventLane().s_id == 7)
+	{
+		tnl_sequence_.change(&PlayerMove::SeqDownMove);
+	}
+
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		m_mediator->SetPlayerPos(m_pos);
-		m_mediator->SetPlayerRot(m_rot);
+		MoveMatrix(delta_time);
+	});
 
-		// 自動経路による移動と回転の更新
-		m_mediator->MoveAstarCharaMatrix(delta_time, m_pos, m_rot);
+	TNL_SEQ_CO_END;
+}
 
-		if (PushButton())
-		{
-			ControlMoveMatrix(delta_time);
-		}
+bool PlayerMove::SeqStop(const float delta_time)
+{
+	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
+	{
+		// 数秒間座標更新を停止
+	});
 
-		// モデルの座標と回転を更新
-		m_mediator->SetPlayerPos(m_pos);
-		m_mediator->SetPlayerRot(m_rot);
+	tnl_sequence_.change(&PlayerMove::SeqUpMove);
+
+	TNL_SEQ_CO_END;
+}
+
+bool PlayerMove::SeqUpMove(const float delta_time)
+{
+	if(m_pos.y > 1000)
+	{
+		tnl_sequence_.change(&PlayerMove::SeqTrigger);
+	}
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+	{
+		MoveMatrix(delta_time);
+		// y座標を上昇
+		m_pos.y += delta_time * 100;
+	});
+
+	TNL_SEQ_CO_END;
+}
+
+bool PlayerMove::SeqDownMove(const float delta_time)
+{
+	if(m_pos.y == 0)
+	{
+		tnl_sequence_.change(&PlayerMove::SeqTrigger);
+	}
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+	{
+		MoveMatrix(delta_time);
+		// y座標を下降
+		m_pos.y -= delta_time * 100;
 	});
 
 	TNL_SEQ_CO_END;
@@ -248,13 +320,13 @@ bool PlayerMove::SeqSaltoAction(const float delta_time)
 
 	// 押すまでループ
 	TNL_SEQ_CO_TIM_YIELD_RETURN(salto_total_time, delta_time, [&]()
-		{
-			SaltoActionMatrix(delta_time);
-		});
+	{
+		SaltoActionMatrix(delta_time);
+	});
 
 	m_salto_elapsed_time = 0;
 
-	tnl_sequence_.change(&PlayerMove::SeqFly);
+	tnl_sequence_.change(&PlayerMove::SeqTrigger);
 
 	TNL_SEQ_CO_END;
 }

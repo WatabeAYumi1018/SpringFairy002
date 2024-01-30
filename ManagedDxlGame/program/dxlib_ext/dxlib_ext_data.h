@@ -19,6 +19,19 @@ namespace dxe {
 		, NORMAL
 		, MAX
 	};
+	enum class eSamplerState {
+		ANISOTROPIC
+		, BILINEAR
+		, NEAREST
+		, MAX
+	};
+	enum class eRasterizerState {
+		CULL_NONE
+		, CULL_FRONT
+		, CULL_BACK
+		, WIREFRAME
+		, MAX
+	};
 
 }
 

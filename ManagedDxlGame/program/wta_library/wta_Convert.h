@@ -119,4 +119,11 @@ namespace wta
         return mat;
 	}
 
+    // tnl::Matrix‚ðtnl::Vector3‚É•ÏŠ·‚·‚é
+    inline tnl::Vector3 ConvertMatrixToTnl(const tnl::Matrix& tnl_matrix)
+    {
+        return tnl::Vector3(tnl_matrix.m[3][0], tnl_matrix.m[3][1], tnl_matrix.m[3][2]);
+	}
+
+
 }

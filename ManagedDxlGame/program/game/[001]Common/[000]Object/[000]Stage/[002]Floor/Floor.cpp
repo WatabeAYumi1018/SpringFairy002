@@ -17,14 +17,14 @@ Floor::Floor()
 	m_floor->setTexture(dxe::Texture::CreateFromFile("graphics/floor/lawn.png"));
 	// プレーンを床とするため回転
 	m_floor->rot_
-		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(-90.0f));
+		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90.0f));
 	// 座標を調整（Y座標を下げて地面に配置)
     float distance = static_cast<float> (Floor::DRAW_DISTANCE);
 
 	m_floor->pos_ = { 0, distance, 0 };
 }
 
-void Floor::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Floor::Draw(std::shared_ptr<dxe::Camera> camera)
 {
     // グリッドのサイズ
     int grid_size = 20; 
@@ -47,7 +47,7 @@ void Floor::Draw(std::shared_ptr<GameCamera> gameCamera)
             m_floor->pos_ = { x, distance, z };
 
             // フロアを描画
-            m_floor->render(gameCamera);
+            m_floor->render(camera);
         }
     }
 }

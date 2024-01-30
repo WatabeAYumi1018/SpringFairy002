@@ -6,6 +6,8 @@
 PartnerDraw::PartnerDraw()
 {
 	LoadAndInitModels();
+
+	SetLight();
 }
 
 PartnerDraw::~PartnerDraw()
@@ -48,21 +50,19 @@ void PartnerDraw::Update(float delta_time)
 
 void PartnerDraw::Draw()
 {
-	SetLight();
-
 	MV1DrawModel(m_model_hdl);
 }
 
 void PartnerDraw::SetLight()
 {
 	//é©å»î≠åı
-	DxLib::COLOR_F emissive = { 0.3f,0.3f,0.3f,1 };
+	DxLib::COLOR_F emissive = { 0.5f,0.5f,0.5f,1 };
 	//ä¬ã´åı
 	DxLib::COLOR_F ambient = { 1,1,1,1 };
 	//ägéUåı
-	DxLib::COLOR_F diffuse = { 0.3f,0.3f,0.3f,1 };
+	DxLib::COLOR_F diffuse = { 0.5f,0.5f,0.5f,1 };
 	//ÉÅÉ^ÉäÉbÉN
-	DxLib::COLOR_F specular = { 0.2f,0.2f,0.2f,1 };
+	DxLib::COLOR_F specular = { 0,0,0,1 };
 
 	MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
 	MV1SetMaterialAmbColor(m_model_hdl, 0, ambient);

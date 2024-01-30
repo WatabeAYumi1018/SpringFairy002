@@ -31,19 +31,16 @@ void CharaGraphDraw::UpdateCharaSlideGraph(const float delta_time, int graph_id)
 	{
 		// x=0から開始
 		// m_chara_graph[graph_id].s_graph_pos.xまでスライド
-
-		
 	}
 	// 右からスライド
 	else
 	{
 		// x=DXE_WINDOW_WIDTHから開始
 		// m_chara_graph[graph_id].s_graph_pos.xまでスライド
-
 	}
 }
 
-
+//　これを用いてテキストデータのidを設定することで対称画像の描画
 void CharaGraphDraw::DrawCharaGraph(int graph_id)
 {
 	DrawGraph(m_chara_graph[graph_id].s_graph_pos.x

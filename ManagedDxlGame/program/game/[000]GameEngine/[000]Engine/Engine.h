@@ -5,13 +5,13 @@
 // •ûŒü‚ð’è‹`
 enum class eDirection
 {
-	none,
-	front,
-	back,
-	right,
-	left,
-	front_right,
-	back_right,
-	front_left,
-	back_left
+	e_none,
+	e_front,
+	e_back,
+	e_right,
+	e_left,
+	e_front_right,
+	e_back_right,
+	e_front_left,
+	e_back_left
 };

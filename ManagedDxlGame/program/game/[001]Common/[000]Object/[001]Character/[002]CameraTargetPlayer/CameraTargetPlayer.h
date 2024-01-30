@@ -18,7 +18,21 @@ private:
 
 	GameCamera::sCameraInfo m_camera_info;
 
-	Item::sItem m_item;
+	Lane::sLaneEvent m_event;
+
+	// コルーチンシーケンス
+	TNL_CO_SEQUENCE(CameraTargetPlayer, &CameraTargetPlayer::SeqTrigger);
+
+	void MoveMatrix(const float delta_time);
+
+	// 通常の移動処理
+	bool SeqTrigger(const float delta_time);
+	// 停止処理
+	bool SeqStop(const float delta_time);
+	// 上昇処理
+	bool SeqUpMove(const float delta_time);
+	// 下降処理
+	bool SeqDownMove(const float delta_time);
 
 public:
 
@@ -27,10 +41,15 @@ public:
 	// 更新
 	void Update(float delta_time) override;
 	// 描画処理
-	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
+	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
 	const GameCamera::sCameraInfo& GetCameraInfo() const
 	{
 		return m_camera_info; 
+	}
+
+	const Lane::sLaneEvent& GetEvent() const
+	{
+		return m_event;
 	}
 };

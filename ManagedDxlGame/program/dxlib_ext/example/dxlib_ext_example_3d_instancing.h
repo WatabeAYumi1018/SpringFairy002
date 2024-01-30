@@ -90,13 +90,13 @@ void gameStart() {
     // グループメッシュとして作成する場合
     //
     std::vector<tnl::Matrix> mats;
-    mats.emplace_back(tnl::Matrix::Translation(-100, 0, 100));// 座標を指定(csvで座標管理)
+    mats.emplace_back(tnl::Matrix::Translation(-100, 0, 100));
     mats.emplace_back(tnl::Matrix::Translation(-200, 0, 200));
     mats.emplace_back(tnl::Matrix::Translation(-300, 0, 300));
     mats.emplace_back(tnl::Matrix::AffineTransformation({-400, 50, 400}, {2, 2, 2}, tnl::Quaternion::RotationAxis({1, 0, 0}, tnl::ToRadian(90))));
 
     group_mesh = dxe::Mesh::CreateStaticMeshGroupMV(origine_mesh, mats);
-    // 座標を指定(csvで座標管理)→matrixに変換し、matsに代入して描画する。
+
 
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ void gameStart() {
     textures.emplace_back(dxe::Texture::CreateFromFile("graphics/blue1.bmp"));
     textures.emplace_back(dxe::Texture::CreateFromFile("graphics/green1.bmp"));
 
-    mesh_pool = dxe::InstMeshPool::Create(origine_mesh, 50, &textures);
+    mesh_pool = dxe::InstMeshPool::Create(origine_mesh, 3, &textures);
 
     // インスタンシングプールから個別のメッシュを取得
     for (int i = 0; i < mesh_pool->getMaxInstanceNum(); ++i) {
@@ -166,8 +166,12 @@ void gameEnd() {
     mesh_pool.reset();
 }
 
+
+
+
+
+
+
+
+
 */
-
-
-
-

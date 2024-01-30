@@ -14,26 +14,37 @@ public:
 
 	enum class eStagePhase
 	{
-		e_fly,
-		e_ground
+		e_flower,
+		e_wood,
+		e_fancy
 	};
 
 private:
 
-	eStagePhase m_now_stage_phase = eStagePhase::e_fly;
+	eStagePhase m_now_stage_phase = eStagePhase::e_flower;
 
 	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(StagePhase, &StagePhase::SeqFly);
+	TNL_CO_SEQUENCE(StagePhase, &StagePhase::SeqFlower);
+
+	// メディエータのスマートポインタ
+	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 
-	// 空中
-	bool SeqFly(const float delta_time);
-	// 地上
-	bool SeqGround(const float delta_time);
+	// お花エリア
+	bool SeqFlower(const float delta_time);
+	// 森林エリア
+	bool SeqWood(const float delta_time);
+	// 花の世界
+	bool SeqFancy(const float delta_time);
 
 public:
 
 	void Update(float delta_time);
 
 	eStagePhase GetNowStagePhase() { return m_now_stage_phase; }
+
+	void SetMediator(std::shared_ptr<Mediator>& mediator)
+	{
+		m_mediator = mediator;
+	}
 };

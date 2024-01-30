@@ -64,14 +64,8 @@ void DrawHexagon(const tnl::Vector3 pos, float width, int color = -1);
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 // デバッグ用のグリッド地面
 // arg1... カメラ
-// arg2... グリッドマスのサイズ
-// arg3... グリッドを並べる個数 ( 偶数個で指定 )
-// arg4... 16進数カラー
 // tips... この関数を使用する前にカメラを生成して update 関数を実行してください
-void DrawGridGround( const Shared<dxe::Camera> camera);// , const float square_size, int row_num, int color = 0x99999999
-
-//void DrawGridGround_sab(const Shared<dxe::Camera> camera, const float square_size, int row_num, int color = 0x99999999);
-
+void DrawGridGround( const Shared<dxe::Camera> camera );
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 // 正六角形を敷き詰めた地面を描画
@@ -90,37 +84,6 @@ void SetDefaultLightParameter(const std::string& file_path);
 
 // デフォルトライトパラメータをコントロールするGUIを描画
 void DrawDefaultLightGuiController();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void DrawAxis(const Shared<dxe::Camera> camera, const tnl::Vector3& pos, const tnl::Quaternion& rot, const float length);
@@ -143,7 +106,8 @@ namespace dxe {
 
 	ID3D11DepthStencilState* GetDepthStencilState(const eDepthStenclil mode);
 	ID3D11BlendState* GetBlendState(const eBlendState state);
-
+	ID3D11SamplerState* GetSamplerState(const eSamplerState state);
+	ID3D11RasterizerState* GetRasterizerState(const eRasterizerState state);
 }
 
 /*

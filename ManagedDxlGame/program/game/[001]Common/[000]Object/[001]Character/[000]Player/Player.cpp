@@ -7,8 +7,12 @@
 
 Player::Player() 
 {
+	m_pos = { 0 };
+
 	m_collision_size =  70;
 	//m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
+
+	//SetLight(m_model_hdl);
 
 	for (int i = 0; i < 5; ++i)
 	{
@@ -46,8 +50,10 @@ void Player::Update(float delta_time)
 
 	m_mediator->UpdateCollisionCheck();
 
+	m_mediator->IsInCameraFlustum();
+
 	// 座標デバッグ用
-	DrawStringEx(0, 0, -1, "PlayerPos_x:%f",m_pos.x);
+	DrawStringEx(0, 0, -1, "PlayerPos_x:%f", m_pos.x);
 	DrawStringEx(0, 20, -1, "PlayerPos_y:%f", m_pos.y);
 	DrawStringEx(0, 40, -1, "PlayerPos_z:%f", m_pos.z);
 
@@ -59,17 +65,17 @@ void Player::Update(float delta_time)
 	//tnl::Vector3 forward = Forward();
 
 	//// 大体7秒で2000くらい？
-	//
+	//	
 }
 
-void Player::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Player::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	// モデル描画処理
 	m_mediator->DrawPlayerModel();
 
 	for (std::shared_ptr<dxe::Mesh>& mesh : m_meshs)
 	{
-		mesh->render(gameCamera);
+		mesh->render(camera);
 	}
 }
 

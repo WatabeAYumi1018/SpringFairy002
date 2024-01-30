@@ -46,8 +46,20 @@ namespace dxe {
 		uint32_t getFreeInstanceNum() { return (uint32_t)free_instance_stack_.size(); }
 
 		//-----------------------------------------------------------------------------------------------------------------------------------------------------
+		// ライティング ON / OFF
+		TNL_PROPERTY(bool, LightingEnable, is_lighting_enable_);
+
+		//-----------------------------------------------------------------------------------------------------------------------------------------------------
+		// ブレンドステート設定
+		TNL_PROPERTY(eBlendState, BlendState, blend_state_);
+
+		//-----------------------------------------------------------------------------------------------------------------------------------------------------
+		// サンプラステート設定
+		TNL_PROPERTY(eSamplerState, SamplerState, sampler_state_);
+
+		//-----------------------------------------------------------------------------------------------------------------------------------------------------
 		// 描画
-		void render(Shared<dxe::Camera> camera);
+		void render(const Shared<dxe::Camera>& camera);
 
 		//-----------------------------------------------------------------------------------------------------------------------------------------------------
 		// 遮蔽物としてシャドウマップの準備
@@ -85,15 +97,18 @@ namespace dxe {
 		};
 
 		InstMeshPool(const Shared<Mesh>& mesh, uint32_t instance_num, const std::vector<Shared<dxe::Texture>>* textures = nullptr );
-		void mapInstances();
+		void mapInstances(const Shared<dxe::Camera>& camera);
 
 
 		TNL_PROPERTY(bool, NeedsUpdated, is_needs_updated_);
+		bool						is_lighting_enable_ = true;
 		bool						is_needs_updated_ = true;
 		uint32_t					ref_texture_index_num_ = 0;
 		uint32_t					instance_num_ = 0 ;
 		uint32_t					index_num_ = 0 ;
 		eBlendState					blend_state_ = eBlendState::NORMAL;
+		eSamplerState				sampler_state_ = eSamplerState::ANISOTROPIC;
+		eRasterizerState			rasterizer_state_ = eRasterizerState::CULL_NONE;
 		Shared<Mesh>				origine_clone_;
 		std::vector<Shared<Instance>>	instances_;
 		std::stack<Shared<Instance>>	free_instance_stack_;
@@ -125,11 +140,6 @@ namespace dxe {
 		// シェーダーリソースビュー
 		ComPtr<ID3D11Texture2D>			    texture_resouces_;
 		ComPtr<ID3D11ShaderResourceView>	shader_resouce_views_;
-
-		// ラスタライザステート
-		ComPtr<ID3D11RasterizerState>		rasterizer_state_ = nullptr;
-		// サンプラーステート
-		ComPtr<ID3D11SamplerState>          sampler_state_ = nullptr;
 
 	};
 

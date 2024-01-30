@@ -29,7 +29,7 @@ void CharaGraph::Update(float delta_time)
 	tnl_sequence_.update(delta_time);
 }
 
-void CharaGraph::Draw(std::shared_ptr<GameCamera> gameCamera)
+void CharaGraph::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	if (m_window_active)
 	{

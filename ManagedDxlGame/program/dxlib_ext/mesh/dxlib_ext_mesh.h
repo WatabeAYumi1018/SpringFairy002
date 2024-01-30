@@ -67,11 +67,14 @@ namespace dxe {
 			if (mv_hdl_) MV1DeleteModel(mv_hdl_);
 		}
 
+
 		tnl::Vector3	pos_;
 		tnl::Vector3	scl_ = { 1,1,1 };
 		tnl::Quaternion rot_;
 
-		const tnl::Vector3& GetPos() const { return pos_; }
+		tnl::Vector3& GetPos(){return pos_; }
+
+
 		//==========================================================================================================================
 		// 
 		//
@@ -122,8 +125,10 @@ namespace dxe {
 		inline int getDxMvHdl() { return mv_hdl_; }
 
 		// テクスチャの設定
-		inline void setTexture(std::shared_ptr<Texture> texture, uint32_t slot_num = DIFFUSE) {
-			if (textures_.size() <= slot_num) {
+		inline void setTexture(std::shared_ptr<Texture> texture, uint32_t slot_num = DIFFUSE) 
+		{
+			if (textures_.size() <= slot_num) 
+			{
 				std::vector<std::shared_ptr<Texture>> new_buffer(slot_num+1);
 				memcpy(new_buffer.data(), textures_.data(), sizeof(std::shared_ptr<Texture>) * textures_.size() );
 				new_buffer[slot_num] = texture;
@@ -162,6 +167,7 @@ namespace dxe {
 		inline int getBlendMode() const noexcept { return render_param_.getBlendMode(); }
 
 		// テクスチャサンプラフィルタ設定
+		// arg1... DX_DRAWMODE_***
 		inline void setSampleFilterMode(const int mode) noexcept { render_param_.setSampleFilterMode(mode); }
 		inline int getSampleFilterMode() const noexcept { return render_param_.getSampleFilterMode(); }
 

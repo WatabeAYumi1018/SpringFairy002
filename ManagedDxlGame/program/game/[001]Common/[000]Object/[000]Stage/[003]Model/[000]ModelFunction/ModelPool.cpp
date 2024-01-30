@@ -8,7 +8,6 @@ void ModelPool::AddModel(std::shared_ptr<Model>& model)
     m_models.emplace_back(model);
 }
 
-
 //
 //void ModelPool::IsActivateAllModels()
 //{
@@ -26,8 +25,6 @@ void ModelPool::AddModel(std::shared_ptr<Model>& model)
 //    }
 //
 //}
-
-
 
 //std::shared_ptr<Model> ModelPool::GetRandomModel(Model::eWorldType world_type)
 //{

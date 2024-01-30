@@ -19,6 +19,8 @@ PlayerDraw::PlayerDraw()
 	m_anim_bone_dance_hdl = MV1LoadModel("model/fairy/dance_new.mv1");
 	// 材質の指定はないため引数は0
 	MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_hdl, FALSE);
+
+	SetLight();
 }
 
 PlayerDraw::~PlayerDraw()
@@ -40,9 +42,17 @@ void PlayerDraw::Update(const float delta_time)
 
 void PlayerDraw::Draw()
 {
-	SetLight();
-
 	MV1DrawModel(m_model_hdl);
+}
+
+void PlayerDraw::UpdateCinemaCamera(float delta_time)
+{
+	CinemaAnimIdle(delta_time);
+
+	if (m_is_dance)
+	{
+		CinemaAnimDance(delta_time);
+	}
 }
 
 void PlayerDraw::SetLight()
@@ -142,51 +152,6 @@ void PlayerDraw::AnimDance(const float delta_time)
 						 , m_elapsed_time_dance);
 }
 
-//bool PlayerDraw::SeqMove(const float delta_time)
-//{
-//	if (tnl_sequence_.isStart())
-//	{
-//		MV1DetachAnim(m_model_hdl, m_anim_move_index);
-//
-//		m_anim_move_index
-//			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_move_hdl);
-//
-//		m_time_count_move
-//			= MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_move_index);
-//
-//		m_time_count_move -= m_anim_move_offset;
-//	}
-//
-//	// ボタンを押してないand地上状態の場合
-//	if (!m_mediator->GetPushButton()
-//		&& m_stage_phase == StagePhase::eStagePhase::e_ground)
-//	{
-//		tnl_sequence_.change(&PlayerDraw::SeqIdle);
-//	}
-//
-//	if(tnl::Input::IsKeyDownTrigger(eKeys::KB_X))
-//	{
-//		tnl_sequence_.change(&PlayerDraw::SeqBloom);
-//	}
-//
-//	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z))
-//	{
-//		tnl_sequence_.change(&PlayerDraw::SeqDance);
-//	}
-//
-//	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
-//	{
-//		MV1SetAttachAnimBlendRate(m_model_hdl, m_anim_move_index);
-//	});
-//
-//	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-//	{
-//		AnimMove(delta_time);
-//	});
-//
-//	TNL_SEQ_CO_END;
-//}
-//
 bool PlayerDraw::SeqMove(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
@@ -205,7 +170,7 @@ bool PlayerDraw::SeqMove(const float delta_time)
 		tnl_sequence_.change(&PlayerDraw::SeqBloom);
 	}
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z))
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z) || m_is_dance)
 	{
 		tnl_sequence_.change(&PlayerDraw::SeqDance);
 	}
@@ -301,13 +266,14 @@ bool PlayerDraw::SeqDance(const float delta_time)
 
 		m_elapsed_time_dance = 0;
 
+		m_is_dance = false;
+
 		tnl_sequence_.change(&PlayerDraw::SeqDanceToMove);
 	}
 
 	TNL_SEQ_CO_END;
 }
 
-// moveアニメーションへの遷移
 bool PlayerDraw::SeqDanceToMove(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
@@ -330,37 +296,102 @@ bool PlayerDraw::SeqDanceToMove(const float delta_time)
 	TNL_SEQ_CO_END;
 }
 
-
-bool PlayerDraw::SeqIdle(const float delta_time)
+void PlayerDraw::CinemaAnimIdle(const float delta_time)
 {
 	// 呼び出す直前にデタッチ（一度だけ実行）
-	if (tnl_sequence_.isStart())
+	if (!m_is_touch_idle)
+	{
+		AnimAttach(m_anim_idle_index, m_anim_bone_idle_hdl, m_time_count_idle);
+
+		m_is_touch_idle = true;
+
+		m_is_touch_dance = false;
+	}
+
+	// ブレンド処理
+	if (m_blend_timer < 1.0f)
+	{
+		AnimBlend(delta_time, m_anim_dance_index, m_anim_idle_index);
+	}
+	else
+	{
+		MV1DetachAnim(m_model_hdl, m_anim_dance_index);
+
+		// ボタンが押されるまでループ
+		AnimIdle(delta_time);
+	}
+}
+
+void PlayerDraw::CinemaAnimDance(const float delta_time)
+{
+	if (!m_is_touch_dance)
+	{
+		AnimAttach(m_anim_dance_index, m_anim_bone_dance_hdl, m_time_count_dance);
+
+		m_is_touch_dance = true;
+
+		m_is_touch_idle = false;
+	}
+
+	// ブレンド処理
+	if (m_blend_timer < 1.0f)
+	{
+		AnimBlend(delta_time, m_anim_idle_index, m_anim_dance_index);
+	}
+	else
 	{
 		MV1DetachAnim(m_model_hdl, m_anim_idle_index);
 
-		m_anim_idle_index
-			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_idle_hdl);
-
-		m_time_count_idle
-			= MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_idle_index);
+		AnimDance(delta_time);
 	}
 
-	// ボタンを押しているor空中状態の場合
-	if (m_mediator->GetPushButton()
-		|| m_stage_phase == StagePhase::eStagePhase::e_fly)
-	{
-		tnl_sequence_.change(&PlayerDraw::SeqMove);
-	}
-
-	// ボタンが押されるまでループ
-	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-		{
-			AnimIdle(delta_time);
-		});
-
-	TNL_SEQ_CO_END;
 }
 
+//bool PlayerDraw::SeqMove(const float delta_time)
+//{
+//	if (tnl_sequence_.isStart())
+//	{
+//		MV1DetachAnim(m_model_hdl, m_anim_move_index);
+//
+//		m_anim_move_index
+//			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_move_hdl);
+//
+//		m_time_count_move
+//			= MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_move_index);
+//
+//		m_time_count_move -= m_anim_move_offset;
+//	}
+//
+//	// ボタンを押してないand地上状態の場合
+//	if (!m_mediator->GetPushButton()
+//		&& m_stage_phase == StagePhase::eStagePhase::e_ground)
+//	{
+//		tnl_sequence_.change(&PlayerDraw::SeqIdle);
+//	}
+//
+//	if(tnl::Input::IsKeyDownTrigger(eKeys::KB_X))
+//	{
+//		tnl_sequence_.change(&PlayerDraw::SeqBloom);
+//	}
+//
+//	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z))
+//	{
+//		tnl_sequence_.change(&PlayerDraw::SeqDance);
+//	}
+//
+//	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
+//	{
+//		MV1SetAttachAnimBlendRate(m_model_hdl, m_anim_move_index);
+//	});
+//
+//	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+//	{
+//		AnimMove(delta_time);
+//	});
+//
+//	TNL_SEQ_CO_END;
+//}
+//
 
 //
 //MV1SetAttachAnimTime(m_model_hdl

@@ -28,12 +28,20 @@ private:
 	// 移動回転速度
 	float m_move_rotation = 10;
 
+	// 補間が完了するまでの時間（秒）
+	float m_blend_time = 1.0f; 
+	// 現在の補間時間
+	float m_current_time = 0.0f;
+
 	// 右からのサイド視点(視線先は左)
 	bool m_look_side_right = false;
 	// 左からのサイド視点(視線先は右)
 	bool m_look_side_left = false;
 
 	tnl::Vector3 m_new_pos;
+
+	tnl::Vector3 m_target_direction;
+	tnl::Vector3 m_chara_direction;
 
 
 	// A*からの経路
@@ -53,15 +61,35 @@ public:
 	// ゴールまでの経路を取得
 	void GetAutoMove();
 
-	// キャラクターの座標回転更新
-	void MoveAstarChara(const float delta_time, tnl::Vector3 & pos, tnl::Quaternion & rot);
+	// キャラクターの座標更新
+	void MoveAstarCharaPos(const float delta_time, tnl::Vector3 & pos);
+	
+	void MoveAstarCharaRot(const float delta_time, tnl::Vector3& pos, tnl::Quaternion& rot);
 	// ターゲットの座標とレーン更新
 	void MoveAstarTarget(const float delta_time, tnl::Vector3& pos);
 
 	void SetLookSideRight(bool look_side_right) { m_look_side_right = look_side_right; }
 
+	bool GetLookSideRight() const { return m_look_side_right; }
+
 	void SetLookSideLeft(bool look_side_left) { m_look_side_left = look_side_left; }
 
+	bool GetLookSideLeft() const { return m_look_side_left; }
+
+	//const tnl::Vector3& GetTargetDirection() const 
+	//{
+	//	return m_target_direction; 
+	//}
+
+	const tnl::Vector3& GetCharaDirection() const
+	{
+		return m_chara_direction;
+	}
+
+	//const std::vector<std::pair<int, int>>& GetGoalProcess() const
+	//{
+	//	return m_goal_process;
+	//}
 
 	void SetAstar(std::shared_ptr<wta::Astar<Lane::sLane>>& astar)
 	{
@@ -74,10 +102,6 @@ public:
 	}
 };
 
-//std::vector<std::pair<int, int>> GetGoalProcess()
-//{
-//	return m_goal_process;
-//}
 
 //void SetNowPos(tnl::Vector3 pos) { m_now_pos = pos; }
 

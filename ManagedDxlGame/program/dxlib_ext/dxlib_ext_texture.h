@@ -40,8 +40,9 @@ namespace dxe {
 		// arg1... ファイルパス
 		static std::shared_ptr<Texture> CreateFromFile( const std::string& file_path );
 		static std::shared_ptr<Texture> CreateFromMemory( char* file_data, uint32_t data_size, const std::string& regist_key_ = "" );
-		static std::shared_ptr<Texture> CreateFromColorBufferRGBA8( unsigned char* color_buffer_rgba8, uint32_t width, uint32_t height);
+		static std::shared_ptr<Texture> CreateFromColorBufferRGBA8( unsigned char* color_buffer_rgba8, uint32_t width, uint32_t height, const std::string& regist_key);
 		static std::shared_ptr<Texture> CreateFromDxLibGraphHdl( int dxlib_graph_hdl );
+		static std::vector<std::shared_ptr<Texture>> CreateFromFileDiv(const std::string& file_path, uint32_t frame_w, uint32_t frame_h);
 
 		static void DestroyUnReferenceTextures();
 

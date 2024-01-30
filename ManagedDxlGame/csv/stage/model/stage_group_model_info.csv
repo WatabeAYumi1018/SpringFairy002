@@ -1,0 +1,4 @@
+モデルID,モデル ファイルパス,テクスチャ ファイルパス 1,テクスチャ ファイルパス 2,テクスチャ ファイルパス 3,テクスチャ ファイルパス 4
+0,model/stage/flowers/area_grass.mv1,model/stage/flowers/plant.png,model/stage/flowers/plant_yellow.png,model/stage/flowers/plant_pink.png,model/stage/flowers/plant_orange.png
+1,model/stage/tree/area_tree.mv1,model/stage/tree/plant_a.png,model/stage/tree/plant_b.png,model/stage/tree/birch_diffuse.png,model/stage/tree/tree_trunk.png
+2,,,,,

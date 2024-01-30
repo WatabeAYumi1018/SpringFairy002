@@ -35,18 +35,14 @@ void Effect::Initialize()
 
 void Effect::Update(float delta_time)
 {
-	m_pos = m_mediator->GetPlayerPos();
+    // オフセット値
+    float offset = 150.0f;
 
     // キャラの正面向きを取得
     tnl::Vector3 forward = m_mediator->PlayerForward();
 
-    // オフセット値
-    float offset = 100.0f;
-
-    // 正面方向にオフセットを加えた新しい位置を計算
-    m_pos = m_pos + forward * offset;
-
-    m_pos.y += offset;
+    // プレイヤーの位置を取得
+    m_pos = m_mediator->GetPlayerPos();
 
     // 攻撃ボタンのフラグが立っていたら一回再生
     for (sEffectType& effect_type : m_effect_types)
@@ -55,8 +51,8 @@ void Effect::Update(float delta_time)
             && m_mediator->GetIsPlayerAttack())
         {
             m_particles[effect_type.s_id]->start();
-
-            m_particles[effect_type.s_id]->setPosition(m_pos);
+            m_particles[effect_type.s_id]->setPosition({ m_pos.x, m_pos.y + offset,m_pos.z });
+            m_particles[effect_type.s_id]->setDiffDirection(forward);
         }
       //  else
       //  {
@@ -65,19 +61,19 @@ void Effect::Update(float delta_time)
     }
 }
 
-void Effect::Draw(std::shared_ptr<GameCamera> gameCamera)
+void Effect::Draw(std::shared_ptr<dxe::Camera> camera)
 {
     // パーティクルの描画開始
-    dxe::DirectXRenderBegin();
+    dxe::Particle::renderBegin();
 
     // パーティクルを描画
     for (std::shared_ptr<dxe::Particle>& particle : m_particles)
     {
-        particle->render(gameCamera);
+        particle->render(camera);
     }
     
     // パーティクルの描画終了
-    dxe::DirectXRenderEnd();
+    dxe::Particle::renderEnd();
 }
 
 bool Effect::ContainsAttack(const std::string& str)

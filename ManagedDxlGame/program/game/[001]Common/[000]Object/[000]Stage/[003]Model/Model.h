@@ -2,6 +2,7 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "../../Object.h"
 
+
 class Mediator;
 
 
@@ -10,73 +11,54 @@ class Model : public Object
 
 public:
 
-	struct sStageModel
+	struct sModelInfo
 	{
 		int s_id;
-		tnl::Vector3 s_pos;
-	};
-
-	struct sStageModelType
-	{
-		int s_id;
-		int s_model_hdl;
-		int s_texture_a_hdl;
-		int s_texture_b_hdl;
-		int s_texture_c_hdl;
-		int s_material_count;
 		std::string s_model_path;
 		std::string s_texture_a_path;
 		std::string s_texture_b_path;
 		std::string s_texture_c_path;
-		std::string s_material_a_name;
-		std::string s_material_b_name;
-		std::string s_material_c_name;
+		std::string s_texture_d_path;
+		int s_model_hdl;
+		int s_texture_a_hdl;
+		int s_texture_b_hdl;
+		int s_texture_c_hdl;
+		int s_texture_d_hdl;
+		int s_material_count;
 	};
 
+
 	Model();
-	//Model(int model_hdl,int id);
 	
 	~Model();
 
 private:
 
-	int m_width = 0;
-	int m_height = 0;
-
 	// 個別のアクティブ状態
 	bool m_is_alive_active = false;
 
-	std::vector<Model::sStageModel> m_tree_models;
-
-	std::vector<Model::sStageModel> m_grass_models;
-
-	std::unordered_map<int, sStageModelType> m_model_map;
+	std::vector<sModelInfo> m_models_info;
 
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	void LoadModelInfo(sModelInfo& model_info);
+
+	void SetTextureIndex(sModelInfo& model_info, int a, int b, int c);
 
 	// ライトの設定
-	void SetLight(int model_hdl);
+	void SetLight(sModelInfo& model_info);
 
-	void SetTextureIndex(sStageModelType& model);
-
-	void DrawGrass();
-
-	//void DrawModel(const sStageModel& model);
-
-	void DrawModelSet(const std::vector<Model::sStageModel>& model_set
-					  , int num_sets, int spacing);
+	// 背景モデル生成
+	void DrawStage(std::vector<sModelInfo>& models_info,int id);
 
 public:
-
-	void CreateGroupMesh();
 
 	void Initialize() override;
 
 	void Update(float delta_time) override;
 	
-	void Draw(std::shared_ptr<GameCamera> gameCamera) override;
+	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)

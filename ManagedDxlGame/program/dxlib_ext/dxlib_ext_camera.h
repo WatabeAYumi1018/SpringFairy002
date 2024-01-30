@@ -1,22 +1,43 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
 
-namespace dxe {
+namespace dxe 
+{
 
-	class Camera {
+	class Camera 
+	{
+
 	public :
 
+		enum class eDimension{ Type2D, Type3D };
+
 		Camera(){}
-		Camera(int screen_w, int screen_h)
+		Camera(int screen_w, int screen_h, const eDimension dimension = eDimension::Type3D) 
 		{
 			screen_w_ = screen_w;
 			screen_h_ = screen_h;
 			aspect_ = (float)screen_w_ / (float)screen_h_;
+			dimension_ = dimension;
+
+			if (dimension == eDimension::Type3D)
+			{
+				pos_ = { 0, 200, -500 };
+				target_ = { 0, 0, 0 };
+			}
+			else 
+			{
+				pos_ = { 0, 0, 0 };
+				target_ = { 0, 0, 10 };
+			}
 		}
 		virtual ~Camera() {}
 
-		int screen_w_ = 0 ;
 
+		TNL_PROPERTY(eDimension, Dimension, dimension_);
+
+		eDimension dimension_ = eDimension::Type3D;
+
+		int screen_w_ = 0 ;
 		int screen_h_ = 0 ;
 
 		// ÉJÉÅÉâÇÃÇRéüå≥ç¿ïW
@@ -77,16 +98,25 @@ namespace dxe {
 		tnl::Vector3 getFlustumNormal(eFlustum flusum);
 
 
-
-
-		virtual void update(float delta_time)
+		virtual void update(const float delta_time)
 		{
-			view_ = tnl::Matrix::LookAtLH(pos_, target_, up_);
-			proj_ = tnl::Matrix::PerspectiveFovLH(angle_, aspect_, near_, far_);
+			if (eDimension::Type3D == dimension_) 
+			{
+				view_ = tnl::Matrix::LookAtLH(pos_, target_, up_);
+				proj_ = tnl::Matrix::PerspectiveFovLH(angle_, aspect_, near_, far_);
+			}
+			else
+			{
+				target_ = { pos_.x, pos_.y, 10 };
+			
+				view_ = tnl::Matrix::LookAtLH({ pos_.x, pos_.y, -10 }, { target_.x, target_.y, 0 }, up_);
+				proj_ = tnl::Matrix::OrthoLH((float)screen_w_, (float)screen_h_, 1, 1000);
+			}
 		}
 
 		void render(float scale, uint32_t color = 0xffffff00);
 
+		void SetPos(const tnl::Vector3& pos) { pos_ = pos; }
 
 		const tnl::Vector3& GetPos() const { return pos_; }
 
@@ -94,5 +124,4 @@ namespace dxe {
 
 		const tnl::Matrix& GetProj() const { return proj_; }
 	};
-
 }

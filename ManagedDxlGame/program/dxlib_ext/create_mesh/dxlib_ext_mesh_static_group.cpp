@@ -14,7 +14,9 @@ namespace dxe {
 
 		if (increase_mesh->getVertexs().empty()) {
 
-			auto info = MV1GetReferenceMesh(increase_mesh->getDxMvHdl(), 0, 0);
+			int err = MV1SetupReferenceMesh(increase_mesh->getDxMvHdl(), -1, 0, 0, -1);
+			auto info = MV1GetReferenceMesh(increase_mesh->getDxMvHdl(), -1, 0, 0, -1);
+			MV1TerminateReferenceMesh(increase_mesh->getDxMvHdl(), -1, 0, 0, -1);
 
 			uint32_t inst_num = (uint32_t)mesh_matrixs.size();
 

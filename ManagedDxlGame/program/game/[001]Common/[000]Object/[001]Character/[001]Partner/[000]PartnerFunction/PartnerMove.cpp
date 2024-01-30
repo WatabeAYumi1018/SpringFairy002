@@ -9,8 +9,9 @@ void PartnerMove::Update(float delta_time)
 	m_rot = m_mediator->GetPartnerRot();
 
 	// 自動経路による移動と回転の更新
-	m_mediator->MoveAstarCharaMatrix(delta_time, m_pos,m_rot);
-	
+	m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
+	m_mediator->MoveAstarCharaUpdateRot(delta_time, m_pos,m_rot);
+
 	UpdatePos(delta_time);
 
     //if (m_is_pushed)
@@ -43,7 +44,7 @@ void PartnerMove::UpdatePos(const float delta_time)
     tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
 
     // 独自の動き（プレイヤーの周りを回る動き）を追加
-    float orbit_radius = 3.0f;
+    float orbit_radius = 1.0f;
     
     m_offset.x = orbit_radius * cosf(m_move_time * m_orbit_frequency);
     m_offset.z = orbit_radius * sinf(m_move_time * m_orbit_frequency);

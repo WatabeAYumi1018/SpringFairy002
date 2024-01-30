@@ -26,7 +26,7 @@ namespace dxe {
 		enum class eOriginMode { XYZ, XY, XZ, YZ, X, Y, Z };
 
 		// 放出タイプ
-		enum class eEjectType { DIFF, CONV };
+		enum class eEjectType { DIFF, CONV, ICONV };
 
 		// 移動平面
 		enum class eMoveSurface { XYZ, XY, XZ, YZ };
@@ -254,6 +254,10 @@ namespace dxe {
 		ePlayType play_type_ = ePlayType::LOOP ;
 		// ブレンドモード
 		eBlendState blend_mode_ = eBlendState::ADD ;
+		// サンプラステート
+		eSamplerState sampler_state_ = eSamplerState::ANISOTROPIC;
+		// ラスタライザステート
+		eRasterizerState rasterizer_state_ = eRasterizerState::CULL_NONE;
 		// 生成の起点モード
 		eOriginMode origin_mode_ = eOriginMode::XYZ;
 		// 放出タイプ
@@ -295,9 +299,9 @@ namespace dxe {
 		ComPtr<ID3D11Resource>              texture_resouce_ = nullptr;
 
 		// ラスタライザステート
-		ComPtr<ID3D11RasterizerState>		rasterizer_state_ = nullptr;
+		//ComPtr<ID3D11RasterizerState>		rasterizer_state_ = nullptr;
 		// サンプラーステート
-		ComPtr<ID3D11SamplerState>          sampler_state_ = nullptr;
+		//ComPtr<ID3D11SamplerState>          sampler_state_ = nullptr;
 
 		bool is_btn_save_forcus_ = false;
 		bool is_btn_save_select_ = false;
