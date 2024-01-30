@@ -55,6 +55,9 @@ private:
 	bool m_is_attack = false;
 	// イベントによるダンスの自動発生フラグ
 	bool m_is_dance = false;
+	// ボーンのデタッチ設定フラグ(シネマプレイヤー用)
+	bool m_is_touch_idle = false;
+	bool m_is_touch_dance = false;
 
 	eDirection m_direction = eDirection::e_none;
 
@@ -75,16 +78,12 @@ private:
 
 	void AnimAttach(int& anim_index, int anim_bone_hdl, float& time_count);
 
-
 	// move ループ再生の時間設定
 	void AnimMove(const float delta_time);
 	// bloom 単発再生の時間設定
 	void AnimBloom(const float delta_time);
 	// dance 単発再生の時間設定
 	void AnimDance(const float delta_time);
-
-	// idle ループ再生の時間設定　
-	void AnimIdle(const float delta_time);
 
 	// 移動状態
 	bool SeqMove(const float delta_time);
@@ -97,8 +96,17 @@ private:
 	// danceアニメーションへの遷移
 	bool SeqDanceToMove(const float delta_time);
 
-	// アイドル状態
-	bool SeqIdle(const float delta_time);
+
+	//-----シネマカメラ用関数-----//
+	
+	// idle ループ再生の時間設定　
+	void AnimIdle(const float delta_time);
+
+	// シネマカメラ用のアニメーション
+	void CinemaAnimIdle(const float delta_time);
+	void CinemaAnimDance(const float delta_time);
+
+	//---------------------------//
 
 
 public:
@@ -107,6 +115,13 @@ public:
 	void Update(float delta_time);
 	// PlayerHumanクラスのDraw関数にて毎フレーム呼び出す
 	void Draw();
+	
+
+	//-----シネマカメラ用関数-----//
+	
+	void UpdateCinemaCamera(float delta_time);
+	
+	//---------------------------//
 
 
 	int GetModelHdl() const { return m_model_hdl; }

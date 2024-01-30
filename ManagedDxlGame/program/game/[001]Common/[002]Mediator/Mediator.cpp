@@ -10,6 +10,7 @@
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerDraw.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerSkill.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
+#include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayer/CinemaPlayer.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
@@ -23,6 +24,7 @@
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
+#include "../[001]Camera/[001]CinemaCamera/CinemaCamera.h"
 
 
 //---------StagePhase---------//
@@ -401,6 +403,11 @@ bool Mediator::GetIsPlayerDance() const
 	return m_playerDraw->GetIsDance();
 }
 
+void Mediator::UpdateCinemaCameraPlayer(const float delta_time)
+{
+	m_playerDraw->UpdateCinemaCamera(delta_time);
+}
+
 
 
 // playerSkill
@@ -423,6 +430,14 @@ void Mediator::UpdateCollisionCheck()
 {
 	m_playerCollision->CollisionCheck();
 }
+
+// CinemaPlayer
+
+const tnl::Vector3& Mediator::GetCinemaPlayerPos() const
+{
+	return m_cinemaPlayer->GetPos();
+}
+
 
 //--------------------------//
 
@@ -859,6 +874,13 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 //{
 //	m_cameraFrustum->CollisionCheck();
 //}
+
+// CinemaCamera
+
+bool Mediator::GetIsCinemaCameraActive() const
+{
+	return m_cinemaCamera->GetIsActive();
+}
 
 //---------------------------//
 

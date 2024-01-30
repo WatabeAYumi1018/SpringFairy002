@@ -53,10 +53,10 @@ void ScenePlay::Initialize()
 		object->Initialize();
 	}
 
-	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
-	{
-		object->Initialize();
-	}
+	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
+	//{
+	//	object->Initialize();
+	//}
 }
 
 void ScenePlay::Update(const float delta_time)
@@ -65,7 +65,7 @@ void ScenePlay::Update(const float delta_time)
 
 	m_gameCamera->update(delta_time);
 
-	m_cinemaCamera->update(delta_time);
+	//m_cinemaCamera->update(delta_time);
 	
 	m_gimmickGenerator->Update(delta_time);
 
@@ -74,28 +74,31 @@ void ScenePlay::Update(const float delta_time)
 		object->Update(delta_time);
 	}
 
-	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
-	{
-		object->Update(delta_time);
-	}
+	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
+	//{
+	//	object->Update(delta_time);
+	//}
 }
 
 void ScenePlay::Draw(const float delta_time)
 {
 	//DrawDefaultLightGuiController();
 	DrawGridGround(m_gameCamera);
-
+		
 	m_screenShot->SaveScreenShot();
 
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
+
 		object->Draw(m_gameCamera);
 	}
 
-	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
-	{
-		object->Draw(m_cinemaCamera);
-	}
+	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
+	//{
+	//	DrawGridGround(m_cinemaCamera);
+
+	//	object->Draw(m_cinemaCamera);
+	//}
 
 	// Fps•\Ž¦
 	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);

@@ -47,6 +47,8 @@ PlayFactory::PlayFactory()
 
 	StorageObjectGameCamera();
 
+	StorageObjectCinemaCamera();
+
 	//PoolGimmickObject();
 
 	m_laneMove->GetAutoMove();
@@ -139,6 +141,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetPlayerDraw(m_playerDraw);
 	m_mediator->SetPlayerSkill(m_playerSkill);
 	m_mediator->SetPlayerCollision(m_playerCollision);
+	m_mediator->SetCinemaPlayer(m_cinemaPlayer);
 	m_mediator->SetPartner(m_partner);
 	m_mediator->SetPartnerMove(m_partnerMove);
 	m_mediator->SetPartnerDraw(m_partnerDraw);
@@ -154,6 +157,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetCharaGraphDraw(m_charaGraphDraw);
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
+	m_mediator->SetCinemaCamera(m_cinemaCamera);
 
 	m_stagePhase->SetMediator(m_mediator);
 	m_laneMove->SetAstar(m_astar);
@@ -245,9 +249,9 @@ void PlayFactory::StorageObjectGameCamera()
 void PlayFactory::StorageObjectCinemaCamera()
 {
 	// シネマ用の背景
-	m_objects_cinemaCamera.emplace_back(m_skyBox);
+	//m_objects_cinemaCamera.emplace_back(m_skyBox);
 	// シネマ用エフェクト
-	m_objects_cinemaCamera.emplace_back();
+	m_objects_cinemaCamera.emplace_back(m_cinemaPlayer);
 	m_objects_cinemaCamera.emplace_back(m_effect);
 	// 蝶
 }

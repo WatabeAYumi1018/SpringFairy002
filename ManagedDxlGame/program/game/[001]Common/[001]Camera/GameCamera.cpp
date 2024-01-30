@@ -9,6 +9,9 @@ GameCamera::GameCamera()
 
 void GameCamera::update(const float delta_time)
 {
+	//if (!m_mediator->GetIsCinemaCameraActive())
+	//{
+	//
 	//// カメラの姿勢を更新
 	//target_ = pos_ + tnl::Vector3::TransformCoord({ 0, 0, 1 }, m_rot);
 	//// カメラのアッパーベクトルを更新
@@ -16,7 +19,6 @@ void GameCamera::update(const float delta_time)
 
 	dxe::Camera::update(delta_time);
 
-	// 最初のレーンだけプレイヤーに追従
 	tnl_sequence_.update(delta_time);
 //	IsInFlustum();
 
@@ -25,6 +27,8 @@ void GameCamera::update(const float delta_time)
 	//DrawStringEx(0, 100, -1, "CameraPos_x:%f", pos_.x);
 	//DrawStringEx(0, 120, -1, "CameraPos_y:%f", pos_.y);
 	//DrawStringEx(0, 140, -1, "CameraPos_z:%f", pos_.z);
+
+	//}
 }
 
 void GameCamera::IsInFlustum()

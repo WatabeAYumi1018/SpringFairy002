@@ -25,6 +25,7 @@ class PlayerMove;
 class PlayerDraw;
 class PlayerSkill;
 class PlayerCollision;
+class CinemaPlayer;
 
 class Partner;
 class PartnerMove;
@@ -47,6 +48,7 @@ class CharaGraphDraw;
 
 class GameCamera;
 class CameraLoad;
+class CinemaCamera;
 
 class Mediator
 {
@@ -74,6 +76,7 @@ private:
 	std::shared_ptr<PlayerDraw> m_playerDraw = nullptr;
 	std::shared_ptr<PlayerSkill> m_playerSkill = nullptr;
 	std::shared_ptr<PlayerCollision> m_playerCollision = nullptr;
+	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
 
 	std::shared_ptr<Partner> m_partner = nullptr;
 	std::shared_ptr<PartnerMove> m_partnerMove = nullptr;
@@ -97,6 +100,7 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
+	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
 
 	//------------------------------------------------//
 
@@ -469,6 +473,11 @@ public:
 	// 参照先 ... PhaseManager::Update(float delta_time)
 	bool GetIsPlayerDance() const;
 
+	// シネマアニメーション更新処理
+	// 参照元 ... PlayerDraw::UpdateCinemaCamera(float delta_time)
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void UpdateCinemaCameraPlayer(const float delta_time);
+
 	// playerSkill
 
 	// プレイヤースキルの更新処理
@@ -487,6 +496,14 @@ public:
 	// 参照元 ... PlayerCollision::CollisionCheck()
 	// 参照先 ... Player::Update(float delta_time)
 	void UpdateCollisionCheck();
+
+	// CinemaPlayer
+
+	// シネマプレイヤーの座標取得
+	// 参照元 ... Player::m_pos
+	// 参照先 ... Playerの座標が必要な全クラス
+	const tnl::Vector3& GetCinemaPlayerPos() const;
+
 
 	//--------------------------//
 
@@ -893,6 +910,13 @@ public:
 	// 参照先 ... Camera::関連する関数
 	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
 
+	// CinemaCamera
+
+	// シネマカメラのアクティブ状態取得
+	// 参照元 ... CinemaCamera::m_is_active
+	// 参照先 ... シネマカメラで描画する全Draw関数
+	bool GetIsCinemaCameraActive() const;
+
 	//---------------------------//
 
 
@@ -969,6 +993,11 @@ void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 	void SetPlayerCollision(std::shared_ptr<PlayerCollision>& playerCollision)
 	{
 		m_playerCollision = playerCollision;
+	}
+
+	void SetCinemaPlayer(std::shared_ptr<CinemaPlayer>& cinemaPlayer)
+	{
+		m_cinemaPlayer = cinemaPlayer;
 	}
 
 	void SetPartner(std::shared_ptr<Partner>& partner)
@@ -1049,6 +1078,11 @@ void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 	void SetCameraLoad(std::shared_ptr<CameraLoad>& cameraLoad)
 	{
 		m_cameraLoad = cameraLoad;
+	}
+
+	void SetCinemaCamera(std::shared_ptr<CinemaCamera>& cinemaCamera)
+	{
+		m_cinemaCamera = cinemaCamera;
 	}
 
 	//------------------------------------------------//
