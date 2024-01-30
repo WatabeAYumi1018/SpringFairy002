@@ -3,7 +3,7 @@
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
-#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelGenerator.h"
+//#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelGenerator.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
@@ -210,7 +210,7 @@ int Mediator::GetStageModelTotalNum() const
 //	return m_modelLoad->GetGrassVector();
 //}
 
-const std::vector<Model::sMeshModelType>& Mediator::GetStageModelTypeInfo() const
+const std::vector<Model::sModelInfo>& Mediator::GetStageModelTypeInfo() const
 {
 	return m_modelLoad ->GetModelTypeInfo();
 }
@@ -240,20 +240,20 @@ std::vector<std::shared_ptr<Model>>& Mediator::GetPoolModels() const
 
 // ModelGenerator
 
-void Mediator::ModelGeneInitialize()
-{
-	m_modelGenerator->Initialize();
-}
-
-void Mediator::ModelGeneUpdate(const float delta_time)
-{
-	m_modelGenerator->Update(delta_time);
-}
-
-void Mediator::ModelGeneDraw(std::shared_ptr<GameCamera> gameCamera)
-{
-	m_modelGenerator->Draw(gameCamera);
-}
+//void Mediator::ModelGeneInitialize()
+//{
+//	m_modelGenerator->Initialize();
+//}
+//
+//void Mediator::ModelGeneUpdate(const float delta_time)
+//{
+//	m_modelGenerator->Update(delta_time);
+//}
+//
+//void Mediator::ModelGeneDraw(std::shared_ptr<GameCamera> gameCamera)
+//{
+//	m_modelGenerator->Draw(gameCamera);
+//}
 
 //--------------------------//
 
@@ -390,6 +390,17 @@ bool Mediator::GetIsPlayerAttack() const
 {
 	return m_playerDraw->GetIsAttack();
 }
+
+void Mediator::SetIsPlayerDance(bool is_dance)
+{
+	m_playerDraw->SetIsDance(is_dance);
+}
+
+bool Mediator::GetIsPlayerDance() const
+{
+	return m_playerDraw->GetIsDance();
+}
+
 
 
 // playerSkill

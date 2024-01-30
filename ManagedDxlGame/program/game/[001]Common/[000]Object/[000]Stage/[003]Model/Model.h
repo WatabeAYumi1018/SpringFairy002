@@ -2,6 +2,7 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "../../Object.h"
 
+
 class Mediator;
 
 
@@ -10,115 +11,48 @@ class Model : public Object
 
 public:
 
-	//struct sStageModel
-	//{
-	//	int s_id;
-	//	tnl::Vector3 s_pos;
-	//};
-
-	struct sMeshModelType
+	struct sModelInfo
 	{
 		int s_id;
 		std::string s_model_path;
-		std::string s_texture_path;
-		int s_create_count_x;
-		int s_create_count_z;
-		float s_scale;
-		float s_interval;
-		tnl::Vector3 s_offset;
-	};
-	struct sModelType
-	{
+		std::string s_texture_a_path;
+		std::string s_texture_b_path;
+		std::string s_texture_c_path;
+		std::string s_texture_d_path;
 		int s_model_hdl;
-		int s_texture_hdl;
+		int s_texture_a_hdl;
+		int s_texture_b_hdl;
+		int s_texture_c_hdl;
+		int s_texture_d_hdl;
+		int s_material_count;
 	};
 
-	//struct sStageModelType
-	//{
-	//	int s_id;
-	//	int s_model_hdl;
-	//	int s_texture_a_hdl;
-	//	int s_texture_b_hdl;
-	//	int s_texture_c_hdl;
-	//	int s_material_count;
-	//	std::string s_model_path;
-	//	std::string s_texture_a_path;
-	//	std::string s_texture_b_path;
-	//	std::string s_texture_c_path;
-	//	std::string s_material_a_name;
-	//	std::string s_material_b_name;
-	//	std::string s_material_c_name;
-	//};
 
 	Model();
-	//Model(int model_hdl,int id);
 	
 	~Model();
 
 private:
 
-	int m_model_hdl = 0;
-	int m_texture_normal_hdl = 0;
-	int m_texture_yellow_hdl = 0;
-	int m_texture_pink_hdl = 0;
-	int m_texture_orange_hdl = 0;
-	int m_material_count = 0;
-
-
-	//int m_width = 0;
-	//int m_height = 0;
-
 	// 個別のアクティブ状態
 	bool m_is_alive_active = false;
-	
 
-	//std::vector<Model::sStageModel> m_tree_models;
+	std::vector<sModelInfo> m_models_info;
 
-	//std::vector<Model::sStageModel> m_grass_models;
-
-	//std::vector<sMeshModelType> m_models;
-	//// 復元元のメッシュモデル
-	//std::vector <std::shared_ptr<dxe::Mesh>> m_models_mesh_origin;
-	//// コピーしたメッシュモデル
-	//std::vector <std::shared_ptr<dxe::Mesh>> m_models_mesh_copy;
-
-	//std::vector<tnl::Matrix> m_models_matrix;
-
-	//// 復元元のメッシュモデル
-	//std::shared_ptr<dxe::Mesh> m_mesh_origin = nullptr;
-	//// コピーしたメッシュモデル
-	//std::shared_ptr<dxe::Mesh> m_mesh_copy = nullptr;
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	//std::shared_ptr<dxe::Mesh> mesh_copy = nullptr;
+	void LoadModelInfo(sModelInfo& model_info);
 
-	void LoadTexture();
-
-	void SetTextureIndex();
+	void SetTextureIndex(sModelInfo& model_info, int a, int b, int c);
 
 	// ライトの設定
-	void SetLight(int model_hdl) override;
+	void SetLight(sModelInfo& model_info);
 
-	//void GenerateMeshPos(int x, int z, float spacing);
-
-	//void LoadGroupModelInfo();
-
-	//void CreateGroupMesh();
-
-	//void SetTextureIndex(sMeshModelType& model);
-
-	// エリア１の背景花モデル生成
-	void DrawGrass();
-
-	//void DrawModel(const sStageModel& model);
-
-	//void DrawModelSet(const std::vector<Model::sStageModel>& model_set
-	//				  , int num_sets, int spacing);
+	// 背景モデル生成
+	void DrawStage(std::vector<sModelInfo>& models_info,int id);
 
 public:
-
-	//void CreateGroupMesh();
 
 	void Initialize() override;
 

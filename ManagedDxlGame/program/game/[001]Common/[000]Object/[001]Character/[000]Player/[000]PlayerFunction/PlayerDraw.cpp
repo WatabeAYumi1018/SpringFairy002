@@ -205,7 +205,7 @@ bool PlayerDraw::SeqMove(const float delta_time)
 		tnl_sequence_.change(&PlayerDraw::SeqBloom);
 	}
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z))
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z) || m_is_dance)
 	{
 		tnl_sequence_.change(&PlayerDraw::SeqDance);
 	}
@@ -300,6 +300,8 @@ bool PlayerDraw::SeqDance(const float delta_time)
 		m_is_attack = false;
 
 		m_elapsed_time_dance = 0;
+
+		m_is_dance = false;
 
 		tnl_sequence_.change(&PlayerDraw::SeqDanceToMove);
 	}

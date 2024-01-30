@@ -31,7 +31,7 @@ class Floor;
 class Model;
 class ModelLoad;
 class ModelPool;
-class ModelGenerator;
+//class ModelGenerator;
 
 class Character;
 
@@ -106,7 +106,7 @@ private:
 	std::shared_ptr<Model> m_model = nullptr;
 	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
 	std::shared_ptr<ModelPool> m_modelPool = nullptr;
-	std::shared_ptr<ModelGenerator> m_modelGenerator = nullptr;
+	//std::shared_ptr<ModelGenerator> m_modelGenerator = nullptr;
 
 	std::shared_ptr<Character> m_character = nullptr;
 

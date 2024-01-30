@@ -17,6 +17,12 @@ void CameraTargetPlayer::Update(float delta_time)
 	DrawStringEx(500, 0, -1, "カメラID番号 : %d", m_camera_info.s_id);
 	DrawStringEx(500, 20, -1, "イベントID番号 : %d", m_event.s_id);
 
+	// プレイヤーのアニメーション自動発生フラグ設定
+	if (m_event.s_id == 6)
+	{
+		m_mediator->SetIsPlayerDance(true);
+	}
+
 	//if (m_gimmick.s_id == 1)
 	//{
 	//	Gimmick::sGimmickTypeInfo gimmick_type
@@ -26,15 +32,15 @@ void CameraTargetPlayer::Update(float delta_time)
 
 void CameraTargetPlayer::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	////// 当たり判定デバッグ用
-	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
-	//pos.y += m_collision_size;
-	//DrawSphere3D(pos, m_collision_size, 32, -1, -1, true);
+	//// 当たり判定デバッグ用
+	VECTOR pos = wta::ConvertToVECTOR(m_pos);
+	pos.y += m_collision_size;
+	DrawSphere3D(pos, m_collision_size, 32, -1, -1, true);
 
 	// 座標デバッグ用
-	DrawStringEx(1000, 100, 1, "TargetPos_x:%f", m_pos.x);
-	DrawStringEx(1000, 120, 1, "TargetPos_y:%f", m_pos.y);
-	DrawStringEx(1000, 140, 1, "TargetPos_z:%f", m_pos.z);
+	DrawStringEx(1000, 100, -1, "TargetPos_x:%f", m_pos.x);
+	DrawStringEx(1000, 120, -1, "TargetPos_y:%f", m_pos.y);
+	DrawStringEx(1000, 140, -1, "TargetPos_z:%f", m_pos.z);
 }
 
 void CameraTargetPlayer::MoveMatrix(const float delta_time)
@@ -89,10 +95,10 @@ bool CameraTargetPlayer::SeqStop(const float delta_time)
 
 bool CameraTargetPlayer::SeqUpMove(const float delta_time)
 {
-	//if(既定座標へ移動完了)
-	//{
-	//	tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
-	//}
+	if(m_pos.y > 1000)
+	{
+		tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
+	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]()
 	{
@@ -106,7 +112,7 @@ bool CameraTargetPlayer::SeqUpMove(const float delta_time)
 	{
 		MoveMatrix(delta_time);
 		// y座標を上昇
-		m_pos.y += delta_time * 10;
+		m_pos.y += delta_time * 100;
 	});
 
 	TNL_SEQ_CO_END;
@@ -114,10 +120,10 @@ bool CameraTargetPlayer::SeqUpMove(const float delta_time)
 
 bool CameraTargetPlayer::SeqDownMove(const float delta_time)
 {
-	//if(既定座標へ移動完了)
-	//{
-	//	tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
-	//}
+	if( m_pos.y == 0 )
+	{
+		tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
+	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]()
 	{
@@ -131,7 +137,7 @@ bool CameraTargetPlayer::SeqDownMove(const float delta_time)
 	{
 		MoveMatrix(delta_time);
 		// y座標を下降
-		m_pos.y -= delta_time * 10;
+		m_pos.y -= delta_time * 100;
 
 	});
 }

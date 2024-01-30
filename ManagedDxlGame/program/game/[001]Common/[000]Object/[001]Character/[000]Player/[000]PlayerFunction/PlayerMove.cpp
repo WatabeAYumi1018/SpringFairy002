@@ -5,6 +5,9 @@
 
 void PlayerMove::Update(float delta_time)
 {
+	m_pos = m_mediator->GetPlayerPos();
+	m_rot = m_mediator->GetPlayerRot();
+
 	tnl_sequence_.update(delta_time);
 
 	m_mediator->SetPlayerPos(m_pos);
@@ -102,9 +105,6 @@ bool PlayerMove::PushButton()
 
 void PlayerMove::MoveMatrix(float delta_time)
 {
-	m_pos = m_mediator->GetPlayerPos();
-	m_rot = m_mediator->GetPlayerRot();
-
 	// 自動経路による移動と回転の更新
 	m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
 	m_mediator->MoveAstarCharaUpdateRot(delta_time, m_pos, m_rot);
@@ -276,16 +276,16 @@ bool PlayerMove::SeqStop(const float delta_time)
 
 bool PlayerMove::SeqUpMove(const float delta_time)
 {
-	//if(既定座標へ移動完了)
-	//{
-	//	tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
-	//}
+	if(m_pos.y > 1000)
+	{
+		tnl_sequence_.change(&PlayerMove::SeqTrigger);
+	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
 		MoveMatrix(delta_time);
 		// y座標を上昇
-		m_pos.y += delta_time * 10;
+		m_pos.y += delta_time * 100;
 	});
 
 	TNL_SEQ_CO_END;
@@ -293,16 +293,16 @@ bool PlayerMove::SeqUpMove(const float delta_time)
 
 bool PlayerMove::SeqDownMove(const float delta_time)
 {
-	//if(既定座標へ移動完了)
-	//{
-	//	tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
-	//}
+	if(m_pos.y == 0)
+	{
+		tnl_sequence_.change(&PlayerMove::SeqTrigger);
+	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
 		MoveMatrix(delta_time);
 		// y座標を下降
-		m_pos.y -= delta_time * 10;
+		m_pos.y -= delta_time * 100;
 	});
 
 	TNL_SEQ_CO_END;

@@ -53,7 +53,8 @@ private:
 	float m_blend_timer = 0;
 
 	bool m_is_attack = false;
-
+	// イベントによるダンスの自動発生フラグ
+	bool m_is_dance = false;
 
 	eDirection m_direction = eDirection::e_none;
 
@@ -112,6 +113,9 @@ public:
 
 	bool GetIsAttack() const { return m_is_attack; }
 
+	void SetIsDance(bool is_dance) { m_is_dance = is_dance; }
+
+	bool GetIsDance() const { return m_is_dance; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

@@ -5,17 +5,11 @@
 
 ModelLoad::ModelLoad()
 {
-	//LoadTreeVector();
-	//
-	//LoadGrassVector();
-	
 	LoadModelTypeInfo();
 }
 
 ModelLoad::~ModelLoad()
 {
-	//m_stage_tree.clear();
-	//m_stage_grass.clear();
 	m_model_type.clear();
 }
 
@@ -28,30 +22,20 @@ void ModelLoad::LoadModelTypeInfo()
 	// マップタイルの総数を取得
 	int max_num = m_csv_model_type_info.size();
 
-	m_model_total_num = max_num - 1;
-
 	// 0行目は説明文なので読み飛ばす
 	for (int y = 1; y < max_num; ++y)
 	{
-		Model::sMeshModelType model_info;
+		Model::sModelInfo model_info;
 
 		model_info.s_id = m_csv_model_type_info[y][0].getInt();
 
 		model_info.s_model_path = m_csv_model_type_info[y][1].getString();
 
-		model_info.s_texture_path = m_csv_model_type_info[y][2].getString();
+		model_info.s_texture_a_path = m_csv_model_type_info[y][2].getString();
 
-		model_info.s_create_count_x = m_csv_model_type_info[y][3].getInt();
+		model_info.s_texture_b_path = m_csv_model_type_info[y][3].getString();
 
-		model_info.s_create_count_z = m_csv_model_type_info[y][4].getInt();
-
-		model_info.s_scale = m_csv_model_type_info[y][5].getFloat();
-
-		model_info.s_interval = m_csv_model_type_info[y][6].getFloat();
-
-		tnl::Vector3 pos = { m_csv_model_type_info[y][7].getFloat(),0,m_csv_model_type_info[y][8].getFloat() };
-
-		model_info.s_offset = pos;
+		model_info.s_texture_c_path = m_csv_model_type_info[y][4].getString();
 
 		m_model_type.emplace_back(model_info);
 	}

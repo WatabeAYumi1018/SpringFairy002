@@ -179,6 +179,8 @@ void GameCamera::rotate(const float delta_time)
 	pos_.z = target_.z + sin(m_rot_angle) * orbit_radius;
 }
 
+
+
 bool GameCamera::SeqFixed(const float delta_time)
 {
 	if (tnl_sequence_.isStart())

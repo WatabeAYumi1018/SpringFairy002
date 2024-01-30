@@ -56,9 +56,6 @@ public:
 
 private:
 
-	tnl::Vector3 CorrectPlayerPosition(const tnl::Vector3& playerPos, float playerSize, const tnl::Vector3& planeNormal, const tnl::Vector3& planePoint);
-
-
 	// ‰ñ“]Šp“x
 	float m_rot_angle = 0.0f;
 
@@ -86,7 +83,6 @@ private:
 
 	// ƒJƒƒ‰‚Ìó‘Ô‚ğæ“¾
 	void ConditionType();
-
 
 	// ƒJƒƒ‰‚ÌŒÅ’èˆ—
 	void Fixed();

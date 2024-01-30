@@ -1,74 +1,53 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "../../../../../wta_library/wta_Convert.h"
 #include "../../../[002]Mediator/Mediator.h"
+#include "../../../[003]Phase/StagePhase.h"
 #include "../[002]Floor/Floor.h"
 #include "Model.h"
 
 
-Model::Model()//, eWorldType world_type) 
-	//, m_world_type(world_type)
+Model::Model()
 {
-	LoadTexture();
 
-	SetTextureIndex();
-
-	SetLight(m_model_hdl);
 }
-
-//Model::Model(int model_hdl, int id)
-//	: m_model_hdl(model_hdl), m_id(id)
-//{}
 
 Model::~Model()
 {
-	MV1DeleteModel(m_model_hdl);
-	DeleteGraph(m_texture_normal_hdl);
-	DeleteGraph(m_texture_yellow_hdl);
-	DeleteGraph(m_texture_pink_hdl);
-
-	//for (auto& pair : m_model_map)
-	//{
-	//	sStageModelType& data = pair.second;
-
-	//	MV1DeleteModel(data.s_model_hdl);
-	//	DeleteGraph(data.s_texture_a_hdl);
-	//	DeleteGraph(data.s_texture_b_hdl);
-	//	DeleteGraph(data.s_texture_c_hdl);
-	//}
+	for (sModelInfo& model_info : m_models_info)
+	{
+		MV1DeleteModel(model_info.s_model_hdl);
+		DeleteGraph(model_info.s_texture_a_hdl);
+		DeleteGraph(model_info.s_texture_b_hdl);
+		DeleteGraph(model_info.s_texture_c_hdl);
+		DeleteGraph(model_info.s_texture_d_hdl);
+	}
 }
 
 void Model::Initialize()
 {
-	//m_mediator->ModelGeneInitialize();
+	// ステージモデルの情報を取得
+	m_models_info = m_mediator->GetStageModelTypeInfo();
 
-	//	for (int id = 0; id < 8; ++id)
-//{
-//	sStageModelType model;
-//	// モデル読み取り
-//	model = m_mediator->GetStageModelInfoById(id);
-//	// モデルの読み込み
-//	model.s_model_hdl
-//		= MV1LoadModel(model.s_model_path.c_str());
-//	// テクスチャ読み取り
-//	model.s_texture_a_hdl
-//		= LoadGraph(model.s_texture_a_path.c_str());
-//	// テクスチャ読み取り
-//	model.s_texture_b_hdl
-//		= LoadGraph(model.s_texture_b_path.c_str());
-//	// テクスチャ読み取り
-//	model.s_texture_c_hdl
-//		= LoadGraph(model.s_texture_c_path.c_str());
-//	// マテリアル数の設定
-//	model.s_material_count
-//		= MV1GetMaterialNum(model.s_model_hdl);
-//	SetTextureIndex(model);
-//
-//	m_model_map[id] = model;
-//}
+	for (sModelInfo& model_info : m_models_info)
+	{
+		LoadModelInfo(model_info);
 
-	//m_tree_models = m_mediator->GetStageTreeVector();
+		SetLight(model_info);
 
-	//m_grass_models = m_mediator->GetStageGrassVector();
+		// ステージ毎のテクスチャ設定
+		if (model_info.s_id == 0)
+		{
+			SetTextureIndex(model_info, 43, 73, 102);
+		}
+		else if (model_info.s_id == 1)
+		{
+			SetTextureIndex(model_info, 43, 73, 102);
+		}
+		else
+		{
+			SetTextureIndex(model_info, 43, 73, 102);
+		}
+	}
 }
 
 void Model::Update(float delta_time)
@@ -78,71 +57,87 @@ void Model::Update(float delta_time)
 
 void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	//m_mediator->ModelGeneDraw(gameCamera);
-
 	if (!m_mediator->GetIsGimmickGroundActive())
 	{
-		DrawGrass();
+		if (m_mediator->GetNowStagePhaseState()
+					== StagePhase::eStagePhase::e_flower)
+		{
+			DrawStage(m_models_info, 0);
+		}
+		else if(m_mediator->GetNowStagePhaseState() 
+					== StagePhase::eStagePhase::e_wood)
+		{
+			DrawStage(m_models_info, 1);
+		}
+		else
+		{
+			DrawStage(m_models_info, 2);
+		}
 	}
-
 }
 
-void Model::LoadTexture()
+void Model::LoadModelInfo(sModelInfo& model_info)
 {
-	m_model_hdl = MV1LoadModel("model/stage/flowers/grass.mv1");
+	model_info.s_model_hdl
+		= MV1LoadModel(model_info.s_model_path.c_str());
 
-	m_texture_normal_hdl = LoadGraph("model/stage/flowers/plant.png");
-	m_texture_yellow_hdl = LoadGraph("model/stage/flowers/plant_yellow.png");
-	m_texture_pink_hdl = LoadGraph("model/stage/flowers/plant_pink.png");
-	//m_texture_orange_hdl = LoadGraph("model/stage/flowers/plant_orange.png");
+	model_info.s_texture_a_hdl
+		= LoadGraph(model_info.s_texture_a_path.c_str());
 
-	m_material_count = MV1GetMaterialNum(m_model_hdl);
+	model_info.s_texture_b_hdl
+		= LoadGraph(model_info.s_texture_b_path.c_str());
+
+	model_info.s_texture_c_hdl
+		= LoadGraph(model_info.s_texture_c_path.c_str());
+
+	model_info.s_texture_d_hdl
+		= LoadGraph(model_info.s_texture_d_path.c_str());
+
+	model_info.s_material_count
+		= MV1GetMaterialNum(model_info.s_model_hdl);
 }
 
-void Model::SetTextureIndex()
+void Model::SetTextureIndex(sModelInfo& model_info,int a,int b,int c )
 {
-	for (int i = 0; i < m_material_count; ++i)
+	for (int i = 0; i < model_info.s_material_count; ++i)
 	{
-		if (i < 43) 
+		if (i < a) 
 		{
-			MV1SetTextureGraphHandle(m_model_hdl, i, m_texture_normal_hdl, FALSE);			
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+									, model_info.s_texture_a_hdl, FALSE);
 		}
-		else if (i > 42 || i < 73)
+		else if (i >= a || i < b)
 		{
-			MV1SetTextureGraphHandle(m_model_hdl, i, m_texture_yellow_hdl, FALSE);
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+									, model_info.s_texture_b_hdl, FALSE);
 		}
-		else if (i > 72 || i < 102)
+		else if (i >= b || i < c)
 		{
-			MV1SetTextureGraphHandle(m_model_hdl, i, m_texture_pink_hdl, FALSE);
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+									, model_info.s_texture_c_hdl, FALSE);
 		}
-		//else if (i > 101 || i < 128)
-		//{
-		//	MV1SetTextureGraphHandle(m_model_hdl, i, m_texture_orange_hdl, FALSE);
-		//}
 	}
-
-	SetLight(m_model_hdl);
 }
 
-void Model::SetLight(int model_hdl)
+void Model::SetLight(sModelInfo& model_info)
 {
 	// 各マテリアルに対するライトの設定
-	for (int i = 0; i < m_material_count; ++i)
+	for (int i = 0; i < model_info.s_material_count; ++i)
 	{
 		DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
 		DxLib::COLOR_F ambient = { 1,1,1,1 };
 		DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
 		DxLib::COLOR_F specular = { 0,0,0,1 };
 
-		MV1SetMaterialEmiColor(model_hdl, i, emissive);
-		MV1SetMaterialAmbColor(model_hdl, i, ambient);
-		MV1SetMaterialDifColor(model_hdl, i, diffuse);
-		MV1SetMaterialSpcColor(model_hdl, i, specular);
-		MV1SetMaterialSpcPower(model_hdl, i, 0.5f);
+		MV1SetMaterialEmiColor(model_info.s_model_hdl, i, emissive);
+		MV1SetMaterialAmbColor(model_info.s_model_hdl, i, ambient);
+		MV1SetMaterialDifColor(model_info.s_model_hdl, i, diffuse);
+		MV1SetMaterialSpcColor(model_info.s_model_hdl, i, specular);
+		MV1SetMaterialSpcPower(model_info.s_model_hdl, i, 0.5f);
 	}
 }
 
-void Model::DrawGrass()
+void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)
 {
 	// モデルサイズとグリッドサイズ
 	int model_size = 1500;
@@ -175,10 +170,10 @@ void Model::DrawGrass()
 			VECTOR pos_vec =wta::ConvertToVECTOR(pos);
 
 			// モデルの位置を設定
-			MV1SetPosition(m_model_hdl, pos_vec);
+			MV1SetPosition(models_info[id].s_model_hdl, pos_vec);
 
 			// モデルを描画
-			MV1DrawModel(m_model_hdl);
+			MV1DrawModel(models_info[id].s_model_hdl);
 		}
 	}
 }

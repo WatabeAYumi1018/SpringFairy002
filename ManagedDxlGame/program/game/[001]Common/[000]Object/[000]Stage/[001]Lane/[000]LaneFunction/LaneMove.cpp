@@ -41,7 +41,7 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 	// 現在のグリッドの中心座標を取得
 	tnl::Vector3 current_center_pos
 		= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE)
-		+ tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
+		+ tnl::Vector3(Lane::LANE_SIZE / 2, pos.y, Lane::LANE_SIZE / 2);
 	// 現在の位置から中心座標への方向ベクトルを計算
 	m_target_direction = current_center_pos - pos;
 	// 中心座標までの距離を計算
@@ -65,7 +65,7 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 		else
 		{
 			// 現在のグリッドの中心へ向かって移動
-			pos += m_target_direction * m_move_speed * delta_time;
+			pos += m_target_direction * m_move_speed * delta_time * 2;
 		}
 	}
 }
@@ -124,7 +124,7 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 	{
 		// プレイヤーの移動
 		// ここでは、方向ベクトルと移動速度を使って、プレイヤーの新しい位置を計算します。
-		pos += m_chara_direction * m_move_speed * delta_time;
+		pos += m_chara_direction * m_move_speed * delta_time * 2;
 	}
 	//// 必要に応じて、プレイヤーの位置がカメラの視野内に収まるように調整します。
 	//AdjustPlayerPositionWithinCameraView(pos, cameraViewSize);

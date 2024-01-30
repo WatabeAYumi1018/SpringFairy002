@@ -16,34 +16,13 @@ public:
 private:
 
 	// ステージモデルの総数
-	int m_model_total_num = 0;
-
-	//int m_model_vec_height = 0;
-	//int m_model_vec_width = 0;
-
-	int m_model_type_height = 0;
-	int m_model_type_width = 0;
-
-	// 樹木モデル配列読み取り専用（csvファイル）
-	//std::vector<std::vector<int>> m_csv_stage_tree;
-	// 樹木モデル配列情報格納用
-	//std::vector<Model::sStageModel> m_stage_tree;
-
-	// グループメッシュのモデル配列読み取り専用（csvファイル）
-	//std::vector<std::vector<int>> m_csv_stage_grass;
-	// グループメッシュのモデル配列情報格納用
-	//std::vector<Model::sStageModel> m_stage_grass;
+	int m_model_total_num = 3;
 
 	// ステージモデルの情報読み取り専用（csvファイル）
 	std::vector<std::vector<tnl::CsvCell>> m_csv_model_type_info;
 	// ステージモデルの情報格納用
-	std::vector<Model::sMeshModelType> m_model_type;
+	std::vector<Model::sModelInfo> m_model_type;
 
-
-	//// 樹木モデルの情報読み込み
-	//void LoadTreeVector();
-	//// 花モデルの情報読み込み
-	//void LoadGrassVector();
 	// ステージモデルの情報読み込み
 	void LoadModelTypeInfo();
 
@@ -68,7 +47,7 @@ public:
 	//	return m_stage_grass;
 	//}
 
-	const std::vector<Model::sMeshModelType>& GetModelTypeInfo() const
+	const std::vector<Model::sModelInfo>& GetModelTypeInfo() const
 	{
 		return m_model_type;
 	}

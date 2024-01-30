@@ -7,7 +7,7 @@
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
-#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelGenerator.h"
+//#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelGenerator.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
@@ -75,7 +75,7 @@ void PlayFactory::CreateObject()
 	m_model = std::make_shared<Model>();
 	m_modelLoad = std::make_shared<ModelLoad>();
 	m_modelPool = std::make_shared<ModelPool>();
-	m_modelGenerator = std::make_shared<ModelGenerator>();
+	//m_modelGenerator = std::make_shared<ModelGenerator>();
 
 	m_character = std::make_shared<Character>();
 
@@ -127,7 +127,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetModel(m_model);
 	m_mediator->SetModelLoad(m_modelLoad);
 	m_mediator->SetModelPool(m_modelPool);
-	m_mediator->SetModelGenerator(m_modelGenerator);
+	//m_mediator->SetModelGenerator(m_modelGenerator);
 	m_mediator->SetCharacter(m_character);
 	m_mediator->SetPlayer(m_player);
 	m_mediator->SetPlayerLoad(m_playerLoad);
@@ -151,11 +151,12 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
 
+	m_stagePhase->SetMediator(m_mediator);
 	m_laneMove->SetAstar(m_astar);
 	m_laneMove->SetMediator(m_mediator);
 	m_model->SetMediator(m_mediator);
 	//m_modelPool->SetMediator(m_mediator);
-	m_modelGenerator->SetMediator(m_mediator);
+	//m_modelGenerator->SetMediator(m_mediator);
 	m_character->SetMediator(m_mediator);
 	m_player->SetMediator(m_mediator);
 	m_playerMove->SetMediator(m_mediator);

@@ -16,8 +16,8 @@ bool StagePhase::SeqFlower(const float delta_time)
 		m_now_stage_phase = eStagePhase::e_flower;
 	}
 
-	// カメラの回転→会話が終了したら
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
+	// プレイヤーがダンスしたら変更
+	if (m_mediator-> GetIsPlayerDance())
 	{
 		tnl_sequence_.change(&StagePhase::SeqWood);
 	}
@@ -33,22 +33,24 @@ bool StagePhase::SeqFlower(const float delta_time)
 
 bool StagePhase::SeqWood(const float delta_time)
 {
-	if (tnl_sequence_.isStart())
-	{
-		m_now_stage_phase = eStagePhase::e_wood;
-	}
-
 	// 再び会話が終了したら
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
 	{
 		tnl_sequence_.change(&StagePhase::SeqFancy);
 	}
 
-	// 押すまでループ
-	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+	//TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]() 
+	//{
+	//		
+	//});
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]() 
 	{
-		DrawStringEx(0, 0, 1, "wood");
+		m_now_stage_phase = eStagePhase::e_wood;
 	});
+
+	// 押すまでループ
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});
 
 	TNL_SEQ_CO_END;
 }

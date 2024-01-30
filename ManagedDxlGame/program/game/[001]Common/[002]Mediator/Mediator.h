@@ -15,7 +15,7 @@ class LaneMove;
 
 class ModelLoad;
 class ModelPool;
-class ModelGenerator;
+//class ModelGenerator;
 
 class Character;
 
@@ -64,7 +64,7 @@ private:
 	std::shared_ptr<Model> m_model = nullptr;
 	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
 	std::shared_ptr<ModelPool> m_modelPool = nullptr;
-	std::shared_ptr<ModelGenerator> m_modelGenerator = nullptr;
+	//std::shared_ptr<ModelGenerator> m_modelGenerator = nullptr;
 
 	std::shared_ptr<Character> m_character = nullptr;
 
@@ -283,7 +283,7 @@ public:
 	// ステージモデルの情報取得
 	// 参照元 ... ModelLoad::m_model_info
 	// 参照先 ... ModelPool::関連する関数
-	const std::vector<Model::sMeshModelType>& GetStageModelTypeInfo() const;
+	const std::vector<Model::sModelInfo>& GetStageModelTypeInfo() const;
 
 	//// ステージモデルのid取得
 	//// 参照元 ... ModelLoad::GetModelInfoById(int id)
@@ -310,20 +310,20 @@ public:
 
 	// ModelGenerator
 
-	// モデルのグル―プメッシュ生成
-	// 参照元 ... ModelGenerator::Initialize()
-	// 参照先 ... Model::Initialize()
-	void ModelGeneInitialize();
+	//// モデルのグル―プメッシュ生成
+	//// 参照元 ... ModelGenerator::Initialize()
+	//// 参照先 ... Model::Initialize()
+	//void ModelGeneInitialize();
 
-	// モデルのグル―プメッシュの更新
-	// 参照元 ... ModelGenerator::Update(const float delta_time)
-	// 参照先 ... Model::Update(const float delta_time)
-	void ModelGeneUpdate(const float delta_time);
+	//// モデルのグル―プメッシュの更新
+	//// 参照元 ... ModelGenerator::Update(const float delta_time)
+	//// 参照先 ... Model::Update(const float delta_time)
+	//void ModelGeneUpdate(const float delta_time);
 
-	// モデルのグル―プメッシュの描画
-	// 参照元 ... ModelGenerator::Draw()
-	// 参照先 ... Model::Draw(std::shared_ptr<GameCamera> gameCamera)
-	void ModelGeneDraw(std::shared_ptr<GameCamera> gameCamera);
+	//// モデルのグル―プメッシュの描画
+	//// 参照元 ... ModelGenerator::Draw()
+	//// 参照先 ... Model::Draw(std::shared_ptr<GameCamera> gameCamera)
+	//void ModelGeneDraw(std::shared_ptr<GameCamera> gameCamera);
 
 	//--------------------------//
 
@@ -458,6 +458,16 @@ public:
 	// 参照元 ... PlayerDraw::m_is_attack
 	// 参照先 ... Player::Update(float delta_time)
 	bool GetIsPlayerAttack() const;
+
+	// ダンスアニメーションフラグ設定
+	// 参照元 ... PlayerDraw::m_is_dance
+	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
+	void SetIsPlayerDance(bool is_dance);
+
+	// ダンスアニメーションフラグ取得
+	// 参照元 ... PlayerDraw::m_is_dance
+	// 参照先 ... PhaseManager::Update(float delta_time)
+	bool GetIsPlayerDance() const;
 
 	// playerSkill
 
@@ -921,10 +931,10 @@ public:
 		m_modelPool = modelPool;
 	}
 
-	void SetModelGenerator(std::shared_ptr<ModelGenerator>& modelGenerator)
-	{
-		m_modelGenerator = modelGenerator;
-	}
+	//void SetModelGenerator(std::shared_ptr<ModelGenerator>& modelGenerator)
+	//{
+	//	m_modelGenerator = modelGenerator;
+	//}
 
 	void SetCharacter(std::shared_ptr<Character>& character)
 	{
