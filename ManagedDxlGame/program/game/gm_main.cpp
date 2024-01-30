@@ -685,8 +685,8 @@ void gameStart()
 	srand(time(0));
 	SetWindowText("Spring Fairy");
 
-	//// ”wŒi‚ÌF‚ğİ’è(‚³‚­‚çF)
-	//SetBackgroundColor(255, 222, 233);
+	// ”wŒi‚ÌF‚ğİ’è(‚³‚­‚çF)
+	SetBackgroundColor(255, 222, 233);
 
 	// ŠDF‚Ì”wŒi
 	//SetBackgroundColor(32, 32, 32);

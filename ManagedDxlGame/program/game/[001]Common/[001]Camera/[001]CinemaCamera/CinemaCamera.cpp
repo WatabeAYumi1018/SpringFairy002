@@ -12,26 +12,23 @@ CinemaCamera::CinemaCamera()
 
 void CinemaCamera::update(const float delta_time)
 {
-	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
-	//{
-	//	m_is_active = true;
-	//}
+	dxe::Camera::update(delta_time);
 
-	//target_ = m_mediator->GetCinemaPlayerPos();
+	target_ = m_mediator->GetPlayerPos();
 
-	//pos_.x = target_.x;
-	//pos_.y = target_.y;
-	//pos_.z = target_.z - m_offset.z * 2;
+	pos_.x = target_.x;
+	pos_.y = target_.y;
+	pos_.z = target_.z - m_offset.z * 2;
 
-	//if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT))
-	//{
-	//	m_move_mouse = true;
-	//}
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT))
+	{
+		m_move_mouse = true;
+	}
 
-	//if(m_move_mouse)
-	//{
-	//	Control(delta_time);
-	//}
+	if(m_move_mouse)
+	{
+		Control(delta_time);
+	}
 
 	//// 座標デバッグ用
 	//DrawStringEx(1000, 100, -1, "CameraPos_x:%f", pos_.x);

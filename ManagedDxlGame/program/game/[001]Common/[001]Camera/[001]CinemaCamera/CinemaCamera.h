@@ -61,6 +61,8 @@ public:
 
 	void update(const float delta_time) override;
 
+	void SetIsActive(bool is_active) { m_is_active = is_active; }
+
 	bool GetIsActive() const{ return m_is_active; }
 
 	// プレイヤーのメディエーターを設定	

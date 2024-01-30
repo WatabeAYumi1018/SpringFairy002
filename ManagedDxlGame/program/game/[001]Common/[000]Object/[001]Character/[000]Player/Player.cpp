@@ -37,53 +37,45 @@ void Player::Initialize()
 
 void Player::Update(float delta_time)
 {
-	if (!m_mediator->GetIsCinemaCameraActive())
-	{
+	// スキル更新
+	//m_mediator->UpdatePlayerSkill(delta_time);
 
-		// スキル更新
-		//m_mediator->UpdatePlayerSkill(delta_time);
+	// アニメーション更新処理
+	m_mediator->UpdatePlayerAnim(delta_time);
 
-		// アニメーション更新処理
-		m_mediator->UpdatePlayerAnim(delta_time);
+	// 行列計算の更新
+	UpdateMatrix(delta_time);
 
-		// 行列計算の更新
-		UpdateMatrix(delta_time);
+	UpdateMesh(delta_time);
 
-		UpdateMesh(delta_time);
+	m_mediator->UpdateCollisionCheck();
 
-		m_mediator->UpdateCollisionCheck();
+	m_mediator->IsInCameraFlustum();
 
-		m_mediator->IsInCameraFlustum();
+	// 座標デバッグ用
+	DrawStringEx(0, 0, -1, "PlayerPos_x:%f", m_pos.x);
+	DrawStringEx(0, 20, -1, "PlayerPos_y:%f", m_pos.y);
+	DrawStringEx(0, 40, -1, "PlayerPos_z:%f", m_pos.z);
 
-		// 座標デバッグ用
-		DrawStringEx(0, 0, -1, "PlayerPos_x:%f", m_pos.x);
-		DrawStringEx(0, 20, -1, "PlayerPos_y:%f", m_pos.y);
-		DrawStringEx(0, 40, -1, "PlayerPos_z:%f", m_pos.z);
+	////// 当たり判定デバッグ用
+	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
+	//pos.y += m_collision_size;
+	//DrawSphere3D(pos, m_collision_size,32, GetColor(255, 0, 0), GetColor(255,0,0), true);
 
-		////// 当たり判定デバッグ用
-		//VECTOR pos = wta::ConvertToVECTOR(m_pos);
-		//pos.y += m_collision_size;
-		//DrawSphere3D(pos, m_collision_size,32, GetColor(255, 0, 0), GetColor(255,0,0), true);
+	//tnl::Vector3 forward = Forward();
 
-		//tnl::Vector3 forward = Forward();
-
-		//// 大体7秒で2000くらい？
-		//
-	}
+	//// 大体7秒で2000くらい？
+	//	
 }
 
 void Player::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	if (!m_mediator->GetIsCinemaCameraActive())
+	// モデル描画処理
+	m_mediator->DrawPlayerModel();
+
+	for (std::shared_ptr<dxe::Mesh>& mesh : m_meshs)
 	{
-
-		// モデル描画処理
-		m_mediator->DrawPlayerModel();
-
-		for (std::shared_ptr<dxe::Mesh>& mesh : m_meshs)
-		{
-			mesh->render(camera);
-		}
+		mesh->render(camera);
 	}
 }
 

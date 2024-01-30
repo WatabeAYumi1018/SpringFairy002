@@ -1,6 +1,9 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
+#include "../[000]Object/[002]Gimmick/Gimmick.h"
+#include "../[000]Object/Object.h"
 
+class GameCamera;
 
 
 class OpFactory 
@@ -13,6 +16,10 @@ public:
 	~OpFactory() {}
 
 private:
+
+	std::list<std::shared_ptr<Object>> m_objects;
+
+	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 
 	// 各オブジェクトの生成と初期化
 	void CreateObject();
@@ -40,5 +47,4 @@ public:
 	{
 		return m_gameCamera;
 	}
-
 };

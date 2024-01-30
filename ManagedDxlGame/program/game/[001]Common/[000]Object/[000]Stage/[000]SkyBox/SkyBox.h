@@ -3,6 +3,9 @@
 #include "../../../[003]Phase/StagePhase.h"
 #include "../../Object.h"
 
+class Mediator;
+
+
 class SkyBox : public Object
 {
 
@@ -31,6 +34,8 @@ private:
 
 	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
 
+	std::shared_ptr<Mediator> m_mediator = nullptr;
+
 	void LoadSkyBoxInfo();
 	
 	void CreateSkyBox();
@@ -40,4 +45,9 @@ public:
 	void Update(float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	void SetMediator(std::shared_ptr<Mediator>& mediator)
+	{
+		m_mediator = mediator;
+	}
 };

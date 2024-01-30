@@ -9,7 +9,6 @@
 #include "../[003]Phase/StagePhase.h"
 
 
-
 class LaneLoad;
 class LaneMove;
 
@@ -912,6 +911,11 @@ public:
 
 	// CinemaCamera
 
+	// シネマカメラのアクティブ状態設定
+	// 参照元 ... CinemaCamera::m_is_active
+	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
+	void SetIsCinemaCameraActive(bool is_active);
+
 	// シネマカメラのアクティブ状態取得
 	// 参照元 ... CinemaCamera::m_is_active
 	// 参照先 ... シネマカメラで描画する全Draw関数
@@ -970,7 +974,7 @@ public:
 		m_player = player;
 	}
 
-void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
+	void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 	{
 		m_playerLoad = playerLoad;
 	}

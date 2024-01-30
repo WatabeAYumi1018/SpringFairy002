@@ -1,5 +1,6 @@
+#include "../../../[002]Mediator/Mediator.h"
 #include "SkyBox.h"
-#include "../../../[001]Camera/GameCamera.h"
+
 
 SkyBox::SkyBox()
 {

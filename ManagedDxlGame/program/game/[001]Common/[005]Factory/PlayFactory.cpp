@@ -160,6 +160,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetCinemaCamera(m_cinemaCamera);
 
 	m_stagePhase->SetMediator(m_mediator);
+	m_skyBox->SetMediator(m_mediator);
 	m_laneMove->SetAstar(m_astar);
 	m_laneMove->SetMediator(m_mediator);
 	m_model->SetMediator(m_mediator);
@@ -226,7 +227,7 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 
 void PlayFactory::StorageObjectGameCamera()
 {
-	//m_objects.emplace_back(m_skyBox);
+	m_objects_gameCamera.emplace_back(m_skyBox);
 	m_objects_gameCamera.emplace_back(m_floor);
 	m_objects_gameCamera.emplace_back(m_model);
 	m_objects_gameCamera.emplace_back(m_cameraTargetPlayer);
@@ -242,14 +243,14 @@ void PlayFactory::StorageObjectGameCamera()
 	m_objects_gameCamera.emplace_back(m_player);
 	m_objects_gameCamera.emplace_back(m_effect);
 	m_objects_gameCamera.emplace_back(m_score);
-	//m_objects.emplace_back(m_charaGraph);
-	//m_objects.emplace_back(m_text);
+	//m_objects_gameCamera.emplace_back(m_charaGraph);
+	//m_objects_gameCamera.emplace_back(m_text);
 }
 
 void PlayFactory::StorageObjectCinemaCamera()
 {
 	// シネマ用の背景
-	//m_objects_cinemaCamera.emplace_back(m_skyBox);
+	m_objects_cinemaCamera.emplace_back(m_skyBox);
 	// シネマ用エフェクト
 	m_objects_cinemaCamera.emplace_back(m_cinemaPlayer);
 	m_objects_cinemaCamera.emplace_back(m_effect);

@@ -53,10 +53,10 @@ void ScenePlay::Initialize()
 		object->Initialize();
 	}
 
-	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
-	//{
-	//	object->Initialize();
-	//}
+	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
+	{
+		object->Initialize();
+	}
 }
 
 void ScenePlay::Update(const float delta_time)
@@ -65,40 +65,47 @@ void ScenePlay::Update(const float delta_time)
 
 	m_gameCamera->update(delta_time);
 
-	//m_cinemaCamera->update(delta_time);
+	m_cinemaCamera->update(delta_time);
 	
 	m_gimmickGenerator->Update(delta_time);
 
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
+		//SetDrawArea(0, 0, DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT);
+
 		object->Update(delta_time);
 	}
 
-	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
-	//{
-	//	object->Update(delta_time);
-	//}
+	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
+	{
+		SetDrawArea(DXE_WINDOW_WIDTH / 2, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+
+		object->Update(delta_time);
+	}
+
+	// 描画領域をリセット
+	//SetDrawArea(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 }
 
 void ScenePlay::Draw(const float delta_time)
 {
+	//DrawGridGround(m_gameCamera);
+
+	//DrawGridGround(m_cinemaCamera);
+
 	//DrawDefaultLightGuiController();
-	DrawGridGround(m_gameCamera);
-		
+
 	m_screenShot->SaveScreenShot();
 
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
-
 		object->Draw(m_gameCamera);
 	}
 
-	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
-	//{
-	//	DrawGridGround(m_cinemaCamera);
-
-	//	object->Draw(m_cinemaCamera);
-	//}
+	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
+	{
+		object->Draw(m_cinemaCamera);
+	}
 
 	// Fps表示
 	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
