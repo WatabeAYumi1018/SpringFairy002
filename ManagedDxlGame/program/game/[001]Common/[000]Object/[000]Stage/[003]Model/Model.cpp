@@ -41,7 +41,8 @@ void Model::Initialize()
 		}
 		else if (model_info.s_id == 1)
 		{
-			SetTextureIndex(model_info, 43, 73, 102);
+			SetTextureIndex(model_info, 15, 33, 37);
+
 		}
 		else
 		{
@@ -106,15 +107,20 @@ void Model::SetTextureIndex(sModelInfo& model_info,int a,int b,int c )
 			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
 									, model_info.s_texture_a_hdl, FALSE);
 		}
-		else if (i >= a || i < b)
+		else if (i >= a && i < b)
 		{
 			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
 									, model_info.s_texture_b_hdl, FALSE);
 		}
-		else if (i >= b || i < c)
+		else if (i >= b && i < c)
 		{
 			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
 									, model_info.s_texture_c_hdl, FALSE);
+		}
+		else
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+									, model_info.s_texture_d_hdl, FALSE);
 		}
 	}
 }

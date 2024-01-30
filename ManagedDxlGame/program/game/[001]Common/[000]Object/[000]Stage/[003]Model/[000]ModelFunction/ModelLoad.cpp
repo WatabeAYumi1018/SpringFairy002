@@ -37,6 +37,8 @@ void ModelLoad::LoadModelTypeInfo()
 
 		model_info.s_texture_c_path = m_csv_model_type_info[y][4].getString();
 
+		model_info.s_texture_d_path = m_csv_model_type_info[y][5].getString();
+
 		m_model_type.emplace_back(model_info);
 	}
 }
