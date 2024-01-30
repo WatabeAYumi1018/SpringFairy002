@@ -41,6 +41,7 @@ class PlayerMove;
 class PlayerDraw;
 class PlayerSkill;
 class PlayerCollision;
+class CinemaPlayer;
 
 class Partner;
 class PartnerMove;
@@ -67,6 +68,7 @@ class TextDraw;
 
 class GameCamera;
 class CameraLoad;
+class CinemaCamera;
 
 class Mediator;
 
@@ -83,8 +85,12 @@ public:
 
 private:
 
-	// オブジェクトを格納するlist
-	std::list<std::shared_ptr<Object>> m_objects;
+	// オブジェクトを格納するlist(ゲームカメラ)
+	std::list<std::shared_ptr<Object>> m_objects_gameCamera;
+
+	// オブジェクトを格納するlist（シネマカメラ）
+	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera;
+
 	// プレイヤー衝突オブジェクトを格納するlist
 	std::vector<std::shared_ptr<Gimmick>> m_gimmicks;
 
@@ -116,6 +122,7 @@ private:
 	std::shared_ptr<PlayerDraw> m_playerDraw = nullptr;
 	std::shared_ptr<PlayerSkill> m_playerSkill = nullptr;
 	std::shared_ptr<PlayerCollision> m_playerCollision = nullptr;
+	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
 
 	std::shared_ptr<Partner> m_partner = nullptr;
 	std::shared_ptr<PartnerMove> m_partnerMove = nullptr;
@@ -142,6 +149,7 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
+	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
@@ -158,21 +166,34 @@ private:
 	// アイテムオブジェクトのプール
 	void PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types);
 	// 生成したオブジェクトをlistに格納
-	void StorageObject();
+	void StorageObjectGameCamera();
+	void StorageObjectCinemaCamera();
 
 
 public:
 
-	// listに格納したオブジェクトの取得
-	const std::list<std::shared_ptr<Object>>& GetObjects() const
+	// listに格納したオブジェクトの取得(ゲームカメラ)
+	const std::list<std::shared_ptr<Object>>& GetObjectsGameCamera() const
 	{
-		return m_objects;
+		return m_objects_gameCamera;
+	}
+
+	// listに格納したオブジェクトの取得(シネマカメラ)
+	const std::list<std::shared_ptr<Object>>& GetObjectsCinemaCamera() const
+	{
+		return m_objects_cinemaCamera;
 	}
 
 	// カメラの取得
 	const std::shared_ptr<GameCamera>& GetGameCamera() const
 	{
 		return m_gameCamera;
+	}
+
+	// シネマカメラの取得
+	const std::shared_ptr<CinemaCamera>& GetCinemaCamera() const
+	{
+		return m_cinemaCamera;
 	}
 
 	// フェーズの取得

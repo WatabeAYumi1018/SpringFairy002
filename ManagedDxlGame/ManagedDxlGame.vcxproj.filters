@@ -162,6 +162,12 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[006]Title">
       <UniqueIdentifier>{be5d258a-f212-4c22-8cf0-ec116523cda9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer">
+      <UniqueIdentifier>{5cc6594b-443f-418a-9dd8-64fc2a3d6a4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[001]Camera\[001]CinemaCamera">
+      <UniqueIdentifier>{d567810f-7f27-4b56-819c-cade3dfc2abe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">
@@ -452,9 +458,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelGenerator.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[001]Camera\CinemaCamera.cpp">
-      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[005]Factory\OpFactory.cpp">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
     </ClCompile>
@@ -469,6 +472,12 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[001]Camera\[001]CinemaCamera\CinemaCamera.cpp">
+      <Filter>program\[003] game\[001]Common\[001]Camera\[001]CinemaCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -830,9 +839,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[001]Camera\CinemaCamera.h">
-      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[005]Factory\OpFactory.h">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
     </ClInclude>
@@ -844,6 +850,12 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[001]Camera\[001]CinemaCamera\CinemaCamera.h">
+      <Filter>program\[003] game\[001]Common\[001]Camera\[001]CinemaCamera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,6 +14,7 @@
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerDraw.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerSkill.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
+#include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayer/CinemaPlayer.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
@@ -32,6 +33,7 @@
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
+#include "../[001]Camera/[001]CinemaCamera/CinemaCamera.h"
 #include "../[002]Mediator/Mediator.h"
 #include "../[004]ScreenShot/ScreenShot.h"
 #include "PlayFactory.h"
@@ -43,7 +45,7 @@ PlayFactory::PlayFactory()
 
 	SetObjectReference();
 
-	StorageObject();
+	StorageObjectGameCamera();
 
 	//PoolGimmickObject();
 
@@ -52,7 +54,7 @@ PlayFactory::PlayFactory()
 
 PlayFactory::~PlayFactory()
 {
-	m_objects.clear();
+	m_objects_gameCamera.clear();
 }
 
 void PlayFactory::CreateObject()
@@ -85,6 +87,7 @@ void PlayFactory::CreateObject()
 	m_playerDraw = std::make_shared<PlayerDraw>();
 	m_playerSkill = std::make_shared<PlayerSkill>();
 	m_playerCollision = std::make_shared<PlayerCollision>();
+	m_cinemaPlayer = std::make_shared<CinemaPlayer>();
 
 	m_partner = std::make_shared<Partner>();
 	m_partnerMove = std::make_shared<PartnerMove>();
@@ -113,6 +116,7 @@ void PlayFactory::CreateObject()
 
 	m_gameCamera = std::make_shared<GameCamera>();
 	m_cameraLoad = std::make_shared<CameraLoad>();
+	m_cinemaCamera = std::make_shared<CinemaCamera>();
 
 	m_mediator = std::make_shared<Mediator>();
 
@@ -168,6 +172,7 @@ void PlayFactory::SetObjectReference()
 	m_playerCollision->SetPlayer(m_player);
 	m_playerCollision->SetPartner(m_partner);
 	m_playerCollision->SetMediator(m_mediator);
+	m_cinemaPlayer->SetMediator(m_mediator);
 	m_partner->SetMediator(m_mediator);
 	m_partnerMove->SetMediator(m_mediator);
 	m_partnerDraw->SetMediator(m_mediator);
@@ -182,6 +187,7 @@ void PlayFactory::SetObjectReference()
 	m_charaGraphDraw->SetMediator(m_mediator);
 	m_gameCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
+	m_cinemaCamera->SetMediator(m_mediator);
 	m_screenShot->SetMediator(m_mediator);
 	//m_cameraFrustum->SetCollision(m_collision_camera);
 	//m_cameraFrustum->SetPlayer(m_player);
@@ -209,17 +215,17 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 			
 			m_gimmicks.emplace_back(gimmick);
 
-			m_objects.emplace_back(gimmick);
+			m_objects_gameCamera.emplace_back(gimmick);
 		}	
 	}
 }
 
-void PlayFactory::StorageObject()
+void PlayFactory::StorageObjectGameCamera()
 {
 	//m_objects.emplace_back(m_skyBox);
-	m_objects.emplace_back(m_floor);
-	m_objects.emplace_back(m_model);
-	m_objects.emplace_back(m_cameraTargetPlayer);
+	m_objects_gameCamera.emplace_back(m_floor);
+	m_objects_gameCamera.emplace_back(m_model);
+	m_objects_gameCamera.emplace_back(m_cameraTargetPlayer);
 
 	// 各ギミックタイプごとに処理
 	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::plant));
@@ -228,12 +234,22 @@ void PlayFactory::StorageObject()
 
 	m_playerCollision->SetGimmicks(m_gimmicks);
 
-	m_objects.emplace_back(m_partner);
-	m_objects.emplace_back(m_player);
-	m_objects.emplace_back(m_effect);
-	m_objects.emplace_back(m_score);
+	m_objects_gameCamera.emplace_back(m_partner);
+	m_objects_gameCamera.emplace_back(m_player);
+	m_objects_gameCamera.emplace_back(m_effect);
+	m_objects_gameCamera.emplace_back(m_score);
 	//m_objects.emplace_back(m_charaGraph);
 	//m_objects.emplace_back(m_text);
+}
+
+void PlayFactory::StorageObjectCinemaCamera()
+{
+	// シネマ用の背景
+	m_objects_cinemaCamera.emplace_back(m_skyBox);
+	// シネマ用エフェクト
+	m_objects_cinemaCamera.emplace_back();
+	m_objects_cinemaCamera.emplace_back(m_effect);
+	// 蝶
 }
 
 //// 初期化

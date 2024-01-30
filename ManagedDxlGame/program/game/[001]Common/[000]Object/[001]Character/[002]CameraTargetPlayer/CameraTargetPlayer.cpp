@@ -32,15 +32,15 @@ void CameraTargetPlayer::Update(float delta_time)
 
 void CameraTargetPlayer::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	//// 当たり判定デバッグ用
-	VECTOR pos = wta::ConvertToVECTOR(m_pos);
-	pos.y += m_collision_size;
-	DrawSphere3D(pos, m_collision_size, 32, -1, -1, true);
+	////// 当たり判定デバッグ用
+	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
+	//pos.y += m_collision_size;
+	//DrawSphere3D(pos, m_collision_size, 32, -1, -1, true);
 
-	// 座標デバッグ用
-	DrawStringEx(1000, 100, -1, "TargetPos_x:%f", m_pos.x);
-	DrawStringEx(1000, 120, -1, "TargetPos_y:%f", m_pos.y);
-	DrawStringEx(1000, 140, -1, "TargetPos_z:%f", m_pos.z);
+	//// 座標デバッグ用
+	//DrawStringEx(1000, 100, -1, "TargetPos_x:%f", m_pos.x);
+	//DrawStringEx(1000, 120, -1, "TargetPos_y:%f", m_pos.y);
+	//DrawStringEx(1000, 140, -1, "TargetPos_z:%f", m_pos.z);
 }
 
 void CameraTargetPlayer::MoveMatrix(const float delta_time)

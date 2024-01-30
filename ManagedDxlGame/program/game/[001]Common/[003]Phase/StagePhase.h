@@ -21,10 +21,10 @@ public:
 
 private:
 
-	eStagePhase m_now_stage_phase = eStagePhase::e_flower;
+	eStagePhase m_now_stage_phase = eStagePhase::e_wood;
 
 	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(StagePhase, &StagePhase::SeqFlower);
+	TNL_CO_SEQUENCE(StagePhase, &StagePhase::SeqWood);
 
 	// メディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
