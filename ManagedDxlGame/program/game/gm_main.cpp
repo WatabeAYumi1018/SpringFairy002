@@ -653,10 +653,14 @@
 #include "[000]GameEngine/[001]Scene/SceneManager.h"
 #include "[002]SceneOP/SceneOp.h"
 #include "[003]ScenePlay/ScenePlay.h"
-
 #include "../wta_library/wta_Convert.h"
+#include "[001]Common/[001]Camera/GameCamera.h"
+#include "[001]Common/[001]Camera/[001]CinemaCamera/CinemaCamera.h"
 
-//Shared<dxe::Camera> camera = nullptr;
+
+
+//Shared<GameCamera> game_camera = nullptr;
+//Shared<CinemaCamera> cinema_camera = nullptr;
 //Shared<dxe::Mesh> mesh = nullptr;
 //Shared<dxe::Mesh> group = nullptr;
 
@@ -686,7 +690,7 @@ void gameStart()
 	SetWindowText("Spring Fairy");
 
 	// îwåiÇÃêFÇê›íË(Ç≥Ç≠ÇÁêF)
-	SetBackgroundColor(255, 222, 233);
+	//SetBackgroundColor(255, 222, 233);
 
 	// äDêFÇÃîwåi
 	//SetBackgroundColor(32, 32, 32);
@@ -695,8 +699,11 @@ void gameStart()
 	//tex_handle = LoadGraph("model/stage/flowers/plant.png");
 	//MV1SetTextureGraphHandle(model_handle, 0, tex_handle, true);
 
-	//camera = std::make_shared<dxe::Camera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
-	//camera->pos_ = { 0, 10, -300 };
+	//game_camera = std::make_shared<GameCamera>();
+	//cinema_camera = std::make_shared<CinemaCamera>();
+
+	//game_camera->pos_ = { 0, 10, -300 };
+	//cinema_camera->pos_ = { 0, 10, -300 };
 	SceneManager::GetInstance(new ScenePlay());
 }
 
@@ -704,7 +711,8 @@ void gameStart()
 // ñàÉtÉåÅ[ÉÄé¿çsÇ≥ÇÍÇ‹Ç∑
 void gameMain(float delta_time) 
 {
-	//camera->update(delta_time);
+	//cinema_camera->update(delta_time);
+	//game_camera->update(delta_time);
 
 	//group->render(camera);
 

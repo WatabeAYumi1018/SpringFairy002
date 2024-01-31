@@ -17,11 +17,20 @@ void GameCamera::update(const float delta_time)
 	//// カメラのアッパーベクトルを更新
 	//up_ = tnl::Vector3::TransformCoord({ 0, 1, 0 }, m_rot);
 
+	//SetBackgroundColor(32, 32, 32);
+
+
 	dxe::Camera::update(delta_time);
 
 	tnl_sequence_.update(delta_time);
+
 //	IsInFlustum();
 
+	// スペース押したら
+	/*if (tnl::Input::IsKeyDown(eKeys::KB_1))
+	{
+		SetDrawArea(0, 0, DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT);
+	}*/
 	//
 	//// 座標デバッグ用
 	//DrawStringEx(0, 100, -1, "CameraPos_x:%f", pos_.x);
@@ -44,17 +53,47 @@ void GameCamera::IsInFlustum()
 		tnl::Vector3 v 
 			= getFlustumNormal(static_cast<dxe::Camera::eFlustum>(i));
 
-		
-		tnl::Vector3 np 
+		 // フラスタム平面と最近点の計算
+		tnl::Vector3 nearest_point 
 			= tnl::GetNearestPointPlane(player_pos, v, pos_);
-		
-		float length = (np - player_pos).length();
 
-		if (length < size)
+		// プレイヤーと最近点との距離を計算
+		float distance = (nearest_point - player_pos).length();
+
+		if (distance < size)
 		{
-			tnl::Vector3 pos = np + (v * size );
-			
-			m_mediator->SetPlayerPos(pos);
+			tnl::Vector3 direction;
+
+			// 左平面との衝突の場合
+			if (i == static_cast<int>(dxe::Camera::eFlustum::Left))
+			{
+				// カメラの右方向に補正
+				direction = right();
+			}
+			// 右平面との衝突の場合
+			else if (i == static_cast<int>(dxe::Camera::eFlustum::Right))
+			{
+				// カメラの左方向に補正
+				direction = left();
+			}
+			// 下平面との衝突の場合
+			else if (i == static_cast<int>(dxe::Camera::eFlustum::Bottom))
+			{
+				// カメラの上方向に補正
+				direction = up();
+			}
+			// 上平面との衝突の場合
+			else if (i == static_cast<int>(dxe::Camera::eFlustum::Top))
+			{
+				// カメラの下方向に補正
+				direction = -up();
+			}
+
+			// プレイヤー位置を補正
+			tnl::Vector3 new_pos = player_pos + direction * (size - distance);
+
+			// メディエーターを通じてプレイヤーの位置を更新
+			m_mediator->SetPlayerPos(new_pos);
 		}
 	}
 }

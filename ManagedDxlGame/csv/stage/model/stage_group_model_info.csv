@@ -1,4 +1,4 @@
-モデルID,モデル ファイルパス,テクスチャ ファイルパス 1,テクスチャ ファイルパス 2,テクスチャ ファイルパス 3,テクスチャ ファイルパス 4
-0,model/stage/flowers/area_grass.mv1,model/stage/flowers/plant.png,model/stage/flowers/plant_yellow.png,model/stage/flowers/plant_pink.png,model/stage/flowers/plant_orange.png
-1,model/stage/tree/area_tree.mv1,model/stage/tree/plant_a.png,model/stage/tree/plant_b.png,model/stage/tree/birch_diffuse.png,model/stage/tree/tree_trunk.png
-2,,,,,
+モデルID,モデル ファイルパス,テクスチャ ファイルパス 1,テクスチャ ファイルパス 2,テクスチャ ファイルパス 3,テクスチャ ファイルパス 4,テクスチャ ファイルパス 5,テクスチャ ファイルパス 6
+0,model/stage/grass/area_grass.mv1,model/stage/grass/plant.png,model/stage/grass/plant_yellow.png,model/stage/grass/plant_pink.png,model/stage/grass/plant_orange.png,,
+1,model/stage/wood/area_tree.mv1,model/stage/wood/plant_a.png,model/stage/wood/plant_b.png,model/stage/wood/birch_diffuse.png,model/stage/wood/tree_trunk.png,,
+2,model/stage/magical/area_magical.mv1,model/stage/magical/plant.png,model/stage/magical/plant_yellow.png,model/stage/magical/plant_pink.png,model/stage/magical/plant_orange.png,model/stage/magical/plant_blue.png,model/stage/magical/plant_white.png

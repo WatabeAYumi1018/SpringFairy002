@@ -14,7 +14,7 @@ Player::Player()
 
 	//SetLight(m_model_hdl);
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 7; ++i)
 	{
 		std::shared_ptr<dxe::Mesh> mesh = dxe::Mesh::CreateSphereMV(50);
 

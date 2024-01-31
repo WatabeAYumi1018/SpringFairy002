@@ -148,19 +148,19 @@ void GimmickGenerator::GenerateGimmick(const float delta_time)
     //   }
 }
 
-tnl::Vector3 GimmickGenerator::CalcRandomPos()
-{
-    tnl::Vector3 player_pos = m_mediator->GetCameraTargetPlayerPos();
-
-    float offset = 700.0f;
-
-    tnl::Vector3 random_pos
-        = tnl::Vector3(tnl::GetRandomDistributionFloat(player_pos.x - (offset * 2), player_pos.x - offset)
-            , 800
-            , player_pos.z + offset);
-
-    return random_pos;
-}
+//tnl::Vector3 GimmickGenerator::CalcRandomPos()
+//{
+//    tnl::Vector3 player_pos = m_mediator->GetCameraTargetPlayerPos();
+//
+//    float offset = 700.0f;
+//
+//    tnl::Vector3 random_pos
+//        = tnl::Vector3(tnl::GetRandomDistributionFloat(player_pos.x - (offset * 2), player_pos.x - offset)
+//            , 800
+//            , player_pos.z + offset);
+//
+//    return random_pos;
+//}
 
 bool GimmickGenerator::SeqFlower(const float delta_time)
 {

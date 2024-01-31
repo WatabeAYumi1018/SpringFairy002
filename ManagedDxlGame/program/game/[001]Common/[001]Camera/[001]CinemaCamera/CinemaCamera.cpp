@@ -7,18 +7,27 @@ CinemaCamera::CinemaCamera()
 	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT)
 {
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
-	near_ = 1;
+	near_ = 100;
 }
 
 void CinemaCamera::update(const float delta_time)
 {
+	// 背景の色を設定(さくら色)
+	//SetBackgroundColor(255, 222, 233);
+
 	dxe::Camera::update(delta_time);
 
-	target_ = m_mediator->GetPlayerPos();
+	//target_ = m_mediator->GetPlayerPos();
 
-	pos_.x = target_.x;
-	pos_.y = target_.y;
-	pos_.z = target_.z - m_offset.z * 2;
+	//pos_.x = target_.x;
+	//pos_.y = target_.y;
+	//pos_.z = target_.z - m_offset.z * 2;
+
+	// スペース押したら
+	/*if (tnl::Input::IsKeyDown(eKeys::KB_2))
+	{
+		SetDrawArea(DXE_WINDOW_WIDTH / 2, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+	}*/
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT))
 	{
