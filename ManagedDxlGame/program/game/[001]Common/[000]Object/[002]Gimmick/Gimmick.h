@@ -24,9 +24,11 @@ public:
 	{
 		int s_id = 0;
 		int s_model_hdl;
-		int s_texture_hdl;
+		int s_texture_a_hdl;
+		int s_texture_b_hdl;
 		std::string s_model_path;
-		std::string s_texture_path;
+		std::string s_texture_a_path;
+		std::string s_texture_b_path;
 		eGimmickType s_type;
 	};
 

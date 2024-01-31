@@ -71,40 +71,32 @@ void ScenePlay::Update(const float delta_time)
 
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
-		//SetDrawArea(0, 0, DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT);
 
 		object->Update(delta_time);
 	}
 
 	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
 	//{
-	//	//SetDrawArea(DXE_WINDOW_WIDTH / 2, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 
 	//	object->Update(delta_time);
 	//}
 
-	// •`‰æ—Ìˆæ‚ðƒŠƒZƒbƒg
-	//SetDrawArea(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 }
 
 void ScenePlay::Draw(const float delta_time)
 {
 	//DrawDefaultLightGuiController();
 
-	m_screenShot->SaveScreenShot();
-
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
-		//SetDrawArea(0, 0, DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT);
-		//DrawGridGround(m_gameCamera);
 
 		object->Draw(m_gameCamera);
 	}
 
+	m_screenShot->SaveScreenShot();
+
 	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
 	//{
-	//	SetDrawArea(DXE_WINDOW_WIDTH / 2, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
-	//	DrawGridGround(m_cinemaCamera);
 
 	//	object->Draw(m_cinemaCamera);
 	//}

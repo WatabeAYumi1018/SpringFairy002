@@ -13,7 +13,8 @@ Gimmick::Gimmick()
 Gimmick::~Gimmick()
 {
 	MV1DeleteModel(m_gimmick_data.s_model_hdl);
-	DeleteGraph(m_gimmick_data.s_texture_hdl);
+	DeleteGraph(m_gimmick_data.s_texture_a_hdl);
+	DeleteGraph(m_gimmick_data.s_texture_b_hdl);
 }
 
 void Gimmick::Initialize()
@@ -61,11 +62,14 @@ void Gimmick::LoadGimmickData(const Gimmick::sGimmickTypeInfo& gimmick_info)
 	m_gimmick_data.s_model_hdl 
 		= MV1LoadModel(gimmick_info.s_model_path.c_str());
 		
-	m_gimmick_data.s_texture_hdl 
-		= LoadGraph(gimmick_info.s_texture_path.c_str());
+	m_gimmick_data.s_texture_a_hdl 
+		= LoadGraph(gimmick_info.s_texture_a_path.c_str());
+
+	m_gimmick_data.s_texture_b_hdl
+		= LoadGraph(gimmick_info.s_texture_b_path.c_str());
 		
 	MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0
-								, m_gimmick_data.s_texture_hdl, FALSE);
+								, m_gimmick_data.s_texture_a_hdl, FALSE);
 }
 
 void Gimmick::Reset()
@@ -93,7 +97,7 @@ void Gimmick::ChangeTexture()
 	//		= m_mediator->GetGimmickLoadInfoById(new_texture);
 
 	// 古いテクスチャを削除
-	DeleteGraph(m_gimmick_data.s_texture_hdl);
+	DeleteGraph(m_gimmick_data.s_texture_a_hdl);
 
 	// 新しいテクスチャを読み込み
 	//m_gimmick_data.s_texture_hdl 

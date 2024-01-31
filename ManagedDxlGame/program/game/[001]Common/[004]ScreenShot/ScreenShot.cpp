@@ -6,43 +6,20 @@
 
 ScreenShot::~ScreenShot() 
 {
-	// ハンドルの解放
-	DeleteGraph(m_screen_hdl);
-	m_chara_graph.clear();
+
 }
 
 void ScreenShot::SaveScreenShot()
 {
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB))
-	{
-		m_chara_graph = m_mediator->GetCharaGraphLoadInfo();
+    if (tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB))
+    {
+        // スクリーンショットをファイルに保存
+        std::string final_path 
+            = GetNextFileName(m_directry, m_base_name);
 
-		// 保存するスクリーンの作成（取得）
-		m_screen_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, false);
-
-		// 保存するスクリーンの設定
-		SetDrawScreen(m_screen_hdl);
-
-		// スタンプ画像の設定
-		CharaGraph::sGraphInfo player_graph = m_chara_graph[0];
-		CharaGraph::sGraphInfo partner_graph = m_chara_graph[1];
-
-		// スタンプ画像を追加
-		DrawGraph(m_chara_graph[0].s_graph_pos.x
-				  , m_chara_graph[0].s_graph_pos.y
-				  , m_chara_graph[0].s_graph_hdl, TRUE);
-
-		// 最終的なスクリーンショットをファイルに保存
-		std::string final_path
-			= GetNextFileName(m_directry, m_base_name);
-
-		// 最終画像を保存
-		SaveDrawScreenToPNG(0, 0
-							, DXE_WINDOW_WIDTH
-							, DXE_WINDOW_HEIGHT
-							, final_path.c_str()
-							, m_screen_hdl);
-	}
+        // 画像を保存
+        SaveDrawScreenToPNG(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, final_path.c_str());
+    }
 }
 
 std::string ScreenShot::GetNextFileName(const std::string& directry

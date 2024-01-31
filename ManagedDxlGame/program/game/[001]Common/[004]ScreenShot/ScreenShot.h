@@ -17,8 +17,6 @@ public:
 
 private:
 
-	// 保存するスクリーン
-	int m_screen_hdl = 0;
 	// スタンプするプレイヤーの画像
 	int m_firy_hdl = 0;
 	// スタンプするパートナーの画像
