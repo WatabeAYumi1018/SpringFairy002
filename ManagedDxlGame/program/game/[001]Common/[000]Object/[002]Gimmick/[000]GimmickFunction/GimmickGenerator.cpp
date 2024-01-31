@@ -1,7 +1,8 @@
 #include <random>
 #include "../../../../../wta_library/wta_Convert.h"
-#include "../../[000]Stage/[002]Floor/Floor.h"
 #include "../../../[002]Mediator/Mediator.h"
+#include "../../../[003]Phase/StagePhase.h"
+#include "../../[000]Stage/[002]Floor/Floor.h"
 #include "GimmickGenerator.h"
 
 
@@ -22,23 +23,33 @@ void GimmickGenerator::Update(const float delta_time)
 
     //tnl_sequence_.update(delta_time);
 
-    CreateGimmick(delta_time);
+    if (m_is_ground_active)
+    {
+        CreateGimmick(delta_time);
+    }
 }
 
 void GimmickGenerator::CreateGimmick(const float delta_time)
 {
-    if (m_is_ground_active)
-    {
-        //if(e_flower || e_magical)
-        CalcGroundPos(delta_time, Gimmick::eGimmickType::plant);
+    StagePhase::eStagePhase stage_phase 
+                = m_mediator->GetNowStagePhaseState();
 
-        //if(e_wood || e_magical)
-        //CalcGroundPos(Gimmick::eGimmickType::tree);
-    }
-    else
+    if (stage_phase == StagePhase::eStagePhase::e_flower
+        || stage_phase == StagePhase::eStagePhase::e_fancy)
     {
-        //CalcSkyRandomPos();
+        CalcGroundPos(delta_time, Gimmick::eGimmickType::plant);
     }
+    if (stage_phase == StagePhase::eStagePhase::e_wood)
+    {
+        CalcGroundPos(delta_time,Gimmick::eGimmickType::tree);
+    }
+ // if (stage_phase == StagePhase::eStagePhase::e_fancy)
+ // {
+ //  	CalcGroundPos(delta_time, Gimmick::eGimmickType::);
+ // }
+    
+    
+    //CalcSkyRandomPos();
 }
 
 void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickType type)
@@ -47,7 +58,8 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
                  = m_mediator->GetGimmickTypePools(type);
 
     // ギミックのベクターの中身をランダムに並び替え
-    std::shuffle(gimmicks.begin(), gimmicks.end(), std::mt19937(std::random_device()()));
+    std::shuffle(gimmicks.begin(), gimmicks.end()
+                 , std::mt19937(std::random_device()()));
 
     // プレイヤーのforward方向ベクトル
     tnl::Vector3 forward = m_mediator->PlayerForward();
@@ -60,22 +72,26 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
     {
         if (m_mediator->GetPlayerLookSideRight())
         {
-            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
+            perpendicular 
+                = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
         }
         else if (m_mediator->GetPlayerLookSideLeft())
         {
-            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
+            perpendicular 
+                = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
         }
     }
     else
     {
         if (m_mediator->GetPlayerLookSideRight())
         {
-            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
+            perpendicular 
+                = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
         }
         else if (m_mediator->GetPlayerLookSideLeft())
         {
-            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
+            perpendicular 
+                = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
         }
     }
 
@@ -238,13 +254,6 @@ void GimmickGenerator::CheckGimmicks(const float delta_time
         m_is_ground_active = false;
     }
 }
-
-
-bool GimmickGenerator::GetIsFlowerActive() const { return m_is_sky_flower_active; }
-
-void GimmickGenerator::SetIsGroundActive(bool is_active) { m_is_ground_active = is_active; }
-
-bool GimmickGenerator::GetIsGroundActive() const { return m_is_ground_active; }
 
 
 //void GimmickGenerator::ActiveGimmick()

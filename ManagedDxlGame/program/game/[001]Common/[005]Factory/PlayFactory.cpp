@@ -150,6 +150,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetGimmickGenerator(m_gimmickGenerator);
 	m_mediator->SetGimmickPool(m_gimmickPool);
 	m_mediator->SetEffectLoad(m_effectLoad);
+	m_mediator->SetScore(m_score);
 	m_mediator->SetText(m_text);
 	m_mediator->SetTextLoad(m_textLoad);
 	m_mediator->SetTextDraw(m_textDraw);

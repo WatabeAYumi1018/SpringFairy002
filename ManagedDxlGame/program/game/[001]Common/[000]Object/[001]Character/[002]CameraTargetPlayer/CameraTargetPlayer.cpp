@@ -20,7 +20,7 @@ void CameraTargetPlayer::Update(float delta_time)
 	// プレイヤーのアニメーション自動発生フラグ設定
 	if (m_event.s_id == 6)
 	{
-		m_mediator->SetIsPlayerDance(true);
+		m_mediator->SetIsPlayerEventDance(true);
 	}
 
 	//if (m_gimmick.s_id == 1)

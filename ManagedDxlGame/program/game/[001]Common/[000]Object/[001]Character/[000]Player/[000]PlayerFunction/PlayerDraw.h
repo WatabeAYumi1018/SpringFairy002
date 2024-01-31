@@ -51,10 +51,12 @@ private:
 	float m_anim_speed = 10;
 
 	float m_blend_timer = 0;
-
-	bool m_is_attack = false;
-	// イベントによるダンスの自動発生フラグ
+	// ブルーム攻撃フラグ
+	bool m_is_bloom = false;
+	// ダンス攻撃フラグ
 	bool m_is_dance = false;
+	// イベントによるダンスの自動発生フラグ
+	bool m_is_event_dance = false;
 	// ボーンのデタッチ設定フラグ(シネマプレイヤー用)
 	bool m_is_touch_idle = false;
 	bool m_is_touch_dance = false;
@@ -126,11 +128,13 @@ public:
 
 	int GetModelHdl() const { return m_model_hdl; }
 
-	bool GetIsAttack() const { return m_is_attack; }
-
-	void SetIsDance(bool is_dance) { m_is_dance = is_dance; }
+	bool GetIsBloom() const { return m_is_bloom; }
 
 	bool GetIsDance() const { return m_is_dance; }
+
+	void SetIsEventDance(bool is_event_dance) { m_is_event_dance = is_event_dance; }
+
+	bool GetIsEventDance() const { return m_is_event_dance; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

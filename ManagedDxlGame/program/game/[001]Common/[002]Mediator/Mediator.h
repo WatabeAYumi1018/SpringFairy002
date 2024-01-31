@@ -39,6 +39,8 @@ class GimmickPool;
 
 class EffectLoad;
 
+class Score;
+
 class TextLoad;
 class TextDraw;
 
@@ -89,6 +91,8 @@ private:
 	std::shared_ptr<GimmickPool> m_gimmickPool = nullptr;
 
 	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
+
+	std::shared_ptr<Score> m_score = nullptr;
 
 	std::shared_ptr<Text> m_text = nullptr;
 	std::shared_ptr<TextLoad> m_textLoad = nullptr;
@@ -457,20 +461,25 @@ public:
 	// 参照先 ... Player::Player()
 	int GetPlayerModelHdl() const ;
 
-	// 攻撃フラグ取得
-	// 参照元 ... PlayerDraw::m_is_attack
-	// 参照先 ... Player::Update(float delta_time)
-	bool GetIsPlayerAttack() const;
+	// ブルームフラグ取得
+	// 参照元 ... PlayerDraw::m_is_bloom
+	// 参照先 ... ブルームフラグが必要な全クラス
+	bool GetIsPlayerBloom() const;
 
-	// ダンスアニメーションフラグ設定
+	// ダンスフラグ取得
 	// 参照元 ... PlayerDraw::m_is_dance
-	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
-	void SetIsPlayerDance(bool is_dance);
-
-	// ダンスアニメーションフラグ取得
-	// 参照元 ... PlayerDraw::m_is_dance
-	// 参照先 ... PhaseManager::Update(float delta_time)
+	// 参照先 ... ダンスフラグが必要な全クラス
 	bool GetIsPlayerDance() const;
+
+	// イベントによるダンスアニメーションフラグ設定
+	// 参照元 ... PlayerDraw::m_is_event_dance
+	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
+	void SetIsPlayerEventDance(bool is_dance);
+
+	// イベントによるダンスアニメーションフラグ取得
+	// 参照元 ... PlayerDraw::m_is_event_dance
+	// 参照先 ... PhaseManager::Update(float delta_time)
+	bool GetIsPlayerEventDance() const;
 
 	// シネマアニメーション更新処理
 	// 参照元 ... PlayerDraw::UpdateCinemaCamera(float delta_time)
@@ -742,6 +751,20 @@ public:
 	const std::vector<Effect::sEffectType>& GetEffectLoadInfo() const;
 
 	//--------------------------//
+
+
+	//----------Score-----------//
+
+	// Score
+	
+	// スコア加算判定フラグの設定
+	// 参照元 ... Score::m_is_add
+	// 参照先 ... Gimmick::Update(float delta_time)
+	void SetIsScoreAdd(bool is_add) ;
+
+
+	//--------------------------//
+
 
 	//------------Text-----------//
 
@@ -1046,6 +1069,11 @@ public:
 	void SetEffectLoad(std::shared_ptr<EffectLoad>& effectLoad)
 	{
 		m_effectLoad = effectLoad;
+	}
+
+	void SetScore(std::shared_ptr<Score>& score)
+	{
+		m_score = score;
 	}
 
 	void SetText(std::shared_ptr<Text>& text)

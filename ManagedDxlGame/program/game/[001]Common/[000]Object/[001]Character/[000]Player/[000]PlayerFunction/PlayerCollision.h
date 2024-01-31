@@ -37,9 +37,9 @@ private:
 public:
 
 	// “–‚½‚è”»’èˆ—‚Ì“o˜^
-	void CollisionRegisterPlayerToItem();
+	void CollisionRegisterPlayerToGimmick();
 
-	void CollisionRegisterMeshToItem();
+	void CollisionRegisterMeshToGimmick();
 
 	void CollisionRegisterPlayerToPartner();
 

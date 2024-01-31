@@ -1,4 +1,4 @@
 モデルID,モデル ファイルパス,テクスチャ ファイルパス1,テクスチャ ファイルパス2,タイプ番号
-0,model/gimmick/ground/plant/flower001.mv1,model/gimmick/ground/plant/flower001_wilt.png,model/gimmick/ground/plant/flower001.png,0
-1,model/gimmick/ground/plant/flower002.mv1,model/gimmick/ground/plant/flower002_blue_wilt.png,model/gimmick/ground/plant/flower002_blue.png,0
-2,model/gimmick/ground/plant/flower002.mv1,model/gimmick/ground/plant/flower002_pink_wilt.png,model/gimmick/ground/plant/flower002_pink.png,0
+0,model/gimmick/ground/plant/flower001.mv1,model/gimmick/ground/plant/flower001_wither.png,model/gimmick/ground/plant/flower001.png,0
+1,model/gimmick/ground/plant/flower002.mv1,model/gimmick/ground/plant/flower002_blue_wither.png,model/gimmick/ground/plant/flower002_blue.png,0
+2,model/gimmick/ground/plant/flower002.mv1,model/gimmick/ground/plant/flower002_pink_wither.png,model/gimmick/ground/plant/flower002_pink.png,0

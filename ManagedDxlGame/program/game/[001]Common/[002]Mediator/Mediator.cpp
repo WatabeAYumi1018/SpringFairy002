@@ -19,6 +19,7 @@
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
+#include "../[000]Object/[004]Score/Score.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextLoad.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
@@ -388,19 +389,19 @@ int Mediator::GetPlayerModelHdl() const
 	return m_playerDraw->GetModelHdl();
 }
 
-bool Mediator::GetIsPlayerAttack() const
+bool Mediator::GetIsPlayerBloom() const
 {
-	return m_playerDraw->GetIsAttack();
+	return m_playerDraw->GetIsBloom();
 }
 
-void Mediator::SetIsPlayerDance(bool is_dance)
+void Mediator::SetIsPlayerEventDance(bool is_dance)
 {
-	m_playerDraw->SetIsDance(is_dance);
+	m_playerDraw->SetIsEventDance(is_dance);
 }
 
-bool Mediator::GetIsPlayerDance() const
+bool Mediator::GetIsPlayerEventDance() const
 {
-	return m_playerDraw->GetIsDance();
+	return m_playerDraw->GetIsEventDance();
 }
 
 void Mediator::UpdateCinemaCameraPlayer(const float delta_time)
@@ -420,8 +421,8 @@ void Mediator::UpdatePlayerSkill(const float delta_time)
 
 void Mediator::InitCollisionRegister()
 {
-	m_playerCollision->CollisionRegisterPlayerToItem();
-	m_playerCollision->CollisionRegisterMeshToItem();
+	m_playerCollision->CollisionRegisterPlayerToGimmick();
+	m_playerCollision->CollisionRegisterMeshToGimmick();
 	m_playerCollision->CollisionRegisterPlayerToPartner();
 }
 
@@ -674,6 +675,19 @@ const std::vector<Effect::sEffectType>& Mediator::GetEffectLoadInfo() const
 {
 	return m_effectLoad->GetEffectType();
 }
+
+//--------------------------//
+
+
+//----------Score-----------//
+
+// Score
+
+void Mediator::SetIsScoreAdd(bool is_add)
+{
+	m_score->SetIsAdd(is_add);
+}
+
 
 //--------------------------//
 

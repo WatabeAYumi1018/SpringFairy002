@@ -18,9 +18,9 @@ GimmickLoad::GimmickLoad()
 
 	LoadGimmickTypeInfo(m_csv_plants, m_plants);
 	
-	//LoadGimmickTypeInfo(m_csv_trees, m_trees);
+	LoadGimmickTypeInfo(m_csv_trees, m_trees);
 	
-	//LoadGimmickTypeInfo(m_csv_sky_flowers, m_sky_flowers);
+	LoadGimmickTypeInfo(m_csv_sky_flowers, m_sky_flowers);
 }
 
 GimmickLoad::~GimmickLoad()

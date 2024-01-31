@@ -656,11 +656,7 @@
 //
 //    srand(time(0));
 //    SetBackgroundColor(32, 32, 32);
-//
-//    //// 2つのスクリーンを作成する
-//    //int screenLeft = MakeScreen(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT, TRUE);
-//    //int screenRight = MakeScreen(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT, TRUE);
-//
+// 
 //    // 3つのスクリーンを作成する
 //    int screenLeft = MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
 //    int screenMiddle = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
@@ -684,65 +680,15 @@
 //    subcamera_right->target_ = mesh_sub->pos_;
 //    subcamera_left->target_ = mesh_sub->pos_;
 //
-//    //// カメラのビューをスクリーンに関連付ける
-//    //camera->setScreenHandle(screenLeft);
-//    //subcamera->setScreenHandle(screenRight);
-//
 //    // カメラのビューをスクリーンに関連付ける
 //    camera->setScreenHandle(screenMiddle);
 //    subcamera_right->setScreenHandle(screenRight);
 //    subcamera_left->setScreenHandle(screenLeft);
 //}
-//
-//
 ////------------------------------------------------------------------------------------------------------------
 //// 毎フレーム実行されます
 //void gameMain(float delta_time) {
 //
-//    //----------------------------------------------------------------------------------------------------
-//    //
-//    // カメラ制御
-//    //
-//    tnl::Input::RunIndexKeyDown(
-//        [&](uint32_t index) {
-//            tnl::Vector3 v[4] = {
-//                camera->left(),
-//                camera->right(),
-//                tnl::Vector3::up,
-//                tnl::Vector3::down
-//            };
-//            camera->pos_ += v[index] * 3.0f;
-//
-//        }, eKeys::KB_A, eKeys::KB_D, eKeys::KB_W, eKeys::KB_S);
-//
-//    if (tnl::Input::IsMouseDown(tnl::Input::eMouse::RIGHT))
-//    {
-//        tnl::Vector3 mvel = tnl::Input::GetMouseVelocity();
-//        camera->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(mvel.x * 0.2f));
-//        camera->rot_ *= tnl::Quaternion::RotationAxis(camera->right(), tnl::ToRadian(mvel.y * 0.2f));
-//    }
-//    camera->pos_ += camera->forward().xz() * tnl::Input::GetMouseWheel() * 0.3f;
-//
-//    if (tnl::Input::IsMouseDown(tnl::Input::eMouse::LEFT))
-//    {
-//        tnl::Vector3 mvel = tnl::Input::GetMouseVelocity();
-//        subcamera_right->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(mvel.x * 0.2f));
-//        subcamera_right->rot_ *= tnl::Quaternion::RotationAxis(subcamera_right->right(), tnl::ToRadian(mvel.y * 0.2f));
-//    }
-//    subcamera_right->pos_ += subcamera_right->forward().xz() * tnl::Input::GetMouseWheel() * 0.3f;
-//
-//    //// エンター押したらactive切り替え
-//    //if (tnl::Input::IsKeyDown(tnl::Input::eKeys::KB_RETURN))
-//    //{
-//    //    active = true;
-//    //}
-//    //if (tnl::Input::IsKeyDown(tnl::Input::eKeys::KB_SPACE))
-//    //{
-//    //    active = false;
-//    //}
-//
-//   // mesh_trans->rot_ = tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(1));
-//    //mesh_sub->rot_ = tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(1));
 //
 //    //----------------------------------------------------------------------------------------------------
 //

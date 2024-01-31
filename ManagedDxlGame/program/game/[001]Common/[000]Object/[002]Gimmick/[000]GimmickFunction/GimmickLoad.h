@@ -28,7 +28,7 @@ private:
 	std::vector<Gimmick::sGimmickTypeInfo> m_butterflys;
 
 
-	// アイテムモデルの情報読み込み
+	// モデルの情報読み込み
 	void LoadGimmickTypeInfo(std::vector<std::vector<tnl::CsvCell>>& csv_gimmick
 							 ,std::vector<Gimmick::sGimmickTypeInfo>& gimmicks);
 

@@ -64,11 +64,17 @@ public:
 	void Update(const float delta_time);
 
 
-	bool GetIsFlowerActive() const;
+	bool GetIsFlowerActive() const 
+	{
+		return m_is_sky_flower_active; 
+	}
 
-	void SetIsGroundActive(bool is_active);
+	void SetIsGroundActive(bool is_active)
+	{
+		m_is_ground_active = is_active; 
+	}
 
-	bool GetIsGroundActive() const;
+	bool GetIsGroundActive() const { return m_is_ground_active; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

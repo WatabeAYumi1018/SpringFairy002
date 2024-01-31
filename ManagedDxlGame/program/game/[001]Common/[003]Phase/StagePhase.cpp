@@ -17,7 +17,7 @@ bool StagePhase::SeqFlower(const float delta_time)
 	}
 
 	// プレイヤーがダンスしたら変更
-	if (m_mediator-> GetIsPlayerDance())
+	if (m_mediator-> GetIsPlayerEventDance())
 	{
 		tnl_sequence_.change(&StagePhase::SeqWood);
 	}

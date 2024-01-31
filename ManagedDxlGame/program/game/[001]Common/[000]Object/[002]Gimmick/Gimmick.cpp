@@ -7,7 +7,7 @@
 // 最初は茶色のため、idは0で統一
 Gimmick::Gimmick()
 {
-	m_collision_size = { 50 };
+	m_collision_size = { 70 };
 }
 
 Gimmick::~Gimmick()
@@ -38,15 +38,15 @@ void Gimmick::Initialize()
 
 void Gimmick::Update(const float delta_time)
 {
-	VECTOR pos_vec = wta::ConvertToVECTOR(m_pos);
+	m_matrix = GetTransformMatrix();
 
 	// マトリックス
-	MV1SetPosition(m_gimmick_data.s_model_hdl, pos_vec);
+	MV1SetMatrix(m_gimmick_data.s_model_hdl, m_matrix);
 
 	tnl_sequence_.update(delta_time);
 
 	// 毎フレームあかん
-	MoveFlower(delta_time);
+	//MoveFlower(delta_time);
 }
 
 void Gimmick::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -77,34 +77,23 @@ void Gimmick::Reset()
 	m_pos = { 0,0,0 };
 	m_is_active = false;
 	m_is_draw_change = false;
+	m_is_collision = false;
 	m_emissive_value = 0.0f;
-	m_time_elapsed = 0.0f;
-	m_emissive = { 0.5f,0.5f,0.5f,1 };
+	//m_time_elapsed = 0.0f;
+	m_emissive = { 0.3f,0.3f,0.3f,1 };
+	// テクスチャを元に戻す
+	ChangeTexture(m_gimmick_data.s_texture_b_hdl
+				  , m_gimmick_data.s_texture_a_hdl);
 }
 
-int Gimmick::RandomTexture()
+void Gimmick::ChangeTexture(int texture_delete_hdl,int texture_next_hdl)
 {
-	// ID 0 は除外
-	return tnl::GetRandomDistributionInt(1, m_id_num);
-}
-
-void Gimmick::ChangeTexture()
-{
-	int new_texture = RandomTexture();
-
-	// 新しいテクスチャ情報を取得
-	//Gimmick::sGimmickTypeInfo new_texture_id
-	//		= m_mediator->GetGimmickLoadInfoById(new_texture);
-
 	// 古いテクスチャを削除
-	DeleteGraph(m_gimmick_data.s_texture_a_hdl);
+	DeleteGraph(texture_delete_hdl);
 
-	// 新しいテクスチャを読み込み
-	//m_gimmick_data.s_texture_hdl 
-	//	= LoadGraph(new_texture_id.s_texture_path.c_str());
-
-	//// テクスチャをモデルに適用
-	//MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0, m_gimmick_data.s_texture_hdl, FALSE);
+	// テクスチャをモデルに適用
+	MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0
+							 , texture_next_hdl, FALSE);
 }
 
 void Gimmick::MoveFlower(const float delta_time)
@@ -146,9 +135,9 @@ void Gimmick::MoveButterfly(const float delta_time)
 
 bool Gimmick::SeqNormal(const float delta_time)
 {
-	if (m_is_draw_change)
+	if (m_is_hit)
 	{
-		tnl_sequence_.change(&Gimmick::SeqLightUp);
+		tnl_sequence_.change(&Gimmick::SeqHit);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]() {});
@@ -156,39 +145,89 @@ bool Gimmick::SeqNormal(const float delta_time)
 	TNL_SEQ_CO_END;
 }
 
+bool Gimmick::SeqHit(const float delta_time)
+{
+	// 射程内を出たらNormalに戻る
+	if (!m_is_hit)
+	{
+		tnl_sequence_.change(&Gimmick::SeqNormal);
+	}
+
+	// 衝突発生
+	if (m_is_collision)
+	{
+		m_mediator->SetIsScoreAdd(true);
+
+		m_emissive_value = 0.6f;
+
+		tnl_sequence_.change(&Gimmick::SeqLightUp);
+	}
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]() 
+	{
+		// ギミックをほんのり光らせる
+		m_emissive_value += delta_time;
+
+		m_emissive.r = m_emissive_value;
+		m_emissive.g = m_emissive_value;
+		m_emissive.b = m_emissive_value;
+		m_emissive.a = 1.0f;
+
+		if (m_emissive_value >= 0.6f)
+		{
+			m_emissive_value = 0.6f;
+		}
+	});
+}
+
 bool Gimmick::SeqLightUp(const float delta_time)
 {
-	m_time_elapsed += delta_time;
-
-	// 0.5 : サイン関数（-1~1）を（0~1）に変換
-	m_emissive_value = sin(m_time_elapsed) * 0.5f + 0.5f;
-
-	m_emissive = { m_emissive_value, m_emissive_value, m_emissive_value, 1.0f };
-
-	if (m_time_elapsed >= 1.0f)
-	{
-		m_time_elapsed = 0.0f;
-
+	if (m_emissive_value == 1)
+	{		
 		tnl_sequence_.change(&Gimmick::SeqLightDown);
 	}
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+	{
+		// ギミックをほんのり光らせる
+		m_emissive_value += delta_time;
+
+		m_emissive.r = m_emissive_value;
+		m_emissive.g = m_emissive_value;
+		m_emissive.b = m_emissive_value;
+		m_emissive.a = 1.0f;
+
+		if (m_emissive_value >= 1)
+		{
+			m_emissive_value = 1;
+		}
+	});
 
 	TNL_SEQ_CO_END;
 }
 
 bool Gimmick::SeqLightDown(const float delta_time)
 {
-	m_time_elapsed += delta_time;
-
-	m_emissive_value = 1.0f - (sin(m_time_elapsed) * 0.5f + 0.5f);
-
-	m_emissive = { m_emissive_value, m_emissive_value, m_emissive_value, 1.0f };
-
-	if (m_time_elapsed <= 1.0f)
+	if (m_emissive_value == 0.5f)
 	{
-		m_time_elapsed = 0.0f;
-
 		tnl_sequence_.change(&Gimmick::SeqChangeEnd);
 	}
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+	{
+		// ギミックをほんのり光らせる
+		m_emissive_value -= delta_time;
+
+		m_emissive.r = m_emissive_value;
+		m_emissive.g = m_emissive_value;
+		m_emissive.b = m_emissive_value;
+		m_emissive.a = 1.0f;
+
+		if (m_emissive_value <= 0.5f)
+		{
+			m_emissive_value = 0.5f;
+		}
+	});
 
 	TNL_SEQ_CO_END;
 }
@@ -197,10 +236,43 @@ bool Gimmick::SeqChangeEnd(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		ChangeTexture();
+		// テクスチャを変える
+		ChangeTexture(m_gimmick_data.s_texture_a_hdl
+					  , m_gimmick_data.s_texture_b_hdl);
+	}
+
+	if (!m_mediator->GetIsGimmickGroundActive())
+	{
+		tnl_sequence_.change(&Gimmick::SeqNormal);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]() {});
 
 	TNL_SEQ_CO_END;
 }
+
+
+//int Gimmick::RandomTexture()
+//{
+//	// ID 0 は除外
+//	return tnl::GetRandomDistributionInt(1, m_id_num);
+//}
+//
+//void Gimmick::ChangeTexture()
+//{
+//	int new_texture = RandomTexture();
+//
+//	// 新しいテクスチャ情報を取得
+//	//Gimmick::sGimmickTypeInfo new_texture_id
+//	//		= m_mediator->GetGimmickLoadInfoById(new_texture);
+//
+//	// 古いテクスチャを削除
+//	DeleteGraph(m_gimmick_data.s_texture_a_hdl);
+//
+//	// 新しいテクスチャを読み込み
+//	//m_gimmick_data.s_texture_hdl 
+//	//	= LoadGraph(new_texture_id.s_texture_path.c_str());
+//
+//	//// テクスチャをモデルに適用
+//	//MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0, m_gimmick_data.s_texture_hdl, FALSE);
+//}

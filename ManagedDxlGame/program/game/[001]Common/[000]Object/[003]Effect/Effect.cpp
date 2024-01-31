@@ -48,7 +48,7 @@ void Effect::Update(float delta_time)
     for (sEffectType& effect_type : m_effect_types)
     {
         if (ContainsAttack(effect_type.s_effect_path)
-            && m_mediator->GetIsPlayerAttack())
+            && m_mediator->GetIsPlayerBloom())
         {
             m_particles[effect_type.s_id]->start();
             m_particles[effect_type.s_id]->setPosition({ m_pos.x, m_pos.y + offset,m_pos.z });

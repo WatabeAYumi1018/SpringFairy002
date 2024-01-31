@@ -10,7 +10,7 @@ PlayerCollision::~PlayerCollision()
 	m_gimmicks.clear();
 }
 
-void PlayerCollision::CollisionRegisterPlayerToItem()
+void PlayerCollision::CollisionRegisterPlayerToGimmick()
 {
 	// ƒvƒŒƒCƒ„[‚ÆƒMƒ~ƒbƒN‚Ì“–‚½‚è”»’è
 	std::string player_to_gimmick_key
@@ -22,18 +22,27 @@ void PlayerCollision::CollisionRegisterPlayerToItem()
 	{
 		if(m_collision_gimmick->IsIntersectSphere(player,player->GetCollisionSize()
 												, gimmick, gimmick->GetCollisionSize()))
-		{
+		{ 
 			// “–‚½‚è”»’è”­¶‡}
 			gimmick->SetIsHit(true);
-			// •`‰æØ‚è‘Ö‚¦‡}
-			gimmick->SetIsDrawChange(true);
+			//// •`‰æØ‚è‘Ö‚¦‡}
+			//gimmick->SetIsDrawChange(true);
+		}
+		// “–‚½‚è”»’è”­¶‡}‚ªo‚Ä‚¢‚Ä‚àAŽË’öŠO‚Éo‚½‚ç“–‚½‚è”»’è‚ð‰ðœ
+		if (gimmick->GetIsHit())
+		{
+			if (!m_collision_gimmick->IsIntersectSphere(player, player->GetCollisionSize()
+														, gimmick, gimmick->GetCollisionSize()))
+			{
+				gimmick->SetIsHit(false);
+			}
 		}
 	});
 }
 
-void PlayerCollision::CollisionRegisterMeshToItem()
+void PlayerCollision::CollisionRegisterMeshToGimmick()
 {
-	// ƒƒbƒVƒ…‚ÆƒMƒ~ƒbƒN‚Ì“–‚½‚è”»’è
+	// ƒvƒŒƒCƒ„[ƒƒbƒVƒ…‚ÆƒMƒ~ƒbƒN‚Ì“–‚½‚è”»’è
 	std::string mesh_to_gimmick_key
 		= typeid(dxe::Mesh).name() + std::string(typeid(Gimmick).name());
 
@@ -46,8 +55,23 @@ void PlayerCollision::CollisionRegisterMeshToItem()
 		{
 			// “–‚½‚è”»’è”­¶‡}
 			gimmick->SetIsHit(true);
-			// •`‰æØ‚è‘Ö‚¦‡}
-			gimmick->SetIsDrawChange(true);
+			//// •`‰æØ‚è‘Ö‚¦‡}
+			//gimmick->SetIsDrawChange(true);
+		}
+		// “–‚½‚è”»’è”­¶‡}”­¶’†
+		if (gimmick->GetIsHit())
+		{
+			// ŽË’öŠO‚Éo‚½‚ç“–‚½‚è”»’è‚ð‰ðœ
+			if (!m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
+				, gimmick, gimmick->GetCollisionSize()))
+			{
+				gimmick->SetIsHit(false);
+			}
+			// ƒvƒŒƒCƒ„[‚ªƒuƒ‹[ƒ€ó‘Ô‚È‚ç“–‚½‚è”»’è
+			else if (m_mediator->GetIsPlayerBloom())
+			{
+				gimmick->SetIsCollision(true);
+			}
 		}
 	});
 }

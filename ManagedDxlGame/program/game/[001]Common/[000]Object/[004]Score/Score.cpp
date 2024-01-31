@@ -18,7 +18,7 @@ Score::~Score()
 
 void Score::Update(const float delta_time)
 {
-	if (m_mediator->GetGimmickIsHit())
+	if (m_is_add)
 	{
 		AddScore();
 	}

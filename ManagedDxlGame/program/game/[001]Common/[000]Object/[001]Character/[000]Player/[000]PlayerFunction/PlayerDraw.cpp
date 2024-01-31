@@ -42,14 +42,30 @@ void PlayerDraw::Update(const float delta_time)
 
 void PlayerDraw::Draw()
 {
-	MV1DrawModel(m_model_hdl);
+	if (m_mediator->GetIsGimmickGroundActive())
+	{
+		// アルファ値を0.5（半透明）に設定
+		MV1SetMaterialDifColor(m_model_hdl, 0
+								, GetColorF(1.0f, 1.0f, 1.0f, 0.5f)); 
+	
+		// モデルを描画
+		MV1DrawModel(m_model_hdl);
+
+		// アルファ値を1.0（不透明）に設定
+		MV1SetMaterialDifColor(m_model_hdl, 0
+								, GetColorF(1.0f, 1.0f, 1.0f, 1.0f)); 
+	}
+	else
+	{
+		MV1DrawModel(m_model_hdl);
+	}
 }
 
 void PlayerDraw::UpdateCinemaCamera(float delta_time)
 {
 	CinemaAnimIdle(delta_time);
 
-	if (m_is_dance)
+	if (m_is_event_dance)
 	{
 		CinemaAnimDance(delta_time);
 	}
@@ -170,7 +186,7 @@ bool PlayerDraw::SeqMove(const float delta_time)
 		tnl_sequence_.change(&PlayerDraw::SeqBloom);
 	}
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z) || m_is_dance)
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z) || m_is_event_dance)
 	{
 		tnl_sequence_.change(&PlayerDraw::SeqDance);
 	}
@@ -202,12 +218,12 @@ bool PlayerDraw::SeqBloom(const float delta_time)
 
 		TNL_SEQ_CO_FRM_YIELD_RETURN(m_time_count_bloom * 2, delta_time, [&]()
 		{
-			m_is_attack = true;
+			m_is_bloom = true;
 
 			AnimBloom(delta_time);
 		});
 
-		m_is_attack = false;
+		m_is_bloom = false;
 
 		m_elapsed_time_bloom = 0;
 
@@ -257,16 +273,16 @@ bool PlayerDraw::SeqDance(const float delta_time)
 
 		TNL_SEQ_CO_FRM_YIELD_RETURN(m_time_count_dance * 2, delta_time, [&]()
 		{
-			m_is_attack = true;
+			m_is_dance = true;
 
 			AnimDance(delta_time);
 		});
 
-		m_is_attack = false;
+		m_is_dance = false;
 
 		m_elapsed_time_dance = 0;
 
-		m_is_dance = false;
+		m_is_event_dance = false;
 
 		tnl_sequence_.change(&PlayerDraw::SeqDanceToMove);
 	}
