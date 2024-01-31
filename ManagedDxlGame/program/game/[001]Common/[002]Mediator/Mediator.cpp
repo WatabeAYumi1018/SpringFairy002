@@ -552,7 +552,6 @@ bool Mediator::GetIsTargetMoveDown() const
 	return m_cameraTargetPlayer->GetIsMoveDown();
 }
 
-
 //--------------------------//
 
 

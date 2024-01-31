@@ -89,17 +89,16 @@ void ScenePlay::Draw(const float delta_time)
 
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
-
 		object->Draw(m_gameCamera);
 	}
-
-	m_screenShot->SaveScreenShot();
 
 	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
 	//{
 
 	//	object->Draw(m_cinemaCamera);
 	//}
+
+	m_screenShot->SaveScreenShot();
 
 	// Fps•\Ž¦
 	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);

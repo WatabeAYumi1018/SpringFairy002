@@ -1,3 +1,4 @@
+#include "../../../[002]Mediator/Mediator.h"
 #include "../../../[001]Camera/GameCamera.h"
 #include "../[001]Lane/Lane.h"
 #include "Floor.h"
@@ -27,7 +28,7 @@ Floor::Floor()
 void Floor::Draw(std::shared_ptr<dxe::Camera> camera)
 {
     // グリッドのサイズ
-    int grid_size = 20; 
+    int grid_size = 40; 
     // グリッドの半分のサイズ
     int half_grid_size = grid_size / 2; 
     // フロア間のスペース

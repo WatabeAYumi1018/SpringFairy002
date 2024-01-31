@@ -55,16 +55,31 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
 
     // forward方向に垂直なベクトルを計算
     tnl::Vector3 perpendicular;
-    
-    if (m_mediator->GetPlayerLookSideRight())
+
+    if (forward.z > 0)
     {
-        perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
+        if (m_mediator->GetPlayerLookSideRight())
+        {
+            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
+        }
+        else if (m_mediator->GetPlayerLookSideLeft())
+        {
+            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
+        }
     }
-    else if (m_mediator->GetPlayerLookSideLeft())
+    else
     {
-       	perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
+        if (m_mediator->GetPlayerLookSideRight())
+        {
+            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
+        }
+        else if (m_mediator->GetPlayerLookSideLeft())
+        {
+            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
+        }
     }
-        perpendicular.normalize();
+
+    perpendicular.normalize();
 
     tnl::Vector3 start_offset = perpendicular * 500.0f;
     tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
@@ -129,7 +144,6 @@ void GimmickGenerator::GenerateGimmick(const float delta_time)
     //   {
        //	return;
        //}
-
     //   else
     //   {
     //       std::shared_ptr<Gimmick> active_item = m_mediator->GetNotActiveGimmickPool();

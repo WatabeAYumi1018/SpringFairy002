@@ -24,4 +24,9 @@ private:
 public:
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	void SetMediator(std::shared_ptr<Mediator>& mediator)
+	{
+		m_mediator = mediator;
+	}
 };

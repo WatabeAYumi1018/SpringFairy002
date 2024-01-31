@@ -100,7 +100,7 @@ bool CameraTargetPlayer::SeqStop(const float delta_time)
 
 bool CameraTargetPlayer::SeqUpMove(const float delta_time)
 {
-	if(m_pos.y > 1000)
+	if(m_pos.y > 500)
 	{
 		tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
 	}
@@ -117,7 +117,7 @@ bool CameraTargetPlayer::SeqUpMove(const float delta_time)
 	{
 		MoveMatrix(delta_time);
 		// yÀ•W‚ğã¸
-		m_pos.y += delta_time * 100;
+		m_pos.y += delta_time * 50;
 	});
 
 	TNL_SEQ_CO_END;

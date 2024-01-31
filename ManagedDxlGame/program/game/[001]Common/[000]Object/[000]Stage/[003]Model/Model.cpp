@@ -58,6 +58,7 @@ void Model::Update(float delta_time)
 
 void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 {
+	// 正面向きの時の処理
 	if (!m_mediator->GetIsGimmickGroundActive())
 	{
 		if (m_mediator->GetNowStagePhaseState()
@@ -74,6 +75,11 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 		{
 			DrawStage(m_models_info, 2);
 		}
+	}
+	// サイドを向いた時の処理
+	else
+	{
+
 	}
 }
 
@@ -167,6 +173,7 @@ void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)
 
 			// モデルの座標を計算
 			tnl::Vector3 pos;
+
 			pos.x = static_cast<float>(x * model_size);
 			pos.y = Floor::DRAW_DISTANCE;
 			// 前方を少し遠めに設定し突然のモデルの出現を防ぐ
@@ -183,6 +190,8 @@ void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)
 		}
 	}
 }
+
+
 
 //void Model::SetTextureIndex(sStageModelType& model)
 //{

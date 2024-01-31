@@ -620,7 +620,6 @@ public:
 	// 参照先 ... LaneMove::自動移動に関連するクラス
 	bool GetIsTargetMoveDown() const;
 
-
 	//--------------------------//
 
 

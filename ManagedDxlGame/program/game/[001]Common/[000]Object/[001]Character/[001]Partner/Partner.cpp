@@ -34,10 +34,10 @@ void Partner::Draw(std::shared_ptr<dxe::Camera> camera)
 	// モデル描画処理
 	m_mediator->DrawPartnerModel();
 
-	// 座標デバッグ用
-	DrawStringEx(1000, 0, 1, "PartnerPos_x:%f", m_pos.x);
-	DrawStringEx(1000, 20, 1, "PartnerPos_y:%f", m_pos.y);
-	DrawStringEx(1000, 40, 1, "PartnerPos_z:%f", m_pos.z);
+	//// 座標デバッグ用
+	//DrawStringEx(1000, 0, 1, "PartnerPos_x:%f", m_pos.x);
+	//DrawStringEx(1000, 20, 1, "PartnerPos_y:%f", m_pos.y);
+	//DrawStringEx(1000, 40, 1, "PartnerPos_z:%f", m_pos.z);
 
 	////// 当たり判定デバッグ用
 	//VECTOR pos = wta::ConvertToVECTOR(m_pos);

@@ -163,6 +163,7 @@ void PlayFactory::SetObjectReference()
 	m_skyBox->SetMediator(m_mediator);
 	m_laneMove->SetAstar(m_astar);
 	m_laneMove->SetMediator(m_mediator);
+	m_floor->SetMediator(m_mediator);
 	m_model->SetMediator(m_mediator);
 	//m_modelPool->SetMediator(m_mediator);
 	//m_modelGenerator->SetMediator(m_mediator);

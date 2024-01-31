@@ -276,7 +276,7 @@ bool PlayerMove::SeqStop(const float delta_time)
 
 bool PlayerMove::SeqUpMove(const float delta_time)
 {
-	if(m_pos.y > 1000)
+	if(m_pos.y > 500)
 	{
 		tnl_sequence_.change(&PlayerMove::SeqTrigger);
 	}
@@ -302,7 +302,7 @@ bool PlayerMove::SeqDownMove(const float delta_time)
 	{
 		MoveMatrix(delta_time);
 		// yç¿ïWÇâ∫ç~
-		m_pos.y -= delta_time * 100;
+		m_pos.y -= delta_time * 50;
 	});
 
 	TNL_SEQ_CO_END;

@@ -104,8 +104,6 @@ const std::vector<Gimmick::sGimmickTypeInfo>& GimmickLoad::GetGimmicksType(Gimmi
 //	return Gimmick::sGimmickTypeInfo();
 //}
 
-
-
 //void GimmickLoad::LoadGimmickVector()
 //{
 //	// csvƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ

@@ -643,6 +643,151 @@
 //}
 
 
+//// Go
+//// メインカメラの幅の比率（初期値は1/3）
+//// 最初の分割比率
+//float split_rate = 1.0f / 3.0f;
+//
+//
+//
+////------------------------------------------------------------------------------------------------------------
+//// ゲーム起動時に１度だけ実行されます
+//void gameStart() {
+//
+//    srand(time(0));
+//    SetBackgroundColor(32, 32, 32);
+//
+//    //// 2つのスクリーンを作成する
+//    //int screenLeft = MakeScreen(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT, TRUE);
+//    //int screenRight = MakeScreen(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT, TRUE);
+//
+//    // 3つのスクリーンを作成する
+//    int screenLeft = MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
+//    int screenMiddle = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
+//    int screenRight = MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
+//
+//    camera = std::make_shared<TransformCamera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+//    subcamera_right = std::make_shared<SubCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT);
+//    subcamera_left = std::make_shared<SubCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT);
+//
+//    mesh_trans = dxe::Mesh::CreateSphereMV(50);
+//    mesh_sub = dxe::Mesh::CreateCubeMV(50);
+//
+//    camera->pos_ = { 0, 100, -250 };
+//    subcamera_right->pos_ = { 0, 100, -250 };
+//    subcamera_left->pos_ = { 0, 100, -250 };
+//
+//    mesh_trans->pos_ = { 0, 100, 0 };
+//    mesh_sub->pos_ = { 0 , 100 , 0 };
+//
+//    camera->target_ = mesh_trans->pos_;
+//    subcamera_right->target_ = mesh_sub->pos_;
+//    subcamera_left->target_ = mesh_sub->pos_;
+//
+//    //// カメラのビューをスクリーンに関連付ける
+//    //camera->setScreenHandle(screenLeft);
+//    //subcamera->setScreenHandle(screenRight);
+//
+//    // カメラのビューをスクリーンに関連付ける
+//    camera->setScreenHandle(screenMiddle);
+//    subcamera_right->setScreenHandle(screenRight);
+//    subcamera_left->setScreenHandle(screenLeft);
+//}
+//
+//
+////------------------------------------------------------------------------------------------------------------
+//// 毎フレーム実行されます
+//void gameMain(float delta_time) {
+//
+//    //----------------------------------------------------------------------------------------------------
+//    //
+//    // カメラ制御
+//    //
+//    tnl::Input::RunIndexKeyDown(
+//        [&](uint32_t index) {
+//            tnl::Vector3 v[4] = {
+//                camera->left(),
+//                camera->right(),
+//                tnl::Vector3::up,
+//                tnl::Vector3::down
+//            };
+//            camera->pos_ += v[index] * 3.0f;
+//
+//        }, eKeys::KB_A, eKeys::KB_D, eKeys::KB_W, eKeys::KB_S);
+//
+//    if (tnl::Input::IsMouseDown(tnl::Input::eMouse::RIGHT))
+//    {
+//        tnl::Vector3 mvel = tnl::Input::GetMouseVelocity();
+//        camera->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(mvel.x * 0.2f));
+//        camera->rot_ *= tnl::Quaternion::RotationAxis(camera->right(), tnl::ToRadian(mvel.y * 0.2f));
+//    }
+//    camera->pos_ += camera->forward().xz() * tnl::Input::GetMouseWheel() * 0.3f;
+//
+//    if (tnl::Input::IsMouseDown(tnl::Input::eMouse::LEFT))
+//    {
+//        tnl::Vector3 mvel = tnl::Input::GetMouseVelocity();
+//        subcamera_right->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(mvel.x * 0.2f));
+//        subcamera_right->rot_ *= tnl::Quaternion::RotationAxis(subcamera_right->right(), tnl::ToRadian(mvel.y * 0.2f));
+//    }
+//    subcamera_right->pos_ += subcamera_right->forward().xz() * tnl::Input::GetMouseWheel() * 0.3f;
+//
+//    //// エンター押したらactive切り替え
+//    //if (tnl::Input::IsKeyDown(tnl::Input::eKeys::KB_RETURN))
+//    //{
+//    //    active = true;
+//    //}
+//    //if (tnl::Input::IsKeyDown(tnl::Input::eKeys::KB_SPACE))
+//    //{
+//    //    active = false;
+//    //}
+//
+//   // mesh_trans->rot_ = tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(1));
+//    //mesh_sub->rot_ = tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(1));
+//
+//    //----------------------------------------------------------------------------------------------------
+//
+//    if (tnl::Input::IsKeyDown(tnl::Input::eKeys::KB_RETURN))
+//    {
+//        split_rate += delta_time * 10;
+//
+//        if (split_rate >= 1.0f)
+//        {
+//            split_rate = 1.0f;
+//        }
+//    }
+//
+//    // メインが大きくなる    
+//
+//    // 分割比率に基づいて各スクリーンの幅を計算します。
+//    int split_width_left = static_cast<int>(DXE_WINDOW_WIDTH * (1.0f - split_rate) / 2);
+//    int split_width_right = DXE_WINDOW_WIDTH - split_width_left;
+//
+//    // 左側のカメラビューを更新して描画
+//    SetDrawScreen(subcamera_left->getScreenHandle());
+//    ClearDrawScreen();
+//    subcamera_left->update();
+//    mesh_trans->render(subcamera_left);
+//
+//    // 中央のカメラビューを更新して描画
+//    SetDrawScreen(camera->getScreenHandle());
+//    ClearDrawScreen();
+//    camera->update();
+//    mesh_sub->render(camera);
+//
+//    // 右側のカメラビューを更新して描画
+//    SetDrawScreen(subcamera_right->getScreenHandle());
+//    ClearDrawScreen();
+//    subcamera_right->update();
+//    mesh_trans->render(subcamera_right);
+//
+//    // 描画対象を表画面に設定
+//    SetDrawScreen(DX_SCREEN_BACK);
+//
+//    DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, camera->getScreenHandle(), FALSE);
+//    DrawExtendGraph(0, 0, split_width_left, DXE_WINDOW_HEIGHT, subcamera_left->getScreenHandle(), FALSE);
+//    DrawExtendGraph(split_width_right, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, subcamera_right->getScreenHandle(), FALSE);
+//
+
 
 #include <time.h>
 #include <string>
@@ -713,6 +858,11 @@ void gameMain(float delta_time)
 {
 	//cinema_camera->update(delta_time);
 	//game_camera->update(delta_time);
+
+
+	// std::min,std::maxはC++17から
+	//int n = std::min<int>(1, 2);
+
 
 	//group->render(camera);
 
