@@ -571,6 +571,11 @@ bool Mediator::GetGimmickIsHit() const
 	return m_gimmick->GetIsHit();
 }
 
+bool Mediator::GetGimmickIsCollision() const
+{
+	return m_gimmick->GetIsCollision();
+}
+
 
 // GimmickLoad
 

@@ -112,7 +112,7 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
         {
             // 線分上のこのポイントからforward方向にランダムに配置するための距離
             float forward_distance
-                = tnl::GetRandomDistributionFloat(600.0f, 1000.0f);
+                = tnl::GetRandomDistributionFloat(600.0f, 1500.0f);
 
             // ギミックの新しい位置を計算
             tnl::Vector3 pos
@@ -126,7 +126,7 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
             gimmick->SetIsActive(true);
 
             // 次のポイントを設定
-            target_pos += forward * 300.0f;
+            target_pos += forward * 400.0f;
         }
         else
         {

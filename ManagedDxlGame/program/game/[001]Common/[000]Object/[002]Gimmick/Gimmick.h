@@ -108,6 +108,8 @@ public:
 
 	void SetIsCollision(bool is_collision) { m_is_collision = is_collision; }
 
+	bool GetIsCollision() const { return m_is_collision; }
+
 	void SetIsDrawChange(bool is_draw_change) { m_is_draw_change = is_draw_change; }
 
 	bool GetIsDrawChange() const { return m_is_draw_change; }

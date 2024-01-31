@@ -7,7 +7,9 @@
 // ç≈èâÇÕíÉêFÇÃÇΩÇﬂÅAidÇÕ0Ç≈ìùàÍ
 Gimmick::Gimmick()
 {
-	m_collision_size = { 70 };
+	m_collision_size = { 300 };
+
+	m_scale = { 1.5f };
 }
 
 Gimmick::~Gimmick()
@@ -20,6 +22,7 @@ Gimmick::~Gimmick()
 void Gimmick::Initialize()
 {
 	SetLight(m_gimmick_data.s_model_hdl);
+
 
 	//SetLight();
 
@@ -53,6 +56,8 @@ void Gimmick::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	if (m_is_active)
 	{
+		DrawSphere3D(wta::ConvertToVECTOR(m_pos), m_collision_size, 32, 1, -1, true);
+		
 		MV1DrawModel(m_gimmick_data.s_model_hdl);
 	}
 }
@@ -182,6 +187,11 @@ bool Gimmick::SeqHit(const float delta_time)
 
 bool Gimmick::SeqLightUp(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_is_collision = false;
+	}
+
 	if (m_emissive_value == 1)
 	{		
 		tnl_sequence_.change(&Gimmick::SeqLightDown);

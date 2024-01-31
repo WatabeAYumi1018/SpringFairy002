@@ -9,12 +9,12 @@ Player::Player()
 {
 	m_pos = { 0 };
 
-	m_collision_size =  70;
+	m_collision_size =  100;
 	//m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
 
 	//SetLight(m_model_hdl);
 
-	for (int i = 0; i < 7; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
 		std::shared_ptr<dxe::Mesh> mesh = dxe::Mesh::CreateSphereMV(50);
 

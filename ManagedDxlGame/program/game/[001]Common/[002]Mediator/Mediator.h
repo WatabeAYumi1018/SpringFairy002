@@ -638,15 +638,21 @@ public:
 
 	// Gimmick
 
-	// アイテムのアクティブ化設定
+	// ギミックのアクティブ化設定
 	// 参照元 ... Gimmick::m_is_active
 	// 参照先 ... GimmickGenerator::Update(const float delta_time)
 	void SetGimmickIsActive(bool is_active);
 
-	// アイテムの当たり判定状態取得
+	// ギミックの当たり判定状態取得
 	// 参照元 ... Gimmick::m_is_hit
 	// 参照先 ... 当たり判定が必要な全クラス
 	bool GetGimmickIsHit() const;
+
+	// ギミックの当たり判定状態取得
+	// 参照元 ... Gimmick::m_is_collision
+	// 参照先 ... 当たり判定が必要な全クラス
+	bool GetGimmickIsCollision() const;
+
 
 	// GimmickLoad
 
