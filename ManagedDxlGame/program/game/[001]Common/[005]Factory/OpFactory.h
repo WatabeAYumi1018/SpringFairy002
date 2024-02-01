@@ -10,6 +10,8 @@ class SkyBox;
 class Butterfly;
 class ButterflyLoad;
 
+class Title;
+
 class Mediator;
 
 class OpCamera;
@@ -34,6 +36,8 @@ private:
 
 	std::shared_ptr<Butterfly> m_butterfly = nullptr;
 	std::shared_ptr<ButterflyLoad> m_butterflyLoad = nullptr;
+
+	std::shared_ptr<Title> m_title = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 	std::shared_ptr<OpCamera> m_opCamera = nullptr;

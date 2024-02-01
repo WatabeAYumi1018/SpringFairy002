@@ -42,7 +42,7 @@ private:
 	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(PlayerMove, &PlayerMove::SeqTrigger);
+	TNL_CO_SEQUENCE(PlayerMove, &PlayerMove::SeqNormal);
 
 
 	std::shared_ptr<wta::Astar<Lane::sLane>> m_astar = nullptr;
@@ -65,7 +65,7 @@ private:
 	//void GroundMoveMatrix(float delta_time);
 
 	// 通常の移動処理
-	bool SeqTrigger(const float delta_time);
+	bool SeqNormal(const float delta_time);
 	// 停止処理
 	bool SeqStop(const float delta_time);
 	// 上昇処理

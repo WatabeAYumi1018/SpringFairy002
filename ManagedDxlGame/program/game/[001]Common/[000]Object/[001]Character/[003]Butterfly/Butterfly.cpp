@@ -31,7 +31,6 @@ void Butterfly::Update(const float delta_time)
 
 void Butterfly::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-
 	MV1DrawModel(m_model_hdl);
 }
 
@@ -87,6 +86,8 @@ void Butterfly::MoveRound(const float delta_time)
     if (m_circle_angle > two_pi)
     {
         m_circle_angle -= two_pi;
+
+		m_is_circle = true;
     }
 }
 

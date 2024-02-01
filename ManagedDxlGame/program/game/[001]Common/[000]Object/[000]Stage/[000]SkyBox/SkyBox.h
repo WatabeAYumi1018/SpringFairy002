@@ -16,6 +16,7 @@ public:
 		int s_id;
 		std::string s_texture_path;
 		std::string s_material_path;
+		std::string s_screen_effect_path;
 	};
 
 	SkyBox();
@@ -33,6 +34,8 @@ private:
 	std::vector<std::shared_ptr<dxe::Mesh>> m_meshs;
 
 	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
+
+	std::shared_ptr<dxe::ScreenEffect> m_screen_effect = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 

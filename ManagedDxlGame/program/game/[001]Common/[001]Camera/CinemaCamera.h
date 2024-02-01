@@ -35,10 +35,8 @@ private:
 	//TNL_CO_SEQUENCE(CinemaCamera, &CinemaCamera::SeqTrigger);
 
 
-	// カメラの動作処理
-
 	// 待機
-	bool SeqTrigger(const float delta_time);
+	bool SeqNormal(const float delta_time);
 	// アップ
 	bool SeqUp(const float delta_time);
 	// サイド

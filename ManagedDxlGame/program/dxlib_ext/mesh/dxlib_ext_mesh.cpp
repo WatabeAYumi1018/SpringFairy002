@@ -43,7 +43,7 @@ namespace dxe {
 	}
 
 	//----------------------------------------------------------------------------------------
-	void Mesh::createPlaneIndex( const int div_w, const int div_h, const bool is_left_cycle) {
+	void Mesh::createPlaneIndex(const int div_w, const int div_h, const bool is_left_cycle) {
 		int index_num = div_w * div_h * 6;
 		idxs_.resize(index_num);
 
@@ -53,7 +53,7 @@ namespace dxe {
 				int a = (i * div_w + k) * 6;
 
 				// 左回りインデックス
-				if(is_left_cycle) {
+				if (is_left_cycle) {
 
 					// 左上の三角形
 					idxs_[a + 2] = (i * (div_w + 1)) + k;
@@ -66,7 +66,7 @@ namespace dxe {
 					idxs_[a + 3] = idxs_[a + 5] + 1;
 				}
 				// 右回りインデックス
-				else{
+				else {
 					// 左上の三角形
 					idxs_[a + 0] = (i * (div_w + 1)) + k;
 					idxs_[a + 1] = idxs_[a + 0] + 1;
@@ -151,7 +151,7 @@ namespace dxe {
 			, render_param_.dxlib_mtrl_.Diffuse.r
 			, render_param_.dxlib_mtrl_.Diffuse.g
 			, render_param_.dxlib_mtrl_.Diffuse.b
-			, render_param_.dxlib_mtrl_.Diffuse.a );
+			, render_param_.dxlib_mtrl_.Diffuse.a);
 		str += buf;
 
 
@@ -168,7 +168,7 @@ namespace dxe {
 		sprintf_s(buf, "%f ; %f ; %f ;;\0"
 			, render_param_.dxlib_mtrl_.Specular.r
 			, render_param_.dxlib_mtrl_.Specular.g
-			, render_param_.dxlib_mtrl_.Specular.b );
+			, render_param_.dxlib_mtrl_.Specular.b);
 		str += buf;
 
 
@@ -180,7 +180,7 @@ namespace dxe {
 		sprintf_s(buf, "%f ; %f ; %f ;;\0"
 			, render_param_.dxlib_mtrl_.Emissive.r
 			, render_param_.dxlib_mtrl_.Emissive.g
-			, render_param_.dxlib_mtrl_.Emissive.b );
+			, render_param_.dxlib_mtrl_.Emissive.b);
 		str += buf;
 
 
@@ -266,7 +266,7 @@ namespace dxe {
 	//----------------------------------------------------------------------------------------
 	bool Mesh::exportForFileFormatX(const std::string& file_path) {
 
-		std::string save_str = getXFormatString() ;
+		std::string save_str = getXFormatString();
 
 		FILE* fp = nullptr;
 		if (fopen_s(&fp, file_path.c_str(), "w") == 0) {
@@ -292,7 +292,7 @@ namespace dxe {
 		case dxe::Mesh::eShapeType::BOX:
 		{
 			dxe::MeshDescBox* d = dynamic_cast<dxe::MeshDescBox*>(desc);
-			return CreateBoxMV(d->size_,d->tx_left_, d->tx_right_, d->tx_up_, d->tx_down_, d->tx_forword_, d->tx_back_, d->div_w_, d->div_h_, d->is_left_cycle_);
+			return CreateBoxMV(d->size_, d->tx_left_, d->tx_right_, d->tx_up_, d->tx_down_, d->tx_forword_, d->tx_back_, d->div_w_, d->div_h_, d->is_left_cycle_);
 		}
 		case dxe::Mesh::eShapeType::SPHERE:
 		{
@@ -378,11 +378,11 @@ namespace dxe {
 	//----------------------------------------------------------------------------------------
 	bool Mesh::exportForFileFormatMV(const std::string& file_path) {
 		if (mesh_format_ != eMeshFormat::MESH_FMT_PG) return false;
-		Shared<Mesh> mesh;
+		Shared<Mesh> mesh_trans;
 		exportForFileFormatX("temp.x");
-		mesh = CreateFromFileMV("temp.x");
-		DeleteFileA("temp.x");		
-		MV1SaveModelToMV1File(mesh->mv_hdl_, file_path.c_str());
+		mesh_trans = CreateFromFileMV("temp.x");
+		DeleteFileA("temp.x");
+		MV1SaveModelToMV1File(mesh_trans->mv_hdl_, file_path.c_str());
 		return true;
 	}
 
@@ -391,7 +391,7 @@ namespace dxe {
 	bool Mesh::ExportForFileFormatMVT(const std::string& file_path, std::vector<Mesh*>& mesh_tbl) {
 
 		for (uint32_t i = 0; i < mesh_tbl.size(); ++i) {
-			MV1SaveModelToMV1File(mesh_tbl[i]->mv_hdl_, ( file_path + std::to_string(i)).c_str());
+			MV1SaveModelToMV1File(mesh_tbl[i]->mv_hdl_, (file_path + std::to_string(i)).c_str());
 		}
 
 		std::unordered_map<std::string, Shared<dxe::Texture>> tex_map;
@@ -400,11 +400,11 @@ namespace dxe {
 				Shared<dxe::Texture> t = mesh_tbl[i]->getTexture(k);
 				auto it = tex_map.find(t->getFilePath());
 				if (it != tex_map.end()) continue;
-				tex_map.insert( std::make_pair( t->getFileName(), t)  );
+				tex_map.insert(std::make_pair(t->getFileName(), t));
 			}
 		}
 
-		uint64_t total_size = 3 ;			// format "mvt"
+		uint64_t total_size = 3;			// format "mvt"
 		uint32_t* sector_size = new uint32_t[mesh_tbl.size()];
 
 		total_size += sizeof(uint32_t);		// sector num			4byte
@@ -465,7 +465,7 @@ namespace dxe {
 			p += sizeof(uint32_t);
 
 			// texture data size	4byte
-			*((uint32_t*)p) = tex.second->getDataSize();			
+			*((uint32_t*)p) = tex.second->getDataSize();
 			p += sizeof(uint32_t);
 
 			// texture name
@@ -488,16 +488,16 @@ namespace dxe {
 			*((uint32_t*)p) = mesh_data_length;			p += sizeof(uint32_t);
 
 			// write mesh name
-			memcpy(p, mesh_tbl[i]->getName().data(), mesh_tbl[i]->getName().length() );
-			p += mesh_tbl[i]->getName().length() ;
+			memcpy(p, mesh_tbl[i]->getName().data(), mesh_tbl[i]->getName().length());
+			p += mesh_tbl[i]->getName().length();
 
 			// write mesh data
 			FILE* fp = nullptr;
 			fopen_s(&fp, (file_path + std::to_string(i)).c_str(), "rb");
-			if ( fp ) {
+			if (fp) {
 				fread_s(p, mesh_data_length, mesh_data_length, 1, fp);
-				p += mesh_data_length ;
-				fclose(fp) ;
+				p += mesh_data_length;
+				fclose(fp);
 			}
 
 			// write texture num
@@ -549,7 +549,7 @@ namespace dxe {
 
 
 	//----------------------------------------------------------------------------------------
-	int FileReadFunc(const TCHAR* FilePath, void** FileImageAddr, int* FileSize, void* FileReadFuncData){ return -1; }
+	int FileReadFunc(const TCHAR* FilePath, void** FileImageAddr, int* FileSize, void* FileReadFuncData) { return -1; }
 	int FileReleaseFunc(void* MemoryAddr, void* FileReadFuncData) { return 0; }
 	std::vector<Shared<Mesh>> Mesh::CreateFromFileMVT(const std::string& file_path) {
 
@@ -567,7 +567,7 @@ namespace dxe {
 			p += 3; // format string "mvt" 3byte
 
 			// read sector num
-			uint32_t sector_num = *(uint32_t*)p; p += sizeof(uint32_t); 
+			uint32_t sector_num = *(uint32_t*)p; p += sizeof(uint32_t);
 			meshs.resize(sector_num);
 
 			// read all texture num
@@ -578,7 +578,7 @@ namespace dxe {
 			for (uint32_t i = 0; i < all_texture_num; ++i) {
 				uint32_t tex_name_size = *(uint32_t*)p; p += sizeof(uint32_t);
 				uint32_t tex_data_size = *(uint32_t*)p; p += sizeof(uint32_t);
-				char* name = new char[ tex_name_size + 1 ];
+				char* name = new char[tex_name_size + 1];
 				memset(name, 0, tex_name_size + 1);
 				memcpy(name, p, tex_name_size);
 				p += tex_name_size;
@@ -588,34 +588,34 @@ namespace dxe {
 			}
 
 			for (uint32_t i = 0; i < meshs.size(); ++i) {
-				Shared<Mesh> mesh = Shared<Mesh>(new Mesh());
-				mesh->mesh_format_ = Mesh::eMeshFormat::MESH_FMT_MV;
+				Shared<Mesh> mesh_trans = Shared<Mesh>(new Mesh());
+				mesh_trans->mesh_format_ = Mesh::eMeshFormat::MESH_FMT_MV;
 
-				uint32_t sector_size		= *(uint32_t*)p; p += sizeof(uint32_t);
-				uint32_t mesh_name_size		= *(uint32_t*)p; p += sizeof(uint32_t);
-				uint32_t mesh_data_size		= *(uint32_t*)p; p += sizeof(uint32_t);
+				uint32_t sector_size = *(uint32_t*)p; p += sizeof(uint32_t);
+				uint32_t mesh_name_size = *(uint32_t*)p; p += sizeof(uint32_t);
+				uint32_t mesh_data_size = *(uint32_t*)p; p += sizeof(uint32_t);
 				char* name = nullptr;
 				if (mesh_name_size) {
 					name = new char[mesh_name_size + 1];
 					memset(name, 0, mesh_name_size + 1);
 					memcpy(name, p, mesh_name_size);
-					mesh->setName(std::string(name));
+					mesh_trans->setName(std::string(name));
 					p += mesh_name_size;
 					delete[] name;
 				}
 
-				mesh->mv_hdl_ = MV1LoadModelFromMem(p, mesh_data_size, FileReadFunc, FileReleaseFunc, NULL);
+				mesh_trans->mv_hdl_ = MV1LoadModelFromMem(p, mesh_data_size, FileReadFunc, FileReleaseFunc, NULL);
 				p += mesh_data_size;
 
 				uint32_t tex_num = *(uint32_t*)p; p += sizeof(uint32_t);
 				for (uint32_t k = 0; k < tex_num; ++k) {
-					uint32_t slot			= *(uint32_t*)p; p += sizeof(uint32_t);
-					uint32_t tex_name_size	= *(uint32_t*)p; p += sizeof(uint32_t);
+					uint32_t slot = *(uint32_t*)p; p += sizeof(uint32_t);
+					uint32_t tex_name_size = *(uint32_t*)p; p += sizeof(uint32_t);
 					char* name = new char[tex_name_size + 1];
 					memset(name, 0, tex_name_size + 1);
 					memcpy(name, p, tex_name_size);
 					Shared<dxe::Texture> tex = dxe::Texture::CreateFromFile(std::string(name));
-					mesh->setTexture(tex, slot);
+					mesh_trans->setTexture(tex, slot);
 					p += tex_name_size;
 					delete[] name;
 				}
@@ -624,24 +624,24 @@ namespace dxe {
 				x = *(float*)p; p += sizeof(float);
 				y = *(float*)p; p += sizeof(float);
 				z = *(float*)p; p += sizeof(float);
-				mesh->pos_ = { x, y, z };
+				mesh_trans->pos_ = { x, y, z };
 
 				x = *(float*)p; p += sizeof(float);
 				y = *(float*)p; p += sizeof(float);
 				z = *(float*)p; p += sizeof(float);
-				mesh->scl_ = { x, y, z };
+				mesh_trans->scl_ = { x, y, z };
 
 				x = *(float*)p; p += sizeof(float);
 				y = *(float*)p; p += sizeof(float);
 				z = *(float*)p; p += sizeof(float);
 				w = *(float*)p; p += sizeof(float);
-				mesh->rot_ = { x, y, z, w };
+				mesh_trans->rot_ = { x, y, z, w };
 
-				DxLib::VECTOR dxv = MV1GetMeshMaxPosition(mesh->mv_hdl_, 0);
-				mesh->bd_box_size_ = tnl::Vector3(dxv.x, dxv.y, dxv.z) * 2.0f;
-				mesh->bd_sphere_radius_ = mesh->bd_box_size_.length() * 0.5f;
+				DxLib::VECTOR dxv = MV1GetMeshMaxPosition(mesh_trans->mv_hdl_, 0);
+				mesh_trans->bd_box_size_ = tnl::Vector3(dxv.x, dxv.y, dxv.z) * 2.0f;
+				mesh_trans->bd_sphere_radius_ = mesh_trans->bd_box_size_.length() * 0.5f;
 
-				meshs[i] = mesh;
+				meshs[i] = mesh_trans;
 			}
 
 			fclose(fp);
@@ -686,16 +686,16 @@ namespace dxe {
 	//----------------------------------------------------------------------------------------
 	Shared<Mesh> Mesh::CreateFromFileMV(const std::string& file_path, const float scl)
 	{
-		Shared<Mesh> mesh = Shared<Mesh>(new Mesh());
-		mesh->mesh_format_ = Mesh::eMeshFormat::MESH_FMT_MV;
-		mesh->mv_hdl_ = MV1LoadModel(file_path.c_str());
-		mesh->scl_ = { scl, scl, scl };
-		mesh->desc_ = std::make_shared<dxe::MeshDescResouce>( file_path, scl );
-		DxLib::VECTOR dxv = MV1GetMeshMaxPosition(mesh->mv_hdl_, 0);
-		mesh->bd_box_size_ = tnl::Vector3(dxv.x, dxv.y, dxv.z) * 2.0f ;
-		mesh->bd_sphere_radius_ = mesh->bd_box_size_.length() * 0.5f ;
+		Shared<Mesh> mesh_trans = Shared<Mesh>(new Mesh());
+		mesh_trans->mesh_format_ = Mesh::eMeshFormat::MESH_FMT_MV;
+		mesh_trans->mv_hdl_ = MV1LoadModel(file_path.c_str());
+		mesh_trans->scl_ = { scl, scl, scl };
+		mesh_trans->desc_ = std::make_shared<dxe::MeshDescResouce>(file_path, scl);
+		DxLib::VECTOR dxv = MV1GetMeshMaxPosition(mesh_trans->mv_hdl_, 0);
+		mesh_trans->bd_box_size_ = tnl::Vector3(dxv.x, dxv.y, dxv.z) * 2.0f;
+		mesh_trans->bd_sphere_radius_ = mesh_trans->bd_box_size_.length() * 0.5f;
 
-		return mesh;
+		return mesh_trans;
 	}
 
 
@@ -734,10 +734,10 @@ namespace dxe {
 		mt_obj_world = mt_scale * mt_rotation * mt_trans;
 
 		MATRIX dxm;
-		memcpy(dxm.m, mt_obj_world.m, sizeof(float)*16);
+		memcpy(dxm.m, mt_obj_world.m, sizeof(float) * 16);
 
 
-		int i_alpha = (int)(alpha_ * 255.0f );
+		int i_alpha = (int)(alpha_ * 255.0f);
 		if (Mesh::eMeshFormat::MESH_FMT_PG == mesh_format_) {
 			SetMaterialParam(render_param_.dxlib_mtrl_);
 			SetTransformToWorld(&dxm);
@@ -757,7 +757,7 @@ namespace dxe {
 			MV1SetSampleFilterMode(mv_hdl_, render_param_.dxlib_sample_filter_mode_);
 			MV1SetMeshDrawBlendMode(mv_hdl_, 0, render_param_.dxlib_blend_mode_);
 			MV1SetMeshDrawBlendParam(mv_hdl_, 0, i_alpha);
-			MV1SetMatrix(mv_hdl_ , dxm);
+			MV1SetMatrix(mv_hdl_, dxm);
 			MV1DrawModel(mv_hdl_);
 		}
 
@@ -819,7 +819,7 @@ namespace dxe {
 		SetTransformToWorld(&im);
 
 		float length = 5.0f;
-		for (auto &v : vtxs_) {
+		for (auto& v : vtxs_) {
 			DxLib::VECTOR nv;
 			nv.x = v.pos.x + v.norm.x * length;
 			nv.y = v.pos.y + v.norm.y * length;
@@ -830,7 +830,7 @@ namespace dxe {
 
 
 	//----------------------------------------------------------------------------------------
-	Shared<Mesh> Mesh::CreateConvertMV(Shared<Mesh> mesh) {
+	Shared<Mesh> Mesh::CreateConvertMV(Shared<Mesh> mesh_trans) {
 #if 0
 		Shared<Mesh> new_mesh;
 		mesh->exportForFileFormatX("temp.x");
@@ -846,19 +846,19 @@ namespace dxe {
 		Shared<Mesh> new_mesh = Shared<Mesh>(new Mesh());
 		new_mesh->mesh_format_ = Mesh::eMeshFormat::MESH_FMT_MV;
 
-		std::string x_format = mesh->getXFormatString();
+		std::string x_format = mesh_trans->getXFormatString();
 		new_mesh->mv_hdl_ = MV1LoadModelFromMem(x_format.data(), (int)x_format.size(), FileReadFunc, FileReleaseFunc, NULL);
 
 		DxLib::VECTOR dxv = MV1GetMeshMaxPosition(new_mesh->mv_hdl_, 0);
 		new_mesh->bd_box_size_ = tnl::Vector3(dxv.x, dxv.y, dxv.z) * 2.0f;
 		new_mesh->bd_sphere_radius_ = new_mesh->bd_box_size_.length() * 0.5f;
 
-		mesh->copySetting(new_mesh);
-		if (mesh->getTexture()) {
-			new_mesh->setTexture(mesh->getTexture());
+		mesh_trans->copySetting(new_mesh);
+		if (mesh_trans->getTexture()) {
+			new_mesh->setTexture(mesh_trans->getTexture());
 		}
 
-		new_mesh->desc_ = mesh->getCreateDesc()->createClone();
+		new_mesh->desc_ = mesh_trans->getCreateDesc()->createClone();
 
 
 #endif

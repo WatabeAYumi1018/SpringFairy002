@@ -26,6 +26,10 @@ private:
 
 	float m_anim_speed = 0.0f;
 
+	bool m_is_circle = false;
+
+	bool m_is_powder = false;
+
 	void SetAnim();
 
 	void AnimMove(const float delta_time);
@@ -42,4 +46,8 @@ public:
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
+
+	bool GetIsCircle() const { return m_is_circle; }
+
+	bool GetIsPowder() const { return m_is_powder; }
 };

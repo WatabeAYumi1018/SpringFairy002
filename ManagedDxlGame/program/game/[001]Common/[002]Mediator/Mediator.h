@@ -49,6 +49,8 @@ class TextDraw;
 class CharaGraphLoad;
 class CharaGraphDraw;
 
+class Title;
+
 class GameCamera;
 class CameraLoad;
 class CinemaCamera;
@@ -105,7 +107,9 @@ private:
 	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
 	std::shared_ptr<CharaGraphDraw> m_charaGraphDraw = nullptr;
 
-	std::shared_ptr<GameCamera> m_opCamera = nullptr;
+	std::shared_ptr<Title> m_title = nullptr;
+
+	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
 	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
 
@@ -645,6 +649,16 @@ public:
 	// 参照先 ... Butterflyの座標が必要な全クラス
 	const tnl::Vector3& GetButterflyPos() const;
 
+	// バタフライの回転フラグ取得
+	// 参照元 ... Butterfly::m_is_circle
+	// 参照先 ... OpCamera::Update(float delta_time)
+	bool GetButterflyIsCircle() const;
+
+	// バタフライの鱗粉フラグ取得
+	// 参照元 ... Butterfly::m_is_powder
+	// 参照先 ... Opに関連する関数
+	bool GetButterflyIsPowder() const;
+
 	//-----------------------------//
 
 
@@ -869,7 +883,19 @@ public:
 	//---------------------------//
 
 
-	//----------Camera---------//
+	//------------Title-----------//
+
+	// Title
+	
+	// タイトルの描画フラグ取得
+	// 参照元 ... Title::m_is_draw
+	// 参照先 ... OpCamera::
+	bool GetTitleIsDraw() const;
+	
+	//---------------------------//
+
+
+	//-----------Camera----------//
 
 	// GameCamera
 
@@ -1126,9 +1152,14 @@ public:
 		m_charaGraphDraw = charaGraphDraw;
 	}
 
+	void SetTitle(std::shared_ptr<Title>& title)
+	{
+		m_title = title;
+	}
+
 	void SetGameCamera(std::shared_ptr<GameCamera>& gameCamera)
 	{
-		m_opCamera = gameCamera;
+		m_gameCamera = gameCamera;
 	}
 
 	void SetCameraLoad(std::shared_ptr<CameraLoad>& cameraLoad)

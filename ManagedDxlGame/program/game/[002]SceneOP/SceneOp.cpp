@@ -43,6 +43,8 @@ void SceneOp::Initialize()
 
 void SceneOp::Update(const float delta_time)
 {
+	m_opCamera->update(delta_time);
+
 	for (std::shared_ptr<Object>& object : m_objects)
 	{
 		object->Update(delta_time);

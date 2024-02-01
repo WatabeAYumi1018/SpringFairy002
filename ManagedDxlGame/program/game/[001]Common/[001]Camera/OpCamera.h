@@ -25,17 +25,19 @@ private:
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 
+	// コルーチンシーケンス
+	TNL_CO_SEQUENCE(OpCamera, &OpCamera::SeqNormal);
 
-	//-----デバッグ用-----//
-
-	//マウスの回転動作制御
-	void Control(const float delta_time);
-
-	// 周辺を360度回転制御
-	tnl::Vector3 RotateAroundPlayer(const tnl::Vector3& point
-		, const tnl::Vector3& pivot
-		, const tnl::Vector3& axis
-		, float angle);
+	// 通常
+	bool SeqNormal(const float delta_time);
+	// 通常からアップへ移行
+	bool SeqNormalToUp(const float delta_time);
+	// アップ
+	bool SeqUp(const float delta_time);
+	// アップから引きへ移行
+	bool SeqUpToBack(const float delta_time);
+	// 引き
+	bool SeqBack(const float delta_time);
 
 public:
 

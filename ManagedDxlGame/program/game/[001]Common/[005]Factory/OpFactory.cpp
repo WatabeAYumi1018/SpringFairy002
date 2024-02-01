@@ -1,6 +1,7 @@
 #include "../[000]Object/[000]Stage/[000]SkyBox/SkyBox.h"
 #include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
 #include "../[000]Object/[001]Character/[003]Butterfly/[000]ButterflyFunction/ButterflyLoad.h"
+#include "../[000]Object/[006]Title/Title.h"
 #include "../[001]Camera/OpCamera.h"
 #include "../[002]Mediator/Mediator.h"
 #include "OpFactory.h"
@@ -29,16 +30,19 @@ void OpFactory::CreateObject()
 	m_butterfly = std::make_shared<Butterfly>();
 	m_butterflyLoad = std::make_shared<ButterflyLoad>();
 
+	m_title = std::make_shared<Title>();
+
 	m_mediator = std::make_shared<Mediator>();
 
 	m_opCamera = std::make_shared<OpCamera>();
-
 }
 
 void OpFactory::SetObjectReference()
 {
 	m_mediator->SetButterfly(m_butterfly);
+	m_mediator->SetTitle(m_title);
 
+	m_skyBox->SetMediator(m_mediator);
 	m_butterfly->SetMediator(m_mediator);
 	m_opCamera->SetMediator(m_mediator);
 }

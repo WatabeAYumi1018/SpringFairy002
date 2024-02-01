@@ -464,7 +464,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\Butterfly.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[006]Title\Tile.cpp">
+    <ClCompile Include="program\game\[001]Common\[000]Object\[006]Title\Title.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[006]Title</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\Object.cpp">
@@ -476,14 +476,14 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyLoad\ButterflyLoad.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[001]Camera\CinemaCamera.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[001]Camera\OpCamera.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction\ButterflyLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -851,7 +851,7 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\Butterfly.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[006]Title\Tile.h">
+    <ClInclude Include="program\game\[001]Common\[000]Object\[006]Title\Title.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[006]Title</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.h">
@@ -860,14 +860,14 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyLoad\ButterflyLoad.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[001]Camera\CinemaCamera.h">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[001]Camera\OpCamera.h">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction\ButterflyLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

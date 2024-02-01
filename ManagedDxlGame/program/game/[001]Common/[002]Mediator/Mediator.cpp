@@ -25,6 +25,7 @@
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
+#include "../[000]Object/[006]Title/Title.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
 #include "../[001]Camera/CinemaCamera.h"
 
@@ -564,6 +565,17 @@ const tnl::Vector3& Mediator::GetButterflyPos() const
 	return m_butterfly->GetPos();
 }
 
+bool Mediator::GetButterflyIsCircle() const
+{
+	return m_butterfly->GetIsCircle();
+}
+
+bool Mediator::GetButterflyIsPowder() const
+{
+	return m_butterfly->GetIsPowder();
+}
+
+
 //-----------------------------//
 
 
@@ -799,38 +811,50 @@ void Mediator::DrawCharacterGraph(int graph_id)
 //---------------------------//
 
 
+//------------Title-----------//
+
+// Title
+
+bool Mediator::GetTitleIsDraw() const
+{
+	return m_title->GetIsDraw();
+}
+
+//---------------------------//
+
+
 //----------Camera---------//
 
 // GameCamera
 
 void Mediator::SetCameraPos(tnl::Vector3& pos)
 {
-	m_opCamera->SetPos(pos);
+	m_gameCamera->SetPos(pos);
 }
 
 const tnl::Vector3& Mediator::GetCameraPos() const
 {
-	return m_opCamera->GetPos();
+	return m_gameCamera->GetPos();
 }
 
 const tnl::Vector3& Mediator::GetCameraForward() const
 {
-	return m_opCamera->forward();
+	return m_gameCamera->forward();
 }
 
 const tnl::Vector3& Mediator::GetCameraRight() const
 {
-	return m_opCamera->right();
+	return m_gameCamera->right();
 }
 
 void Mediator::IsInCameraFlustum()
 {
-	m_opCamera->IsInFlustum();
+	m_gameCamera->IsInFlustum();
 }
 
 bool Mediator::IsCameraFixed() const
 {
-	return m_opCamera->IsFixed();
+	return m_gameCamera->IsFixed();
 }
 
 

@@ -226,7 +226,7 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 	//m_mediator->SetPlayerRot(m_rot);
 }
 
-bool PlayerMove::SeqTrigger(const float delta_time)
+bool PlayerMove::SeqNormal(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
@@ -278,7 +278,7 @@ bool PlayerMove::SeqUpMove(const float delta_time)
 {
 	if(m_pos.y > 500)
 	{
-		tnl_sequence_.change(&PlayerMove::SeqTrigger);
+		tnl_sequence_.change(&PlayerMove::SeqNormal);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
@@ -295,7 +295,7 @@ bool PlayerMove::SeqDownMove(const float delta_time)
 {
 	if(m_pos.y == 0)
 	{
-		tnl_sequence_.change(&PlayerMove::SeqTrigger);
+		tnl_sequence_.change(&PlayerMove::SeqNormal);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
@@ -326,7 +326,7 @@ bool PlayerMove::SeqSaltoAction(const float delta_time)
 
 	m_salto_elapsed_time = 0;
 
-	tnl_sequence_.change(&PlayerMove::SeqTrigger);
+	tnl_sequence_.change(&PlayerMove::SeqNormal);
 
 	TNL_SEQ_CO_END;
 }

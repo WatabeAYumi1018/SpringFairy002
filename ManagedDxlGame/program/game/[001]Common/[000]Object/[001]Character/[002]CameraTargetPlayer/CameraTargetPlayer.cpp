@@ -54,7 +54,7 @@ void CameraTargetPlayer::MoveMatrix(const float delta_time)
 	m_event = CurrentEventLane();
 }
 
-bool CameraTargetPlayer::SeqTrigger(const float delta_time)
+bool CameraTargetPlayer::SeqNormal(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
@@ -102,7 +102,7 @@ bool CameraTargetPlayer::SeqUpMove(const float delta_time)
 {
 	if(m_pos.y > 500)
 	{
-		tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
+		tnl_sequence_.change(&CameraTargetPlayer::SeqNormal);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]()
@@ -127,7 +127,7 @@ bool CameraTargetPlayer::SeqDownMove(const float delta_time)
 {
 	if( m_pos.y == 0 )
 	{
-		tnl_sequence_.change(&CameraTargetPlayer::SeqTrigger);
+		tnl_sequence_.change(&CameraTargetPlayer::SeqNormal);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]()

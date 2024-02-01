@@ -12,7 +12,7 @@ ScenePlay::ScenePlay() : m_factory(std::make_shared<PlayFactory>())
 {
 	Initialize();
 
-	ChangeLightTypeDir(VGet(0.0f, -1.0f, 0.0f));
+	//ChangeLightTypeDir(VGet(0.0f, -1.0f, 0.0f));
 	SetDefaultLightParameter("directional_light_parameter.bin");
 }
 
@@ -36,7 +36,7 @@ void ScenePlay::Initialize()
 	m_objects_gameCamera = m_factory->GetObjectsGameCamera();
 	m_objects_cinemaCamera = m_factory->GetObjectsCinemaCamera();
 	// カメラの取得
-	m_opCamera = m_factory->GetOpCamera();
+	m_gameCamera = m_factory->GetOpCamera();
 	// シネマカメラの取得
 	m_cinemaCamera = m_factory->GetCinemaCamera();
 	// ステージの取得
@@ -63,7 +63,7 @@ void ScenePlay::Update(const float delta_time)
 {
 	m_stagePhase->Update(delta_time);
 
-	m_opCamera->update(delta_time);
+	m_gameCamera->update(delta_time);
 
 	//m_cinemaCamera->update(delta_time);
 	
@@ -85,11 +85,9 @@ void ScenePlay::Update(const float delta_time)
 
 void ScenePlay::Draw(const float delta_time)
 {
-	//DrawDefaultLightGuiController();
-
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
-		object->Draw(m_opCamera);
+		object->Draw(m_gameCamera);
 	}
 
 	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
