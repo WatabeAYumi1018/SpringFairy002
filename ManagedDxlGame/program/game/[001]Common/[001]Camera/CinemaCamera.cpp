@@ -1,4 +1,4 @@
-#include "../../[002]Mediator/Mediator.h"
+#include "../[002]Mediator/Mediator.h"
 #include "CinemaCamera.h"
 
 

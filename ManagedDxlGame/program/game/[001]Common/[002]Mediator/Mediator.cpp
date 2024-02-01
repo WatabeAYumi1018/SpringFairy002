@@ -15,6 +15,7 @@
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
+#include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
@@ -25,7 +26,7 @@
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
-#include "../[001]Camera/[001]CinemaCamera/CinemaCamera.h"
+#include "../[001]Camera/CinemaCamera.h"
 
 
 //---------StagePhase---------//
@@ -42,13 +43,11 @@ StagePhase::eStagePhase Mediator::GetNowStagePhaseState() const
 
 // LaneLoad
 
-// レーン配列の幅取得
 int Mediator::GetStageLaneWidth() const
 {
 	return m_laneLoad->GetLaneWidth();
 }
 
-// レーン配列の高さ取得
 int Mediator::GetStageLaneHeight() const
 {
 	return m_laneLoad->GetLaneHeight();
@@ -553,7 +552,19 @@ bool Mediator::GetIsTargetMoveDown() const
 	return m_cameraTargetPlayer->GetIsMoveDown();
 }
 
-//--------------------------//
+//-----------------------------//
+
+
+//----------Butterfly----------//
+
+// Butterfly
+
+const tnl::Vector3& Mediator::GetButterflyPos() const
+{
+	return m_butterfly->GetPos();
+}
+
+//-----------------------------//
 
 
 
@@ -794,32 +805,32 @@ void Mediator::DrawCharacterGraph(int graph_id)
 
 void Mediator::SetCameraPos(tnl::Vector3& pos)
 {
-	m_gameCamera->SetPos(pos);
+	m_opCamera->SetPos(pos);
 }
 
 const tnl::Vector3& Mediator::GetCameraPos() const
 {
-	return m_gameCamera->GetPos();
+	return m_opCamera->GetPos();
 }
 
 const tnl::Vector3& Mediator::GetCameraForward() const
 {
-	return m_gameCamera->forward();
+	return m_opCamera->forward();
 }
 
 const tnl::Vector3& Mediator::GetCameraRight() const
 {
-	return m_gameCamera->right();
+	return m_opCamera->right();
 }
 
 void Mediator::IsInCameraFlustum()
 {
-	m_gameCamera->IsInFlustum();
+	m_opCamera->IsInFlustum();
 }
 
 bool Mediator::IsCameraFixed() const
 {
-	return m_gameCamera->IsFixed();
+	return m_opCamera->IsFixed();
 }
 
 

@@ -32,8 +32,8 @@
 #include "../[000]Object//[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[001]Camera/GameCamera.h"
+#include "../[001]Camera/CinemaCamera.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
-#include "../[001]Camera/[001]CinemaCamera/CinemaCamera.h"
 #include "../[002]Mediator/Mediator.h"
 #include "../[004]ScreenShot/ScreenShot.h"
 #include "PlayFactory.h"
@@ -116,7 +116,7 @@ void PlayFactory::CreateObject()
 	m_charaGraphLoad = std::make_shared<CharaGraphLoad>();
 	m_charaGraphDraw = std::make_shared<CharaGraphDraw>();
 
-	m_gameCamera = std::make_shared<GameCamera>();
+	m_opCamera = std::make_shared<GameCamera>();
 	m_cameraLoad = std::make_shared<CameraLoad>();
 	m_cinemaCamera = std::make_shared<CinemaCamera>();
 
@@ -156,7 +156,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetTextDraw(m_textDraw);
 	m_mediator->SetCharaGraphLoad(m_charaGraphLoad);
 	m_mediator->SetCharaGraphDraw(m_charaGraphDraw);
-	m_mediator->SetGameCamera(m_gameCamera);
+	m_mediator->SetGameCamera(m_opCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
 	m_mediator->SetCinemaCamera(m_cinemaCamera);
 
@@ -192,7 +192,7 @@ void PlayFactory::SetObjectReference()
 	m_textDraw->SetMediator(m_mediator);
 	m_charaGraph->SetMediator(m_mediator);
 	m_charaGraphDraw->SetMediator(m_mediator);
-	m_gameCamera->SetMediator(m_mediator);
+	m_opCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
 	m_cinemaCamera->SetMediator(m_mediator);
 	m_screenShot->SetMediator(m_mediator);

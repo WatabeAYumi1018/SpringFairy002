@@ -27,8 +27,6 @@ public:
 
 	tnl::Vector3 Forward();
 
-	tnl::Vector3 Back();
-
 	// ‰Šú‰»
 	void Initialize() override;
 	// XV

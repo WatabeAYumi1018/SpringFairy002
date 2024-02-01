@@ -13,10 +13,6 @@ public:
 
 private:
 
-	int m_model_hdl = 0;
-	int m_texture_hdl = 0;
-	int m_anim_bone_move_hdl = 0;
-
 	// ‰~‚Ì‘¬“x
 	float m_speed = 10;
 	// ‰~‚Ì”¼Œa

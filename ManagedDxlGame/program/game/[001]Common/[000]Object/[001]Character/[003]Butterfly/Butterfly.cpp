@@ -5,6 +5,8 @@ Butterfly::Butterfly()
 {
 	m_pos = { 0 };
 
+	m_model_hdl = MV1LoadModel("model/gimmick/sky/flower/flower.mv1");
+
 	SetLight(m_model_hdl);
 }
 
@@ -12,8 +14,6 @@ Butterfly::~Butterfly()
 {
 	// モデルのアンロード
 	MV1DeleteModel(m_model_hdl);
-	// テクスチャのアンロード
-	DeleteGraph(m_texture_hdl);
 }
 
 void Butterfly::Update(const float delta_time)

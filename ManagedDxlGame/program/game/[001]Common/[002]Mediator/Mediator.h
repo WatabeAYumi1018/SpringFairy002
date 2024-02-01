@@ -32,6 +32,8 @@ class PartnerDraw;
 
 class CameraTargetPlayer;
 
+class Butterfly;
+		
 class Gimmick;
 class GimmickLoad;
 class GimmickGenerator;
@@ -85,6 +87,8 @@ private:
 
 	std::shared_ptr<CameraTargetPlayer> m_cameraTargetPlayer = nullptr;
 
+	std::shared_ptr<Butterfly> m_butterfly = nullptr;
+
 	std::shared_ptr<Gimmick> m_gimmick = nullptr;
 	std::shared_ptr<GimmickLoad> m_gimmickLoad = nullptr;
 	std::shared_ptr<GimmickGenerator> m_gimmickGenerator = nullptr;
@@ -101,7 +105,7 @@ private:
 	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
 	std::shared_ptr<CharaGraphDraw> m_charaGraphDraw = nullptr;
 
-	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
+	std::shared_ptr<GameCamera> m_opCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
 	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
 
@@ -585,10 +589,10 @@ public:
 	// 参照先 ... Partner::Initialize()
 	int GetPartnerModelHdl() const;
 
-	//--------------------------//
+	//------------------------------//
 
 
-	//----CameraTargetPlayer----//
+	//------CameraTargetPlayer------//
 
 	// CameraTargetPlayer
 
@@ -629,9 +633,19 @@ public:
 	// 参照先 ... LaneMove::自動移動に関連するクラス
 	bool GetIsTargetMoveDown() const;
 
-	//--------------------------//
+	//-----------------------------//
 
 
+	//----------Butterfly----------//
+
+	// Butterfly
+
+	// バタフライの座標取得
+	// 参照元 ... Butterfly::m_pos
+	// 参照先 ... Butterflyの座標が必要な全クラス
+	const tnl::Vector3& GetButterflyPos() const;
+
+	//-----------------------------//
 
 
 	//-----------Gimmick-----------//
@@ -1052,6 +1066,11 @@ public:
 		m_cameraTargetPlayer = cameraTargetPlayer;
 	}
 
+	void SetButterfly(std::shared_ptr<Butterfly>& butterfly)
+	{
+		m_butterfly = butterfly;
+	}
+
 	void SetGimmick(std::shared_ptr<Gimmick>& gimmick)
 	{
 		m_gimmick = gimmick;
@@ -1109,7 +1128,7 @@ public:
 
 	void SetGameCamera(std::shared_ptr<GameCamera>& gameCamera)
 	{
-		m_gameCamera = gameCamera;
+		m_opCamera = gameCamera;
 	}
 
 	void SetCameraLoad(std::shared_ptr<CameraLoad>& cameraLoad)

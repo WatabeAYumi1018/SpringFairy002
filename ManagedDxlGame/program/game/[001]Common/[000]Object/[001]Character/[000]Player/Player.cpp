@@ -79,13 +79,6 @@ void Player::Draw(std::shared_ptr<dxe::Camera> camera)
 	//}
 }
 
-tnl::Vector3 Player::Back()
-{
-	tnl::Vector3 forward = Forward();
-
-	return -forward;
-}
-
 void Player::UpdateMatrix(float delta_time)
 {
 	// ˆÚ“®‚É‚æ‚éÀ•W‚Æ‰ñ“]‚ÌXV

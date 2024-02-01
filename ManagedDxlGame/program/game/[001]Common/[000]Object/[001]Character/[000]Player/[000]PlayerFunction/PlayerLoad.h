@@ -34,7 +34,7 @@ private:
 	float m_figure_eight_rot = 10;
 
 	// プレイヤーの移動情報読み取り専用（csvファイル）
-	std::vector<std::vector<float>> m_csv_player_move;
+	std::vector<std::vector<float>> m_csv_move;
 
 
 	void LoadPlayerMoveInfo();

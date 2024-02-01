@@ -1,6 +1,6 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
-#include "../../[003]Phase/StagePhase.h"
+#include "../[003]Phase/StagePhase.h"
 
 
 class Mediator;

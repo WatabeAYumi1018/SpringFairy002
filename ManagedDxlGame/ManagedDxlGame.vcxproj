@@ -211,6 +211,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerMove.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CameraTargetPlayer.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\Butterfly.cpp" />
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyLoad\ButterflyLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickDraw.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.cpp" />
@@ -226,9 +227,10 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[006]Title\Tile.cpp" />
+    <ClCompile Include="program\game\[001]Common\[001]Camera\CinemaCamera.cpp" />
     <ClCompile Include="program\game\[001]Common\[001]Camera\GameCamera.cpp" />
+    <ClCompile Include="program\game\[001]Common\[001]Camera\OpCamera.cpp" />
     <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.cpp" />
-    <ClCompile Include="program\game\[001]Common\[001]Camera\[001]CinemaCamera\CinemaCamera.cpp" />
     <ClCompile Include="program\game\[001]Common\[002]Mediator\Mediator.cpp" />
     <ClCompile Include="program\game\[001]Common\[003]Phase\GamePhase.cpp" />
     <ClCompile Include="program\game\[001]Common\[003]Phase\StagePhase.cpp" />
@@ -330,6 +332,7 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerMove.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CameraTargetPlayer.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\Butterfly.h" />
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyLoad\ButterflyLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickDraw.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.h" />
@@ -345,9 +348,10 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[006]Title\Tile.h" />
+    <ClInclude Include="program\game\[001]Common\[001]Camera\CinemaCamera.h" />
     <ClInclude Include="program\game\[001]Common\[001]Camera\GameCamera.h" />
+    <ClInclude Include="program\game\[001]Common\[001]Camera\OpCamera.h" />
     <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.h" />
-    <ClInclude Include="program\game\[001]Common\[001]Camera\[001]CinemaCamera\CinemaCamera.h" />
     <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h" />
     <ClInclude Include="program\game\[001]Common\[003]Phase\GamePhase.h" />
     <ClInclude Include="program\game\[001]Common\[003]Phase\StagePhase.h" />

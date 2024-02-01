@@ -147,7 +147,7 @@ private:
 	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
 	std::shared_ptr<CharaGraphDraw> m_charaGraphDraw = nullptr;
 
-	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
+	std::shared_ptr<GameCamera> m_opCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
 	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
 
@@ -185,9 +185,9 @@ public:
 	}
 
 	// カメラの取得
-	const std::shared_ptr<GameCamera>& GetGameCamera() const
+	const std::shared_ptr<GameCamera>& GetOpCamera() const
 	{
-		return m_gameCamera;
+		return m_opCamera;
 	}
 
 	// シネマカメラの取得

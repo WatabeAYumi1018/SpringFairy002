@@ -162,7 +162,7 @@ void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)
 	int target_grid_z = static_cast<int>(target_pos.z / grid_size);
 
 	// 描画範囲の設定（ターゲットの位置を中心に前方に向けて）
-	int draw_range = 6; 
+	int draw_range = 10; 
 
 	for (int z = target_grid_z; z < target_grid_z + draw_range; z++) 
 	{

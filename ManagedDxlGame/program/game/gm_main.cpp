@@ -746,7 +746,7 @@
 #include "[003]ScenePlay/ScenePlay.h"
 #include "../wta_library/wta_Convert.h"
 #include "[001]Common/[001]Camera/GameCamera.h"
-#include "[001]Common/[001]Camera/[001]CinemaCamera/CinemaCamera.h"
+#include "[001]Common/[001]Camera/CinemaCamera.h"
 
 
 
@@ -795,7 +795,7 @@ void gameStart()
 
 	//game_camera->pos_ = { 0, 10, -300 };
 	//cinema_camera->pos_ = { 0, 10, -300 };
-	SceneManager::GetInstance(new ScenePlay());
+	SceneManager::GetInstance(new SceneOp());
 }
 
 //------------------------------------------------------------------------------------------------------------

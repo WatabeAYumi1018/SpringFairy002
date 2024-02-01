@@ -165,8 +165,8 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer">
       <UniqueIdentifier>{5cc6594b-443f-418a-9dd8-64fc2a3d6a4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[001]Camera\[001]CinemaCamera">
-      <UniqueIdentifier>{d567810f-7f27-4b56-819c-cade3dfc2abe}</UniqueIdentifier>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction">
+      <UniqueIdentifier>{faf8dd25-e158-4e04-af47-a93bcbe96d39}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -476,8 +476,14 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[001]Camera\[001]CinemaCamera\CinemaCamera.cpp">
-      <Filter>program\[003] game\[001]Common\[001]Camera\[001]CinemaCamera</Filter>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyLoad\ButterflyLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[001]Camera\CinemaCamera.cpp">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[001]Camera\OpCamera.cpp">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -854,8 +860,14 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[001]Camera\[001]CinemaCamera\CinemaCamera.h">
-      <Filter>program\[003] game\[001]Common\[001]Camera\[001]CinemaCamera</Filter>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyLoad\ButterflyLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[001]Camera\CinemaCamera.h">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[001]Camera\OpCamera.h">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
