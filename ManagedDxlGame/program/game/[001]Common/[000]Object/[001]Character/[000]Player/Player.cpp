@@ -22,15 +22,18 @@ Player::Player()
 	}
 }
 
-Player::~Player()
-{
-	MV1DeleteModel(m_model_hdl);
-}
+Player::~Player(){}
 
 void Player::Initialize()
 {
 	StartPos();
+
+	m_mediator->InitializePlayerDraw();
+
 	m_model_hdl = m_mediator->GetPlayerModelHdl();
+
+	SetLight(m_model_hdl);
+
 	//m_mediator->GetPlayerMoveAutoMove();
 	m_mediator->InitCollisionRegister();
 }

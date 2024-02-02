@@ -12,6 +12,19 @@ public:
 
 private:
 
+	// モデル
+	int m_model_hdl = 0;
+	// idleボーン
+	int m_anim_bone_idle_hdl = 0;
+	// moveボーン
+	int m_anim_bone_move_hdl = 0;
+	// bloomボーン
+	int m_anim_bone_bloom_hdl = 0;
+	// danceボーン
+	int m_anim_bone_dance_hdl = 0;
+	// テクスチャ
+	int m_texture_hdl = 0;
+
 	// 移動速度
 	float m_move_speed = 0;
 	// 移動回転速度
@@ -36,10 +49,23 @@ private:
 	// プレイヤーの移動情報読み取り専用（csvファイル）
 	std::vector<std::vector<float>> m_csv_move;
 
+	std::vector<std::vector<std::string>> m_csv_model;
 
 	void LoadPlayerMoveInfo();
 
+	void LoadPlayerModelInfo();
+
 public:
+
+	int GetModelHdl() const { return m_model_hdl; }
+
+	int GetAnimBoneIdleHdl() const { return m_anim_bone_idle_hdl; }
+
+	int GetAnimBoneMoveHdl() const { return m_anim_bone_move_hdl; }
+
+	int GetAnimBoneBloomHdl() const { return m_anim_bone_bloom_hdl; }
+
+	int GetAnimBoneDanceHdl() const { return m_anim_bone_dance_hdl; }
 
 	float GetMoveSpeed() const { return m_move_speed; }
 

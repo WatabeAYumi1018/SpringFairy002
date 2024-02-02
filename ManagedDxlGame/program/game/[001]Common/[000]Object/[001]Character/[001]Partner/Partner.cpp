@@ -11,7 +11,13 @@ Partner::Partner()
 
 void Partner::Initialize()
 {
+	StartPos();
+
+	m_mediator->InitializePartnerDraw();
+
 	m_model_hdl = m_mediator->GetPartnerModelHdl();
+
+	SetLight(m_model_hdl);
 }
 
 void Partner::Update(float delta_time)

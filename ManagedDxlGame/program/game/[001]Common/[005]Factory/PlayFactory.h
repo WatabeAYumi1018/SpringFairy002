@@ -44,6 +44,7 @@ class PlayerCollision;
 class CinemaPlayer;
 
 class Partner;
+class PartnerLoad;
 class PartnerMove;
 class PartnerDraw;
 
@@ -123,6 +124,7 @@ private:
 	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
 
 	std::shared_ptr<Partner> m_partner = nullptr;
+	std::shared_ptr<PartnerLoad> m_partnerLoad = nullptr;
 	std::shared_ptr<PartnerMove> m_partnerMove = nullptr;
 	std::shared_ptr<PartnerDraw> m_partnerDraw = nullptr;
 

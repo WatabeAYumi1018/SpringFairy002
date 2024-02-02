@@ -11,9 +11,9 @@ class PartnerDraw
 
 public:
 
-	PartnerDraw();
+	PartnerDraw() {}
 
-	~PartnerDraw();
+	~PartnerDraw() {}
 
 private:
 
@@ -25,9 +25,7 @@ private:
 	int m_anim_bone_idle_hdl = 0;
 
 	// テクスチャ
-	int m_texture_green_hdl = 0;
-	int m_texture_black_hdl = 0;
-	int m_texture_pink_hdl = 0;
+	int m_texture_hdl = 0;
 
 	// アニメーションインデックス番号
 	int m_anim_move_index = 0;
@@ -57,13 +55,6 @@ private:
 	// プレイヤーメディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	// モデルのロードと初期化
-	void LoadAndInitModels();
-	// テクスチャの設定
-	void CreateMesh(int texture_hdl);
-	// ライトの設定
-	void SetLight();
-
 	// 単発再生の時間設定をする
 	void AnimMove(float delta_time);
 	// ループ再生の時間設定をする　
@@ -77,18 +68,13 @@ private:
 
 public:
 
+	void Initialize();
 	// アニメーションの更新処理
 	void Update(float delta_time);
 	// PlayerHumanクラスのDraw関数にて毎フレーム呼び出す
 	void Draw();
 
-
-	int GetModelHdl() const
-	{
-		return m_model_hdl;
-	}
-
-	void SetMediator(std::shared_ptr<Mediator> mediator)
+	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;
 	}

@@ -3,34 +3,13 @@
 #include "PlayerDraw.h"
 
 
-PlayerDraw::PlayerDraw()
+void PlayerDraw::Initialize()
 {
-	// テクスチャ
-	m_texture_hdl = LoadGraph("model/fairy/fairy.png");
-	// モデル読み取り
-	m_model_hdl = MV1LoadModel("model/fairy/fairy_new.mv1");
-	// idleボーン
-	m_anim_bone_idle_hdl = MV1LoadModel("model/fairy/idle.mv1");
-	// moveボーン
-	m_anim_bone_move_hdl = MV1LoadModel("model/fairy/move_new.mv1");
-	// bloomボーン
-	m_anim_bone_bloom_hdl = MV1LoadModel("model/fairy/bloom_new.mv1");
-	// danceボーン
-	m_anim_bone_dance_hdl = MV1LoadModel("model/fairy/dance_new.mv1");
-	// 材質の指定はないため引数は0
-	MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_hdl, FALSE);
-
-	SetLight();
-}
-
-PlayerDraw::~PlayerDraw()
-{
-	DeleteGraph(m_texture_hdl);
-	MV1DeleteModel(m_model_hdl);
-	MV1DeleteModel(m_anim_bone_idle_hdl);
-	MV1DeleteModel(m_anim_bone_move_hdl);
-	MV1DeleteModel(m_anim_bone_bloom_hdl);
-	MV1DeleteModel(m_anim_bone_dance_hdl);
+	m_model_hdl = m_mediator->GetPlayerModelHdl();
+	m_anim_bone_idle_hdl = m_mediator->GetPlayerAnimBoneIdleHdl();
+	m_anim_bone_move_hdl = m_mediator->GetPlayerAnimBoneMoveHdl();
+	m_anim_bone_bloom_hdl = m_mediator->GetPlayerAnimBoneBloomHdl();
+	m_anim_bone_dance_hdl = m_mediator->GetPlayerAnimBoneDanceHdl();
 }
 
 void PlayerDraw::Update(const float delta_time)
@@ -69,25 +48,6 @@ void PlayerDraw::UpdateCinemaCamera(float delta_time)
 	{
 		CinemaAnimDance(delta_time);
 	}
-}
-
-void PlayerDraw::SetLight()
-{
-	//自己発光
-	DxLib::COLOR_F emissive = { 0.5f,0.5f,0.5f,1 };
-	//環境光
-	DxLib::COLOR_F ambient = { 1,1,1,1 };
-	//拡散光
-	DxLib::COLOR_F diffuse = { 0.5f,0.5f,0.5f,1 };
-	//メタリック
-	DxLib::COLOR_F specular = { 0,0,0,1 };
-
-	MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
-	MV1SetMaterialAmbColor(m_model_hdl, 0, ambient);
-	MV1SetMaterialDifColor(m_model_hdl, 0, diffuse);
-	MV1SetMaterialSpcColor(m_model_hdl, 0, specular);
-	// 強いほど光が鋭くなる
-	MV1SetMaterialSpcPower(m_model_hdl, 0, 0.5f);
 }
 
 void PlayerDraw::AnimBlend(const float delta_time, int current_anim_index, int next_anim_index)

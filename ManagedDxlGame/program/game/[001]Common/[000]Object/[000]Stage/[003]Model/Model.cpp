@@ -6,47 +6,10 @@
 #include "Model.h"
 
 
-Model::Model()
-{
-
-}
-
-Model::~Model()
-{
-	for (sModelInfo& model_info : m_models_info)
-	{
-		MV1DeleteModel(model_info.s_model_hdl);
-		DeleteGraph(model_info.s_texture_a_hdl);
-		DeleteGraph(model_info.s_texture_b_hdl);
-		DeleteGraph(model_info.s_texture_c_hdl);
-		DeleteGraph(model_info.s_texture_d_hdl);
-	}
-}
-
 void Model::Initialize()
 {
 	// ステージモデルの情報を取得
-	m_models_info = m_mediator->GetStageModelTypeInfo();
-
-	for (sModelInfo& model_info : m_models_info)
-	{
-		LoadModelInfo(model_info);
-
-		// ステージ毎のテクスチャ設定
-		if (model_info.s_id == 0)
-		{
-			SetTextureIndex(model_info, 43, 73, 102);
-		}
-		else if (model_info.s_id == 1)
-		{
-			SetTextureIndex(model_info, 15, 33, 37);
-
-		}
-		else
-		{
-			SetTextureIndex(model_info, 43, 73, 102);
-		}
-	}
+	m_models_info = m_mediator->GetStageModelInfo();
 }
 
 void Model::Update(float delta_time)
@@ -79,70 +42,6 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 	{
 
 	}
-}
-
-void Model::LoadModelInfo(sModelInfo& model_info)
-{
-	model_info.s_model_hdl
-		= MV1LoadModel(model_info.s_model_path.c_str());
-
-	model_info.s_texture_a_hdl
-		= LoadGraph(model_info.s_texture_a_path.c_str());
-
-	model_info.s_texture_b_hdl
-		= LoadGraph(model_info.s_texture_b_path.c_str());
-
-	model_info.s_texture_c_hdl
-		= LoadGraph(model_info.s_texture_c_path.c_str());
-
-	model_info.s_texture_d_hdl
-		= LoadGraph(model_info.s_texture_d_path.c_str());
-
-	model_info.s_material_count
-		= MV1GetMaterialNum(model_info.s_model_hdl);
-}
-
-void Model::SetTextureIndex(sModelInfo& model_info,int a,int b,int c )
-{
-	for (int i = 0; i < model_info.s_material_count; ++i)
-	{
-		if (i < a) 
-		{
-			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
-									, model_info.s_texture_a_hdl, FALSE);
-		}
-		else if (i >= a && i < b)
-		{
-			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
-									, model_info.s_texture_b_hdl, FALSE);
-		}
-		else if (i >= b && i < c)
-		{
-			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
-									, model_info.s_texture_c_hdl, FALSE);
-		}
-		else
-		{
-			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
-									, model_info.s_texture_d_hdl, FALSE);
-		}
-
-		SetLight(model_info,i);
-	}
-}
-
-void Model::SetLight(sModelInfo& model_info,int i)
-{
-	DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
-	DxLib::COLOR_F ambient = { 1,1,1,1 };
-	DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
-	DxLib::COLOR_F specular = { 0,0,0,1 };
-
-	MV1SetMaterialEmiColor(model_info.s_model_hdl, i, emissive);
-	MV1SetMaterialAmbColor(model_info.s_model_hdl, i, ambient);
-	MV1SetMaterialDifColor(model_info.s_model_hdl, i, diffuse);
-	MV1SetMaterialSpcColor(model_info.s_model_hdl, i, specular);
-	MV1SetMaterialSpcPower(model_info.s_model_hdl, i, 0.5f);
 }
 
 void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)

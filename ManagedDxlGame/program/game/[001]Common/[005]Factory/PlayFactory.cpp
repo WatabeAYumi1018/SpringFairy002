@@ -7,7 +7,6 @@
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
-//#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelGenerator.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
@@ -16,6 +15,7 @@
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
 #include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayer/CinemaPlayer.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
+#include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerLoad.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
@@ -90,6 +90,7 @@ void PlayFactory::CreateObject()
 	m_cinemaPlayer = std::make_shared<CinemaPlayer>();
 
 	m_partner = std::make_shared<Partner>();
+	m_partnerLoad = std::make_shared<PartnerLoad>();
 	m_partnerMove = std::make_shared<PartnerMove>();
 	m_partnerDraw = std::make_shared<PartnerDraw>();
 
@@ -128,7 +129,6 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetLaneMove(m_laneMove);
 	m_mediator->SetModel(m_model);
 	m_mediator->SetModelLoad(m_modelLoad);
-	m_mediator->SetModelPool(m_modelPool);
 	m_mediator->SetCharacter(m_character);
 	m_mediator->SetPlayer(m_player);
 	m_mediator->SetPlayerLoad(m_playerLoad);
@@ -138,6 +138,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetPlayerCollision(m_playerCollision);
 	m_mediator->SetCinemaPlayer(m_cinemaPlayer);
 	m_mediator->SetPartner(m_partner);
+	m_mediator->SetPartnerLoad(m_partnerLoad);
 	m_mediator->SetPartnerMove(m_partnerMove);
 	m_mediator->SetPartnerDraw(m_partnerDraw);
 	m_mediator->SetCameraTargetPlayer(m_cameraTargetPlayer);

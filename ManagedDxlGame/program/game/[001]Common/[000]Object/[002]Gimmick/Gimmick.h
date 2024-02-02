@@ -20,6 +20,7 @@ public:
 		Max
 	};
 
+	// Factoryで生成した各モデルにhdlを対応させるためstring型でパスを格納
 	struct sGimmickTypeInfo
 	{
 		int s_id = 0;

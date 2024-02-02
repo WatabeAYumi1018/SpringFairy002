@@ -9,9 +9,9 @@ class PlayerDraw
 
 public:
 
-	PlayerDraw();
+	PlayerDraw() {}
 
-	~PlayerDraw();
+	~PlayerDraw() {}
 
 private:
 
@@ -25,7 +25,6 @@ private:
 	int m_anim_bone_bloom_hdl = 0;
 	// danceボーン
 	int m_anim_bone_dance_hdl = 0;
-
 	// テクスチャ
 	int m_texture_hdl = 0;
 
@@ -71,9 +70,6 @@ private:
 	// プレイヤーメディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-
-	// ライトの設定
-	void SetLight();
 	
 	// アニメーションのブレンド処理
 	void AnimBlend(const float delta_time, int current_anim_index, int next_anim_index);
@@ -113,6 +109,7 @@ private:
 
 public:
 
+	void Initialize();
 	// アニメーションの更新処理
 	void Update(float delta_time);
 	// PlayerHumanクラスのDraw関数にて毎フレーム呼び出す
@@ -124,9 +121,6 @@ public:
 	void UpdateCinemaCamera(float delta_time);
 	
 	//---------------------------//
-
-
-	int GetModelHdl() const { return m_model_hdl; }
 
 	bool GetIsBloom() const { return m_is_bloom; }
 

@@ -497,6 +497,9 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[007]Gate\[000]GateFunction\GateLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[007]Gate\[000]GateFunction</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -886,6 +889,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[007]Gate\[000]GateFunction\GateLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[007]Gate\[000]GateFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

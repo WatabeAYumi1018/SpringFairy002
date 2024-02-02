@@ -3,44 +3,14 @@
 #include "PartnerDraw.h"
 
 
-PartnerDraw::PartnerDraw()
+void PartnerDraw::Initialize()
 {
-	LoadAndInitModels();
-
-	SetLight();
-}
-
-PartnerDraw::~PartnerDraw()
-{
-	DeleteGraph(m_texture_green_hdl);
-	DeleteGraph(m_texture_black_hdl);
-	DeleteGraph(m_texture_pink_hdl);
-	MV1DeleteModel(m_model_hdl);
-	MV1DeleteModel(m_anim_bone_move_hdl);
-	MV1DeleteModel(m_anim_bone_idle_hdl);
-}
-
-void PartnerDraw::LoadAndInitModels()
-{
-	// テクスチャ
-	m_texture_green_hdl = LoadGraph("model/turnipa/green.png");
-	m_texture_black_hdl = LoadGraph("model/turnipa/black.png");
-	m_texture_pink_hdl = LoadGraph("model/turnipa/pink.png");
-
 	// モデル読み取り
-	m_model_hdl = MV1LoadModel("model/turnipa/futaba.mv1");
-	// moveボーン
-	m_anim_bone_move_hdl = MV1LoadModel("model/turnipa/futaba_move.mv1");
+	m_model_hdl = m_mediator->GetPartnerModelHdl();
 	// idleボーン
-	m_anim_bone_idle_hdl = MV1LoadModel("model/turnipa/futaba_idle.mv1");
-
-	MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_pink_hdl, FALSE);
-}
-
-void PartnerDraw::CreateMesh(int texture_hdl)
-{
-	// 材質の指定はないため引数は0
-	MV1SetTextureGraphHandle(m_model_hdl, 0, texture_hdl, FALSE);
+	m_anim_bone_idle_hdl = m_mediator->GetPartnerAnimBoneIdleHdl();
+	// moveボーン
+	m_anim_bone_move_hdl = m_mediator->GetPartnerAnimBoneMoveHdl();
 }
 
 void PartnerDraw::Update(float delta_time)
@@ -51,25 +21,6 @@ void PartnerDraw::Update(float delta_time)
 void PartnerDraw::Draw()
 {
 	MV1DrawModel(m_model_hdl);
-}
-
-void PartnerDraw::SetLight()
-{
-	//自己発光
-	DxLib::COLOR_F emissive = { 0.5f,0.5f,0.5f,1 };
-	//環境光
-	DxLib::COLOR_F ambient = { 1,1,1,1 };
-	//拡散光
-	DxLib::COLOR_F diffuse = { 0.5f,0.5f,0.5f,1 };
-	//メタリック
-	DxLib::COLOR_F specular = { 0,0,0,1 };
-
-	MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
-	MV1SetMaterialAmbColor(m_model_hdl, 0, ambient);
-	MV1SetMaterialDifColor(m_model_hdl, 0, diffuse);
-	MV1SetMaterialSpcColor(m_model_hdl, 0, specular);
-	// 強いほど光が鋭くなる
-	MV1SetMaterialSpcPower(m_model_hdl, 0, 0.5f);
 }
 
 void PartnerDraw::AnimMove(float delta_time)
