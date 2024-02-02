@@ -1,11 +1,12 @@
 #include "ScenePlay.h"
 #include "../[000]GameEngine/[001]Scene/SceneManager.h"
-#include "../[001]Common/[005]Factory/PlayFactory.h"
+#include "../[001]Common/[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[001]Common/[001]Camera/GameCamera.h"
 #include "../[001]Common/[001]Camera/CinemaCamera.h"
-#include "../[003]ScenePlay/ScenePlay.h"
-#include "../[001]Common/[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[001]Common/[004]ScreenShot/ScreenShot.h"
+#include "../[001]Common/[005]Factory/PlayFactory.h"
+#include "../[003]ScenePlay/ScenePlay.h"
+#include "../[004]SceneED/SceneED.h"
 
 
 ScenePlay::ScenePlay() : m_factory(std::make_shared<PlayFactory>())
@@ -23,9 +24,12 @@ ScenePlay::~ScenePlay()
 
 bool ScenePlay::SeqStart(const float delta_time)
 {
-	SceneManager* scene = SceneManager::GetInstance();
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
+	{
+		SceneManager* scene = SceneManager::GetInstance();
 
-	scene->ChangeScene(new ScenePlay());
+		scene->ChangeScene(new SceneEd());
+	}
 
 	return true;
 }
@@ -61,6 +65,8 @@ void ScenePlay::Initialize()
 
 void ScenePlay::Update(const float delta_time)
 {
+	m_sequence.update(delta_time);
+
 	m_stagePhase->Update(delta_time);
 
 	m_gameCamera->update(delta_time);

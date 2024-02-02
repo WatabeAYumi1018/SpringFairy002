@@ -28,9 +28,6 @@ private:
 	// OP‚Ì‚İ‚Ìƒtƒ‰ƒO(OpƒJƒƒ‰‚Å‚Ì‚İİ’è)
 	bool m_is_op = false;
 
-	StagePhase::eStagePhase m_stage_phase 
-			= StagePhase::eStagePhase::e_flower;
-
 	std::vector<std::vector<tnl::CsvCell>> m_csv_skybox_info;
 
 	std::vector<sSkyBoxInfo> m_skybox_info;

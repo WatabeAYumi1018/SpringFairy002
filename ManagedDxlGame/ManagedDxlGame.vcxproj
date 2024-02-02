@@ -242,6 +242,7 @@
     <ClCompile Include="program\game\[001]Common\[005]Factory\PlayFactory.cpp" />
     <ClCompile Include="program\game\[002]SceneOP\SceneOp.cpp" />
     <ClCompile Include="program\game\[003]ScenePlay\ScenePlay.cpp" />
+    <ClCompile Include="program\game\[004]SceneED\SceneED.cpp" />
     <ClCompile Include="program\library\json11.cpp" />
     <ClCompile Include="program\library\tnl_font_texture.cpp" />
     <ClCompile Include="program\library\tnl_inclution_owner_locked.cpp" />
@@ -366,6 +367,7 @@
     <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h" />
     <ClInclude Include="program\game\[002]SceneOP\SceneOp.h" />
     <ClInclude Include="program\game\[003]ScenePlay\ScenePlay.h" />
+    <ClInclude Include="program\game\[004]SceneED\SceneED.h" />
     <ClInclude Include="program\library\json11.hpp" />
     <ClInclude Include="program\library\stb_image.h" />
     <ClInclude Include="program\library\tnl_csv.h" />

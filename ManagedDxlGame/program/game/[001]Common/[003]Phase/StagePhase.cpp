@@ -33,6 +33,11 @@ bool StagePhase::SeqFlower(const float delta_time)
 
 bool StagePhase::SeqWood(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_now_stage_phase = eStagePhase::e_wood;
+	}
+
 	// 再び会話が終了したら
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
 	{
@@ -43,11 +48,6 @@ bool StagePhase::SeqWood(const float delta_time)
 	//{
 	//		
 	//});
-
-	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]() 
-	{
-		m_now_stage_phase = eStagePhase::e_wood;
-	});
 
 	// 押すまでループ
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});
