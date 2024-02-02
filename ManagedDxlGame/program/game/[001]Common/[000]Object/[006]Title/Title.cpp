@@ -1,18 +1,42 @@
+#include "../../../../wta_library/wta_Convert.h"
+#include "../../../[001]Common/[002]Mediator/Mediator.h"
 #include "Title.h"
 
 
 Title::Title()
 {
-	m_graph_hdl = LoadGraph("graphics/title.png");
+    m_model_hdl = MV1LoadModel("model/gate/start.mv1");
+
+    m_texture_hdl = LoadGraph("model/gate/start.png");
+
+    MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_hdl, FALSE);
+
+    m_scale = { 0.5f };
+
+    // シーケンスの初期化
+    m_rot = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(0));
+
+    SetLight(m_model_hdl);
 }
 
 Title::~Title()
 {
-	DeleteGraph(m_graph_hdl);
+	MV1DeleteModel(m_model_hdl);
+	DeleteGraph(m_texture_hdl);
 }
 
 void Title::Update(const float delta_time)
 {
+    m_pos = m_mediator->GetButterflyPos();
+
+    m_pos.y += 150;
+
+    // 回転と座標から行列を計算
+    m_matrix = GetTransformMatrix();
+
+    // モデルに行列を適用
+    MV1SetMatrix(m_model_hdl, m_matrix);
+
     tnl_sequence_.update(delta_time);
 }
 
@@ -20,82 +44,71 @@ void Title::Draw(std::shared_ptr<dxe::Camera> camera)
 {
     if (m_is_draw)
     {
-        // 透明度を適用
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(m_alpha));
+        MV1SetMaterialDifColor(m_model_hdl, 0
+                                , GetColorF(1.0f, 1.0f, 1.0f, m_alpha));
 
-        // ロゴを回転させて描画（ここではDrawRotaGraphの使用を想定）
-        DrawRotaGraph(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT / 2
-                      , 1.0f, m_angle, m_graph_hdl, false);
-
-        // 透明度の適用を終了
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+        // モデルを描画
+        MV1DrawModel(m_model_hdl);
     }
 }
 
-void Title::WakeUp(const float delta_time)
-{
-    if (m_is_animating)
-    {
-        // アニメーション速度に基づき角度を更新
-        m_angle += m_anim_speed * delta_time;
-
-        // 90度に達したら終了
-        if (m_angle >= 90.0f)
-        {
-            // 角度を固定
-            m_angle = 90.0f;
-            // アニメーション終了
-            m_is_animating = false;
-        }
-    }
-}
-
-void Title::Disappear(const float delta_time)
+void Title::StartDraw(const float delta_time)
 {
     // ロゴの透明度を徐々に上げて消す
     m_alpha += m_alpha_speed * delta_time;
 
-    // 透明度が1.0を超えたら終了
     if (m_alpha >= 1.0f)
     {
-		// 透明度を固定
-		m_alpha = 1.0f;
-		// ロゴを非表示にする
-		m_is_draw = false;
-	}
+        // 透明度無効化
+        m_alpha = 1.0f;
+    }
+}
+
+void Title::EndDraw(const float delta_time)
+{
+    // ロゴの透明度を徐々に上げて消す
+    m_alpha -= m_alpha_speed * delta_time * 2;
+
+    if (m_alpha <= 0.0f)
+    {
+        // 透明化
+        m_alpha = 0.0f;
+    }
+
 }
 
 bool Title::SeqTrigger(const float delta_time)
 {
     if (m_is_draw)
     {
-        tnl_sequence_.change(&Title::SeqWakeUp);
+        tnl_sequence_.change(&Title::SeqDrawChange);
     }
 
     return false;
 }
 
-bool Title::SeqWakeUp(const float delta_time)
+bool Title::SeqDrawChange(const float delta_time)
 {
-    if(!m_is_animating)
+    TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
     {
-        tnl_sequence_.change(&Title::SeqDisappear);
-    }
-
-    TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-    {
-        WakeUp(delta_time);
+        StartDraw(delta_time);
     });
 
-    TNL_SEQ_CO_END;
+	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&](){});
+
+    tnl_sequence_.change(&Title::SeqOpen);
+
+	TNL_SEQ_CO_END;
 }
 
-bool Title::SeqDisappear(const float delta_time)
+bool Title::SeqOpen(const float delta_time)
 {
-    TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
+    TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
     {
-        Disappear(delta_time);
+        EndDraw(delta_time);
     });
+
+    m_is_disappear = true;
 
     TNL_SEQ_CO_END;
 }

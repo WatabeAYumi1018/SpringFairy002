@@ -17,9 +17,10 @@ private:
 
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
-	tnl::Vector3 m_offset = { 0, 400, -400 };
-	// 追従による座標補正
-	tnl::Vector3 m_fix_pos = { 0,0,0 };
+	tnl::Vector3 m_offset = { 0, 200, -1000 };
+	tnl::Vector3 m_new_offset = { 0,300,-300 };
+	// 回転
+	tnl::Quaternion m_rot;
 
 	// メディエーターのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
@@ -27,6 +28,15 @@ private:
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(OpCamera, &OpCamera::SeqNormal);
+
+	// 線形補間関数
+	tnl::Vector3 Lerp(const tnl::Vector3& start
+			 		, const tnl::Vector3& end, float t);
+
+	// 固定カメラ
+	void Fixed(tnl::Vector3& offset);
+	// カメラ移行
+	void ToOffset(const float delta_time, tnl::Vector3& offset);
 
 	// 通常
 	bool SeqNormal(const float delta_time);

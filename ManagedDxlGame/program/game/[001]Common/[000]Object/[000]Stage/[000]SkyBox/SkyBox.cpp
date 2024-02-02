@@ -39,7 +39,7 @@ void SkyBox::CreateSkyBox()
 {
 	for (sSkyBoxInfo& sky_info : m_skybox_info)
 	{
-		m_mesh = dxe::Mesh::CreateCubeMV(50000, 40, 40);
+		m_mesh = dxe::Mesh::CreateCubeMV(50000, 100, 100);
 		m_mesh->setTexture(dxe::Texture::CreateFromFile(sky_info.s_texture_path));
 		m_mesh->loadMaterial(sky_info.s_material_path);
  	   	m_screen_effect = std::make_shared<dxe::ScreenEffect>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
@@ -58,25 +58,26 @@ void SkyBox::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	m_screen_effect->renderBegin();
 
-	if (m_mediator->GetButterflyIsPowder())
+	if (m_is_op)
 	{
 		m_meshs[0]->render(camera);
 	}
-
-	if (m_stage_phase == StagePhase::eStagePhase::e_flower) 
+	else
 	{
-		m_meshs[1]->render(camera);
-	}
+		if (m_stage_phase == StagePhase::eStagePhase::e_flower)
+		{
+			m_meshs[1]->render(camera);
+		}
 
-	if (m_stage_phase == StagePhase::eStagePhase::e_wood)
-	{
-		m_meshs[2]->render(camera);
-	}
+		if (m_stage_phase == StagePhase::eStagePhase::e_wood)
+		{
+			m_meshs[2]->render(camera);
+		}
 
-	if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
-	{
-		m_meshs[3]->render(camera);
+		if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
+		{
+			m_meshs[3]->render(camera);
+		}
 	}
-
 	m_screen_effect->renderEnd();
 }

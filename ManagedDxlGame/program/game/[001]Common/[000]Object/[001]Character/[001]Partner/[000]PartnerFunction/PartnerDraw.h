@@ -60,7 +60,7 @@ private:
 	// モデルのロードと初期化
 	void LoadAndInitModels();
 	// テクスチャの設定
-	void SetTexture(int texture_hdl);
+	void CreateMesh(int texture_hdl);
 	// ライトの設定
 	void SetLight();
 

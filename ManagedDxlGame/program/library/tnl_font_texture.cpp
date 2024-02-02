@@ -86,7 +86,7 @@ namespace tnl {
 
 		int Level = 17;
 		int x, y;
-		DWORD Alpha, Color;
+		DWORD StartDraw, Color;
 
 		char* pTexBuf = new char[tex_width * tex_height * 4] ;
 		memset(pTexBuf, 0, tex_width * tex_height * 4);
@@ -150,12 +150,12 @@ namespace tnl {
 				thickness_x = ((x + thickness_x) > str_width) ? 0 : thickness_x;
 				thickness_y = ((y + thickness_y) > str_height) ? 0 : thickness_y;
 
-				Alpha = (255 * pMono[x - iOfs_x + iBmp_w * (y - iOfs_y)]) / (Level - 1);
-				int R = int((color.x * float(Alpha)));
-				int G = int((color.y * float(Alpha)));
-				int B = int((color.z * float(Alpha)));
+				StartDraw = (255 * pMono[x - iOfs_x + iBmp_w * (y - iOfs_y)]) / (Level - 1);
+				int R = int((color.x * float(StartDraw)));
+				int G = int((color.y * float(StartDraw)));
+				int B = int((color.z * float(StartDraw)));
 
-				Color = (Alpha << 24) | (R << 16) | (G << 8) | (B);
+				Color = (StartDraw << 24) | (R << 16) | (G << 8) | (B);
 
 				int32_t ary = (str_width * y * 4) + (x * 4);
 				if (0 > ary || ary >= (str_width * str_height * 4)) {
@@ -163,10 +163,10 @@ namespace tnl {
 				}
 				memcpy(pBits + (str_width * y * 4) + (x * 4), &Color, sizeof(DWORD));
 
-				R = int((thickness_color.x * float(Alpha)));
-				G = int((thickness_color.y * float(Alpha)));
-				B = int((thickness_color.z * float(Alpha)));
-				Color = (Alpha << 24) | (R << 16) | (G << 8) | (B);
+				R = int((thickness_color.x * float(StartDraw)));
+				G = int((thickness_color.y * float(StartDraw)));
+				B = int((thickness_color.z * float(StartDraw)));
+				Color = (StartDraw << 24) | (R << 16) | (G << 8) | (B);
 
 				ary = (str_width * (y - thickness_y) * 4) + ((x - thickness_x) * 4);
 				if (0 < ary && ary < (str_width * str_height * 4)) {

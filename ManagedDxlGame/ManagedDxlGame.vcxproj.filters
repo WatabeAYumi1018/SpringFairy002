@@ -168,6 +168,12 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction">
       <UniqueIdentifier>{faf8dd25-e158-4e04-af47-a93bcbe96d39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[007]Gate">
+      <UniqueIdentifier>{be16eb9e-68ac-4be4-a0b7-0a94c1bee20c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[007]Gate\[000]GateFunction">
+      <UniqueIdentifier>{4cd2e9f8-409b-4982-b7fe-6ae6eb3ceda4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">
@@ -484,6 +490,12 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction\ButterflyLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[007]Gate\Gate.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[007]Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[007]Gate\[000]GateFunction\GateLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[007]Gate\[000]GateFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -868,6 +880,12 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction\ButterflyLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[007]Gate\Gate.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[007]Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[007]Gate\[000]GateFunction\GateLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[007]Gate\[000]GateFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -65,7 +65,6 @@ void PlayFactory::CreateObject()
 	m_collision_player_item = std::make_shared<wta::Collision<Player,Gimmick>>();
 	m_collision_mesh_item = std::make_shared<wta::Collision<dxe::Mesh, Gimmick>>();
 	m_collision_player_partner = std::make_shared<wta::Collision<Player, Partner>>();
-	//m_collision_camera = std::make_shared<wta::Collision<Player, GameCamera>>();
 
 	m_stagePhase = std::make_shared<StagePhase>();
 
@@ -79,7 +78,6 @@ void PlayFactory::CreateObject()
 	m_model = std::make_shared<Model>();
 	m_modelLoad = std::make_shared<ModelLoad>();
 	m_modelPool = std::make_shared<ModelPool>();
-	//m_modelGenerator = std::make_shared<ModelGenerator>();
 
 	m_character = std::make_shared<Character>();
 
@@ -96,8 +94,6 @@ void PlayFactory::CreateObject()
 	m_partnerDraw = std::make_shared<PartnerDraw>();
 
 	m_cameraTargetPlayer = std::make_shared<CameraTargetPlayer>();
-
-	//m_modelPool = std::make_shared<ModelPool>();
 
 	m_gimmickLoad = std::make_shared<GimmickLoad>();
 	m_gimmickGenerator = std::make_shared<GimmickGenerator>();
@@ -133,7 +129,6 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetModel(m_model);
 	m_mediator->SetModelLoad(m_modelLoad);
 	m_mediator->SetModelPool(m_modelPool);
-	//m_mediator->SetModelGenerator(m_modelGenerator);
 	m_mediator->SetCharacter(m_character);
 	m_mediator->SetPlayer(m_player);
 	m_mediator->SetPlayerLoad(m_playerLoad);
@@ -166,8 +161,6 @@ void PlayFactory::SetObjectReference()
 	m_laneMove->SetMediator(m_mediator);
 	m_floor->SetMediator(m_mediator);
 	m_model->SetMediator(m_mediator);
-	//m_modelPool->SetMediator(m_mediator);
-	//m_modelGenerator->SetMediator(m_mediator);
 	m_character->SetMediator(m_mediator);
 	m_player->SetMediator(m_mediator);
 	m_playerMove->SetMediator(m_mediator);
@@ -196,9 +189,6 @@ void PlayFactory::SetObjectReference()
 	m_cameraLoad->SetMediator(m_mediator);
 	m_cinemaCamera->SetMediator(m_mediator);
 	m_screenShot->SetMediator(m_mediator);
-	//m_cameraFrustum->SetCollision(m_collision_camera);
-	//m_cameraFrustum->SetPlayer(m_player);
-	//m_cameraFrustum->SetGameCamera(m_gameCamera);
 }
 
 void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types)

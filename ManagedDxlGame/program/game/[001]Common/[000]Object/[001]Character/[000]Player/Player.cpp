@@ -16,7 +16,7 @@ Player::Player()
 
 	for (int i = 0; i < 10; ++i)
 	{
-		std::shared_ptr<dxe::Mesh> mesh = dxe::Mesh::CreateSphereMV(50);
+		std::shared_ptr<dxe::Mesh> mesh = dxe::Mesh::CreateSphereMV(70);
 
 		m_meshs.emplace_back(mesh);
 	}

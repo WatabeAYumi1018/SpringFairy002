@@ -98,7 +98,6 @@ private:
 	std::shared_ptr<wta::Collision<Player, Gimmick>> m_collision_player_item = nullptr;
 	std::shared_ptr<wta::Collision<dxe::Mesh, Gimmick>> m_collision_mesh_item = nullptr;
 	std::shared_ptr<wta::Collision<Player, Partner>> m_collision_player_partner = nullptr;
-	//std::shared_ptr<wta::Collision<Player, GameCamera>> m_collision_camera = nullptr;
 
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
 
@@ -112,7 +111,6 @@ private:
 	std::shared_ptr<Model> m_model = nullptr;
 	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
 	std::shared_ptr<ModelPool> m_modelPool = nullptr;
-	//std::shared_ptr<ModelGenerator> m_modelGenerator = nullptr;
 
 	std::shared_ptr<Character> m_character = nullptr;
 

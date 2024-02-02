@@ -64,12 +64,11 @@ private:
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
 	tnl::Vector3 m_offset = { 0, 200, -400 };
-	// 追従による座標補正
-	tnl::Vector3 m_fix_pos = { 0,0,0 };
 	// 自動経路による回転
 	tnl::Quaternion m_rot;
 
-	StagePhase::eStagePhase m_now_stage_phase = StagePhase::eStagePhase::e_flower;
+	StagePhase::eStagePhase m_now_stage_phase
+					= StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(GameCamera, &GameCamera::SeqFixed);
@@ -143,8 +142,6 @@ private:
 
 	//--------------------//
 
-	
-
 public:
 
 	// フラスタムとの当たり判定
@@ -159,7 +156,7 @@ public:
 		return up_;
 	}
 
-	inline tnl::Vector3 down() { return -up(); }
+	//inline tnl::Vector3 down() { return -up(); }
 
 
 	bool IsFixed() const { return m_is_fixed; }

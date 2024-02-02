@@ -190,7 +190,7 @@ namespace dxe {
             gui_eject_type_->setLocation(dxe::GuiMenuSelector::eLocation::RIGHT_DOWN);
             gui_eject_type_->setDescription([&]() {
                 description_str_ = "発生した粒子が拡散するか収束するか [ DIFF : 拡散 ] [ CONV : 収束 ] [ ICONV : 本来の収束点から逆方向へ ]";
-            }) ;
+                });
         }
 
         y += height;
@@ -300,7 +300,7 @@ namespace dxe {
 
         if (tnl::Input::IsKeyDown(eKeys::KB_LCONTROL) && tnl::Input::IsKeyDownTrigger(eKeys::KB_F12)) {
 
-            y = DXE_WINDOW_HEIGHT - 70 ;
+            y = DXE_WINDOW_HEIGHT - 70;
             if (!gui_scale_) {
                 gui_scale_ = Shared<GuiValueSlider< Particle, float >>(
                     new GuiValueSlider< Particle, float >
@@ -441,10 +441,10 @@ namespace dxe {
             int num = std::atoi(input_string.c_str());
             setConvPosition({ getConvPosition().x, getConvPosition().y, static_cast<float>(num) });
             gui_conv_position_z_->setBoxString(tnl::FloatToString(getConvPosition().z, "%.0f"));
-        };
+            };
         INPUT_BOX(INT, gui_conv_position_z_, fc_conv_position_z, tnl::FloatToString(getConvPosition().z, "%.0f"), "conv position z", "粒子の収束座標 EjectTypeをCONV, ICONVで有効 この座標はPositionからの相対座標です");
 
-        
+
         height = 30;
         SLIDER(height, gui_emissive_, tnl::Vector3, getEmissive, setEmissive, tnl::Vector3(0, 0, 0), tnl::Vector3(5, 5, 5), "emissive", "自己発光色");
         height = 60;
@@ -543,7 +543,7 @@ namespace dxe {
         gui_size_x_->draw();
         gui_size_y_->draw();
         if (gui_scale_) gui_scale_->draw();
-        if(gui_existence_scale_) gui_existence_scale_->draw();
+        if (gui_existence_scale_) gui_existence_scale_->draw();
         if (gui_disp_alpha_factor_) gui_disp_alpha_factor_->draw();
 
         gui_alpha_->draw();
@@ -563,7 +563,7 @@ namespace dxe {
             tx = (int)pos_.x;
             ty = DXE_WINDOW_HEIGHT - 20;
             bx = (int)pos_.x + DXE_WINDOW_WIDTH;
-            by = DXE_WINDOW_HEIGHT ;
+            by = DXE_WINDOW_HEIGHT;
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
             DrawBox(tx, ty, bx, by, 0, true);
             SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);

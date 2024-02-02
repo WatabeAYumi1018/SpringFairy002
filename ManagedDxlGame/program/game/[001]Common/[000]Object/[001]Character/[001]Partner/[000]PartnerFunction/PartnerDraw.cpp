@@ -37,7 +37,7 @@ void PartnerDraw::LoadAndInitModels()
 	MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_pink_hdl, FALSE);
 }
 
-void PartnerDraw::SetTexture(int texture_hdl)
+void PartnerDraw::CreateMesh(int texture_hdl)
 {
 	// Ş¿‚Ìw’è‚Í‚È‚¢‚½‚ßˆø”‚Í0
 	MV1SetTextureGraphHandle(m_model_hdl, 0, texture_hdl, FALSE);

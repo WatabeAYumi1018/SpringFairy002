@@ -2,4 +2,5 @@
 0,graphics/skybox/op.png,graphics/skybox/material.bin,graphics/skybox/screen_effect.bin
 1,graphics/skybox/normal.png,graphics/skybox/material.bin,graphics/skybox/screen_effect.bin
 2,graphics/skybox/dark.png,graphics/skybox/material.bin,graphics/skybox/screen_effect.bin
-,graphics/skybox/magical.png,graphics/skybox/material.bin,graphics/skybox/screen_effect.bin
+3,graphics/skybox/magical.png,graphics/skybox/material.bin,graphics/skybox/screen_effect.bin
+,,,

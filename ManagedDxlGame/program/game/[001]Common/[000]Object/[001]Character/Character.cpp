@@ -5,13 +5,13 @@
 
 void Character::StartPos()
 {
-	for (const auto& start : m_mediator->GetStageLane())
+	for (const Lane::sLane& start : m_mediator->GetStageLane())
 	{
 		if (start.s_id == 1)
 		{
 			m_pos = start.s_pos;
 
-			m_pos.z = 0;
+			m_pos.y = 0;
 		}
 	}
 }

@@ -12,6 +12,9 @@ class ButterflyLoad;
 
 class Title;
 
+class Gate;
+class GateLoad;
+
 class Mediator;
 
 class OpCamera;
@@ -38,6 +41,9 @@ private:
 	std::shared_ptr<ButterflyLoad> m_butterflyLoad = nullptr;
 
 	std::shared_ptr<Title> m_title = nullptr;
+
+	std::shared_ptr<Gate> m_gate = nullptr;
+	std::shared_ptr<GateLoad> m_gateLoad = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 	std::shared_ptr<OpCamera> m_opCamera = nullptr;

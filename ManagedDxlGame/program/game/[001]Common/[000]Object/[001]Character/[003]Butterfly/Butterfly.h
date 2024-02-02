@@ -2,6 +2,9 @@
 #include "../Character.h"
 
 
+class Mediator;
+
+
 class Butterfly : public Character
 {
 	
@@ -14,21 +17,29 @@ public:
 private:
 
 	// 円の速度
-	float m_speed = 10;
+	float m_speed = 5.0f;
 	// 円の半径
-	float m_circle_radius = 100.0f;
-	// 円の現在の角度（静的変数）
-	float m_circle_angle = 10.0f;
+	float m_radius = 50.0f;
+	// 円運動一回分の総時間
+	float m_total_time = 5.0f;
+	// 円運動の経過時間
+	float m_elapsed_time_circle = 0.0f;
 
+	// moveアニメーション経過時間
 	float m_elapsed_time = 0.0f;
-
+	// moveアニメーションのループ時間
 	float m_time_count= 0.0f;
-
+	// moveアニメーションの速度
 	float m_anim_speed = 0.0f;
 
+	// 円運動フラグ
 	bool m_is_circle = false;
-
+	// 鱗粉フラグ
 	bool m_is_powder = false;
+
+	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
+
+	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 	void SetAnim();
 
@@ -50,4 +61,9 @@ public:
 	bool GetIsCircle() const { return m_is_circle; }
 
 	bool GetIsPowder() const { return m_is_powder; }
+
+	void SetMediator(std::shared_ptr<Mediator>& mediator) 
+	{
+		m_mediator = mediator; 
+	}
 };

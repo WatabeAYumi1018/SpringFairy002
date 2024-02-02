@@ -3,9 +3,7 @@
 
 
 OpCamera::OpCamera()
-{
-	near_ = { 100 };
-}
+	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT){}
 
 void OpCamera::update(const float delta_time)
 {
@@ -14,8 +12,37 @@ void OpCamera::update(const float delta_time)
 	tnl_sequence_.update(delta_time);
 }
 
+tnl::Vector3 OpCamera::Lerp(const tnl::Vector3& start
+							, const tnl::Vector3& end, float t)
+{
+	return start + (end - start) * t;
+}
+
+void OpCamera::Fixed(tnl::Vector3& offset)
+{
+	target_ = m_mediator->GetButterflyPos();
+
+	pos_.x = target_.x + offset.x;
+	pos_.y = target_.y + offset.y;
+	pos_.z = target_.z + offset.z;
+}
+
+void OpCamera::ToOffset(const float delta_time, tnl::Vector3& offset)
+{
+	// 目的の位置を計算
+	tnl::Vector3 target_pos = m_mediator->GetButterflyPos() + offset;
+
+	// 補間を使用してカメラ位置を更新
+	pos_ = Lerp(pos_, target_pos, 0.3f);
+}
+
 bool OpCamera::SeqNormal(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_mediator->SetSkyIsOp(true);
+	}
+
 	// 蝶が２回転したら
 	if (m_mediator->GetButterflyIsCircle())
 	{
@@ -24,11 +51,7 @@ bool OpCamera::SeqNormal(const float delta_time)
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		target_ = m_mediator->GetButterflyPos();
-
-		pos_.x = target_.x;
-		pos_.y = target_.y;
-		pos_.z = target_.z - m_offset.z;
+		Fixed(m_offset);
 	});
 
 	TNL_SEQ_CO_END;
@@ -36,43 +59,32 @@ bool OpCamera::SeqNormal(const float delta_time)
 
 bool OpCamera::SeqNormalToUp(const float delta_time)
 {
-	// ドアップへの滑らかな遷移
-	// ターゲットとの距離が110になるまで
-	if (pos_.z - target_.z <= 110)
+	TNL_SEQ_CO_TIM_YIELD_RETURN(0.2f, delta_time, [&]()
 	{
-
-
-		tnl_sequence_.change(&OpCamera::SeqUp);
-	}
-
-	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-	{
-		target_ = m_mediator->GetButterflyPos();
-
-		pos_.x = target_.x;
-		pos_.y = target_.y;
-		pos_.z = target_.z - m_offset.z;
+		ToOffset(delta_time, m_new_offset);
 	});
+
+	tnl_sequence_.change(&OpCamera::SeqUp);
 
 	TNL_SEQ_CO_END;
 }
 
 bool OpCamera::SeqUp(const float delta_time)
 {
-	// タイトルロゴの表示が終わるまで
-	if (m_mediator->GetTitleIsDraw())
+	// タイトルロゴの表示終了フラグ取得
+	if (m_mediator->GetTitleIsDisappear())
 	{
 		tnl_sequence_.change(&OpCamera::SeqUpToBack);
 	}
 
+	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]()
+	{
+		m_mediator->SetTitleIsDraw(true);
+	});
+
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-			// オフセット110のまま固定
-		target_ = m_mediator->GetButterflyPos();
-
-		pos_.x = target_.x;
-		pos_.y = target_.y;
-		pos_.z = target_.z - m_offset.z;
+		Fixed(m_new_offset);
 	});
 
 	TNL_SEQ_CO_END;
@@ -80,13 +92,14 @@ bool OpCamera::SeqUp(const float delta_time)
 
 bool OpCamera::SeqUpToBack(const float delta_time)
 {
-	TNL_SEQ_CO_TIM_YIELD_RETURN(0.5f, delta_time, [&]()
+	if (tnl_sequence_.isStart())
 	{
-		target_ = m_mediator->GetButterflyPos();
+		m_offset.y = 0;
+	}
 
-		pos_.x = target_.x;
-		pos_.y = target_.y;
-		pos_.z = target_.z - m_offset.z;
+	TNL_SEQ_CO_TIM_YIELD_RETURN(0.2f, delta_time, [&]()
+	{
+		ToOffset(delta_time, m_offset);
 	});
 
 	tnl_sequence_.change(&OpCamera::SeqBack);
@@ -96,13 +109,9 @@ bool OpCamera::SeqUpToBack(const float delta_time)
 
 bool OpCamera::SeqBack(const float delta_time)
 {
-	TNL_SEQ_CO_TIM_YIELD_RETURN(-1, delta_time, [&]()
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		target_ = m_mediator->GetButterflyPos();
-
-		pos_.x = target_.x;
-		pos_.y = target_.y;
-		pos_.z = target_.z - m_offset.z;
+		Fixed(m_offset);
 	});
 
 	TNL_SEQ_CO_END;

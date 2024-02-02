@@ -47,7 +47,7 @@ private:
 	void SetTextureIndex(sModelInfo& model_info, int a, int b, int c);
 
 	// ƒ‰ƒCƒg‚Ìİ’è
-	void SetLight(sModelInfo& model_info);
+	void SetLight(sModelInfo& model_info, int i);
 
 	// ”wŒiƒ‚ƒfƒ‹¶¬
 	void DrawStage(std::vector<sModelInfo>& models_info,int id);

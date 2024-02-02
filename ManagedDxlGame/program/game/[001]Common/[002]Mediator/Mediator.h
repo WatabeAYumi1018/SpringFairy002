@@ -5,9 +5,12 @@
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/CharaGraph.h"
+#include "../[000]Object/[007]Gate/Gate.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[003]Phase/StagePhase.h"
 
+
+class SkyBox;
 
 class LaneLoad;
 class LaneMove;
@@ -51,6 +54,8 @@ class CharaGraphDraw;
 
 class Title;
 
+class GateLoad;
+
 class GameCamera;
 class CameraLoad;
 class CinemaCamera;
@@ -63,6 +68,8 @@ private:
 	//--------------------ポインタ--------------------//
 
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
+
+	std::shared_ptr<SkyBox> m_skyBox = nullptr;
 
 	std::shared_ptr<Lane> m_lane = nullptr;
 	std::shared_ptr<LaneLoad> m_laneLoad = nullptr;
@@ -109,6 +116,9 @@ private:
 
 	std::shared_ptr<Title> m_title = nullptr;
 
+	std::shared_ptr<Gate> m_gate = nullptr;
+	std::shared_ptr<GateLoad> m_gateLoad = nullptr;
+
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
 	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
@@ -131,6 +141,15 @@ public:
 	//---------------------------//
 
 
+	//-----------SkyBox-----------//
+
+	// SkyBox
+
+	void SetSkyIsOp(bool is_op);
+
+	//---------------------------//
+	 
+	 
 	//-----------Stage-----------//
 
 	// LaneLoad
@@ -887,11 +906,40 @@ public:
 
 	// Title
 	
-	// タイトルの描画フラグ取得
+	// タイトルの描画フラグ設定
 	// 参照元 ... Title::m_is_draw
-	// 参照先 ... OpCamera::
-	bool GetTitleIsDraw() const;
-	
+	// 参照先 ... OpCamera::Update(float delta_time)
+	void SetTitleIsDraw(bool is_draw);
+
+	// タイトル文字消去フラグ取得
+	// 参照元 ... Title::m_is_disappear
+	// 参照先 ... OpCamera::Update(float delta_time)
+	bool GetTitleIsDisappear() const;
+
+	//---------------------------//
+
+
+	//------------Gate-----------//
+
+	// Gate
+
+	// ゲートのアクティブ状態取得
+	// 参照元 ... Gate::m_is_active
+	// 参照先 ... OpGameCamera::Update(float delta_time)
+	bool GetGateIsActive() const;
+
+	// ゲート開門状態取得
+	// 参照元 ... Gate::m_is_opened
+	// 参照先 ... OpGameCamera::Update(float delta_time)
+	bool GetGateIsOpend() const;
+
+	// GateLoad
+
+	// ゲートの情報取得
+	// 参照元 ... GateLoad::m_gates
+	// 参照先 ... Gate::モデル情報が必要な全関数
+	const std::vector<Gate::sGateInfo>& GetGatesInfo() const;
+
 	//---------------------------//
 
 
@@ -989,6 +1037,17 @@ public:
 	// 参照先 ... シネマカメラで描画する全Draw関数
 	bool GetIsCinemaCameraActive() const;
 
+	// カメラのビュー行列取得
+	// 参照元 ... dxe::Camera::view_
+	// 参照先 ... カメラ座標系に変換が必要な全クラス
+	const tnl::Matrix& GetCameraView() const;
+
+	// カメラの射影行列取得
+	// 参照元 ... dxe::Camera::proj_
+	// 参照先 ... カメラ座標系に変換が必要な全クラス
+	const tnl::Matrix& GetCameraProj() const;
+
+
 	//---------------------------//
 
 
@@ -1000,6 +1059,11 @@ public:
 	void SetStagePhase(std::shared_ptr<StagePhase>& stagePhase)
 	{
 		m_stagePhase = stagePhase;
+	}
+
+	void SetSkyBox(std::shared_ptr<SkyBox>& skyBox)
+	{
+		m_skyBox = skyBox;
 	}
 
 	void SetLaneLoad(std::shared_ptr<LaneLoad>& laneLoad)
@@ -1155,6 +1219,16 @@ public:
 	void SetTitle(std::shared_ptr<Title>& title)
 	{
 		m_title = title;
+	}
+
+	void SetGate(std::shared_ptr<Gate>& gate)
+	{
+		m_gate = gate;
+	}
+
+	void SetGateLoad(std::shared_ptr<GateLoad>& gateLoad)
+	{
+		m_gateLoad = gateLoad;
 	}
 
 	void SetGameCamera(std::shared_ptr<GameCamera>& gameCamera)

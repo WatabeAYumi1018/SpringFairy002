@@ -1,13 +1,19 @@
+#include "../../../../../wta_library/wta_Convert.h"
+#include "../../../[002]Mediator/Mediator.h"
 #include "Butterfly.h"
 
 
 Butterfly::Butterfly()
 {
-	m_pos = { 0 };
+	m_pos = { 0,0,0 };
 
-	m_model_hdl = MV1LoadModel("model/gimmick/sky/flower/flower.mv1");
+	m_model_hdl = MV1LoadModel("model/gimmick/ground/plant/flower002.mv1");
 
 	SetLight(m_model_hdl);
+
+	// バタフライを疑似的にワールド座標に合わせるためにメッシュ作成
+	m_mesh = dxe::Mesh::CreateSphereMV(50);
+	m_mesh->pos_ = m_pos;
 }
 
 Butterfly::~Butterfly()
@@ -20,21 +26,36 @@ void Butterfly::Update(const float delta_time)
 {	
 	AnimMove(delta_time);
 
-	MoveRound(delta_time);
+	if (!m_is_circle)
+	{
+		MoveRound(delta_time);
+	}
+	else
+	{
+		MoveStraight(delta_time);
+	}
 
-    // 回転と座標から行列を計算
-    m_matrix = CalcMatrix();
+	m_mesh->pos_ = m_pos;
+
+	// 回転と座標から行列を計算
+	m_matrix = CalcMatrix();
 
     // モデルに行列を適用
     MV1SetMatrix(m_model_hdl, m_matrix);
+
+	// デバッグ用に座標を表示
+	DrawStringEx(0, 0,-1, "pos.x:%f", GetPos().x);	
+	DrawStringEx(0, 20,-1, "pos.y:%f", GetPos().y);
+	DrawStringEx(0, 40,-1, "pos.z:%f", GetPos().z);
+
 }
 
 void Butterfly::Draw(std::shared_ptr<dxe::Camera> camera)
 {
+	m_mesh->render(camera);
+
 	MV1DrawModel(m_model_hdl);
 }
-
-
 
 void Butterfly::SetAnim()
 {
@@ -68,34 +89,37 @@ void Butterfly::AnimDraw(const float delta_time)
 
 void Butterfly::MoveRound(const float delta_time)
 {
-    // 円の角度を更新
-    m_circle_angle += m_speed * delta_time;
+	m_elapsed_time_circle += delta_time;
 
-    // 円運動のための新しい位置を計算
-    // xとzを使って円運動を表現
-    m_pos.x = cosf(m_circle_angle) * m_circle_radius;
-    m_pos.z = sinf(m_circle_angle) * m_circle_radius;
+	// 宙返りの全体の進行時間に基づいた角度計算
+	float angle = (m_elapsed_time_circle / m_total_time) * tnl::ToRadian(360);
 
-    // 回転処理
-    // 蝶のモデルが常に円運動の接線方向を向くようにする
-    m_rot.y = - m_circle_angle;
+	// 横回転によるX軸方向の移動
+	m_pos.x = m_pos.x + sin(angle) * m_radius; 
+	// 横回転によるZ軸方向の移動
+	m_pos.z = m_pos.z + cos(angle) * m_radius; 
 
-    // 360度（2πラジアン）を超えたらリセット
-    const float two_pi = tnl::ToRadian(360.0f);
+	// 回転軸をY軸に変更
+	tnl::Quaternion target_rot
+		= tnl::Quaternion::LookAtAxisY(m_pos,tnl::Vector3(0,0,0));
 
-    if (m_circle_angle > two_pi)
-    {
-        m_circle_angle -= two_pi;
+	// 現在の回転から目標の回転に向けてslerpを行う
+	m_rot.slerp(target_rot, delta_time * m_speed);
 
+	// 2週したらmoveへ移行
+	if (m_elapsed_time_circle >= m_total_time * 2)
+	{
 		m_is_circle = true;
-    }
+	}
 }
 
 void Butterfly::MoveStraight(const float delta_time)
 {
-	// 速度を計算
-	float move_speed = m_speed * delta_time;
+	if (!m_mediator->GetGateIsActive())
+	{
+		// 速度を計算
+		float move_speed = m_speed * delta_time * 50;
 
-	// 位置を更新
-	m_pos.z += move_speed;
+		m_pos.z += move_speed;
+	}
 }

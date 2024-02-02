@@ -204,7 +204,8 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 	m_salto_elapsed_time += delta_time;
 
 	// 宙返りの全体の進行時間
-	float angle = (m_salto_elapsed_time / salto_total_time) * 2 * DirectX::XM_PI;
+	float angle = (m_salto_elapsed_time / salto_total_time) 
+					* 2 * tnl::ToRadian(180);
 
 	// 宙返りの軌道に沿った座標更新
 	m_pos.y = m_pos.y + sin(angle) * salto_radius;

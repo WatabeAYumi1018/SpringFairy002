@@ -25,7 +25,11 @@ public:
 
 private:
 
-	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_flower;
+	// OP‚Ì‚İ‚Ìƒtƒ‰ƒO(OpƒJƒƒ‰‚Å‚Ì‚İİ’è)
+	bool m_is_op = false;
+
+	StagePhase::eStagePhase m_stage_phase 
+			= StagePhase::eStagePhase::e_flower;
 
 	std::vector<std::vector<tnl::CsvCell>> m_csv_skybox_info;
 
@@ -48,6 +52,9 @@ public:
 	void Update(float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	void SetIsOp(bool is_op){ m_is_op = is_op; }
+
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

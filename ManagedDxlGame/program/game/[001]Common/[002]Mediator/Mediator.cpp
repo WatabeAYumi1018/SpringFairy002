@@ -1,4 +1,5 @@
 #include "Mediator.h"
+#include "../[000]Object/[000]Stage/[000]SkyBox/SkyBox.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
@@ -26,6 +27,7 @@
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[000]Object/[006]Title/Title.h"
+#include "../[000]Object/[007]Gate/[000]GateFunction/GateLoad.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
 #include "../[001]Camera/CinemaCamera.h"
 
@@ -35,6 +37,18 @@
 StagePhase::eStagePhase Mediator::GetNowStagePhaseState() const
 {
 	return m_stagePhase->GetNowStagePhase();
+}
+
+//---------------------------//
+
+
+//-----------SkyBox-----------//
+
+// SkyBox
+
+void Mediator::SetSkyIsOp(bool is_op)
+{
+	m_skyBox->SetIsOp(is_op);
 }
 
 //---------------------------//
@@ -815,10 +829,41 @@ void Mediator::DrawCharacterGraph(int graph_id)
 
 // Title
 
-bool Mediator::GetTitleIsDraw() const
+void Mediator::SetTitleIsDraw(bool is_draw)
 {
-	return m_title->GetIsDraw();
+	m_title->SetIsDraw(is_draw);
 }
+
+bool Mediator::GetTitleIsDisappear() const
+{
+	return m_title->GetIsDisappear();
+}
+
+//---------------------------//
+
+
+//------------Gate-----------//
+
+// Gate
+
+bool Mediator::GetGateIsActive() const
+{
+	return m_gate->GetIsActive();
+}
+
+bool Mediator::GetGateIsOpend() const
+{
+	return m_gate->GetIsOpend();
+}
+
+
+// GateLoad
+
+const std::vector<Gate::sGateInfo>& Mediator::GetGatesInfo() const
+{
+	return m_gateLoad->GetGates();
+}
+
 
 //---------------------------//
 
@@ -938,6 +983,17 @@ bool Mediator::GetIsCinemaCameraActive() const
 {
 	return m_cinemaCamera->GetIsActive();
 }
+
+const tnl::Matrix& Mediator::GetCameraView() const
+{
+	return m_cinemaCamera->GetView();
+}
+
+const tnl::Matrix& Mediator::GetCameraProj() const
+{
+	return m_cinemaCamera->GetProj();
+}
+
 
 //---------------------------//
 
