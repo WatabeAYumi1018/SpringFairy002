@@ -9,12 +9,12 @@ namespace tnl {
 	using namespace DirectX;
 
 
-	Quaternion Quaternion::RotationAxis(const Vector3& axis, const float rotate) noexcept 
+	Quaternion Quaternion::RotationAxis(const Vector3& axis, const float Rotate) noexcept 
 	{
 		// XMFLOAT4 : 4つの浮動小数点数を格納する構造体
 		XMFLOAT4 f4;
 		// 回転軸を指定	、回転角度を指定し、回転クォータニオンを作成
-		XMStoreFloat4(&f4, XMQuaternionRotationAxis(XMLoadFloat3(&axis), rotate));
+		XMStoreFloat4(&f4, XMQuaternionRotationAxis(XMLoadFloat3(&axis), Rotate));
 		// Quaternion型にキャストして返す
 		return static_cast<Quaternion>(f4);
 	}

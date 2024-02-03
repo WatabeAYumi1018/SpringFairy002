@@ -85,18 +85,12 @@ private:
 	// カメラの状態を取得
 	void ConditionType();
 
-	// カメラの固定処理
-	void Fixed();
-	// カメラのサイドビュー処理
-	void Side(float offset);
-	// カメラのサイドビューへ移行処理
-	void ToSide(const float delta_time,float offset);
-	// サイドから固定へ移行
-	void ToFix(const float delta_time);
-	// カメラの正面からの視点処理
-	void Front();
+	// 固定
+	void Fixed(const tnl::Vector3& offset);
+	// スライド処理
+	void ToSlide(const float delta_time, const tnl::Vector3& offset, float speed);
 	// 360度回転処理
-	void rotate(const float delta_time);
+	void Rotate(const float delta_time);
 
 	// 固定された視点
 	bool SeqFixed(const float delta_time);
@@ -118,12 +112,12 @@ private:
 	bool SeqRotateToFix(const float delta_time);
 
 
-	// 上からの視点処理
-	void Bottom();
-	// 下の視点
-	bool SeqBottom(const float delta_time);
-	// 下からfixへ移行
-	bool SeqBottomToFix(const float delta_time);
+	//// 上からの視点処理
+	//void Bottom();
+	//// 下の視点
+	//bool SeqBottom(const float delta_time);
+	//// 下からfixへ移行
+	//bool SeqBottomToFix(const float delta_time);
 
 	//-----デバッグ用-----//
 

@@ -37,7 +37,7 @@ namespace tnl {
 		// 回転行列からクォータニオンを作成
 		// args : 回転軸を指定
 		// args : 回転角度を指定
-		static Quaternion RotationAxis(const Vector3& axis, const float rotate) noexcept;
+		static Quaternion RotationAxis(const Vector3& axis, const float Rotate) noexcept;
 		
 		static Quaternion RotationRollPitchYawFromVector(const Vector3& angles) noexcept;
 		static Quaternion Subtract(const Quaternion& q1, const Quaternion& q2) noexcept;

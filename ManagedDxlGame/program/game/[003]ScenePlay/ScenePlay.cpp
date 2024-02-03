@@ -83,32 +83,32 @@ void ScenePlay::Update(const float delta_time)
 		object->Update(delta_time);
 	}
 
-	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
-	{
-		object->Update(delta_time);
-	}
+	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
+	//{
+	//	object->Update(delta_time);
+	//}
 }
 
 void ScenePlay::Draw(const float delta_time)
 {
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
-		if (m_gameCamera->GetIsActiveGame())
-		{
+		//if (m_gameCamera->GetIsActiveGame())
+		//{
 			object->Draw(m_gameCamera);
-		}
+		//}
 	}
 
-	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
-	{
-		if (!m_gameCamera->GetIsActiveGame())
-		{
-			object->Draw(m_cinemaCamera_all);
-		}
-	}
+	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
+	//{
+	//	//if (!m_gameCamera->GetIsActiveGame())
+	//	//{
+	//		object->Draw(m_cinemaCamera_all);
+	//	//}
+	//}
 
-	m_cinemaCamera_all->Render(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT
-								, m_cinemaCamera_all->GetAllHdl());
+	//m_cinemaCamera_all->Render(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT
+	//							, m_cinemaCamera_all->GetAllHdl());
 
 	m_screenShot->SaveScreenShot();
 
