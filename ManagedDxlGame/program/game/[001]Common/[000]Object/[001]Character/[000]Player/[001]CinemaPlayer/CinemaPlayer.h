@@ -16,11 +16,13 @@ public:
 
 private:
 
+	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
+
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 public:
 
-	void Initialize() override {}
+	void Initialize() override;
 
 	void Update(const float delta_time) override;
 

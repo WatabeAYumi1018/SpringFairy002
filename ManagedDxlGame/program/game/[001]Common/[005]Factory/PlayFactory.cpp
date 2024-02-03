@@ -62,9 +62,12 @@ PlayFactory::~PlayFactory()
 void PlayFactory::CreateObject()
 {
 	m_astar = std::make_shared<wta::Astar<Lane::sLane>>();
-	m_collision_player_item = std::make_shared<wta::Collision<Player,Gimmick>>();
-	m_collision_mesh_item = std::make_shared<wta::Collision<dxe::Mesh, Gimmick>>();
-	m_collision_player_partner = std::make_shared<wta::Collision<Player, Partner>>();
+	m_collision_player_item 
+		= std::make_shared<wta::Collision<Player,Gimmick>>();
+	m_collision_mesh_item 
+		= std::make_shared<wta::Collision<dxe::Mesh, Gimmick>>();
+	m_collision_player_partner 
+		= std::make_shared<wta::Collision<Player, Partner>>();
 
 	m_stagePhase = std::make_shared<StagePhase>();
 
@@ -115,7 +118,14 @@ void PlayFactory::CreateObject()
 
 	m_gameCamera = std::make_shared<GameCamera>();
 	m_cameraLoad = std::make_shared<CameraLoad>();
-	m_cinemaCamera = std::make_shared<CinemaCamera>();
+
+	m_cinemaCamera_all = std::make_shared<CinemaCamera>();	
+	m_cinemaCamera_half 
+		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT);
+	m_cinemaCamera_third_left
+		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT);
+	m_cinemaCamera_third_right 
+		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT);
 
 	m_mediator = std::make_shared<Mediator>();
 
@@ -154,7 +164,10 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetCharaGraphDraw(m_charaGraphDraw);
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
-	m_mediator->SetCinemaCamera(m_cinemaCamera);
+	m_mediator->SetCinemaCamera(m_cinemaCamera_all);
+	m_mediator->SetCinemaCamera(m_cinemaCamera_half);
+	m_mediator->SetCinemaCamera(m_cinemaCamera_third_left);
+	m_mediator->SetCinemaCamera(m_cinemaCamera_third_right);
 
 	m_stagePhase->SetMediator(m_mediator);
 	m_skyBox->SetMediator(m_mediator);
@@ -188,7 +201,10 @@ void PlayFactory::SetObjectReference()
 	m_charaGraphDraw->SetMediator(m_mediator);
 	m_gameCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
-	m_cinemaCamera->SetMediator(m_mediator);
+	m_cinemaCamera_all->SetMediator(m_mediator);
+	m_cinemaCamera_half->SetMediator(m_mediator);
+	m_cinemaCamera_third_left->SetMediator(m_mediator);
+	m_cinemaCamera_third_right->SetMediator(m_mediator);
 	m_screenShot->SetMediator(m_mediator);
 }
 
@@ -243,10 +259,10 @@ void PlayFactory::StorageObjectGameCamera()
 void PlayFactory::StorageObjectCinemaCamera()
 {
 	// シネマ用の背景
-	m_objects_cinemaCamera.emplace_back(m_skyBox);
+	m_objects_cinemaCamera_all.emplace_back(m_skyBox);
 	// シネマ用エフェクト
-	m_objects_cinemaCamera.emplace_back(m_cinemaPlayer);
-	m_objects_cinemaCamera.emplace_back(m_effect);
+	m_objects_cinemaCamera_all.emplace_back(m_cinemaPlayer);
+	m_objects_cinemaCamera_all.emplace_back(m_effect);
 	// 蝶
 }
 

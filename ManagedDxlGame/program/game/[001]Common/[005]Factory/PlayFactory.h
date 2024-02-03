@@ -90,7 +90,10 @@ private:
 	std::list<std::shared_ptr<Object>> m_objects_gameCamera;
 
 	// オブジェクトを格納するlist（シネマカメラ）
-	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera;
+	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_all;
+	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_half;
+	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_third_left;
+	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_third_right;
 
 	// プレイヤー衝突オブジェクトを格納するlist
 	std::vector<std::shared_ptr<Gimmick>> m_gimmicks;
@@ -149,7 +152,11 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
+
+	std::shared_ptr<CinemaCamera> m_cinemaCamera_all = nullptr;
+	std::shared_ptr<CinemaCamera> m_cinemaCamera_half = nullptr;
+	std::shared_ptr<CinemaCamera> m_cinemaCamera_third_left = nullptr;
+	std::shared_ptr<CinemaCamera> m_cinemaCamera_third_right = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
@@ -169,7 +176,6 @@ private:
 	void StorageObjectGameCamera();
 	void StorageObjectCinemaCamera();
 
-
 public:
 
 	// listに格納したオブジェクトの取得(ゲームカメラ)
@@ -181,7 +187,7 @@ public:
 	// listに格納したオブジェクトの取得(シネマカメラ)
 	const std::list<std::shared_ptr<Object>>& GetObjectsCinemaCamera() const
 	{
-		return m_objects_cinemaCamera;
+		return m_objects_cinemaCamera_all;
 	}
 
 	// カメラの取得
@@ -191,9 +197,24 @@ public:
 	}
 
 	// シネマカメラの取得
-	const std::shared_ptr<CinemaCamera>& GetCinemaCamera() const
+	const std::shared_ptr<CinemaCamera>& GetCinemaCameraAll() const
 	{
-		return m_cinemaCamera;
+		return m_cinemaCamera_all;
+	}
+
+	const std::shared_ptr<CinemaCamera>& GetCinemaCameraHalf() const
+	{
+		return m_cinemaCamera_half;
+	}
+
+	const std::shared_ptr<CinemaCamera>& GetCinemaCameraThirdLeft() const
+	{
+		return m_cinemaCamera_third_left;
+	}
+
+	const std::shared_ptr<CinemaCamera>& GetCinemaCameraThirdRight() const
+	{
+		return m_cinemaCamera_third_right;
 	}
 
 	// フェーズの取得

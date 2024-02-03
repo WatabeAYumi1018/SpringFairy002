@@ -119,7 +119,7 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
+	std::shared_ptr<CinemaCamera> m_cinemaCamera_all = nullptr;
 
 	//------------------------------------------------//
 
@@ -906,7 +906,7 @@ public:
 
 	void SetCinemaCamera(std::shared_ptr<CinemaCamera>& cinemaCamera)
 	{
-		m_cinemaCamera = cinemaCamera;
+		m_cinemaCamera_all = cinemaCamera;
 	}
 
 	//------------------------------------------------//

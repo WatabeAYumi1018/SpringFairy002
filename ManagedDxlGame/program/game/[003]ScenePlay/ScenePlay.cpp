@@ -1,4 +1,3 @@
-#include "ScenePlay.h"
 #include "../[000]GameEngine/[001]Scene/SceneManager.h"
 #include "../[001]Common/[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[001]Common/[001]Camera/GameCamera.h"
@@ -7,6 +6,7 @@
 #include "../[001]Common/[005]Factory/PlayFactory.h"
 #include "../[003]ScenePlay/ScenePlay.h"
 #include "../[004]SceneED/SceneED.h"
+#include "ScenePlay.h"
 
 
 ScenePlay::ScenePlay() : m_factory(std::make_shared<PlayFactory>())
@@ -38,11 +38,14 @@ void ScenePlay::Initialize()
 {
 	// 各オブジェクトの参照をFactoryクラスから取得
 	m_objects_gameCamera = m_factory->GetObjectsGameCamera();
-	m_objects_cinemaCamera = m_factory->GetObjectsCinemaCamera();
+	m_objects_cinemaCamera_all = m_factory->GetObjectsCinemaCamera();
 	// カメラの取得
 	m_gameCamera = m_factory->GetOpCamera();
 	// シネマカメラの取得
-	m_cinemaCamera = m_factory->GetCinemaCamera();
+	m_cinemaCamera_all = m_factory->GetCinemaCameraAll();
+	m_cinemaCamera_half = m_factory->GetCinemaCameraHalf();
+	m_cinemaCamera_third_left = m_factory->GetCinemaCameraThirdLeft();
+	m_cinemaCamera_third_right = m_factory->GetCinemaCameraThirdRight();
 	// ステージの取得
 	m_stagePhase = m_factory->GetStagePhase();
 	// アイテムジェネレータの取得
@@ -57,7 +60,7 @@ void ScenePlay::Initialize()
 		object->Initialize();
 	}
 
-	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
+	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
 	{
 		object->Initialize();
 	}
@@ -71,22 +74,19 @@ void ScenePlay::Update(const float delta_time)
 
 	m_gameCamera->update(delta_time);
 
-	//m_cinemaCamera->update(delta_time);
+	m_cinemaCamera_all->update(delta_time);
 	
 	m_gimmickGenerator->Update(delta_time);
 
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
-
 		object->Update(delta_time);
 	}
 
-	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
-	//{
-
-	//	object->Update(delta_time);
-	//}
-
+	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
+	{
+		object->Update(delta_time);
+	}
 }
 
 void ScenePlay::Draw(const float delta_time)
@@ -96,11 +96,13 @@ void ScenePlay::Draw(const float delta_time)
 		object->Draw(m_gameCamera);
 	}
 
-	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
-	//{
+	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
+	{
+		object->Draw(m_cinemaCamera_all);
+	}
 
-	//	object->Draw(m_cinemaCamera);
-	//}
+	m_cinemaCamera_all->Render(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT
+								, m_cinemaCamera_all->GetAllHdl());
 
 	m_screenShot->SaveScreenShot();
 
@@ -112,7 +114,7 @@ void ScenePlay::Finalize()
 {
 	m_objects_gameCamera.clear();
 
-	m_objects_cinemaCamera.clear();
+	m_objects_cinemaCamera_all.clear();
 
 	m_factory.reset();
 }

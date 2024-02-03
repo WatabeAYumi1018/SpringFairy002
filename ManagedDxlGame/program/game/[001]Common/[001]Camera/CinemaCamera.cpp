@@ -6,28 +6,38 @@
 CinemaCamera::CinemaCamera()
 	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT)
 {
+	// 使用する画面の作成
+	CreateScreen();
+
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
-	near_ = 100;
+	near_ = 10;
+}
+
+CinemaCamera::CinemaCamera(int screen_w, int screen_h)
+	: dxe::Camera(screen_w, screen_h)
+{
+	// 使用する画面の作成
+	CreateScreen();
+
+	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
+	near_ = 10;
 }
 
 void CinemaCamera::update(const float delta_time)
 {
-	// 背景の色を設定(さくら色)
-	//SetBackgroundColor(255, 222, 233);
-
 	dxe::Camera::update(delta_time);
 
-	//target_ = m_mediator->GetPlayerPos();
+	target_ = m_mediator->GetCinemaPlayerPos();
 
-	//pos_.x = target_.x;
-	//pos_.y = target_.y;
-	//pos_.z = target_.z - m_offset.z * 2;
+	pos_ = target_ + m_offset;
 
-	// スペース押したら
-	/*if (tnl::Input::IsKeyDown(eKeys::KB_2))
-	{
-		SetDrawArea(DXE_WINDOW_WIDTH / 2, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
-	}*/
+	// 分割比率に基づいて各スクリーンの幅を計算します。
+	m_split_width_left
+		= static_cast<int>(DXE_WINDOW_WIDTH * (1.0f - split_rate) / 2);
+
+	m_split_width_right = DXE_WINDOW_WIDTH - m_split_width_left;
+
+	tnl_sequence_.update(delta_time);
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT))
 	{
@@ -45,26 +55,104 @@ void CinemaCamera::update(const float delta_time)
 	//DrawStringEx(1000, 140, -1, "CameraPos_z:%f", pos_.z);
 }
 
+void CinemaCamera::Render(int x1, int y1, int x2, int y2, int screen_hdl)
+{
+	if (m_mediator->GetEventLane().s_id == 1)
+	{
+		// 画面に描画
+		SetDrawScreen(screen_hdl);
+		ClearDrawScreen();
 
-//bool CinemaCamera::SeqTrigger(const float delta_time)
-//{
-//
-//}
-//
-//bool CinemaCamera::SeqUp(const float delta_time)
-//{
-//
-//}
-//
-//bool CinemaCamera::SeqSide(const float delta_time)
-//{
-//
-//}
-//
-//bool CinemaCamera::SeqBack(const float delta_time)
-//{
-//
-//}
+		// 描画対象を表画面に設定
+		SetDrawScreen(DX_SCREEN_BACK);
+
+		DrawExtendGraph(x1, y1, x2, y2, screen_hdl, FALSE);
+	}
+}
+
+void CinemaCamera::CreateScreen()
+{	
+	m_all_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
+
+	m_half_right = MakeScreen(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT, TRUE);
+
+	m_third_left = MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
+
+	m_third_right = MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
+}
+
+void CinemaCamera::SplitAnimation(const float delta_time)
+{
+	// 分割比率の変更
+	split_rate += delta_time * 10;
+
+	// 分割比率が1を超えたら1にする
+	if (split_rate > 1.0f)
+	{
+		split_rate = 1.0f;
+	}
+}
+
+bool CinemaCamera::SeqTrigger(const float delta_time)
+{
+	// １番のイベントの場合（登場カメラ）
+	if (m_mediator->GetEventLane().s_id == 1)
+	{
+		// アップで正面全体に映す
+		
+	}
+	if (m_mediator->GetEventLane().s_id == 5)
+	{
+		// 画面を三分割にする
+		//全てサブカメラにして、それぞれのカメラで描画アップ、サイド描画
+	}
+	if (m_mediator->GetEventLane().s_id == 9)
+	{
+		// 画面を二分割にする
+		// 蝶とプレイヤーをサイドからそれぞれアップへ
+		// プレイヤーをアップで全画面
+	}
+	
+	TNL_SEQ_CO_END;
+}
+
+bool CinemaCamera::SeqUp(const float delta_time)
+{
+	// イベントが終了したらTriggerに戻る
+	if(m_is_completed)
+	{
+		tnl_sequence_.change(&CinemaCamera::SeqTrigger);
+	}
+
+	TNL_SEQ_CO_END;
+
+}
+
+bool CinemaCamera::SeqSide(const float delta_time)
+{
+	// イベントが終了したらTriggerに戻る
+	if (m_is_completed)
+	{
+		tnl_sequence_.change(&CinemaCamera::SeqTrigger);
+	}
+
+	TNL_SEQ_CO_END;
+
+
+}
+
+bool CinemaCamera::SeqBack(const float delta_time)
+{
+	// イベントが終了したらTriggerに戻る
+	if (m_is_completed)
+	{
+		tnl_sequence_.change(&CinemaCamera::SeqTrigger);
+	}
+
+	TNL_SEQ_CO_END;
+
+
+}
 
 
 
