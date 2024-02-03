@@ -73,11 +73,6 @@ bool CameraTargetPlayer::SeqNormal(const float delta_time)
 		tnl_sequence_.change(&CameraTargetPlayer::SeqDownMove);
 	}
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
-	{
-		m_mediator->SetIsCinemaCameraActive(true);
-	}
-
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
 		MoveMatrix(delta_time);

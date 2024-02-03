@@ -91,7 +91,7 @@ private:
 
 	// オブジェクトを格納するlist（シネマカメラ）
 	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_all;
-	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_half;
+	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_half_right;
 	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_third_left;
 	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_third_right;
 
@@ -154,7 +154,7 @@ private:
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
 
 	std::shared_ptr<CinemaCamera> m_cinemaCamera_all = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera_half = nullptr;
+	std::shared_ptr<CinemaCamera> m_cinemaCamera_half_right = nullptr;
 	std::shared_ptr<CinemaCamera> m_cinemaCamera_third_left = nullptr;
 	std::shared_ptr<CinemaCamera> m_cinemaCamera_third_right = nullptr;
 
@@ -185,9 +185,24 @@ public:
 	}
 
 	// listに格納したオブジェクトの取得(シネマカメラ)
-	const std::list<std::shared_ptr<Object>>& GetObjectsCinemaCamera() const
+	const std::list<std::shared_ptr<Object>>& GetObjectsCinemaCameraAll() const
 	{
 		return m_objects_cinemaCamera_all;
+	}
+
+	const std::list<std::shared_ptr<Object>>& GetObjectsCinemaCameraHalf() const
+	{
+		return m_objects_cinemaCamera_half_right;
+	}
+
+	const std::list<std::shared_ptr<Object>>& GetObjectsCinemaCameraThirdLeft() const
+	{
+		return m_objects_cinemaCamera_third_left;
+	}
+
+	const std::list<std::shared_ptr<Object>>& GetObjectsCinemaCameraThirdRight() const
+	{
+		return m_objects_cinemaCamera_third_right;
 	}
 
 	// カメラの取得
@@ -202,9 +217,9 @@ public:
 		return m_cinemaCamera_all;
 	}
 
-	const std::shared_ptr<CinemaCamera>& GetCinemaCameraHalf() const
+	const std::shared_ptr<CinemaCamera>& GetCinemaCameraHalfRight() const
 	{
-		return m_cinemaCamera_half;
+		return m_cinemaCamera_half_right;
 	}
 
 	const std::shared_ptr<CinemaCamera>& GetCinemaCameraThirdLeft() const

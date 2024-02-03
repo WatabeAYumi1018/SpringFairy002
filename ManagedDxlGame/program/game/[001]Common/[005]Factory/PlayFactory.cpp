@@ -119,13 +119,18 @@ void PlayFactory::CreateObject()
 	m_gameCamera = std::make_shared<GameCamera>();
 	m_cameraLoad = std::make_shared<CameraLoad>();
 
-	m_cinemaCamera_all = std::make_shared<CinemaCamera>();	
-	m_cinemaCamera_half 
-		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT);
+	m_cinemaCamera_all 
+		= std::make_shared<CinemaCamera>(CinemaCamera::eCameraSplitType::e_all);
+
+	m_cinemaCamera_half_right 
+		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT
+										, CinemaCamera::eCameraSplitType::e_half_right);
 	m_cinemaCamera_third_left
-		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT);
+		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT
+										, CinemaCamera::eCameraSplitType::e_third_left);
 	m_cinemaCamera_third_right 
-		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT);
+		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT
+										, CinemaCamera::eCameraSplitType::e_third_right);
 
 	m_mediator = std::make_shared<Mediator>();
 
@@ -165,7 +170,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
 	m_mediator->SetCinemaCamera(m_cinemaCamera_all);
-	m_mediator->SetCinemaCamera(m_cinemaCamera_half);
+	m_mediator->SetCinemaCamera(m_cinemaCamera_half_right);
 	m_mediator->SetCinemaCamera(m_cinemaCamera_third_left);
 	m_mediator->SetCinemaCamera(m_cinemaCamera_third_right);
 
@@ -202,7 +207,7 @@ void PlayFactory::SetObjectReference()
 	m_gameCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
 	m_cinemaCamera_all->SetMediator(m_mediator);
-	m_cinemaCamera_half->SetMediator(m_mediator);
+	m_cinemaCamera_half_right->SetMediator(m_mediator);
 	m_cinemaCamera_third_left->SetMediator(m_mediator);
 	m_cinemaCamera_third_right->SetMediator(m_mediator);
 	m_screenShot->SetMediator(m_mediator);
@@ -258,11 +263,16 @@ void PlayFactory::StorageObjectGameCamera()
 
 void PlayFactory::StorageObjectCinemaCamera()
 {
-	// シネマ用の背景
-	m_objects_cinemaCamera_all.emplace_back(m_skyBox);
-	// シネマ用エフェクト
+	// シネマ用プレイヤー
 	m_objects_cinemaCamera_all.emplace_back(m_cinemaPlayer);
+	m_objects_cinemaCamera_half_right.emplace_back(m_cinemaPlayer);
+	m_objects_cinemaCamera_third_left.emplace_back(m_cinemaPlayer);
+	m_objects_cinemaCamera_third_right.emplace_back(m_cinemaPlayer);
+	// シネマ用エフェクト
 	m_objects_cinemaCamera_all.emplace_back(m_effect);
+	m_objects_cinemaCamera_half_right.emplace_back(m_effect);
+	m_objects_cinemaCamera_third_left.emplace_back(m_effect);
+	m_objects_cinemaCamera_third_right.emplace_back(m_effect);
 	// 蝶
 }
 

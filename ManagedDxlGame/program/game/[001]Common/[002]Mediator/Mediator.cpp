@@ -620,18 +620,6 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 	return m_cameraLoad->GetCameraInfoById(id);
 }
 
-// CinemaCamera
-
-void Mediator::SetIsCinemaCameraActive(bool is_active)
-{
-	m_cinemaCamera_all->SetIsActive(is_active);
-}
-
-bool Mediator::GetIsCinemaCameraActive() const
-{
-	return m_cinemaCamera_all->GetIsActive();
-}
-
 //---------------------------//
 
 

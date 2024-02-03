@@ -37,13 +37,22 @@ bool ScenePlay::SeqStart(const float delta_time)
 void ScenePlay::Initialize()
 {
 	// 各オブジェクトの参照をFactoryクラスから取得
-	m_objects_gameCamera = m_factory->GetObjectsGameCamera();
-	m_objects_cinemaCamera_all = m_factory->GetObjectsCinemaCamera();
+	m_objects_gameCamera
+		= m_factory->GetObjectsGameCamera();
+	m_objects_cinemaCamera_all 
+		= m_factory->GetObjectsCinemaCameraAll();
+	m_objects_cinemaCamera_half_right
+		= m_factory->GetObjectsCinemaCameraHalf();
+	m_objects_cinemaCamera_third_left
+		= m_factory->GetObjectsCinemaCameraThirdLeft();
+	m_objects_cinemaCamera_third_right 
+		= m_factory->GetObjectsCinemaCameraThirdRight();
+	 
 	// カメラの取得
 	m_gameCamera = m_factory->GetOpCamera();
 	// シネマカメラの取得
 	m_cinemaCamera_all = m_factory->GetCinemaCameraAll();
-	m_cinemaCamera_half = m_factory->GetCinemaCameraHalf();
+	m_cinemaCamera_half_right = m_factory->GetCinemaCameraHalfRight();
 	m_cinemaCamera_third_left = m_factory->GetCinemaCameraThirdLeft();
 	m_cinemaCamera_third_right = m_factory->GetCinemaCameraThirdRight();
 	// ステージの取得
@@ -64,6 +73,21 @@ void ScenePlay::Initialize()
 	{
 		object->Initialize();
 	}
+
+	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_half_right)
+	{
+		object->Initialize();
+	}
+
+	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_left)
+	{
+		object->Initialize();
+	}
+
+	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_right)
+	{
+		object->Initialize();
+	}
 }
 
 void ScenePlay::Update(const float delta_time)
@@ -74,41 +98,98 @@ void ScenePlay::Update(const float delta_time)
 
 	m_gameCamera->update(delta_time);
 
-	m_cinemaCamera_all->update(delta_time);
-	
-	m_gimmickGenerator->Update(delta_time);
-
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
 		object->Update(delta_time);
 	}
 
-	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
-	//{
-	//	object->Update(delta_time);
-	//}
+	if (!m_gameCamera->GetIsActiveGame())
+	{
+		m_cinemaCamera_all->SetCanvas(m_cinemaCamera_all->GetAllHdl());
+
+		//m_cinemaCamera_half_right
+		//	->SetCanvas(m_cinemaCamera_half_right->GetHalfRightHdl());
+
+		//m_cinemaCamera_third_left
+		//	->SetCanvas(m_cinemaCamera_third_left->GetThirdLeftHdl());
+
+		//m_cinemaCamera_third_right
+		//	->SetCanvas(m_cinemaCamera_third_right->GetThirdRightHdl());
+
+		m_cinemaCamera_all->update(delta_time);
+
+		m_cinemaCamera_half_right->update(delta_time);
+
+		m_cinemaCamera_third_left->update(delta_time);
+
+		m_cinemaCamera_third_right->update(delta_time);
+
+		m_gimmickGenerator->Update(delta_time);
+
+		for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
+		{
+			object->Update(delta_time);
+		}
+
+		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_half_right)
+		//{
+		//	object->Update(delta_time);
+		//}
+
+		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_left)
+		//{
+		//	object->Update(delta_time);
+		//}
+
+		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_right)
+		//{
+		//	object->Update(delta_time);
+		//}
+	}
 }
 
 void ScenePlay::Draw(const float delta_time)
 {
-	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
+	if (m_gameCamera->GetIsActiveGame())
 	{
-		//if (m_gameCamera->GetIsActiveGame())
-		//{
+		for (std::shared_ptr<Object>& object : m_objects_gameCamera)
+		{
 			object->Draw(m_gameCamera);
-		//}
+		}
 	}
+	else
+	{
+		for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
+		{
+			object->Draw(m_cinemaCamera_all);
+		}
+	
+		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_half_right)
+		//{
+		//	object->Draw(m_cinemaCamera_half_right);
+		//}
 
-	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
-	//{
-	//	//if (!m_gameCamera->GetIsActiveGame())
-	//	//{
-	//		object->Draw(m_cinemaCamera_all);
-	//	//}
-	//}
+		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_left)
+		//{
+		//	object->Draw(m_cinemaCamera_third_left);
+		//}
 
-	//m_cinemaCamera_all->Render(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT
-	//							, m_cinemaCamera_all->GetAllHdl());
+		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_right)
+		//{
+		//	object->Draw(m_cinemaCamera_third_right);
+		//}
+
+		m_cinemaCamera_all->Render(m_cinemaCamera_all->GetAllHdl());
+
+		//m_cinemaCamera_half_right
+		//	->Render(m_cinemaCamera_half_right->GetHalfRightHdl());
+
+		//m_cinemaCamera_third_left
+		//	->Render(m_cinemaCamera_third_left->GetThirdLeftHdl());
+
+		//m_cinemaCamera_third_right
+		//	->Render(m_cinemaCamera_third_right->GetThirdRightHdl());
+	}
 
 	m_screenShot->SaveScreenShot();
 
@@ -121,6 +202,12 @@ void ScenePlay::Finalize()
 	m_objects_gameCamera.clear();
 
 	m_objects_cinemaCamera_all.clear();
+
+	m_objects_cinemaCamera_half_right.clear();
+
+	m_objects_cinemaCamera_third_left.clear();
+
+	m_objects_cinemaCamera_third_right.clear();
 
 	m_factory.reset();
 }

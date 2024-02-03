@@ -34,7 +34,7 @@ void CinemaPlayer::Update(const float delta_time)
 		// 回転と座標から行列を計算
 		m_matrix = CalcMatrix();
 
-		//m_mesh->pos_ = m_pos;
+		m_mesh->pos_ = m_pos;
 
 		// モデルに行列を適用
 		MV1SetMatrix(m_model_hdl, m_matrix);

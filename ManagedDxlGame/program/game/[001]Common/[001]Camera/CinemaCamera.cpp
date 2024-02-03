@@ -3,33 +3,36 @@
 
 
 
-CinemaCamera::CinemaCamera()
-	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT)
+CinemaCamera::CinemaCamera(eCameraSplitType type)
+	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT), m_type(type)
 {
 	// 使用する画面の作成
-	CreateScreen();
+	m_all_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
 
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
-	near_ = 10;
+	near_ = 200;
 }
 
-CinemaCamera::CinemaCamera(int screen_w, int screen_h)
-	: dxe::Camera(screen_w, screen_h)
+CinemaCamera::CinemaCamera(int screen_w, int screen_h, eCameraSplitType type)
+	: dxe::Camera(screen_w, screen_h), m_type(type)
 {
 	// 使用する画面の作成
 	CreateScreen();
 
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
-	near_ = 10;
+	near_ = 200;
+}
+
+void CinemaCamera::SetCanvas(int screen_hdl)
+{
+	// 画面に描画
+	SetDrawScreen(screen_hdl);
+	ClearDrawScreen();
 }
 
 void CinemaCamera::update(const float delta_time)
 {
 	dxe::Camera::update(delta_time);
-
-	target_ = m_mediator->GetCinemaPlayerPos();
-
-	pos_ = target_ + m_offset;
 
 	// 分割比率に基づいて各スクリーンの幅を計算します。
 	m_split_width_left
@@ -48,37 +51,53 @@ void CinemaCamera::update(const float delta_time)
 	{
 		Control(delta_time);
 	}
-
-	//// 座標デバッグ用
-	//DrawStringEx(1000, 100, -1, "CameraPos_x:%f", pos_.x);
-	//DrawStringEx(1000, 120, -1, "CameraPos_y:%f", pos_.y);
-	//DrawStringEx(1000, 140, -1, "CameraPos_z:%f", pos_.z);
 }
 
-void CinemaCamera::Render(int x1, int y1, int x2, int y2, int screen_hdl)
+void CinemaCamera::Render(int screen_hdl)
 {
-	if (m_mediator->GetEventLane().s_id == 1)
+	// 描画対象を表画面に設定
+	SetDrawScreen(DX_SCREEN_BACK);
+
+	switch (m_type)
 	{
-		// 画面に描画
-		SetDrawScreen(screen_hdl);
-		ClearDrawScreen();
+	case eCameraSplitType::e_all:
 
-		// 描画対象を表画面に設定
-		SetDrawScreen(DX_SCREEN_BACK);
+		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH
+						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
 
-		DrawExtendGraph(x1, y1, x2, y2, screen_hdl, FALSE);
-	}
+	break;
+
+	case eCameraSplitType::e_half_right:
+
+		DrawExtendGraph(DXE_WINDOW_WIDTH / 2, 0, DXE_WINDOW_WIDTH
+						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
+
+	break;
+
+	case eCameraSplitType::e_third_left:
+
+		DrawExtendGraph(0, 0, m_split_width_left
+						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
+	
+	break;
+
+	case eCameraSplitType::e_third_right:
+
+		DrawExtendGraph(m_split_width_right, 0, DXE_WINDOW_WIDTH
+						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
+	}	
 }
 
 void CinemaCamera::CreateScreen()
 {	
-	m_all_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
+	m_half_right
+		= MakeScreen(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT, TRUE);
 
-	m_half_right = MakeScreen(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT, TRUE);
+	m_third_left
+		= MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
 
-	m_third_left = MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
-
-	m_third_right = MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
+	m_third_right
+		= MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
 }
 
 void CinemaCamera::UpdateSplit(const float delta_time)

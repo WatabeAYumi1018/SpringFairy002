@@ -714,17 +714,6 @@ public:
 	// 参照先 ... Camera::関連する関数
 	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
 
-	// CinemaCamera
-
-	// シネマカメラのアクティブ状態設定
-	// 参照元 ... CinemaCamera::m_is_active
-	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
-	void SetIsCinemaCameraActive(bool is_active);
-
-	// シネマカメラのアクティブ状態取得
-	// 参照元 ... CinemaCamera::m_is_active
-	// 参照先 ... シネマカメラで描画する全Draw関数
-	bool GetIsCinemaCameraActive() const;
 
 	//---------------------------//
 
