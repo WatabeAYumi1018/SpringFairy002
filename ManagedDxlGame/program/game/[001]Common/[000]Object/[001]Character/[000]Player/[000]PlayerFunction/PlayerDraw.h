@@ -54,10 +54,11 @@ private:
 	bool m_is_bloom = false;
 	// ダンス攻撃フラグ
 	bool m_is_dance = false;
-	// イベントによるダンスの自動発生フラグ
+	// イベントによるdanceの自動発生フラグ
 	bool m_is_event_dance = false;
 	// ボーンのデタッチ設定フラグ(シネマプレイヤー用)
 	bool m_is_touch_idle = false;
+	bool m_is_touch_move = false;
 	bool m_is_touch_dance = false;
 
 	eDirection m_direction = eDirection::e_none;
@@ -82,6 +83,8 @@ private:
 	void AnimBloom(const float delta_time);
 	// dance 単発再生の時間設定
 	void AnimDance(const float delta_time);
+	// idle ループ再生の時間設定　
+	void AnimIdle(const float delta_time);
 
 	// 移動状態
 	bool SeqMove(const float delta_time);
@@ -94,19 +97,6 @@ private:
 	// danceアニメーションへの遷移
 	bool SeqDanceToMove(const float delta_time);
 
-
-	//-----シネマカメラ用関数-----//
-	
-	// idle ループ再生の時間設定　
-	void AnimIdle(const float delta_time);
-
-	// シネマカメラ用のアニメーション
-	void CinemaAnimIdle(const float delta_time);
-	void CinemaAnimDance(const float delta_time);
-
-	//---------------------------//
-
-
 public:
 
 	void Initialize();
@@ -117,16 +107,19 @@ public:
 	
 
 	//-----シネマカメラ用関数-----//
-	
-	void UpdateCinemaCamera(float delta_time);
-	
+
+	// シネマカメラ用のアニメーション
+	void CinemaAnimIdle(const float delta_time);
+	void CinemaAnimMove(const float delta_time);
+	void CinemaAnimDance(const float delta_time);
+
 	//---------------------------//
 
 	bool GetIsBloom() const { return m_is_bloom; }
 
-	bool GetIsDance() const { return m_is_dance; }
-
 	void SetIsEventDance(bool is_event_dance) { m_is_event_dance = is_event_dance; }
+
+	bool GetIsDance() const { return m_is_dance; }
 
 	bool GetIsEventDance() const { return m_is_event_dance; }
 

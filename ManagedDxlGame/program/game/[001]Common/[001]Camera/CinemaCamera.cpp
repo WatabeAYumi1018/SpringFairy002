@@ -10,7 +10,7 @@ CinemaCamera::CinemaCamera(eCameraSplitType type)
 	m_all_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
 
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
-	near_ = 200;
+	near_ = 50;
 }
 
 CinemaCamera::CinemaCamera(int screen_w, int screen_h, eCameraSplitType type)
@@ -20,7 +20,7 @@ CinemaCamera::CinemaCamera(int screen_w, int screen_h, eCameraSplitType type)
 	CreateScreen();
 
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
-	near_ = 200;
+	near_ = 50;
 }
 
 void CinemaCamera::SetCanvas(int screen_hdl)
@@ -163,7 +163,7 @@ bool CinemaCamera::SeqFirst(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
 	{
-		Fixed({0,0,-300});
+		Fixed({0,0,-500});
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()

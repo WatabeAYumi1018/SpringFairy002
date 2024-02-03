@@ -28,7 +28,6 @@
 #include "../[000]Object/[006]Title/Title.h"
 #include "../[000]Object/[007]Gate/[000]GateFunction/GateLoad.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
-#include "../[001]Camera/CinemaCamera.h"
 
 
 //---------StagePhase---------//
@@ -258,9 +257,19 @@ bool Mediator::GetIsPlayerEventDance() const
 	return m_playerDraw->GetIsEventDance();
 }
 
-void Mediator::UpdateCinemaCameraPlayer(const float delta_time)
+void Mediator::CinemaPlayerAnimIdle(const float delta_time)
 {
-	m_playerDraw->UpdateCinemaCamera(delta_time);
+	m_playerDraw->CinemaAnimIdle(delta_time);
+}
+
+void Mediator::CinemaPlayerAnimMove(const float delta_time)
+{
+	m_playerDraw->CinemaAnimMove(delta_time);
+}
+
+void Mediator::CinemaPlayerAnimDance(const float delta_time)
+{
+	m_playerDraw->CinemaAnimDance(delta_time);
 }
 
 // playerSkill
@@ -619,6 +628,14 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 {
 	return m_cameraLoad->GetCameraInfoById(id);
 }
+
+// CinemaCamera
+
+CinemaCamera::eCameraSplitType Mediator::GetScreenType() const
+{
+	return m_cinemaCamera_all->GetType();
+}
+
 
 //---------------------------//
 

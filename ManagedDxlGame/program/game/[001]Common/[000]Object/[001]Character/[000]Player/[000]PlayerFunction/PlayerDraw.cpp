@@ -40,16 +40,6 @@ void PlayerDraw::Draw()
 	}
 }
 
-void PlayerDraw::UpdateCinemaCamera(float delta_time)
-{
-	CinemaAnimIdle(delta_time);
-
-	if (m_is_event_dance)
-	{
-		CinemaAnimDance(delta_time);
-	}
-}
-
 void PlayerDraw::AnimBlend(const float delta_time, int current_anim_index, int next_anim_index)
 {
 	// ブレンド処理
@@ -281,6 +271,8 @@ void PlayerDraw::CinemaAnimIdle(const float delta_time)
 
 		m_is_touch_idle = true;
 
+		m_is_touch_move = false;
+
 		m_is_touch_dance = false;
 	}
 
@@ -298,6 +290,32 @@ void PlayerDraw::CinemaAnimIdle(const float delta_time)
 	}
 }
 
+void PlayerDraw::CinemaAnimMove(const float delta_time)
+{
+	if (!m_is_touch_move)
+	{
+		AnimAttach(m_anim_move_index, m_anim_bone_move_hdl, m_time_count_move);
+
+		m_is_touch_move = true;
+
+		m_is_touch_idle = false;
+
+		m_is_touch_dance = false;
+	}
+
+	// ブレンド処理
+	if (m_blend_timer < 1.0f)
+	{
+		AnimBlend(delta_time, m_anim_idle_index, m_anim_move_index);
+	}
+	else
+	{
+		MV1DetachAnim(m_model_hdl, m_anim_idle_index);
+
+		AnimMove(delta_time);
+	}
+}
+
 void PlayerDraw::CinemaAnimDance(const float delta_time)
 {
 	if (!m_is_touch_dance)
@@ -307,6 +325,8 @@ void PlayerDraw::CinemaAnimDance(const float delta_time)
 		m_is_touch_dance = true;
 
 		m_is_touch_idle = false;
+
+		m_is_touch_move = false;
 	}
 
 	// ブレンド処理

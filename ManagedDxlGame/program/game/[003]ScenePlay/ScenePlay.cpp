@@ -118,11 +118,11 @@ void ScenePlay::Update(const float delta_time)
 
 		m_cinemaCamera_all->update(delta_time);
 
-		m_cinemaCamera_half_right->update(delta_time);
+		//m_cinemaCamera_half_right->update(delta_time);
 
-		m_cinemaCamera_third_left->update(delta_time);
+		//m_cinemaCamera_third_left->update(delta_time);
 
-		m_cinemaCamera_third_right->update(delta_time);
+		//m_cinemaCamera_third_right->update(delta_time);
 
 		m_gimmickGenerator->Update(delta_time);
 

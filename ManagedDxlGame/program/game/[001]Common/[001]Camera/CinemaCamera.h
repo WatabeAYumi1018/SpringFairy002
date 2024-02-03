@@ -109,6 +109,8 @@ public:
 	
 	int GetThirdLeftHdl() const { return m_third_left; }
 
+	eCameraSplitType GetType() const { return m_type; }
+
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

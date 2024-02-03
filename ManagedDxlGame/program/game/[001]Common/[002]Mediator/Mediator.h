@@ -7,6 +7,7 @@
 #include "../[000]Object/[005]Event/[002]CharaGraph/CharaGraph.h"
 #include "../[000]Object/[007]Gate/Gate.h"
 #include "../[001]Camera/GameCamera.h"
+#include "../[001]Camera/CinemaCamera.h"
 #include "../[003]Phase/StagePhase.h"
 
 
@@ -55,9 +56,7 @@ class Title;
 
 class GateLoad;
 
-class GameCamera;
 class CameraLoad;
-class CinemaCamera;
 
 class Mediator
 {
@@ -340,25 +339,35 @@ public:
 	// 参照先 ... Player::Draw(std::shared_ptr<OriginalCamera> originalCamera)
 	void DrawPlayerModel();
 
-	// ブルームフラグ取得
-	// 参照元 ... PlayerDraw::m_is_bloom
-	// 参照先 ... ブルームフラグが必要な全クラス
-	bool GetIsPlayerBloom() const;
-
 	// イベントによるダンスアニメーションフラグ設定
 	// 参照元 ... PlayerDraw::m_is_event_dance
 	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
 	void SetIsPlayerEventDance(bool is_dance);
+
+	// ブルームフラグ取得
+	// 参照元 ... PlayerDraw::m_is_bloom
+	// 参照先 ... ブルームフラグが必要な全クラス
+	bool GetIsPlayerBloom() const;
 
 	// イベントによるダンスアニメーションフラグ取得
 	// 参照元 ... PlayerDraw::m_is_event_dance
 	// 参照先 ... PhaseManager::Update(float delta_time)
 	bool GetIsPlayerEventDance() const;
 
-	// シネマアニメーション更新処理
-	// 参照元 ... PlayerDraw::UpdateCinemaCamera(float delta_time)
+	// イベントによるidleアニメーション処理
+	// 参照元 ... PlayerDraw::CinemaAnimIdle(float delta_time)
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void UpdateCinemaCameraPlayer(const float delta_time);
+	void CinemaPlayerAnimIdle(const float delta_time);
+
+	// イベントによるmoveアニメーション処理
+	// 参照元 ... PlayerDraw::CinemaAnimMove(float delta_time)
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void CinemaPlayerAnimMove(const float delta_time);
+	
+	// イベントによるdanceアニメーション処理
+	// 参照元 ... PlayerDraw::CinemaAnimDance(float delta_time)
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void CinemaPlayerAnimDance(const float delta_time);
 
 	// playerSkill
 
@@ -714,6 +723,12 @@ public:
 	// 参照先 ... Camera::関連する関数
 	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
 
+	// CinemaCamera
+
+	// シネマカメラのスクリーンタイプ取得
+	// 参照元 ... CinemaCamera::m_type
+	// 参照先 ... CinemaCameraに関連する関数
+	CinemaCamera::eCameraSplitType GetScreenType() const;
 
 	//---------------------------//
 
