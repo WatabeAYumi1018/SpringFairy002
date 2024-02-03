@@ -692,6 +692,16 @@ public:
 	// 参照先 ... GimmickGenerator::CheckGimmicks(const float delta_time,)
 	bool IsCameraFixed() const;
 
+	// ゲームカメラのアクティブ状態設定
+	// 参照元 ... GameCamera::m_is_active_game
+	// 参照先 ... カメラ切り替えに関連する関数
+	void SetIsActiveGameCamera(bool is_active_game);
+
+	// ゲームカメラのアクティブ状態取得
+	// 参照元 ... GameCamera::m_is_active_game
+	// 参照先 ... ゲームカメラで描画する関数
+	bool GetIsActiveGameCamera() const;
+
 	// CameraLoad
 
 	// カメラ配列の情報取得

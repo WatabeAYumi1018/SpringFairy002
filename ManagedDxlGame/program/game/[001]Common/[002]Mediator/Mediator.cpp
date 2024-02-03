@@ -598,6 +598,16 @@ bool Mediator::IsCameraFixed() const
 	return m_gameCamera->IsFixed();
 }
 
+void Mediator::SetIsActiveGameCamera(bool is_active_game)
+{
+	m_gameCamera->SetIsActiveGame(is_active_game);
+}
+
+bool Mediator::GetIsActiveGameCamera() const
+{
+	return m_gameCamera->GetIsActiveGame();
+}
+
 // CameraLoad
 
 const std::vector<GameCamera::sCamera>& Mediator::GetCameraLaneVector() const

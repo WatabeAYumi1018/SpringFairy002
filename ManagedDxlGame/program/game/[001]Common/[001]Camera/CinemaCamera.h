@@ -50,22 +50,36 @@ private:
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(CinemaCamera, &CinemaCamera::SeqTrigger);
+	TNL_CO_SEQUENCE(CinemaCamera, &CinemaCamera::SeqFirst);
 
 	// 画面作成
 	void CreateScreen();
-	// 分割のアニメーション
-	void SplitAnimation(const float delta_time);
+	// 分割の更新
+	void UpdateSplit(const float delta_time);
 
+	// 線形補間関数
+	tnl::Vector3 Lerp(const tnl::Vector3& start
+					, const tnl::Vector3& end, float t);
+
+	// 固定
+	void Fixed(const tnl::Vector3& offset);
+	// スライド処理
+	void ToSlide(const float delta_time, const tnl::Vector3& offset, float speed);
+
+	//-------
 
 	// 待機
 	bool SeqTrigger(const float delta_time);
-	// アップ
-	bool SeqUp(const float delta_time);
-	// サイド
-	bool SeqSide(const float delta_time);
-	// 引き
-	bool SeqBack(const float delta_time);
+
+	// 自己紹介
+	bool SeqFirst(const float delta_time);
+
+	// エリア２への移行
+	bool SeqSecond(const float delta_time);
+
+	// エリア３への移行
+	bool SeqThird(const float delta_time);
+
 
 	//-----デバッグ用-----//
 

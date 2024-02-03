@@ -81,7 +81,7 @@ void CinemaCamera::CreateScreen()
 	m_third_right = MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
 }
 
-void CinemaCamera::SplitAnimation(const float delta_time)
+void CinemaCamera::UpdateSplit(const float delta_time)
 {
 	// 分割比率の変更
 	split_rate += delta_time * 10;
@@ -93,68 +93,128 @@ void CinemaCamera::SplitAnimation(const float delta_time)
 	}
 }
 
+tnl::Vector3 CinemaCamera::Lerp(const tnl::Vector3& start
+								, const tnl::Vector3& end, float t)
+{
+	return start + (end - start) * t;
+}
+
+void CinemaCamera::Fixed(const tnl::Vector3& offset)
+{
+	target_ = m_mediator->GetCinemaPlayerPos();
+
+	pos_.x = target_.x + offset.x;
+	pos_.y = target_.y + offset.y;
+	pos_.z = target_.z + offset.z;
+}
+
+void CinemaCamera::ToSlide(const float delta_time,const tnl::Vector3& offset,float speed)
+{
+	// 目的の位置を計算
+	tnl::Vector3 target_pos
+		= tnl::Vector3(target_.x + offset.x, target_.y + offset.y, target_.z + offset.z);
+
+	// 補間を使用してカメラ位置を更新
+	pos_ = Lerp(pos_, target_pos, delta_time * speed);
+}
+
 bool CinemaCamera::SeqTrigger(const float delta_time)
 {
 	// １番のイベントの場合（登場カメラ）
 	if (m_mediator->GetEventLane().s_id == 1)
 	{
-		// アップで正面全体に映す
-		
+		// 最初の紹介
+		tnl_sequence_.change(&CinemaCamera::SeqFirst);
 	}
 	if (m_mediator->GetEventLane().s_id == 5)
 	{
-		// 画面を三分割にする
-		//全てサブカメラにして、それぞれのカメラで描画アップ、サイド描画
+		// エリア２へ移行
+		tnl_sequence_.change(&CinemaCamera::SeqSecond);
 	}
 	if (m_mediator->GetEventLane().s_id == 9)
 	{
-		// 画面を二分割にする
-		// 蝶とプレイヤーをサイドからそれぞれアップへ
-		// プレイヤーをアップで全画面
+		// エリア３へ移行
+		tnl_sequence_.change(&CinemaCamera::SeqThird);
 	}
-	
+
 	TNL_SEQ_CO_END;
 }
 
-bool CinemaCamera::SeqUp(const float delta_time)
+bool CinemaCamera::SeqFirst(const float delta_time)
 {
-	// イベントが終了したらTriggerに戻る
-	if(m_is_completed)
+	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
 	{
-		tnl_sequence_.change(&CinemaCamera::SeqTrigger);
-	}
+		Fixed({0,0,-300});
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
+	{
+		ToSlide(delta_time, {0,0,-50},10);
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	{
+		Fixed({ 0,0,-50 });
+	});
+
+	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 
 	TNL_SEQ_CO_END;
-
 }
 
-bool CinemaCamera::SeqSide(const float delta_time)
+bool CinemaCamera::SeqSecond(const float delta_time)
 {
-	// イベントが終了したらTriggerに戻る
-	if (m_is_completed)
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		tnl_sequence_.change(&CinemaCamera::SeqTrigger);
-	}
+		Fixed({ 0,0,-100 });
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	{
+		ToSlide(delta_time, { 0,0,-50 }, 5);
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
+	{
+		Fixed({ 0,0,-50 });
+	});
+
+	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 
 	TNL_SEQ_CO_END;
-
-
 }
 
-bool CinemaCamera::SeqBack(const float delta_time)
+bool CinemaCamera::SeqThird(const float delta_time)
 {
-	// イベントが終了したらTriggerに戻る
-	if (m_is_completed)
+	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
 	{
-		tnl_sequence_.change(&CinemaCamera::SeqTrigger);
-	}
+		Fixed({ 0,0,-100 });
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
+	{
+		ToSlide(delta_time, { 100,0,-50 }, 2);
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
+	{
+		Fixed({ 100,0,-50 });
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
+	{
+		ToSlide(delta_time, { 100,0,-500 }, 10);
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	{
+		Fixed({ 100,0,-500 });
+	});
+
+	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 
 	TNL_SEQ_CO_END;
-
-
 }
-
-
 
 
 // -----デバッグ用----- //

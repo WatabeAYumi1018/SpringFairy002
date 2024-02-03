@@ -6,6 +6,8 @@ CinemaPlayer::CinemaPlayer()
 {
 	m_pos = { 0, 0, 0 };
 
+	m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, -1));
+
 	m_mesh = dxe::Mesh::CreateSphereMV(50);
 }
 
@@ -32,7 +34,7 @@ void CinemaPlayer::Update(const float delta_time)
 		// 回転と座標から行列を計算
 		m_matrix = CalcMatrix();
 
-		m_mesh->pos_ = m_pos;
+		//m_mesh->pos_ = m_pos;
 
 		// モデルに行列を適用
 		MV1SetMatrix(m_model_hdl, m_matrix);

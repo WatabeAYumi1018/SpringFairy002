@@ -9,35 +9,17 @@ GameCamera::GameCamera()
 
 void GameCamera::update(const float delta_time)
 {
-	//if (!m_mediator->GetIsCinemaCameraActive())
-	//{
-	//
-	//// カメラの姿勢を更新
-	//target_ = pos_ + tnl::Vector3::TransformCoord({ 0, 0, 1 }, m_rot);
-	//// カメラのアッパーベクトルを更新
-	//up_ = tnl::Vector3::TransformCoord({ 0, 1, 0 }, m_rot);
-
-	//SetBackgroundColor(32, 32, 32);
-
-
 	dxe::Camera::update(delta_time);
 
-	tnl_sequence_.update(delta_time);
-
-//	IsInFlustum();
-
-	// スペース押したら
-	/*if (tnl::Input::IsKeyDown(eKeys::KB_1))
+	// イベント中の場合描画を制限（登場カメラ）
+	if (m_mediator->GetEventLane().s_id == 1
+		|| m_mediator->GetEventLane().s_id == 5
+		|| m_mediator->GetEventLane().s_id == 9)
 	{
-		SetDrawArea(0, 0, DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT);
-	}*/
-	//
-	//// 座標デバッグ用
-	//DrawStringEx(0, 100, -1, "CameraPos_x:%f", pos_.x);
-	//DrawStringEx(0, 120, -1, "CameraPos_y:%f", pos_.y);
-	//DrawStringEx(0, 140, -1, "CameraPos_z:%f", pos_.z);
+		m_is_active_game = false;
+	}
 
-	//}
+	tnl_sequence_.update(delta_time);
 }
 
 void GameCamera::IsInFlustum()
@@ -99,7 +81,7 @@ void GameCamera::IsInFlustum()
 }
 
 tnl::Vector3 GameCamera::Lerp(const tnl::Vector3& start
-						  , const tnl::Vector3& end, float t)
+							, const tnl::Vector3& end, float t)
 {
 	return start + (end - start) * t;
 }

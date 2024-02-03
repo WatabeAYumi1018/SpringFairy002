@@ -93,12 +93,18 @@ void ScenePlay::Draw(const float delta_time)
 {
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
-		object->Draw(m_gameCamera);
+		if (m_gameCamera->GetIsActiveGame())
+		{
+			object->Draw(m_gameCamera);
+		}
 	}
 
 	for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
 	{
-		object->Draw(m_cinemaCamera_all);
+		if (!m_gameCamera->GetIsActiveGame())
+		{
+			object->Draw(m_cinemaCamera_all);
+		}
 	}
 
 	m_cinemaCamera_all->Render(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT

@@ -61,6 +61,8 @@ private:
 
 	bool m_is_fixed = false;
 
+	bool m_is_active_game = false;
+
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
 	tnl::Vector3 m_offset = { 0, 200, -400 };
@@ -158,8 +160,14 @@ public:
 
 	//inline tnl::Vector3 down() { return -up(); }
 
-
 	bool IsFixed() const { return m_is_fixed; }
+
+	void SetIsActiveGame(bool is_active_game)
+	{
+		m_is_active_game = is_active_game; 
+	}
+
+	bool GetIsActiveGame() const { return m_is_active_game; }
 
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
