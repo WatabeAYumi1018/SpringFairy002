@@ -51,6 +51,11 @@ void CinemaCamera::update(const float delta_time)
 	{
 		Control(delta_time);
 	}
+
+	// カメラの座標をデバッグ表示
+	DrawStringEx(1000, 0, -1, "CameraPos_x:%f", pos_.x);
+	DrawStringEx(1000, 20, -1, "CameraPos_y:%f", pos_.y);
+	DrawStringEx(1000, 40, -1, "CameraPos_z:%f", pos_.z);
 }
 
 void CinemaCamera::Render(int screen_hdl)
@@ -161,19 +166,19 @@ bool CinemaCamera::SeqTrigger(const float delta_time)
 
 bool CinemaCamera::SeqFirst(const float delta_time)
 {
-	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
 	{
-		Fixed({0,0,-500});
-	});
-
-	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
-	{
-		ToSlide(delta_time, {0,0,-50},10);
+		Fixed({0,200,-500});
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		Fixed({ 0,0,-50 });
+		ToSlide(delta_time, {0,500,-100},10);
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	{
+		Fixed({ 0,200,-100 });
 	});
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);

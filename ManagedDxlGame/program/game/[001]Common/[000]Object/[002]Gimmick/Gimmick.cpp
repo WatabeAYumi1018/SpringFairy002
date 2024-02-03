@@ -183,6 +183,8 @@ bool Gimmick::SeqHit(const float delta_time)
 			m_emissive_value = 0.6f;
 		}
 	});
+
+	TNL_SEQ_CO_END;
 }
 
 bool Gimmick::SeqLightUp(const float delta_time)

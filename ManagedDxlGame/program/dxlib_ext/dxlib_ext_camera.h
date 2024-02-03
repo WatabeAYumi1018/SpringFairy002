@@ -41,7 +41,7 @@ namespace dxe
 		int screen_h_ = 0 ;
 
 		// カメラの３次元座標
-		tnl::Vector3 pos_ = { 0,0,-500 };
+		tnl::Vector3 pos_ = { 0,400,-500 };
 		// カメラが３次元のどこを画面の中央にとらえているか
 		tnl::Vector3 target_ = tnl::Vector3(0, 0, 0);
 		// カメラの『上』を定義するアッパーベクトル

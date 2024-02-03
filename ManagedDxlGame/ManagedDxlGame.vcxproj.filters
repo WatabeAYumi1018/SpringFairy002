@@ -506,6 +506,9 @@
     <ClCompile Include="program\game\[004]SceneED\SceneED.cpp">
       <Filter>program\[003] game\[004]SceneED</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTargt.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -901,6 +904,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[004]SceneED\SceneED.h">
       <Filter>program\[003] game\[004]SceneED</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTargt.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -44,7 +44,7 @@ private:
 
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
-	tnl::Vector3 m_offset = { 0, 400, -400 };
+	tnl::Vector3 m_offset = { 0, 0, -400 };
 	// 追従による座標補正
 	tnl::Vector3 m_fix_pos = { 0,0,0 };
 

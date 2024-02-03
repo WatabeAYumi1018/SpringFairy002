@@ -140,4 +140,6 @@ bool CameraTargetPlayer::SeqDownMove(const float delta_time)
 		m_pos.y -= delta_time * 100;
 
 	});
+
+	TNL_SEQ_CO_END;
 }

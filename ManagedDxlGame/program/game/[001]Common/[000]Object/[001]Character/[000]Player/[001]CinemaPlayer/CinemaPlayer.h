@@ -17,11 +17,11 @@ public:
 private:
 
 	// ‰~‚Ì‘¬“x
-	float m_speed = 10.0f;
+	float m_speed = 15.0f;
 	// ‰~‚Ì”¼Œa
-	float m_radius = 100.0f;
+	float m_radius = 150.0f;
 	// ‰~‰^“®ˆê‰ñ•ª‚Ì‘ŠÔ
-	float m_total_time = 7.0f;
+	float m_total_time = 4.0f;
 	// ‰~‰^“®‚ÌŒo‰ßŠÔ
 	float m_elapsed_time_circle = 0.0f;
 
@@ -35,6 +35,9 @@ private:
 	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
+
+	// üŒ`•âŠÔŠÖ”
+	float Lerp(float start, float end, float t);
 
 	// ‰¡ˆÚ“®
 	void MoveRound(const float delta_time);

@@ -28,6 +28,8 @@ void CinemaPlayer::Initialize()
 
 void CinemaPlayer::Update(const float delta_time)
 {
+	tnl_sequence_.update(delta_time);
+
 	if (m_is_idle)
 	{
 		m_mediator->CinemaPlayerAnimIdle(delta_time);
@@ -52,6 +54,12 @@ void CinemaPlayer::Update(const float delta_time)
 
 	// モデルに行列を適用
 	MV1SetMatrix(m_model_hdl, m_matrix);
+
+	// プレイヤーの座標をデバッグ表示
+	DrawStringEx(0, 0, -1, "PlayerPos_x:%f", m_pos.x);
+	DrawStringEx(0, 20, -1, "PlayerPos_y:%f", m_pos.y);
+	DrawStringEx(0, 40, -1, "PlayerPos_z:%f", m_pos.z);
+
 }
 
 void CinemaPlayer::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -62,24 +70,39 @@ void CinemaPlayer::Draw(std::shared_ptr<dxe::Camera> camera)
 	m_mediator->DrawPlayerModel();
 }
 
+// Lerp関数の定義（線形補間）
+float CinemaPlayer::Lerp(float start, float end, float t)
+{
+	return start + (end - start) * t;
+}
+
 void CinemaPlayer::MoveRound(const float delta_time)
 {
+	// 時間経過の更新
 	m_elapsed_time_circle += delta_time;
 
-	// 宙返りの全体の進行時間に基づいた角度計算
+	// 円運動の更新（斜めに円を描くためにY成分も加える）
 	float angle = (m_elapsed_time_circle / m_total_time) * tnl::ToRadian(360);
 
-	// 横回転によるX軸方向の移動
-	m_pos.x = m_pos.x + sin(angle) * m_radius;
-	// 横回転によるZ軸方向の移動
-	m_pos.z = m_pos.z + cos(angle) * m_radius;
+	m_pos.x += sin(angle) * m_radius;
+	// Y軸方向にも動かす
+	m_pos.y += sin(angle) * m_radius * 0.3f; 
+	m_pos.z += cos(angle) * m_radius;
 
-	// 回転軸をY軸に変更
-	tnl::Quaternion target_rot
-		= tnl::Quaternion::LookAtAxisY(m_pos, tnl::Vector3(0, 0, 0));
+	// 移動方向を向くための回転
+	// 移動方向（斜め）
+	tnl::Vector3 direction 
+		= { sin(angle), sin(angle) * 2, cos(angle) }; 
 
-	// 現在の回転から目標の回転に向けてslerpを行う
-	m_rot.slerp(target_rot, delta_time * m_speed);
+	tnl::Quaternion direction_rot 
+		= tnl::Quaternion::LookAt(m_pos, m_pos + direction, tnl::Vector3(0, 1, 0));
+
+	// X軸周りに一定角度傾ける
+	tnl::Quaternion tilt_rot 
+		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50)); 
+
+	// 回転の組み合わせ
+	m_rot = tilt_rot * direction_rot;
 }
 
 bool CinemaPlayer::SeqTrigger(const float delta_time)
@@ -108,19 +131,20 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
+		m_is_dance = true;
 		m_is_idle = false;
-		m_is_move = true;
+		//m_is_move = true;
 	}
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
 	{
 		MoveRound(delta_time);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
 		m_is_move = false;
-		m_is_dance = true;
+		m_is_dance = true;		
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
@@ -137,6 +161,8 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 bool CinemaPlayer::SeqSecond(const float delta_time)
 {
+	DxLib::COLOR_F emissive;
+
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
 		if (m_mediator->GetScreenType()
@@ -165,8 +191,6 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
 	{
 		// emmisiveを少しずつ強くする
-		DxLib::COLOR_F emissive;
-
 		emissive.r = delta_time * 5;
 		emissive.g = delta_time * 5;
 		emissive.b = delta_time * 5;
@@ -181,6 +205,10 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 
 		MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
 	});
+
+	emissive.r = 0.5f;
+	emissive.g = 0.5f;
+	emissive.b = 0.5f;
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 
