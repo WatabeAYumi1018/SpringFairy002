@@ -37,6 +37,7 @@ class CameraTargetPlayer;
 class CinemaCameraTarget;
 
 class Butterfly;
+class ButterflyLoad;
 		
 class Gimmick;
 class GimmickLoad;
@@ -63,6 +64,9 @@ class Mediator
 {
 
 private:
+
+	//CinemaCamera::eCameraSplitType active_cinema_type;
+
 
 	//--------------------ポインタ--------------------//
 
@@ -96,6 +100,7 @@ private:
 	std::shared_ptr<CinemaCameraTarget> m_cinemaCameraTarget = nullptr;
 
 	std::shared_ptr<Butterfly> m_butterfly = nullptr;
+	std::shared_ptr<ButterflyLoad> m_butterflyLoad = nullptr;
 
 	std::shared_ptr<Gimmick> m_gimmick = nullptr;
 	std::shared_ptr<GimmickLoad> m_gimmickLoad = nullptr;
@@ -120,7 +125,11 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera_all = nullptr;
+	//std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
+	//std::shared_ptr<CinemaCamera> m_cinemaCamera_half_right = nullptr;
+	//std::shared_ptr<CinemaCamera> m_cinemaCamera_third_left = nullptr;
+	//std::shared_ptr<CinemaCamera> m_cinemaCamera_third_right = nullptr;
+
 
 	//------------------------------------------------//
 
@@ -566,6 +575,13 @@ public:
 	// 参照先 ... Opに関連する関数
 	bool GetButterflyIsPowder() const;
 
+	// ButterflyLoad
+
+	// バタフライモデルハンドルの取得
+	// 参照元 ... ButterflyLoad::m_model_hdl
+	// 参照先 ... Butterfly関連クラス
+	int GetButterflyModelHdl() const;
+
 	//-----------------------------//
 
 
@@ -754,10 +770,30 @@ public:
 
 	// CinemaCamera
 
-	// シネマカメラのスクリーンタイプ取得
-	// 参照元 ... CinemaCamera::m_type
-	// 参照先 ... CinemaCameraに関連する関数
-	CinemaCamera::eCameraSplitType GetScreenType() const;
+	// シネマカメラの分割比率取得
+	// 参照元 ... CinemaCamera::m_split_width	
+	// 参照先 ... CinemaCamera::関連する関数
+	float GetCinemaSplitWidthLeft() const ;
+
+	// シネマカメラの分割比率設定
+	// 参照元 ... CinemaCamera::m_split_width
+	// 参照先 ... CinemaCamera::関連する関数
+	float GetCinemaSplitWidthRight() const;
+
+	// シネマカメラのアクティブ状態取得
+	// 参照元 ... CinemaCamera::m_is_half_right_active
+	// 参照先 ... CinemaCamera::関連する関数
+	bool GetIsCinemaHalfRightActive() const;
+
+	// シネマカメラのアクティブ状態取得
+	// 参照元 ... CinemaCamera::m_is_third_left_active
+	// 参照先 ... CinemaCamera::関連する関数
+	bool GetIsCinemaThirdLeftActive() const;
+
+	// シネマカメラのアクティブ状態取得
+	// 参照元 ... CinemaCamera::m_is_third_right_active
+	// 参照先 ... CinemaCamera::関連する関数
+	bool GetIsCinemaThirdRightActive() const;
 
 	//---------------------------//
 
@@ -872,6 +908,11 @@ public:
 		m_butterfly = butterfly;
 	}
 
+	void SetButterflyLoad(std::shared_ptr<ButterflyLoad>& butterflyLoad)
+	{
+		m_butterflyLoad = butterflyLoad;
+	}
+
 	void SetGimmick(std::shared_ptr<Gimmick>& gimmick)
 	{
 		m_gimmick = gimmick;
@@ -952,10 +993,25 @@ public:
 		m_cameraLoad = cameraLoad;
 	}
 
-	void SetCinemaCamera(std::shared_ptr<CinemaCamera>& cinemaCamera)
-	{
-		m_cinemaCamera_all = cinemaCamera;
-	}
+	//void SetCinemaCameraAll(std::shared_ptr<CinemaCamera>& cinemaCamera)
+	//{
+	//	m_cinemaCamera = cinemaCamera;
+	//}
+
+	//void SetCinemaCameraHalfRight(std::shared_ptr<CinemaCamera>& cinemaCamera)
+	//{
+	//	m_cinemaCamera_half_right = cinemaCamera;
+	//}
+
+	//void SetCinemaCameraThirdLeft(std::shared_ptr<CinemaCamera>& cinemaCamera)
+	//{
+	//	m_cinemaCamera_third_left = cinemaCamera;
+	//}
+
+	//void SetCinemaCameraThirdRight(std::shared_ptr<CinemaCamera>& cinemaCamera)
+	//{
+	//	m_cinemaCamera_third_right = cinemaCamera;
+	//}
 
 	//------------------------------------------------//
 };

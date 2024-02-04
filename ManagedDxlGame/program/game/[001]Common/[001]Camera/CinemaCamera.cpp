@@ -3,50 +3,26 @@
 
 
 
-CinemaCamera::CinemaCamera(eCameraSplitType type)
-	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT), m_type(type)
+CinemaCamera::CinemaCamera()
+	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT)
 {
 	// 使用する画面の作成
 	m_all_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
 
-	m_first_back_hdl = LoadGraph("graphics/illust/background-green.jpg");
-	m_second_back_hdl = LoadGraph("graphics/illust/flower.jpg");
-
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
 	near_ = 10;
 }
 
-CinemaCamera::CinemaCamera(int screen_w, int screen_h, eCameraSplitType type)
-	: dxe::Camera(screen_w, screen_h), m_type(type)
-{
-	// 使用する画面の作成
-	CreateScreen();
-
-	m_first_back_hdl = LoadGraph("graphics/illust/background-green.jpg");
-	m_second_back_hdl = LoadGraph("graphics/illust/flower.jpg");
-
-
-
-	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
-	near_ = 10;
-}
-
-void CinemaCamera::SetCanvas(int screen_hdl)
+void CinemaCamera::SetCanvas()
 {
 	// 画面に描画
-	SetDrawScreen(screen_hdl);
+	SetDrawScreen(m_all_hdl);
 	ClearDrawScreen();
 }
 
 void CinemaCamera::update(const float delta_time)
 {
 	dxe::Camera::update(delta_time);
-
-	// 分割比率に基づいて各スクリーンの幅を計算します。
-	m_split_width_left
-		= static_cast<int>(DXE_WINDOW_WIDTH * (1.0f - split_rate) / 2);
-
-	m_split_width_right = DXE_WINDOW_WIDTH - m_split_width_left;
 
 	tnl_sequence_.update(delta_time);
 
@@ -60,76 +36,15 @@ void CinemaCamera::update(const float delta_time)
 		Control(delta_time);
 	}
 
-	// カメラの座標をデバッグ表示
-	DrawStringEx(1000, 0, -1, "CameraPos_x:%f", pos_.x);
-	DrawStringEx(1000, 20, -1, "CameraPos_y:%f", pos_.y);
-	DrawStringEx(1000, 40, -1, "CameraPos_z:%f", pos_.z);
 }
 
-void CinemaCamera::Render(int screen_hdl)
+void CinemaCamera::Render()
 {
 	// 描画対象を表画面に設定
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	switch (m_type)
-	{
-	case eCameraSplitType::e_all:
-
-		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH
-						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
-
-		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
-
-	break;
-
-	case eCameraSplitType::e_half_right:
-
-		DrawExtendGraph(DXE_WINDOW_WIDTH / 2, 0, DXE_WINDOW_WIDTH
-						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
-
-
-	break;
-
-	case eCameraSplitType::e_third_left:
-
-		DrawExtendGraph(0, 0, m_split_width_left
-						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
-
-		DrawExtendGraph(0, 0, m_split_width_left, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
-	
-	break;
-
-	case eCameraSplitType::e_third_right:
-
-		DrawExtendGraph(m_split_width_right, 0, DXE_WINDOW_WIDTH
-						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
-
-		DrawExtendGraph(m_split_width_right, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
-	}	
-}
-
-void CinemaCamera::CreateScreen()
-{	
-	m_half_right
-		= MakeScreen(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT, TRUE);
-
-	m_third_left
-		= MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
-
-	m_third_right
-		= MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
-}
-
-void CinemaCamera::UpdateSplit(const float delta_time)
-{
-	// 分割比率の変更
-	split_rate += delta_time * 10;
-
-	// 分割比率が1を超えたら1にする
-	if (split_rate > 1.0f)
-	{
-		split_rate = 1.0f;
-	}
+	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH
+					, DXE_WINDOW_HEIGHT, m_all_hdl, FALSE);
 }
 
 tnl::Vector3 CinemaCamera::Lerp(const tnl::Vector3& start
@@ -163,7 +78,7 @@ bool CinemaCamera::SeqTrigger(const float delta_time)
 	if (m_mediator->GetEventLane().s_id == 1)
 	{
 		// 最初の紹介
-		tnl_sequence_.change(&CinemaCamera::SeqSecond);
+		tnl_sequence_.change(&CinemaCamera::SeqFirst);
 	}
 	if (m_mediator->GetEventLane().s_id == 5)
 	{
@@ -208,14 +123,14 @@ bool CinemaCamera::SeqSecond(const float delta_time)
 		Fixed({ 0,0,-100 });
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 0,0,-50 }, 5);
+		ToSlide(delta_time, { 0,0,-2000 },2);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
 	{
-		Fixed({ 0,0,-50 });
+		Fixed({ 0,0,-2000 });
 	});
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
@@ -297,4 +212,63 @@ tnl::Vector3 CinemaCamera::RotateAroundPlayer(const tnl::Vector3& point
 	// 変換した点にピボットを加算して最終的な位置を得る
 	return transformed_point + pivot;
 }
+
+//// 分割比率に基づいて各スクリーンの幅を計算します。
+//m_split_width_left
+//	= static_cast<int>(DXE_WINDOW_WIDTH * (1.0f - split_rate) / 2);
+
+//m_split_width_right = DXE_WINDOW_WIDTH - m_split_width_left;
+
+//CinemaCamera::CinemaCamera(int screen_w, int screen_h, CinemaCamera::eCameraSplitType type)
+//	: dxe::Camera(screen_w, screen_h), m_type(type)
+//{
+//	// 使用する画面の作成
+//	CreateScreen();
+//
+//	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
+//	near_ = 10;
+//}
+
+//if (m_type == eCameraSplitType::e_half_right)
+//{
+//	DrawExtendGraph(DXE_WINDOW_WIDTH / 2, 0, DXE_WINDOW_WIDTH
+//					, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
+//}
+//if (m_type == eCameraSplitType::e_third_left)
+//{
+//	DrawExtendGraph(0, 0, m_split_width_left
+//					, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
+//}
+//if (m_type == eCameraSplitType::e_third_right)
+//{
+//	DrawExtendGraph(m_split_width_right, 0, DXE_WINDOW_WIDTH
+//					, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
+//}	
+
+//void CinemaCamera::CreateScreen()
+//{	
+//	m_half_right
+//		= MakeScreen(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT, TRUE);
+//
+//	m_third_left
+//		= MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
+//
+//	m_third_right
+//		= MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
+//}
+//
+//void CinemaCamera::UpdateSplit(const float delta_time)
+//{
+//	// 分割比率の変更
+//	split_rate += delta_time;
+//
+//	// 分割比率が1を超えたら1にする
+//	if (split_rate > 1.0f)
+//	{
+//		split_rate = 1.0f;
+//
+//		m_is_third_left_active = false;
+//		m_is_third_right_active = false;
+//	}
+//}
 

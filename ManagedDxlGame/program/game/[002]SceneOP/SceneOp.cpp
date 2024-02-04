@@ -57,7 +57,7 @@ void SceneOp::Update(const float delta_time)
 
 void SceneOp::Draw(const float delta_time)
 {
-	//DrawGridGround(m_opCamera);
+	DrawGridGround(m_opCamera);
 
 	for (std::shared_ptr<Object>& object : m_objects)
 	{

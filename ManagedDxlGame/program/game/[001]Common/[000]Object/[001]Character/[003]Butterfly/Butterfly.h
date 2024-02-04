@@ -17,9 +17,9 @@ public:
 private:
 
 	// 円の速度
-	float m_speed = 5.0f;
+	float m_speed = 10.0f;
 	// 円の半径
-	float m_radius = 50.0f;
+	float m_radius = 20.0f;
 	// 円運動一回分の総時間
 	float m_total_time = 5.0f;
 	// 円運動の経過時間
@@ -30,7 +30,9 @@ private:
 	// moveアニメーションのループ時間
 	float m_time_count= 0.0f;
 	// moveアニメーションの速度
-	float m_anim_speed = 0.0f;
+	float m_anim_speed = 100.0f;
+	// moveアニメーションのインデックス
+	int m_anim_index = 0;
 
 	// 円運動フラグ
 	bool m_is_circle = false;
@@ -52,6 +54,8 @@ private:
 	void MoveStraight(const float delta_time);
 
 public:
+
+	void Initialize() override;
 
 	void Update(const float delta_time) override;
 

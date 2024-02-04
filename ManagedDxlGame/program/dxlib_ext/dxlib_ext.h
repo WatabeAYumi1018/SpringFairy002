@@ -65,7 +65,7 @@ void DrawHexagon(const tnl::Vector3 pos, float width, int color = -1);
 // デバッグ用のグリッド地面
 // arg1... カメラ
 // tips... この関数を使用する前にカメラを生成して update 関数を実行してください
-void DrawGridGround( const Shared<dxe::Camera> camera );
+void DrawGridGround(const Shared<dxe::Camera> camera);//, const float square_size, int row_num, int color);
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 // 正六角形を敷き詰めた地面を描画

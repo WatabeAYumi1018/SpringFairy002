@@ -5,13 +5,13 @@
 
 Title::Title()
 {
-    m_model_hdl = MV1LoadModel("model/gate/start.mv1");
+    m_model_hdl = MV1LoadModel("model/title/title.mv1");
 
-    m_texture_game_hdl = LoadGraph("model/gate/start.png");
+    m_texture_game_hdl = LoadGraph("model/title/title.png");
 
     MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_game_hdl, FALSE);
 
-    m_scale = { 0.5f };
+    m_scale = { 3 };
 
     // シーケンスの初期化
     m_rot = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(0));

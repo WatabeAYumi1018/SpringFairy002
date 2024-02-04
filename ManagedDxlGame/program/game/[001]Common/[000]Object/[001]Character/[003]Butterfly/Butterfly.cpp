@@ -7,19 +7,30 @@ Butterfly::Butterfly()
 {
 	m_pos = { 0,0,0 };
 
-	m_model_hdl = MV1LoadModel("model/gimmick/ground/plant/flower002.mv1");
+	// モデルをカメラ座標に反映させるため、目にみえないメッシュを生成
+	m_mesh = dxe::Mesh::CreateSphereMV(0.0001f);
 
-	SetLight(m_model_hdl);
-
-	// バタフライを疑似的にワールド座標に合わせるためにメッシュ作成
-	m_mesh = dxe::Mesh::CreateSphereMV(50);
-	m_mesh->pos_ = m_pos;
+	m_scale = { 5 };
 }
 
 Butterfly::~Butterfly()
 {
 	// モデルのアンロード
 	MV1DeleteModel(m_model_hdl);
+}
+
+void Butterfly::Initialize()
+{
+	m_model_hdl = m_mediator->GetButterflyModelHdl();
+
+	m_anim_index = MV1AttachAnim(m_model_hdl, 0);
+
+	m_time_count = MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_index);
+
+	SetLight(m_model_hdl);
+
+	//DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
+	//MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
 }
 
 void Butterfly::Update(const float delta_time)
@@ -42,12 +53,6 @@ void Butterfly::Update(const float delta_time)
 
     // モデルに行列を適用
     MV1SetMatrix(m_model_hdl, m_matrix);
-
-	// デバッグ用に座標を表示
-	DrawStringEx(0, 0,-1, "pos.x:%f", GetPos().x);	
-	DrawStringEx(0, 20,-1, "pos.y:%f", GetPos().y);
-	DrawStringEx(0, 40,-1, "pos.z:%f", GetPos().z);
-
 }
 
 void Butterfly::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -55,18 +60,6 @@ void Butterfly::Draw(std::shared_ptr<dxe::Camera> camera)
 	m_mesh->render(camera);
 
 	MV1DrawModel(m_model_hdl);
-}
-
-void Butterfly::SetAnim()
-{
-	//// テクスチャ
-	//m_texture_hdl = LoadGraph("model/fairy/fairy.png");
-	//// モデル読み取り
-	//m_model_hdl = MV1LoadModel("model/fairy/fairy_new.mv1");
-	//// moveボーン
-	//m_anim_bone_move_hdl = MV1LoadModel("model/fairy/move_new.mv1");
-	//// 材質の指定はないため引数は0
-	//MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_hdl, FALSE);
 }
 
 void Butterfly::AnimMove(const float delta_time)
@@ -80,11 +73,6 @@ void Butterfly::AnimMove(const float delta_time)
 	}
 
 	MV1SetAttachAnimTime(m_model_hdl, 0, m_elapsed_time);
-}
-
-void Butterfly::AnimDraw(const float delta_time)
-{
-
 }
 
 void Butterfly::MoveRound(const float delta_time)

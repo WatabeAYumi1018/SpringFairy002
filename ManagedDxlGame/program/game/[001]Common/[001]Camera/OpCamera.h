@@ -17,7 +17,7 @@ private:
 
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
-	tnl::Vector3 m_offset = { 0, 200, -1000 };
+	tnl::Vector3 m_offset = { 0, 300, -300 };
 	tnl::Vector3 m_new_offset = { 0,300,-300 };
 	// 回転
 	tnl::Quaternion m_rot;

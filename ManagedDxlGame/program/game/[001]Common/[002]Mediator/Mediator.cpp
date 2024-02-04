@@ -17,6 +17,7 @@
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CinemaCameraTarget.h"
 #include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
+#include "../[000]Object/[001]Character/[003]Butterfly/[000]ButterflyFunction/ButterflyLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
@@ -469,6 +470,14 @@ bool Mediator::GetButterflyIsPowder() const
 	return m_butterfly->GetIsPowder();
 }
 
+// ButterflyLoad
+
+int Mediator::GetButterflyModelHdl() const
+{
+	return m_butterflyLoad->GetModelHdl();
+}
+
+
 //-----------------------------//
 
 
@@ -658,10 +667,30 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 
 // CinemaCamera
 
-CinemaCamera::eCameraSplitType Mediator::GetScreenType() const
-{
-	return m_cinemaCamera_all->GetType();
-}
+//float Mediator::GetCinemaSplitWidthLeft() const
+//{
+//	return m_cinemaCamera_all->GetSplitWidthLeft();
+//}
+//
+//float Mediator::GetCinemaSplitWidthRight() const
+//{
+//	return m_cinemaCamera_all->GetSplitWidthRight();
+//}
+//
+//bool Mediator::GetIsCinemaHalfRightActive() const
+//{
+//	return m_cinemaCamera_half_right->GetIsHalfRightActive();
+//}
+//
+//bool Mediator::GetIsCinemaThirdLeftActive() const
+//{
+//	return m_cinemaCamera_third_left->GetIsThirdLeftActive();
+//}
+//
+//bool Mediator::GetIsCinemaThirdRightActive() const
+//{
+//	return m_cinemaCamera_third_right->GetIsThirdRightActive();
+//}
 
 
 //---------------------------//

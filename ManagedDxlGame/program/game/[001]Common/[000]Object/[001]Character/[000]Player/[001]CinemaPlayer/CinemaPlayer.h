@@ -25,7 +25,7 @@ private:
 	// 円運動の経過時間
 	float m_elapsed_time_circle = 0.0f;
 
-	bool m_is_idle = true;
+	bool m_is_idle = false;
 	bool m_is_move = false;
 	bool m_is_dance = false;
 
@@ -39,6 +39,11 @@ private:
 
 	// 横移動
 	void MoveRound(const float delta_time);
+	// 落下移動
+	void MoveDown(const float delta_time);
+	// バックへ勢いよく移動
+	void MoveBackCenter(const float delta_time);
+
 
 	// 待機
 	bool SeqTrigger(const float delta_time);

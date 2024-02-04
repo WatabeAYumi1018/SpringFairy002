@@ -29,13 +29,13 @@ void CinemaPlayer::Update(const float delta_time)
 {
 	tnl_sequence_.update(delta_time);
 
-	if (m_is_idle)
+	if (!m_mediator->GetIsActiveGameCamera())
 	{
-		m_mediator->CinemaPlayerAnimIdle(delta_time);
-	}
-	else
-	{
-		if (m_is_move)
+		if (m_is_idle)
+		{
+			m_mediator->CinemaPlayerAnimIdle(delta_time);
+		}
+		else if (m_is_move)
 		{
 			m_mediator->CinemaPlayerAnimMove(delta_time);
 		}
@@ -44,7 +44,7 @@ void CinemaPlayer::Update(const float delta_time)
 			m_mediator->CinemaPlayerAnimDance(delta_time);
 		}
 	}
-
+	
 	// 回転と座標から行列を計算
 	m_matrix = CalcMatrix();
 
@@ -135,13 +135,62 @@ void CinemaPlayer::MoveRound(const float delta_time)
 	m_rot = direction_rot * tilt_rot;
 }
 
+void CinemaPlayer::MoveDown(const float delta_time)
+{
+	static float total_rot = 0.0f; // 総回転角度
+	const float rot_speed = 5; 
+
+	// 総回転角度を更新
+	total_rot += rot_speed * delta_time;
+
+	// 720度（4πラジアン）を超えたらリセット
+	if (total_rot > tnl::ToRadian(720))
+	{
+		total_rot -= tnl::ToRadian(720);
+	}
+
+	// Y軸周りの回転クォータニオンを生成
+	tnl::Quaternion axis_rot
+		= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 1, 0), total_rot);
+
+	// Z軸周りに30度傾けるクォータニオンを生成
+	tnl::Quaternion tilt_rot
+		= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 0, -1), tnl::ToRadian(30));
+
+	// 既存の回転と傾斜の回転を合成
+	tnl::Quaternion comb_rot = axis_rot * tilt_rot;
+
+	// Slerpで滑らかに回転を適用
+	m_rot.slerp(comb_rot, 0.5f);
+}
+
+void CinemaPlayer::MoveBackCenter(const float delta_time)
+{
+	// 移動の開始位置（最初の座標）
+	static tnl::Vector3 start_pos = m_pos;
+	// 目的地の座標
+	tnl::Vector3 end_pos = { 0, 0, 0 }; 
+	// 移動にかかる時間
+	static float total_time = 1.0f;
+	// 経過時間を保持する変数
+	static float elapsed_time = 0.0f;
+
+	// 経過時間を更新
+	elapsed_time += delta_time * 10;
+
+	// 等加速運動での位置の補間
+	m_pos.x = tnl::AccelLerp(start_pos.x, end_pos.x, total_time, elapsed_time, 5); 
+	m_pos.y = tnl::AccelLerp(start_pos.y, end_pos.y, total_time, elapsed_time, 5);
+	m_pos.z = tnl::AccelLerp(start_pos.z, end_pos.z, total_time, elapsed_time, 5);
+}
+
 bool CinemaPlayer::SeqTrigger(const float delta_time)
 {
 	// １番のイベントの場合（登場カメラ）
 	if (m_mediator->GetEventLane().s_id == 1)
 	{
 		// 最初の紹介
-		tnl_sequence_.change(&CinemaPlayer::SeqSecond);
+		tnl_sequence_.change(&CinemaPlayer::SeqFirst);
 	}
 	if (m_mediator->GetEventLane().s_id == 5)
 	{
@@ -162,7 +211,6 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 	if (tnl_sequence_.isStart())
 	{
 		m_is_dance = true;
-		m_is_idle = false;
 	}
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
@@ -174,23 +222,35 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 	{
 		m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 1));
 
-		m_is_idle = true;
-		m_is_move = false;
 		m_is_dance = false;
+		m_is_idle = true;
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]() 
 	{
 		//
 		tnl::Quaternion target_rot
-			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 1));
+			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
 
 		m_rot.slerp(target_rot, delta_time * 10);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
 	{
-		m_is_idle = true;
+
+		// モデルが背を向けるように回転
+		tnl::Quaternion backFacingRot
+			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
+
+		// モデルを前かがみに傾ける追加の回転
+		tnl::Quaternion forwardTiltRot
+			= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 0, -1), tnl::ToRadian(45));
+
+		// 背面を向ける回転と前かがみの傾斜を組み合わせる
+		tnl::Quaternion combinedRot =  forwardTiltRot * backFacingRot;
+
+		// Slerpで滑らかに適用
+		m_rot.slerp(combinedRot, delta_time * 10);
 
 		m_pos.y -= delta_time * 100;
 		m_pos.z += delta_time * 500;	
@@ -207,43 +267,36 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 {
 	if(tnl_sequence_.isStart())
 	{
-		m_is_idle = true;
-		m_is_move = false;
-		m_is_dance = false;
+		m_pos = { 100,100,0 };
 	}
 
 	DxLib::COLOR_F emissive;
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		if (m_mediator->GetScreenType()
-			== CinemaCamera::eCameraSplitType::e_all)
-		{
-			m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, -1));
-		}
-		else if (m_mediator->GetScreenType()
-			== CinemaCamera::eCameraSplitType::e_third_left)
-		{
-			m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
-		}
-		else if (m_mediator->GetScreenType()
-			== CinemaCamera::eCameraSplitType::e_third_right)
-		{
-			m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 0));
-		}
+		MoveDown(delta_time);
+		m_pos.x -= delta_time * 150;
+		m_pos.y -= delta_time * 150;
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
-	{
+	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
+	{	
+		m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, -1));
 
+		MoveBackCenter(delta_time);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
 	{
+		m_is_idle = false;
+		m_is_dance = true;
+
+		m_pos = { 0 };
+
 		// emmisiveを少しずつ強くする
-		emissive.r = delta_time * 5;
-		emissive.g = delta_time * 5;
-		emissive.b = delta_time * 5;
+		emissive.r = 0.5f * delta_time * 5;
+		emissive.g = 0.5f * delta_time * 5;
+		emissive.b = 0.5f * delta_time * 5;
 
 
 		if (emissive.r >= 0.9f && emissive.g >= 0.9f && emissive.b >= 0.9f)
@@ -254,6 +307,12 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 		}
 
 		MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
+
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
+	{
+	
 	});
 
 	emissive.r = 0.5f;

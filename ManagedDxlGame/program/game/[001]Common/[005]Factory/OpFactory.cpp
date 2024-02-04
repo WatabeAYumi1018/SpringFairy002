@@ -46,6 +46,7 @@ void OpFactory::SetObjectReference()
 {
 	m_mediator->SetSkyBox(m_skyBox);
 	m_mediator->SetButterfly(m_butterfly);
+	m_mediator->SetButterflyLoad(m_butterflyLoad);
 	m_mediator->SetTitle(m_title);
 	m_mediator->SetGate(m_gate);
 	m_mediator->SetGateLoad(m_gateLoad);

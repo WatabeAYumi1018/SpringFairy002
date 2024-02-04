@@ -21,6 +21,8 @@
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CinemaCameraTarget.h"
+#include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
+#include "../[000]Object/[001]Character/[003]Butterfly/[000]ButterflyFunction/ButterflyLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
@@ -103,6 +105,9 @@ void PlayFactory::CreateObject()
 	m_cameraTargetPlayer = std::make_shared<CameraTargetPlayer>();
 	m_cinemaCameraTarget = std::make_shared<CinemaCameraTarget>();
 
+	m_butterfly = std::make_shared<Butterfly>();
+	m_butterflyLoad = std::make_shared<ButterflyLoad>();
+
 	m_gimmickLoad = std::make_shared<GimmickLoad>();
 	m_gimmickGenerator = std::make_shared<GimmickGenerator>();
 	m_gimmickPool = std::make_shared<GimmickPool>();
@@ -123,18 +128,17 @@ void PlayFactory::CreateObject()
 	m_gameCamera = std::make_shared<GameCamera>();
 	m_cameraLoad = std::make_shared<CameraLoad>();
 
-	m_cinemaCamera_all 
-		= std::make_shared<CinemaCamera>(CinemaCamera::eCameraSplitType::e_all);
 
-	m_cinemaCamera_half_right 
-		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT
-										, CinemaCamera::eCameraSplitType::e_half_right);
-	m_cinemaCamera_third_left
-		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT
-										, CinemaCamera::eCameraSplitType::e_third_left);
-	m_cinemaCamera_third_right 
-		= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT
-										, CinemaCamera::eCameraSplitType::e_third_right);
+	//m_cinemaCamera_half_right 
+	//	= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT
+	//									, CinemaCamera::eCameraSplitType::e_half_right);
+	//m_cinemaCamera_third_left
+	//	= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT
+	//									, CinemaCamera::eCameraSplitType::e_third_left);
+	//m_cinemaCamera_third_right 
+	//	= std::make_shared<CinemaCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT
+	//									, CinemaCamera::eCameraSplitType::e_third_right);
+	m_cinemaCamera = std::make_shared<CinemaCamera>();
 
 	m_mediator = std::make_shared<Mediator>();
 
@@ -162,6 +166,8 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetPartnerDraw(m_partnerDraw);
 	m_mediator->SetCameraTargetPlayer(m_cameraTargetPlayer);
 	m_mediator->SetCinemaCameraTarget(m_cinemaCameraTarget);
+	m_mediator->SetButterfly(m_butterfly);
+	m_mediator->SetButterflyLoad(m_butterflyLoad);
 	m_mediator->SetGimmickLoad(m_gimmickLoad);
 	m_mediator->SetGimmickGenerator(m_gimmickGenerator);
 	m_mediator->SetGimmickPool(m_gimmickPool);
@@ -174,10 +180,10 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetCharaGraphDraw(m_charaGraphDraw);
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
-	m_mediator->SetCinemaCamera(m_cinemaCamera_all);
-	m_mediator->SetCinemaCamera(m_cinemaCamera_half_right);
-	m_mediator->SetCinemaCamera(m_cinemaCamera_third_left);
-	m_mediator->SetCinemaCamera(m_cinemaCamera_third_right);
+	//m_mediator->SetCinemaCamera(m_cinemaCamera);
+	//m_mediator->SetCinemaCameraHalfRight(m_cinemaCamera_half_right);
+	//m_mediator->SetCinemaCameraThirdLeft(m_cinemaCamera_third_left);
+	//m_mediator->SetCinemaCameraThirdRight(m_cinemaCamera_third_right);
 
 	m_stagePhase->SetMediator(m_mediator);
 	m_skyBox->SetMediator(m_mediator);
@@ -202,6 +208,8 @@ void PlayFactory::SetObjectReference()
 	m_partnerMove->SetMediator(m_mediator);
 	m_partnerDraw->SetMediator(m_mediator);
 	m_cameraTargetPlayer->SetMediator(m_mediator);
+	//m_cinemaCameraTarget->SetMediator(m_mediator);
+	m_butterfly->SetMediator(m_mediator);
 	m_gimmickGenerator->SetMediator(m_mediator);
 	m_effect->SetMediator(m_mediator);
 	m_score->SetMediator(m_mediator);
@@ -212,10 +220,10 @@ void PlayFactory::SetObjectReference()
 	m_charaGraphDraw->SetMediator(m_mediator);
 	m_gameCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
-	m_cinemaCamera_all->SetMediator(m_mediator);
-	m_cinemaCamera_half_right->SetMediator(m_mediator);
-	m_cinemaCamera_third_left->SetMediator(m_mediator);
-	m_cinemaCamera_third_right->SetMediator(m_mediator);
+	m_cinemaCamera->SetMediator(m_mediator);
+	//m_cinemaCamera_half_right->SetMediator(m_mediator);
+	//m_cinemaCamera_third_left->SetMediator(m_mediator);
+	//m_cinemaCamera_third_right->SetMediator(m_mediator);
 	m_screenShot->SetMediator(m_mediator);
 }
 
@@ -270,26 +278,27 @@ void PlayFactory::StorageObjectGameCamera()
 void PlayFactory::StorageObjectCinemaCamera()
 {
 	// シネマ用背景
-	m_objects_cinemaCamera_all.emplace_back(m_cinemaBack);
-	m_objects_cinemaCamera_half_right.emplace_back(m_cinemaBack);
-	m_objects_cinemaCamera_third_left.emplace_back(m_cinemaBack);
-	m_objects_cinemaCamera_third_right.emplace_back(m_cinemaBack);
 	// シネマ用カメラターゲット
-	m_objects_cinemaCamera_all.emplace_back(m_cinemaCameraTarget);
-	m_objects_cinemaCamera_half_right.emplace_back(m_cinemaCameraTarget);
-	m_objects_cinemaCamera_third_left.emplace_back(m_cinemaCameraTarget);
-	m_objects_cinemaCamera_third_right.emplace_back(m_cinemaCameraTarget);
+	m_objects_cinemaCamera.emplace_back(m_cinemaCameraTarget);
+	//m_objects_cinemaCamera_half_right.emplace_back(m_cinemaCameraTarget);
+	//m_objects_cinemaCamera_third_left.emplace_back(m_cinemaCameraTarget);
+	//m_objects_cinemaCamera_third_right.emplace_back(m_cinemaCameraTarget);
+	m_objects_cinemaCamera.emplace_back(m_cinemaBack);
+	//m_objects_cinemaCamera_half_right.emplace_back(m_cinemaBack);
+	//m_objects_cinemaCamera_third_left.emplace_back(m_cinemaBack);
+	//m_objects_cinemaCamera_third_right.emplace_back(m_cinemaBack);
 	// シネマ用プレイヤー
-	m_objects_cinemaCamera_all.emplace_back(m_cinemaPlayer);
-	m_objects_cinemaCamera_half_right.emplace_back(m_cinemaPlayer);
-	m_objects_cinemaCamera_third_left.emplace_back(m_cinemaPlayer);
-	m_objects_cinemaCamera_third_right.emplace_back(m_cinemaPlayer);
+	m_objects_cinemaCamera.emplace_back(m_cinemaPlayer);
+	//m_objects_cinemaCamera_half_right.emplace_back(m_cinemaPlayer);
+	//m_objects_cinemaCamera_third_left.emplace_back(m_cinemaPlayer);
+	//m_objects_cinemaCamera_third_right.emplace_back(m_cinemaPlayer);
 	// シネマ用エフェクト
-	m_objects_cinemaCamera_all.emplace_back(m_effect);
-	m_objects_cinemaCamera_half_right.emplace_back(m_effect);
-	m_objects_cinemaCamera_third_left.emplace_back(m_effect);
-	m_objects_cinemaCamera_third_right.emplace_back(m_effect);
-	// 蝶
+	m_objects_cinemaCamera.emplace_back(m_effect);
+	//m_objects_cinemaCamera_half_right.emplace_back(m_effect);
+	//m_objects_cinemaCamera_third_left.emplace_back(m_effect);
+	//m_objects_cinemaCamera_third_right.emplace_back(m_effect);
+	// シネマ用蝶
+	//m_objects_cinemaCamera.emplace_back(m_butterfly);
 }
 
 //// 初期化

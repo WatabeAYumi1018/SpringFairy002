@@ -4,29 +4,29 @@
 // フェーズ管理クラス
 // ゲームの進行状況を管理する
 
-class GamePhase
+class CameraPhase
 {
 
 public:
 
-	enum class eGamePhase
+	enum class eCameraState
 	{
-		e_story,
-		e_play
+		e_game,
+		e_cinema
 	};
 
 private:
 
-	eGamePhase m_now_game_phase = eGamePhase::e_story;
+	eCameraState m_now_state = eCameraState::e_cinema;
 
 	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(GamePhase, &GamePhase::SeqStory);
+	TNL_CO_SEQUENCE(CameraPhase, &CameraPhase::SeqCinema);
 
 
-	// ストーリー画面
-	bool SeqStory(const float delta_time);
-	// プレイ画面
-	bool SeqPlay(const float delta_time);
+	// メイン画面
+	bool SeqGame(const float delta_time);
+	// シネマ画面
+	bool SeqCinema(const float delta_time);
 
 public:
 

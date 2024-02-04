@@ -11,18 +11,18 @@ class CinemaCamera : public dxe::Camera
 
 public:
 
-	enum class eCameraSplitType
-	{
-		e_all,
-		e_half_right,
-		e_third_left,
-		e_third_right
-	};
+	//enum class eCameraSplitType
+	//{
+	//	e_all,
+	//	e_half_right,
+	//	e_third_left,
+	//	e_third_right
+	//};
 
 	// 全画面シネマカメラにするデフォルトコンストラクタ
-	CinemaCamera(eCameraSplitType type);
-	// 状況に応じた画面分割をするコンストラクタ
-	CinemaCamera(int width, int height, eCameraSplitType type);
+	CinemaCamera();
+	//// 状況に応じた画面分割をするコンストラクタ
+	//CinemaCamera(int width, int height, eCameraSplitType type);
 
 	~CinemaCamera() {}
 
@@ -30,21 +30,22 @@ private:
 
 	// スクリーンハンドル
 	int m_all_hdl = 0;
-	int m_half_right = 0;
-	int m_third_left = 0;
-	int m_third_right = 0;
+	//int m_half_right = 0;
+	//int m_third_left = 0;
+	//int m_third_right = 0;
 
-	// 分割の幅
-	int m_split_width_left = DXE_WINDOW_WIDTH / 3;
-	int m_split_width_right = DXE_WINDOW_WIDTH / 3;
+	//// 分割の幅
+	//int m_split_width_left = 0;
+	//int m_split_width_right = 0;
 
-	int m_first_back_hdl = 0;
-	int m_second_back_hdl = 0;
-
-	// 最初の分割比率
-	float split_rate = 1.0f / 3.0f;
+	//// 最初の分割比率
+	//float split_rate = 1.0f / 3.0f;
 
 	bool m_move_mouse = false;
+
+	//bool m_is_half_right_active = false;
+	//bool m_is_third_left_active = false;
+	//bool m_is_third_right_active = false;
 
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
@@ -52,7 +53,7 @@ private:
 	// 追従による座標補正
 	tnl::Vector3 m_fix_pos = { 0,0,0 };
 
-	eCameraSplitType m_type = eCameraSplitType::e_all;
+	//eCameraSplitType m_type = eCameraSplitType::e_all;
 
 	// メディエーターのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
@@ -60,10 +61,10 @@ private:
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(CinemaCamera, &CinemaCamera::SeqTrigger);
 
-	// 画面作成
-	void CreateScreen();
-	// 分割の更新
-	void UpdateSplit(const float delta_time);
+	//// 画面作成
+	//void CreateScreen();
+	//// 分割の更新
+	//void UpdateSplit(const float delta_time);
 
 	// 線形補間関数
 	tnl::Vector3 Lerp(const tnl::Vector3& start
@@ -98,22 +99,36 @@ private:
 
 public:
 
-	void SetCanvas(int screen_hdl);
+	void SetCanvas();
+
+	//void SetCanvas(int screen_hdl);
 
 	void update(const float delta_time) override;
 
-	void Render(int screen_hdl);
+	void Render();
+
+	//void Render(int screen_hdl);
 
 	// スクリーンハンドルを取得
 	int GetAllHdl() const { return m_all_hdl; }
 
-	int GetHalfRightHdl() const { return m_half_right; }
-	
-	int GetThirdRightHdl() const { return m_third_right; }
-	
-	int GetThirdLeftHdl() const { return m_third_left; }
+	//int GetHalfRightHdl() const { return m_half_right; }
+	//
+	//int GetThirdRightHdl() const { return m_third_right; }
+	//
+	//int GetThirdLeftHdl() const { return m_third_left; }
 
-	eCameraSplitType GetType() const { return m_type; }
+	//float GetSplitWidthLeft() const { return m_split_width_left; }
+
+	//float GetSplitWidthRight() const { return m_split_width_right; }
+
+	//bool GetIsHalfRightActive() const { return m_is_half_right_active; }
+
+	//bool GetIsThirdLeftActive() const { return m_is_third_left_active; }
+
+	//bool GetIsThirdRightActive() const { return m_is_third_right_active; }
+
+	//eCameraSplitType GetActiveType() const { return m_type; }
 
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)

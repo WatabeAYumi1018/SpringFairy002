@@ -73,9 +73,12 @@ void Player::Update(float delta_time)
 
 void Player::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	// ƒ‚ƒfƒ‹•`‰æˆ—
-	m_mediator->DrawPlayerModel();
 
+	if(m_mediator->GetIsActiveGameCamera())
+	{
+		// ƒ‚ƒfƒ‹•`‰æˆ—
+		m_mediator->DrawPlayerModel();
+	}
 	//for (std::shared_ptr<dxe::Mesh>& mesh : m_meshs)
 	//{
 	//	mesh->render(camera);

@@ -25,19 +25,19 @@ private:
 	std::shared_ptr<PlayFactory> m_factory = nullptr;
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera_all = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera_half_right = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera_third_left = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera_third_right = nullptr;
+	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
+	//std::shared_ptr<CinemaCamera> m_cinemaCamera_half_right = nullptr;
+	//std::shared_ptr<CinemaCamera> m_cinemaCamera_third_left = nullptr;
+	//std::shared_ptr<CinemaCamera> m_cinemaCamera_third_right = nullptr;
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
 	std::shared_ptr<GimmickGenerator> m_gimmickGenerator = nullptr;
 	std::shared_ptr<ScreenShot> m_screenShot = nullptr;
 
 	std::list<std::shared_ptr<Object>> m_objects_gameCamera;
-	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_all;
-	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_half_right;
-	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_third_left;
-	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_third_right;
+	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera;
+	//std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_half_right;
+	//std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_third_left;
+	//std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_third_right;
 
 	// シーケンス
 	tnl::Sequence<ScenePlay> m_sequence

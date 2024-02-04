@@ -268,7 +268,13 @@ void PlayerDraw::CinemaAnimIdle(const float delta_time)
 	// 呼び出す直前にデタッチ（一度だけ実行）
 	if (!m_is_touch_idle)
 	{
-		AnimAttach(m_model_cinema_hdl,m_anim_idle_index, m_anim_bone_idle_cinema_hdl, m_time_count_idle);
+		MV1DetachAnim(m_model_cinema_hdl, m_anim_idle_index);
+
+		m_anim_move_index
+			= MV1AttachAnim(m_model_cinema_hdl, 0, m_anim_bone_idle_cinema_hdl);
+
+		m_time_count_move
+			= MV1GetAttachAnimTotalTime(m_model_cinema_hdl, m_anim_idle_index);
 
 		m_is_touch_idle = true;
 
@@ -277,25 +283,22 @@ void PlayerDraw::CinemaAnimIdle(const float delta_time)
 		m_is_touch_dance = false;
 	}
 
-	// ブレンド処理
-	if (m_blend_timer < 1.0f)
-	{
-		AnimBlend(delta_time, m_model_cinema_hdl,m_anim_dance_index, m_anim_idle_index);
-	}
-	else
-	{
-		MV1DetachAnim(m_model_cinema_hdl, m_anim_dance_index);
-
-		// ボタンが押されるまでループ
-		AnimIdle(delta_time);
-	}
+	// ボタンが押されるまでループ
+	AnimIdle(delta_time);
+	
 }
 
 void PlayerDraw::CinemaAnimMove(const float delta_time)
 {
 	if (!m_is_touch_move)
 	{
-		AnimAttach(m_model_cinema_hdl,m_anim_move_index, m_anim_bone_move_cinema_hdl, m_time_count_move);
+		MV1DetachAnim(m_model_cinema_hdl, m_anim_move_index);
+
+		m_anim_move_index
+			= MV1AttachAnim(m_model_cinema_hdl, 0, m_anim_bone_move_cinema_hdl);
+
+		m_time_count_move
+			= MV1GetAttachAnimTotalTime(m_model_cinema_hdl, m_anim_move_index);
 
 		m_is_touch_move = true;
 
@@ -304,24 +307,20 @@ void PlayerDraw::CinemaAnimMove(const float delta_time)
 		m_is_touch_dance = false;
 	}
 
-	// ブレンド処理
-	if (m_blend_timer < 1.0f)
-	{
-		AnimBlend(delta_time, m_model_cinema_hdl, m_anim_idle_index, m_anim_move_index);
-	}
-	else
-	{
-		MV1DetachAnim(m_model_cinema_hdl, m_anim_idle_index);
-
-		AnimMove(delta_time, m_model_cinema_hdl);
-	}
+	AnimMove(delta_time, m_model_cinema_hdl);
 }
 
 void PlayerDraw::CinemaAnimDance(const float delta_time)
 {
 	if (!m_is_touch_dance)
 	{
-		AnimAttach(m_model_cinema_hdl,m_anim_dance_index, m_anim_bone_dance_cinema_hdl, m_time_count_dance);
+		MV1DetachAnim(m_model_cinema_hdl, m_anim_dance_index);
+
+		m_anim_dance_index
+			= MV1AttachAnim(m_model_cinema_hdl, 0, m_anim_bone_dance_cinema_hdl);
+
+		m_time_count_move
+			= MV1GetAttachAnimTotalTime(m_model_cinema_hdl, m_anim_dance_index);
 
 		m_is_touch_dance = true;
 
@@ -330,18 +329,7 @@ void PlayerDraw::CinemaAnimDance(const float delta_time)
 		m_is_touch_move = false;
 	}
 
-	// ブレンド処理
-	if (m_blend_timer < 1.0f)
-	{
-		AnimBlend(delta_time, m_model_cinema_hdl, m_anim_idle_index, m_anim_dance_index);
-	}
-	else
-	{
-		MV1DetachAnim(m_model_cinema_hdl, m_anim_idle_index);
-
-		AnimDance(delta_time, m_model_cinema_hdl);
-	}
-
+	AnimDance(delta_time, m_model_cinema_hdl);
 }
 
 //bool PlayerDraw::SeqMove(const float delta_time)
