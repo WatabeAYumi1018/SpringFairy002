@@ -189,6 +189,7 @@
     <ClCompile Include="program\game\[000]GameEngine\[001]Scene\SceneManager.cpp" />
     <ClCompile Include="program\game\[000]GameEngine\[003]Transform\Transform.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\Object.cpp" />
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneLoad.cpp" />
@@ -211,7 +212,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerMove.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CameraTargetPlayer.cpp" />
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTargt.cpp" />
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTarget.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\Butterfly.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction\ButterflyLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="program\game\[000]GameEngine\[001]Scene\SceneManager.h" />
     <ClInclude Include="program\game\[000]GameEngine\[003]Transform\Transform.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\Object.h" />
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneLoad.h" />
@@ -337,7 +339,7 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerMove.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CameraTargetPlayer.h" />
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTargt.h" />
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTarget.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\Butterfly.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction\ButterflyLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.h" />

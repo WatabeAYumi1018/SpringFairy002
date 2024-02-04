@@ -407,9 +407,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[004]Score\Score.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[004]Score</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[002]SceneOP\SceneOp.cpp">
-      <Filter>program\[003] game\[002]SceneOp</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[003]ScenePlay\ScenePlay.cpp">
       <Filter>program\[003] game\[003]ScenePlay</Filter>
     </ClCompile>
@@ -482,9 +479,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[001]Camera\CinemaCamera.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClCompile>
@@ -506,8 +500,17 @@
     <ClCompile Include="program\game\[004]SceneED\SceneED.cpp">
       <Filter>program\[003] game\[004]SceneED</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTargt.cpp">
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTarget.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[002]SceneOP\SceneOp.cpp">
+      <Filter>program\[003] game\[002]SceneOp</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -881,9 +884,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[001]Camera\CinemaCamera.h">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClInclude>
@@ -905,8 +905,14 @@
     <ClInclude Include="program\game\[004]SceneED\SceneED.h">
       <Filter>program\[003] game\[004]SceneED</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTargt.h">
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTarget.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

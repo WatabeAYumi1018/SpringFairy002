@@ -22,6 +22,7 @@ class StagePhase;
 class Object;
 
 class SkyBox;
+class CinemaBack;
 
 class LaneLoad;
 class LaneMove;
@@ -31,7 +32,6 @@ class Floor;
 class Model;
 class ModelLoad;
 class ModelPool;
-//class ModelGenerator;
 
 class Character;
 
@@ -49,6 +49,7 @@ class PartnerMove;
 class PartnerDraw;
 
 class CameraTargetPlayer;
+class CinemaCameraTarget;
 
 class GimmickLoad;
 class GimmickPool;
@@ -106,6 +107,7 @@ private:
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
 
 	std::shared_ptr<SkyBox> m_skyBox = nullptr;
+	std::shared_ptr<CinemaBack> m_cinemaBack = nullptr;
 
 	std::shared_ptr<LaneLoad> m_laneLoad = nullptr;
 	std::shared_ptr<LaneMove> m_laneMove = nullptr;
@@ -132,6 +134,7 @@ private:
 	std::shared_ptr<PartnerDraw> m_partnerDraw = nullptr;
 
 	std::shared_ptr<CameraTargetPlayer> m_cameraTargetPlayer = nullptr;
+	std::shared_ptr<CinemaCameraTarget> m_cinemaCameraTarget = nullptr;
 
 	std::shared_ptr<GimmickLoad> m_gimmickLoad = nullptr;
 	std::shared_ptr<GimmickGenerator> m_gimmickGenerator = nullptr;

@@ -34,6 +34,7 @@ class PartnerMove;
 class PartnerDraw;
 
 class CameraTargetPlayer;
+class CinemaCameraTarget;
 
 class Butterfly;
 		
@@ -92,6 +93,7 @@ private:
 	std::shared_ptr<PartnerDraw> m_partnerDraw = nullptr;
 
 	std::shared_ptr<CameraTargetPlayer> m_cameraTargetPlayer = nullptr;
+	std::shared_ptr<CinemaCameraTarget> m_cinemaCameraTarget = nullptr;
 
 	std::shared_ptr<Butterfly> m_butterfly = nullptr;
 
@@ -515,6 +517,18 @@ public:
 	// 参照先 ... LaneMove::自動移動に関連するクラス
 	bool GetIsTargetMoveDown() const;
 
+	//-------------------------------//
+
+
+	//------CinemaCameraTarget------//
+
+	// CinemaCameraTarget
+
+	// シネマカメラのターゲット座標取得
+	// 参照元 ... CinemaCameraTarget::m_pos
+	// 参照先 ... OriginalCamera::target_
+	const tnl::Vector3& GetCinemaCameraTargetPos() const;
+
 	//-----------------------------//
 
 
@@ -831,6 +845,11 @@ public:
 	void SetCameraTargetPlayer(std::shared_ptr<CameraTargetPlayer>& cameraTargetPlayer)
 	{
 		m_cameraTargetPlayer = cameraTargetPlayer;
+	}
+
+	void SetCinemaCameraTarget(std::shared_ptr<CinemaCameraTarget>& cinemaCameraTarget)
+	{
+		m_cinemaCameraTarget = cinemaCameraTarget;
 	}
 
 	void SetButterfly(std::shared_ptr<Butterfly>& butterfly)

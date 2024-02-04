@@ -19,7 +19,7 @@ private:
 	// ‰~‚Ì‘¬“x
 	float m_speed = 15.0f;
 	// ‰~‚Ì”¼Œa
-	float m_radius = 150.0f;
+	float m_radius = 10.0f;
 	// ‰~‰^“®ˆê‰ñ•ª‚Ì‘ŠÔ
 	float m_total_time = 4.0f;
 	// ‰~‰^“®‚ÌŒo‰ßŠÔ

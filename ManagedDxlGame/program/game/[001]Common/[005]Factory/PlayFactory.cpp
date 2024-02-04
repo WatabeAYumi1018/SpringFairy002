@@ -1,6 +1,7 @@
 #include "../../../wta_library/wta_Astar.h"
 #include "../../../wta_library/wta_Collision.h"
 #include "../[000]Object/[000]Stage/[000]SkyBox/SkyBox.h"
+#include "../[000]Object/[000]Stage/[000]SkyBox/CinemaBack.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[002]Floor/Floor.h"
@@ -19,6 +20,7 @@
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
+#include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CinemaCameraTarget.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
@@ -72,6 +74,7 @@ void PlayFactory::CreateObject()
 	m_stagePhase = std::make_shared<StagePhase>();
 
 	m_skyBox = std::make_shared<SkyBox>();
+	m_cinemaBack = std::make_shared<CinemaBack>();
 
 	m_laneLoad = std::make_shared<LaneLoad>();
 	m_laneMove = std::make_shared<LaneMove>();
@@ -98,6 +101,7 @@ void PlayFactory::CreateObject()
 	m_partnerDraw = std::make_shared<PartnerDraw>();
 
 	m_cameraTargetPlayer = std::make_shared<CameraTargetPlayer>();
+	m_cinemaCameraTarget = std::make_shared<CinemaCameraTarget>();
 
 	m_gimmickLoad = std::make_shared<GimmickLoad>();
 	m_gimmickGenerator = std::make_shared<GimmickGenerator>();
@@ -157,6 +161,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetPartnerMove(m_partnerMove);
 	m_mediator->SetPartnerDraw(m_partnerDraw);
 	m_mediator->SetCameraTargetPlayer(m_cameraTargetPlayer);
+	m_mediator->SetCinemaCameraTarget(m_cinemaCameraTarget);
 	m_mediator->SetGimmickLoad(m_gimmickLoad);
 	m_mediator->SetGimmickGenerator(m_gimmickGenerator);
 	m_mediator->SetGimmickPool(m_gimmickPool);
@@ -263,6 +268,16 @@ void PlayFactory::StorageObjectGameCamera()
 
 void PlayFactory::StorageObjectCinemaCamera()
 {
+	// シネマ用背景
+	m_objects_cinemaCamera_all.emplace_back(m_cinemaBack);
+	m_objects_cinemaCamera_half_right.emplace_back(m_cinemaBack);
+	m_objects_cinemaCamera_third_left.emplace_back(m_cinemaBack);
+	m_objects_cinemaCamera_third_right.emplace_back(m_cinemaBack);
+	// シネマ用カメラターゲット
+	m_objects_cinemaCamera_all.emplace_back(m_cinemaCameraTarget);
+	m_objects_cinemaCamera_half_right.emplace_back(m_cinemaCameraTarget);
+	m_objects_cinemaCamera_third_left.emplace_back(m_cinemaCameraTarget);
+	m_objects_cinemaCamera_third_right.emplace_back(m_cinemaCameraTarget);
 	// シネマ用プレイヤー
 	m_objects_cinemaCamera_all.emplace_back(m_cinemaPlayer);
 	m_objects_cinemaCamera_half_right.emplace_back(m_cinemaPlayer);

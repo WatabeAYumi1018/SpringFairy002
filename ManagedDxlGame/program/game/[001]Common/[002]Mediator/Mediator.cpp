@@ -15,6 +15,7 @@
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
+#include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CinemaCameraTarget.h"
 #include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
@@ -418,6 +419,18 @@ bool Mediator::GetIsTargetMoveUp() const
 bool Mediator::GetIsTargetMoveDown() const
 {
 	return m_cameraTargetPlayer->GetIsMoveDown();
+}
+
+//-------------------------------//
+
+
+//------CinemaCameraTarget------//
+
+// CinemaCameraTarget
+
+const tnl::Vector3& Mediator::GetCinemaCameraTargetPos() const
+{
+	return m_cinemaCameraTarget->GetPos();
 }
 
 //-----------------------------//

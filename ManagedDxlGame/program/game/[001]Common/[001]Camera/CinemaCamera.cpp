@@ -10,7 +10,7 @@ CinemaCamera::CinemaCamera(eCameraSplitType type)
 	m_all_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
 
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
-	near_ = 50;
+	near_ = 10;
 }
 
 CinemaCamera::CinemaCamera(int screen_w, int screen_h, eCameraSplitType type)
@@ -20,7 +20,7 @@ CinemaCamera::CinemaCamera(int screen_w, int screen_h, eCameraSplitType type)
 	CreateScreen();
 
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
-	near_ = 50;
+	near_ = 10;
 }
 
 void CinemaCamera::SetCanvas(int screen_hdl)
@@ -125,7 +125,7 @@ tnl::Vector3 CinemaCamera::Lerp(const tnl::Vector3& start
 
 void CinemaCamera::Fixed(const tnl::Vector3& offset)
 {
-	target_ = m_mediator->GetCinemaPlayerPos();
+	target_ = m_mediator->GetCinemaCameraTargetPos();
 
 	pos_.x = target_.x + offset.x;
 	pos_.y = target_.y + offset.y;
@@ -173,12 +173,12 @@ bool CinemaCamera::SeqFirst(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		ToSlide(delta_time, {0,500,-100},10);
+		ToSlide(delta_time, {0,80,-100},10);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		Fixed({ 0,200,-100 });
+		Fixed({ 0,80,-100 });
 	});
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);

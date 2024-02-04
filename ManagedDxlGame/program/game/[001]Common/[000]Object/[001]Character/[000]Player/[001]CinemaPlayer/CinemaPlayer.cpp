@@ -1,3 +1,4 @@
+
 #include "../../../../[001]Camera/CinemaCamera.h"
 #include "../../../../[002]Mediator/Mediator.h"
 #include "CinemaPlayer.h"
@@ -5,11 +6,11 @@
 
 CinemaPlayer::CinemaPlayer()
 {
-	m_pos = { 0, 0, 0 };
+	m_pos = { -400,0,0 };
 
 	m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, -1));
 
-	m_mesh = dxe::Mesh::CreateSphereMV(50);
+	//m_mesh = dxe::Mesh::CreateSphereMV(50);
 }
 
 CinemaPlayer::~CinemaPlayer()
@@ -49,8 +50,8 @@ void CinemaPlayer::Update(const float delta_time)
 	// âÒì]Ç∆ç¿ïWÇ©ÇÁçsóÒÇåvéZ
 	m_matrix = CalcMatrix();
 
-	m_mesh->pos_ = m_pos;
-	m_mesh->pos_.y += 100;
+	//m_mesh->pos_ = m_pos;
+	//m_mesh->pos_.y += 100;
 
 	// ÉÇÉfÉãÇ…çsóÒÇìKóp
 	MV1SetMatrix(m_model_hdl, m_matrix);
@@ -64,8 +65,8 @@ void CinemaPlayer::Update(const float delta_time)
 
 void CinemaPlayer::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	 m_mesh->render(camera);
-	
+	//m_mesh->render(camera);
+
 	// ÉÇÉfÉãï`âÊèàóù
 	m_mediator->DrawPlayerModel();
 }
@@ -81,28 +82,64 @@ void CinemaPlayer::MoveRound(const float delta_time)
 	// éûä‘åoâﬂÇÃçXêV
 	m_elapsed_time_circle += delta_time;
 
-	// â~â^ìÆÇÃçXêVÅiéŒÇﬂÇ…â~Çï`Ç≠ÇΩÇﬂÇ…Yê¨ï™Ç‡â¡Ç¶ÇÈÅj
-	float angle = (m_elapsed_time_circle / m_total_time) * tnl::ToRadian(360);
+	// íÜêSç¿ïW
+	tnl::Vector3 center_pos = { 0, 0, 0 };
 
-	m_pos.x += sin(angle) * m_radius;
-	// Yé≤ï˚å¸Ç…Ç‡ìÆÇ©Ç∑
-	m_pos.y += sin(angle) * m_radius * 0.3f; 
-	m_pos.z += cos(angle) * m_radius;
+	tnl::Vector3 end_pos = { -50, -150, 0 };
 
-	// à⁄ìÆï˚å¸Çå¸Ç≠ÇΩÇﬂÇÃâÒì]
-	// à⁄ìÆï˚å¸ÅiéŒÇﬂÅj
-	tnl::Vector3 direction 
-		= { sin(angle), sin(angle) * 2, cos(angle) }; 
+	// â~â^ìÆÇÃîºåaÅBèâä˙ç¿ïWÇ∆íÜêSç¿ïWÇ©ÇÁåvéZ
+	float radius
+		= sqrt(pow(m_pos.x - center_pos.x, 2) + pow(m_pos.z - center_pos.z, 2));
 
-	tnl::Quaternion direction_rot 
-		= tnl::Quaternion::LookAt(m_pos, m_pos + direction, tnl::Vector3(0, 1, 0));
+	// â~â^ìÆÇÃçXêV
+	float angle 
+		= (m_elapsed_time_circle / m_total_time) * tnl::ToRadian(360);
+
+	// xç¿ïWÇÃà íuÇåvéZ
+	if (angle >= tnl::ToRadian(360))
+	{
+		m_pos.x = end_pos.x;
+	}
+	else
+	{
+		m_pos.x = center_pos.x + sin(angle) * radius;
+	}
+	// yç¿ïWÇÃà íuÇåvéZ
+	if (angle >= tnl::ToRadian(360))
+	{
+		m_pos.y = end_pos.y;
+	}
+	else
+	{
+		// åªç›ÇÃäpìxÇ…âûÇ∂ÇƒYé≤ÇÃà íuÇåvéZ
+		m_pos.y = (1 - (angle / tnl::ToRadian(360))) * m_pos.y 
+					+ (angle / tnl::ToRadian(360)) * end_pos.y;
+	}
+
+	// Zç¿ïWÇÃà íuÇåvéZ
+	if (angle >= tnl::ToRadian(360))
+	{
+		m_pos.z = end_pos.z;
+	}
+	else
+	{
+		m_pos.z = center_pos.z + cos(angle) * radius;
+	}
+
+	// â~â^ìÆíÜÇÃà⁄ìÆï˚å¸Çå¸Ç≠ÇΩÇﬂÇÃâÒì]ÇåvéZ
+	tnl::Vector3 nextPos 
+		= center_pos + tnl::Vector3(sin(angle + tnl::ToRadian(90)), 0
+									, cos(angle + tnl::ToRadian(90)));
+	// å¸Ç´ÇïœÇ¶ÇÈ
+	tnl::Quaternion direction_rot
+		= tnl::Quaternion::LookAt(m_pos, nextPos, tnl::Vector3(0, 1, 0));
 
 	// Xé≤é¸ÇËÇ…àÍíËäpìxåXÇØÇÈ
 	tnl::Quaternion tilt_rot 
-		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50)); 
+		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50));
 
 	// âÒì]ÇÃëgÇ›çáÇÌÇπ
-	m_rot = tilt_rot * direction_rot;
+	m_rot = direction_rot * tilt_rot;
 }
 
 bool CinemaPlayer::SeqTrigger(const float delta_time)
@@ -133,7 +170,6 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 	{
 		m_is_dance = true;
 		m_is_idle = false;
-		//m_is_move = true;
 	}
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
@@ -143,16 +179,14 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
+		m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 1));
+
+		m_is_idle = true;
 		m_is_move = false;
-		m_is_dance = true;		
+		m_is_dance = false;
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
-	{
-		m_is_idle = true;
-		m_is_dance = false;
-		m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, -1));
-	});
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&](){});
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 
@@ -170,13 +204,13 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 		{
 			m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, -1));
 		}
-		else if (m_mediator->GetScreenType() 
-				== CinemaCamera::eCameraSplitType::e_third_left)
+		else if (m_mediator->GetScreenType()
+			== CinemaCamera::eCameraSplitType::e_third_left)
 		{
 			m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
 		}
 		else if (m_mediator->GetScreenType()
-				== CinemaCamera::eCameraSplitType::e_third_right)
+			== CinemaCamera::eCameraSplitType::e_third_right)
 		{
 			m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 0));
 		}
@@ -185,7 +219,7 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		
+
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
@@ -218,39 +252,39 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 bool CinemaPlayer::SeqThird(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
-	{
-		m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 0));
-	});
+		{
+			m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 0));
+		});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
-	{
-		tnl::Quaternion m_target_rot
-			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, -1));
+		{
+			tnl::Quaternion m_target_rot
+				= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, -1));
 
-		m_rot.slerp(m_target_rot, delta_time * 10);
-	});
+			m_rot.slerp(m_target_rot, delta_time * 10);
+		});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
-	{
-		tnl::Quaternion m_target_rot
-			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
+		{
+			tnl::Quaternion m_target_rot
+				= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
 
-		m_rot.slerp(m_target_rot, delta_time * 3);
-	});
+			m_rot.slerp(m_target_rot, delta_time * 3);
+		});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
-	{
-		tnl::Quaternion m_target_rot
-			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, -1));
+		{
+			tnl::Quaternion m_target_rot
+				= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, -1));
 
-		m_rot.slerp(m_target_rot, delta_time * 10);
-	});
+			m_rot.slerp(m_target_rot, delta_time * 10);
+		});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
-	{
-		m_is_idle = false;
-		m_is_dance = true;
-	});
+		{
+			m_is_idle = false;
+			m_is_dance = true;
+		});
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 

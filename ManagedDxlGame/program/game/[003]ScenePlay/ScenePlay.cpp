@@ -152,6 +152,8 @@ void ScenePlay::Draw(const float delta_time)
 {
 	if (m_gameCamera->GetIsActiveGame())
 	{
+		DrawGridGround(m_gameCamera);
+
 		for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 		{
 			object->Draw(m_gameCamera);
@@ -159,6 +161,8 @@ void ScenePlay::Draw(const float delta_time)
 	}
 	else
 	{
+		DrawGridGround(m_cinemaCamera_all);
+
 		for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
 		{
 			object->Draw(m_cinemaCamera_all);
