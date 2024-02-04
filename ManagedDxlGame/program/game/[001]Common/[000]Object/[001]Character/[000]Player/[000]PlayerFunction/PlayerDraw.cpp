@@ -295,7 +295,7 @@ void PlayerDraw::CinemaAnimMove(const float delta_time)
 {
 	if (!m_is_touch_move)
 	{
-		AnimAttach(m_anim_move_index, m_model_cinema_hdl, m_anim_bone_move_cinema_hdl, m_time_count_move);
+		AnimAttach(m_model_cinema_hdl,m_anim_move_index, m_anim_bone_move_cinema_hdl, m_time_count_move);
 
 		m_is_touch_move = true;
 

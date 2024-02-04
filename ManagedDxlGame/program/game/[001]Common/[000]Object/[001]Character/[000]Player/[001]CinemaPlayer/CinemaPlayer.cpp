@@ -170,7 +170,7 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 		MoveRound(delta_time);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
 		m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 1));
 
@@ -179,7 +179,22 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 		m_is_dance = false;
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&](){});
+	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]() 
+	{
+		//
+		tnl::Quaternion target_rot
+			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 1));
+
+		m_rot.slerp(target_rot, delta_time * 10);
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
+	{
+		m_is_idle = true;
+
+		m_pos.y -= delta_time * 100;
+		m_pos.z += delta_time * 500;	
+	});
 
 	m_mediator->SetIsActiveGameCamera(true);
 
@@ -190,6 +205,13 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 bool CinemaPlayer::SeqSecond(const float delta_time)
 {
+	if(tnl_sequence_.isStart())
+	{
+		m_is_idle = true;
+		m_is_move = false;
+		m_is_dance = false;
+	}
+
 	DxLib::COLOR_F emissive;
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
