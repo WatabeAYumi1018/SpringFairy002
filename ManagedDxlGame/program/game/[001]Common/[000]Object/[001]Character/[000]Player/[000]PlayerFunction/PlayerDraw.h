@@ -16,17 +16,18 @@ public:
 private:
 
 	// モデル
-	int m_model_hdl = 0;
+	int m_model_game_hdl = 0;
+	int m_model_cinema_hdl = 0;
 	// idleボーン
-	int m_anim_bone_idle_hdl = 0;
+	int m_anim_bone_idle_cinema_hdl = 0;
 	// moveボーン
-	int m_anim_bone_move_hdl = 0;
+	int m_anim_bone_move_game_hdl = 0;
+	int m_anim_bone_move_cinema_hdl = 0;
 	// bloomボーン
-	int m_anim_bone_bloom_hdl = 0;
+	int m_anim_bone_bloom_game_hdl = 0;
 	// danceボーン
-	int m_anim_bone_dance_hdl = 0;
-	// テクスチャ
-	int m_texture_hdl = 0;
+	int m_anim_bone_dance_game_hdl = 0;
+	int m_anim_bone_dance_cinema_hdl = 0;
 
 	// アニメーションインデックス番号
 	int m_anim_idle_index = 0;
@@ -73,16 +74,16 @@ private:
 
 	
 	// アニメーションのブレンド処理
-	void AnimBlend(const float delta_time, int current_anim_index, int next_anim_index);
+	void AnimBlend(const float delta_time,int model_hdl, int current_anim_index, int next_anim_index);
 
-	void AnimAttach(int& anim_index, int anim_bone_hdl, float& time_count);
+	void AnimAttach(int model_hdl, int& anim_index, int anim_bone_hdl, float& time_count);
 
 	// move ループ再生の時間設定
-	void AnimMove(const float delta_time);
+	void AnimMove(const float delta_time, int model_hdl);
 	// bloom 単発再生の時間設定
 	void AnimBloom(const float delta_time);
 	// dance 単発再生の時間設定
-	void AnimDance(const float delta_time);
+	void AnimDance(const float delta_time, int model_hdl);
 	// idle ループ再生の時間設定　
 	void AnimIdle(const float delta_time);
 

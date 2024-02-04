@@ -32,8 +32,6 @@ private:
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(CinemaPlayer, &CinemaPlayer::SeqTrigger);
 
-	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
-
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 	// 線形補間関数

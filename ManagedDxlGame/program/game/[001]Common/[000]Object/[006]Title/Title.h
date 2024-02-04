@@ -17,7 +17,7 @@ public:
 private:
 
 	int m_model_hdl = 0;
-	int m_texture_hdl = 0;
+	int m_texture_game_hdl = 0;
 
 	tnl::Quaternion m_end_rot;
 	

@@ -30,7 +30,7 @@ void Player::Initialize()
 
 	m_mediator->InitializePlayerDraw();
 
-	m_model_hdl = m_mediator->GetPlayerModelHdl();
+	m_model_hdl = m_mediator->GetPlayerModelGameHdl();
 
 	SetLight(m_model_hdl);
 

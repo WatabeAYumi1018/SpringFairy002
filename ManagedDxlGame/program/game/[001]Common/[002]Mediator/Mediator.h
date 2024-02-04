@@ -268,29 +268,44 @@ public:
 	// playerLoad
 
 	// プレイヤーモデルハンドルの取得
-	// 参照元 ... PlayerLoad::m_model_hdl
+	// 参照元 ... PlayerLoad::m_model_game_hdl
 	// 参照先 ... Player関連クラス
-	int GetPlayerModelHdl() const; 
+	int GetPlayerModelGameHdl() const; 
+
+	// プレイヤーシネマモデルハンドルの取得
+	// 参照元 ... PlayerLoad::m_model_cinema_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerModelCinemaHdl() const;
 
 	// プレイヤーのアイドルボーンハンドル取得
 	// 参照元 ... PlayerLoad::m_anim_bone_idle_hdl
 	// 参照先 ... Player関連クラス
-	int GetPlayerAnimBoneIdleHdl() const;
+	int GetPlayerAnimBoneIdleCinemaHdl() const;
 
 	// プレイヤーの移動ボーンハンドル取得
-	// 参照元 ... PlayerLoad::m_anim_bone_move_hdl
+	// 参照元 ... PlayerLoad::m_anim_bone_move_game_hdl
 	// 参照先 ... Player関連クラス
-	int GetPlayerAnimBoneMoveHdl() const;
+	int GetPlayerAnimBoneMoveGameHdl() const;
+
+	// プレイヤーのシネマ移動ボーンハンドル取得
+	// 参照元 ... PlayerLoad::m_anim_bone_move_cinema_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerAnimBoneMoveCinemaHdl() const;
 
 	// プレイヤーのブルームボーンハンドル取得
-	// 参照元 ... PlayerLoad::m_anim_bone_bloom_hdl
+	// 参照元 ... PlayerLoad::m_anim_bone_bloom_game_hdl
 	// 参照先 ... Player関連クラス
-	int GetPlayerAnimBoneBloomHdl() const;
+	int GetPlayerAnimBoneBloomGameHdl() const;
 
 	// プレイヤーのダンスボーンハンドル取得
-	// 参照元 ... PlayerLoad::m_anim_bone_dance_hdl
+	// 参照元 ... PlayerLoad::m_anim_bone_dance_game_hdl
 	// 参照先 ... Player関連クラス
-	int GetPlayerAnimBoneDanceHdl() const;
+	int GetPlayerAnimBoneDanceGameHdl() const;
+
+	// プレイヤーのダンスシネマボーンハンドル取得
+	// 参照元 ... PlayerLoad::m_anim_bone_dance_cinema_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerAnimBoneDanceCinemaHdl() const;
 
 	// プレイヤーの移動速度取得
 	// 参照元 ... PlayerLoad::m_move_speed

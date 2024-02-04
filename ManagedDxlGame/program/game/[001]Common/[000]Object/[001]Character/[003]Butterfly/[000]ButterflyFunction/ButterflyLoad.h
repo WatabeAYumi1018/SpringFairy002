@@ -14,8 +14,8 @@ public:
 private:
 
 	int m_model_hdl = 0;
-	int m_texture_hdl = 0;
-	int m_anim_bone_move_hdl = 0;
+	int m_texture_game_hdl = 0;
+	int m_anim_bone_move_game_hdl = 0;
 
 
 	std::vector<std::vector<tnl::CsvCell>> m_csv_model_info;

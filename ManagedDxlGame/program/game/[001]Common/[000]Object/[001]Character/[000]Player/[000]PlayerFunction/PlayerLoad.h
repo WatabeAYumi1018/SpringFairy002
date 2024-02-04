@@ -12,18 +12,37 @@ public:
 
 private:
 
+
+	//-----Player-----//
+	
 	// モデル
-	int m_model_hdl = 0;
-	// idleボーン
-	int m_anim_bone_idle_hdl = 0;
+	int m_model_game_hdl = 0;
 	// moveボーン
-	int m_anim_bone_move_hdl = 0;
+	int m_anim_bone_move_game_hdl = 0;
 	// bloomボーン
-	int m_anim_bone_bloom_hdl = 0;
+	int m_anim_bone_bloom_game_hdl = 0;
 	// danceボーン
-	int m_anim_bone_dance_hdl = 0;
+	int m_anim_bone_dance_game_hdl = 0;
 	// テクスチャ
-	int m_texture_hdl = 0;
+	int m_texture_game_hdl = 0;
+	
+	//-----------------//
+
+	//--CinemaPlayer--//
+
+	// モデル
+	int m_model_cinema_hdl = 0;
+	// idleボーン
+	int m_anim_bone_idle_cinema_hdl = 0;
+	// moveボーン
+	int m_anim_bone_move_cinema_hdl = 0;
+	// danceボーン
+	int m_anim_bone_dance_cinema_hdl = 0;
+	// テクスチャ
+	int m_texture_cinema_hdl = 0;
+
+	//-----------------//
+
 
 	// 移動速度
 	float m_move_speed = 0;
@@ -57,15 +76,21 @@ private:
 
 public:
 
-	int GetModelHdl() const { return m_model_hdl; }
+	int GetModelGameHdl() const { return m_model_game_hdl; }
 
-	int GetAnimBoneIdleHdl() const { return m_anim_bone_idle_hdl; }
+	int GetModelCinemaHdl() const { return m_model_cinema_hdl; }
 
-	int GetAnimBoneMoveHdl() const { return m_anim_bone_move_hdl; }
+	int GetAnimBoneMoveGameHdl() const { return m_anim_bone_move_game_hdl; }
 
-	int GetAnimBoneBloomHdl() const { return m_anim_bone_bloom_hdl; }
+	int GetAnimBoneBloomGameHdl() const { return m_anim_bone_bloom_game_hdl; }
 
-	int GetAnimBoneDanceHdl() const { return m_anim_bone_dance_hdl; }
+	int GetAnimBoneDanceGameHdl() const { return m_anim_bone_dance_game_hdl; }
+
+	int GetAnimBoneIdleCinemaHdl() const { return m_anim_bone_idle_cinema_hdl; }
+
+	int GetAnimBoneDanceCinemaHdl() const { return m_anim_bone_dance_cinema_hdl; }
+
+	int GetAnimBoneMoveCinemaHdl() const { return m_anim_bone_move_cinema_hdl; }
 
 	float GetMoveSpeed() const { return m_move_speed; }
 

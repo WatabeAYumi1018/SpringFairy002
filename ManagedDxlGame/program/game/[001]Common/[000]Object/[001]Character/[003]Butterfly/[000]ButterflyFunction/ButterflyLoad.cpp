@@ -8,9 +8,9 @@ ButterflyLoad::ButterflyLoad()
 
 ButterflyLoad::~ButterflyLoad()
 {
-	DeleteGraph(m_texture_hdl);
+	DeleteGraph(m_texture_game_hdl);
 	MV1DeleteModel(m_model_hdl);
-	MV1DeleteModel(m_anim_bone_move_hdl);
+	MV1DeleteModel(m_anim_bone_move_game_hdl);
 }
 
 void ButterflyLoad::LoadModelInfo()
@@ -21,10 +21,10 @@ void ButterflyLoad::LoadModelInfo()
 	m_model_hdl
 		= MV1LoadModel(m_csv_model_info[1][1].getString().c_str());
 
-	m_texture_hdl
+	m_texture_game_hdl
 		= LoadGraph(m_csv_model_info[2][1].getString().c_str());
 
-	m_anim_bone_move_hdl
+	m_anim_bone_move_game_hdl
 		= MV1LoadModel(m_csv_model_info[3][1].getString().c_str());
 }
 

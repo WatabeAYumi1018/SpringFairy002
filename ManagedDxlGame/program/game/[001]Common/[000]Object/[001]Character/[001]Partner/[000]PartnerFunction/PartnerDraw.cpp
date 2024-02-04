@@ -8,9 +8,9 @@ void PartnerDraw::Initialize()
 	// モデル読み取り
 	m_model_hdl = m_mediator->GetPartnerModelHdl();
 	// idleボーン
-	m_anim_bone_idle_hdl = m_mediator->GetPartnerAnimBoneIdleHdl();
+	m_anim_bone_idle_cinema_hdl = m_mediator->GetPartnerAnimBoneIdleHdl();
 	// moveボーン
-	m_anim_bone_move_hdl = m_mediator->GetPartnerAnimBoneMoveHdl();
+	m_anim_bone_move_game_hdl = m_mediator->GetPartnerAnimBoneMoveHdl();
 }
 
 void PartnerDraw::Update(float delta_time)
@@ -58,7 +58,7 @@ bool PartnerDraw::SeqMove(float delta_time)
 		MV1DetachAnim(m_model_hdl, m_anim_move_index);
 
 		m_anim_move_index
-			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_move_hdl);
+			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_move_game_hdl);
 
 		m_time_count_move
 			= MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_move_index);
@@ -83,7 +83,7 @@ bool PartnerDraw::SeqIdle(float delta_time)
 		MV1DetachAnim(m_model_hdl, m_anim_idle_index);
 
 		m_anim_idle_index
-			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_idle_hdl);
+			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_idle_cinema_hdl);
 
 		m_time_count_idle
 			= MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_idle_index);

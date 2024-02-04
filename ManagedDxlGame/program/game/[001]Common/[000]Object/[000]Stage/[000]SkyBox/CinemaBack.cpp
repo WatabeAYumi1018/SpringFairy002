@@ -1,4 +1,3 @@
-#include "../../../[002]Mediator/Mediator.h"
 #include "CinemaBack.h"
 
 

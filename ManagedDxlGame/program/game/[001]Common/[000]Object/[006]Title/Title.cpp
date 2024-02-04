@@ -7,9 +7,9 @@ Title::Title()
 {
     m_model_hdl = MV1LoadModel("model/gate/start.mv1");
 
-    m_texture_hdl = LoadGraph("model/gate/start.png");
+    m_texture_game_hdl = LoadGraph("model/gate/start.png");
 
-    MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_hdl, FALSE);
+    MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_game_hdl, FALSE);
 
     m_scale = { 0.5f };
 
@@ -22,7 +22,7 @@ Title::Title()
 Title::~Title()
 {
 	MV1DeleteModel(m_model_hdl);
-	DeleteGraph(m_texture_hdl);
+	DeleteGraph(m_texture_game_hdl);
 }
 
 void Title::Update(const float delta_time)

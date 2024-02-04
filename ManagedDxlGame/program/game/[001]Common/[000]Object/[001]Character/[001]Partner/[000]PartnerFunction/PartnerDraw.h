@@ -20,12 +20,12 @@ private:
 	// モデル
 	int m_model_hdl = 0;
 	// moveボーン
-	int m_anim_bone_move_hdl = 0;
+	int m_anim_bone_move_game_hdl = 0;
 	// idleボーン
-	int m_anim_bone_idle_hdl = 0;
+	int m_anim_bone_idle_cinema_hdl = 0;
 
 	// テクスチャ
-	int m_texture_hdl = 0;
+	int m_texture_game_hdl = 0;
 
 	// アニメーションインデックス番号
 	int m_anim_move_index = 0;

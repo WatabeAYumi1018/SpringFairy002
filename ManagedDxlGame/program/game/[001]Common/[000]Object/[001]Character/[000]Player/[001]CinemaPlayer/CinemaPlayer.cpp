@@ -9,8 +9,6 @@ CinemaPlayer::CinemaPlayer()
 	m_pos = { -400,0,0 };
 
 	m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, -1));
-
-	//m_mesh = dxe::Mesh::CreateSphereMV(50);
 }
 
 CinemaPlayer::~CinemaPlayer()
@@ -22,7 +20,7 @@ void CinemaPlayer::Initialize()
 {
 	m_mediator->InitializePlayerDraw();
 
-	m_model_hdl = m_mediator->GetPlayerModelHdl();
+	m_model_hdl = m_mediator->GetPlayerModelCinemaHdl();
 
 	SetLight(m_model_hdl);
 }
@@ -50,9 +48,6 @@ void CinemaPlayer::Update(const float delta_time)
 	// 回転と座標から行列を計算
 	m_matrix = CalcMatrix();
 
-	//m_mesh->pos_ = m_pos;
-	//m_mesh->pos_.y += 100;
-
 	// モデルに行列を適用
 	MV1SetMatrix(m_model_hdl, m_matrix);
 
@@ -65,10 +60,8 @@ void CinemaPlayer::Update(const float delta_time)
 
 void CinemaPlayer::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	//m_mesh->render(camera);
-
 	// モデル描画処理
-	m_mediator->DrawPlayerModel();
+	MV1DrawModel(m_model_hdl);
 }
 
 // Lerp関数の定義（線形補間）
@@ -187,6 +180,8 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&](){});
+
+	m_mediator->SetIsActiveGameCamera(true);
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 

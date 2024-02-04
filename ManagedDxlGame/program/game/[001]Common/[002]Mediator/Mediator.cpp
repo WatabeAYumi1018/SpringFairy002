@@ -168,29 +168,44 @@ tnl::Vector3 Mediator::PlayerForward()
 
 // playerLoad
 
-int Mediator::GetPlayerModelHdl() const
+int Mediator::GetPlayerModelGameHdl() const
 {
-	return m_playerLoad->GetModelHdl();
+	return m_playerLoad->GetModelGameHdl();
 }
 
-int Mediator::GetPlayerAnimBoneIdleHdl() const
+int Mediator::GetPlayerModelCinemaHdl() const
 {
-	return m_playerLoad->GetAnimBoneIdleHdl();
+	return m_playerLoad->GetModelCinemaHdl();
 }
 
-int Mediator::GetPlayerAnimBoneMoveHdl() const
+int Mediator::GetPlayerAnimBoneIdleCinemaHdl() const
 {
-	return m_playerLoad->GetAnimBoneMoveHdl();
+	return m_playerLoad->GetAnimBoneIdleCinemaHdl();
 }
 
-int Mediator::GetPlayerAnimBoneBloomHdl() const
+int Mediator::GetPlayerAnimBoneMoveGameHdl() const
 {
-	return m_playerLoad->GetAnimBoneBloomHdl();
+	return m_playerLoad->GetAnimBoneMoveGameHdl();
 }
 
-int Mediator::GetPlayerAnimBoneDanceHdl() const
+int Mediator::GetPlayerAnimBoneMoveCinemaHdl() const
 {
-	return m_playerLoad->GetAnimBoneDanceHdl();
+	return m_playerLoad->GetAnimBoneMoveCinemaHdl();
+}
+
+int Mediator::GetPlayerAnimBoneBloomGameHdl() const
+{
+	return m_playerLoad->GetAnimBoneBloomGameHdl();
+}
+
+int Mediator::GetPlayerAnimBoneDanceGameHdl() const
+{
+	return m_playerLoad->GetAnimBoneDanceGameHdl();
+}
+
+int Mediator::GetPlayerAnimBoneDanceCinemaHdl() const
+{
+	return m_playerLoad->GetAnimBoneDanceCinemaHdl();
 }
 
 float Mediator::GetPlayerMoveSpeed() const
@@ -231,7 +246,6 @@ void Mediator::InitializePlayerDraw()
 {
 	m_playerDraw->Initialize();
 }
-
 
 void Mediator::UpdatePlayerAnim(const float delta_time)
 {
@@ -342,7 +356,7 @@ GameCamera::sCamera Mediator::CurrentCameraLane()
 
 int Mediator::GetPartnerModelHdl() const
 {
-	return m_partnerLoad->GetModelHdl();
+	return m_partnerLoad->GetModelGameHdl();
 }
 
 int Mediator::GetPartnerAnimBoneIdleHdl() const
@@ -352,7 +366,7 @@ int Mediator::GetPartnerAnimBoneIdleHdl() const
 
 int Mediator::GetPartnerAnimBoneMoveHdl() const
 {
-	return m_partnerLoad->GetAnimBoneMoveHdl();
+	return m_partnerLoad->GetAnimBoneMoveGameHdl();
 }
 
 // PartnerMove

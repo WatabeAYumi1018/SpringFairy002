@@ -176,6 +176,7 @@ bool Gimmick::SeqHit(const float delta_time)
 		m_emissive.r = m_emissive_value;
 		m_emissive.g = m_emissive_value;
 		m_emissive.b = m_emissive_value;
+
 		m_emissive.a = 1.0f;
 
 		if (m_emissive_value >= 0.6f)
@@ -207,6 +208,7 @@ bool Gimmick::SeqLightUp(const float delta_time)
 		m_emissive.r = m_emissive_value;
 		m_emissive.g = m_emissive_value;
 		m_emissive.b = m_emissive_value;
+
 		m_emissive.a = 1.0f;
 
 		if (m_emissive_value >= 1)
@@ -233,6 +235,7 @@ bool Gimmick::SeqLightDown(const float delta_time)
 		m_emissive.r = m_emissive_value;
 		m_emissive.g = m_emissive_value;
 		m_emissive.b = m_emissive_value;
+
 		m_emissive.a = 1.0f;
 
 		if (m_emissive_value <= 0.5f)
