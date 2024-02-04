@@ -141,7 +141,7 @@ bool CinemaPlayer::SeqTrigger(const float delta_time)
 	if (m_mediator->GetEventLane().s_id == 1)
 	{
 		// Å‰‚ÌÐ‰î
-		tnl_sequence_.change(&CinemaPlayer::SeqFirst);
+		tnl_sequence_.change(&CinemaPlayer::SeqSecond);
 	}
 	if (m_mediator->GetEventLane().s_id == 5)
 	{
@@ -231,7 +231,6 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 		{
 			m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 0));
 		}
-
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()

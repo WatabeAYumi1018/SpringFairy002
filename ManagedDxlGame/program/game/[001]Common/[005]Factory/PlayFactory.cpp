@@ -181,6 +181,7 @@ void PlayFactory::SetObjectReference()
 
 	m_stagePhase->SetMediator(m_mediator);
 	m_skyBox->SetMediator(m_mediator);
+	m_cinemaBack->SetMediator(m_mediator);
 	m_laneMove->SetAstar(m_astar);
 	m_laneMove->SetMediator(m_mediator);
 	m_floor->SetMediator(m_mediator);

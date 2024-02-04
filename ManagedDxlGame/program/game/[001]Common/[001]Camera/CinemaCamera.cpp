@@ -9,6 +9,9 @@ CinemaCamera::CinemaCamera(eCameraSplitType type)
 	// 使用する画面の作成
 	m_all_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
 
+	m_first_back_hdl = LoadGraph("graphics/illust/background-green.jpg");
+	m_second_back_hdl = LoadGraph("graphics/illust/flower.jpg");
+
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
 	near_ = 10;
 }
@@ -18,6 +21,11 @@ CinemaCamera::CinemaCamera(int screen_w, int screen_h, eCameraSplitType type)
 {
 	// 使用する画面の作成
 	CreateScreen();
+
+	m_first_back_hdl = LoadGraph("graphics/illust/background-green.jpg");
+	m_second_back_hdl = LoadGraph("graphics/illust/flower.jpg");
+
+
 
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
 	near_ = 10;
@@ -70,6 +78,8 @@ void CinemaCamera::Render(int screen_hdl)
 		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH
 						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
 
+		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
+
 	break;
 
 	case eCameraSplitType::e_half_right:
@@ -77,12 +87,15 @@ void CinemaCamera::Render(int screen_hdl)
 		DrawExtendGraph(DXE_WINDOW_WIDTH / 2, 0, DXE_WINDOW_WIDTH
 						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
 
+
 	break;
 
 	case eCameraSplitType::e_third_left:
 
 		DrawExtendGraph(0, 0, m_split_width_left
 						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
+
+		DrawExtendGraph(0, 0, m_split_width_left, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
 	
 	break;
 
@@ -90,6 +103,8 @@ void CinemaCamera::Render(int screen_hdl)
 
 		DrawExtendGraph(m_split_width_right, 0, DXE_WINDOW_WIDTH
 						, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
+
+		DrawExtendGraph(m_split_width_right, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
 	}	
 }
 
@@ -148,7 +163,7 @@ bool CinemaCamera::SeqTrigger(const float delta_time)
 	if (m_mediator->GetEventLane().s_id == 1)
 	{
 		// 最初の紹介
-		tnl_sequence_.change(&CinemaCamera::SeqFirst);
+		tnl_sequence_.change(&CinemaCamera::SeqSecond);
 	}
 	if (m_mediator->GetEventLane().s_id == 5)
 	{

@@ -112,19 +112,19 @@ void ScenePlay::Update(const float delta_time)
 		//m_cinemaCamera_half_right
 		//	->SetCanvas(m_cinemaCamera_half_right->GetHalfRightHdl());
 
-		//m_cinemaCamera_third_left
-		//	->SetCanvas(m_cinemaCamera_third_left->GetThirdLeftHdl());
+		m_cinemaCamera_third_left
+			->SetCanvas(m_cinemaCamera_third_left->GetThirdLeftHdl());
 
-		//m_cinemaCamera_third_right
-		//	->SetCanvas(m_cinemaCamera_third_right->GetThirdRightHdl());
+		m_cinemaCamera_third_right
+			->SetCanvas(m_cinemaCamera_third_right->GetThirdRightHdl());
 
 		m_cinemaCamera_all->update(delta_time);
 
 		//m_cinemaCamera_half_right->update(delta_time);
 
-		//m_cinemaCamera_third_left->update(delta_time);
+		m_cinemaCamera_third_left->update(delta_time);
 
-		//m_cinemaCamera_third_right->update(delta_time);
+		m_cinemaCamera_third_right->update(delta_time);
 
 		for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_all)
 		{
@@ -136,15 +136,15 @@ void ScenePlay::Update(const float delta_time)
 		//	object->Update(delta_time);
 		//}
 
-		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_left)
-		//{
-		//	object->Update(delta_time);
-		//}
+		for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_left)
+		{
+			object->Update(delta_time);
+		}
 
-		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_right)
-		//{
-		//	object->Update(delta_time);
-		//}
+		for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_right)
+		{
+			object->Update(delta_time);
+		}
 	}
 }
 
@@ -173,26 +173,26 @@ void ScenePlay::Draw(const float delta_time)
 		//	object->Draw(m_cinemaCamera_half_right);
 		//}
 
-		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_left)
-		//{
-		//	object->Draw(m_cinemaCamera_third_left);
-		//}
+		for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_left)
+		{
+			object->Draw(m_cinemaCamera_third_left);
+		}
 
-		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_right)
-		//{
-		//	object->Draw(m_cinemaCamera_third_right);
-		//}
+		for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_right)
+		{
+			object->Draw(m_cinemaCamera_third_right);
+		}
 
 		m_cinemaCamera_all->Render(m_cinemaCamera_all->GetAllHdl());
 
 		//m_cinemaCamera_half_right
 		//	->Render(m_cinemaCamera_half_right->GetHalfRightHdl());
 
-		//m_cinemaCamera_third_left
-		//	->Render(m_cinemaCamera_third_left->GetThirdLeftHdl());
+		m_cinemaCamera_third_left
+			->Render(m_cinemaCamera_third_left->GetThirdLeftHdl());
 
-		//m_cinemaCamera_third_right
-		//	->Render(m_cinemaCamera_third_right->GetThirdRightHdl());
+		m_cinemaCamera_third_right
+			->Render(m_cinemaCamera_third_right->GetThirdRightHdl());
 	}
 
 	m_screenShot->SaveScreenShot();

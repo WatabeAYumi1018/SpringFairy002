@@ -34,8 +34,12 @@ private:
 	int m_third_left = 0;
 	int m_third_right = 0;
 
-	int m_split_width_left = 0;
-	int m_split_width_right = 0;
+	// •ªŠ„‚Ì•
+	int m_split_width_left = DXE_WINDOW_WIDTH / 3;
+	int m_split_width_right = DXE_WINDOW_WIDTH / 3;
+
+	int m_first_back_hdl = 0;
+	int m_second_back_hdl = 0;
 
 	// Å‰‚Ì•ªŠ„”ä—¦
 	float split_rate = 1.0f / 3.0f;

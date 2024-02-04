@@ -1,3 +1,5 @@
+#include "../../../[002]Mediator/Mediator.h"
+#include "../../../[001]Camera/CinemaCamera.h"
 #include "CinemaBack.h"
 
 
@@ -15,6 +17,7 @@ void CinemaBack::LoadCinemaBackInfo()
 {
 
 	m_first_back_hdl = LoadGraph("graphics/illust/background-green.jpg");
+	m_second_back_hdl = LoadGraph("graphics/illust/flower.jpg");
 	//// csvファイルの読み込み
 	//m_csv_skybox_info
 	//	= tnl::LoadCsv<tnl::CsvCell>("csv/stage/sky/skyBox_Info.csv");
@@ -41,6 +44,16 @@ void CinemaBack::LoadCinemaBackInfo()
 
 void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH
-					, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
+	if (m_mediator->GetScreenType() == CinemaCamera::eCameraSplitType::e_all ||
+		m_mediator->GetScreenType() == CinemaCamera::eCameraSplitType::e_third_left ||
+		m_mediator->GetScreenType() == CinemaCamera::eCameraSplitType::e_third_right)
+	{
+		// ここでsecond_back_hdlを全画面用に描画
+		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_second_back_hdl, TRUE);
+	}
+	else
+	{
+		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH
+			, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
+	}
 }
