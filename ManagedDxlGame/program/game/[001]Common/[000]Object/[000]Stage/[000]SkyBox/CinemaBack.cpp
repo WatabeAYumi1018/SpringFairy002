@@ -6,6 +6,9 @@
 CinemaBack::CinemaBack()
 {
 	LoadCinemaBackInfo();
+
+	RandomBubbleCalc();
+
 }
 
 CinemaBack::~CinemaBack()
@@ -15,10 +18,13 @@ CinemaBack::~CinemaBack()
 
 void CinemaBack::LoadCinemaBackInfo()
 {
-	m_fog_hdl = LoadGraph("graphics/illust/fog.png");
-	m_first_back_hdl = LoadGraph("graphics/illust/background-green.jpg");
+	m_first_back_hdl = LoadGraph("graphics/event/background-green.jpg");
 	//m_second_third_hdl = LoadGraph("graphics/illust/background-green_third.jpg");
-	m_second_back_hdl = LoadGraph("graphics/illust/flower.jpg");
+	m_second_back_hdl = LoadGraph("graphics/event/flower.jpg");
+	m_third_back_hdl = LoadGraph("graphics/event/night.jpg");
+
+	m_fog_hdl = LoadGraph("graphics/event/fog.png");
+	m_bubble_hdl = LoadGraph("graphics/event/cinema_bubble.png");
 	//// csvファイルの読み込み
 	//m_csv_skybox_info
 	//	= tnl::LoadCsv<tnl::CsvCell>("csv/stage/sky/skyBox_Info.csv");
@@ -49,6 +55,11 @@ void CinemaBack::Update(const float delta_time)
 	{
 		UpdateFogBlend();
 	}
+
+	if (m_is_bubble)
+	{
+		UpdateBubblesActive(delta_time);
+	}
 }
 
 void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -56,8 +67,11 @@ void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 	//レーンが1
 	//DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
 	// レーンが5
-	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_second_back_hdl, TRUE);
+	//DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_second_back_hdl, TRUE);
+	// レーンが9
+	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_third_back_hdl, TRUE);
 
+	// レーンが5
 	if(m_is_fog)
 	{
 		// 画像の透明度を設定（0〜255）
@@ -67,6 +81,24 @@ void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 	
 		// ブレンドモードを通常に戻す
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
+
+	if (m_is_bubble)
+	{
+		for (int i = 0; i < m_bubbles.size(); ++i)
+		{
+			if (m_bubbles[i].s_is_active)
+			{
+				// 画像の透明度を設定（0〜255）
+				SetDrawBlendMode(DX_BLENDMODE_ADD, m_bubbles[i].s_alpha);
+
+				DrawGraph(m_bubbles[i].s_pos.x, m_bubbles[i].s_pos.y
+						  , m_bubble_hdl, TRUE);
+
+				// ブレンドモードを通常に戻す
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			}
+		}
 	}
 }
 
@@ -78,7 +110,40 @@ void CinemaBack::UpdateFogBlend()
 	if (m_alpha > 255)
 	{
 		m_alpha = 255;
+
+		m_is_fog = false;
 	}
+}
+
+void CinemaBack::RandomBubbleCalc()
+{
+	for (int i = 0; i < 10; ++i)
+	{
+		sBubble bubble;
+
+		bubble.s_pos.x = GetRand(DXE_WINDOW_WIDTH);
+		bubble.s_pos.y = GetRand(DXE_WINDOW_HEIGHT);
+		bubble.s_alpha = GetRand(255);
+		bubble.s_is_active = true;
+
+		m_bubbles.emplace_back(bubble);
+	}
+}
+
+void CinemaBack::UpdateBubblesActive(const float delta_time)
+{
+	m_elapsed_time += delta_time;
+
+	for (sBubble& bubble : m_bubbles)
+	{
+		// シャボンの点滅を制御
+		if (m_elapsed_time < m_total_active_time)
+		{
+			// 表示、非表示を切り替え
+			bubble.s_is_active = !bubble.s_is_active; 
+		}
+	}
+
 }
 
 

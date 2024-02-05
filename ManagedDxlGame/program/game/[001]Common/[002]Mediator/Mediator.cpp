@@ -52,6 +52,11 @@ void Mediator::SetIsCinemaBackFog(bool is_fog)
 	m_cinemaBack->SetIsFog(is_fog);
 }
 
+void Mediator::SetIsCinemaBackBubble(bool is_bubble)
+{
+	m_cinemaBack->SetIsBubble(is_bubble);
+}
+
 //----------------------------//
 
 

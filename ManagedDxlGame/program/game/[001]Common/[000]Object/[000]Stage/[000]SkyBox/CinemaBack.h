@@ -10,6 +10,12 @@ class CinemaBack : public Object
 
 public:
 
+	struct sBubble
+	{
+		tnl::Vector3 s_pos;
+		int s_alpha;
+		bool s_is_active;
+	};
 
 	CinemaBack();
 
@@ -17,13 +23,22 @@ public:
 
 private:
 
-	int m_fog_hdl = 0;
 	int m_first_back_hdl = 0;
 	int m_second_back_hdl = 0;
+	int m_third_back_hdl = 0;
+
+	int m_fog_hdl = 0;
+	int m_bubble_hdl = 0;
 
 	int m_alpha = 0;
 
+	float m_elapsed_time = 0.0f;
+	float m_total_active_time = 60.0f;
+
 	bool m_is_fog = false;
+	bool m_is_bubble = false;
+
+	std::vector<sBubble> m_bubbles;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
@@ -32,6 +47,11 @@ private:
 
 	void UpdateFogBlend();
 
+	void RandomBubbleCalc();
+
+	void UpdateBubblesActive(const float delta_time);
+
+
 public:
 
 	void Update(const float delta_time) override;
@@ -39,6 +59,8 @@ public:
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 	
 	void SetIsFog(bool is_fog) { m_is_fog = is_fog; }
+
+	void SetIsBubble(bool is_bubble) { m_is_bubble = is_bubble; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

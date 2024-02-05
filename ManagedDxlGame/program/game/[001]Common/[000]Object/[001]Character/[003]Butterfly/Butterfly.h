@@ -16,6 +16,8 @@ public:
 
 private:
 
+	int m_texture_tip_hdl = 0;
+
 	// ‰~‚Ì‘¬“x
 	float m_speed = 10.0f;
 	// ‰~‚Ì”¼Œa

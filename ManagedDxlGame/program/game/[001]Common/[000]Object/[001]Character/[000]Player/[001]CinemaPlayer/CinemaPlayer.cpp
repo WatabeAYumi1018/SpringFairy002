@@ -193,7 +193,7 @@ bool CinemaPlayer::SeqTrigger(const float delta_time)
 	if (m_mediator->GetEventLane().s_id == 1)
 	{
 		// Å‰‚ÌÐ‰î
-		tnl_sequence_.change(&CinemaPlayer::SeqFirst);
+		tnl_sequence_.change(&CinemaPlayer::SeqThird);
 	}
 	if (m_mediator->GetEventLane().s_id == 5)
 	{
@@ -336,6 +336,8 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 
 	DxLib::COLOR_F m_emissive = { 0.5f,0.5f,0.5f,1 };
 
+	m_is_dance = false;
+
 	m_mediator->SetIsActiveGameCamera(true);
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
@@ -345,6 +347,18 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 
 bool CinemaPlayer::SeqThird(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_is_idle = true;
+		m_pos = { 0 };
+
+		DxLib::COLOR_F m_emissive = { 0.9f,0.9f,0.9f,1 };
+
+		MV1SetMaterialEmiColor(m_model_hdl, 0, m_emissive);
+	}
+
+	m_mediator->SetIsCinemaBackBubble(true);
+
 	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
 	{
 		m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 0));

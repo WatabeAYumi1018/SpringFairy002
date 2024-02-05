@@ -15,6 +15,8 @@ private:
 
 	int m_model_hdl = 0;
 	int m_texture_hdl = 0;
+	int m_texture_tip_hdl = 0;
+	int m_tecxture_mask_hdl = 0;
 
 	std::vector<std::vector<tnl::CsvCell>> m_csv_model_info;
 	// バタフライの移動情報読み取り専用（csvファイル）

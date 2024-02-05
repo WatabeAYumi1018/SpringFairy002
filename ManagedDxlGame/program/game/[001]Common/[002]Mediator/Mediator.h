@@ -160,6 +160,12 @@ public:
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void SetIsCinemaBackFog(bool is_fog);
 
+	// シネマバックのバブルフラグ設定
+	// 参照元 ... CinemaBack::m_is_bubble
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetIsCinemaBackBubble(bool is_bubble);
+
+
 	//----------------------------//
 	
 	

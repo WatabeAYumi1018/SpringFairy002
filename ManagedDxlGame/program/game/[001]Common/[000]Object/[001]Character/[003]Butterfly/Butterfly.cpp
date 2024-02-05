@@ -27,7 +27,32 @@ void Butterfly::Initialize()
 
 	m_time_count = MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_index);
 
+	m_texture_tip_hdl = LoadGraph("data/texture/butterfly_tip.png");
+
 	SetLight(m_model_hdl);
+
+	//// ライトパラメータを最大に設定
+	//tnl::Vector3 lightDir = { 1.0f, -1.0f, 1.0f }; // 光の方向
+	//tnl::Vector3 lightDiffuse = { 1.0f, 1.0f, 1.0f }; // 拡散光の強度
+	//tnl::Vector3 lightAmbient = { 1.0f, 1.0f, 1.0f }; // 環境光の強度
+	//tnl::Vector3 lightSpecular = { 1.0f, 1.0f, 1.0f }; // 鏡面光の強度
+
+	//// ライトの方向を設定
+	//SetLightDirection({ lightDir.x, lightDir.y, lightDir.z });
+	//// ライトの拡散色を設定
+	//SetLightDifColor({ lightDiffuse.x, lightDiffuse.y, lightDiffuse.z, 1.0f });
+	//// ライトの環境色を設定
+	//SetLightAmbColor({ lightAmbient.x, lightAmbient.y, lightAmbient.z, 1.0f });
+	//// ライトの鏡面色を設定
+	//SetLightSpcColor({ lightSpecular.x, lightSpecular.y, lightSpecular.z, 1.0f });
+
+	// エミッシブカラーを設定してモデルを発光させる
+	//DxLib::COLOR_F emissive = {10.0f, 10.0f, 10.0f, 1 }; // 強い発光
+	//MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
+
+	//DxLib::COLOR_F diffuse = { 10,10,10,1 };
+
+	//MV1SetMaterialDifColor(m_model_hdl, 0, diffuse);
 }
 
 void Butterfly::Update(const float delta_time)
@@ -56,7 +81,10 @@ void Butterfly::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	m_mesh->render(camera);
 
+	// 描画モードを変更して、発光を強調
+	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
 	MV1DrawModel(m_model_hdl);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 void Butterfly::AnimMove(const float delta_time)
