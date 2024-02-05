@@ -39,22 +39,13 @@ void ScenePlay::Initialize()
 	// 各オブジェクトの参照をFactoryクラスから取得
 	m_objects_gameCamera
 		= m_factory->GetObjectsGameCamera();
+
 	m_objects_cinemaCamera 
 		= m_factory->GetObjectsCinemaCamera();
-	//m_objects_cinemaCamera_half_right
-	//	= m_factory->GetObjectsCinemaCameraHalf();
-	//m_objects_cinemaCamera_third_left
-	//	= m_factory->GetObjectsCinemaCameraThirdLeft();
-	//m_objects_cinemaCamera_third_right 
-	//	= m_factory->GetObjectsCinemaCameraThirdRight();
-	 
 	// カメラの取得
 	m_gameCamera = m_factory->GetOpCamera();
 	// シネマカメラの取得
 	m_cinemaCamera = m_factory->GetCinemaCamera();
-	//m_cinemaCamera_half_right = m_factory->GetCinemaCameraHalfRight();
-	//m_cinemaCamera_third_left = m_factory->GetCinemaCameraThirdLeft();
-	//m_cinemaCamera_third_right = m_factory->GetCinemaCameraThirdRight();
 	// ステージの取得
 	m_stagePhase = m_factory->GetStagePhase();
 	// アイテムジェネレータの取得
@@ -73,21 +64,6 @@ void ScenePlay::Initialize()
 	{
 		object->Initialize();
 	}
-
-	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_half_right)
-	//{
-	//	object->Initialize();
-	//}
-
-	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_left)
-	//{
-	//	object->Initialize();
-	//}
-
-	//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_right)
-	//{
-	//	object->Initialize();
-	//}
 }
 
 void ScenePlay::Update(const float delta_time)
@@ -109,42 +85,12 @@ void ScenePlay::Update(const float delta_time)
 	{
 		m_cinemaCamera->SetCanvas();
 
-		//m_cinemaCamera_half_right
-		//	->SetCanvas(m_cinemaCamera_half_right->GetHalfRightHdl());
-
-		//m_cinemaCamera_third_left
-		//	->SetCanvas(m_cinemaCamera_third_left->GetThirdLeftHdl());
-
-		//m_cinemaCamera_third_right
-		//	->SetCanvas(m_cinemaCamera_third_right->GetThirdRightHdl());
-
 		m_cinemaCamera->update(delta_time);
-
-		//m_cinemaCamera_half_right->update(delta_time);
-
-		//m_cinemaCamera_third_left->update(delta_time);
-
-		//m_cinemaCamera_third_right->update(delta_time);
 
 		for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
 		{
 			object->Update(delta_time);
 		}
-
-		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_half_right)
-		//{
-		//	object->Update(delta_time);
-		//}
-
-		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_left)
-		//{
-		//	object->Update(delta_time);
-		//}
-
-		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_right)
-		//{
-		//	object->Update(delta_time);
-		//}
 	}
 }
 
@@ -168,35 +114,7 @@ void ScenePlay::Draw(const float delta_time)
 			object->Draw(m_cinemaCamera);
 		}
 	
-		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_half_right)
-		//{
-		//	object->Draw(m_cinemaCamera_half_right);
-		//}
-
-		//DrawGridGround(m_cinemaCamera_third_left);
-
-		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_left)
-		//{
-		//	object->Draw(m_cinemaCamera_third_left);
-		//}
-
-		//DrawGridGround(m_cinemaCamera_third_right);
-
-		//for (std::shared_ptr<Object>& object : m_objects_cinemaCamera_third_right)
-		//{
-		//	object->Draw(m_cinemaCamera_third_right);
-		//}
-
 		m_cinemaCamera->Render();
-
-		////m_cinemaCamera_half_right
-		////	->Render(m_cinemaCamera_half_right->GetHalfRightHdl());
-
-		//m_cinemaCamera_third_left
-		//	->Render(m_cinemaCamera_third_left->GetThirdLeftHdl());
-
-		//m_cinemaCamera_third_right
-		//	->Render(m_cinemaCamera_third_right->GetThirdRightHdl());
 	}
 
 	m_screenShot->SaveScreenShot();
@@ -210,12 +128,6 @@ void ScenePlay::Finalize()
 	m_objects_gameCamera.clear();
 
 	m_objects_cinemaCamera.clear();
-
-	//m_objects_cinemaCamera_half_right.clear();
-
-	//m_objects_cinemaCamera_third_left.clear();
-
-	//m_objects_cinemaCamera_third_right.clear();
 
 	m_factory.reset();
 }

@@ -58,29 +58,29 @@ void SkyBox::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	m_screen_effect->renderBegin();
 
-	//if (m_is_op)
-	//{
+	if (m_is_op)
+	{
 		m_meshs[0]->render(camera);
-	//}
-	//else
-	//{
-	//	if (m_mediator->GetNowStagePhaseState()
-	//			== StagePhase::eStagePhase::e_flower)
-	//	{
-	//		m_meshs[1]->render(camera);
-	//	}
+	}
+	else
+	{
+		if (m_mediator->GetNowStagePhaseState()
+				== StagePhase::eStagePhase::e_flower)
+		{
+			m_meshs[1]->render(camera);
+		}
 
-	//	if (m_mediator->GetNowStagePhaseState()
-	//			== StagePhase::eStagePhase::e_wood)
-	//	{
-	//		m_meshs[2]->render(camera);
-	//	}
+		if (m_mediator->GetNowStagePhaseState()
+				== StagePhase::eStagePhase::e_wood)
+		{
+			m_meshs[2]->render(camera);
+		}
 
-	//	if (m_mediator->GetNowStagePhaseState()
-	//			== StagePhase::eStagePhase::e_fancy)
-	//	{
-	//		m_meshs[3]->render(camera);
-	//	}
-	//}
+		if (m_mediator->GetNowStagePhaseState()
+				== StagePhase::eStagePhase::e_fancy)
+		{
+			m_meshs[3]->render(camera);
+		}
+	}
 	m_screen_effect->renderEnd();
 }

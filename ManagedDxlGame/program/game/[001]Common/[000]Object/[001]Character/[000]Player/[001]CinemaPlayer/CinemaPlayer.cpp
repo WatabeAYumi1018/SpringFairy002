@@ -193,7 +193,7 @@ bool CinemaPlayer::SeqTrigger(const float delta_time)
 	if (m_mediator->GetEventLane().s_id == 1)
 	{
 		// Å‰‚ÌÐ‰î
-		tnl_sequence_.change(&CinemaPlayer::SeqSecond);
+		tnl_sequence_.change(&CinemaPlayer::SeqFirst);
 	}
 	if (m_mediator->GetEventLane().s_id == 5)
 	{
@@ -333,6 +333,8 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 	});
 
 	SetDefaultLightParameter("directional_light_parameter.bin");
+
+	DxLib::COLOR_F m_emissive = { 0.5f,0.5f,0.5f,1 };
 
 	m_mediator->SetIsActiveGameCamera(true);
 

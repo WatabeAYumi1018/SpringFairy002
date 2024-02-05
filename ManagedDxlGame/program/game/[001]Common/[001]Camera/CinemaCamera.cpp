@@ -78,7 +78,7 @@ bool CinemaCamera::SeqTrigger(const float delta_time)
 	if (m_mediator->GetEventLane().s_id == 1)
 	{
 		// Å‰‚ÌÐ‰î
-		tnl_sequence_.change(&CinemaCamera::SeqSecond);
+		tnl_sequence_.change(&CinemaCamera::SeqFirst);
 	}
 	if (m_mediator->GetEventLane().s_id == 5)
 	{

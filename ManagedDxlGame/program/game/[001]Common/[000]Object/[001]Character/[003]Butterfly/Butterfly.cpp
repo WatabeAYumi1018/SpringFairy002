@@ -8,7 +8,7 @@ Butterfly::Butterfly()
 	m_pos = { 0,0,0 };
 
 	// モデルをカメラ座標に反映させるため、目にみえないメッシュを生成
-	m_mesh = dxe::Mesh::CreateSphereMV(0.0001f);
+	m_mesh = dxe::Mesh::CreateSphereMV(0.001f);
 
 	m_scale = { 5 };
 }
@@ -28,9 +28,6 @@ void Butterfly::Initialize()
 	m_time_count = MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_index);
 
 	SetLight(m_model_hdl);
-
-	//DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
-	//MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
 }
 
 void Butterfly::Update(const float delta_time)
