@@ -1,4 +1,5 @@
 #include "Mediator.h"
+#include "../[000]Object/[000]Stage/[000]SkyBox/CinemaBack.h"
 #include "../[000]Object/[000]Stage/[000]SkyBox/SkyBox.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
@@ -40,6 +41,18 @@ StagePhase::eStagePhase Mediator::GetNowStagePhaseState() const
 }
 
 //---------------------------//
+
+
+//---------CinemaBack---------//
+
+// CinemaBack
+
+void Mediator::SetIsCinemaBackFog(bool is_fog)
+{
+	m_cinemaBack->SetIsFog(is_fog);
+}
+
+//----------------------------//
 
 
 //-----------SkyBox-----------//

@@ -78,7 +78,7 @@ bool CinemaCamera::SeqTrigger(const float delta_time)
 	if (m_mediator->GetEventLane().s_id == 1)
 	{
 		// Å‰‚ÌÐ‰î
-		tnl_sequence_.change(&CinemaCamera::SeqFirst);
+		tnl_sequence_.change(&CinemaCamera::SeqSecond);
 	}
 	if (m_mediator->GetEventLane().s_id == 5)
 	{
@@ -128,7 +128,7 @@ bool CinemaCamera::SeqSecond(const float delta_time)
 		ToSlide(delta_time, { 0,0,-2000 },2);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(8, delta_time, [&]()
 	{
 		Fixed({ 0,0,-2000 });
 	});

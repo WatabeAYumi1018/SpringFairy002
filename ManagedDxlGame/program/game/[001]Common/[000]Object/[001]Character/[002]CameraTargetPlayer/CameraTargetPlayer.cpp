@@ -68,6 +68,12 @@ bool CameraTargetPlayer::SeqNormal(const float delta_time)
 		tnl_sequence_.change(&CameraTargetPlayer::SeqStop);
 	}
 
+	if (m_event.s_id == 5)
+	{
+		// シネマカメラ開始
+		m_mediator->SetIsActiveGameCamera(false);
+	}
+
 	if (m_event.s_id == 7)
 	{
 		tnl_sequence_.change(&CameraTargetPlayer::SeqDownMove);

@@ -270,10 +270,10 @@ void PlayerDraw::CinemaAnimIdle(const float delta_time)
 	{
 		MV1DetachAnim(m_model_cinema_hdl, m_anim_idle_index);
 
-		m_anim_move_index
+		m_anim_idle_index
 			= MV1AttachAnim(m_model_cinema_hdl, 0, m_anim_bone_idle_cinema_hdl);
 
-		m_time_count_move
+		m_time_count_idle
 			= MV1GetAttachAnimTotalTime(m_model_cinema_hdl, m_anim_idle_index);
 
 		m_is_touch_idle = true;
@@ -319,7 +319,7 @@ void PlayerDraw::CinemaAnimDance(const float delta_time)
 		m_anim_dance_index
 			= MV1AttachAnim(m_model_cinema_hdl, 0, m_anim_bone_dance_cinema_hdl);
 
-		m_time_count_move
+		m_time_count_dance
 			= MV1GetAttachAnimTotalTime(m_model_cinema_hdl, m_anim_dance_index);
 
 		m_is_touch_dance = true;

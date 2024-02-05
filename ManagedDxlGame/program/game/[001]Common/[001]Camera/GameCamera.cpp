@@ -390,7 +390,6 @@ bool GameCamera::SeqRotateToFix(const float delta_time)
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.6f, delta_time, [&]()
 	{
 		ToSlide(delta_time, { 0, 200, -400 }, 2);
-
 	});
 
 	m_rot_angle = 0;

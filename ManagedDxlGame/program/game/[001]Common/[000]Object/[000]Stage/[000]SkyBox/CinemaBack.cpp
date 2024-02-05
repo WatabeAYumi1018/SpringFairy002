@@ -1,4 +1,4 @@
-#include "../../../[002]Mediator/Mediator.h"
+ï»¿#include "../../../[002]Mediator/Mediator.h"
 #include "../../../[001]Camera/CinemaCamera.h"
 #include "CinemaBack.h"
 
@@ -15,18 +15,18 @@ CinemaBack::~CinemaBack()
 
 void CinemaBack::LoadCinemaBackInfo()
 {
-
+	m_fog_hdl = LoadGraph("graphics/illust/fog.png");
 	m_first_back_hdl = LoadGraph("graphics/illust/background-green.jpg");
 	//m_second_third_hdl = LoadGraph("graphics/illust/background-green_third.jpg");
 	m_second_back_hdl = LoadGraph("graphics/illust/flower.jpg");
-	//// csvƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+	//// csvãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
 	//m_csv_skybox_info
 	//	= tnl::LoadCsv<tnl::CsvCell>("csv/stage/sky/skyBox_Info.csv");
 
-	//// ƒ}ƒbƒvƒ^ƒCƒ‹‚Ì‘”‚ğæ“¾
+	//// ãƒãƒƒãƒ—ã‚¿ã‚¤ãƒ«ã®ç·æ•°ã‚’å–å¾—
 	//int max_num = m_csv_skybox_info.size();
 
-	//// 0s–Ú‚Íà–¾•¶‚È‚Ì‚Å“Ç‚İ”ò‚Î‚·
+	//// 0è¡Œç›®ã¯èª¬æ˜æ–‡ãªã®ã§èª­ã¿é£›ã°ã™
 	//for (int y = 1; y < max_num; ++y)
 	//{
 	//	sSkyBoxInfo sky_info;
@@ -43,13 +43,44 @@ void CinemaBack::LoadCinemaBackInfo()
 	//}
 }
 
+void CinemaBack::Update(const float delta_time)
+{
+	if (m_is_fog)
+	{
+		UpdateFogBlend();
+	}
+}
+
 void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	//ƒŒ[ƒ“‚ª1
+	//ãƒ¬ãƒ¼ãƒ³ãŒ1
 	//DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
-	// ƒŒ[ƒ“‚ª5
+	// ãƒ¬ãƒ¼ãƒ³ãŒ5
 	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_second_back_hdl, TRUE);
+
+	if(m_is_fog)
+	{
+		// ç”»åƒã®é€æ˜åº¦ã‚’è¨­å®šï¼ˆ0ã€œ255ï¼‰
+		SetDrawBlendMode(DX_BLENDMODE_ADD, m_alpha);
+
+		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_fog_hdl, TRUE);
+	
+		// ãƒ–ãƒ¬ãƒ³ãƒ‰ãƒ¢ãƒ¼ãƒ‰ã‚’é€šå¸¸ã«æˆ»ã™
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 }
+
+void CinemaBack::UpdateFogBlend()
+{
+	// é€æ˜åº¦ã®å¢—åŠ ï¼ˆãƒ•ãƒ¬ãƒ¼ãƒ æ¯ã«å‘¼ã°ã‚Œã‚‹æƒ³å®šï¼‰
+	m_alpha += 5;
+	
+	if (m_alpha > 255)
+	{
+		m_alpha = 255;
+	}
+}
+
 
 //void CinemaBack::LoadCinemaBackInfo()
 //{
@@ -57,14 +88,14 @@ void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 //	m_first_back_hdl = LoadGraph("graphics/illust/background-green.jpg");
 //	m_second_third_hdl = LoadGraph("graphics/illust/background-green_third.jpg");
 //	m_second_back_hdl = LoadGraph("graphics/illust/flower.jpg");
-//	//// csvƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+//	//// csvãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
 //	//m_csv_skybox_info
 //	//	= tnl::LoadCsv<tnl::CsvCell>("csv/stage/sky/skyBox_Info.csv");
 //
-//	//// ƒ}ƒbƒvƒ^ƒCƒ‹‚Ì‘”‚ğæ“¾
+//	//// ãƒãƒƒãƒ—ã‚¿ã‚¤ãƒ«ã®ç·æ•°ã‚’å–å¾—
 //	//int max_num = m_csv_skybox_info.size();
 //
-//	//// 0s–Ú‚Íà–¾•¶‚È‚Ì‚Å“Ç‚İ”ò‚Î‚·
+//	//// 0è¡Œç›®ã¯èª¬æ˜æ–‡ãªã®ã§èª­ã¿é£›ã°ã™
 //	//for (int y = 1; y < max_num; ++y)
 //	//{
 //	//	sSkyBoxInfo sky_info;
@@ -83,7 +114,7 @@ void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 //
 //void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 //{
-//	//// ƒAƒNƒeƒBƒu‚ÈƒJƒƒ‰ƒ^ƒCƒv‚ÉŠî‚Ã‚¢‚Ä”wŒi‚ğ•`‰æ
+//	//// ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªã‚«ãƒ¡ãƒ©ã‚¿ã‚¤ãƒ—ã«åŸºã¥ã„ã¦èƒŒæ™¯ã‚’æç”»
 //	//CinemaCamera::eCameraSplitType activeType = m_cinema_camera->GetActiveType();
 //
 //	//if (activeType == CinemaCamera::eCameraSplitType::e_all)

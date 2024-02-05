@@ -3,7 +3,7 @@
 
 CinemaCameraTarget::CinemaCameraTarget()
 {
-	m_mesh = dxe::Mesh::CreateSphereMV(5);
+	m_mesh = dxe::Mesh::CreateSphereMV(0.001f);
 	m_mesh->pos_ = { 0 };
 	m_pos = m_mesh->pos_;
 }

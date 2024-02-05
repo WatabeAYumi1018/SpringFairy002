@@ -28,6 +28,9 @@ private:
 	bool m_is_idle = false;
 	bool m_is_move = false;
 	bool m_is_dance = false;
+	
+	// プレイヤーの自己発光
+	DxLib::COLOR_F m_emissive = { 0.5f,0.5f,0.5f,1 };
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(CinemaPlayer, &CinemaPlayer::SeqTrigger);
@@ -62,6 +65,7 @@ public:
 	void Update(const float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

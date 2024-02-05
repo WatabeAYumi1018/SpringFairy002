@@ -11,6 +11,7 @@
 #include "../[003]Phase/StagePhase.h"
 
 
+class CinemaBack;
 class SkyBox;
 
 class LaneLoad;
@@ -72,6 +73,7 @@ private:
 
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
 
+	std::shared_ptr<CinemaBack> m_cinemaBack = nullptr;
 	std::shared_ptr<SkyBox> m_skyBox = nullptr;
 
 	std::shared_ptr<Lane> m_lane = nullptr;
@@ -149,6 +151,18 @@ public:
 	//---------------------------//
 
 
+	//---------CinemaBack---------//
+
+	// CinemaBack
+
+	// シネマバックのフォグフラグ設定
+	// 参照元 ... CinemaBack::m_is_fog
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetIsCinemaBackFog(bool is_fog);
+
+	//----------------------------//
+	
+	
 	//-----------SkyBox-----------//
 
 	// SkyBox
@@ -770,30 +784,6 @@ public:
 
 	// CinemaCamera
 
-	// シネマカメラの分割比率取得
-	// 参照元 ... CinemaCamera::m_split_width	
-	// 参照先 ... CinemaCamera::関連する関数
-	float GetCinemaSplitWidthLeft() const ;
-
-	// シネマカメラの分割比率設定
-	// 参照元 ... CinemaCamera::m_split_width
-	// 参照先 ... CinemaCamera::関連する関数
-	float GetCinemaSplitWidthRight() const;
-
-	// シネマカメラのアクティブ状態取得
-	// 参照元 ... CinemaCamera::m_is_half_right_active
-	// 参照先 ... CinemaCamera::関連する関数
-	bool GetIsCinemaHalfRightActive() const;
-
-	// シネマカメラのアクティブ状態取得
-	// 参照元 ... CinemaCamera::m_is_third_left_active
-	// 参照先 ... CinemaCamera::関連する関数
-	bool GetIsCinemaThirdLeftActive() const;
-
-	// シネマカメラのアクティブ状態取得
-	// 参照元 ... CinemaCamera::m_is_third_right_active
-	// 参照先 ... CinemaCamera::関連する関数
-	bool GetIsCinemaThirdRightActive() const;
 
 	//---------------------------//
 
@@ -806,6 +796,11 @@ public:
 	void SetStagePhase(std::shared_ptr<StagePhase>& stagePhase)
 	{
 		m_stagePhase = stagePhase;
+	}
+
+	void SetCinemaBack(std::shared_ptr<CinemaBack>& cinemaBack)
+	{
+		m_cinemaBack = cinemaBack;
 	}
 
 	void SetSkyBox(std::shared_ptr<SkyBox>& skyBox)

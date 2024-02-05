@@ -148,6 +148,7 @@ void PlayFactory::CreateObject()
 void PlayFactory::SetObjectReference()
 {
 	m_mediator->SetStagePhase(m_stagePhase);
+	m_mediator->SetCinemaBack(m_cinemaBack);
 	m_mediator->SetLaneLoad(m_laneLoad);
 	m_mediator->SetLaneMove(m_laneMove);
 	m_mediator->SetModel(m_model);
