@@ -39,7 +39,7 @@ void SkyBox::CreateSkyBox()
 {
 	for (sSkyBoxInfo& sky_info : m_skybox_info)
 	{
-		m_mesh = dxe::Mesh::CreateCubeMV(50000);
+		m_mesh = dxe::Mesh::CreateCubeMV(60000);
 		m_mesh->setTexture(dxe::Texture::CreateFromFile(sky_info.s_texture_path));
 		m_mesh->loadMaterial(sky_info.s_material_path);
  	   	m_screen_effect = std::make_shared<dxe::ScreenEffect>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
@@ -68,6 +68,15 @@ void SkyBox::Draw(std::shared_ptr<dxe::Camera> camera)
 				== StagePhase::eStagePhase::e_flower)
 		{
 			m_meshs[1]->render(camera);
+
+			// 座標デバッグ用
+			DrawStringEx(0, 0, 1, "PlayerPos_x:%f", m_mediator->GetPlayerPos().x);
+			DrawStringEx(0, 20,1, "PlayerPos_y:%f", m_mediator->GetPlayerPos().y);
+			DrawStringEx(0, 40,1, "PlayerPos_z:%f", m_mediator->GetPlayerPos().z);
+
+
+		//	DrawStringEx(500, 0, 1, "カメラID番号 : %d", m_camera_info.s_id);
+			DrawStringEx(500, 20, 1, "イベントID番号 : %d", m_mediator->GetEventLane().s_id);
 		}
 
 		if (m_mediator->GetNowStagePhaseState()

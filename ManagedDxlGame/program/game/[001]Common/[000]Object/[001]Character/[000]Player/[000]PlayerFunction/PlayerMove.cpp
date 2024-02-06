@@ -229,10 +229,10 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 
 bool PlayerMove::SeqNormal(const float delta_time)
 {
-	if (tnl_sequence_.isStart())
-	{
-		m_stage_phase = m_mediator->GetNowStagePhaseState();
-	}
+	//if (tnl_sequence_.isStart())
+	//{
+	//	m_stage_phase = m_mediator->GetNowStagePhaseState();
+	//}
 
 	//// フェーズ移行で地上になったら地上実行処理へ
 	//if (m_stage_phase != m_mediator->GetNowStagePhaseState())
@@ -240,19 +240,14 @@ bool PlayerMove::SeqNormal(const float delta_time)
 	//	tnl_sequence_.change(&PlayerMove::SeqGround);
 	//}
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C))
-	{
-		tnl_sequence_.change(&PlayerMove::SeqSaltoAction);
-	}
+	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C))
+	//{
+	//	tnl_sequence_.change(&PlayerMove::SeqSaltoAction);
+	//}
 	
 	if (m_mediator->GetEventLane().s_id == 4)
 	{
 		tnl_sequence_.change(&PlayerMove::SeqStop);
-	}
-
-	if (m_mediator->GetEventLane().s_id == 7)
-	{
-		tnl_sequence_.change(&PlayerMove::SeqDownMove);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
@@ -270,14 +265,19 @@ bool PlayerMove::SeqStop(const float delta_time)
 		// 数秒間座標更新を停止
 	});
 
-	tnl_sequence_.change(&PlayerMove::SeqUpMove);
+	TNL_SEQ_CO_TIM_YIELD_RETURN(10, delta_time, [&]()
+	{
+		MoveMatrix(delta_time);
+	});
+
+	tnl_sequence_.change(&PlayerMove::SeqNormal);
 
 	TNL_SEQ_CO_END;
 }
 
 bool PlayerMove::SeqUpMove(const float delta_time)
 {
-	if(m_pos.y > 500)
+	if(m_pos.y >= 500)
 	{
 		tnl_sequence_.change(&PlayerMove::SeqNormal);
 	}
@@ -294,8 +294,10 @@ bool PlayerMove::SeqUpMove(const float delta_time)
 
 bool PlayerMove::SeqDownMove(const float delta_time)
 {
-	if(m_pos.y == 0)
+	if(m_pos.y <= 0)
 	{
+		m_pos.y = 0;
+
 		tnl_sequence_.change(&PlayerMove::SeqNormal);
 	}
 

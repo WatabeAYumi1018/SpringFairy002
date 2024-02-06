@@ -17,11 +17,17 @@ void CameraTargetPlayer::Update(float delta_time)
 	DrawStringEx(500, 0, -1, "カメラID番号 : %d", m_camera_info.s_id);
 	DrawStringEx(500, 20, -1, "イベントID番号 : %d", m_event.s_id);
 
-	// プレイヤーのアニメーション自動発生フラグ設定
-	if (m_event.s_id == 6)
+	if (m_event.s_id == 5 || m_event.s_id == 8)
 	{
-		m_mediator->SetIsPlayerEventDance(true);
+		// シネマカメラ開始
+		m_mediator->SetIsActiveGameCamera(false);
 	}
+
+	// プレイヤーのアニメーション自動発生フラグ設定
+	//if (m_event.s_id == 6)
+	//{
+	//	m_mediator->SetIsPlayerEventDance(true);
+	//}
 
 	//if (m_gimmick.s_id == 1)
 	//{
@@ -68,12 +74,6 @@ bool CameraTargetPlayer::SeqNormal(const float delta_time)
 		tnl_sequence_.change(&CameraTargetPlayer::SeqStop);
 	}
 
-	if (m_event.s_id == 5)
-	{
-		// シネマカメラ開始
-		m_mediator->SetIsActiveGameCamera(false);
-	}
-
 	if (m_event.s_id == 7)
 	{
 		tnl_sequence_.change(&CameraTargetPlayer::SeqDownMove);
@@ -94,7 +94,14 @@ bool CameraTargetPlayer::SeqStop(const float delta_time)
 		// 数秒間座標更新を停止
 	});
 
-	tnl_sequence_.change(&CameraTargetPlayer::SeqUpMove);
+	TNL_SEQ_CO_TIM_YIELD_RETURN(10, delta_time, [&]()
+	{
+		m_is_speed_up = true;
+
+		MoveMatrix(delta_time);
+	});
+
+	tnl_sequence_.change(&CameraTargetPlayer::SeqNormal);
 
 	TNL_SEQ_CO_END;
 }
@@ -134,7 +141,7 @@ bool CameraTargetPlayer::SeqDownMove(const float delta_time)
 	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]()
 	{
 		// 1フレームでフラグ実行
-		m_is_speed_up = true;
+		//m_is_speed_up = true;
 
 		m_is_move_down = true;
 	});

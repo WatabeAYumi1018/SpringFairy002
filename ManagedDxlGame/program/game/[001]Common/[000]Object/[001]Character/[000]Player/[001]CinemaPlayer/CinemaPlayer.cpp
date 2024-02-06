@@ -261,7 +261,7 @@ bool CinemaPlayer::SeqTrigger(const float delta_time)
 		// エリア２へ移行
 		tnl_sequence_.change(&CinemaPlayer::SeqSecond);
 	}
-	if (m_mediator->GetEventLane().s_id == 9)
+	if (m_mediator->GetEventLane().s_id == 8)
 	{
 		// エリア３へ移行
 		tnl_sequence_.change(&CinemaPlayer::SeqThird);

@@ -98,7 +98,7 @@ bool CinemaCamera::SeqTrigger(const float delta_time)
 
 		tnl_sequence_.change(&CinemaCamera::SeqSecond);
 	}
-	if (m_mediator->GetEventLane().s_id == 9
+	if (m_mediator->GetEventLane().s_id == 8
 		|| tnl::Input::IsKeyDown(eKeys::KB_3))
 	{
 		// ƒGƒŠƒA‚R‚ÖˆÚs
@@ -127,6 +127,8 @@ bool CinemaCamera::SeqFirst(const float delta_time)
 		Fixed({ 0,80,-100 });
 	});
 
+	m_mediator->SetCinemaBackIsFirst(false);
+
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 
 	TNL_SEQ_CO_END;
@@ -151,7 +153,7 @@ bool CinemaCamera::SeqSecond(const float delta_time)
 
 	m_mediator->SetCinemaBackIsSecond(false);
 
-	m_mediator->SetCinemaBackIsFirst(false);
+	m_mediator->SetIsCinemaBackFog(false);
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 

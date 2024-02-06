@@ -55,11 +55,6 @@ void Player::Update(float delta_time)
 
 	m_mediator->IsInCameraFlustum();
 
-	// 座標デバッグ用
-	DrawStringEx(0, 0, -1, "PlayerPos_x:%f", m_pos.x);
-	DrawStringEx(0, 20, -1, "PlayerPos_y:%f", m_pos.y);
-	DrawStringEx(0, 40, -1, "PlayerPos_z:%f", m_pos.z);
-
 	////// 当たり判定デバッグ用
 	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
 	//pos.y += m_collision_size;

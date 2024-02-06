@@ -64,7 +64,10 @@ void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)
 		for (int x = target_grid_x - draw_range / 2; x <= target_grid_x + draw_range / 2; x++)
 		{
 			// 透明化処理（ある程度後方にあるモデルは描画しない）
-			if (z < target_grid_z - grid_size) continue;
+			if (z < target_grid_z - grid_size)
+			{
+				continue;
+			}
 
 			// モデルの座標を計算
 			tnl::Vector3 pos;

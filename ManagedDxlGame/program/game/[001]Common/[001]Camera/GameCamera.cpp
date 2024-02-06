@@ -7,12 +7,6 @@
 GameCamera::GameCamera()
 	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT){}
 
-void GameCamera::Initialize()
-{
-	target_ = m_mediator->GetCameraTargetPlayerPos();
-
-	pos_ = target_ + m_offset;
-}
 
 void GameCamera::update(const float delta_time)
 {
@@ -81,7 +75,7 @@ void GameCamera::IsInFlustum()
 			// プレイヤー位置を補正
 			tnl::Vector3 new_pos = player_pos + direction * (size - distance);
 
-			// メディエーターを通じてプレイヤーの位置を更新
+			// 座標更新
 			m_mediator->SetPlayerPos(new_pos);
 		}
 	}
@@ -179,7 +173,7 @@ void GameCamera::Rotate(const float delta_time)
 
 	// カメラ位置の計算（プレイヤーの周りを円軌道で回転）
 	pos_.x = target_.x + cos(m_rot_angle) * orbit_radius;
-	pos_.y = target_.y + orbit_height;
+	//pos_.y = target_.y + orbit_height;
 	pos_.z = target_.z + sin(m_rot_angle) * orbit_radius;
 }
 

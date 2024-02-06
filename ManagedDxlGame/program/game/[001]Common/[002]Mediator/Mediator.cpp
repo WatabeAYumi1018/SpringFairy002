@@ -460,10 +460,10 @@ bool Mediator::GetIsTargetSpeedUp() const
 	return m_cameraTargetPlayer->GetIsSpeedUp();
 }
 
-bool Mediator::GetIsTargetMoveUp() const
-{
-	return m_cameraTargetPlayer->GetIsMoveUp();
-}
+//bool Mediator::GetIsTargetMoveUp() const
+//{
+//	return m_cameraTargetPlayer->GetIsSpeedUp();
+//}
 
 bool Mediator::GetIsTargetMoveDown() const
 {

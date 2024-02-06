@@ -44,7 +44,7 @@ public:
 
 	bool GetIsSpeedUp() const { return m_is_speed_up; }
 
-	bool GetIsMoveUp() const { return m_is_move_up; }
+	//bool GetIsSpeedUp() const { return m_is_move_up; }
 
 	bool GetIsMoveDown() const { return m_is_move_down; }
 
