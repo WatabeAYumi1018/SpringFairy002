@@ -3,9 +3,13 @@
 
 void Object::SetLight(int model_hdl)
 {
+	// Ž©ŒÈ”­Œõ
 	DxLib::COLOR_F emissive = { 0.5f,0.5f,0.5f,1 };
+	// ŠÂ‹«Œõ
 	DxLib::COLOR_F ambient = { 1,1,1,1 };
+	// ŠgŽUŒõ
 	DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
+	// ‹¾–Ê”½ŽËŒõ
 	DxLib::COLOR_F specular = { 0,0,0,1 };
 
 	MV1SetMaterialEmiColor(model_hdl, 0, emissive);

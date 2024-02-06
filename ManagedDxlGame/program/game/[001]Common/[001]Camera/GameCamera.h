@@ -143,6 +143,8 @@ public:
 	// フラスタムとの当たり判定
 	void IsInFlustum();
 
+	void Initialize();
+
 	void update(const float delta_time) override;
 
 	// ターゲットの概念を無くした姿勢処理

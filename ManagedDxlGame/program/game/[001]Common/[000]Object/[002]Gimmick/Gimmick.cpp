@@ -55,9 +55,7 @@ void Gimmick::Update(const float delta_time)
 void Gimmick::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	if (m_is_active)
-	{
-		DrawSphere3D(wta::ConvertToVECTOR(m_pos), m_collision_size, 32, 1, -1, true);
-		
+	{		
 		MV1DrawModel(m_gimmick_data.s_model_hdl);
 	}
 }

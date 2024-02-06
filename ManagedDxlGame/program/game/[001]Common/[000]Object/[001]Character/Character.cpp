@@ -9,9 +9,8 @@ void Character::StartPos()
 	{
 		if (start.s_id == 1)
 		{
-			m_pos = start.s_pos;
-
-			m_pos.y = 0;
+			// グリッドの中心座標に設定
+			m_pos = start.s_pos + tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
 		}
 	}
 }

@@ -7,6 +7,13 @@
 GameCamera::GameCamera()
 	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT){}
 
+void GameCamera::Initialize()
+{
+	target_ = m_mediator->GetCameraTargetPlayerPos();
+
+	pos_ = target_ + m_offset;
+}
+
 void GameCamera::update(const float delta_time)
 {
 	dxe::Camera::update(delta_time);

@@ -123,11 +123,8 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 	else 
 	{
 		// プレイヤーの移動
-		// ここでは、方向ベクトルと移動速度を使って、プレイヤーの新しい位置を計算します。
 		pos += m_chara_direction * m_move_speed * delta_time * 2;
 	}
-	//// 必要に応じて、プレイヤーの位置がカメラの視野内に収まるように調整します。
-	//AdjustPlayerPositionWithinCameraView(pos, cameraViewSize);
 }
 
 void LaneMove::MoveAstarCharaRot(const float delta_time, tnl::Vector3& pos, tnl::Quaternion& rot)
