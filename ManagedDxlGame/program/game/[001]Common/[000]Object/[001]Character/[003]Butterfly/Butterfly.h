@@ -30,10 +30,13 @@ private:
 	// moveアニメーションのインデックス
 	int m_anim_index = 0;
 
-	// 鱗粉フラグ
+	// オープニング描画フラグ
+	bool m_is_op_active = false;
+	// 円運動フラグ
 	bool m_is_circle = false;
+	// 鱗粉フラグ
 	bool m_is_powder = false;
-
+	// シネマ描画フラグ
 	bool m_is_cinema_active = false;
 
 	// コルーチンシーケンス
@@ -62,6 +65,8 @@ public:
 	void Update(const float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	void SetIsOpActive(bool is_op_active) { m_is_op_active = is_op_active; }
 
 	bool GetIsPowder() const { return m_is_powder; }
 

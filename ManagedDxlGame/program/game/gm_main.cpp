@@ -796,7 +796,7 @@ void gameStart()
 
 	//game_camera->pos_ = { 0, 10, -300 };
 	//cinema_camera->pos_ = { 0, 10, -300 };
-	SceneManager::GetInstance(new ScenePlay());
+	SceneManager::GetInstance(new SceneOp());
 }
 
 //------------------------------------------------------------------------------------------------------------

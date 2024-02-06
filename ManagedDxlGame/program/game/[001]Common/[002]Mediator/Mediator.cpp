@@ -47,6 +47,22 @@ StagePhase::eStagePhase Mediator::GetNowStagePhaseState() const
 
 // CinemaBack
 
+void Mediator::SetCinemaBackIsFirst(bool is_first)
+{
+	m_cinemaBack->SetIsFirst(is_first);
+}
+
+void Mediator::SetCinemaBackIsSecond(bool is_second)
+{
+	m_cinemaBack->SetIsSecond(is_second);
+}
+
+void Mediator::SetCinemaBackIsThird(bool is_third)
+{
+	m_cinemaBack->SetIsThird(is_third);
+}
+
+
 void Mediator::SetIsCinemaBackFog(bool is_fog)
 {
 	m_cinemaBack->SetIsFog(is_fog);
@@ -476,6 +492,11 @@ const tnl::Vector3& Mediator::GetCinemaCameraTargetPos() const
 const tnl::Vector3& Mediator::GetButterflyPos() const
 {
 	return m_butterfly->GetPos();
+}
+
+void Mediator::SetButterflyIsOpActive(bool is_op_active)
+{
+	m_butterfly->SetIsOpActive(is_op_active);
 }
 
 bool Mediator::GetButterflyIsPowder() const

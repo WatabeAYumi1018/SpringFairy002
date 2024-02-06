@@ -29,7 +29,7 @@ void Butterfly::Initialize()
 
 	SetLight(m_model_hdl);
 
-	m_rot = tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(180));
+	m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
 
 	//// エミッシブカラーを設定してモデルを発光させる
 	//DxLib::COLOR_F emissive = {10.0f, 10.0f, 10.0f, 1 }; // 強い発光
@@ -61,7 +61,7 @@ void Butterfly::Update(const float delta_time)
 
 void Butterfly::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	if (m_is_cinema_active)
+	if (m_is_op_active || m_is_cinema_active)
 	{
 		m_mesh->render(camera);
 
@@ -111,11 +111,12 @@ void Butterfly::MoveRound(const float delta_time)
 	// Y軸上昇の処理
 	m_pos.y += delta_time * 30 ; 
 
-	// 進行方向を向くための回転を計算
+	// 進行方向を算出
 	tnl::Vector3 next_direction 
 		= tnl::Vector3(sin(angle + delta_time * m_speed), 0
 					  , cos(angle + delta_time * m_speed));
 	
+	// 進行方向に向かって回転
 	tnl::Quaternion direction_rot
 		= tnl::Quaternion::LookAt(m_pos, m_pos + next_direction, tnl::Vector3(0, 1, 0));
 
@@ -148,6 +149,8 @@ bool Butterfly::SeqMove(const float delta_time)
 	if (tnl_sequence_.isStart())
 	{
 		m_pos = {500,0,0};
+
+		m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
 	}
 
 	if (abs(m_pos.x - m_mediator->GetCinemaPlayerPos().x) < 100)

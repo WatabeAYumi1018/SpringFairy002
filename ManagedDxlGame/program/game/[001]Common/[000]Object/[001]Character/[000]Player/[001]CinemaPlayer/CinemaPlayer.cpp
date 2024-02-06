@@ -55,7 +55,6 @@ void CinemaPlayer::Update(const float delta_time)
 	DrawStringEx(0, 0, -1, "PlayerPos_x:%f", m_pos.x);
 	DrawStringEx(0, 20, -1, "PlayerPos_y:%f", m_pos.y);
 	DrawStringEx(0, 40, -1, "PlayerPos_z:%f", m_pos.z);
-
 }
 
 void CinemaPlayer::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -88,16 +87,17 @@ void CinemaPlayer::MoveRoundFrontToBack(const float delta_time)
 	// x座標の位置を計算
 	if (angle >= tnl::ToRadian(360))
 	{
-		m_pos.x = pos.x;
+		m_pos.x = pos.x - 50;
 	}
 	else
 	{
 		m_pos.x = pos.x + sin(angle) * radius;
 	}
+
 	// y座標の位置を計算
 	if (angle >= tnl::ToRadian(360))
 	{
-		m_pos.y = pos.y;
+		m_pos.y = pos.y - 150;
 	}
 	else
 	{
@@ -254,7 +254,7 @@ bool CinemaPlayer::SeqTrigger(const float delta_time)
 	if (m_mediator->GetEventLane().s_id == 1)
 	{
 		// 最初の紹介
-		tnl_sequence_.change(&CinemaPlayer::SeqThird);
+		tnl_sequence_.change(&CinemaPlayer::SeqFirst);
 	}
 	if (m_mediator->GetEventLane().s_id == 5)
 	{
@@ -400,6 +400,8 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 
 	m_mediator->SetIsActiveGameCamera(true);
 
+	m_mediator->SetIsCinemaBackFog(false);
+
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 
 	TNL_SEQ_CO_END;
@@ -448,18 +450,22 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 		m_pos = tnl::Vector3( 0,0,0 );
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(10, delta_time, [&](){});
+	TNL_SEQ_CO_TIM_YIELD_RETURN(11, delta_time, [&](){});
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]() 
 	{
 		m_pos.y -= 100;
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]() 
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]() 
 	{
 		m_is_idle = false;
 		m_is_dance = true;
 	});
+
+	m_is_dance = false;
+
+	m_mediator->SetIsActiveGameCamera(true);
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 

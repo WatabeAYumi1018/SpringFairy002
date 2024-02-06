@@ -8,9 +8,6 @@ CinemaBack::CinemaBack()
 	m_mesh = dxe::Mesh::CreateCubeMV(2000);
 	m_mesh->setTexture(dxe::Texture::CreateFromFile("graphics/event/cinema.png"));
 	m_mesh->loadMaterial("graphics/event/material.bin");
-	m_screen_effect = std::make_shared<dxe::ScreenEffect>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
-	m_screen_effect->loadStatus("graphics/event/screen_effect.bin");
-
 
 	LoadCinemaBackInfo();
 
@@ -27,7 +24,7 @@ void CinemaBack::LoadCinemaBackInfo()
 {
 	m_first_back_hdl = LoadGraph("graphics/event/background-green.jpg");
 	//m_second_third_hdl = LoadGraph("graphics/illust/background-green_third.jpg");
-	m_second_back_hdl = LoadGraph("graphics/event/flower.jpg");
+	m_second_back_hdl = LoadGraph("graphics/event/flower_arch.jpg");
 	//m_third_back_hdl = LoadGraph("graphics/event/night.jpg");
 
 	m_fog_hdl = LoadGraph("graphics/event/fog.png");
@@ -71,16 +68,20 @@ void CinemaBack::Update(const float delta_time)
 
 void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	//レーンが1
-	//DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
-	// レーンが5
-	//DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_second_back_hdl, TRUE);
-	// レーンが9
-	//DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_third_back_hdl, TRUE);
+	if (m_is_first)
+	{
+		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_first_back_hdl, TRUE);
+	}
+	else if (m_is_second)
+	{
+		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_second_back_hdl, TRUE);
+	}
+	else if (m_is_third)
+	{
+		m_mesh->render(camera);
+	}
 
-	m_mesh->render(camera);
-
-	// レーンが5
+	// レーンが5の時の追加背景
 	if(m_is_fog)
 	{
 		// 画像の透明度を設定（0〜255）
@@ -92,6 +93,7 @@ void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
+	// レーンがpの時の追加背景
 	if (m_is_bubble)
 	{
 		for (sBubble& bubble : m_bubbles)
@@ -123,8 +125,6 @@ void CinemaBack::UpdateFogBlend()
 	if (m_alpha > 255)
 	{
 		m_alpha = 255;
-
-		m_is_fog = false;
 	}
 }
 

@@ -82,19 +82,28 @@ void CinemaCamera::ToSlide(const float delta_time,const tnl::Vector3& offset,flo
 bool CinemaCamera::SeqTrigger(const float delta_time)
 {
 	// １番のイベントの場合（登場カメラ）
-	if (m_mediator->GetEventLane().s_id == 1)
+	if (m_mediator->GetEventLane().s_id == 1
+		|| tnl::Input::IsKeyDown(eKeys::KB_1))
 	{
 		// 最初の紹介
-		tnl_sequence_.change(&CinemaCamera::SeqThird);
+		m_mediator->SetCinemaBackIsFirst(true);
+
+		tnl_sequence_.change(&CinemaCamera::SeqFirst);
 	}
-	if (m_mediator->GetEventLane().s_id == 5)
+	if (m_mediator->GetEventLane().s_id == 5
+		|| tnl::Input::IsKeyDown(eKeys::KB_2))
 	{
 		// エリア２へ移行
+		m_mediator->SetCinemaBackIsSecond(true);
+
 		tnl_sequence_.change(&CinemaCamera::SeqSecond);
 	}
-	if (m_mediator->GetEventLane().s_id == 9)
+	if (m_mediator->GetEventLane().s_id == 9
+		|| tnl::Input::IsKeyDown(eKeys::KB_3))
 	{
 		// エリア３へ移行
+		m_mediator->SetCinemaBackIsThird(true);
+
 		tnl_sequence_.change(&CinemaCamera::SeqThird);
 	}
 
@@ -140,6 +149,10 @@ bool CinemaCamera::SeqSecond(const float delta_time)
 		Fixed({ 0,0,-2000 });
 	});
 
+	m_mediator->SetCinemaBackIsSecond(false);
+
+	m_mediator->SetCinemaBackIsFirst(false);
+
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 
 	TNL_SEQ_CO_END;
@@ -171,7 +184,7 @@ bool CinemaCamera::SeqThird(const float delta_time)
 		ToSlide(delta_time, { 0,100,-200 }, 10);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(8, delta_time, [&]()
 	{
 		Fixed({ 0,100,-300 });
 	});
@@ -188,8 +201,7 @@ bool CinemaCamera::SeqThird(const float delta_time)
 		Fixed({ 0,0,-300 });
 	});
 
-
-
+	m_mediator->SetCinemaBackIsThird(false);
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 

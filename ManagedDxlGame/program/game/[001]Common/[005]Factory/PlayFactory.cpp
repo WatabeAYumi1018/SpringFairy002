@@ -236,7 +236,7 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 
 void PlayFactory::StorageObjectGameCamera()
 {
-	//m_objects_gameCamera.emplace_back(m_skyBox);
+	m_objects_gameCamera.emplace_back(m_skyBox);
 	m_objects_gameCamera.emplace_back(m_floor);
 	m_objects_gameCamera.emplace_back(m_model);
 	m_objects_gameCamera.emplace_back(m_cameraTargetPlayer);

@@ -51,6 +51,8 @@ bool OpCamera::SeqNormal(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
+		m_mediator->SetButterflyIsOpActive(true);
+
 		m_mediator->SetSkyIsOp(true);
 	}
 
@@ -122,6 +124,11 @@ bool OpCamera::SeqUpToBack(const float delta_time)
 
 bool OpCamera::SeqBack(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		m_mediator->SetButterflyIsOpActive(false);
+	}
+
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
 		Fixed(m_new_offset);

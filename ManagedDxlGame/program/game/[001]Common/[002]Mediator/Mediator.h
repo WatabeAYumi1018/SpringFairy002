@@ -150,6 +150,21 @@ public:
 
 	// CinemaBack
 
+	// シネマバック一番フラグ設定
+	// 参照元 ... CinemaBack::m_is_first
+	// 参照先 ... CinemaCamera::Update(float delta_time)
+	void SetCinemaBackIsFirst(bool is_first);
+
+	// シネマバック二番フラグ設定
+	// 参照元 ... CinemaBack::m_is_second
+	// 参照先 ... CinemaCamera::Update(float delta_time)
+	void SetCinemaBackIsSecond(bool is_second);
+
+	// シネマバック三番フラグ設定
+	// 参照元 ... CinemaBack::m_is_third
+	// 参照先 ... CinemaCamera::Update(float delta_time)
+	void SetCinemaBackIsThird(bool is_third);
+
 	// シネマバックのフォグフラグ設定
 	// 参照元 ... CinemaBack::m_is_fog
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
@@ -579,6 +594,11 @@ public:
 	// 参照元 ... Butterfly::m_pos
 	// 参照先 ... Butterflyの座標が必要な全クラス
 	const tnl::Vector3& GetButterflyPos() const;
+
+	// バタフライのOP描画フラグ設定
+	// 参照元 ... Butterfly::m_is_op_active
+	// 参照先 ... OpCamera::Update(float delta_time)
+	void SetButterflyIsOpActive(bool is_op_active);
 
 	// バタフライの鱗粉フラグ取得
 	// 参照元 ... Butterfly::m_is_powder
