@@ -580,11 +580,6 @@ public:
 	// 参照先 ... Butterflyの座標が必要な全クラス
 	const tnl::Vector3& GetButterflyPos() const;
 
-	// バタフライの回転フラグ取得
-	// 参照元 ... Butterfly::m_is_circle
-	// 参照先 ... OpCamera::Update(float delta_time)
-	bool GetButterflyIsCircle() const;
-
 	// バタフライの鱗粉フラグ取得
 	// 参照元 ... Butterfly::m_is_powder
 	// 参照先 ... Opに関連する関数
@@ -594,6 +589,11 @@ public:
 	// 参照元 ... Butterfly::m_is_cinema_active
 	// 参照先 ... OpCamera::Update(float delta_time)
 	void SetButterflyIsCinemaActive(bool is_cinema_active);
+
+	// バタフライのシネマフラグ取得
+	// 参照元 ... Butterfly::m_is_cinema_active
+	// 参照先 ... CinemaCamera::Fixed(const tnl::Vector3& offset)
+	bool GetButterflyIsCinemaActive() const;
 
 	// ButterflyLoad
 

@@ -478,11 +478,6 @@ const tnl::Vector3& Mediator::GetButterflyPos() const
 	return m_butterfly->GetPos();
 }
 
-bool Mediator::GetButterflyIsCircle() const
-{
-	return m_butterfly->GetIsCircle();
-}
-
 bool Mediator::GetButterflyIsPowder() const
 {
 	return m_butterfly->GetIsPowder();
@@ -491,6 +486,11 @@ bool Mediator::GetButterflyIsPowder() const
 void Mediator::SetButterflyIsCinemaActive(bool is_cinema_active)
 {
 	m_butterfly->SetIsCinemaActive(is_cinema_active);
+}
+
+bool Mediator::GetButterflyIsCinemaActive() const
+{
+	return m_butterfly->GetIsCinemaActive();
 }
 
 // ButterflyLoad

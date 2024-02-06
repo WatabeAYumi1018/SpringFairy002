@@ -728,9 +728,6 @@
     <ClInclude Include="program\game\[001]Common\[003]Phase\StagePhase.h">
       <Filter>program\[003] game\[001]Common\[003]Phase</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h">
-      <Filter>program\[003] game\[001]Common\[002]Mediator</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[001]Camera\GameCamera.h">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClInclude>
@@ -913,6 +910,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h">
+      <Filter>program\[003] game\[001]Common\[002]Mediator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

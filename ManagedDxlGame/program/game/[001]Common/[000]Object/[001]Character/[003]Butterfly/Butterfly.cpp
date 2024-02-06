@@ -47,7 +47,7 @@ void Butterfly::Update(const float delta_time)
 
 	if (m_is_cinema_active)
 	{
-		MoveStraightWidth(delta_time);
+		tnl_sequence_.update(delta_time);
 	}
 
 	m_mesh->pos_ = m_pos;
@@ -61,12 +61,15 @@ void Butterfly::Update(const float delta_time)
 
 void Butterfly::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	m_mesh->render(camera);
+	if (m_is_cinema_active)
+	{
+		m_mesh->render(camera);
 
-	// 描画モードを変更して、発光を強調
-	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
-	MV1DrawModel(m_model_hdl);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		// 描画モードを変更して、発光を強調
+		SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
+		MV1DrawModel(m_model_hdl);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 }
 
 void Butterfly::AnimMove(const float delta_time)
@@ -82,36 +85,52 @@ void Butterfly::AnimMove(const float delta_time)
 	MV1SetAttachAnimTime(m_model_hdl, 0, m_elapsed_time);
 }
 
-//void Butterfly::MoveRoundFrontToBack(const float delta_time)
-//{
-//	m_elapsed_time_circle += delta_time;
-//
-//	// 宙返りの全体の進行時間に基づいた角度計算
-//	float angle = (m_elapsed_time_circle / m_total_time) * tnl::ToRadian(360);
-//
-//	// 横回転によるX軸方向の移動
-//	m_pos.x = m_pos.x + sin(angle) * m_radius; 
-//	// 横回転によるZ軸方向の移動
-//	m_pos.z = m_pos.z + cos(angle) * m_radius; 
-//
-//	// 回転軸をY軸に変更
-//	tnl::Quaternion target_rot
-//		= tnl::Quaternion::LookAtAxisY(m_pos,tnl::Vector3(0,0,0));
-//
-//	// 現在の回転から目標の回転に向けてslerpを行う
-//	m_rot.slerp(target_rot, delta_time * m_speed);
-//
-//	// 2週したらmoveへ移行
-//	if (m_elapsed_time_circle >= m_total_time * 2)
-//	{
-//		m_is_circle = true;
-//	}
-//}
+void Butterfly::MoveRound(const float delta_time)
+{
+	// プレイヤーの位置を取得して中心座標とする
+	tnl::Vector3 center_pos = m_mediator->GetCinemaPlayerPos();
+
+	// 円運動の半径
+	float radius = 200.0f;
+
+	// 移動時間の更新
+	m_elapsed_time_circle += delta_time;
+
+	// 全体の動作時間
+	const float total_time = 3.0f;
+
+	// 現在のフェーズの進行度合いを計算
+	float progress = m_elapsed_time_circle / total_time;
+
+	// 角度の計算
+	float angle = progress * tnl::ToRadian(360);
+
+	// 円運動
+	m_pos.x = center_pos.x + sin(angle) * radius;
+	m_pos.z = center_pos.z + cos(angle) * radius;
+	// Y軸上昇の処理
+	m_pos.y += delta_time * 30 ; 
+
+	// 進行方向を向くための回転を計算
+	tnl::Vector3 next_direction 
+		= tnl::Vector3(sin(angle + delta_time * m_speed), 0
+					  , cos(angle + delta_time * m_speed));
+	
+	tnl::Quaternion direction_rot
+		= tnl::Quaternion::LookAt(m_pos, m_pos + next_direction, tnl::Vector3(0, 1, 0));
+
+	// 体を傾ける回転の適用
+	tnl::Quaternion tilt_rot 
+		= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 0, -1), tnl::ToRadian(45));
+
+	// 進行方向の回転と体を傾ける回転を組み合わせる
+	m_rot = direction_rot * tilt_rot;
+}
 
 void Butterfly::MoveStraightHeight(const float delta_time)
 {
 	// 速度を計算
-	float move_speed = m_speed * delta_time * 50;
+	float move_speed = m_speed * delta_time;
 
 	m_pos.z += move_speed;
 }
@@ -119,8 +138,63 @@ void Butterfly::MoveStraightHeight(const float delta_time)
 void Butterfly::MoveStraightWidth(const float delta_time)
 {
 	// 速度を計算
-	float move_speed = m_speed * delta_time * 100;
+	float move_speed = m_speed * delta_time;
 
 	m_pos.x -= move_speed;
 }
 
+bool Butterfly::SeqMove(const float delta_time)
+{
+	if (tnl_sequence_.isStart())
+	{
+		m_pos = {500,0,0};
+	}
+
+	if (abs(m_pos.x - m_mediator->GetCinemaPlayerPos().x) < 100)
+	{
+		tnl_sequence_.change(&Butterfly::SeqRound);
+	}
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+	{
+		MoveStraightWidth(delta_time);	
+	});
+
+	TNL_SEQ_CO_END;
+}
+
+bool Butterfly::SeqRound(const float delta_time)
+{
+	if (m_pos.y > 150)
+	{
+		// フェードアウト処理
+		// 透明度を下げる速度を定義（例: 0.5fは1秒間に半分の透明度になる）
+		float fade_out_speed = 0.5f * delta_time; // フレームごとの透明度の減少量
+
+		// 現在の透明度を取得
+		float current_opacity = MV1GetOpacityRate(m_model_hdl);
+
+		// 透明度を更新
+		float new_opacity = current_opacity - fade_out_speed;
+		// 透明度が負の値にならないように調整
+		if (new_opacity < 0) new_opacity = 0; 
+
+		// 新しい透明度をモデルに適用
+		MV1SetOpacityRate(m_model_hdl, new_opacity);
+
+		// 透明度が0になったら、シネマアクティブをfalseにしてフェードアウト完了
+		if (new_opacity <= 0)
+		{
+			m_is_cinema_active = false;
+
+			TNL_SEQ_CO_END;
+		}
+	}
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+	{
+		MoveRound(delta_time);
+	});
+
+	TNL_SEQ_CO_END;
+}

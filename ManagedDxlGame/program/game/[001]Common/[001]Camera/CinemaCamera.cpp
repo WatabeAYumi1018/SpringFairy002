@@ -55,7 +55,14 @@ tnl::Vector3 CinemaCamera::Lerp(const tnl::Vector3& start
 
 void CinemaCamera::Fixed(const tnl::Vector3& offset)
 {
-	target_ = m_mediator->GetCinemaCameraTargetPos();
+	if (m_mediator->GetButterflyIsCinemaActive())
+	{
+		target_ = m_mediator->GetButterflyPos();
+	}
+	else
+	{
+		target_ = m_mediator->GetCinemaCameraTargetPos();
+	}
 
 	pos_.x = target_.x + offset.x;
 	pos_.y = target_.y + offset.y;
@@ -161,8 +168,26 @@ bool CinemaCamera::SeqThird(const float delta_time)
 
 		target_ = m_mediator->GetButterflyPos();
 
-		ToSlide(delta_time, { 0,0,-100 }, 10);
+		ToSlide(delta_time, { 0,100,-200 }, 10);
 	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
+	{
+		Fixed({ 0,100,-300 });
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
+	{
+		target_ = m_mediator->GetCinemaCameraTargetPos();
+
+		ToSlide(delta_time, { 0,0,-300 }, 10);
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
+	{
+		Fixed({ 0,0,-300 });
+	});
+
 
 
 

@@ -76,13 +76,11 @@ void CinemaPlayer::MoveRoundFrontToBack(const float delta_time)
 	m_elapsed_time_circle += delta_time;
 
 	// 中心座標
-	tnl::Vector3 center_pos = { 0, 0, 0 };
-
-	tnl::Vector3 end_pos = { -50, -150, 0 };
+	tnl::Vector3 pos = { 0, 0, 0 };
 
 	// 円運動の半径。初期座標と中心座標から計算
 	float radius
-		= sqrt(pow(m_pos.x - center_pos.x, 2) + pow(m_pos.z - center_pos.z, 2));
+		= sqrt(pow(m_pos.x - pos.x, 2) + pow(m_pos.z - pos.z, 2));
 
 	// 円運動の更新
 	float angle = (m_elapsed_time_circle / m_total_time) * tnl::ToRadian(360);
@@ -90,38 +88,39 @@ void CinemaPlayer::MoveRoundFrontToBack(const float delta_time)
 	// x座標の位置を計算
 	if (angle >= tnl::ToRadian(360))
 	{
-		m_pos.x = end_pos.x;
+		m_pos.x = pos.x;
 	}
 	else
 	{
-		m_pos.x = center_pos.x + sin(angle) * radius;
+		m_pos.x = pos.x + sin(angle) * radius;
 	}
 	// y座標の位置を計算
 	if (angle >= tnl::ToRadian(360))
 	{
-		m_pos.y = end_pos.y;
+		m_pos.y = pos.y;
 	}
 	else
 	{
 		// 現在の角度に応じてY軸の位置を計算
 		m_pos.y = (1 - (angle / tnl::ToRadian(360))) * m_pos.y 
-					+ (angle / tnl::ToRadian(360)) * end_pos.y;
+					+ (angle / tnl::ToRadian(360)) * pos.y;
 	}
 
 	// Z座標の位置を計算
 	if (angle >= tnl::ToRadian(360))
 	{
-		m_pos.z = end_pos.z;
+		m_pos.z = pos.z;
 	}
 	else
 	{
-		m_pos.z = center_pos.z + cos(angle) * radius;
+		m_pos.z = pos.z + cos(angle) * radius;
 	}
 
 	// 円運動中の移動方向を向くための回転を計算
 	tnl::Vector3 nextPos 
-		= center_pos + tnl::Vector3(sin(angle + tnl::ToRadian(90)), 0
-									, cos(angle + tnl::ToRadian(90)));
+		= pos + tnl::Vector3(sin(angle + tnl::ToRadian(90)), 0
+		, cos(angle + tnl::ToRadian(90)));
+	
 	// 向きを変える
 	tnl::Quaternion direction_rot
 		= tnl::Quaternion::LookAt(m_pos, nextPos, tnl::Vector3(0, 1, 0));
@@ -443,20 +442,20 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 		MoveRoundBackToFront(delta_time, -360,true);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
+	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]()
 	{
-		
+		// 回転による座標の変更を強制リセット
+		m_pos = tnl::Vector3( 0,0,0 );
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
-	{
-		tnl::Quaternion m_target_rot
-			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, -1));
+	TNL_SEQ_CO_TIM_YIELD_RETURN(10, delta_time, [&](){});
 
-		m_rot.slerp(m_target_rot, delta_time * 10);
+	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]() 
+	{
+		m_pos.y -= 100;
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]() 
 	{
 		m_is_idle = false;
 		m_is_dance = true;

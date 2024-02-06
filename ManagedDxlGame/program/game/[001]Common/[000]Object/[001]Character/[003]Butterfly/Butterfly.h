@@ -16,15 +16,11 @@ public:
 
 private:
 
-	// 円の速度
-	float m_speed = 10.0f;
-	// 円の半径
-	float m_radius = 20.0f;
-	// 円運動一回分の総時間
-	float m_total_time = 5.0f;
-	// 円運動の経過時間
+	float m_speed = 100.0f;
 	float m_elapsed_time_circle = 0.0f;
-
+	float m_total_time = 2.0f;
+	float m_radius = 100.0f;
+	
 	// moveアニメーション経過時間
 	float m_elapsed_time = 0.0f;
 	// moveアニメーションのループ時間
@@ -34,25 +30,30 @@ private:
 	// moveアニメーションのインデックス
 	int m_anim_index = 0;
 
-	// 円運動フラグ
-	bool m_is_circle = false;
 	// 鱗粉フラグ
+	bool m_is_circle = false;
 	bool m_is_powder = false;
 
-
 	bool m_is_cinema_active = false;
+
+	// コルーチンシーケンス
+	TNL_CO_SEQUENCE(Butterfly, &Butterfly::SeqMove);
 
 	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+
 	void AnimMove(const float delta_time);
 
-	//void MoveRoundFrontToBack(const float delta_time);
+	void MoveRound(const float delta_time);
 
 	void MoveStraightHeight(const float delta_time);
 
 	void MoveStraightWidth(const float delta_time);
+
+	bool SeqMove(const float delta_time);
+	bool SeqRound(const float delta_time);
 
 public:
 
@@ -62,15 +63,14 @@ public:
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
-
-	bool GetIsCircle() const { return m_is_circle; }
-
 	bool GetIsPowder() const { return m_is_powder; }
 
-	void SetIsCinemaActive(bool is_cinema_active) 
+	void SetIsCinemaActive(bool is_cinema_active)
 	{
 		m_is_cinema_active = is_cinema_active; 
 	}
+
+	bool GetIsCinemaActive() const { return m_is_cinema_active; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator) 
 	{
