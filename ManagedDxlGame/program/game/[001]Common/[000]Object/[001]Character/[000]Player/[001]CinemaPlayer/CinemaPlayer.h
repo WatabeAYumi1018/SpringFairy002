@@ -24,10 +24,14 @@ private:
 	float m_total_time = 4.0f;
 	// 円運動の経過時間
 	float m_elapsed_time_circle = 0.0f;
+	// 一時停止している時間を追跡するためのタイマー
+	float m_pause_timer = 0.0f;
 
 	bool m_is_idle = false;
 	bool m_is_move = false;
 	bool m_is_dance = false;
+	// 回転が一時停止しているかを追跡するためのフラグ
+	bool m_is_paused = false; 
 	
 	// プレイヤーの自己発光
 	DxLib::COLOR_F m_emissive = { 0.5f,0.5f,0.5f,1 };
@@ -40,12 +44,14 @@ private:
 	// 線形補間関数
 	float Lerp(float start, float end, float t);
 
-	// 横移動
-	void MoveRound(const float delta_time);
-	// 落下移動
-	void MoveDown(const float delta_time);
+	// フロントからバックへ円移動
+	void MoveRoundFrontToBack(const float delta_time);
+	// 回転上下移動
+	void MoveRotUpDown(const float delta_time, float speed , bool up);
 	// バックへ勢いよく移動
 	void MoveBackCenter(const float delta_time);
+	// バックからフロントへ円移動
+	void MoveRoundBackToFront(const float delta_time, float radian, bool up);
 
 
 	// 待機

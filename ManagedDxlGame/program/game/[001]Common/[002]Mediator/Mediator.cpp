@@ -488,6 +488,11 @@ bool Mediator::GetButterflyIsPowder() const
 	return m_butterfly->GetIsPowder();
 }
 
+void Mediator::SetButterflyIsCinemaActive(bool is_cinema_active)
+{
+	m_butterfly->SetIsCinemaActive(is_cinema_active);
+}
+
 // ButterflyLoad
 
 int Mediator::GetButterflyModelHdl() const
@@ -619,13 +624,6 @@ bool Mediator::GetTitleIsDisappear() const
 
 
 //------------Gate-----------//
-
-// Gate
-
-bool Mediator::GetGateIsActive() const
-{
-	return m_gate->GetIsActive();
-}
 
 // GateLoad
 

@@ -17,10 +17,12 @@ private:
 
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
-	tnl::Vector3 m_offset = { 0, 300, -300 };
-	tnl::Vector3 m_new_offset = { 0,300,-300 };
+	tnl::Vector3 m_offset = { 0, 300, -100 };
+	tnl::Vector3 m_new_offset = { 0,0,-5000 };
 	// 回転
 	tnl::Quaternion m_rot;
+
+	bool m_is_mouse = false;
 
 	// メディエーターのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
@@ -48,6 +50,14 @@ private:
 	bool SeqUpToBack(const float delta_time);
 	// 引き
 	bool SeqBack(const float delta_time);
+
+	void Control(const float delta_time);
+
+	tnl::Vector3 RotateAroundPlayer(const tnl::Vector3& point
+		, const tnl::Vector3& pivot
+		, const tnl::Vector3& axis
+		, float angle);
+
 
 public:
 

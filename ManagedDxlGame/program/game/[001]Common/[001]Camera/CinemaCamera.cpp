@@ -140,30 +140,31 @@ bool CinemaCamera::SeqSecond(const float delta_time)
 
 bool CinemaCamera::SeqThird(const float delta_time)
 {
-	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
-	{
-		Fixed({ 0,0,-100 });
-	});
-
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 100,0,-50 }, 2);
-	});
-
-	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
-	{
-		Fixed({ 100,0,-50 });
-	});
-
-	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
-	{
-		ToSlide(delta_time, { 100,0,-500 }, 10);
+		Fixed({ 0,0,-700 });
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		Fixed({ 100,0,-500 });
+		ToSlide(delta_time, { 700,0,-300 }, 10);
 	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	{
+		ToSlide(delta_time, { -700,0,-500 }, 10);
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	{
+		m_mediator->SetButterflyIsCinemaActive(true);
+
+		target_ = m_mediator->GetButterflyPos();
+
+		ToSlide(delta_time, { 0,0,-100 }, 10);
+	});
+
+
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 

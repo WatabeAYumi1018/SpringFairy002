@@ -72,7 +72,6 @@ void ScenePlay::Update(const float delta_time)
 
 	m_stagePhase->Update(delta_time);
 
-	m_gameCamera->update(delta_time);
 
 	m_gimmickGenerator->Update(delta_time);
 
@@ -80,6 +79,8 @@ void ScenePlay::Update(const float delta_time)
 	{
 		object->Update(delta_time);
 	}
+
+	m_gameCamera->update(delta_time);
 
 	if (!m_gameCamera->GetIsActiveGame())
 	{
@@ -98,7 +99,7 @@ void ScenePlay::Draw(const float delta_time)
 {
 	if (m_gameCamera->GetIsActiveGame())
 	{
-		DrawGridGround(m_gameCamera);
+		//DrawGridGround(m_gameCamera);
 
 		for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 		{
@@ -117,7 +118,7 @@ void ScenePlay::Draw(const float delta_time)
 		m_cinemaCamera->Render();
 	}
 
-	m_screenShot->SaveScreenShot();
+	//m_screenShot->SaveScreenShot();
 
 	// Fps•\Ž¦
 	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);

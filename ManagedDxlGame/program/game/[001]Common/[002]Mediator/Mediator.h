@@ -122,15 +122,10 @@ private:
 
 	std::shared_ptr<Title> m_title = nullptr;
 
-	std::shared_ptr<Gate> m_gate = nullptr;
 	std::shared_ptr<GateLoad> m_gateLoad = nullptr;
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
-	//std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
-	//std::shared_ptr<CinemaCamera> m_cinemaCamera_half_right = nullptr;
-	//std::shared_ptr<CinemaCamera> m_cinemaCamera_third_left = nullptr;
-	//std::shared_ptr<CinemaCamera> m_cinemaCamera_third_right = nullptr;
 
 
 	//------------------------------------------------//
@@ -595,6 +590,11 @@ public:
 	// 参照先 ... Opに関連する関数
 	bool GetButterflyIsPowder() const;
 
+	// バタフライのシネマフラグ設定
+	// 参照元 ... Butterfly::m_is_cinema_active
+	// 参照先 ... OpCamera::Update(float delta_time)
+	void SetButterflyIsCinemaActive(bool is_cinema_active);
+
 	// ButterflyLoad
 
 	// バタフライモデルハンドルの取得
@@ -724,13 +724,6 @@ public:
 
 
 	//------------Gate-----------//
-
-	// Gate
-
-	// ゲートのアクティブ状態取得
-	// 参照元 ... Gate::m_is_active
-	// 参照先 ... OpGameCamera::Update(float delta_time)
-	bool GetGateIsActive() const;
 
 	// GateLoad
 
@@ -974,11 +967,6 @@ public:
 		m_title = title;
 	}
 
-	void SetGate(std::shared_ptr<Gate>& gate)
-	{
-		m_gate = gate;
-	}
-
 	void SetGateLoad(std::shared_ptr<GateLoad>& gateLoad)
 	{
 		m_gateLoad = gateLoad;
@@ -993,26 +981,6 @@ public:
 	{
 		m_cameraLoad = cameraLoad;
 	}
-
-	//void SetCinemaCameraAll(std::shared_ptr<CinemaCamera>& cinemaCamera)
-	//{
-	//	m_cinemaCamera = cinemaCamera;
-	//}
-
-	//void SetCinemaCameraHalfRight(std::shared_ptr<CinemaCamera>& cinemaCamera)
-	//{
-	//	m_cinemaCamera_half_right = cinemaCamera;
-	//}
-
-	//void SetCinemaCameraThirdLeft(std::shared_ptr<CinemaCamera>& cinemaCamera)
-	//{
-	//	m_cinemaCamera_third_left = cinemaCamera;
-	//}
-
-	//void SetCinemaCameraThirdRight(std::shared_ptr<CinemaCamera>& cinemaCamera)
-	//{
-	//	m_cinemaCamera_third_right = cinemaCamera;
-	//}
 
 	//------------------------------------------------//
 };

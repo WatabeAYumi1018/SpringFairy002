@@ -14,6 +14,8 @@ public:
 	{
 		tnl::Vector3 s_pos;
 		int s_alpha;
+		int s_size;
+		float s_life_time;
 		bool s_is_active;
 	};
 
@@ -33,12 +35,16 @@ private:
 	int m_alpha = 0;
 
 	float m_elapsed_time = 0.0f;
-	float m_total_active_time = 60.0f;
+	float m_total_active_time = 2.0f;
 
 	bool m_is_fog = false;
 	bool m_is_bubble = false;
 
 	std::vector<sBubble> m_bubbles;
+
+	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
+
+	std::shared_ptr<dxe::ScreenEffect> m_screen_effect = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 

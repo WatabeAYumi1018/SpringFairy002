@@ -27,9 +27,7 @@ Title::~Title()
 
 void Title::Update(const float delta_time)
 {
-    m_pos = m_mediator->GetButterflyPos();
-
-    m_pos.y += 150;
+    m_pos = { 0,150,0 };
 
     // ‰ñ“]‚ÆÀ•W‚©‚çs—ñ‚ğŒvZ
     m_matrix = GetTransformMatrix();

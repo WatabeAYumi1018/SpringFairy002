@@ -47,6 +47,8 @@ private:
 	void StartDraw(const float delta_time);
 	// 描画終了処理
 	void EndDraw(const float delta_time);
+	// タイトル移動処理
+	void MoveTitle(const float delta_time);
 
 	// トリガー処理
 	bool SeqTrigger(const float delta_time);

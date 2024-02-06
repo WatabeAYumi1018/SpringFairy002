@@ -5,6 +5,13 @@
 
 CinemaBack::CinemaBack()
 {
+	m_mesh = dxe::Mesh::CreateCubeMV(2000);
+	m_mesh->setTexture(dxe::Texture::CreateFromFile("graphics/event/cinema.png"));
+	m_mesh->loadMaterial("graphics/event/material.bin");
+	m_screen_effect = std::make_shared<dxe::ScreenEffect>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+	m_screen_effect->loadStatus("graphics/event/screen_effect.bin");
+
+
 	LoadCinemaBackInfo();
 
 	RandomBubbleCalc();
@@ -21,7 +28,7 @@ void CinemaBack::LoadCinemaBackInfo()
 	m_first_back_hdl = LoadGraph("graphics/event/background-green.jpg");
 	//m_second_third_hdl = LoadGraph("graphics/illust/background-green_third.jpg");
 	m_second_back_hdl = LoadGraph("graphics/event/flower.jpg");
-	m_third_back_hdl = LoadGraph("graphics/event/night.jpg");
+	//m_third_back_hdl = LoadGraph("graphics/event/night.jpg");
 
 	m_fog_hdl = LoadGraph("graphics/event/fog.png");
 	m_bubble_hdl = LoadGraph("graphics/event/cinema_bubble.png");
@@ -69,7 +76,9 @@ void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 	// レーンが5
 	//DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_second_back_hdl, TRUE);
 	// レーンが9
-	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_third_back_hdl, TRUE);
+	//DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, m_third_back_hdl, TRUE);
+
+	m_mesh->render(camera);
 
 	// レーンが5
 	if(m_is_fog)
@@ -85,15 +94,19 @@ void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 
 	if (m_is_bubble)
 	{
-		for (int i = 0; i < m_bubbles.size(); ++i)
+		for (sBubble& bubble : m_bubbles)
 		{
-			if (m_bubbles[i].s_is_active)
+			if (bubble.s_is_active)
 			{
-				// 画像の透明度を設定（0〜255）
-				SetDrawBlendMode(DX_BLENDMODE_ADD, m_bubbles[i].s_alpha);
+				// シャボン玉の透明度を設定
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(bubble.s_alpha));
 
-				DrawGraph(m_bubbles[i].s_pos.x, m_bubbles[i].s_pos.y
-						  , m_bubble_hdl, TRUE);
+				// シャボン玉を描画
+				DrawExtendGraph(bubble.s_pos.x - bubble.s_size /2 
+								,bubble.s_pos.y - bubble.s_size /2
+								,bubble.s_pos.x + bubble.s_size /2
+								,bubble.s_pos.y + bubble.s_size /2
+								,m_bubble_hdl, TRUE);
 
 				// ブレンドモードを通常に戻す
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
@@ -104,7 +117,7 @@ void CinemaBack::Draw(std::shared_ptr<dxe::Camera> camera)
 
 void CinemaBack::UpdateFogBlend()
 {
-	// 透明度の増加（フレーム毎に呼ばれる想定）
+	// 透明度の増加
 	m_alpha += 5;
 	
 	if (m_alpha > 255)
@@ -117,14 +130,64 @@ void CinemaBack::UpdateFogBlend()
 
 void CinemaBack::RandomBubbleCalc()
 {
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 20; ++i)
 	{
 		sBubble bubble;
+		
+		// サイズをランダムに設定
+		bubble.s_size = tnl::GetRandomDistributionFloat(400.0f, 500.0f); 
 
-		bubble.s_pos.x = GetRand(DXE_WINDOW_WIDTH);
-		bubble.s_pos.y = GetRand(DXE_WINDOW_HEIGHT);
-		bubble.s_alpha = GetRand(255);
-		bubble.s_is_active = true;
+		// 位置を画面端に設定
+		int edge = GetRand(3);
+		
+		switch (edge)
+		{
+		
+		// 上
+		case 0: 
+
+			bubble.s_pos.x 
+				= tnl::GetRandomDistributionFloat(0, DXE_WINDOW_WIDTH);
+			
+			bubble.s_pos.y = 0;
+		
+			break;
+		
+		// 右
+		case 1: 
+
+			bubble.s_pos.x = DXE_WINDOW_WIDTH;
+			
+			bubble.s_pos.y 
+				= tnl::GetRandomDistributionFloat(0, DXE_WINDOW_HEIGHT);
+		
+			break;
+		
+		// 下
+		case 2: 
+
+			bubble.s_pos.x 
+				= tnl::GetRandomDistributionFloat(0, DXE_WINDOW_WIDTH);
+			
+			bubble.s_pos.y = DXE_WINDOW_HEIGHT;
+			
+			break;
+		
+		// 左
+		case 3:
+			
+			bubble.s_pos.x =0;
+			
+			bubble.s_pos.y 
+				= tnl::GetRandomDistributionFloat(0, DXE_WINDOW_HEIGHT );
+			
+			break;
+		}
+
+		// 初期透明度をランダムに設定
+		bubble.s_alpha = tnl::GetRandomDistributionFloat(0, 255);
+		// 透明度の変化速度をランダムに設定
+		bubble.s_life_time = tnl::GetRandomDistributionFloat(100.0f, 150.0f);
 
 		m_bubbles.emplace_back(bubble);
 	}
@@ -132,18 +195,25 @@ void CinemaBack::RandomBubbleCalc()
 
 void CinemaBack::UpdateBubblesActive(const float delta_time)
 {
-	m_elapsed_time += delta_time;
-
 	for (sBubble& bubble : m_bubbles)
 	{
-		// シャボンの点滅を制御
-		if (m_elapsed_time < m_total_active_time)
+		// 透明度を時間に比例して変化させる
+		bubble.s_alpha += bubble.s_life_time * delta_time;
+
+		bubble.s_size += bubble.s_life_time * delta_time * 0.5f;
+
+		// 透明度が範囲外に行った場合は方向を反転
+		if (bubble.s_alpha > 255)
 		{
-			// 表示、非表示を切り替え
-			bubble.s_is_active = !bubble.s_is_active; 
+			// 透明度が最大に達したら減少させるための速度を設定
+			bubble.s_life_time = -bubble.s_life_time;
+		}
+		if (bubble.s_alpha < 0)
+		{
+			// 透明度が最小に達したら増加させるための速度を設定
+			bubble.s_life_time = -bubble.s_life_time;
 		}
 	}
-
 }
 
 

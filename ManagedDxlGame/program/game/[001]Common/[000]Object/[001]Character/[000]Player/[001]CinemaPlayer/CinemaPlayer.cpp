@@ -70,7 +70,7 @@ float CinemaPlayer::Lerp(float start, float end, float t)
 	return start + (end - start) * t;
 }
 
-void CinemaPlayer::MoveRound(const float delta_time)
+void CinemaPlayer::MoveRoundFrontToBack(const float delta_time)
 {
 	// 時間経過の更新
 	m_elapsed_time_circle += delta_time;
@@ -85,8 +85,7 @@ void CinemaPlayer::MoveRound(const float delta_time)
 		= sqrt(pow(m_pos.x - center_pos.x, 2) + pow(m_pos.z - center_pos.z, 2));
 
 	// 円運動の更新
-	float angle 
-		= (m_elapsed_time_circle / m_total_time) * tnl::ToRadian(360);
+	float angle = (m_elapsed_time_circle / m_total_time) * tnl::ToRadian(360);
 
 	// x座標の位置を計算
 	if (angle >= tnl::ToRadian(360))
@@ -135,15 +134,16 @@ void CinemaPlayer::MoveRound(const float delta_time)
 	m_rot = direction_rot * tilt_rot;
 }
 
-void CinemaPlayer::MoveDown(const float delta_time)
+void CinemaPlayer::MoveRotUpDown(const float delta_time,float speed,bool up)
 {
-	static float total_rot = 0.0f; // 総回転角度
-	const float rot_speed = 5; 
+	// 総回転角度
+	static float total_rot = 0.0f; 
+	const float rot_speed = speed;
 
 	// 総回転角度を更新
 	total_rot += rot_speed * delta_time;
 
-	// 720度（4πラジアン）を超えたらリセット
+	// 720度を超えたらリセット
 	if (total_rot > tnl::ToRadian(720))
 	{
 		total_rot -= tnl::ToRadian(720);
@@ -153,15 +153,22 @@ void CinemaPlayer::MoveDown(const float delta_time)
 	tnl::Quaternion axis_rot
 		= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 1, 0), total_rot);
 
-	// Z軸周りに30度傾けるクォータニオンを生成
-	tnl::Quaternion tilt_rot
-		= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 0, -1), tnl::ToRadian(30));
+	if (up)
+	{
+		// 滑らかに回転
+		m_rot.slerp(axis_rot,0.5f);
+	}
+	else
+	{
+		// Z軸周りに30度傾けるクォータニオンを生成
+		tnl::Quaternion tilt_rot
+			= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 0, -1), tnl::ToRadian(30));
 
-	// 既存の回転と傾斜の回転を合成
-	tnl::Quaternion comb_rot = axis_rot * tilt_rot;
+		// 既存の回転と傾斜の回転を合成
+		tnl::Quaternion comb_rot = axis_rot * tilt_rot;
 
-	// Slerpで滑らかに回転を適用
-	m_rot.slerp(comb_rot, 0.5f);
+		m_rot.slerp(comb_rot, 0.5f);
+	}
 }
 
 void CinemaPlayer::MoveBackCenter(const float delta_time)
@@ -185,6 +192,61 @@ void CinemaPlayer::MoveBackCenter(const float delta_time)
 		m_pos.y = Lerp(start_pos.y, end_pos.y, phase);
 		m_pos.z = Lerp(start_pos.z, end_pos.z, phase);
 	}
+}
+
+void CinemaPlayer::MoveRoundBackToFront(const float delta_time,float radian,bool up)
+{
+	// 移動速度の定義
+	const float speed = 5.0f;
+
+	// 円運動の中心座標（スタート位置と同じ）
+	tnl::Vector3 center_pos = { 0,0,0 };
+
+	// 終了位置
+	tnl::Vector3 end_pos = { -400,0,-400 };
+
+	// 移動時間の更新
+	m_elapsed_time_circle += delta_time;
+
+	// 全体の動作時間
+	const float total_time = 3.0f;
+
+	// 現在のフェーズの進行度合いを計算
+	float progress = m_elapsed_time_circle / total_time;
+
+	// 角度の計算
+	float angle = progress * tnl::ToRadian(radian);
+
+	// 円運動の半径（終了位置と中心座標から計算）
+	float radius = sqrt(pow(end_pos.x - center_pos.x, 2) 
+					+ pow(end_pos.z - center_pos.z, 2));
+
+	// 円運動
+	m_pos.x = center_pos.x + sin(angle) * radius;
+	
+	if (up)
+	{
+		m_pos.y = center_pos.y - cos(angle) * radius / 2;
+	}
+	else
+	{
+		m_pos.y = center_pos.y + cos(angle) * radius / 2;
+	}
+
+	m_pos.z = center_pos.z + cos(angle) * radius;
+
+	tnl::Quaternion tilt_rot 
+		= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 0, -1), tnl::ToRadian(45));
+
+	// 移動方向を向くための回転を計算
+	tnl::Vector3 next_direction 
+		= tnl::Vector3(sin(angle + tnl::ToRadian(90)), 0, cos(angle + tnl::ToRadian(90)));
+	
+	tnl::Quaternion direction_rot 
+		= tnl::Quaternion::LookAt(m_pos, m_pos + next_direction, tnl::Vector3(0, 1, 0));
+	
+	// 進行方向の回転と体を傾ける回転を組み合わせる
+	m_rot = tilt_rot * direction_rot;
 }
 
 bool CinemaPlayer::SeqTrigger(const float delta_time)
@@ -218,7 +280,7 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
 	{
-		MoveRound(delta_time);
+		MoveRoundFrontToBack(delta_time);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
@@ -231,7 +293,6 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]() 
 	{
-		//
 		tnl::Quaternion target_rot
 			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
 
@@ -275,7 +336,7 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		MoveDown(delta_time);
+		MoveRotUpDown(delta_time,5,false);
 		m_pos.x -= delta_time * 150;
 		m_pos.y -= delta_time * 150;
 	});
@@ -285,7 +346,7 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 		m_is_idle = false;
 		m_is_move = true;
 
-		// X軸周りに45度傾ける（前方に45度傾斜）
+		// 前方に45度傾斜
 		m_rot = tnl::Quaternion::RotationAxis(tnl::Vector3(0, -1, -1), tnl::ToRadian(70));
 
 		MoveBackCenter(delta_time);
@@ -350,34 +411,41 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 	if (tnl_sequence_.isStart())
 	{
 		m_is_idle = true;
-		m_pos = { 0 };
+
+		m_pos = { 0,-500,0 };
 
 		DxLib::COLOR_F m_emissive = { 0.9f,0.9f,0.9f,1 };
 
 		MV1SetMaterialEmiColor(m_model_hdl, 0, m_emissive);
+
+		m_mediator->SetIsCinemaBackBubble(true);
 	}
-
-	m_mediator->SetIsCinemaBackBubble(true);
-
-	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
-	{
-		m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 0));
-	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		tnl::Quaternion m_target_rot
-			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, -1));
+		MoveRotUpDown(delta_time,10,true);
 
-		m_rot.slerp(m_target_rot, delta_time * 10);
+		m_pos.y += delta_time * 200;
+
+		if (m_pos.y >= 0)
+		{
+			m_pos.y = 0;
+		}
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	{
+		MoveRoundBackToFront(delta_time,360,false);
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]() 
+	{
+		MoveRoundBackToFront(delta_time, -360,true);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
 	{
-		tnl::Quaternion m_target_rot
-			= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
-
-		m_rot.slerp(m_target_rot, delta_time * 3);
+		
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()

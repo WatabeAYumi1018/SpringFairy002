@@ -236,7 +236,7 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 
 void PlayFactory::StorageObjectGameCamera()
 {
-	m_objects_gameCamera.emplace_back(m_skyBox);
+	//m_objects_gameCamera.emplace_back(m_skyBox);
 	m_objects_gameCamera.emplace_back(m_floor);
 	m_objects_gameCamera.emplace_back(m_model);
 	m_objects_gameCamera.emplace_back(m_cameraTargetPlayer);
@@ -267,7 +267,7 @@ void PlayFactory::StorageObjectCinemaCamera()
 	// シネマ用エフェクト
 	m_objects_cinemaCamera.emplace_back(m_effect);
 	// シネマ用蝶
-	//m_objects_cinemaCamera.emplace_back(m_butterfly);
+	m_objects_cinemaCamera.emplace_back(m_butterfly);
 }
 
 //// 初期化

@@ -61,10 +61,6 @@ public:
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
-	bool GetIsActive() const { return m_is_active; }
-
-	bool GetIsOpend() const { return m_is_opend; }
-
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;

@@ -16,8 +16,6 @@ public:
 
 private:
 
-	int m_texture_tip_hdl = 0;
-
 	// ‰~‚Ì‘¬“x
 	float m_speed = 10.0f;
 	// ‰~‚Ì”¼Œa
@@ -41,19 +39,20 @@ private:
 	// —Ø•²ƒtƒ‰ƒO
 	bool m_is_powder = false;
 
+
+	bool m_is_cinema_active = false;
+
 	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	void SetAnim();
-
 	void AnimMove(const float delta_time);
 
-	void AnimDraw(const float delta_time);
+	//void MoveRoundFrontToBack(const float delta_time);
 
-	void MoveRound(const float delta_time);
+	void MoveStraightHeight(const float delta_time);
 
-	void MoveStraight(const float delta_time);
+	void MoveStraightWidth(const float delta_time);
 
 public:
 
@@ -67,6 +66,11 @@ public:
 	bool GetIsCircle() const { return m_is_circle; }
 
 	bool GetIsPowder() const { return m_is_powder; }
+
+	void SetIsCinemaActive(bool is_cinema_active) 
+	{
+		m_is_cinema_active = is_cinema_active; 
+	}
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator) 
 	{
