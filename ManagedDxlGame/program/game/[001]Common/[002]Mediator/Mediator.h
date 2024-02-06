@@ -160,10 +160,21 @@ public:
 	// 参照先 ... CinemaCamera::Update(float delta_time)
 	void SetCinemaBackIsSecond(bool is_second);
 
+	// シネマバック二番フラグ取得
+	// 参照元 ... CinemaBack::m_is_second
+	// 参照先 ... StagePhase::Update(float delta_time)
+	bool GetCinemaBackIsSecond() const;
+
 	// シネマバック三番フラグ設定
 	// 参照元 ... CinemaBack::m_is_third
 	// 参照先 ... CinemaCamera::Update(float delta_time)
 	void SetCinemaBackIsThird(bool is_third);
+
+	// シネマバック三番フラグ取得
+	// 参照元 ... CinemaBack::m_is_third
+	// 参照先 ... StagePhase::Update(float delta_time)
+	bool GetCinemaBackIsThird() const;
+
 
 	// シネマバックのフォグフラグ設定
 	// 参照元 ... CinemaBack::m_is_fog

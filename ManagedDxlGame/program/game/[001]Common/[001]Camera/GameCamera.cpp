@@ -173,7 +173,7 @@ void GameCamera::Rotate(const float delta_time)
 
 	// カメラ位置の計算（プレイヤーの周りを円軌道で回転）
 	pos_.x = target_.x + cos(m_rot_angle) * orbit_radius;
-	//pos_.y = target_.y + orbit_height;
+	pos_.y = target_.y + orbit_height;
 	pos_.z = target_.z + sin(m_rot_angle) * orbit_radius;
 }
 

@@ -90,7 +90,7 @@ bool CinemaCamera::SeqTrigger(const float delta_time)
 
 		tnl_sequence_.change(&CinemaCamera::SeqFirst);
 	}
-	if (m_mediator->GetEventLane().s_id == 5
+	if (m_mediator->GetEventLane().s_id == 6
 		|| tnl::Input::IsKeyDown(eKeys::KB_2))
 	{
 		// エリア２へ移行
@@ -98,7 +98,7 @@ bool CinemaCamera::SeqTrigger(const float delta_time)
 
 		tnl_sequence_.change(&CinemaCamera::SeqSecond);
 	}
-	if (m_mediator->GetEventLane().s_id == 8
+	if (m_mediator->GetEventLane().s_id == 9
 		|| tnl::Input::IsKeyDown(eKeys::KB_3))
 	{
 		// エリア３へ移行

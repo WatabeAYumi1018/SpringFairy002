@@ -57,9 +57,19 @@ void Mediator::SetCinemaBackIsSecond(bool is_second)
 	m_cinemaBack->SetIsSecond(is_second);
 }
 
+bool Mediator::GetCinemaBackIsSecond() const
+{
+	return m_cinemaBack->GetIsSecond();
+}
+
 void Mediator::SetCinemaBackIsThird(bool is_third)
 {
 	m_cinemaBack->SetIsThird(is_third);
+}
+
+bool Mediator::GetCinemaBackIsThird() const
+{
+	return m_cinemaBack->GetIsThird();
 }
 
 

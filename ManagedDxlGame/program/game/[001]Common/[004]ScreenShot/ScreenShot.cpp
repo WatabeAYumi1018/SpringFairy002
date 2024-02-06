@@ -16,19 +16,21 @@ ScreenShot::~ScreenShot()
 
 void ScreenShot::LoadBack()
 {
-    m_back_hdl = LoadGraph("graphics/illust/flower.jpg");
+    m_back_hdl = LoadGraph("graphics/event/flower_arch.jpg");
 }
 
 void ScreenShot::SaveScreenShot()
 {
-    if (tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB))
+    if (m_mediator->GetEventLane().s_id ==12
+        || tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB))
     {
         // スクリーンショットをファイルに保存
         std::string final_path 
             = GetNextFileName(m_directry, m_base_name);
 
         // 画像を保存
-        SaveDrawScreenToPNG(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, final_path.c_str());
+        SaveDrawScreenToPNG(0, 0, DXE_WINDOW_WIDTH
+                            , DXE_WINDOW_HEIGHT, final_path.c_str());
     }
 }
 

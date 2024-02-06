@@ -70,7 +70,11 @@ public:
 
 	void SetIsSecond(bool is_second) { m_is_second = is_second; }
 
+	bool GetIsSecond() const { return m_is_second; }
+
 	void SetIsThird(bool is_third) { m_is_third = is_third; }
+
+	bool GetIsThird() const { return m_is_third; }
 
 	void SetIsFog(bool is_fog) { m_is_fog = is_fog; }
 

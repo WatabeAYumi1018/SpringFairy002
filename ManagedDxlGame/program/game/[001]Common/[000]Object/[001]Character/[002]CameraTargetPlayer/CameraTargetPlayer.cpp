@@ -17,7 +17,7 @@ void CameraTargetPlayer::Update(float delta_time)
 	DrawStringEx(500, 0, -1, "カメラID番号 : %d", m_camera_info.s_id);
 	DrawStringEx(500, 20, -1, "イベントID番号 : %d", m_event.s_id);
 
-	if (m_event.s_id == 5 || m_event.s_id == 8)
+	if (m_event.s_id == 6 || m_event.s_id == 9)
 	{
 		// シネマカメラ開始
 		m_mediator->SetIsActiveGameCamera(false);
@@ -69,15 +69,15 @@ bool CameraTargetPlayer::SeqNormal(const float delta_time)
 		m_is_move_down = false;
 	}
 
-	if (m_event.s_id == 4)
+	if (m_event.s_id == 5)
 	{
 		tnl_sequence_.change(&CameraTargetPlayer::SeqStop);
 	}
 
-	if (m_event.s_id == 7)
-	{
-		tnl_sequence_.change(&CameraTargetPlayer::SeqDownMove);
-	}
+	//if (m_event.s_id == 7)
+	//{
+	//	tnl_sequence_.change(&CameraTargetPlayer::SeqDownMove);
+	//}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{

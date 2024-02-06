@@ -15,7 +15,7 @@ Floor::Floor()
 
 	m_floor = dxe::Mesh::CreatePlaneMV(mesh_size);
 
-	m_floor->setTexture(dxe::Texture::CreateFromFile("graphics/floor/lawn.png"));
+	m_floor->setTexture(dxe::Texture::CreateFromFile("graphics/floor/floor.png"));
 	// ƒvƒŒ[ƒ“‚ð°‚Æ‚·‚é‚½‚ß‰ñ“]
 	m_floor->rot_
 		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90.0f));

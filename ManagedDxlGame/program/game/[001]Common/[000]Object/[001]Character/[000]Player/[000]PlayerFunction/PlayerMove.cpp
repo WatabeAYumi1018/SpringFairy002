@@ -245,7 +245,7 @@ bool PlayerMove::SeqNormal(const float delta_time)
 	//	tnl_sequence_.change(&PlayerMove::SeqSaltoAction);
 	//}
 	
-	if (m_mediator->GetEventLane().s_id == 4)
+	if (m_mediator->GetEventLane().s_id == 5)
 	{
 		tnl_sequence_.change(&PlayerMove::SeqStop);
 	}
