@@ -162,9 +162,9 @@ void GameCamera::ToSlide(const float delta_time, const tnl::Vector3& offset, flo
 void GameCamera::Rotate(const float delta_time)
 {
 	// ‹O“¹”¼Œa
-	float orbit_radius = 300.0f;
+	float orbit_radius = 400.0f;
 	// ‹O“¹‚‚³
-	float orbit_height = 400.0f;
+	float orbit_height = 500.0f;
 
 	target_ = m_mediator->GetPlayerPos();
 

@@ -21,8 +21,8 @@ void ScreenShot::LoadBack()
 
 void ScreenShot::SaveScreenShot()
 {
-    if (m_mediator->GetEventLane().s_id ==12
-        || tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB))
+    if (//m_mediator->GetEventLane().s_id ==12
+         tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB))
     {
         // スクリーンショットをファイルに保存
         std::string final_path 

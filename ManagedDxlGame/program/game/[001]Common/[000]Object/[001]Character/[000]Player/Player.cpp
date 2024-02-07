@@ -53,8 +53,10 @@ void Player::Update(float delta_time)
 
 	m_mediator->UpdateCollisionCheck();
 
-	m_mediator->IsInCameraFlustum();
-
+	if (m_mediator->CurrentCameraLane().s_id != 7)
+	{
+		m_mediator->IsInCameraFlustum();
+	}
 	////// 当たり判定デバッグ用
 	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
 	//pos.y += m_collision_size;

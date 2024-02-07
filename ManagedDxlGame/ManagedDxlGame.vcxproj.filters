@@ -422,9 +422,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.cpp">
       <Filter>program\[003] game\[001]Common\[004]ScreenShot</Filter>
     </ClCompile>
@@ -510,6 +507,9 @@
       <Filter>program\[003] game\[002]SceneOp</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClCompile>
   </ItemGroup>
@@ -824,9 +824,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.h">
       <Filter>program\[003] game\[001]Common\[004]ScreenShot</Filter>
     </ClInclude>
@@ -913,6 +910,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h">
       <Filter>program\[003] game\[001]Common\[002]Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

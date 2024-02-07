@@ -64,7 +64,7 @@ namespace dxe {
 			return it->second;
 		}
 
-		std::shared_ptr<Texture> tex = std::shared_ptr<Texture>( new Texture() );
+		std::shared_ptr<Texture> tex = std::shared_ptr<Texture>(new Texture());
 		tex->file_path_ = file_path;
 		std::tuple t = tnl::DetachmentFilePath(file_path);
 		tex->file_name_ = std::get<1>(t) + "." + std::get<2>(t);
@@ -82,7 +82,7 @@ namespace dxe {
 		tex->graph_hdl_ = CreateGraphFromMem(tex->file_data_, tex->data_size_);
 		GetGraphSize(tex->graph_hdl_, (int*)(&tex->width_), (int*)(&tex->height_));
 
-		managed_map_.insert(std::make_pair( hash, tex ));
+		managed_map_.insert(std::make_pair(hash, tex));
 
 		return tex;
 	}
@@ -112,7 +112,7 @@ namespace dxe {
 		out.resize(frame_w * frame_h);
 
 		auto col_tpl = tnl::LoadGraphicColorBuffer(file_path.c_str());
-		if (std::get<0>(col_tpl) == nullptr) return std::vector<std::shared_ptr<Texture>>() ;
+		if (std::get<0>(col_tpl) == nullptr) return std::vector<std::shared_ptr<Texture>>();
 
 		uint32_t width = std::get<1>(col_tpl);
 		uint32_t height = std::get<2>(col_tpl);
@@ -122,7 +122,7 @@ namespace dxe {
 		unsigned char* root = (unsigned char*)std::get<0>(col_tpl).get();
 
 		for (uint32_t i = 0; i < frame_h; ++i) {
-			unsigned char* gp = root + ( i * width * 4 ) * fr_pc_h ;
+			unsigned char* gp = root + (i * width * 4) * fr_pc_h;
 
 			for (uint32_t k = 0; k < frame_w; ++k) {
 
@@ -136,10 +136,10 @@ namespace dxe {
 					p += width * 4;
 					cp += fr_pc_w * 4;
 				}
-				gp += fr_pc_w * 4 ;
+				gp += fr_pc_w * 4;
 
 				std::shared_ptr<Texture> tex = CreateFromColorBufferRGBA8((unsigned char*)col_buff, fr_pc_w, fr_pc_h, file_path + std::to_string((i * frame_w) + k));
-				out[( i * frame_w ) + k] = tex;
+				out[(i * frame_w) + k] = tex;
 				delete[] col_buff;
 			}
 		}

@@ -40,7 +40,7 @@ private:
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 	void LoadSkyBoxInfo();
-	
+
 	void CreateSkyBox();
 
 public:
@@ -49,7 +49,7 @@ public:
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
-	void SetIsOp(bool is_op){ m_is_op = is_op; }
+	void SetIsOp(bool is_op) { m_is_op = is_op; }
 
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
