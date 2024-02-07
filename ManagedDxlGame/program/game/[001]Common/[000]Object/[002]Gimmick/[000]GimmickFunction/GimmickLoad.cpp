@@ -25,6 +25,9 @@ GimmickLoad::GimmickLoad()
 
 GimmickLoad::~GimmickLoad()
 {
+	m_csv_plants.clear();
+	m_csv_trees.clear();
+	m_csv_sky_flowers.clear();
 	m_plants.clear();
 	m_trees.clear();
 	m_sky_flowers.clear();

@@ -36,6 +36,12 @@ void Floor::Draw(std::shared_ptr<dxe::Camera> camera)
 
     float distance = static_cast<float> (Floor::DRAW_DISTANCE);
 
+    if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
+    {
+        // 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
+        distance *= 2 ;
+    }
+
     for (int i = -half_grid_size; i < half_grid_size; i++)
     {
         for (int j = -half_grid_size; j < half_grid_size; j++)

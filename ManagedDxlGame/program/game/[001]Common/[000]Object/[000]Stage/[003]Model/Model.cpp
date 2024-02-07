@@ -73,7 +73,15 @@ void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)
 			tnl::Vector3 pos;
 
 			pos.x = static_cast<float>(x * model_size);
+			
 			pos.y = Floor::DRAW_DISTANCE;
+			
+			if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
+			{
+				// 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
+				pos.y *= 2;
+			}
+
 			// 前方を少し遠めに設定し突然のモデルの出現を防ぐ
 			pos.z = static_cast<float>(z * model_size) + 1000;
 

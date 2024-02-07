@@ -77,7 +77,7 @@ namespace wta
 
 		// ‰~“¯mŒğ·”»’è(ŒÂ•Ê“¯m‚Ì”»’è)
 		bool IsIntersectSphere( std::shared_ptr<T1> object1, float object1_radius
-								, std::shared_ptr<T2> object2, float object2_radius)
+								, std::shared_ptr<T2> object2, float object2_radius,bool pos_up = false)
 		{
 			// nullƒ`ƒFƒbƒN
 			if (object1 == nullptr || object2 == nullptr)
@@ -86,7 +86,13 @@ namespace wta
 			}
 
 			tnl::Vector3 pos1 = object1->GetPos();
+
 			tnl::Vector3 pos2 = object2->GetPos();
+
+			if (pos_up)
+			{
+				pos2.y += 500;
+			}
 
 			// 2‚Â‚Ì‹——£‚ğZo
 			tnl::Vector3 distance = pos1 - pos2;

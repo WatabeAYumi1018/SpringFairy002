@@ -14,7 +14,7 @@ Player::Player()
 
 	//SetLight(m_model_hdl);
 
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
 		std::shared_ptr<dxe::Mesh> mesh = dxe::Mesh::CreateSphereMV(70);
 
@@ -58,9 +58,9 @@ void Player::Update(float delta_time)
 		m_mediator->IsInCameraFlustum();
 	}
 	////// 当たり判定デバッグ用
-	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
-	//pos.y += m_collision_size;
-	//DrawSphere3D(pos, m_collision_size,32, GetColor(255, 0, 0), GetColor(255,0,0), true);
+	VECTOR pos = wta::ConvertToVECTOR(m_pos);
+	pos.y += m_collision_size;
+	DrawSphere3D(pos, m_collision_size,32, GetColor(255, 0, 0), GetColor(255,0,0), true);
 
 	//tnl::Vector3 forward = Forward();
 

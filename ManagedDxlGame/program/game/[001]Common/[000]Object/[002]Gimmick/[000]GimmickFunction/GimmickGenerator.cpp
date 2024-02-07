@@ -121,6 +121,12 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
             // y座標を地面の高さに設定
             pos.y = Floor::DRAW_DISTANCE;
 
+            // 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
+            if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
+            {
+				pos.y *= 2;
+			}
+
             // ギミックを配置
             gimmick->SetPos(pos);
             gimmick->SetIsActive(true);

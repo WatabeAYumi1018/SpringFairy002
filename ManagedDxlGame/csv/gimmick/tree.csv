@@ -1,4 +1,3 @@
 モデルID,モデル ファイルパス,テクスチャ ファイルパス1,テクスチャ ファイルパス2,タイプ番号
 0,model/gimmick/ground/tree/tree001.mv1,model/gimmick/ground/tree/tree001_wither.png,model/gimmick/ground/tree/tree001.png,1
 1,model/gimmick/ground/tree/tree002.mv1,model/gimmick/ground/tree/tree002_wither.png,model/gimmick/ground/tree/tree002.png,1
-2,model/gimmick/ground/tree/tree003.mv1,model/gimmick/ground/tree/tree003_wither.png,model/gimmick/ground/tree/tree003.png,1

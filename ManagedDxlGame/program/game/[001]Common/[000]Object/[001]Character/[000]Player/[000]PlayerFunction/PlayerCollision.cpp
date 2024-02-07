@@ -20,23 +20,6 @@ void PlayerCollision::CollisionRegisterPlayerToGimmick()
 										, [this](std::shared_ptr<Player> player
 										, std::shared_ptr<Gimmick> gimmick)
 	{
-		if(m_collision_gimmick->IsIntersectSphere(player,player->GetCollisionSize()
-												, gimmick, gimmick->GetCollisionSize()))
-		{ 
-			// “–‚½‚è”»’è”­¶‡}
-			gimmick->SetIsHit(true);
-			//// •`‰æØ‚è‘Ö‚¦‡}
-			//gimmick->SetIsDrawChange(true);
-		}
-		// “–‚½‚è”»’è”­¶‡}‚ªo‚Ä‚¢‚Ä‚àAŽË’öŠO‚Éo‚½‚ç“–‚½‚è”»’è‚ð‰ðœ
-		if (gimmick->GetIsHit())
-		{
-			if (!m_collision_gimmick->IsIntersectSphere(player, player->GetCollisionSize()
-														, gimmick, gimmick->GetCollisionSize()))
-			{
-				gimmick->SetIsHit(false);
-			}
-		}
 	});
 }
 
@@ -50,28 +33,14 @@ void PlayerCollision::CollisionRegisterMeshToGimmick()
 										, [this](std::shared_ptr<dxe::Mesh> mesh
 										, std::shared_ptr<Gimmick> gimmick)
 	{
-		if (m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
-												, gimmick, gimmick->GetCollisionSize()))
+		if (m_mediator->GetNowStagePhaseState() 
+			== StagePhase::eStagePhase::e_wood)
 		{
-			// “–‚½‚è”»’è”­¶‡}
-			gimmick->SetIsHit(true);
-			//// •`‰æØ‚è‘Ö‚¦‡}
-			//gimmick->SetIsDrawChange(true);
+			IsIntersectGimmickPos(mesh, gimmick, true);
 		}
-		// “–‚½‚è”»’è”­¶‡}”­¶’†
-		if (gimmick->GetIsHit())
+		else
 		{
-			// ŽË’öŠO‚Éo‚½‚ç“–‚½‚è”»’è‚ð‰ðœ
-			if (!m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
-				, gimmick, gimmick->GetCollisionSize()))
-			{
-				gimmick->SetIsHit(false);
-			}
-			// ƒvƒŒƒCƒ„[‚ªƒuƒ‹[ƒ€ó‘Ô‚È‚ç“–‚½‚è”»’è
-			else if (m_mediator->GetIsPlayerBloom())
-			{
-				gimmick->SetIsCollision(true);
-			}
+			IsIntersectGimmickPos(mesh, gimmick, false);
 		}
 	});
 }
@@ -117,3 +86,36 @@ void PlayerCollision::CollisionCheck()
 	// Player ‚Æ Partner ‚ÌÕ“Ë”»’è
 	m_collision_chara->Intersect(m_player, m_partner);
 }
+
+void PlayerCollision::IsIntersectGimmickPos(std::shared_ptr<dxe::Mesh> mesh
+											, std::shared_ptr<Gimmick> gimmick
+											, bool pos_up)
+{
+	if (m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
+		, gimmick, gimmick->GetCollisionSize(), pos_up))
+	{
+		// “–‚½‚è”»’è”­¶‡}
+		gimmick->SetIsHit(true);
+		//// •`‰æØ‚è‘Ö‚¦‡}
+		//gimmick->SetIsDrawChange(true);
+	}
+
+	// “–‚½‚è”»’è”­¶‡}”­¶’†
+	if (gimmick->GetIsHit())
+	{
+		// ŽË’öŠO‚Éo‚½‚ç“–‚½‚è”»’è‚ð‰ðœ
+		if (!m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
+			, gimmick, gimmick->GetCollisionSize(), pos_up))
+		{
+			gimmick->SetIsHit(false);
+		}
+		// ƒvƒŒƒCƒ„[‚ªƒuƒ‹[ƒ€ó‘Ô‚È‚ç“–‚½‚è”»’è
+		else if (m_mediator->GetIsPlayerBloom())
+		{
+			gimmick->SetIsCollision(true);
+		}
+	}
+}
+
+
+

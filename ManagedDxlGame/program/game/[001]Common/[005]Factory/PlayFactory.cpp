@@ -221,6 +221,15 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 
 			gimmick->LoadGimmickData(type_info);
 
+			if (type_info.s_type == Gimmick::eGimmickType::tree)
+			{
+				gimmick->SetCollisionSize(500);
+			}
+			else
+			{
+				gimmick->SetCollisionSize(300);
+			}
+
 			gimmick->SetMediator(m_mediator);
 
 			m_mediator->SetGimmick(gimmick);

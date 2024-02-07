@@ -7,8 +7,6 @@
 // Å‰‚Í’ƒF‚Ì‚½‚ßAid‚Í0‚Å“ˆê
 Gimmick::Gimmick()
 {
-	m_collision_size = { 300 };
-
 	m_scale = { 1.5f };
 }
 
@@ -22,7 +20,6 @@ Gimmick::~Gimmick()
 void Gimmick::Initialize()
 {
 	SetLight(m_gimmick_data.s_model_hdl);
-
 
 	//SetLight();
 
