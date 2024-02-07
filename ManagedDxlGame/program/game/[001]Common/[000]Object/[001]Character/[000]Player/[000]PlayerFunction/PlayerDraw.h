@@ -116,6 +116,11 @@ public:
 
 	//---------------------------//
 
+	void SetElapsedTimeDance(float elapsed_time_dance) 
+	{ 
+		m_elapsed_time_dance = elapsed_time_dance; 
+	}
+
 	bool GetIsBloom() const { return m_is_bloom; }
 
 	void SetIsEventDance(bool is_event_dance) { m_is_event_dance = is_event_dance; }

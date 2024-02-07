@@ -406,6 +406,11 @@ public:
 	// 参照先 ... Player::Draw(std::shared_ptr<OriginalCamera> originalCamera)
 	void DrawPlayerModel();
 
+	// シネマプレイヤーのダンス経過時間設定
+	// 参照元 ... Player::m_elapsed_time_dance
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetAnimElapsedTimeDance(float elapsed_time_dance);
+
 	// イベントによるダンスアニメーションフラグ設定
 	// 参照元 ... PlayerDraw::m_is_event_dance
 	// 参照先 ... CameraTargetPlayer::Update(float delta_time)

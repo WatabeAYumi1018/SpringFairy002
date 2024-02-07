@@ -307,6 +307,11 @@ bool Mediator::GetIsPlayerBloom() const
 	return m_playerDraw->GetIsBloom();
 }
 
+void Mediator::SetAnimElapsedTimeDance(float elapsed_time_dance)
+{
+	m_playerDraw->SetElapsedTimeDance(elapsed_time_dance);
+}
+
 void Mediator::SetIsPlayerEventDance(bool is_dance)
 {
 	m_playerDraw->SetIsEventDance(is_dance);

@@ -318,6 +318,8 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 	m_is_idle = false;
 
+	m_mediator->SetAnimElapsedTimeDance(0);
+
 	m_mediator->SetIsActiveGameCamera(true);
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
@@ -398,6 +400,8 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 
 	m_is_dance = false;
 
+	m_mediator->SetAnimElapsedTimeDance(0);
+
 	m_mediator->SetIsActiveGameCamera(true);
 
 	m_mediator->SetIsCinemaBackFog(false);
@@ -464,6 +468,8 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 	});
 
 	m_is_dance = false;
+
+	m_mediator->SetAnimElapsedTimeDance(0);
 
 	m_mediator->SetIsActiveGameCamera(true);
 
