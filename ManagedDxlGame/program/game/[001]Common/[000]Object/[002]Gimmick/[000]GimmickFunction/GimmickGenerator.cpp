@@ -34,15 +34,16 @@ void GimmickGenerator::CreateGimmick(const float delta_time)
     StagePhase::eStagePhase stage_phase 
                 = m_mediator->GetNowStagePhaseState();
 
-    if (stage_phase == StagePhase::eStagePhase::e_flower
-        || stage_phase == StagePhase::eStagePhase::e_fancy)
+
+    if (stage_phase == StagePhase::eStagePhase::e_wood)
+    {
+        CalcGroundPos(delta_time, Gimmick::eGimmickType::tree);
+    }
+    else
     {
         CalcGroundPos(delta_time, Gimmick::eGimmickType::plant);
     }
-    if (stage_phase == StagePhase::eStagePhase::e_wood)
-    {
-        CalcGroundPos(delta_time,Gimmick::eGimmickType::tree);
-    }
+ 
  // if (stage_phase == StagePhase::eStagePhase::e_fancy)
  // {
  //  	CalcGroundPos(delta_time, Gimmick::eGimmickType::);
@@ -54,98 +55,112 @@ void GimmickGenerator::CreateGimmick(const float delta_time)
 
 void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickType type)
 {
+    // 生成ギミックの取得
     std::vector<std::shared_ptr<Gimmick>>& gimmicks
-                 = m_mediator->GetGimmickTypePools(type);
-
+                = m_mediator->GetGimmickTypePools(type);
     // ギミックのベクターの中身をランダムに並び替え
     std::shuffle(gimmicks.begin(), gimmicks.end()
-                 , std::mt19937(std::random_device()()));
-
-    // プレイヤーのforward方向ベクトル
+                , std::mt19937(std::random_device()()));
+    // プレイヤーのforward単位ベクトルを生成
     tnl::Vector3 forward = m_mediator->PlayerForward();
     forward.normalize();
+    // forwardとへ移行なベクトルを計算
+    tnl::Vector3 perpendicular = DirectionCalcPos(forward);
+    // 500 : 疑似プレイヤーとギミックとの最低距離
+    tnl::Vector3 start_offset = perpendicular * 500.0f;
 
-    // forward方向に垂直なベクトルを計算
+    tnl::Vector3 target_pos 
+        = m_mediator->GetCameraTargetPlayerPos() + start_offset;
+
+    for (std::shared_ptr<Gimmick>& gimmick : gimmicks)
+    {
+        // 活性化してなければ配置
+        if (!gimmick->GetIsActive())
+        {
+            // 座標決定
+            SetPlacePos(gimmick, target_pos, forward, perpendicular);
+
+            // 2 : エリアwoodの時は木のモデルが大きいためギミック間の距離を広げる
+            if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
+            {
+                target_pos += forward * 400.0f * 2;
+			}
+            else
+            {
+                // ギミック同士の距離を設定
+                target_pos += forward * 400.0f;
+            }
+        }
+        else
+        {
+            // 活性化していて条件を満たしていればリセット
+            CheckGimmicks(delta_time, type, gimmick);
+        }
+    }
+}
+
+tnl::Vector3 GimmickGenerator::DirectionCalcPos(const tnl::Vector3& forward)
+{
+    // 経路からforward方向に水平なベクトルを計算
     tnl::Vector3 perpendicular;
 
     if (forward.z > 0)
     {
         if (m_mediator->GetPlayerLookSideRight())
         {
-            perpendicular 
-                = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
+            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
         }
         else if (m_mediator->GetPlayerLookSideLeft())
         {
-            perpendicular 
-                = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
+            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
         }
     }
     else
     {
         if (m_mediator->GetPlayerLookSideRight())
         {
-            perpendicular 
-                = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
+            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
         }
         else if (m_mediator->GetPlayerLookSideLeft())
         {
-            perpendicular 
-                = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
+            perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
         }
     }
 
     perpendicular.normalize();
+    
+    return perpendicular;
+}
 
-    tnl::Vector3 start_offset = perpendicular * 500.0f;
-    tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
-  
-    target_pos += start_offset;
+void GimmickGenerator::SetPlacePos(std::shared_ptr<Gimmick>& gimmick
+                                    , const tnl::Vector3& target_pos
+                                    , const tnl::Vector3& forward
+                                    , const tnl::Vector3& perpendicular)
+{
+    // 自動経路の線分上からforward方向へのベクトルをランダム生成
+    float forward_distance 
+        = tnl::GetRandomDistributionFloat(600.0f, 1500.0f);
+    // ギミックの新しい位置を計算
+    tnl::Vector3 pos = target_pos + perpendicular * forward_distance;
+    
+    pos.y = Floor::DRAW_DISTANCE;
 
-    // ギミックを配置
-    for (int i = 0; i < gimmicks.size(); ++i)
+    // 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
+    if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
     {
-        std::shared_ptr<Gimmick>& gimmick = gimmicks[i];
-
-        // 活性化してなければ配置
-        if (!gimmick->GetIsActive())
-        {
-            // 線分上のこのポイントからforward方向にランダムに配置するための距離
-            float forward_distance
-                = tnl::GetRandomDistributionFloat(600.0f, 1500.0f);
-
-            // ギミックの新しい位置を計算
-            tnl::Vector3 pos
-                = target_pos + perpendicular * forward_distance;
-
-            // y座標を地面の高さに設定
-            pos.y = Floor::DRAW_DISTANCE;
-
-            // 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
-            if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
-            {
-				pos.y *= 2;
-			}
-
-            // ギミックを配置
-            gimmick->SetPos(pos);
-            gimmick->SetIsActive(true);
-
-            // 次のポイントを設定
-            target_pos += forward * 400.0f;
-        }
-        else
-        {
-             CheckGimmicks(delta_time, type, gimmick);
-        }
+        pos.y *= 2;
     }
+
+    // ギミックの座標とフラグ設定
+    gimmick->SetPos(pos);
+    gimmick->SetIsActive(true);
 }
 
 std::shared_ptr<Gimmick> GimmickGenerator::GetInactiveType(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
 {
     // GimmickPool から非アクティブな Gimmick を取得
     const std::shared_ptr<Gimmick> inactive_gimmick
-        = m_mediator->GetNotActiveGimmickPool(gimmicks);
+             = m_mediator->GetNotActiveGimmickPool(gimmicks);
 
     if (inactive_gimmick)
     {
@@ -210,17 +225,17 @@ bool GimmickGenerator::SeqFlower(const float delta_time)
 
        // 5秒に一度だけ足元判定して処理軽減（アイテム生成はアバウトでokかと）
     TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
-        {
-            m_is_sky_flower_active = true;
+    {
+        m_is_sky_flower_active = true;
 
-            //// ターゲットの座標に対応するレーンを取得
-            //m_gimmick_lane = m_mediator->CurrentTargetGimmickLane();
-        });
+        //// ターゲットの座標に対応するレーンを取得
+        //m_gimmick_lane = m_mediator->CurrentTargetGimmickLane();
+    });
 
     TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-        {
-            GenerateGimmick(delta_time);
-        });
+    {
+        GenerateGimmick(delta_time);
+    });
 
     TNL_SEQ_CO_END;
 }
@@ -248,18 +263,105 @@ void GimmickGenerator::CheckGimmicks(const float delta_time
                                      , std::shared_ptr<Gimmick> gimmick)
 {
     // 活性化していて条件を満たしていればリセット
-    if ((type == Gimmick::eGimmickType::plant
-        && m_mediator->IsCameraFixed())
-        || (type == Gimmick::eGimmickType::tree
-            && m_mediator->IsCameraFixed())
-        || (type == Gimmick::eGimmickType::sky_flower
-            && gimmick->GetPos().y < m_mediator->GetPlayerPos().y - 750))
+    if (m_mediator->IsCameraFixed())
+        //|| (type == Gimmick::eGimmickType::sky_flower
+        //    && gimmick->GetPos().y < m_mediator->GetPlayerPos().y - 750))
     {
         gimmick->Reset();
 
         m_is_ground_active = false;
     }
 }
+
+
+//void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickType type)
+//{
+//    std::vector<std::shared_ptr<Gimmick>>& gimmicks
+//        = m_mediator->GetGimmickTypePools(type);
+//
+//    // ギミックのベクターの中身をランダムに並び替え
+//    std::shuffle(gimmicks.begin(), gimmicks.end()
+//        , std::mt19937(std::random_device()()));
+//
+//    // プレイヤーのforward方向ベクトル
+//    tnl::Vector3 forward = m_mediator->PlayerForward();
+//    forward.normalize();
+//
+//    // forward方向に垂直なベクトルを計算
+//    tnl::Vector3 perpendicular;
+//
+//    if (forward.z > 0)
+//    {
+//        if (m_mediator->GetPlayerLookSideRight())
+//        {
+//            perpendicular
+//                = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
+//        }
+//        else if (m_mediator->GetPlayerLookSideLeft())
+//        {
+//            perpendicular
+//                = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
+//        }
+//    }
+//    else
+//    {
+//        if (m_mediator->GetPlayerLookSideRight())
+//        {
+//            perpendicular
+//                = tnl::Vector3::Cross(forward, tnl::Vector3(0, -1, 0));
+//        }
+//        else if (m_mediator->GetPlayerLookSideLeft())
+//        {
+//            perpendicular
+//                = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
+//        }
+//    }
+//
+//    perpendicular.normalize();
+//
+//    tnl::Vector3 start_offset = perpendicular * 500.0f;
+//    tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
+//
+//    target_pos += start_offset;
+//
+//    // ギミックを配置
+//    for (int i = 0; i < gimmicks.size(); ++i)
+//    {
+//        std::shared_ptr<Gimmick>& gimmick = gimmicks[i];
+//
+//        // 活性化してなければ配置
+//        if (!gimmick->GetIsActive())
+//        {
+//            // 線分上のこのポイントからforward方向にランダムに配置するための距離
+//            float forward_distance
+//                = tnl::GetRandomDistributionFloat(600.0f, 1500.0f);
+//
+//            // ギミックの新しい位置を計算
+//            tnl::Vector3 pos
+//                = target_pos + perpendicular * forward_distance;
+//
+//            // y座標を地面の高さに設定
+//            pos.y = Floor::DRAW_DISTANCE;
+//
+//            // 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
+//            if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
+//            {
+//                pos.y *= 2;
+//            }
+//
+//            // ギミックを配置
+//            gimmick->SetPos(pos);
+//            gimmick->SetIsActive(true);
+//
+//            // 次のポイントを設定
+//            target_pos += forward * 400.0f;
+//        }
+//        else
+//        {
+//            CheckGimmicks(delta_time, type, gimmick);
+//        }
+//    }
+//}
 
 
 //void GimmickGenerator::ActiveGimmick()

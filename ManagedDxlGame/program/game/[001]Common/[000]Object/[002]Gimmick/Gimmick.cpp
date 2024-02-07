@@ -82,18 +82,8 @@ void Gimmick::Reset()
 	//m_time_elapsed = 0.0f;
 	m_emissive = { 0.3f,0.3f,0.3f,1 };
 	// テクスチャを元に戻す
-	ChangeTexture(m_gimmick_data.s_texture_b_hdl
-				  , m_gimmick_data.s_texture_a_hdl);
-}
-
-void Gimmick::ChangeTexture(int texture_delete_hdl,int texture_next_hdl)
-{
-	// 古いテクスチャを削除
-	DeleteGraph(texture_delete_hdl);
-
-	// テクスチャをモデルに適用
 	MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0
-							 , texture_next_hdl, FALSE);
+							 , m_gimmick_data.s_texture_a_hdl, FALSE);
 }
 
 void Gimmick::MoveFlower(const float delta_time)
@@ -247,8 +237,8 @@ bool Gimmick::SeqChangeEnd(const float delta_time)
 	if (tnl_sequence_.isStart())
 	{
 		// テクスチャを変える
-		ChangeTexture(m_gimmick_data.s_texture_a_hdl
-					  , m_gimmick_data.s_texture_b_hdl);
+		MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0
+								, m_gimmick_data.s_texture_b_hdl, FALSE);
 	}
 
 	if (!m_mediator->GetIsGimmickGroundActive())

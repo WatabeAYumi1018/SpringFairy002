@@ -65,8 +65,6 @@ private:
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	void ChangeTexture(int texture_delete_hdl, int texture_next_hdl);
-
 	// アイテムフラワーの落下処理
 	void MoveFlower(const float delta_time);
 	// アイテムバタフライの移動処理
