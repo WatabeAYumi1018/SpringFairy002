@@ -83,10 +83,9 @@
 //    camera = std::make_shared<TransformCamera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 //    camera->pos_ = { 0, 100, -250 };
 //
-//    ptcl = std::make_shared<dxe::Particle>("particle/preset/default.bin");
+//    ptcl = std::make_shared<dxe::Particle>("radiation.bin");
 //
 //}
-//
 //
 ////------------------------------------------------------------------------------------------------------------
 //// 毎フレーム実行されます
@@ -171,6 +170,8 @@
 //void gameEnd() {
 //    ptcl.reset();
 //}
+
+
 
 ////-------------------------------------------------------------------------------------------------------
 //
@@ -744,58 +745,15 @@
 #include "[000]GameEngine/[001]Scene/SceneManager.h"
 #include "[002]SceneOP/SceneOp.h"
 #include "[003]ScenePlay/ScenePlay.h"
-#include "../wta_library/wta_Convert.h"
-#include "[001]Common/[001]Camera/GameCamera.h"
-#include "[001]Common/[001]Camera/CinemaCamera.h"
 
-
-
-//Shared<GameCamera> game_camera = nullptr;
-//Shared<CinemaCamera> cinema_camera = nullptr;
-//Shared<dxe::Mesh> mesh = nullptr;
-//Shared<dxe::Mesh> group = nullptr;
-
-
-//int model_handle = 0;
-//int tex_handle = 0;
 
 //------------------------------------------------------------------------------------------------------------
 // ゲーム起動時に１度だけ実行されます
 void gameStart() 
 {
-	//mesh = dxe::Mesh::CreateFromFileMV("model/stage/flowers/marguerite.mv1");
-	//mesh->setTexture(dxe::Texture::CreateFromFile("model/stage/flowers/plant.png"));
-	//mesh->setBlendMode(DX_BLENDMODE_ALPHA);
-	//mesh->pos_ = { 0, 0, 0 };
-
-	//std::vector<tnl::Matrix> mats;
-	//mats.emplace_back(tnl::Matrix::Translation({ 0, 0, 0 }));
-	//mats.emplace_back(tnl::Matrix::Translation({ 50, 0, 0 }));
-	//group = dxe::Mesh::CreateStaticMeshGroupMV(mesh, mats);
-	//group->setTexture(dxe::Texture::CreateFromFile("model/stage/flowers/plant.png"));
-	//group->scl_ = { 100 };
-
-	//tnl::SetSeedMersenneTwister32(time(0));
-
 	srand(time(0));
 	SetWindowText("Spring Fairy");
 
-
-	// 背景の色を設定(さくら色)
-	//SetBackgroundColor(255, 222, 233);
-
-	// 灰色の背景
-	//SetBackgroundColor(32, 32, 32);
-
-	//model_handle = MV1LoadModel("model/stage/flowers/marguerite.mv1");
-	//tex_handle = LoadGraph("model/stage/flowers/plant.png");
-	//MV1SetTextureGraphHandle(model_handle, 0, tex_handle, true);
-
-	//game_camera = std::make_shared<GameCamera>();
-	//cinema_camera = std::make_shared<CinemaCamera>();
-
-	//game_camera->pos_ = { 0, 10, -300 };
-	//cinema_camera->pos_ = { 0, 10, -300 };
 	SceneManager::GetInstance(new SceneOp());
 }
 
@@ -803,27 +761,7 @@ void gameStart()
 // 毎フレーム実行されます
 void gameMain(float delta_time) 
 {
-	//cinema_camera->update(delta_time);
-	//game_camera->update(delta_time);
-
-	// std::min,std::maxはC++17から
-	//int n = std::min<int>(1, 2);
-
-
-	//group->render(camera);
-
 	SceneManager::GetInstance()->Update(delta_time);
-
-	//MV1SetPosition(model_handle, VGet(-100, 0, 0));
-	//MV1DrawModel(model_handle);
-
-	//MV1SetPosition(model_handle, VGet(100, 0, 0));
-	//MV1DrawModel(model_handle);
-
-
-	//DrawDefaultLightGuiController();
-
-	//mesh->render(camera);
 }
 
 //------------------------------------------------------------------------------------------------------------
