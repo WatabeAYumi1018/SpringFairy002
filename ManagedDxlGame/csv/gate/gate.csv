@@ -1,0 +1,4 @@
+モデルID,モデル ファイルパス,テクスチャ ファイルパス
+0,model/gate/gate.mv1,model/gate/arch_flower.jpg
+1,model/gate/gate.mv1,model/gate/gate_left.png
+2,model/gate/gate.mv1,model/gate/gate_right.png

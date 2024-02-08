@@ -9,28 +9,31 @@ Player::Player()
 {
 	m_pos = { 0 };
 
-	m_collision_size =  70;
+	m_collision_size =  100;
 	//m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
 
 	//SetLight(m_model_hdl);
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
-		std::shared_ptr<dxe::Mesh> mesh = dxe::Mesh::CreateSphereMV(50);
+		std::shared_ptr<dxe::Mesh> mesh = dxe::Mesh::CreateSphereMV(70);
 
 		m_meshs.emplace_back(mesh);
 	}
 }
 
-Player::~Player()
-{
-	MV1DeleteModel(m_model_hdl);
-}
+Player::~Player(){}
 
 void Player::Initialize()
 {
 	StartPos();
-	m_model_hdl = m_mediator->GetPlayerModelHdl();
+
+	m_mediator->InitializePlayerDraw();
+
+	m_model_hdl = m_mediator->GetPlayerModelGameHdl();
+
+	SetLight(m_model_hdl);
+
 	//m_mediator->GetPlayerMoveAutoMove();
 	m_mediator->InitCollisionRegister();
 }
@@ -50,17 +53,14 @@ void Player::Update(float delta_time)
 
 	m_mediator->UpdateCollisionCheck();
 
-	m_mediator->IsInCameraFlustum();
-
-	// 座標デバッグ用
-	DrawStringEx(0, 0, -1, "PlayerPos_x:%f", m_pos.x);
-	DrawStringEx(0, 20, -1, "PlayerPos_y:%f", m_pos.y);
-	DrawStringEx(0, 40, -1, "PlayerPos_z:%f", m_pos.z);
-
+	if (m_mediator->CurrentCameraLane().s_id != 7)
+	{
+		m_mediator->IsInCameraFlustum();
+	}
 	////// 当たり判定デバッグ用
-	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
-	//pos.y += m_collision_size;
-	//DrawSphere3D(pos, m_collision_size,32, GetColor(255, 0, 0), GetColor(255,0,0), true);
+	VECTOR pos = wta::ConvertToVECTOR(m_pos);
+	pos.y += m_collision_size;
+	DrawSphere3D(pos, m_collision_size,32, GetColor(255, 0, 0), GetColor(255,0,0), true);
 
 	//tnl::Vector3 forward = Forward();
 
@@ -72,18 +72,10 @@ void Player::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	// モデル描画処理
 	m_mediator->DrawPlayerModel();
-
-	for (std::shared_ptr<dxe::Mesh>& mesh : m_meshs)
-	{
-		mesh->render(camera);
-	}
-}
-
-tnl::Vector3 Player::Back()
-{
-	tnl::Vector3 forward = Forward();
-
-	return -forward;
+	//for (std::shared_ptr<dxe::Mesh>& mesh : m_meshs)
+	//{
+	//	mesh->render(camera);
+	//}
 }
 
 void Player::UpdateMatrix(float delta_time)

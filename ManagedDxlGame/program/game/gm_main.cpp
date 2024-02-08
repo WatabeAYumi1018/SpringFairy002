@@ -643,6 +643,97 @@
 //}
 
 
+//// Go
+//// メインカメラの幅の比率（初期値は1/3）
+//// 最初の分割比率
+//float split_rate = 1.0f / 3.0f;
+//
+//
+//
+////------------------------------------------------------------------------------------------------------------
+//// ゲーム起動時に１度だけ実行されます
+//void gameStart() {
+//
+//    srand(time(0));
+//    SetBackgroundColor(32, 32, 32);
+// 
+//    // 3つのスクリーンを作成する
+//    int screenLeft = MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
+//    int screenMiddle = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
+//    int screenRight = MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
+//
+//    camera = std::make_shared<TransformCamera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+//    subcamera_right = std::make_shared<SubCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT);
+//    subcamera_left = std::make_shared<SubCamera>(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT);
+//
+//    mesh_trans = dxe::Mesh::CreateSphereMV(50);
+//    mesh_sub = dxe::Mesh::CreateCubeMV(50);
+//
+//    camera->pos_ = { 0, 100, -250 };
+//    subcamera_right->pos_ = { 0, 100, -250 };
+//    subcamera_left->pos_ = { 0, 100, -250 };
+//
+//    mesh_trans->pos_ = { 0, 100, 0 };
+//    mesh_sub->pos_ = { 0 , 100 , 0 };
+//
+//    camera->target_ = mesh_trans->pos_;
+//    subcamera_right->target_ = mesh_sub->pos_;
+//    subcamera_left->target_ = mesh_sub->pos_;
+//
+//    // カメラのビューをスクリーンに関連付ける
+//    camera->setScreenHandle(screenMiddle);
+//    subcamera_right->setScreenHandle(screenRight);
+//    subcamera_left->setScreenHandle(screenLeft);
+//}
+////------------------------------------------------------------------------------------------------------------
+//// 毎フレーム実行されます
+//void gameMain(float delta_time) {
+//
+//
+//    //----------------------------------------------------------------------------------------------------
+//
+//    if (tnl::Input::IsKeyDown(tnl::Input::eKeys::KB_RETURN))
+//    {
+//        split_rate += delta_time * 10;
+//
+//        if (split_rate >= 1.0f)
+//        {
+//            split_rate = 1.0f;
+//        }
+//    }
+//
+//    // メインが大きくなる    
+//
+//    // 分割比率に基づいて各スクリーンの幅を計算します。
+//    int split_width_left = static_cast<int>(DXE_WINDOW_WIDTH * (1.0f - split_rate) / 2);
+//    int split_width_right = DXE_WINDOW_WIDTH - split_width_left;
+//
+//    // 左側のカメラビューを更新して描画
+//    SetDrawScreen(subcamera_left->getScreenHandle());
+//    ClearDrawScreen();
+//    subcamera_left->update();
+//    mesh_trans->render(subcamera_left);
+//
+//    // 中央のカメラビューを更新して描画
+//    SetDrawScreen(camera->getScreenHandle());
+//    ClearDrawScreen();
+//    camera->update();
+//    mesh_sub->render(camera);
+//
+//    // 右側のカメラビューを更新して描画
+//    SetDrawScreen(subcamera_right->getScreenHandle());
+//    ClearDrawScreen();
+//    subcamera_right->update();
+//    mesh_trans->render(subcamera_right);
+//
+//    // 描画対象を表画面に設定
+//    SetDrawScreen(DX_SCREEN_BACK);
+//
+//    DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, camera->getScreenHandle(), FALSE);
+//    DrawExtendGraph(0, 0, split_width_left, DXE_WINDOW_HEIGHT, subcamera_left->getScreenHandle(), FALSE);
+//    DrawExtendGraph(split_width_right, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, subcamera_right->getScreenHandle(), FALSE);
+//
+
 
 #include <time.h>
 #include <string>
@@ -653,10 +744,14 @@
 #include "[000]GameEngine/[001]Scene/SceneManager.h"
 #include "[002]SceneOP/SceneOp.h"
 #include "[003]ScenePlay/ScenePlay.h"
-
 #include "../wta_library/wta_Convert.h"
+#include "[001]Common/[001]Camera/GameCamera.h"
+#include "[001]Common/[001]Camera/CinemaCamera.h"
 
-//Shared<dxe::Camera> camera = nullptr;
+
+
+//Shared<GameCamera> game_camera = nullptr;
+//Shared<CinemaCamera> cinema_camera = nullptr;
 //Shared<dxe::Mesh> mesh = nullptr;
 //Shared<dxe::Mesh> group = nullptr;
 
@@ -685,8 +780,9 @@ void gameStart()
 	srand(time(0));
 	SetWindowText("Spring Fairy");
 
+
 	// 背景の色を設定(さくら色)
-	SetBackgroundColor(255, 222, 233);
+	//SetBackgroundColor(255, 222, 233);
 
 	// 灰色の背景
 	//SetBackgroundColor(32, 32, 32);
@@ -695,16 +791,24 @@ void gameStart()
 	//tex_handle = LoadGraph("model/stage/flowers/plant.png");
 	//MV1SetTextureGraphHandle(model_handle, 0, tex_handle, true);
 
-	//camera = std::make_shared<dxe::Camera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
-	//camera->pos_ = { 0, 10, -300 };
-	SceneManager::GetInstance(new ScenePlay());
+	//game_camera = std::make_shared<GameCamera>();
+	//cinema_camera = std::make_shared<CinemaCamera>();
+
+	//game_camera->pos_ = { 0, 10, -300 };
+	//cinema_camera->pos_ = { 0, 10, -300 };
+	SceneManager::GetInstance(new SceneOp());
 }
 
 //------------------------------------------------------------------------------------------------------------
 // 毎フレーム実行されます
 void gameMain(float delta_time) 
 {
-	//camera->update(delta_time);
+	//cinema_camera->update(delta_time);
+	//game_camera->update(delta_time);
+
+	// std::min,std::maxはC++17から
+	//int n = std::min<int>(1, 2);
+
 
 	//group->render(camera);
 
@@ -730,3 +834,187 @@ void gameEnd()
 }
 
 
+//#pragma once
+//
+//
+//
+////-----------------------------------------------------------------------------------------------------------
+////
+//// スカイボックス利用サンプル
+////
+//// ※ フォグを利用する場合はスカイボックスを描画した後に設定しましょう
+//// ※ スカイボックスは大きく作るのでカメラの far 設定次第では描画されなくなるので注意
+////
+////-----------------------------------------------------------------------------------------------------------
+//
+//#include <time.h>
+//#include <string>
+//#include <numbers>
+//#include <functional>
+//#include "../dxlib_ext/dxlib_ext.h"
+//#include "gm_main.h"
+//
+//Shared<dxe::Camera> camera = nullptr;
+//Shared<dxe::Mesh> skybox = nullptr;
+//dxe::GuiMenuSelector* gui_menu_selector = nullptr;
+//
+////------------------------------------------------------------------------------------------------------------
+//// ゲーム起動時に１度だけ実行されます
+//void gameStart() {
+//	srand(time(0));
+//
+//	ChangeLightTypeDir(VGet(0.0f, -1.0f, 0.0f));
+//	SetBackgroundColor(32, 32, 32);
+//	SetDefaultLightParameter("directional_light_parameter.bin");
+//
+//	camera = std::make_shared<dxe::Camera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+//
+//	skybox = dxe::Mesh::CreateCubeMV(30000, 20, 20);
+//	skybox->setTexture(dxe::Texture::CreateFromFile("graphics/skybox/_skybox_a.png"));
+//	skybox->loadMaterial("material.bin");
+//
+//	gui_menu_selector = new dxe::GuiMenuSelector(
+//		[&](uint32_t select_index) {
+//
+//			std::string path[5] = {
+//				"graphics/skybox/_skybox_a.png",
+//				"graphics/skybox/_skybox_b.png",
+//				"graphics/skybox/_skybox_c.png"
+//			};
+//			skybox->setTexture(dxe::Texture::CreateFromFile(path[select_index]));
+//
+//
+//		}, "skybox_a", "skybox_b", "skybox_c"
+//	);
+//	gui_menu_selector->setPosition({ 330, 0 });
+//	gui_menu_selector->setLocation(dxe::GuiMenuSelector::eLocation::DOWN);
+//}
+//
+//
+////------------------------------------------------------------------------------------------------------------
+//// 毎フレーム実行されます
+//void gameMain(float delta_time) {
+//
+//	//-------------------------------------------------------------------------------
+//	//
+//	// update
+//	//
+//	//-------------------------------------------------------------------------------
+//
+//	skybox->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(0.01f));
+//
+//	camera->update(delta_time);
+//	gui_menu_selector->update();
+//
+//
+//	//-------------------------------------------------------------------------------
+//	//
+//	// draw
+//	//
+//	//-------------------------------------------------------------------------------
+//
+//	skybox->render(camera);
+//
+//	DrawGridGround(camera);
+//	DrawDefaultLightGuiController();
+//
+//	skybox->drawGuiMaterialControlloer();
+//
+//	gui_menu_selector->draw();
+//
+//	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
+//
+//}
+//
+////------------------------------------------------------------------------------------------------------------
+//// ゲーム終了時に１度だけ実行されます
+//void gameEnd() {
+//
+//}
+//
+//#pragma once
+//
+//
+//
+//
+////-----------------------------------------------------------------------------------------------------------
+////
+////
+//// スクリーンエフェクト適用サンプル
+////
+////
+////-----------------------------------------------------------------------------------------------------------
+//
+//
+//#include <time.h>
+//#include <string>
+//#include <numbers>
+//#include <functional>
+//#include "../dxlib_ext/dxlib_ext.h"
+//#include "gm_main.h"
+//
+//
+//
+//Shared<dxe::Camera> camera = nullptr;
+//Shared<dxe::Mesh> mesh = nullptr;
+//Shared<dxe::Mesh> ground = nullptr;
+//Shared<dxe::ScreenEffect> screen_efct = nullptr;
+//
+//
+////------------------------------------------------------------------------------------------------------------
+//// ゲーム起動時に１度だけ実行されます
+//void gameStart() {
+//	srand(time(0));
+//
+//	ChangeLightTypeDir(VGet(0.0f, -1.0f, 0.0f));
+//	SetBackgroundColor(32, 32, 32);
+//
+//	camera = std::make_shared<dxe::Camera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+//	camera->pos_ = { 0, 300, -700 };
+//
+//	mesh = dxe::Mesh::CreateSphereMV(100, 20, 20);
+//	mesh->setTexture(dxe::Texture::CreateFromFile("graphics/test.jpg"));
+//	mesh->pos_ = { 0, 100, 0 };
+//
+//	ground = dxe::Mesh::CreatePlaneMV({ 2000, 2000, 0 }, 20, 20);
+//	ground->setTexture(dxe::Texture::CreateFromFile("graphics/lawn.png"));
+//	ground->rot_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90));
+//
+//	screen_efct = std::make_shared<dxe::ScreenEffect>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+//	//screen_efct->loadStatus("screen_effect.bin");
+//
+//
+//}
+//
+//
+////------------------------------------------------------------------------------------------------------------
+//// 毎フレーム実行されます
+//void gameMain(float delta_time) {
+//
+//
+//	mesh->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(1));
+//
+//
+//	camera->update(delta_time);
+//
+//
+//	screen_efct->renderBegin();
+//
+//	ground->render(camera);
+//	mesh->render(camera);
+//
+//	screen_efct->renderEnd();
+//
+//
+//	screen_efct->drawGuiController({ 0, 0 });
+//
+//	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
+//
+//}
+//
+////------------------------------------------------------------------------------------------------------------
+//// ゲーム終了時に１度だけ実行されます
+//void gameEnd() {
+//}
+//
+//

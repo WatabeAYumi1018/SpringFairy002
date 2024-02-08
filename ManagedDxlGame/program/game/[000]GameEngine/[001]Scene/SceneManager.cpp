@@ -7,7 +7,7 @@ SceneManager::SceneManager(SceneBase* start_scene)
 	: m_now_scene(start_scene)
 {
 	//トランジション用のグラフィックを読み込む(黒背景)
-	m_tansition_hdl = LoadGraph("graphics/black.bmp");
+	m_tansition_hdl = LoadGraph("graphics/white.png");
 }
 
 SceneManager* SceneManager::GetInstance(SceneBase* start_scene)

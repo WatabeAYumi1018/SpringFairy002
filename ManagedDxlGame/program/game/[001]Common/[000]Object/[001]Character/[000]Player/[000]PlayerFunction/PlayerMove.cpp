@@ -204,7 +204,8 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 	m_salto_elapsed_time += delta_time;
 
 	// 宙返りの全体の進行時間
-	float angle = (m_salto_elapsed_time / salto_total_time) * 2 * DirectX::XM_PI;
+	float angle = (m_salto_elapsed_time / salto_total_time) 
+					* 2 * tnl::ToRadian(180);
 
 	// 宙返りの軌道に沿った座標更新
 	m_pos.y = m_pos.y + sin(angle) * salto_radius;
@@ -226,12 +227,12 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 	//m_mediator->SetPlayerRot(m_rot);
 }
 
-bool PlayerMove::SeqTrigger(const float delta_time)
+bool PlayerMove::SeqNormal(const float delta_time)
 {
-	if (tnl_sequence_.isStart())
-	{
-		m_stage_phase = m_mediator->GetNowStagePhaseState();
-	}
+	//if (tnl_sequence_.isStart())
+	//{
+	//	m_stage_phase = m_mediator->GetNowStagePhaseState();
+	//}
 
 	//// フェーズ移行で地上になったら地上実行処理へ
 	//if (m_stage_phase != m_mediator->GetNowStagePhaseState())
@@ -239,19 +240,14 @@ bool PlayerMove::SeqTrigger(const float delta_time)
 	//	tnl_sequence_.change(&PlayerMove::SeqGround);
 	//}
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C))
-	{
-		tnl_sequence_.change(&PlayerMove::SeqSaltoAction);
-	}
+	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C))
+	//{
+	//	tnl_sequence_.change(&PlayerMove::SeqSaltoAction);
+	//}
 	
-	if (m_mediator->GetEventLane().s_id == 4)
+	if (m_mediator->GetEventLane().s_id == 5)
 	{
 		tnl_sequence_.change(&PlayerMove::SeqStop);
-	}
-
-	if (m_mediator->GetEventLane().s_id == 7)
-	{
-		tnl_sequence_.change(&PlayerMove::SeqDownMove);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
@@ -269,16 +265,21 @@ bool PlayerMove::SeqStop(const float delta_time)
 		// 数秒間座標更新を停止
 	});
 
-	tnl_sequence_.change(&PlayerMove::SeqUpMove);
+	TNL_SEQ_CO_TIM_YIELD_RETURN(10, delta_time, [&]()
+	{
+		MoveMatrix(delta_time);
+	});
+
+	tnl_sequence_.change(&PlayerMove::SeqNormal);
 
 	TNL_SEQ_CO_END;
 }
 
 bool PlayerMove::SeqUpMove(const float delta_time)
 {
-	if(m_pos.y > 1000)
+	if(m_pos.y >= 500)
 	{
-		tnl_sequence_.change(&PlayerMove::SeqTrigger);
+		tnl_sequence_.change(&PlayerMove::SeqNormal);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
@@ -293,16 +294,18 @@ bool PlayerMove::SeqUpMove(const float delta_time)
 
 bool PlayerMove::SeqDownMove(const float delta_time)
 {
-	if(m_pos.y == 0)
+	if(m_pos.y <= 0)
 	{
-		tnl_sequence_.change(&PlayerMove::SeqTrigger);
+		m_pos.y = 0;
+
+		tnl_sequence_.change(&PlayerMove::SeqNormal);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
 		MoveMatrix(delta_time);
 		// y座標を下降
-		m_pos.y -= delta_time * 100;
+		m_pos.y -= delta_time * 50;
 	});
 
 	TNL_SEQ_CO_END;
@@ -326,7 +329,7 @@ bool PlayerMove::SeqSaltoAction(const float delta_time)
 
 	m_salto_elapsed_time = 0;
 
-	tnl_sequence_.change(&PlayerMove::SeqTrigger);
+	tnl_sequence_.change(&PlayerMove::SeqNormal);
 
 	TNL_SEQ_CO_END;
 }

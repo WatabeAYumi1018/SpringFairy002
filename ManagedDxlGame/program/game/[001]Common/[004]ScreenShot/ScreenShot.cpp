@@ -4,45 +4,70 @@
 #include "ScreenShot.h"
 
 
+ScreenShot::ScreenShot()
+{
+	LoadBack();
+}
+
 ScreenShot::~ScreenShot() 
 {
-	// ハンドルの解放
-	DeleteGraph(m_screen_hdl);
-	m_chara_graph.clear();
+    DeleteGraph(m_back_hdl);
+}
+
+void ScreenShot::LoadBack()
+{
+    m_back_hdl = LoadGraph("graphics/event/flower_arch.jpg");
 }
 
 void ScreenShot::SaveScreenShot()
 {
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB))
-	{
-		m_chara_graph = m_mediator->GetCharaGraphLoadInfo();
+    if (//m_mediator->GetEventLane().s_id ==12
+         tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB))
+    {
+        // スクリーンショットをファイルに保存
+        std::string final_path 
+            = GetNextFileName(m_directry, m_base_name);
 
-		// 保存するスクリーンの作成（取得）
-		m_screen_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, false);
+        // 画像を保存
+        SaveDrawScreenToPNG(0, 0, DXE_WINDOW_WIDTH
+                            , DXE_WINDOW_HEIGHT, final_path.c_str());
+    }
+}
 
-		// 保存するスクリーンの設定
-		SetDrawScreen(m_screen_hdl);
+void ScreenShot::ShowScreenShot()
+{
+    std::string latestFilePath = GetLatestFileName();
 
-		// スタンプ画像の設定
-		CharaGraph::sGraphInfo player_graph = m_chara_graph[0];
-		CharaGraph::sGraphInfo partner_graph = m_chara_graph[1];
+    // 最新のファイルが見つからない
+    if (latestFilePath.empty())
+    {
+        return;
+    }
 
-		// スタンプ画像を追加
-		DrawGraph(m_chara_graph[0].s_graph_pos.x
-				  , m_chara_graph[0].s_graph_pos.y
-				  , m_chara_graph[0].s_graph_hdl, TRUE);
+    int image_hdl = LoadGraph(latestFilePath.c_str());
 
-		// 最終的なスクリーンショットをファイルに保存
-		std::string final_path
-			= GetNextFileName(m_directry, m_base_name);
+    // 画像のロードに失敗
+    if (image_hdl == -1)
+    {
+        return;
+    }
 
-		// 最終画像を保存
-		SaveDrawScreenToPNG(0, 0
-							, DXE_WINDOW_WIDTH
-							, DXE_WINDOW_HEIGHT
-							, final_path.c_str()
-							, m_screen_hdl);
-	}
+    // 画像の中心を基点にして回転させる
+    int image_width, image_height;
+
+    GetGraphSize(image_hdl, &image_width, &image_height);
+    // 描画モードを設定して画質を向上
+    SetDrawMode(DX_DRAWMODE_BILINEAR);
+
+    // 背景の描画
+    DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT
+                    , m_back_hdl, TRUE);
+
+    DrawRotaGraph(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT / 2
+                  , 1, tnl::ToRadian(10), image_hdl, TRUE, FALSE);
+
+    // 画像ハンドルの解放
+    DeleteGraph(image_hdl);
 }
 
 std::string ScreenShot::GetNextFileName(const std::string& directry
@@ -80,4 +105,45 @@ std::string ScreenShot::GetNextFileName(const std::string& directry
 
     // 新しいファイルへの相対パスを返す
     return (dir_path / new_file_name).string();
+}
+
+std::string ScreenShot::GetLatestFileName() 
+{
+    int max_num = -1;
+    std::string latest_file_name;
+
+    std::filesystem::path dir_path 
+        = std::filesystem::current_path() / m_directry;
+
+    if (!std::filesystem::exists(dir_path) 
+        || !std::filesystem::is_directory(dir_path))
+    {
+        // ディレクトリが存在しない場合は空文字を返す
+        return ""; 
+    }
+
+    for (auto& p : std::filesystem::directory_iterator(dir_path)) 
+    {
+        std::string file_name = p.path().filename().string();
+
+        if (file_name.rfind(m_base_name, 0)
+            == 0 && file_name.find(".png") != std::string::npos)
+        {
+            int num = std::stoi(file_name.substr(m_base_name.size()
+                                , file_name.size() - m_base_name.size() - 4));
+            
+            if (num > max_num) 
+            {
+                max_num = num;
+                latest_file_name = file_name;
+            }
+        }
+    }
+
+    if (latest_file_name.empty())
+    {
+        return "";
+    }
+
+    return (dir_path / latest_file_name).string();
 }

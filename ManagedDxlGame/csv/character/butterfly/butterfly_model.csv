@@ -1,0 +1,5 @@
+パラメーター名,ファイルパス
+model,model/butterfly/butterfly.mv1
+texture,model/butterfly/yellow.png
+tip,model/butterfly/tip.png
+mask,model/butterfly/mask.png

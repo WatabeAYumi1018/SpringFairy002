@@ -1,4 +1,5 @@
 #pragma once
+#include "../dxlib_ext/dxlib_ext.h"
 #include "../../../library/tnl_sequence.h"
 
 class Mediator;
@@ -41,7 +42,7 @@ public:
 
 	void Update(float delta_time);
 
-	eStagePhase GetNowStagePhase() { return m_now_stage_phase; }
+	eStagePhase GetNowStagePhase() const { return m_now_stage_phase; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

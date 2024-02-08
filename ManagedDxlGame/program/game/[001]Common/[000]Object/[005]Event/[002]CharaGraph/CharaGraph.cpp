@@ -86,7 +86,7 @@ bool CharaGraph::SeqSlideIn(const float delta_time)
 	TNL_SEQ_CO_END;
 }
 
-bool CharaGraph::SeqDraw(const float delta_time)
+bool CharaGraph::SeqDrawChange(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{

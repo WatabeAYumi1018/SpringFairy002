@@ -37,6 +37,9 @@ private:
 	// スコアの描画位置(y座標)
 	int m_draw_y = 50;
 
+	// スコア加算判定
+	bool m_is_add = false;
+
 	std::vector<std::vector<tnl::CsvCell>> m_csv_score_data;
 
 	std::vector<sScoreDate> m_score_date;
@@ -58,6 +61,8 @@ public:
 	void Update(const float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	void SetIsAdd(bool is_add) { m_is_add = is_add; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

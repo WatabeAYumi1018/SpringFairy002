@@ -34,12 +34,16 @@ private:
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	void IsIntersectGimmickPos(std::shared_ptr<dxe::Mesh> mesh
+								,std::shared_ptr<Gimmick> gimmick
+								,bool pos_up);
+
 public:
 
 	// “–‚½‚è”»’èˆ—‚Ì“o˜^
-	void CollisionRegisterPlayerToItem();
+	void CollisionRegisterPlayerToGimmick();
 
-	void CollisionRegisterMeshToItem();
+	void CollisionRegisterMeshToGimmick();
 
 	void CollisionRegisterPlayerToPartner();
 

@@ -5,16 +5,19 @@
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/CharaGraph.h"
+#include "../[000]Object/[007]Gate/Gate.h"
 #include "../[001]Camera/GameCamera.h"
+#include "../[001]Camera/CinemaCamera.h"
 #include "../[003]Phase/StagePhase.h"
 
+
+class CinemaBack;
+class SkyBox;
 
 class LaneLoad;
 class LaneMove;
 
 class ModelLoad;
-class ModelPool;
-//class ModelGenerator;
 
 class Character;
 
@@ -27,11 +30,16 @@ class PlayerCollision;
 class CinemaPlayer;
 
 class Partner;
+class PartnerLoad;
 class PartnerMove;
 class PartnerDraw;
 
 class CameraTargetPlayer;
+class CinemaCameraTarget;
 
+class Butterfly;
+class ButterflyLoad;
+		
 class Gimmick;
 class GimmickLoad;
 class GimmickGenerator;
@@ -39,24 +47,34 @@ class GimmickPool;
 
 class EffectLoad;
 
+class Score;
+
 class TextLoad;
 class TextDraw;
 
 class CharaGraphLoad;
 class CharaGraphDraw;
 
-class GameCamera;
+class Title;
+
+class GateLoad;
+
 class CameraLoad;
-class CinemaCamera;
 
 class Mediator
 {
 
 private:
 
+	//CinemaCamera::eCameraSplitType active_cinema_type;
+
+
 	//--------------------ポインタ--------------------//
 
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
+
+	std::shared_ptr<CinemaBack> m_cinemaBack = nullptr;
+	std::shared_ptr<SkyBox> m_skyBox = nullptr;
 
 	std::shared_ptr<Lane> m_lane = nullptr;
 	std::shared_ptr<LaneLoad> m_laneLoad = nullptr;
@@ -64,8 +82,6 @@ private:
 
 	std::shared_ptr<Model> m_model = nullptr;
 	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
-	std::shared_ptr<ModelPool> m_modelPool = nullptr;
-	//std::shared_ptr<ModelGenerator> m_modelGenerator = nullptr;
 
 	std::shared_ptr<Character> m_character = nullptr;
 
@@ -78,10 +94,15 @@ private:
 	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
 
 	std::shared_ptr<Partner> m_partner = nullptr;
+	std::shared_ptr<PartnerLoad> m_partnerLoad = nullptr;
 	std::shared_ptr<PartnerMove> m_partnerMove = nullptr;
 	std::shared_ptr<PartnerDraw> m_partnerDraw = nullptr;
 
 	std::shared_ptr<CameraTargetPlayer> m_cameraTargetPlayer = nullptr;
+	std::shared_ptr<CinemaCameraTarget> m_cinemaCameraTarget = nullptr;
+
+	std::shared_ptr<Butterfly> m_butterfly = nullptr;
+	std::shared_ptr<ButterflyLoad> m_butterflyLoad = nullptr;
 
 	std::shared_ptr<Gimmick> m_gimmick = nullptr;
 	std::shared_ptr<GimmickLoad> m_gimmickLoad = nullptr;
@@ -90,6 +111,8 @@ private:
 
 	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
 
+	std::shared_ptr<Score> m_score = nullptr;
+
 	std::shared_ptr<Text> m_text = nullptr;
 	std::shared_ptr<TextLoad> m_textLoad = nullptr;
 	std::shared_ptr<TextDraw> m_textDraw = nullptr;
@@ -97,9 +120,13 @@ private:
 	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
 	std::shared_ptr<CharaGraphDraw> m_charaGraphDraw = nullptr;
 
+	std::shared_ptr<Title> m_title = nullptr;
+
+	std::shared_ptr<GateLoad> m_gateLoad = nullptr;
+
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
+
 
 	//------------------------------------------------//
 
@@ -119,6 +146,62 @@ public:
 	//---------------------------//
 
 
+	//---------CinemaBack---------//
+
+	// CinemaBack
+
+	// シネマバック一番フラグ設定
+	// 参照元 ... CinemaBack::m_is_first
+	// 参照先 ... CinemaCamera::Update(float delta_time)
+	void SetCinemaBackIsFirst(bool is_first);
+
+	// シネマバック二番フラグ設定
+	// 参照元 ... CinemaBack::m_is_second
+	// 参照先 ... CinemaCamera::Update(float delta_time)
+	void SetCinemaBackIsSecond(bool is_second);
+
+	// シネマバック二番フラグ取得
+	// 参照元 ... CinemaBack::m_is_second
+	// 参照先 ... StagePhase::Update(float delta_time)
+	bool GetCinemaBackIsSecond() const;
+
+	// シネマバック三番フラグ設定
+	// 参照元 ... CinemaBack::m_is_third
+	// 参照先 ... CinemaCamera::Update(float delta_time)
+	void SetCinemaBackIsThird(bool is_third);
+
+	// シネマバック三番フラグ取得
+	// 参照元 ... CinemaBack::m_is_third
+	// 参照先 ... StagePhase::Update(float delta_time)
+	bool GetCinemaBackIsThird() const;
+
+
+	// シネマバックのフォグフラグ設定
+	// 参照元 ... CinemaBack::m_is_fog
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetIsCinemaBackFog(bool is_fog);
+
+	// シネマバックのバブルフラグ設定
+	// 参照元 ... CinemaBack::m_is_bubble
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetIsCinemaBackBubble(bool is_bubble);
+
+
+	//----------------------------//
+	
+	
+	//-----------SkyBox-----------//
+
+	// SkyBox
+
+	// SkyBoxのOPフラグ設定
+	// 参照元 ... SkyBox::m_is_op
+	// 参照先 ... OpCamera::Update(float delta_time)
+	void SetSkyIsOp(bool is_op);
+
+	//---------------------------//
+	 
+	 
 	//-----------Stage-----------//
 
 	// LaneLoad
@@ -183,150 +266,17 @@ public:
 	// 参照先 ... GimmickGenerator::CreateGimmick()
 	bool GetPlayerLookSideLeft() const;
 
-	//// ターゲットの進行方向取得
-	//// 参照元 ... LaneMove::m_target_direction
-	//// 参照先 ... GimmickGenerator::CreateGimmick()
-	//const tnl::Vector3& GetTargetMoveDirection() const;
-
-	// キャラの進行方向取得
-	// 参照元 ... LaneMove::m_chara_direction
-	// 参照先 ... GameCamera::InFlustum()
-	const tnl::Vector3& GetCharaMoveDirection() const;
-
-
-	//// ゴールまでの経路取得
-	//// 参照元 ... LaneMove::m_goal_process
-	//// 参照先 ... GimmickGenerator::CreateGimmick()
-	//const std::vector<std::pair<int, int>>& GetGoalMoveProcess() const;
-
-	//// 自動移動による次のレーン到達判定
-	//// 参照元 ... LoadMove::NextLane()
-	//// 参照先 ... Item::Update(float delta_time)
-	//bool NextLaneMove();
-
-	//// 自動移動による移動前座標設定
-	//// 参照元 ... LoadMove::m_now_pos
-	//// 参照先 ... 自動経路による更新が必要な全クラス
-	//void SetMoveNowPos(tnl::Vector3 pos);
-
-	//// 自動移動による移動後座標取得
-	//// 参照元 ... LoadMove::m_new_pos
-	//// 参照先 ... 自動経路による更新が必要な全クラス
-	//tnl::Vector3 GetMoveNewPos() const;
-
-	//// 自動移動による移動前回転設定
-	//// 参照元 ... LoadMove::m_now_rot
-	//// 参照先 ... 自動経路による更新が必要な全クラス
-	//void SetMoveNowRot(tnl::Quaternion rot);
-
-	//// 自動移動による移動後回転取得
-	//// 参照元 ... LoadMove::m_new_rot
-	//// 参照先 ... 自動経路による更新が必要な全クラス
-	//tnl::Quaternion GetMoveNewRot() const;
-
 	//---------------------------//
 
 
 	//----------Model-----------//
 
-	// model
-
-	//// モデルの座標設定
-	//// 参照元 ... Model::m_pos
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//const tnl::Vector3& GetModelPos() const;
-
-	////モデルの世界属性取得
-	//// 参照元 ... Model::m_world_type
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//Model::eWorldType GetWorldModelType() const;
-
-	//// モデルの個別アクティブフラグ設定
-	//// 参照元 ... Model::m_is_alive_active
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//void SetIsModelAliveActive(bool is_active);
-
-	//// モデルの個別アクティブフラグ取得
-	//// 参照元 ... Model::m_is_alive_active
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//int GetIsModelAliveActive() const;
-
-	//// アクティブ化切り替え
-	//// 参照元 ... Model::ToggleActive(bool is_world_active)
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//void ToggleModelActive(bool is_world_active);
-
 	// modelLoad
-
-	// ステージモデルの総数取得
-	// 参照元 ... ModelLoad::m_model_total_num
-	// 参照先 ... ModelPool::関連する関数
-	int GetStageModelTotalNum() const;
-
-	//// ステージモデルのベクター高さ取得
-	//// 参照元 ... ModelLoad::m_model_vec_height
-	//// 参照先 ... Model::Initialize()
-	//int GetStageModelVecHeight() const ;
-
-	//// ステージモデルのベクター幅取得
-	//// 参照元 ... ModelLoad::m_model_vec_width
-	//// 参照先 ... Model::Initialize()
-	//int GetStageModelVecWidth() const ;
-
-	//// ステージモデルのベクター取得
-	//// 参照元 ... ModelLoad::m_stage_tree
-	//// 参照先 ... Model::関連する関数
-	//const std::vector<Model::sStageModel>& GetStageTreeVector() const;
-
-	//// ステージモデルのベクター取得
-	//// 参照元 ... ModelLoad::m_stage_grass
-	//// 参照先 ... Model::関連する関数
-	//const std::vector<Model::sStageModel>& GetStageGrassVector() const;
 
 	// ステージモデルの情報取得
 	// 参照元 ... ModelLoad::m_model_info
 	// 参照先 ... ModelPool::関連する関数
-	const std::vector<Model::sModelInfo>& GetStageModelTypeInfo() const;
-
-	//// ステージモデルのid取得
-	//// 参照元 ... ModelLoad::GetModelInfoById(int id)
-	//// 参照先 ... ModelPool::関連する関数
-	//Model::sStageModelType GetStageModelInfoById(int id);
-
-	// modelPool
-
-	//// 世界変更によるモデルの一斉アクティブ化
-	//// 参照元 ... ModelPool::DeactivateAllModels(Model::eWorldType world_type)
-	//// 参照先 ... StagePhase::シーケンス関数
-	//void IsActivatePoolAllModels(Model::eWorldType world_type);
-
-	// 現実世界のベクター取得
-	// 参照元 ... ModelPool::GetModels()
-	// 参照先 ... StagePhase::シーケンス関数
-	std::vector<std::shared_ptr<Model>>& GetPoolModels() const;
-
-	//// ランダムなモデルのポインタを取得
-	//// 参照元 ... ModelPool::GetRandomModel(Model::eWorldType world_type)
-	//// 参照先 ... PlayerSkill::SeqBloom(float delta_time)
-	//std::shared_ptr<Model> GetPoolRandomModel(Model::eWorldType world_type);
-
-
-	// ModelGenerator
-
-	//// モデルのグル―プメッシュ生成
-	//// 参照元 ... ModelGenerator::Initialize()
-	//// 参照先 ... Model::Initialize()
-	//void ModelGeneInitialize();
-
-	//// モデルのグル―プメッシュの更新
-	//// 参照元 ... ModelGenerator::Update(const float delta_time)
-	//// 参照先 ... Model::Update(const float delta_time)
-	//void ModelGeneUpdate(const float delta_time);
-
-	//// モデルのグル―プメッシュの描画
-	//// 参照元 ... ModelGenerator::Draw()
-	//// 参照先 ... Model::Draw(std::shared_ptr<GameCamera> gameCamera)
-	//void ModelGeneDraw(std::shared_ptr<GameCamera> gameCamera);
+	const std::vector<Model::sModelInfo>& GetStageModelInfo() const;
 
 	//--------------------------//
 
@@ -365,18 +315,47 @@ public:
 	// 参照先 ... 
 	tnl::Vector3 PlayerForward();
 
-	// プレイヤーの足元レーンを取得
-	// 参照元 ... Player::CurrentLane
-	// 参照先 ... ItemGenerator::GenerateItem()
-	Lane::sLane CurrentPlayerLane();
-
-	// プレイヤーの直線当たり判定用メッシュを取得
-	// 参照元 ... Player::m_meshs
-	// 参照先 ... PlayerCollision::CollisionCheck()
-	const std::vector<std::shared_ptr<dxe::Mesh>>& PlayerGetMeshs() const;
-
-
 	// playerLoad
+
+	// プレイヤーモデルハンドルの取得
+	// 参照元 ... PlayerLoad::m_model_game_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerModelGameHdl() const; 
+
+	// プレイヤーシネマモデルハンドルの取得
+	// 参照元 ... PlayerLoad::m_model_cinema_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerModelCinemaHdl() const;
+
+	// プレイヤーのアイドルボーンハンドル取得
+	// 参照元 ... PlayerLoad::m_anim_bone_idle_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerAnimBoneIdleCinemaHdl() const;
+
+	// プレイヤーの移動ボーンハンドル取得
+	// 参照元 ... PlayerLoad::m_anim_bone_move_game_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerAnimBoneMoveGameHdl() const;
+
+	// プレイヤーのシネマ移動ボーンハンドル取得
+	// 参照元 ... PlayerLoad::m_anim_bone_move_cinema_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerAnimBoneMoveCinemaHdl() const;
+
+	// プレイヤーのブルームボーンハンドル取得
+	// 参照元 ... PlayerLoad::m_anim_bone_bloom_game_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerAnimBoneBloomGameHdl() const;
+
+	// プレイヤーのダンスボーンハンドル取得
+	// 参照元 ... PlayerLoad::m_anim_bone_dance_game_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerAnimBoneDanceGameHdl() const;
+
+	// プレイヤーのダンスシネマボーンハンドル取得
+	// 参照元 ... PlayerLoad::m_anim_bone_dance_cinema_hdl
+	// 参照先 ... Player関連クラス
+	int GetPlayerAnimBoneDanceCinemaHdl() const;
 
 	// プレイヤーの移動速度取得
 	// 参照元 ... PlayerLoad::m_move_speed
@@ -403,44 +382,19 @@ public:
 	// 参照先 ... PlayerMove
 	float GetPlayerSaltoMoveSpeed() const;
 
-
 	// playerMove
-
-	//// プレイヤーの現在のレーンID取得
-	//// 参照元 ... PlayerMove::m_current_step
-	//// 参照先 ... OriginalCamera::RotateBackToPlayer(float delta_time)
-	//int GetMoveCurrentStep() const;
 
 	// Player移動による座標と回転の更新処理
 	// 参照元 ... PlayerMove::Update(float delta_time)
 	// 参照先 ... Player::Update(float delta_time)
 	void UpdatePlayerMoveMatrix(const float delta_time);
-	
-	//// 自動移動に関する処理
-	//// 参照元 ... PlayerMove::GetAutoMove()
-	//// 参照先 ... Player::Initialize()
-	//void GetPlayerMoveAutoMove();
-
-	// プレイヤー操作のフラグ取得
-	// 参照元 ... PlayerMove::PushButton()
-	// 参照先 ... OriginalCamera::RotateBackToPlayer(float delta_time)
-	bool GetPushButton();
-
-	//// 自動運転によるプレイヤーの新しい座標取得
-	//// 参照元 ... PlayerMove::m_new_player_pos
-	//// 参照先 ... OriginalCamera::RotateBackToPlayer(float delta_time)
-	//tnl::Vector3 GetNewPlayerMovePos();
-
-	//// 自動運転によるプレイヤーの新しい回転取得
-	//// 参照元 ... PlayerMove::m_new_player_rot
-	//// 参照先 ... OriginalCamera::RotateBackToPlayer(float delta_time)
-	//tnl::Quaternion GetNewPlayerMoveRot();
-
-
-	//std::vector<std::pair<int, int>> GetMoveGoalProcess();
-
 
 	// playerDraw
+
+	// Playerモデル描画の初期化処理
+	// 参照元 ... PlayerDraw::Initialize()
+	// 参照先 ... Player::Initialize()
+	void InitializePlayerDraw();
 
 	// Playerモデルのアニメーション更新処理
 	// 参照元 ... PlayerDraw::Update(float delta_time)
@@ -452,30 +406,40 @@ public:
 	// 参照先 ... Player::Draw(std::shared_ptr<OriginalCamera> originalCamera)
 	void DrawPlayerModel();
 
-	// プレイヤーのモデルハンドル取得
-	// 参照元 ... PlayerDraw::m_model_hdl
-	// 参照先 ... Player::Player()
-	int GetPlayerModelHdl() const ;
-
-	// 攻撃フラグ取得
-	// 参照元 ... PlayerDraw::m_is_attack
-	// 参照先 ... Player::Update(float delta_time)
-	bool GetIsPlayerAttack() const;
-
-	// ダンスアニメーションフラグ設定
-	// 参照元 ... PlayerDraw::m_is_dance
-	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
-	void SetIsPlayerDance(bool is_dance);
-
-	// ダンスアニメーションフラグ取得
-	// 参照元 ... PlayerDraw::m_is_dance
-	// 参照先 ... PhaseManager::Update(float delta_time)
-	bool GetIsPlayerDance() const;
-
-	// シネマアニメーション更新処理
-	// 参照元 ... PlayerDraw::UpdateCinemaCamera(float delta_time)
+	// シネマプレイヤーのダンス経過時間設定
+	// 参照元 ... Player::m_elapsed_time_dance
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void UpdateCinemaCameraPlayer(const float delta_time);
+	void SetAnimElapsedTimeDance(float elapsed_time_dance);
+
+	// イベントによるダンスアニメーションフラグ設定
+	// 参照元 ... PlayerDraw::m_is_event_dance
+	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
+	void SetIsPlayerEventDance(bool is_dance);
+
+	// ブルームフラグ取得
+	// 参照元 ... PlayerDraw::m_is_bloom
+	// 参照先 ... ブルームフラグが必要な全クラス
+	bool GetIsPlayerBloom() const;
+
+	// イベントによるダンスアニメーションフラグ取得
+	// 参照元 ... PlayerDraw::m_is_event_dance
+	// 参照先 ... PhaseManager::Update(float delta_time)
+	bool GetIsPlayerEventDance() const;
+
+	// イベントによるidleアニメーション処理
+	// 参照元 ... PlayerDraw::CinemaAnimIdle(float delta_time)
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void CinemaPlayerAnimIdle(const float delta_time);
+
+	// イベントによるmoveアニメーション処理
+	// 参照元 ... PlayerDraw::CinemaAnimMove(float delta_time)
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void CinemaPlayerAnimMove(const float delta_time);
+	
+	// イベントによるdanceアニメーション処理
+	// 参照元 ... PlayerDraw::CinemaAnimDance(float delta_time)
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void CinemaPlayerAnimDance(const float delta_time);
 
 	// playerSkill
 
@@ -503,7 +467,6 @@ public:
 	// 参照先 ... Playerの座標が必要な全クラス
 	const tnl::Vector3& GetCinemaPlayerPos() const;
 
-
 	//--------------------------//
 
 
@@ -526,11 +489,6 @@ public:
 	// 参照先 ... Partnerの回転が必要な全クラス
 	void SetPartnerRot(tnl::Quaternion& rot);
 
-	// パートナーのスケール設定
-	// 参照元 ... Partner::m_scale
-	// 参照先 ... Partnerのスケールが必要な全クラス
-	void SetPartnerScale(tnl::Vector3& scale);
-
 	// パートナーの当たり判定サイズ取得
 	// 参照元 ... Partner::m_collision_size
 	// 参照先 ... PartnerMove::Update(float delta_time)
@@ -546,6 +504,22 @@ public:
 	// 参照先 ... GimmickGenerator::CalcGimmickRandomPos()
 	GameCamera::sCamera CurrentCameraLane();
 
+	// PartnerLoad
+
+	// パートナーモデルハンドルの取得
+	// 参照元 ... PartnerLoad::m_model_hdl
+	// 参照先 ... Partner関連クラス
+	int GetPartnerModelHdl() const;
+
+	// パートナーのアイドルボーンハンドル取得
+	// 参照元 ... PartnerLoad::m_anim_bone_idle_hdl
+	// 参照先 ... Partner関連クラス
+	int GetPartnerAnimBoneIdleHdl() const;
+
+	// パートナーの移動ボーンハンドル取得
+	// 参照元 ... PartnerLoad::m_anim_bone_move_hdl
+	// 参照先 ... Partner関連クラス
+	int GetPartnerAnimBoneMoveHdl() const;
 
 	// PartnerMove
 
@@ -561,6 +535,11 @@ public:
 
 	// PartnerDraw
 
+	// Partnerモデル描画の初期化処理
+	// 参照元 ... PartnerDraw::Initialize()
+	// 参照先 ... Partner::Initialize()
+	void InitializePartnerDraw();
+
 	// Partnerモデルのアニメーション更新処理
 	// 参照元 ... PartnerDraw::Update(float delta_time)
 	// 参照先 ... Partner::Update(float delta_time)
@@ -571,19 +550,12 @@ public:
 	// 参照先 ... Partner::Draw(std::shared_ptr<OriginalCamera> originalCamera)
 	void DrawPartnerModel();
 
-	// Partnerのモデルハンドル取得
-	// 参照元 ... PartnerDraw::m_model_hdl
-	// 参照先 ... Partner::Initialize()
-	int GetPartnerModelHdl() const;
-
-	//--------------------------//
+	//------------------------------//
 
 
-	//----CameraTargetPlayer----//
+	//------CameraTargetPlayer------//
 
 	// CameraTargetPlayer
-
-	GameCamera::sCameraInfo m_camera_info;
 
 	// カメラのターゲット座標取得
 	// 参照元 ... CameraTargetPlayer::GetPos()
@@ -595,11 +567,6 @@ public:
 	// 参照先 ... 
 	const GameCamera::sCameraInfo& GetTargetCameraInfo() const;
 
-	//// キャラクターの足元アイテムレーンを取得
-	//// 参照元 ... Character::Item::sItem CurrentItemLane()
-	//// 参照先 ... ItemGenerator::GenerateItem()
-	//Gimmick::sGimmick CurrentTargetGimmickLane();
-
 	// キャラクターの足元イベントレーンを取得
 	// 参照元 ... Character::m_event
 	// 参照先 ... イベントレーンが必要な全クラス
@@ -610,79 +577,71 @@ public:
 	// 参照先 ... LaneMove::自動移動に関連するクラス
 	bool GetIsTargetSpeedUp() const;
 
-	// ターゲットの上昇移動フラグ
-	// 参照元 ... Character::m_is_move_up
-	// 参照先 ... LaneMove::自動移動に関連するクラス
-	bool GetIsTargetMoveUp() const;
+	//// ターゲットの上昇移動フラグ
+	//// 参照元 ... Character::m_is_move_up
+	//// 参照先 ... LaneMove::自動移動に関連するクラス
+	//bool GetIsTargetMoveUp() const;
 
 	// ターゲットの下降移動フラグ
 	// 参照元 ... Character::m_is_move_down
 	// 参照先 ... LaneMove::自動移動に関連するクラス
 	bool GetIsTargetMoveDown() const;
 
+	//-------------------------------//
 
-	//--------------------------//
+
+	//------CinemaCameraTarget------//
+
+	// CinemaCameraTarget
+
+	// シネマカメラのターゲット座標取得
+	// 参照元 ... CinemaCameraTarget::m_pos
+	// 参照先 ... OriginalCamera::target_
+	const tnl::Vector3& GetCinemaCameraTargetPos() const;
+
+	//-----------------------------//
 
 
+	//----------Butterfly----------//
+
+	// Butterfly
+
+	// バタフライの座標取得
+	// 参照元 ... Butterfly::m_pos
+	// 参照先 ... Butterflyの座標が必要な全クラス
+	const tnl::Vector3& GetButterflyPos() const;
+
+	// バタフライのOP描画フラグ設定
+	// 参照元 ... Butterfly::m_is_op_active
+	// 参照先 ... OpCamera::Update(float delta_time)
+	void SetButterflyIsOpActive(bool is_op_active);
+
+	// バタフライの鱗粉フラグ取得
+	// 参照元 ... Butterfly::m_is_powder
+	// 参照先 ... Opに関連する関数
+	bool GetButterflyIsPowder() const;
+
+	// バタフライのシネマフラグ設定
+	// 参照元 ... Butterfly::m_is_cinema_active
+	// 参照先 ... OpCamera::Update(float delta_time)
+	void SetButterflyIsCinemaActive(bool is_cinema_active);
+
+	// バタフライのシネマフラグ取得
+	// 参照元 ... Butterfly::m_is_cinema_active
+	// 参照先 ... CinemaCamera::Fixed(const tnl::Vector3& offset)
+	bool GetButterflyIsCinemaActive() const;
+
+	// ButterflyLoad
+
+	// バタフライモデルハンドルの取得
+	// 参照元 ... ButterflyLoad::m_model_hdl
+	// 参照先 ... Butterfly関連クラス
+	int GetButterflyModelHdl() const;
+
+	//-----------------------------//
 
 
 	//-----------Gimmick-----------//
-
-	// Gimmick
-
-	// アイテムのアクティブ化設定
-	// 参照元 ... Gimmick::m_is_active
-	// 参照先 ... GimmickGenerator::Update(const float delta_time)
-	void SetGimmickIsActive(bool is_active);
-
-	// アイテムの当たり判定状態取得
-	// 参照元 ... Gimmick::m_is_hit
-	// 参照先 ... 当たり判定が必要な全クラス
-	bool GetGimmickIsHit() const;
-
-	// GimmickLoad
-
-	// 草花のギミック全種類取得
-	// 参照元 ... Gimmick::GetGimmicksType(Gimmick::eGimmickType type)
-	// 参照先 ... GimmickGenerator::関連する関数
-	const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmicksTypeInfo(Gimmick::eGimmickType type) const;
-
-	//// 樹木のギミック全種類取得
-	//// 参照元 ... Gimmick::m_trees
-	//// 参照先 ... GimmickGenerator::関連する関数
-	//const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTrees() const;
-
-	//// 舞う花のギミック全種類取得
-	//// 参照元 ... Gimmick::m_sky_flowers
-	//// 参照先 ... GimmickGenerator::関連する関数
-	//const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickSkyFlowers() const;
-
-	//// 舞う花のギミック全種類取得
-	//// 参照元 ... Gimmick::m_butterflys
-	//// 参照先 ... GimmickGenerator::関連する関数
-	//const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickButterflys() const;
-
-
-	//// アイテムモデルの総数取得
-	//// 参照元 ... GimmickLoad::m_id_num
-	//// 参照先 ... Gimmick::Initialize()
-	//int GetGimmickIdNum() const;
-
-	//// アイテムレーン配列を取得
-	//// 参照元 ... GimmickLoad::m_gimmick_lane
-	//// 参照先 ... Gimmick::関連する関数
-	//const std::vector<Gimmick::sGimmick>& GetGimmickLoadLane() const;
-
-	//// アイテム情報配列を取得
-	//// 参照元 ... GimmickLoad::m_gimmick_info
-	//// 参照先 ... Gimmick::関連する関数
-	//const std::vector<Gimmick::sGimmickTypeInfo>& GetGimmickTypeInfo() const;
-
-
-	//// アイテムモデルのid取得
-	//// 参照元 ... GimmickLoad::GetGimmickInfoById()
-	//// 参照先 ... Gimmick::
-	//Gimmick::sGimmickTypeInfo GetGimmickLoadInfoById(int id,std::vector<Gimmick::sGimmickTypeInfo>& gimmick_type);
 
 	// GimmickPool
 
@@ -696,13 +655,6 @@ public:
 	// 参照先 ... GimmickGenerator::関連する関数
 	std::vector<std::shared_ptr<Gimmick>>& GetGimmickTypePools(Gimmick::eGimmickType type);
 
-	//// アイテムプールのベクター取得
-	//// 参照元 ... GimmickPool::GetGimmicks()
-	//// 参照先 ... GimmickGenerator::SeqDelete(float delta_time)
-	//const std::vector<std::shared_ptr<Gimmick>>& GetPoolGimmick() const;
-
-
-
 	// GimmickGenerator
 
 	// アイテムフラワーのアクティブ状態取得
@@ -710,25 +662,10 @@ public:
 	// 参照先 ... 
 	bool GetIsGimmickFlowerActive() const ; 
 
-	// 地面ギミックのアクティブ状態設定
-	// 参照元 ... GimmickGenerator::m_is_ground_active
-	// 参照先 ... GameCamera::Update(float delta_time)
-	void SetIsGimmickGroundActive(bool is_active);
-
 	// 地面ギミックのアクティブ状態取得
 	// 参照元 ... GimmickGenerator::m_is_ground_active
 	// 参照先 ... Model::Draw(std::shared_ptr<GameCamera> gameCamera)
 	bool GetIsGimmickGroundActive() const;
-
-	//// アイテムの生成フラグ設定
-	//// 参照元 ... GimmickGenerator::m_is_create
-	//// 参照先 ... LaneMove::MoveAstar( ... );
-	//void SetItemIsCreate(bool is_create);
-
-	//// アイテムの削除フラグ設定
-	//// 参照元 ... ItemGenerator::m_is_delete
-	//// 参照先 ... LaneMove::MoveAstar( ... );
-	//void SetItemIsDelete(bool is_delete);
 
 	//--------------------------//
 
@@ -744,6 +681,19 @@ public:
 
 	//--------------------------//
 
+
+	//----------Score-----------//
+
+	// Score
+	
+	// スコア加算判定フラグの設定
+	// 参照元 ... Score::m_is_add
+	// 参照先 ... Gimmick::Update(float delta_time)
+	void SetIsScoreAdd(bool is_add) ;
+
+	//--------------------------//
+
+
 	//------------Text-----------//
 
 	// TextLoad
@@ -752,21 +702,12 @@ public:
 	// 参照元 ... TextLoad::GetTextsLane()
 	// 参照先 ... Text::関連する関数
 	void GetTextsLoadLane();
-	//const std::vector<std::string>& GetTextsLoadLane();
-	//const std::vector<Text::sTextData>& GetTextsLoadLane();
 	
 	// レーンIDに該当す全ての構造体データの取得
 	// 参照元 ... TextLoad::m_texts_for_lane
 	// 参照先 ... Text::関連する関数
 	const std::vector<Text::sTextData>& GetTextsLoadForLane() const;
 
-	//// レーンIDに該当する全てのテキスト文字の取得
-	//// 参照元 ... TextLoad::m_texts_message_for_lane
-	//// 参照先 ... Text::関連する関数
-	//const std::vector<std::string>& GetTextsLoadMessageForLane() const;
-
-	 
-	 
 	// TextDraw
 
 	// テキストの処理
@@ -784,27 +725,12 @@ public:
 	// 参照先 ... TextLoad
 	void SetIsTextDrawEnd(bool is_end);
 
-	//// 描画テキストのID設定
-	//// 参照元 ... TextDraw::SetTextDrawLine(const std::vector<std::string>& text_lines)
-	//// 参照先 ... Text::Update(float delta_time)
-	//void SetTextDrawLine(const std::vector<std::string>& text_lines);
-
-	//// 該当IDのテキストの表示終了フラグ
-	//// 参照元 ... TextDraw::IsTextEnd()
-	//// 参照先 ... Text::Update(float delta_time)
-	//bool IsTextDrawEnd();
-
 	//---------------------------//
 
 	
 	//--------CharaGraph---------//
 
 	// CharaGraphLoad
-
-	//// グラフィックの総数取得
-	//// 参照元 ... CharaGraphLoad::m_graph_total_num
-	//// 参照先 ... CharaGraph
-	//const int GetCharaGraphLoadTotalNum() const ;
 
 	// グラフィックデータ取得
 	// 参照元 ... CharaGraphLoad::m_graph_info
@@ -813,33 +739,41 @@ public:
 
 	// CharaGraphDraw
 
-	// キャラクターグラフィックのロード
-	// 参照元 ... CharaGraphDraw::LoadCharaGraph()
-	// 参照先 ... CharaGraph
-	void LoadCharacterGraph();
+	//---------------------------//
 
-	// キャラクターグラフィックの描画
-	// 参照元 ... CharaGraphDraw::DrawCharaGraph()
-	// 参照先 ... CharaGraph
-	void DrawCharacterGraph(int graph_id);
 
+	//------------Title-----------//
+
+	// Title
+	
+	// タイトルの描画フラグ設定
+	// 参照元 ... Title::m_is_draw
+	// 参照先 ... OpCamera::Update(float delta_time)
+	void SetTitleIsDraw(bool is_draw);
+
+	// タイトル文字消去フラグ取得
+	// 参照元 ... Title::m_is_disappear
+	// 参照先 ... OpCamera::Update(float delta_time)
+	bool GetTitleIsDisappear() const;
 
 	//---------------------------//
 
 
-	//----------Camera---------//
+	//------------Gate-----------//
+
+	// GateLoad
+
+	// ゲートの情報取得
+	// 参照元 ... GateLoad::m_gates
+	// 参照先 ... Gate::モデル情報が必要な全関数
+	const std::vector<Gate::sGateInfo>& GetGatesInfo() const;
+
+	//---------------------------//
+
+
+	//-----------Camera----------//
 
 	// GameCamera
-
-	// カメラの座標設定
-	// 参照元 ... GameCamera::pos_
-	// 参照先 ... PlayerMove::Update(const float delta_time)
-	void SetCameraPos(tnl::Vector3& pos);
-
-	// カメラの座標取得
-	// 参照元 ... GameCamera::pos_
-	// 参照先 ... PlayerMove::Update(const float delta_time)
-	const tnl::Vector3& GetCameraPos() const;
 
 	// カメラの前方向取得
 	// 参照元 ... GameCamera::forward()
@@ -861,43 +795,17 @@ public:
 	// 参照先 ... GimmickGenerator::CheckGimmicks(const float delta_time,)
 	bool IsCameraFixed() const;
 
-	//// カメラの上方向取得
-	//// 参照元 ... dxe::GameCamera::left()
-	//// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
-	//const tnl::Vector3& GetCameraLeft() const;
+	// ゲームカメラのアクティブ状態設定
+	// 参照元 ... GameCamera::m_is_active_game
+	// 参照先 ... カメラ切り替えに関連する関数
+	void SetIsActiveGameCamera(bool is_active_game);
 
-	//// カメラの下方向取得
-	//// 参照元 ... dxe::GameCamera::back()
-	//// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
-	//const tnl::Vector3& GetCameraBack() const;
-
-	//// カメラのビュー行列取得
-	//// 参照元 ... dxe::Camera::view_
-	//// 参照先 ... CameraFrustum::Update()
-	//const tnl::Matrix& GetCameraView() const;
-
-	//// カメラの射影行列取得
-	//// 参照元 ... dxe::Camera::proj_
-	//// 参照先 ... CameraFrustum::Update()
-	//const tnl::Matrix& GetCameraProj() const;
-
-	//// フラスタムの法線ベクトル取得
-	//// 参照元 ... dxe::Camera::getFlustumNormal(eFlustum flustum)
-	//// 参照先 ... CameraFrustum
-	//tnl::Vector3 GetFlustumNormal(dxe::Camera::eFlustum flusum);
-
+	// ゲームカメラのアクティブ状態取得
+	// 参照元 ... GameCamera::m_is_active_game
+	// 参照先 ... ゲームカメラで描画する関数
+	bool GetIsActiveGameCamera() const;
 
 	// CameraLoad
-
-	// カメラ配列の高さ取得
-	// 参照元 ... CameraLoad::m_lane_height
-	// 参照先 ... Camera::CurrentCamera()
-	int GetCameraLaneHeight() const;
-
-	// カメラ配列の幅取得
-	// 参照元 ... CameraLoad::m_lane_width
-	// 参照先 ... Camera::CurrentCamera()
-	int GetCameraLaneWidth() const;
 
 	// カメラ配列の情報取得
 	// 参照元 ... CameraLoad::m_cameras
@@ -911,15 +819,6 @@ public:
 
 	// CinemaCamera
 
-	// シネマカメラのアクティブ状態設定
-	// 参照元 ... CinemaCamera::m_is_active
-	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
-	void SetIsCinemaCameraActive(bool is_active);
-
-	// シネマカメラのアクティブ状態取得
-	// 参照元 ... CinemaCamera::m_is_active
-	// 参照先 ... シネマカメラで描画する全Draw関数
-	bool GetIsCinemaCameraActive() const;
 
 	//---------------------------//
 
@@ -932,6 +831,16 @@ public:
 	void SetStagePhase(std::shared_ptr<StagePhase>& stagePhase)
 	{
 		m_stagePhase = stagePhase;
+	}
+
+	void SetCinemaBack(std::shared_ptr<CinemaBack>& cinemaBack)
+	{
+		m_cinemaBack = cinemaBack;
+	}
+
+	void SetSkyBox(std::shared_ptr<SkyBox>& skyBox)
+	{
+		m_skyBox = skyBox;
 	}
 
 	void SetLaneLoad(std::shared_ptr<LaneLoad>& laneLoad)
@@ -953,16 +862,6 @@ public:
 	{
 		m_modelLoad = modelLoad;
 	}
-
-	void SetModelPool(std::shared_ptr<ModelPool>& modelPool)
-	{
-		m_modelPool = modelPool;
-	}
-
-	//void SetModelGenerator(std::shared_ptr<ModelGenerator>& modelGenerator)
-	//{
-	//	m_modelGenerator = modelGenerator;
-	//}
 
 	void SetCharacter(std::shared_ptr<Character>& character)
 	{
@@ -1009,6 +908,11 @@ public:
 		m_partner = partner;
 	}
 
+	void SetPartnerLoad(std::shared_ptr<PartnerLoad>& partnerLoad)
+	{
+		m_partnerLoad = partnerLoad;
+	}
+
 	void SetPartnerMove(std::shared_ptr<PartnerMove>& partnerMove)
 	{
 		m_partnerMove = partnerMove;
@@ -1022,6 +926,21 @@ public:
 	void SetCameraTargetPlayer(std::shared_ptr<CameraTargetPlayer>& cameraTargetPlayer)
 	{
 		m_cameraTargetPlayer = cameraTargetPlayer;
+	}
+
+	void SetCinemaCameraTarget(std::shared_ptr<CinemaCameraTarget>& cinemaCameraTarget)
+	{
+		m_cinemaCameraTarget = cinemaCameraTarget;
+	}
+
+	void SetButterfly(std::shared_ptr<Butterfly>& butterfly)
+	{
+		m_butterfly = butterfly;
+	}
+
+	void SetButterflyLoad(std::shared_ptr<ButterflyLoad>& butterflyLoad)
+	{
+		m_butterflyLoad = butterflyLoad;
 	}
 
 	void SetGimmick(std::shared_ptr<Gimmick>& gimmick)
@@ -1049,6 +968,11 @@ public:
 		m_effectLoad = effectLoad;
 	}
 
+	void SetScore(std::shared_ptr<Score>& score)
+	{
+		m_score = score;
+	}
+
 	void SetText(std::shared_ptr<Text>& text)
 	{
 		m_text = text;
@@ -1074,6 +998,16 @@ public:
 		m_charaGraphDraw = charaGraphDraw;
 	}
 
+	void SetTitle(std::shared_ptr<Title>& title)
+	{
+		m_title = title;
+	}
+
+	void SetGateLoad(std::shared_ptr<GateLoad>& gateLoad)
+	{
+		m_gateLoad = gateLoad;
+	}
+
 	void SetGameCamera(std::shared_ptr<GameCamera>& gameCamera)
 	{
 		m_gameCamera = gameCamera;
@@ -1082,11 +1016,6 @@ public:
 	void SetCameraLoad(std::shared_ptr<CameraLoad>& cameraLoad)
 	{
 		m_cameraLoad = cameraLoad;
-	}
-
-	void SetCinemaCamera(std::shared_ptr<CinemaCamera>& cinemaCamera)
-	{
-		m_cinemaCamera = cinemaCamera;
 	}
 
 	//------------------------------------------------//

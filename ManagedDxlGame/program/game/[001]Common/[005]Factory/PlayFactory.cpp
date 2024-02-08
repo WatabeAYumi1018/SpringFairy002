@@ -1,13 +1,13 @@
 #include "../../../wta_library/wta_Astar.h"
 #include "../../../wta_library/wta_Collision.h"
 #include "../[000]Object/[000]Stage/[000]SkyBox/SkyBox.h"
+#include "../[000]Object/[000]Stage/[000]SkyBox/CinemaBack.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[002]Floor/Floor.h"
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
-//#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelGenerator.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
@@ -16,9 +16,13 @@
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
 #include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayer/CinemaPlayer.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
+#include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerLoad.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
+#include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CinemaCameraTarget.h"
+#include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
+#include "../[000]Object/[001]Character/[003]Butterfly/[000]ButterflyFunction/ButterflyLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
@@ -32,8 +36,8 @@
 #include "../[000]Object//[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[001]Camera/GameCamera.h"
+#include "../[001]Camera/CinemaCamera.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
-#include "../[001]Camera/[001]CinemaCamera/CinemaCamera.h"
 #include "../[002]Mediator/Mediator.h"
 #include "../[004]ScreenShot/ScreenShot.h"
 #include "PlayFactory.h"
@@ -49,8 +53,6 @@ PlayFactory::PlayFactory()
 
 	StorageObjectCinemaCamera();
 
-	//PoolGimmickObject();
-
 	m_laneMove->GetAutoMove();
 }
 
@@ -62,14 +64,17 @@ PlayFactory::~PlayFactory()
 void PlayFactory::CreateObject()
 {
 	m_astar = std::make_shared<wta::Astar<Lane::sLane>>();
-	m_collision_player_item = std::make_shared<wta::Collision<Player,Gimmick>>();
-	m_collision_mesh_item = std::make_shared<wta::Collision<dxe::Mesh, Gimmick>>();
-	m_collision_player_partner = std::make_shared<wta::Collision<Player, Partner>>();
-	//m_collision_camera = std::make_shared<wta::Collision<Player, GameCamera>>();
+	m_collision_player_item 
+		= std::make_shared<wta::Collision<Player,Gimmick>>();
+	m_collision_mesh_item 
+		= std::make_shared<wta::Collision<dxe::Mesh, Gimmick>>();
+	m_collision_player_partner 
+		= std::make_shared<wta::Collision<Player, Partner>>();
 
 	m_stagePhase = std::make_shared<StagePhase>();
 
 	m_skyBox = std::make_shared<SkyBox>();
+	m_cinemaBack = std::make_shared<CinemaBack>();
 
 	m_laneLoad = std::make_shared<LaneLoad>();
 	m_laneMove = std::make_shared<LaneMove>();
@@ -79,7 +84,6 @@ void PlayFactory::CreateObject()
 	m_model = std::make_shared<Model>();
 	m_modelLoad = std::make_shared<ModelLoad>();
 	m_modelPool = std::make_shared<ModelPool>();
-	//m_modelGenerator = std::make_shared<ModelGenerator>();
 
 	m_character = std::make_shared<Character>();
 
@@ -92,12 +96,15 @@ void PlayFactory::CreateObject()
 	m_cinemaPlayer = std::make_shared<CinemaPlayer>();
 
 	m_partner = std::make_shared<Partner>();
+	m_partnerLoad = std::make_shared<PartnerLoad>();
 	m_partnerMove = std::make_shared<PartnerMove>();
 	m_partnerDraw = std::make_shared<PartnerDraw>();
 
 	m_cameraTargetPlayer = std::make_shared<CameraTargetPlayer>();
+	m_cinemaCameraTarget = std::make_shared<CinemaCameraTarget>();
 
-	//m_modelPool = std::make_shared<ModelPool>();
+	m_butterfly = std::make_shared<Butterfly>();
+	m_butterflyLoad = std::make_shared<ButterflyLoad>();
 
 	m_gimmickLoad = std::make_shared<GimmickLoad>();
 	m_gimmickGenerator = std::make_shared<GimmickGenerator>();
@@ -118,6 +125,7 @@ void PlayFactory::CreateObject()
 
 	m_gameCamera = std::make_shared<GameCamera>();
 	m_cameraLoad = std::make_shared<CameraLoad>();
+
 	m_cinemaCamera = std::make_shared<CinemaCamera>();
 
 	m_mediator = std::make_shared<Mediator>();
@@ -128,12 +136,11 @@ void PlayFactory::CreateObject()
 void PlayFactory::SetObjectReference()
 {
 	m_mediator->SetStagePhase(m_stagePhase);
+	m_mediator->SetCinemaBack(m_cinemaBack);
 	m_mediator->SetLaneLoad(m_laneLoad);
 	m_mediator->SetLaneMove(m_laneMove);
 	m_mediator->SetModel(m_model);
 	m_mediator->SetModelLoad(m_modelLoad);
-	m_mediator->SetModelPool(m_modelPool);
-	//m_mediator->SetModelGenerator(m_modelGenerator);
 	m_mediator->SetCharacter(m_character);
 	m_mediator->SetPlayer(m_player);
 	m_mediator->SetPlayerLoad(m_playerLoad);
@@ -143,13 +150,18 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetPlayerCollision(m_playerCollision);
 	m_mediator->SetCinemaPlayer(m_cinemaPlayer);
 	m_mediator->SetPartner(m_partner);
+	m_mediator->SetPartnerLoad(m_partnerLoad);
 	m_mediator->SetPartnerMove(m_partnerMove);
 	m_mediator->SetPartnerDraw(m_partnerDraw);
 	m_mediator->SetCameraTargetPlayer(m_cameraTargetPlayer);
+	m_mediator->SetCinemaCameraTarget(m_cinemaCameraTarget);
+	m_mediator->SetButterfly(m_butterfly);
+	m_mediator->SetButterflyLoad(m_butterflyLoad);
 	m_mediator->SetGimmickLoad(m_gimmickLoad);
 	m_mediator->SetGimmickGenerator(m_gimmickGenerator);
 	m_mediator->SetGimmickPool(m_gimmickPool);
 	m_mediator->SetEffectLoad(m_effectLoad);
+	m_mediator->SetScore(m_score);
 	m_mediator->SetText(m_text);
 	m_mediator->SetTextLoad(m_textLoad);
 	m_mediator->SetTextDraw(m_textDraw);
@@ -157,15 +169,14 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetCharaGraphDraw(m_charaGraphDraw);
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
-	m_mediator->SetCinemaCamera(m_cinemaCamera);
 
 	m_stagePhase->SetMediator(m_mediator);
 	m_skyBox->SetMediator(m_mediator);
+	m_cinemaBack->SetMediator(m_mediator);
 	m_laneMove->SetAstar(m_astar);
 	m_laneMove->SetMediator(m_mediator);
+	m_floor->SetMediator(m_mediator);
 	m_model->SetMediator(m_mediator);
-	//m_modelPool->SetMediator(m_mediator);
-	//m_modelGenerator->SetMediator(m_mediator);
 	m_character->SetMediator(m_mediator);
 	m_player->SetMediator(m_mediator);
 	m_playerMove->SetMediator(m_mediator);
@@ -182,6 +193,7 @@ void PlayFactory::SetObjectReference()
 	m_partnerMove->SetMediator(m_mediator);
 	m_partnerDraw->SetMediator(m_mediator);
 	m_cameraTargetPlayer->SetMediator(m_mediator);
+	m_butterfly->SetMediator(m_mediator);
 	m_gimmickGenerator->SetMediator(m_mediator);
 	m_effect->SetMediator(m_mediator);
 	m_score->SetMediator(m_mediator);
@@ -194,9 +206,6 @@ void PlayFactory::SetObjectReference()
 	m_cameraLoad->SetMediator(m_mediator);
 	m_cinemaCamera->SetMediator(m_mediator);
 	m_screenShot->SetMediator(m_mediator);
-	//m_cameraFrustum->SetCollision(m_collision_camera);
-	//m_cameraFrustum->SetPlayer(m_player);
-	//m_cameraFrustum->SetGameCamera(m_gameCamera);
 }
 
 void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types)
@@ -211,6 +220,15 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 			std::shared_ptr<Gimmick> gimmick = std::make_shared<Gimmick>();
 
 			gimmick->LoadGimmickData(type_info);
+
+			if (type_info.s_type == Gimmick::eGimmickType::tree)
+			{
+				gimmick->SetCollisionSize(500);
+			}
+			else
+			{
+				gimmick->SetCollisionSize(300);
+			}
 
 			gimmick->SetMediator(m_mediator);
 
@@ -249,12 +267,16 @@ void PlayFactory::StorageObjectGameCamera()
 
 void PlayFactory::StorageObjectCinemaCamera()
 {
-	// シネマ用の背景
-	m_objects_cinemaCamera.emplace_back(m_skyBox);
-	// シネマ用エフェクト
+	// シネマ用カメラターゲット
+	m_objects_cinemaCamera.emplace_back(m_cinemaCameraTarget);
+	// シネマ用背景
+	m_objects_cinemaCamera.emplace_back(m_cinemaBack);
+	// シネマ用プレイヤー
 	m_objects_cinemaCamera.emplace_back(m_cinemaPlayer);
+	// シネマ用エフェクト
 	m_objects_cinemaCamera.emplace_back(m_effect);
-	// 蝶
+	// シネマ用蝶
+	m_objects_cinemaCamera.emplace_back(m_butterfly);
 }
 
 //// 初期化

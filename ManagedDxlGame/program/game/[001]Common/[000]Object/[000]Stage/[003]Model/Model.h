@@ -14,11 +14,6 @@ public:
 	struct sModelInfo
 	{
 		int s_id;
-		std::string s_model_path;
-		std::string s_texture_a_path;
-		std::string s_texture_b_path;
-		std::string s_texture_c_path;
-		std::string s_texture_d_path;
 		int s_model_hdl;
 		int s_texture_a_hdl;
 		int s_texture_b_hdl;
@@ -28,9 +23,9 @@ public:
 	};
 
 
-	Model();
+	Model(){}
 	
-	~Model();
+	~Model(){}
 
 private:
 
@@ -41,13 +36,6 @@ private:
 
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
-
-	void LoadModelInfo(sModelInfo& model_info);
-
-	void SetTextureIndex(sModelInfo& model_info, int a, int b, int c);
-
-	// ライトの設定
-	void SetLight(sModelInfo& model_info);
 
 	// 背景モデル生成
 	void DrawStage(std::vector<sModelInfo>& models_info,int id);

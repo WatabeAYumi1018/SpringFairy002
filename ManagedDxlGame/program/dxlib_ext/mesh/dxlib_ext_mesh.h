@@ -7,8 +7,8 @@
 namespace dxe {
 
 
-	class MeshVbo final{
-	public :
+	class MeshVbo final {
+	public:
 		~MeshVbo() {
 			if (vb_hdl_) DeleteVertexBuffer(vb_hdl_);
 			if (ib_hdl_) DeleteIndexBuffer(ib_hdl_);
@@ -19,33 +19,33 @@ namespace dxe {
 
 	class Camera;
 	class Mesh : public MeshBase {
-	public :
+	public:
 		enum class eMeshFormat {
 			MESH_FMT_PG,	// プログラマブルメッシュ
 			MESH_FMT_MV		// DxLib 用 MV メッシュ
 		};
 		enum class eShapeType {
 			NONE
-			,PLANE
-			,CUBE
-			,BOX
-			,SPHERE
-			,TRIANGLE_ISOSCELES
-			,TRIANGLE_RIGHT
-			,TRIANGLE_EQUILATERAL
-			,DOME
-			,CONE
-			,CYLINDER
-			,CONE_CYLINDER
-			,DISK
-			,DISK_RING
-			,HOLLOW_OUT_DISK_PLANE
-			,BARREL
-			,HALF_BARREL
-			,TORUS
-			,HEIGHT_MAP
-			,GROUP
-			,RESOUCE
+			, PLANE
+			, CUBE
+			, BOX
+			, SPHERE
+			, TRIANGLE_ISOSCELES
+			, TRIANGLE_RIGHT
+			, TRIANGLE_EQUILATERAL
+			, DOME
+			, CONE
+			, CYLINDER
+			, CONE_CYLINDER
+			, DISK
+			, DISK_RING
+			, HOLLOW_OUT_DISK_PLANE
+			, BARREL
+			, HALF_BARREL
+			, TORUS
+			, HEIGHT_MAP
+			, GROUP
+			, RESOUCE
 		};
 		enum eTextureSlot {
 			DIFFUSE
@@ -57,31 +57,28 @@ namespace dxe {
 		enum class fDebugLine {
 			TNL_ENUM_BIT_FLAG(FLG_NONE),
 			TNL_ENUM_BIT_FLAG(FLG_AXIS),
-			TNL_ENUM_BIT_FLAG(FLG_OBB),			
+			TNL_ENUM_BIT_FLAG(FLG_OBB),
 			TNL_ENUM_BIT_FLAG(FLG_AABB),
 			TNL_ENUM_BIT_FLAG(FLG_BD_SPHERE),
 			TNL_ENUM_BIT_FLAG(FLG_VTX_NML) // pg mesh only
 		};
-	public :
+	public:
 		~Mesh() {
 			if (mv_hdl_) MV1DeleteModel(mv_hdl_);
 		}
-
 
 		tnl::Vector3	pos_;
 		tnl::Vector3	scl_ = { 1,1,1 };
 		tnl::Quaternion rot_;
 
-		tnl::Vector3& GetPos(){return pos_; }
-
-
+		const tnl::Vector3& GetPos() { return pos_; }
 		//==========================================================================================================================
 		// 
 		//
 		// function
 		//
 		//
-		void copySetting( Shared<Mesh> other );
+		void copySetting(Shared<Mesh> other);
 
 		//------------------------------------------------------------------------------------------------------------------------
 		// クローンの生成
@@ -125,12 +122,10 @@ namespace dxe {
 		inline int getDxMvHdl() { return mv_hdl_; }
 
 		// テクスチャの設定
-		inline void setTexture(std::shared_ptr<Texture> texture, uint32_t slot_num = DIFFUSE) 
-		{
-			if (textures_.size() <= slot_num) 
-			{
-				std::vector<std::shared_ptr<Texture>> new_buffer(slot_num+1);
-				memcpy(new_buffer.data(), textures_.data(), sizeof(std::shared_ptr<Texture>) * textures_.size() );
+		inline void setTexture(std::shared_ptr<Texture> texture, uint32_t slot_num = DIFFUSE) {
+			if (textures_.size() <= slot_num) {
+				std::vector<std::shared_ptr<Texture>> new_buffer(slot_num + 1);
+				memcpy(new_buffer.data(), textures_.data(), sizeof(std::shared_ptr<Texture>) * textures_.size());
 				new_buffer[slot_num] = texture;
 				textures_ = std::move(new_buffer);
 			}
@@ -209,12 +204,12 @@ namespace dxe {
 
 		// スペキュラパワー設定
 		void setMtrlSpecPower(const float pow) noexcept override {
-			render_param_.setMtrlSpecPower( pow );
+			render_param_.setMtrlSpecPower(pow);
 			if (mesh_format_ == eMeshFormat::MESH_FMT_MV) MV1SetMaterialSpcPower(mv_hdl_, 0, render_param_.dxlib_mtrl_.Power);
 		}
 
 		// 一括設定
-		void setRenderParam( const RenderParam& param ) override {
+		void setRenderParam(const RenderParam& param) override {
 			render_param_ = param;
 			if (mesh_format_ != eMeshFormat::MESH_FMT_MV) return;
 			MV1SetMaterialAmbColor(mv_hdl_, 0, render_param_.dxlib_mtrl_.Ambient);
@@ -475,11 +470,11 @@ namespace dxe {
 		static std::vector<Shared<Mesh>> CreateFromFileMVT(const std::string& file_path);
 
 	private:
-		Mesh(){}
+		Mesh() {}
 
 		int mv_hdl_ = 0;
-		std::shared_ptr<MeshVbo> vbo_			= nullptr;
-		std::shared_ptr<MeshDesc> desc_			= nullptr;
+		std::shared_ptr<MeshVbo> vbo_ = nullptr;
+		std::shared_ptr<MeshDesc> desc_ = nullptr;
 		std::string mesh_name_;
 		std::vector<std::shared_ptr<Texture>> textures_;
 
@@ -495,9 +490,9 @@ namespace dxe {
 		void createPlaneIndex(const int div_w, const int div_h, const bool is_left_cycle);
 		void createVBO();
 		void drawVtxNormal();
-		std::string getXFormatString() noexcept ;
+		std::string getXFormatString() noexcept;
 
-		static Shared<Mesh> CreateConvertMV(Shared<Mesh> mesh);
+		static Shared<Mesh> CreateConvertMV(Shared<Mesh> mesh_trans);
 		static Shared<Mesh> CreatePlane(const tnl::Vector3& size_wh, const int div_w = 10, const int div_h = 10, const bool is_left_cycle = false, const tnl::Vector3& ltop_uv = { 0, 0, 0 }, const tnl::Vector3& rbottom_uv = { 1, 1, 0 }) noexcept;
 		static Shared<Mesh> CreateBox(const tnl::Vector3& size, Shared<Texture> tx_left, Shared<Texture> tx_right, Shared<Texture> tx_up, Shared<Texture> tx_down, Shared<Texture> tx_forword, Shared<Texture> tx_back, const int div_w = 5, const int div_h = 5, const bool is_left_cycle = false) noexcept;
 		static Shared<Mesh> CreateCube(const float size, const int div_w = 5, const int div_h = 5, const float uv_adjusted = 0.005f, const bool is_left_cycle = false) noexcept;
@@ -518,8 +513,8 @@ namespace dxe {
 		static Shared<Mesh> CreateFromHeightMap(const std::string& file_path, const float width, const float depth, const float height_max, const int div_w = 100, const int div_h = 100);
 		static Shared<Mesh> CreateFromHeightMap(unsigned char* pixels, const int t_width, const int t_height, const int t_bpp, const float width, const float depth, const float height_max, const int div_w = 100, const int div_h = 100);
 		static std::vector<Shared<Mesh>> CreateFromFileObj(const std::string& file_path, const float scl = 1.0f);
-		friend class InstMeshPool ;
-	} ;
+		friend class InstMeshPool;
+	};
 
 
 	constexpr Mesh::fDebugLine operator | (Mesh::fDebugLine left, Mesh::fDebugLine right) {

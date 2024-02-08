@@ -24,25 +24,19 @@ private:
 	// 八の字の回転速度
 	float m_figure_eight_rotation = 10;
 
-
 	tnl::Vector3 m_pos;
 	// ターゲット計算で一時的に使用
 	tnl::Quaternion m_target_rot;
 	//モデルの回転取得用
 	tnl::Quaternion m_rot;
 
-	//// 自動移動によるプレイヤーの新しい座標回転(カメラと連動)
-	//tnl::Vector3 m_new_player_pos;
-	//tnl::Quaternion m_new_player_rot;
-
-
 	// 上下左右の方向
 	eDirection direction = eDirection::e_none;
 	// 現在のステージフェーズ
-	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_flower;
+	//StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(PlayerMove, &PlayerMove::SeqTrigger);
+	TNL_CO_SEQUENCE(PlayerMove, &PlayerMove::SeqNormal);
 
 
 	std::shared_ptr<wta::Astar<Lane::sLane>> m_astar = nullptr;
@@ -61,19 +55,16 @@ private:
 	// 八の字アクションでのモデル回転定義
 	void FigureEightActionMatrix(float delta_time);
 
-	//// 地上でのモデル回転定義
-	//void GroundMoveMatrix(float delta_time);
 
 	// 通常の移動処理
-	bool SeqTrigger(const float delta_time);
+	bool SeqNormal(const float delta_time);
 	// 停止処理
 	bool SeqStop(const float delta_time);
 	// 上昇処理
 	bool SeqUpMove(const float delta_time);
 	// 下降処理
 	bool SeqDownMove(const float delta_time);
-	//// 地面
-	//bool SeqGround(const float delta_time);
+
 	// 宙返りアクション
 	bool SeqSaltoAction(const float delta_time);
 	// ロール回転アクション 

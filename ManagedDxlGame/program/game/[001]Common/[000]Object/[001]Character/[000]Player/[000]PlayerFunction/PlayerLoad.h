@@ -12,6 +12,38 @@ public:
 
 private:
 
+
+	//-----Player-----//
+	
+	// モデル
+	int m_model_game_hdl = 0;
+	// moveボーン
+	int m_anim_bone_move_game_hdl = 0;
+	// bloomボーン
+	int m_anim_bone_bloom_game_hdl = 0;
+	// danceボーン
+	int m_anim_bone_dance_game_hdl = 0;
+	// テクスチャ
+	int m_texture_game_hdl = 0;
+	
+	//-----------------//
+
+	//--CinemaPlayer--//
+
+	// モデル
+	int m_model_cinema_hdl = 0;
+	// idleボーン
+	int m_anim_bone_idle_cinema_hdl = 0;
+	// moveボーン
+	int m_anim_bone_move_cinema_hdl = 0;
+	// danceボーン
+	int m_anim_bone_dance_cinema_hdl = 0;
+	// テクスチャ
+	int m_texture_cinema_hdl = 0;
+
+	//-----------------//
+
+
 	// 移動速度
 	float m_move_speed = 0;
 	// 移動回転速度
@@ -34,12 +66,31 @@ private:
 	float m_figure_eight_rot = 10;
 
 	// プレイヤーの移動情報読み取り専用（csvファイル）
-	std::vector<std::vector<float>> m_csv_player_move;
+	std::vector<std::vector<float>> m_csv_move;
 
+	std::vector<std::vector<std::string>> m_csv_model;
 
 	void LoadPlayerMoveInfo();
 
+	void LoadPlayerModelInfo();
+
 public:
+
+	int GetModelGameHdl() const { return m_model_game_hdl; }
+
+	int GetModelCinemaHdl() const { return m_model_cinema_hdl; }
+
+	int GetAnimBoneMoveGameHdl() const { return m_anim_bone_move_game_hdl; }
+
+	int GetAnimBoneBloomGameHdl() const { return m_anim_bone_bloom_game_hdl; }
+
+	int GetAnimBoneDanceGameHdl() const { return m_anim_bone_dance_game_hdl; }
+
+	int GetAnimBoneIdleCinemaHdl() const { return m_anim_bone_idle_cinema_hdl; }
+
+	int GetAnimBoneDanceCinemaHdl() const { return m_anim_bone_dance_cinema_hdl; }
+
+	int GetAnimBoneMoveCinemaHdl() const { return m_anim_bone_move_cinema_hdl; }
 
 	float GetMoveSpeed() const { return m_move_speed; }
 

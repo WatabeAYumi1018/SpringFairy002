@@ -11,14 +11,14 @@ class ScreenShot
 
 public:
 
-	ScreenShot() {}
+	ScreenShot();
 
 	~ScreenShot();
 
 private:
-
-	// 保存するスクリーン
-	int m_screen_hdl = 0;
+	
+	// EDの背景ハンドル
+	int m_back_hdl = 0;
 	// スタンプするプレイヤーの画像
 	int m_firy_hdl = 0;
 	// スタンプするパートナーの画像
@@ -34,14 +34,25 @@ private:
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	// 背景の読み込み
+	void LoadBack();
+
 	// スクリーンショットの保存先ファイル名を取得
 	std::string GetNextFileName(const std::string& directry
 								, const std::string& base_name);
 
+	// 最新のスクリーンショットのファイル名を取得
+	std::string GetLatestFileName();
+
 public:
+
 
 	// スクリーンショットの保存処理
 	void SaveScreenShot();
+
+	// スクリーンショットの表示処理
+	void ShowScreenShot();
+
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

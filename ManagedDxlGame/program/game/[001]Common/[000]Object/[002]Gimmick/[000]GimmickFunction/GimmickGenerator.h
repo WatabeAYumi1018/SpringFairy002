@@ -26,7 +26,6 @@ private:
 
 	Gimmick::eGimmickType m_gimmick_type = Gimmick::eGimmickType::Max;
 
-
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 	// コルーチンシーケンス
@@ -38,20 +37,32 @@ private:
 	// 地上のギミック配置処理
 	void CalcGroundPos(const float delta_time, Gimmick::eGimmickType type);
 
+	// 地上の向きによる生成位置算出
+	tnl::Vector3 DirectionCalcPos(const tnl::Vector3& forward);
+
+	// ギミックの配置
+	void SetPlacePos(std::shared_ptr<Gimmick>& gimmick
+						, const tnl::Vector3& target_pos
+						, const tnl::Vector3& forward
+						, const tnl::Vector3& perpendicular);
+
 	// 特定のギミックを取得
 	std::shared_ptr<Gimmick> GetInactiveType(std::vector<std::shared_ptr<Gimmick>>& gimmicks);
 
+	// ギミックの状態更新
 	void CheckGimmicks(const float delta_time
-		, Gimmick::eGimmickType type
-		, std::shared_ptr<Gimmick> gimmick);
+						, Gimmick::eGimmickType type
+						, std::shared_ptr<Gimmick> gimmick);
 
 	// 空中でのランダム生成
 	void GenerateGimmick(const float delta_time);
+
 	// 空中のランダム座標算出
 	tnl::Vector3 CalcRandomPos();
 
 	// フラワーの生成処理
 	bool SeqFlower(const float delta_time);
+
 	// バタフライの生成処理
 	bool SeqButterfly(const float delta_time);
 
@@ -64,11 +75,11 @@ public:
 	void Update(const float delta_time);
 
 
-	bool GetIsFlowerActive() const;
+	bool GetIsFlowerActive() const { return m_is_sky_flower_active; }
 
-	void SetIsGroundActive(bool is_active);
+	void SetIsGroundActive(bool is_active) { m_is_ground_active = is_active; }
 
-	bool GetIsGroundActive() const;
+	bool GetIsGroundActive() const { return m_is_ground_active; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

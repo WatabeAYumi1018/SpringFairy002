@@ -10,7 +10,7 @@ PlayerCollision::~PlayerCollision()
 	m_gimmicks.clear();
 }
 
-void PlayerCollision::CollisionRegisterPlayerToItem()
+void PlayerCollision::CollisionRegisterPlayerToGimmick()
 {
 	// プレイヤーとギミックの当たり判定
 	std::string player_to_gimmick_key
@@ -20,20 +20,12 @@ void PlayerCollision::CollisionRegisterPlayerToItem()
 										, [this](std::shared_ptr<Player> player
 										, std::shared_ptr<Gimmick> gimmick)
 	{
-		if(m_collision_gimmick->IsIntersectSphere(player,player->GetCollisionSize()
-												, gimmick, gimmick->GetCollisionSize()))
-		{
-			// 当たり判定発生合図
-			gimmick->SetIsHit(true);
-			// 描画切り替え合図
-			gimmick->SetIsDrawChange(true);
-		}
 	});
 }
 
-void PlayerCollision::CollisionRegisterMeshToItem()
+void PlayerCollision::CollisionRegisterMeshToGimmick()
 {
-	// メッシュとギミックの当たり判定
+	// プレイヤーメッシュとギミックの当たり判定
 	std::string mesh_to_gimmick_key
 		= typeid(dxe::Mesh).name() + std::string(typeid(Gimmick).name());
 
@@ -41,13 +33,14 @@ void PlayerCollision::CollisionRegisterMeshToItem()
 										, [this](std::shared_ptr<dxe::Mesh> mesh
 										, std::shared_ptr<Gimmick> gimmick)
 	{
-		if (m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
-												, gimmick, gimmick->GetCollisionSize()))
+		if (m_mediator->GetNowStagePhaseState() 
+			== StagePhase::eStagePhase::e_wood)
 		{
-			// 当たり判定発生合図
-			gimmick->SetIsHit(true);
-			// 描画切り替え合図
-			gimmick->SetIsDrawChange(true);
+			IsIntersectGimmickPos(mesh, gimmick, true);
+		}
+		else
+		{
+			IsIntersectGimmickPos(mesh, gimmick, false);
 		}
 	});
 }
@@ -93,3 +86,36 @@ void PlayerCollision::CollisionCheck()
 	// Player と Partner の衝突判定
 	m_collision_chara->Intersect(m_player, m_partner);
 }
+
+void PlayerCollision::IsIntersectGimmickPos(std::shared_ptr<dxe::Mesh> mesh
+											, std::shared_ptr<Gimmick> gimmick
+											, bool pos_up)
+{
+	if (m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
+		, gimmick, gimmick->GetCollisionSize(), pos_up))
+	{
+		// 当たり判定発生合図
+		gimmick->SetIsHit(true);
+		//// 描画切り替え合図
+		//gimmick->SetIsDrawChange(true);
+	}
+
+	// 当たり判定発生合図発生中
+	if (gimmick->GetIsHit())
+	{
+		// 射程外に出たら当たり判定を解除
+		if (!m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
+			, gimmick, gimmick->GetCollisionSize(), pos_up))
+		{
+			gimmick->SetIsHit(false);
+		}
+		// プレイヤーがブルーム状態なら当たり判定
+		else if (m_mediator->GetIsPlayerBloom())
+		{
+			gimmick->SetIsCollision(true);
+		}
+	}
+}
+
+
+

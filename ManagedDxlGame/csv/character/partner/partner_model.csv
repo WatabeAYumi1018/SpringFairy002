@@ -1,0 +1,5 @@
+パラメーター名,ファイルパス
+model,model/partner/futaba.mv1
+anim_bone_idle,model/partner/idle.mv1
+anim_bone_move,model/partner/move.mv1
+texture,model/partner/futaba.png

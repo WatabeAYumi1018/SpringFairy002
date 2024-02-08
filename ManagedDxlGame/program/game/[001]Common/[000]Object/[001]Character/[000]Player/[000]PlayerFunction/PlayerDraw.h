@@ -9,25 +9,25 @@ class PlayerDraw
 
 public:
 
-	PlayerDraw();
+	PlayerDraw() {}
 
-	~PlayerDraw();
+	~PlayerDraw() {}
 
 private:
 
 	// モデル
-	int m_model_hdl = 0;
+	int m_model_game_hdl = 0;
+	int m_model_cinema_hdl = 0;
 	// idleボーン
-	int m_anim_bone_idle_hdl = 0;
+	int m_anim_bone_idle_cinema_hdl = 0;
 	// moveボーン
-	int m_anim_bone_move_hdl = 0;
+	int m_anim_bone_move_game_hdl = 0;
+	int m_anim_bone_move_cinema_hdl = 0;
 	// bloomボーン
-	int m_anim_bone_bloom_hdl = 0;
+	int m_anim_bone_bloom_game_hdl = 0;
 	// danceボーン
-	int m_anim_bone_dance_hdl = 0;
-
-	// テクスチャ
-	int m_texture_hdl = 0;
+	int m_anim_bone_dance_game_hdl = 0;
+	int m_anim_bone_dance_cinema_hdl = 0;
 
 	// アニメーションインデックス番号
 	int m_anim_idle_index = 0;
@@ -51,12 +51,15 @@ private:
 	float m_anim_speed = 10;
 
 	float m_blend_timer = 0;
-
-	bool m_is_attack = false;
-	// イベントによるダンスの自動発生フラグ
+	// ブルーム攻撃フラグ
+	bool m_is_bloom = false;
+	// ダンス攻撃フラグ
 	bool m_is_dance = false;
+	// イベントによるdanceの自動発生フラグ
+	bool m_is_event_dance = false;
 	// ボーンのデタッチ設定フラグ(シネマプレイヤー用)
 	bool m_is_touch_idle = false;
+	bool m_is_touch_move = false;
 	bool m_is_touch_dance = false;
 
 	eDirection m_direction = eDirection::e_none;
@@ -69,21 +72,20 @@ private:
 	// プレイヤーメディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-
-	// ライトの設定
-	void SetLight();
 	
 	// アニメーションのブレンド処理
-	void AnimBlend(const float delta_time, int current_anim_index, int next_anim_index);
+	void AnimBlend(const float delta_time,int model_hdl, int current_anim_index, int next_anim_index);
 
-	void AnimAttach(int& anim_index, int anim_bone_hdl, float& time_count);
+	void AnimAttach(int model_hdl, int& anim_index, int anim_bone_hdl, float& time_count);
 
 	// move ループ再生の時間設定
-	void AnimMove(const float delta_time);
+	void AnimMove(const float delta_time, int model_hdl);
 	// bloom 単発再生の時間設定
 	void AnimBloom(const float delta_time);
 	// dance 単発再生の時間設定
-	void AnimDance(const float delta_time);
+	void AnimDance(const float delta_time, int model_hdl);
+	// idle ループ再生の時間設定　
+	void AnimIdle(const float delta_time);
 
 	// 移動状態
 	bool SeqMove(const float delta_time);
@@ -96,21 +98,9 @@ private:
 	// danceアニメーションへの遷移
 	bool SeqDanceToMove(const float delta_time);
 
-
-	//-----シネマカメラ用関数-----//
-	
-	// idle ループ再生の時間設定　
-	void AnimIdle(const float delta_time);
-
-	// シネマカメラ用のアニメーション
-	void CinemaAnimIdle(const float delta_time);
-	void CinemaAnimDance(const float delta_time);
-
-	//---------------------------//
-
-
 public:
 
+	void Initialize();
 	// アニメーションの更新処理
 	void Update(float delta_time);
 	// PlayerHumanクラスのDraw関数にて毎フレーム呼び出す
@@ -118,19 +108,26 @@ public:
 	
 
 	//-----シネマカメラ用関数-----//
-	
-	void UpdateCinemaCamera(float delta_time);
-	
+
+	// シネマカメラ用のアニメーション
+	void CinemaAnimIdle(const float delta_time);
+	void CinemaAnimMove(const float delta_time);
+	void CinemaAnimDance(const float delta_time);
+
 	//---------------------------//
 
+	void SetElapsedTimeDance(float elapsed_time_dance) 
+	{ 
+		m_elapsed_time_dance = elapsed_time_dance; 
+	}
 
-	int GetModelHdl() const { return m_model_hdl; }
+	bool GetIsBloom() const { return m_is_bloom; }
 
-	bool GetIsAttack() const { return m_is_attack; }
-
-	void SetIsDance(bool is_dance) { m_is_dance = is_dance; }
+	void SetIsEventDance(bool is_event_dance) { m_is_event_dance = is_event_dance; }
 
 	bool GetIsDance() const { return m_is_dance; }
+
+	bool GetIsEventDance() const { return m_is_event_dance; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

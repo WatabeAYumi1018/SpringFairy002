@@ -61,15 +61,16 @@ private:
 
 	bool m_is_fixed = false;
 
+	bool m_is_active_game = false;
+
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
 	tnl::Vector3 m_offset = { 0, 200, -400 };
-	// 追従による座標補正
-	tnl::Vector3 m_fix_pos = { 0,0,0 };
 	// 自動経路による回転
 	tnl::Quaternion m_rot;
 
-	StagePhase::eStagePhase m_now_stage_phase = StagePhase::eStagePhase::e_flower;
+	StagePhase::eStagePhase m_now_stage_phase
+					= StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(GameCamera, &GameCamera::SeqFixed);
@@ -84,18 +85,12 @@ private:
 	// カメラの状態を取得
 	void ConditionType();
 
-	// カメラの固定処理
-	void Fixed();
-	// カメラのサイドビュー処理
-	void Side(float offset);
-	// カメラのサイドビューへ移行処理
-	void ToSide(const float delta_time,float offset);
-	// サイドから固定へ移行
-	void ToFix(const float delta_time);
-	// カメラの正面からの視点処理
-	void Front();
+	// 固定
+	void Fixed(const tnl::Vector3& offset);
+	// スライド処理
+	void ToSlide(const float delta_time, const tnl::Vector3& offset, float speed);
 	// 360度回転処理
-	void rotate(const float delta_time);
+	void Rotate(const float delta_time);
 
 	// 固定された視点
 	bool SeqFixed(const float delta_time);
@@ -117,12 +112,12 @@ private:
 	bool SeqRotateToFix(const float delta_time);
 
 
-	// 上からの視点処理
-	void Bottom();
-	// 下の視点
-	bool SeqBottom(const float delta_time);
-	// 下からfixへ移行
-	bool SeqBottomToFix(const float delta_time);
+	//// 上からの視点処理
+	//void Bottom();
+	//// 下の視点
+	//bool SeqBottom(const float delta_time);
+	//// 下からfixへ移行
+	//bool SeqBottomToFix(const float delta_time);
 
 	//-----デバッグ用-----//
 
@@ -143,8 +138,6 @@ private:
 
 	//--------------------//
 
-	
-
 public:
 
 	// フラスタムとの当たり判定
@@ -159,10 +152,16 @@ public:
 		return up_;
 	}
 
-	inline tnl::Vector3 down() { return -up(); }
-
+	//inline tnl::Vector3 down() { return -up(); }
 
 	bool IsFixed() const { return m_is_fixed; }
+
+	void SetIsActiveGame(bool is_active_game)
+	{
+		m_is_active_game = is_active_game; 
+	}
+
+	bool GetIsActiveGame() const { return m_is_active_game; }
 
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)

@@ -18,10 +18,7 @@ Score::~Score()
 
 void Score::Update(const float delta_time)
 {
-	if (m_mediator->GetGimmickIsHit())
-	{
-		AddScore();
-	}
+	AddScore();
 }
 
 void Score::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -82,7 +79,12 @@ void Score::ScoreAttach()
 
 void Score::AddScore()
 {
-	m_score_total += SCORE;
+	if (m_is_add)
+	{
+		m_score_total += SCORE;
+
+		m_is_add = false;
+	}
 
 	// スコアが最大値を越えないようにする
 	if (m_score_total > SCORE_MAX)

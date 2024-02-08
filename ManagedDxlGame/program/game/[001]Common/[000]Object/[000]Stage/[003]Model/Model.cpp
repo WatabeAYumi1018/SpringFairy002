@@ -6,49 +6,10 @@
 #include "Model.h"
 
 
-Model::Model()
-{
-
-}
-
-Model::~Model()
-{
-	for (sModelInfo& model_info : m_models_info)
-	{
-		MV1DeleteModel(model_info.s_model_hdl);
-		DeleteGraph(model_info.s_texture_a_hdl);
-		DeleteGraph(model_info.s_texture_b_hdl);
-		DeleteGraph(model_info.s_texture_c_hdl);
-		DeleteGraph(model_info.s_texture_d_hdl);
-	}
-}
-
 void Model::Initialize()
 {
 	// ステージモデルの情報を取得
-	m_models_info = m_mediator->GetStageModelTypeInfo();
-
-	for (sModelInfo& model_info : m_models_info)
-	{
-		LoadModelInfo(model_info);
-
-		SetLight(model_info);
-
-		// ステージ毎のテクスチャ設定
-		if (model_info.s_id == 0)
-		{
-			SetTextureIndex(model_info, 43, 73, 102);
-		}
-		else if (model_info.s_id == 1)
-		{
-			SetTextureIndex(model_info, 15, 33, 37);
-
-		}
-		else
-		{
-			SetTextureIndex(model_info, 43, 73, 102);
-		}
-	}
+	m_models_info = m_mediator->GetStageModelInfo();
 }
 
 void Model::Update(float delta_time)
@@ -58,6 +19,7 @@ void Model::Update(float delta_time)
 
 void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 {
+	// 正面向きの時の処理
 	if (!m_mediator->GetIsGimmickGroundActive())
 	{
 		if (m_mediator->GetNowStagePhaseState()
@@ -75,71 +37,10 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 			DrawStage(m_models_info, 2);
 		}
 	}
-}
-
-void Model::LoadModelInfo(sModelInfo& model_info)
-{
-	model_info.s_model_hdl
-		= MV1LoadModel(model_info.s_model_path.c_str());
-
-	model_info.s_texture_a_hdl
-		= LoadGraph(model_info.s_texture_a_path.c_str());
-
-	model_info.s_texture_b_hdl
-		= LoadGraph(model_info.s_texture_b_path.c_str());
-
-	model_info.s_texture_c_hdl
-		= LoadGraph(model_info.s_texture_c_path.c_str());
-
-	model_info.s_texture_d_hdl
-		= LoadGraph(model_info.s_texture_d_path.c_str());
-
-	model_info.s_material_count
-		= MV1GetMaterialNum(model_info.s_model_hdl);
-}
-
-void Model::SetTextureIndex(sModelInfo& model_info,int a,int b,int c )
-{
-	for (int i = 0; i < model_info.s_material_count; ++i)
+	// サイドを向いた時の処理
+	else
 	{
-		if (i < a) 
-		{
-			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
-									, model_info.s_texture_a_hdl, FALSE);
-		}
-		else if (i >= a && i < b)
-		{
-			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
-									, model_info.s_texture_b_hdl, FALSE);
-		}
-		else if (i >= b && i < c)
-		{
-			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
-									, model_info.s_texture_c_hdl, FALSE);
-		}
-		else
-		{
-			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
-									, model_info.s_texture_d_hdl, FALSE);
-		}
-	}
-}
 
-void Model::SetLight(sModelInfo& model_info)
-{
-	// 各マテリアルに対するライトの設定
-	for (int i = 0; i < model_info.s_material_count; ++i)
-	{
-		DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
-		DxLib::COLOR_F ambient = { 1,1,1,1 };
-		DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
-		DxLib::COLOR_F specular = { 0,0,0,1 };
-
-		MV1SetMaterialEmiColor(model_info.s_model_hdl, i, emissive);
-		MV1SetMaterialAmbColor(model_info.s_model_hdl, i, ambient);
-		MV1SetMaterialDifColor(model_info.s_model_hdl, i, diffuse);
-		MV1SetMaterialSpcColor(model_info.s_model_hdl, i, specular);
-		MV1SetMaterialSpcPower(model_info.s_model_hdl, i, 0.5f);
 	}
 }
 
@@ -156,19 +57,31 @@ void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)
 	int target_grid_z = static_cast<int>(target_pos.z / grid_size);
 
 	// 描画範囲の設定（ターゲットの位置を中心に前方に向けて）
-	int draw_range = 6; 
+	int draw_range = 10; 
 
 	for (int z = target_grid_z; z < target_grid_z + draw_range; z++) 
 	{
 		for (int x = target_grid_x - draw_range / 2; x <= target_grid_x + draw_range / 2; x++)
 		{
 			// 透明化処理（ある程度後方にあるモデルは描画しない）
-			if (z < target_grid_z - grid_size) continue;
+			if (z < target_grid_z - grid_size)
+			{
+				continue;
+			}
 
 			// モデルの座標を計算
 			tnl::Vector3 pos;
+
 			pos.x = static_cast<float>(x * model_size);
+			
 			pos.y = Floor::DRAW_DISTANCE;
+			
+			if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
+			{
+				// 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
+				pos.y *= 2;
+			}
+
 			// 前方を少し遠めに設定し突然のモデルの出現を防ぐ
 			pos.z = static_cast<float>(z * model_size) + 1000;
 
@@ -183,6 +96,8 @@ void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)
 		}
 	}
 }
+
+
 
 //void Model::SetTextureIndex(sStageModelType& model)
 //{

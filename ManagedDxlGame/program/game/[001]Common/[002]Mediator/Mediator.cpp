@@ -1,9 +1,9 @@
 #include "Mediator.h"
+#include "../[000]Object/[000]Stage/[000]SkyBox/CinemaBack.h"
+#include "../[000]Object/[000]Stage/[000]SkyBox/SkyBox.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
-#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
-//#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelGenerator.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
@@ -12,19 +12,25 @@
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
 #include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayer/CinemaPlayer.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
+#include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerLoad.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
+#include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CinemaCameraTarget.h"
+#include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
+#include "../[000]Object/[001]Character/[003]Butterfly/[000]ButterflyFunction/ButterflyLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
+#include "../[000]Object/[004]Score/Score.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextLoad.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
+#include "../[000]Object/[006]Title/Title.h"
+#include "../[000]Object/[007]Gate/[000]GateFunction/GateLoad.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
-#include "../[001]Camera/[001]CinemaCamera/CinemaCamera.h"
 
 
 //---------StagePhase---------//
@@ -37,17 +43,70 @@ StagePhase::eStagePhase Mediator::GetNowStagePhaseState() const
 //---------------------------//
 
 
+//---------CinemaBack---------//
+
+// CinemaBack
+
+void Mediator::SetCinemaBackIsFirst(bool is_first)
+{
+	m_cinemaBack->SetIsFirst(is_first);
+}
+
+void Mediator::SetCinemaBackIsSecond(bool is_second)
+{
+	m_cinemaBack->SetIsSecond(is_second);
+}
+
+bool Mediator::GetCinemaBackIsSecond() const
+{
+	return m_cinemaBack->GetIsSecond();
+}
+
+void Mediator::SetCinemaBackIsThird(bool is_third)
+{
+	m_cinemaBack->SetIsThird(is_third);
+}
+
+bool Mediator::GetCinemaBackIsThird() const
+{
+	return m_cinemaBack->GetIsThird();
+}
+
+
+void Mediator::SetIsCinemaBackFog(bool is_fog)
+{
+	m_cinemaBack->SetIsFog(is_fog);
+}
+
+void Mediator::SetIsCinemaBackBubble(bool is_bubble)
+{
+	m_cinemaBack->SetIsBubble(is_bubble);
+}
+
+//----------------------------//
+
+
+//-----------SkyBox-----------//
+
+// SkyBox
+
+void Mediator::SetSkyIsOp(bool is_op)
+{
+	m_skyBox->SetIsOp(is_op);
+}
+
+//---------------------------//
+
+
 //-----------Stage-----------//
 
 // LaneLoad
 
-// レーン配列の幅取得
 int Mediator::GetStageLaneWidth() const
 {
 	return m_laneLoad->GetLaneWidth();
 }
 
-// レーン配列の高さ取得
 int Mediator::GetStageLaneHeight() const
 {
 	return m_laneLoad->GetLaneHeight();
@@ -103,159 +162,17 @@ bool Mediator::GetPlayerLookSideLeft() const
 	return m_laneMove->GetLookSideLeft();
 }
 
-const tnl::Vector3& Mediator::GetCharaMoveDirection() const
-{
-	return m_laneMove->GetCharaDirection();
-}
-
-
-//const tnl::Vector3& Mediator::GetTargetMoveDirection() const
-//{
-//	return m_laneMove->GetTargetDirection();
-//}
-//
-//const std::vector<std::pair<int, int>>& Mediator::GetGoalMoveProcess() const
-//{
-//	return m_laneMove->GetGoalProcess();
-//}
-
-
-//void Mediator::SetPlayerLookSideLeft(bool look_side)
-//{
-//	m_laneMove->SetLookSideLeft(look_side);
-//}
-
-//bool Mediator::NextLaneMove()
-//{
-//	return m_laneMove->NextLane();
-//}
-
-//void Mediator::SetMoveNowPos(tnl::Vector3 pos)
-//{
-//	m_laneMove->SetNowPos(pos);
-//}
-//
-//
-//tnl::Vector3 Mediator::GetMoveNewPos() const
-//{
-//	return m_laneMove->GetNewPos();
-//}
-//
-//void Mediator::SetMoveNowRot(tnl::Quaternion rot)
-//{
-//	m_laneMove->SetNowRot(rot);
-//}
-//
-//tnl::Quaternion Mediator::GetMoveNewRot() const
-//{
-//	return m_laneMove->GetNewRot();
-//}
-
 //---------------------------//
 
 
 //----------Model-----------//
 
-// model
-
-//const tnl::Vector3& Mediator::GetModelPos() const
-//{
-//	return m_model->GetPos();
-//}
-//
-//Model::eWorldType Mediator::GetWorldModelType() const
-//{
-//	return m_model->GetWorldType();
-//}
-
-//void Mediator::SetIsModelAliveActive(bool is_active)
-//{
-//	m_model->SetIsAliveActive(is_active);
-//}
-
-//int Mediator::GetIsModelAliveActive() const
-//{
-//	return m_model->GetIsAliveActive();
-//}
-//
-//void Mediator::ToggleModelActive(bool is_world_active)
-//{
-//	m_model->ToggleActive(is_world_active);
-//}
-
-
 // modelLoad
 
-int Mediator::GetStageModelTotalNum() const
+const std::vector<Model::sModelInfo>& Mediator::GetStageModelInfo() const
 {
-	return m_modelLoad->GetModelTotalNum();
+	return m_modelLoad ->GetModelInfo();
 }
-
-//int Mediator::GetStageModelVecHeight() const
-//{
-//	return m_modelLoad->GetModelVecHeight();
-//}
-//
-//int Mediator::GetStageModelVecWidth() const
-//{
-//	return m_modelLoad->GetModelVecWidth();
-//}
-
-
-//const std::vector<Model::sStageModel>& Mediator::GetStageTreeVector() const
-//{
-//	return m_modelLoad->GetTreeVector();
-//}
-//
-//const std::vector<Model::sStageModel>& Mediator::GetStageGrassVector() const
-//{
-//	return m_modelLoad->GetGrassVector();
-//}
-
-const std::vector<Model::sModelInfo>& Mediator::GetStageModelTypeInfo() const
-{
-	return m_modelLoad ->GetModelTypeInfo();
-}
-
-
-//Model::sStageModelType Mediator::GetStageModelInfoById(int id)
-//{
-//	return m_modelLoad -> GetModelInfoById(id);
-//}
-
-// modelPool
-
-//void Mediator::IsActivatePoolAllModels(Model::eWorldType world_type)
-//{
-//	m_modelPool->IsActivateAllModels(world_type);
-//}
-
-std::vector<std::shared_ptr<Model>>& Mediator::GetPoolModels() const
-{
-	return m_modelPool->GetModels();
-}
-
-//std::shared_ptr<Model> Mediator::GetPoolRandomModel(Model::eWorldType world_type)
-//{
-//	return m_modelPool->GetRandomModel(world_type);
-//}
-
-// ModelGenerator
-
-//void Mediator::ModelGeneInitialize()
-//{
-//	m_modelGenerator->Initialize();
-//}
-//
-//void Mediator::ModelGeneUpdate(const float delta_time)
-//{
-//	m_modelGenerator->Update(delta_time);
-//}
-//
-//void Mediator::ModelGeneDraw(std::shared_ptr<GameCamera> gameCamera)
-//{
-//	m_modelGenerator->Draw(gameCamera);
-//}
 
 //--------------------------//
 
@@ -289,22 +206,52 @@ float Mediator::GetPlayerCollisionSize() const
 	return m_player->GetCollisionSize();
 }
 
-Lane::sLane Mediator::CurrentPlayerLane()
-{
-	return m_character->CurrentMoveLane();
-}
-
 tnl::Vector3 Mediator::PlayerForward()
 {
 	return m_player->Forward();
 }
 
-const std::vector<std::shared_ptr<dxe::Mesh>>& Mediator::PlayerGetMeshs() const
+// playerLoad
+
+int Mediator::GetPlayerModelGameHdl() const
 {
-	return m_player->GetMeshs();
+	return m_playerLoad->GetModelGameHdl();
 }
 
-// playerLoad
+int Mediator::GetPlayerModelCinemaHdl() const
+{
+	return m_playerLoad->GetModelCinemaHdl();
+}
+
+int Mediator::GetPlayerAnimBoneIdleCinemaHdl() const
+{
+	return m_playerLoad->GetAnimBoneIdleCinemaHdl();
+}
+
+int Mediator::GetPlayerAnimBoneMoveGameHdl() const
+{
+	return m_playerLoad->GetAnimBoneMoveGameHdl();
+}
+
+int Mediator::GetPlayerAnimBoneMoveCinemaHdl() const
+{
+	return m_playerLoad->GetAnimBoneMoveCinemaHdl();
+}
+
+int Mediator::GetPlayerAnimBoneBloomGameHdl() const
+{
+	return m_playerLoad->GetAnimBoneBloomGameHdl();
+}
+
+int Mediator::GetPlayerAnimBoneDanceGameHdl() const
+{
+	return m_playerLoad->GetAnimBoneDanceGameHdl();
+}
+
+int Mediator::GetPlayerAnimBoneDanceCinemaHdl() const
+{
+	return m_playerLoad->GetAnimBoneDanceCinemaHdl();
+}
 
 float Mediator::GetPlayerMoveSpeed() const
 {
@@ -333,45 +280,17 @@ float Mediator::GetPlayerSaltoMoveSpeed() const
 
 // playerMove
 
-//int Mediator::GetMoveCurrentStep() const
-//{
-//	return m_playerMove->GetCurrentStep();
-//}
-
 void Mediator::UpdatePlayerMoveMatrix(float delta_time)
 {
 	m_playerMove->Update(delta_time);
 }
 
-
-//void Mediator::GetPlayerMoveAutoMove()
-//{
-//	m_playerMove->GetAutoMove();
-//}
-
-bool Mediator::GetPushButton()
-{
-	return m_playerMove->PushButton();
-}
-
-//tnl::Vector3 Mediator::GetNewPlayerMovePos()
-//{
-//	return m_playerMove->GetNewPlayerPos();
-//}
-//
-//tnl::Quaternion Mediator::GetNewPlayerMoveRot()
-//{
-//	return m_playerMove->GetNewPlayerRot();
-//}
-
-
-//std::vector<std::pair<int, int>> Mediator::GetMoveGoalProcess()
-//{
-//	return m_playerMove->GetGoalProcess();
-//}
-
-
 // playerDraw
+
+void Mediator::InitializePlayerDraw()
+{
+	m_playerDraw->Initialize();
+}
 
 void Mediator::UpdatePlayerAnim(const float delta_time)
 {
@@ -383,32 +302,40 @@ void Mediator::DrawPlayerModel()
 	m_playerDraw->Draw();
 }
 
-int Mediator::GetPlayerModelHdl() const
+bool Mediator::GetIsPlayerBloom() const
 {
-	return m_playerDraw->GetModelHdl();
+	return m_playerDraw->GetIsBloom();
 }
 
-bool Mediator::GetIsPlayerAttack() const
+void Mediator::SetAnimElapsedTimeDance(float elapsed_time_dance)
 {
-	return m_playerDraw->GetIsAttack();
+	m_playerDraw->SetElapsedTimeDance(elapsed_time_dance);
 }
 
-void Mediator::SetIsPlayerDance(bool is_dance)
+void Mediator::SetIsPlayerEventDance(bool is_dance)
 {
-	m_playerDraw->SetIsDance(is_dance);
+	m_playerDraw->SetIsEventDance(is_dance);
 }
 
-bool Mediator::GetIsPlayerDance() const
+bool Mediator::GetIsPlayerEventDance() const
 {
-	return m_playerDraw->GetIsDance();
+	return m_playerDraw->GetIsEventDance();
 }
 
-void Mediator::UpdateCinemaCameraPlayer(const float delta_time)
+void Mediator::CinemaPlayerAnimIdle(const float delta_time)
 {
-	m_playerDraw->UpdateCinemaCamera(delta_time);
+	m_playerDraw->CinemaAnimIdle(delta_time);
 }
 
+void Mediator::CinemaPlayerAnimMove(const float delta_time)
+{
+	m_playerDraw->CinemaAnimMove(delta_time);
+}
 
+void Mediator::CinemaPlayerAnimDance(const float delta_time)
+{
+	m_playerDraw->CinemaAnimDance(delta_time);
+}
 
 // playerSkill
 
@@ -421,8 +348,8 @@ void Mediator::UpdatePlayerSkill(const float delta_time)
 
 void Mediator::InitCollisionRegister()
 {
-	m_playerCollision->CollisionRegisterPlayerToItem();
-	m_playerCollision->CollisionRegisterMeshToItem();
+	m_playerCollision->CollisionRegisterPlayerToGimmick();
+	m_playerCollision->CollisionRegisterMeshToGimmick();
 	m_playerCollision->CollisionRegisterPlayerToPartner();
 }
 
@@ -437,7 +364,6 @@ const tnl::Vector3& Mediator::GetCinemaPlayerPos() const
 {
 	return m_cinemaPlayer->GetPos();
 }
-
 
 //--------------------------//
 
@@ -466,11 +392,6 @@ const tnl::Quaternion& Mediator::GetPartnerRot() const
 	return m_partner->GetRot();
 }
 
-void Mediator::SetPartnerScale(tnl::Vector3& scale)
-{
-	m_partner->SetScale(scale);
-}
-
 const float Mediator::GetPartnerCollisionSize() const
 {
 	return m_partner->GetCollisionSize();
@@ -481,6 +402,22 @@ GameCamera::sCamera Mediator::CurrentCameraLane()
 	return m_partner->CurrentCamera();
 }
 
+// PartnerLoad
+
+int Mediator::GetPartnerModelHdl() const
+{
+	return m_partnerLoad->GetModelGameHdl();
+}
+
+int Mediator::GetPartnerAnimBoneIdleHdl() const
+{
+	return m_partnerLoad->GetAnimBoneIdleHdl();
+}
+
+int Mediator::GetPartnerAnimBoneMoveHdl() const
+{
+	return m_partnerLoad->GetAnimBoneMoveGameHdl();
+}
 
 // PartnerMove
 
@@ -494,8 +431,12 @@ void Mediator::SetIsPartnerPushed(bool is_pushed)
 	m_partnerMove->SetIsPushed(is_pushed);
 }
 
-
 // PartnerDraw
+
+void Mediator::InitializePartnerDraw()
+{
+	m_partnerDraw->Initialize();
+}
 
 void Mediator::UpdatePartnerAnim(const float delta_time)
 {
@@ -507,12 +448,8 @@ void Mediator::DrawPartnerModel()
 	m_partnerDraw->Draw();
 }
 
-int Mediator::GetPartnerModelHdl() const
-{
-	return m_partnerDraw->GetModelHdl();
-}
-
 //--------------------------//
+
 
 //----CameraTargetPlayer----//
 
@@ -528,11 +465,6 @@ const GameCamera::sCameraInfo& Mediator::GetTargetCameraInfo() const
 	return m_cameraTargetPlayer->GetCameraInfo();
 }
 
-//Gimmick::sGimmick Mediator::CurrentTargetGimmickLane()
-//{
-//	return m_cameraTargetPlayer->CurrentGimmickLane();
-//}
-
 const Lane::sLaneEvent& Mediator::GetEventLane() const
 {
 	return m_cameraTargetPlayer->GetEvent();
@@ -543,79 +475,72 @@ bool Mediator::GetIsTargetSpeedUp() const
 	return m_cameraTargetPlayer->GetIsSpeedUp();
 }
 
-bool Mediator::GetIsTargetMoveUp() const
-{
-	return m_cameraTargetPlayer->GetIsMoveUp();
-}
+//bool Mediator::GetIsTargetMoveUp() const
+//{
+//	return m_cameraTargetPlayer->GetIsSpeedUp();
+//}
 
 bool Mediator::GetIsTargetMoveDown() const
 {
 	return m_cameraTargetPlayer->GetIsMoveDown();
 }
 
+//-------------------------------//
 
-//--------------------------//
 
+//------CinemaCameraTarget------//
+
+// CinemaCameraTarget
+
+const tnl::Vector3& Mediator::GetCinemaCameraTargetPos() const
+{
+	return m_cinemaCameraTarget->GetPos();
+}
+
+//-----------------------------//
+
+
+//----------Butterfly----------//
+
+// Butterfly
+
+const tnl::Vector3& Mediator::GetButterflyPos() const
+{
+	return m_butterfly->GetPos();
+}
+
+void Mediator::SetButterflyIsOpActive(bool is_op_active)
+{
+	m_butterfly->SetIsOpActive(is_op_active);
+}
+
+bool Mediator::GetButterflyIsPowder() const
+{
+	return m_butterfly->GetIsPowder();
+}
+
+void Mediator::SetButterflyIsCinemaActive(bool is_cinema_active)
+{
+	m_butterfly->SetIsCinemaActive(is_cinema_active);
+}
+
+bool Mediator::GetButterflyIsCinemaActive() const
+{
+	return m_butterfly->GetIsCinemaActive();
+}
+
+// ButterflyLoad
+
+int Mediator::GetButterflyModelHdl() const
+{
+	return m_butterflyLoad->GetModelHdl();
+}
+
+
+//-----------------------------//
 
 
 //-----------Gimmick-----------//
-
-// Gimmick
-
-void Mediator::SetGimmickIsActive(bool is_active)
-{
-	m_gimmick->SetIsActive(is_active);
-}
-
-bool Mediator::GetGimmickIsHit() const
-{
-	return m_gimmick->GetIsHit();
-}
-
-
-// GimmickLoad
-
-//
-const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmicksTypeInfo(Gimmick::eGimmickType type) const
-{
-	return m_gimmickLoad->GetGimmicksType(type);
-}
-//
-//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTrees() const
-//{
-//	return m_gimmickLoad->GetTrees();
-//}
-//
-//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickSkyFlowers() const
-//{
-//	return m_gimmickLoad->GetSkyFlowers();
-//}
-//
-//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickButterflys() const
-//{
-//	return m_gimmickLoad->GetButterflys();
-//}
-
-//int Mediator::GetGimmickIdNum() const
-//{
-//	return m_gimmickLoad->GetIdNum();
-//}
-
-//const std::vector<Gimmick::sGimmick>& Mediator::GetGimmickLoadLane() const
-//{
-//	return m_gimmickLoad->GetGimmickLane();
-//}
-
-//const std::vector<Gimmick::sGimmickTypeInfo>& Mediator::GetGimmickTypeInfo() const
-//{
-//	return m_gimmickLoad->GetGimmickTypeInfo();
-//}
-	
-//Gimmick::sGimmickTypeInfo Mediator::GetGimmickLoadInfoById(int id,std::vector<Gimmick::sGimmickTypeInfo>& gimmick_type)
-//{
-//	return m_gimmickLoad->GetGimmickInfoById(id, gimmick_type);
-//}
-
 
 // GimmickPool
 
@@ -629,13 +554,6 @@ std::vector<std::shared_ptr<Gimmick>>& Mediator::GetGimmickTypePools(Gimmick::eG
 	return m_gimmickPool->GetGimmickPools(type);
 }
 
-
-//const std::vector<std::shared_ptr<Gimmick>>& Mediator::GetPoolGimmick() const
-//{
-//	return m_gimmickPool->GetGimmickPlants();
-//}
-
-
 // GimmickGenerator
 
 bool Mediator::GetIsGimmickFlowerActive() const
@@ -643,27 +561,10 @@ bool Mediator::GetIsGimmickFlowerActive() const
 	return m_gimmickGenerator->GetIsFlowerActive();
 }
 
-void Mediator::SetIsGimmickGroundActive(bool is_active)
-{
-	m_gimmickGenerator->SetIsGroundActive(is_active);
-}
-
 bool Mediator::GetIsGimmickGroundActive() const
 {
 	return m_gimmickGenerator->GetIsGroundActive();
 }
-
-
-
-//void Mediator::SetItemIsCreate(bool is_create)
-//{
-//	m_itemGenerator->SetIsCreate(is_create);
-//}
-//
-//void Mediator::SetItemIsDelete(bool is_delete)
-//{
-//	m_itemGenerator->SetIsDelete(is_delete);
-//}
 
 //--------------------------//
 
@@ -680,19 +581,21 @@ const std::vector<Effect::sEffectType>& Mediator::GetEffectLoadInfo() const
 //--------------------------//
 
 
+//----------Score-----------//
+
+// Score
+
+void Mediator::SetIsScoreAdd(bool is_add)
+{
+	m_score->SetIsAdd(is_add);
+}
+
+//--------------------------//
+
+
 //------------Text-----------//
 
 // TextLoad
-
-//const std::vector<std::string>& Mediator::GetTextsLoadLane()
-//{
-//	return m_textLoad->GetTextsLane();
-//}
-
-//const std::vector<Text::sTextData>& Mediator::GetTextsLoadLane()
-//{
-//	return m_textLoad->GetTextsLane();
-//}
 
 void Mediator::GetTextsLoadLane()
 {
@@ -704,12 +607,6 @@ const std::vector<Text::sTextData>& Mediator::GetTextsLoadForLane() const
 {
 	return m_textLoad->GetTextsForLane();
 }
-
-//const std::vector<std::string>& Mediator::GetTextsLoadMessageForLane() const
-//{
-//	return m_textLoad->GetTextsMessageForLane();
-//}
-
 
 // TextDraw
 
@@ -728,28 +625,12 @@ void Mediator::SetIsTextDrawEnd(bool is_end)
 	m_textDraw->SetIsEnd(is_end);
 }
 
-
-//void Mediator::SetTextDrawLine(const std::vector<std::string>& text_lines)
-//{
-//	m_textDraw->ResetText(text_lines);
-//}
-
-//bool Mediator::IsTextDrawEnd()
-//{
-//	return m_textDraw->IsTextEnd();
-//}
-
 //---------------------------//
 
 
 //-----------Graph----------//
 
 // GraphLoad
-
-//const int Mediator::GetCharaGraphLoadTotalNum() const
-//{
-//	return m_charaGraphLoad->GetGraphTotalNum();
-//}
 
 const std::vector<CharaGraph::sGraphInfo>& Mediator::GetCharaGraphLoadInfo() const
 {
@@ -758,14 +639,33 @@ const std::vector<CharaGraph::sGraphInfo>& Mediator::GetCharaGraphLoadInfo() con
 
 // CharaGraphDraw
 
-void Mediator::LoadCharacterGraph()
+//---------------------------//
+
+
+//------------Title-----------//
+
+// Title
+
+void Mediator::SetTitleIsDraw(bool is_draw)
 {
-	m_charaGraphDraw->LoadCharaGraph();
+	m_title->SetIsDraw(is_draw);
 }
 
-void Mediator::DrawCharacterGraph(int graph_id)
+bool Mediator::GetTitleIsDisappear() const
 {
-	m_charaGraphDraw->DrawCharaGraph(graph_id);
+	return m_title->GetIsDisappear();
+}
+
+//---------------------------//
+
+
+//------------Gate-----------//
+
+// GateLoad
+
+const std::vector<Gate::sGateInfo>& Mediator::GetGatesInfo() const
+{
+	return m_gateLoad->GetGates();
 }
 
 //---------------------------//
@@ -774,16 +674,6 @@ void Mediator::DrawCharacterGraph(int graph_id)
 //----------Camera---------//
 
 // GameCamera
-
-void Mediator::SetCameraPos(tnl::Vector3& pos)
-{
-	m_gameCamera->SetPos(pos);
-}
-
-const tnl::Vector3& Mediator::GetCameraPos() const
-{
-	return m_gameCamera->GetPos();
-}
 
 const tnl::Vector3& Mediator::GetCameraForward() const
 {
@@ -805,49 +695,17 @@ bool Mediator::IsCameraFixed() const
 	return m_gameCamera->IsFixed();
 }
 
+void Mediator::SetIsActiveGameCamera(bool is_active_game)
+{
+	m_gameCamera->SetIsActiveGame(is_active_game);
+}
 
-
-//const tnl::Vector3& Mediator::GetCameraLeft() const
-//{
-//	return m_gameCamera->left();
-//}
-//
-//const tnl::Vector3& Mediator::GetCameraBack() const
-//{
-//	return m_gameCamera->back();
-//}
-
-//const tnl::Matrix& Mediator::GetCameraView() const
-//{
-//	return m_gameCamera->GetView();
-//}
-//
-//const tnl::Matrix& Mediator::GetCameraProj() const
-//{
-//	return m_gameCamera->GetProj();
-//}
-
-//GameCamera::sCameraInfo Mediator::CurrentGameCameraType()
-//{
-//	return m_gameCamera->CurrentCameraType();
-//}
-
-//tnl::Vector3 Mediator::GetFlustumNormal(dxe::Camera::eFlustum flusum)
-//{
-//	return m_gameCamera->getFlustumNormal(flusum);
-//}
+bool Mediator::GetIsActiveGameCamera() const
+{
+	return m_gameCamera->GetIsActiveGame();
+}
 
 // CameraLoad
-
-int Mediator::GetCameraLaneHeight() const
-{
-	return m_cameraLoad->GetLaneHeight();
-}
-
-int Mediator::GetCameraLaneWidth() const
-{
-	return m_cameraLoad->GetLaneWidth();
-}
 
 const std::vector<GameCamera::sCamera>& Mediator::GetCameraLaneVector() const
 {
@@ -859,33 +717,33 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 	return m_cameraLoad->GetCameraInfoById(id);
 }
 
-
-//void Mediator::UpdateCameraFrustum()
-//{
-//	m_cameraFrustum->Update();
-//}
-
-//void Mediator::CollisionFrustumRegister()
-//{
-//	m_cameraFrustum->CollisionRegister();
-//}
-//
-//void Mediator::CollisionFrustumCheck()
-//{
-//	m_cameraFrustum->CollisionCheck();
-//}
-
 // CinemaCamera
 
-void Mediator::SetIsCinemaCameraActive(bool is_active)
-{
-	m_cinemaCamera->SetIsActive(is_active);
-}
+//float Mediator::GetCinemaSplitWidthLeft() const
+//{
+//	return m_cinemaCamera_all->GetSplitWidthLeft();
+//}
+//
+//float Mediator::GetCinemaSplitWidthRight() const
+//{
+//	return m_cinemaCamera_all->GetSplitWidthRight();
+//}
+//
+//bool Mediator::GetIsCinemaHalfRightActive() const
+//{
+//	return m_cinemaCamera_half_right->GetIsHalfRightActive();
+//}
+//
+//bool Mediator::GetIsCinemaThirdLeftActive() const
+//{
+//	return m_cinemaCamera_third_left->GetIsThirdLeftActive();
+//}
+//
+//bool Mediator::GetIsCinemaThirdRightActive() const
+//{
+//	return m_cinemaCamera_third_right->GetIsThirdRightActive();
+//}
 
-bool Mediator::GetIsCinemaCameraActive() const
-{
-	return m_cinemaCamera->GetIsActive();
-}
 
 //---------------------------//
 

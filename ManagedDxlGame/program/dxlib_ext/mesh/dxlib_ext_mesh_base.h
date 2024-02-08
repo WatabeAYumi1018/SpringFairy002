@@ -5,9 +5,9 @@
 namespace dxe {
 
 	class MeshBase {
-	public :
+	public:
 		MeshBase() = default;
-		virtual ~MeshBase(){}
+		virtual ~MeshBase() {}
 
 		// “§–¾“x‚Ìİ’è
 		inline void setAlpha(const float alpha) { alpha_ = alpha; }
@@ -52,7 +52,7 @@ namespace dxe {
 		void loadMaterial(const std::string& file_path);
 		void saveMaterial(const std::string& file_path);
 
-	protected :
+	protected:
 		float						alpha_ = 1.0f;
 		RenderParam					render_param_;
 		std::shared_ptr<MeshMtrlGuiController> mtrl_gui_ctrler_ = nullptr;

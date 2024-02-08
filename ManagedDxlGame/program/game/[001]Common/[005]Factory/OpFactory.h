@@ -1,9 +1,23 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
-#include "../[000]Object/[002]Gimmick/Gimmick.h"
 #include "../[000]Object/Object.h"
 
-class GameCamera;
+
+class Object;
+
+class SkyBox;
+
+class Butterfly;
+class ButterflyLoad;
+
+class Title;
+
+class Gate;
+class GateLoad;
+
+class Mediator;
+
+class OpCamera;
 
 
 class OpFactory 
@@ -11,25 +25,34 @@ class OpFactory
 
 public:
 
-	OpFactory() {}
+	OpFactory();
 
-	~OpFactory() {}
+	~OpFactory();
 
 private:
 
 	std::list<std::shared_ptr<Object>> m_objects;
 
-	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
+	std::shared_ptr<Object> m_object = nullptr;
+
+	std::shared_ptr<SkyBox> m_skyBox = nullptr;
+
+	std::shared_ptr<Butterfly> m_butterfly = nullptr;
+	std::shared_ptr<ButterflyLoad> m_butterflyLoad = nullptr;
+
+	std::shared_ptr<Title> m_title = nullptr;
+
+	std::shared_ptr<Gate> m_gate = nullptr;
+	std::shared_ptr<GateLoad> m_gateLoad = nullptr;
+
+	std::shared_ptr<Mediator> m_mediator = nullptr;
+	std::shared_ptr<OpCamera> m_opCamera = nullptr;
 
 	// 各オブジェクトの生成と初期化
 	void CreateObject();
 	// 各オブジェクト同士の参照を設定
 	// 生成の順番を考慮せず、後付けで参照できるように
 	void SetObjectReference();
-	// モデルオブジェクトのプール
-	//void PoolModelObject();
-	// アイテムオブジェクトのプール
-	void PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types);
 	// 生成したオブジェクトをlistに格納
 	void StorageObject();
 
@@ -43,8 +66,8 @@ public:
 	}
 
 	// カメラの取得
-	const std::shared_ptr<GameCamera>& GetGameCamera() const
+	const std::shared_ptr<OpCamera>& GetOpCamera() const
 	{
-		return m_gameCamera;
+		return m_opCamera;
 	}
 };

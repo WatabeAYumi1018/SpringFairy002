@@ -60,45 +60,15 @@ private:
 	// 衝突フラグ
 	bool m_is_pushed = false;
 
-	//// 上下左右の方向
-	//eDirection direction = eDirection::none;
-
-	//// コルーチンシーケンス
-	//TNL_CO_SEQUENCE(PartnerMove, &PartnerMove::SeqNormal);
 
 	// プレイヤーメディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
-
-	//// コルーチンシーケンス
-	//TNL_CO_SEQUENCE(PartnerMove, &PartnerMove::SeqPartnerIn);
-
-
-	//// ランダムな行先計算処理
-	//void CalcRandomPos(const tnl::Vector3& player_pos);
 
 	void UpdatePos(const float delta_time);
 
 	void UpdateRot(const float delta_time);
 
 	void CorrectPos(const float delta_time);
-	//void ApplyForce();
-	//// パートナーが若干のめり込み処理
-	//bool SeqPartnerIn(const float delta_time);
-	////// めり込み中の処理
-	////bool SeqPartnerStay(const float delta_time);
-	//// 離れる処理
-	//bool SeqPartnerOut(const float delta_time);
-
-	//// 基盤の移動処理
-	//bool SeqNormal(const float delta_time);
-	//// ターゲット座標計算処理
-	//bool SeqTargetCalc(const float delta_time);
-	//// 形式的な移動処理
-	//bool SeqMove(const float delta_time);
-	//// 不規則な落下処理
-	//bool SeqFall(const float delta_time);
-	//// 不規則な逆移動処理
-	//bool SeqInverse(const float delta_time);
 
 public:
 

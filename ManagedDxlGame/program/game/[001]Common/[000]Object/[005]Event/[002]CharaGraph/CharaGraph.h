@@ -56,7 +56,7 @@ private:
 	// スライドイン
 	bool SeqSlideIn(const float delta_time);
 	// 描画中
-	bool SeqDraw(const float delta_time);
+	bool SeqDrawChange(const float delta_time);
 	// スライドアウト
 	bool SeqSlideOut(const float delta_time);
 

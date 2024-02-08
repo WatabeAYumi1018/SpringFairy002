@@ -158,6 +158,7 @@ namespace tnl {
         // 生成した乱数を返す
         return static_cast<float>(param(g_mersenne));
     }
+
     // メルセンヌツイスターを使用した乱数生成(int)
     int GetRandomDistributionInt(int min, int max) 
 	{

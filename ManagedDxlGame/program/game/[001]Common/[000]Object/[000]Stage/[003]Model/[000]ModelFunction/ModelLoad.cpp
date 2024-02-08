@@ -10,124 +10,108 @@ ModelLoad::ModelLoad()
 
 ModelLoad::~ModelLoad()
 {
-	m_model_type.clear();
+	m_csv_model_info.clear();
+
+	for (Model::sModelInfo model_info : m_model_info)
+	{
+		MV1DeleteModel(model_info.s_model_hdl);
+		DeleteGraph(model_info.s_texture_a_hdl);
+		DeleteGraph(model_info.s_texture_b_hdl);
+		DeleteGraph(model_info.s_texture_c_hdl);
+	}
+
+	m_model_info.clear();
 }
 
 void ModelLoad::LoadModelTypeInfo()
 {
 	// csvファイルの読み込み
-	m_csv_model_type_info
+	m_csv_model_info
 		= tnl::LoadCsv<tnl::CsvCell>("csv/stage/model/stage_group_model_info.csv");
 
 	// マップタイルの総数を取得
-	int max_num = m_csv_model_type_info.size();
+	int max_num = m_csv_model_info.size();
 
 	// 0行目は説明文なので読み飛ばす
 	for (int y = 1; y < max_num; ++y)
 	{
 		Model::sModelInfo model_info;
 
-		model_info.s_id = m_csv_model_type_info[y][0].getInt();
+		model_info.s_id = m_csv_model_info[y][0].getInt();
 
-		model_info.s_model_path = m_csv_model_type_info[y][1].getString();
+		model_info.s_model_hdl
+			= MV1LoadModel(m_csv_model_info[y][1].getString().c_str());
 
-		model_info.s_texture_a_path = m_csv_model_type_info[y][2].getString();
+		model_info.s_texture_a_hdl
+			= LoadGraph(m_csv_model_info[y][2].getString().c_str());
 
-		model_info.s_texture_b_path = m_csv_model_type_info[y][3].getString();
+		model_info.s_texture_b_hdl
+			= LoadGraph(m_csv_model_info[y][3].getString().c_str());
 
-		model_info.s_texture_c_path = m_csv_model_type_info[y][4].getString();
+		model_info.s_texture_c_hdl
+			= LoadGraph(m_csv_model_info[y][4].getString().c_str());
 
-		model_info.s_texture_d_path = m_csv_model_type_info[y][5].getString();
+		model_info.s_material_count 
+				= MV1GetMaterialNum(model_info.s_model_hdl);
 
-		m_model_type.emplace_back(model_info);
+		// ステージ毎のテクスチャ設定
+		if (model_info.s_id == 0)
+		{
+			SetTextureIndex(model_info, 43, 73, 102);
+		}
+		else if (model_info.s_id == 1)
+		{
+			SetTextureIndex(model_info, 15, 33, 37);
+		}
+		else
+		{
+			SetTextureIndex(model_info, 43, 73, 102);
+		}
+
+		m_model_info.emplace_back(model_info);
 	}
 }
 
-//if (!m_csv_model_type_info[y][3].getString().empty())
-//{
-//	model_info.s_texture_b_path = m_csv_model_type_info[y][3].getString();
-//}
+void ModelLoad::SetTextureIndex(Model::sModelInfo model_info, int a, int b, int c)
+{
+	for (int i = 0; i < model_info.s_material_count; ++i)
+	{
+		if (i < a)
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+				, model_info.s_texture_a_hdl, FALSE);
+		}
+		else if (i >= a && i < b)
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+				, model_info.s_texture_b_hdl, FALSE);
+		}
+		else if (i >= b && i < c)
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+				, model_info.s_texture_c_hdl, FALSE);
+		}
+		else
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+				, model_info.s_texture_d_hdl, FALSE);
+		}
 
-//if (!m_csv_model_type_info[y][4].getString().empty())
-//{
-//	model_info.s_texture_c_path = m_csv_model_type_info[y][4].getString();
-//}
+		SetLight(model_info, i);
+	}
+}
 
-//model_info.s_material_a_name = m_csv_model_type_info[y][5].getString();
+void ModelLoad::SetLight(Model::sModelInfo model_info, int i)
+{
+	DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
+	DxLib::COLOR_F ambient = { 1,1,1,1 };
+	DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
+	DxLib::COLOR_F specular = { 0,0,0,1 };
 
-//if (!m_csv_model_type_info[y][6].getString().empty())
-//{
-//	model_info.s_material_b_name = m_csv_model_type_info[y][6].getString();
-//}
-
-//if (!m_csv_model_type_info[y][7].getString().empty())
-//{
-//	model_info.s_material_c_name = m_csv_model_type_info[y][7].getString();
-//}
-
-//Model::sStageModelType ModelLoad::GetModelInfoById(int id)
-//{
-//	for (const Model::sStageModelType& model : m_model_type)
-//	{
-//		if (model.s_id == id)
-//		{
-//			return model;
-//		}
-//	}
-//	// IDが見つからなかった場合のデフォルト値
-//	return Model::sStageModelType();
-//}
-//
-//void ModelLoad::LoadTreeVector()
-//{
-//	// csvファイルの読み込み
-//	m_csv_stage_tree = tnl::LoadCsv<int>("csv/stage/model/stage_tree.csv");
-//
-//	// レーン配列の高さ
-//	m_model_vec_height = m_csv_stage_tree.size();
-//	// レーン配列の幅
-//	m_model_vec_width = m_csv_stage_tree[0].size();
-//
-//	Model::sStageModel model;
-//
-//	int size = Lane::LANE_SIZE;
-//	float distance = static_cast<float> (Floor::DRAW_DISTANCE);
-//
-//	// レーン配列の情報取得と格納
-//	for (int y = 0; y < m_model_vec_height; y++)
-//	{
-//		for (int x = 0; x < m_model_vec_width; x++)
-//		{
-//			model.s_id = m_csv_stage_tree[y][x];
-//			// ワールド座標に変換(配列数削減のため１マスを大きめに設定)
-//			model.s_pos	
-//				= tnl::Vector3(x * size, distance, y * size);
-//
-//			m_stage_tree.emplace_back(model);
-//		}
-//	}
-//}
-//
-//void ModelLoad::LoadGrassVector()
-//{
-//	// csvファイルの読み込み
-//	m_csv_stage_grass = tnl::LoadCsv<int>("csv/stage/model/stage_grass.csv");
-//
-//	Model::sStageModel model;
-//
-//	float distance = static_cast<float> (Floor::DRAW_DISTANCE);
-//
-//	// レーン配列の情報取得と格納
-//	for (int y = 0; y < m_model_vec_height; y++)
-//	{
-//		for (int x = 0; x < m_model_vec_width; x++)
-//		{
-//			model.s_id = m_csv_stage_grass[y][x];
-//			// ワールド座標に変換(配列数削減のため１マスを大きめに設定)
-//			model.s_pos = tnl::Vector3(x * 200, distance, y * 200);
-//
-//			m_stage_grass.emplace_back(model);
-//		}
-//	}
-//}
+	MV1SetMaterialEmiColor(model_info.s_model_hdl, i, emissive);
+	MV1SetMaterialAmbColor(model_info.s_model_hdl, i, ambient);
+	MV1SetMaterialDifColor(model_info.s_model_hdl, i, diffuse);
+	MV1SetMaterialSpcColor(model_info.s_model_hdl, i, specular);
+	MV1SetMaterialSpcPower(model_info.s_model_hdl, i, 0.5f);
+}
 

@@ -165,8 +165,17 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer">
       <UniqueIdentifier>{5cc6594b-443f-418a-9dd8-64fc2a3d6a4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[001]Camera\[001]CinemaCamera">
-      <UniqueIdentifier>{d567810f-7f27-4b56-819c-cade3dfc2abe}</UniqueIdentifier>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction">
+      <UniqueIdentifier>{faf8dd25-e158-4e04-af47-a93bcbe96d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[007]Gate">
+      <UniqueIdentifier>{be16eb9e-68ac-4be4-a0b7-0a94c1bee20c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[007]Gate\[000]GateFunction">
+      <UniqueIdentifier>{4cd2e9f8-409b-4982-b7fe-6ae6eb3ceda4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[004]SceneED">
+      <UniqueIdentifier>{209bb2fd-cce4-4ed5-9855-f4f107b61dc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -398,9 +407,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[004]Score\Score.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[004]Score</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[002]SceneOP\SceneOp.cpp">
-      <Filter>program\[003] game\[002]SceneOp</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[003]ScenePlay\ScenePlay.cpp">
       <Filter>program\[003] game\[003]ScenePlay</Filter>
     </ClCompile>
@@ -415,9 +421,6 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.cpp">
       <Filter>program\[003] game\[001]Common\[004]ScreenShot</Filter>
@@ -464,7 +467,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\Butterfly.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[006]Title\Tile.cpp">
+    <ClCompile Include="program\game\[001]Common\[000]Object\[006]Title\Title.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[006]Title</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\Object.cpp">
@@ -473,11 +476,41 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[001]Camera\CinemaCamera.cpp">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[001]Camera\OpCamera.cpp">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction\ButterflyLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[007]Gate\Gate.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[007]Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[007]Gate\[000]GateFunction\GateLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[007]Gate\[000]GateFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[004]SceneED\SceneED.cpp">
+      <Filter>program\[003] game\[004]SceneED</Filter>
+    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[001]Camera\[001]CinemaCamera\CinemaCamera.cpp">
-      <Filter>program\[003] game\[001]Common\[001]Camera\[001]CinemaCamera</Filter>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTarget.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[002]SceneOP\SceneOp.cpp">
+      <Filter>program\[003] game\[002]SceneOp</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -695,9 +728,6 @@
     <ClInclude Include="program\game\[001]Common\[003]Phase\StagePhase.h">
       <Filter>program\[003] game\[001]Common\[003]Phase</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h">
-      <Filter>program\[003] game\[001]Common\[002]Mediator</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[001]Camera\GameCamera.h">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClInclude>
@@ -794,9 +824,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.h">
       <Filter>program\[003] game\[001]Common\[004]ScreenShot</Filter>
     </ClInclude>
@@ -845,17 +872,47 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\Butterfly.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[006]Title\Tile.h">
+    <ClInclude Include="program\game\[001]Common\[000]Object\[006]Title\Title.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[006]Title</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickGenerator.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[001]Camera\CinemaCamera.h">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[001]Camera\OpCamera.h">
+      <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction\ButterflyLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[007]Gate\Gate.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[007]Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[007]Gate\[000]GateFunction\GateLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[007]Gate\[000]GateFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[004]SceneED\SceneED.h">
+      <Filter>program\[003] game\[004]SceneED</Filter>
+    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[001]Camera\[001]CinemaCamera\CinemaCamera.h">
-      <Filter>program\[003] game\[001]Common\[001]Camera\[001]CinemaCamera</Filter>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTarget.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h">
+      <Filter>program\[003] game\[001]Common\[002]Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

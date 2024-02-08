@@ -25,6 +25,9 @@ GimmickLoad::GimmickLoad()
 
 GimmickLoad::~GimmickLoad()
 {
+	m_csv_plants.clear();
+	m_csv_trees.clear();
+	m_csv_sky_flowers.clear();
 	m_plants.clear();
 	m_trees.clear();
 	m_sky_flowers.clear();
@@ -45,9 +48,11 @@ void GimmickLoad::LoadGimmickTypeInfo(std::vector<std::vector<tnl::CsvCell>>& cs
 
 		gimmick_info.s_model_path = csv_gimmick[y][1].getString();
 
-		gimmick_info.s_texture_path = csv_gimmick[y][2].getString();
+		gimmick_info.s_texture_a_path = csv_gimmick[y][2].getString();
 
-		gimmick_info.s_type = static_cast<Gimmick::eGimmickType>(csv_gimmick[y][3].getInt());
+		gimmick_info.s_texture_b_path = csv_gimmick[y][3].getString();
+
+		gimmick_info.s_type = static_cast<Gimmick::eGimmickType>(csv_gimmick[y][4].getInt());
 
 		gimmicks.emplace_back(gimmick_info);
 	}
@@ -101,8 +106,6 @@ const std::vector<Gimmick::sGimmickTypeInfo>& GimmickLoad::GetGimmicksType(Gimmi
 //	// IDが見つからなかった場合のデフォルト値
 //	return Gimmick::sGimmickTypeInfo();
 //}
-
-
 
 //void GimmickLoad::LoadGimmickVector()
 //{

@@ -14,9 +14,9 @@ template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 namespace dxe {
 
-	class Camera ;
+	class Camera;
 	class Particle {
-	public :
+	public:
 
 		// 再生モード
 		enum class ePlayType { LOOP, ONCE, REPLAY };
@@ -35,7 +35,7 @@ namespace dxe {
 		enum class ePostureType { BXYZ, BY, OBY, UpYD, X, Y, Z };
 
 		// サイズ変位モード
-		enum class eDispSizeMode{ NONE, EXIST, BIGGER, SMALLER };
+		enum class eDispSizeMode { NONE, EXIST, BIGGER, SMALLER };
 
 		// 透明度変位モード
 		enum class eDispAlphaMode { NONE, EXIST, INC, DEC };
@@ -58,7 +58,7 @@ namespace dxe {
 		//---------------------------------------------------------------------------------------
 		// 生成コンストラクタ
 		Particle
-			( const Shared<dxe::Texture>& texture
+		(const Shared<dxe::Texture>& texture
 			, ePlayType play_mode = ePlayType::LOOP
 			, int particle_num = 100
 			, float time_limit = 10.0f);
@@ -69,12 +69,12 @@ namespace dxe {
 
 		//---------------------------------------------------------------------------------------
 		// クローン作製
-		Shared<Particle> createClone() ;
+		Shared<Particle> createClone();
 
 
 		//---------------------------------------------------------------------------------------
 		// 生成開始
-		inline void start(){
+		inline void start() {
 			on_emitte_size_ = 1.0f;
 			if (ePlayType::LOOP == play_type_) return;
 			play_type_ = ePlayType::REPLAY;
@@ -86,7 +86,7 @@ namespace dxe {
 
 		//---------------------------------------------------------------------------------------
 		// 描画
-		void render( Shared<Camera> camera );
+		void render(Shared<Camera> camera);
 
 		//---------------------------------------------------------------------------------------
 		// GUI コントローラ
@@ -120,7 +120,7 @@ namespace dxe {
 		float getTimeLimit() { return time_limit_; }
 		int getParticleNum() { return particle_num_; }
 
-	private :
+	private:
 
 		// 頂点定義
 		typedef struct _VERTEX
@@ -149,9 +149,9 @@ namespace dxe {
 		void reloadTexture();
 		void createTargetIOBuffer();
 
-		void setTimeLimit(float time_limit) { 
-			if (fabs( time_limit_ - time_limit) <= FLT_EPSILON ) return;
-			time_limit_ = time_limit; 
+		void setTimeLimit(float time_limit) {
+			if (fabs(time_limit_ - time_limit) <= FLT_EPSILON) return;
+			time_limit_ = time_limit;
 			refreshProcess();
 		}
 		void setParticleNum(int particle_num) {
@@ -220,7 +220,7 @@ namespace dxe {
 		float waver_factor_ = 45.0f;
 
 		// 輝度の揺らぎの係数
-		float lumi_wave_factor_ = 10.0f ;
+		float lumi_wave_factor_ = 10.0f;
 
 		// 回転係数
 		float rotate_factor_ = 0.0f;
@@ -251,9 +251,9 @@ namespace dxe {
 
 
 		// 再生タイプ
-		ePlayType play_type_ = ePlayType::LOOP ;
+		ePlayType play_type_ = ePlayType::LOOP;
 		// ブレンドモード
-		eBlendState blend_mode_ = eBlendState::ADD ;
+		eBlendState blend_mode_ = eBlendState::ADD;
 		// サンプラステート
 		eSamplerState sampler_state_ = eSamplerState::ANISOTROPIC;
 		// ラスタライザステート
@@ -354,11 +354,11 @@ namespace dxe {
 		static ID3D11HullShader* default_hs;
 		static ID3D11GeometryShader* default_gs;
 		static ID3D11DomainShader* default_ds;
-		static UINT32 default_sample_mask ;
-		static ID3D11BlendState* default_blend_state ;
-		static ID3D11RasterizerState* default_rasterize_state ;
-		static ID3D11SamplerState* default_sampler_state ;
-		static ID3D11ShaderResourceView* default_pixel_shader_resouce_view ;
+		static UINT32 default_sample_mask;
+		static ID3D11BlendState* default_blend_state;
+		static ID3D11RasterizerState* default_rasterize_state;
+		static ID3D11SamplerState* default_sampler_state;
+		static ID3D11ShaderResourceView* default_pixel_shader_resouce_view;
 	};
 
 }

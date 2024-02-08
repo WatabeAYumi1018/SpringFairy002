@@ -1,7 +1,0 @@
-パラメーター名,ファイルパス
-model,model/fairy/fairy.mv1
-texture,model/fairy/fairy.png
-anim_bone_idle,model/fairy/idle.mv1
-anim_bone_move,model/fairy/move.mv1
-anim_bone_bloom,model/fairy/bloom.mv1
-anim_bone_dance,model/fairy/dance.mv1

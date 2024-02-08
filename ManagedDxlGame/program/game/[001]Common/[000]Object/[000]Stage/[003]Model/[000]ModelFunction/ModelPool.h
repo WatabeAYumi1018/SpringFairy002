@@ -19,8 +19,7 @@ private:
 
 	// モデルのベクター
 	std::vector<std::shared_ptr<Model>> m_models;
-	//// 世界ごとにフィルターされたモデルのベクター
-	//std::vector<std::shared_ptr<Model>> m_filtered_models;
+
 
 public:
 
@@ -28,8 +27,6 @@ public:
 
 	// モデルの格納
 	void AddModel(std::shared_ptr<Model>& model);
-	//// 世界遷移時、その世界タイプのモデルを全てアクティブにする
-	//void IsActivateAllModels(Model::eWorldType world_type);
 
 	int GetModelCreateNum()
 	{

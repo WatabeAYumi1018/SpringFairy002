@@ -1,3 +1,4 @@
+#include "../../../[002]Mediator/Mediator.h"
 #include "../../../[001]Camera/GameCamera.h"
 #include "../[001]Lane/Lane.h"
 #include "Floor.h"
@@ -14,7 +15,7 @@ Floor::Floor()
 
 	m_floor = dxe::Mesh::CreatePlaneMV(mesh_size);
 
-	m_floor->setTexture(dxe::Texture::CreateFromFile("graphics/floor/lawn.png"));
+	m_floor->setTexture(dxe::Texture::CreateFromFile("graphics/floor/floor.png"));
 	// プレーンを床とするため回転
 	m_floor->rot_
 		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90.0f));
@@ -27,13 +28,19 @@ Floor::Floor()
 void Floor::Draw(std::shared_ptr<dxe::Camera> camera)
 {
     // グリッドのサイズ
-    int grid_size = 20; 
+    int grid_size = 60; 
     // グリッドの半分のサイズ
     int half_grid_size = grid_size / 2; 
     // フロア間のスペース
     int spacing = Lane::LANE_SIZE;
 
     float distance = static_cast<float> (Floor::DRAW_DISTANCE);
+
+    if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
+    {
+        // 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
+        distance *= 2 ;
+    }
 
     for (int i = -half_grid_size; i < half_grid_size; i++)
     {
