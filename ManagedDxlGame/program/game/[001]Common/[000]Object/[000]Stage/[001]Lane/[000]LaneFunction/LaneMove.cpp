@@ -36,9 +36,10 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 		return; // 処理を終了
 	}
 	
-	// ゴールまでの経路を取得
+	// 現在のグリッドを設定
 	m_current_grid = m_goal_process[m_now_step];
-	m_next_grid = m_goal_process[m_now_step + 1];
+	// 次のグリッドを設定
+	UpdateGrids();
 
 	// 次のグリッドの中心座標を取得
 	tnl::Vector3 next_center_pos
@@ -70,22 +71,13 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 	if (m_current_grid.first != m_next_grid.first
 		&& m_current_grid.second != m_next_grid.second)
 	{
-		// ターゲットが次のグリッドの中心に近づくまで直進
 		// 中心座標までの距離を計算
 		float distance_to_center = abs(m_target_direction.length());
 		
-		// ターゲットが中心に近づくまで直進
+		// ターゲットと同じ方向に向かって移動
 		if (distance_to_center <= Lane::LANE_SIZE / 100)
 		{
 			m_chara_direction = m_target_direction;
-
-			m_chara_direction.normalize();
-		}
-		// 次のグリッドの中心へ向かって直進
-		else
-		{
-			m_chara_direction= m_target_direction;
-			
 			m_chara_direction.normalize();
 		}
 	}
@@ -108,16 +100,8 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 	// 方向ベクトルが存在する場合
 	if (m_chara_direction.length() > 0)
 	{
-		if (m_mediator->GetIsTargetSpeedUp())
-		{
-			// 移動速度を上げる
-			pos += m_chara_direction * m_move_speed * delta_time * 5;
-		}
-		else
-		{
-			// プレイヤーの移動
-			pos += m_chara_direction * m_move_speed * delta_time * 2;
-		}
+		// 移動速度を更新
+		MoveSpeed(delta_time, pos);
 	}
 	else
 	{
@@ -161,23 +145,29 @@ void LaneMove::StepUpdate(const float delta_time, float distance, tnl::Vector3& 
 		// 単位ベクトルに変換
 		m_target_direction.normalize();
 
-		if (m_mediator->GetIsTargetSpeedUp())
-		{
-			// 移動速度を上げる
-			pos += m_target_direction * m_move_speed * delta_time * 5;
-		}
-		else
-		{
-			// 現在のグリッドの中心へ向かって移動
-			pos += m_target_direction * m_move_speed * delta_time * 2;
-		}
+		// 移動速度を更新
+		MoveSpeed(delta_time, pos);
+	}
+}
+
+void LaneMove::MoveSpeed(const float delta_time, tnl::Vector3& pos)
+{
+	if (m_mediator->GetIsTargetSpeedUp())
+	{
+		// 移動速度を上げる
+		pos += m_target_direction * m_move_speed * delta_time * 5;
+	}
+	else
+	{
+		// 現在のグリッドの中心へ向かって移動
+		pos += m_target_direction * m_move_speed * delta_time * 2;
 	}
 }
 
 void LaneMove::UpdateGrids()
 {
 	// 次のグリッド位置を更新
-	if (m_now_step < m_goal_process.size())
+	if (m_now_step + 1 < m_goal_process.size())
 	{
 		m_next_grid = m_goal_process[m_now_step + 1];
 	}
@@ -188,7 +178,6 @@ void LaneMove::UpdateGrids()
 		m_next_grid = m_current_grid;
 	}
 }
-
 
 Lane::sLane LaneMove::GoalTile()
 {
