@@ -35,38 +35,24 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 	
 		return; // 処理を終了
 	}
+	
 	// ゴールまでの経路を取得
-	std::pair<int, int> current_grid = m_goal_process[m_now_step];
-	// 現在のグリッドの中心座標を取得
-	tnl::Vector3 current_center_pos
-		= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE)
+	m_current_grid = m_goal_process[m_now_step];
+	m_next_grid = m_goal_process[m_now_step + 1];
+
+	// 次のグリッドの中心座標を取得
+	tnl::Vector3 next_center_pos
+		= wta::ConvertGridIntToFloat(m_next_grid, Lane::LANE_SIZE)
 		+ tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
+
 	// 現在の位置から中心座標への方向ベクトルを計算
-	m_target_direction = current_center_pos - pos;
+	m_target_direction = next_center_pos - pos;
+
 	// 中心座標までの距離を計算
 	float distance_to_center = abs(m_target_direction.length());
-	// 中心座標までの距離が一定以下になったら
-	if (distance_to_center <= Lane::LANE_SIZE / 100)
-	{
-		// 次のグリッドに進む
-		m_now_step++;
-	}
-	else 
-	{
-		// 単位ベクトルに変換
-		m_target_direction.normalize();
-
-		if (m_mediator->GetIsTargetSpeedUp())
-		{
-			// 移動速度を上げる
-			pos += m_target_direction * m_move_speed * delta_time * 5;
-		}
-		else
-		{
-			// 現在のグリッドの中心へ向かって移動
-			pos += m_target_direction * m_move_speed * delta_time * 2;
-		}
-	}
+	
+	// 中心付近に到達したらステップ更新
+	StepUpdate(delta_time, distance_to_center, pos);
 }
 
 void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
@@ -78,31 +64,46 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 	}
 
 	// 現在のグリッド位置
-	std::pair<int, int> current_grid = m_goal_process[m_now_step];
-	// 次のグリッド位置
-	std::pair<int, int> next_grid;
+	UpdateGrids();
 
-	if (m_now_step + 1 < m_goal_process.size())
+	// 斜め移動の場合
+	if (m_current_grid.first != m_next_grid.first
+		&& m_current_grid.second != m_next_grid.second)
 	{
-		// 次のグリッドが存在する場合は、それを取得
-		next_grid = m_goal_process[m_now_step + 1];
+		// ターゲットが次のグリッドの中心に近づくまで直進
+		// 中心座標までの距離を計算
+		float distance_to_center = abs(m_target_direction.length());
+		
+		// ターゲットが中心に近づくまで直進
+		if (distance_to_center <= Lane::LANE_SIZE / 100)
+		{
+			m_chara_direction = m_target_direction;
+
+			m_chara_direction.normalize();
+		}
+		// 次のグリッドの中心へ向かって直進
+		else
+		{
+			m_chara_direction= m_target_direction;
+			
+			m_chara_direction.normalize();
+		}
 	}
+
+	// 直線の場合
 	else
 	{
-		// 最後のグリッドにいる場合は、現在のグリッドを次のグリッドとして扱う
-		// 現在の方向を維持
-		next_grid = current_grid;
+		// 両グリッドの中心座標を計算
+		tnl::Vector3 current_grid_pos
+			= wta::ConvertGridIntToFloat(m_current_grid, Lane::LANE_SIZE);
+
+		tnl::Vector3 next_grid_pos
+			= wta::ConvertGridIntToFloat(m_next_grid, Lane::LANE_SIZE);
+
+		// 次のグリッドへの方向ベクトルを計算
+		m_chara_direction = (next_grid_pos - current_grid_pos);
+		m_chara_direction.normalize();
 	}
-	// 両グリッドの中心座標を計算
-	tnl::Vector3 current_grid_pos
-		= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE);
-
-	tnl::Vector3 next_grid_pos
-		= wta::ConvertGridIntToFloat(next_grid, Lane::LANE_SIZE);
-
-	// 次のグリッドへの方向ベクトルを計算
-	m_chara_direction = (next_grid_pos - current_grid_pos);
-	m_chara_direction.normalize();
 
 	// 方向ベクトルが存在する場合
 	if (m_chara_direction.length() > 0)
@@ -121,26 +122,7 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 	else
 	{
 		// ここでゲーム終了処理
-
-	}
-
-	// 斜め移動の判定
-	if (current_grid.first != next_grid.first
-		&& current_grid.second != next_grid.second)
-	{
-		// current_timeを更新
-		m_current_time += delta_time;
-		// current_timeがblend_timeを超えないように制限
-		if (m_current_time > m_blend_time) m_current_time = m_blend_time;
-
-		// UniformLerpを使用して現在の方向と目標の方向を補間
-		m_chara_direction
-			= tnl::Vector3::UniformLerp(m_chara_direction, m_target_direction, m_blend_time, m_current_time);
-	}
-	else
-	{
-		// 斜め移動でない場合はcurrent_timeをリセット
-		m_current_time = 0.0f;
+		pos.z += m_move_speed * delta_time;
 	}
 }
 
@@ -163,6 +145,51 @@ void LaneMove::MoveAstarCharaRot(const float delta_time, tnl::Vector3& pos, tnl:
 	rot.slerp(new_rot, rot_speed);
 }
 
+void LaneMove::StepUpdate(const float delta_time, float distance, tnl::Vector3& pos)
+{
+	// 中心座標までの距離が一定以下になったら
+	if (distance <= Lane::LANE_SIZE / 100)
+	{
+		// 次のグリッドに進む
+		m_now_step++;
+
+		// ステップ更新後のグリッドを設定
+		UpdateGrids();
+	}
+	else
+	{
+		// 単位ベクトルに変換
+		m_target_direction.normalize();
+
+		if (m_mediator->GetIsTargetSpeedUp())
+		{
+			// 移動速度を上げる
+			pos += m_target_direction * m_move_speed * delta_time * 5;
+		}
+		else
+		{
+			// 現在のグリッドの中心へ向かって移動
+			pos += m_target_direction * m_move_speed * delta_time * 2;
+		}
+	}
+}
+
+void LaneMove::UpdateGrids()
+{
+	// 次のグリッド位置を更新
+	if (m_now_step < m_goal_process.size())
+	{
+		m_next_grid = m_goal_process[m_now_step + 1];
+	}
+	else
+	{
+		// 最後のグリッドにいる場合は、現在のグリッドを次のグリッドとして扱う
+		// 現在の方向を維持
+		m_next_grid = m_current_grid;
+	}
+}
+
+
 Lane::sLane LaneMove::GoalTile()
 {
 	std::vector<Lane::sLane> goal_process
@@ -178,6 +205,53 @@ Lane::sLane LaneMove::GoalTile()
 }
 
 
+
+//void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
+//{
+//	// ゴールまでの経路を取得し、最後のグリッドかどうかを確認
+//	if (m_now_step >= m_goal_process.size())
+//	{
+//		m_goal_process.clear();
+//
+//		return; // 処理を終了
+//	}
+//	// ゴールまでの経路を取得
+//	std::pair<int, int> current_grid = m_goal_process[m_now_step];
+//	// 現在のグリッドの中心座標を取得
+//	tnl::Vector3 current_center_pos
+//		= wta::ConvertGridIntToFloat(current_grid, Lane::LANE_SIZE)
+//		+ tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
+//
+//	// 現在の位置から中心座標への方向ベクトルを計算
+//	m_target_direction = current_center_pos - pos;
+//
+//	// 中心座標までの距離を計算
+//	float distance_to_center = abs(m_target_direction.length());
+//
+//	// 中心座標までの距離が一定以下になったら
+//	if (distance_to_center <= Lane::LANE_SIZE / 100)
+//	{
+//		// 次のグリッドに進む
+//		m_now_step++;
+//	}
+//	else
+//	{
+//		// 単位ベクトルに変換
+//		m_target_direction.normalize();
+//
+//		if (m_mediator->GetIsTargetSpeedUp())
+//		{
+//			// 移動速度を上げる
+//			pos += m_target_direction * m_move_speed * delta_time * 5;
+//		}
+//		else
+//		{
+//			// 現在のグリッドの中心へ向かって移動
+//			pos += m_target_direction * m_move_speed * delta_time * 2;
+//		}
+//	}
+//}
+//
 //void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 //{
 //	if (m_now_step >= m_goal_process.size())
@@ -230,7 +304,7 @@ Lane::sLane LaneMove::GoalTile()
 //	else
 //	{
 //		// ここでゲーム終了処理
-//
+//		pos.z += m_move_speed * delta_time;
 //	}
 //
 //	// 斜め移動の判定
@@ -239,6 +313,7 @@ Lane::sLane LaneMove::GoalTile()
 //	{
 //		// current_timeを更新
 //		m_current_time += delta_time;
+//
 //		// current_timeがblend_timeを超えないように制限
 //		if (m_current_time > m_blend_time) m_current_time = m_blend_time;
 //

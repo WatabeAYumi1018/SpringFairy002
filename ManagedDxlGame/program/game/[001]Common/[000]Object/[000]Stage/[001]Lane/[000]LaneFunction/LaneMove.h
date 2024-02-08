@@ -19,9 +19,6 @@ private:
 
 	// 現在のステップインデックス
 	int m_now_step = 0;
-	int m_old_step = 0;
-
-	int m_size_to_center = 0;
 
 	// 移動速度
 	float m_move_speed = 200;
@@ -33,24 +30,35 @@ private:
 	// 現在の補間時間
 	float m_current_time = 0.0f;
 
+	// 斜め移動開始のフラグ
+	bool m_is_diagonal = false;
 	// 右からのサイド視点(視線先は左)
 	bool m_look_side_right = false;
 	// 左からのサイド視点(視線先は右)
 	bool m_look_side_left = false;
 
-	tnl::Vector3 m_new_pos;
-
 	tnl::Vector3 m_target_direction;
 	tnl::Vector3 m_chara_direction;
+	// 現在のグリッドの中心点
+	tnl::Vector3 m_current_center_pos;
+
+	// 現在のグリッド位置
+	std::pair<int, int> m_current_grid;
+	// 次のグリッド位置
+	std::pair<int, int> m_next_grid;
 
 
 	// A*からの経路
 	std::vector<std::pair<int, int>> m_goal_process;
 
-
 	std::shared_ptr<wta::Astar<Lane::sLane>> m_astar = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
+
+	// ターゲットが中心に到達したか判定
+	void StepUpdate(const float delta_time,float distance, tnl::Vector3& pos);
+	// グリッドの更新処理
+	void UpdateGrids();
 
 	// ゴールのレーンIDを取得
 	Lane::sLane GoalTile();
@@ -68,6 +76,8 @@ public:
 	// ターゲットの座標とレーン更新
 	void MoveAstarTarget(const float delta_time, tnl::Vector3& pos);
 
+
+
 	void SetLookSideRight(bool look_side_right) { m_look_side_right = look_side_right; }
 
 	bool GetLookSideRight() const { return m_look_side_right; }
@@ -76,20 +86,10 @@ public:
 
 	bool GetLookSideLeft() const { return m_look_side_left; }
 
-	//const tnl::Vector3& GetTargetDirection() const 
-	//{
-	//	return m_target_direction; 
-	//}
-
 	const tnl::Vector3& GetCharaDirection() const
 	{
 		return m_chara_direction;
 	}
-
-	//const std::vector<std::pair<int, int>>& GetGoalProcess() const
-	//{
-	//	return m_goal_process;
-	//}
 
 	void SetAstar(std::shared_ptr<wta::Astar<Lane::sLane>>& astar)
 	{
