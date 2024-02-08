@@ -13,7 +13,7 @@ public:
 	
 	LaneMove() {}
 
-	~LaneMove();
+	~LaneMove() {}
 
 private:
 
