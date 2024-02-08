@@ -101,7 +101,7 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 	if (m_chara_direction.length() > 0)
 	{
 		// 移動速度を更新
-		MoveSpeed(delta_time, pos);
+		MoveSpeed(delta_time, m_chara_direction, pos);
 	}
 	else
 	{
@@ -129,6 +129,20 @@ void LaneMove::MoveAstarCharaRot(const float delta_time, tnl::Vector3& pos, tnl:
 	rot.slerp(new_rot, rot_speed);
 }
 
+void LaneMove::MoveSpeed(const float delta_time, tnl::Vector3& direction,tnl::Vector3& pos)
+{
+	if (m_mediator->GetIsTargetSpeedUp())
+	{
+		// 移動速度を上げる
+		pos += direction * m_move_speed * delta_time * 5;
+	}
+	else
+	{
+		// 現在のグリッドの中心へ向かって移動
+		pos += direction * m_move_speed * delta_time * 2;
+	}
+}
+
 void LaneMove::StepUpdate(const float delta_time, float distance, tnl::Vector3& pos)
 {
 	// 中心座標までの距離が一定以下になったら
@@ -146,21 +160,7 @@ void LaneMove::StepUpdate(const float delta_time, float distance, tnl::Vector3& 
 		m_target_direction.normalize();
 
 		// 移動速度を更新
-		MoveSpeed(delta_time, pos);
-	}
-}
-
-void LaneMove::MoveSpeed(const float delta_time, tnl::Vector3& pos)
-{
-	if (m_mediator->GetIsTargetSpeedUp())
-	{
-		// 移動速度を上げる
-		pos += m_target_direction * m_move_speed * delta_time * 5;
-	}
-	else
-	{
-		// 現在のグリッドの中心へ向かって移動
-		pos += m_target_direction * m_move_speed * delta_time * 2;
+		MoveSpeed(delta_time, m_target_direction, pos);
 	}
 }
 

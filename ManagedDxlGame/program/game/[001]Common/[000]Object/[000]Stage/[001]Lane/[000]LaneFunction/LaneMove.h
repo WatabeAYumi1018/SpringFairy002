@@ -55,10 +55,10 @@ private:
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	// 座標更新の速度調整
+	void MoveSpeed(const float delta_time, tnl::Vector3& direction, tnl::Vector3& pos);
 	// ターゲットが中心に到達したか判定
 	void StepUpdate(const float delta_time,float distance, tnl::Vector3& pos);
-	// 座標更新の速度調整
-	void MoveSpeed(const float delta_time, tnl::Vector3& pos);
 	// グリッドの更新処理
 	void UpdateGrids();
 
