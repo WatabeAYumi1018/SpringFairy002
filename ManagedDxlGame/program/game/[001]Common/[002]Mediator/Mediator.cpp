@@ -33,9 +33,25 @@
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
 
 
+//--------CameraPhase--------//
+
+// CameraPhase
+
+void Mediator::SetNowCameraPhaseState(CameraPhase::eCameraPhase& camera_phase)
+{
+	m_cameraPhase->SetNowCameraPhase(camera_phase);
+}
+
+const CameraPhase::eCameraPhase& Mediator::GetNowCameraPhaseState() const
+{
+	return m_cameraPhase->GetNowCameraPhase();
+}
+
+//----------------------------//
+
 //---------StagePhase---------//
 
-StagePhase::eStagePhase Mediator::GetNowStagePhaseState() const
+const StagePhase::eStagePhase& Mediator::GetNowStagePhaseState() const
 {
 	return m_stagePhase->GetNowStagePhase();
 }
@@ -695,16 +711,6 @@ bool Mediator::IsCameraFixed() const
 	return m_gameCamera->IsFixed();
 }
 
-void Mediator::SetIsActiveGameCamera(bool is_active_game)
-{
-	m_gameCamera->SetIsActiveGame(is_active_game);
-}
-
-bool Mediator::GetIsActiveGameCamera() const
-{
-	return m_gameCamera->GetIsActiveGame();
-}
-
 // CameraLoad
 
 const std::vector<GameCamera::sCamera>& Mediator::GetCameraLaneVector() const
@@ -719,30 +725,6 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 
 // CinemaCamera
 
-//float Mediator::GetCinemaSplitWidthLeft() const
-//{
-//	return m_cinemaCamera_all->GetSplitWidthLeft();
-//}
-//
-//float Mediator::GetCinemaSplitWidthRight() const
-//{
-//	return m_cinemaCamera_all->GetSplitWidthRight();
-//}
-//
-//bool Mediator::GetIsCinemaHalfRightActive() const
-//{
-//	return m_cinemaCamera_half_right->GetIsHalfRightActive();
-//}
-//
-//bool Mediator::GetIsCinemaThirdLeftActive() const
-//{
-//	return m_cinemaCamera_third_left->GetIsThirdLeftActive();
-//}
-//
-//bool Mediator::GetIsCinemaThirdRightActive() const
-//{
-//	return m_cinemaCamera_third_right->GetIsThirdRightActive();
-//}
 
 
 //---------------------------//

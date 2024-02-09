@@ -30,7 +30,6 @@ private:
 	// メディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-
 	// お花エリア
 	bool SeqFlower(const float delta_time);
 	// 森林エリア
@@ -42,7 +41,7 @@ public:
 
 	void Update(float delta_time);
 
-	eStagePhase GetNowStagePhase() const { return m_now_stage_phase; }
+	const eStagePhase& GetNowStagePhase() const { return m_now_stage_phase; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

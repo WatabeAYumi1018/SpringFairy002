@@ -29,20 +29,13 @@ void CinemaPlayer::Update(const float delta_time)
 {
 	tnl_sequence_.update(delta_time);
 
-	if (!m_mediator->GetIsActiveGameCamera())
+	if (m_is_idle)
 	{
-		if (m_is_idle)
-		{
-			m_mediator->CinemaPlayerAnimIdle(delta_time);
-		}
-		else if (m_is_move)
-		{
-			m_mediator->CinemaPlayerAnimMove(delta_time);
-		}
-		else if (m_is_dance)
-		{
-			m_mediator->CinemaPlayerAnimDance(delta_time);
-		}
+		m_mediator->CinemaPlayerAnimIdle(delta_time);
+	}
+	else if (m_is_dance)
+	{
+		m_mediator->CinemaPlayerAnimDance(delta_time);
 	}
 	
 	// 回転と座標から行列を計算
@@ -50,11 +43,6 @@ void CinemaPlayer::Update(const float delta_time)
 
 	// モデルに行列を適用
 	MV1SetMatrix(m_model_hdl, m_matrix);
-
-	// プレイヤーの座標をデバッグ表示
-	DrawStringEx(0, 0, -1, "PlayerPos_x:%f", m_pos.x);
-	DrawStringEx(0, 20, -1, "PlayerPos_y:%f", m_pos.y);
-	DrawStringEx(0, 40, -1, "PlayerPos_z:%f", m_pos.z);
 }
 
 void CinemaPlayer::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -288,6 +276,8 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 		m_is_dance = false;
 		m_is_idle = true;
+
+		m_mediator->SetAnimElapsedTimeDance(0);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]() 
@@ -318,10 +308,6 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 	m_is_idle = false;
 
-	m_mediator->SetAnimElapsedTimeDance(0);
-
-	m_mediator->SetIsActiveGameCamera(true);
-
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 
 	TNL_SEQ_CO_END;
@@ -345,7 +331,6 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
 	{	
 		m_is_idle = false;
-		m_is_move = true;
 
 		// 前方に45度傾斜
 		m_rot = tnl::Quaternion::RotationAxis(tnl::Vector3(0, -1, -1), tnl::ToRadian(70));
@@ -355,7 +340,6 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
 	{
-		m_is_move = false;
 		m_is_idle = true;
 
 		tnl::Quaternion target_rot
@@ -401,8 +385,6 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 	m_is_dance = false;
 
 	m_mediator->SetAnimElapsedTimeDance(0);
-
-	m_mediator->SetIsActiveGameCamera(true);
 
 	m_mediator->SetIsCinemaBackFog(false);
 
@@ -470,8 +452,6 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 	m_is_dance = false;
 
 	m_mediator->SetAnimElapsedTimeDance(0);
-
-	m_mediator->SetIsActiveGameCamera(true);
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 

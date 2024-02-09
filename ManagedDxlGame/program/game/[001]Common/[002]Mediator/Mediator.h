@@ -8,6 +8,7 @@
 #include "../[000]Object/[007]Gate/Gate.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[001]Camera/CinemaCamera.h"
+#include "../[003]Phase/CameraPhase.h"
 #include "../[003]Phase/StagePhase.h"
 
 
@@ -71,6 +72,7 @@ private:
 
 	//--------------------ポインタ--------------------//
 
+	std::shared_ptr<CameraPhase> m_cameraPhase = nullptr;
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
 
 	std::shared_ptr<CinemaBack> m_cinemaBack = nullptr;
@@ -134,14 +136,31 @@ public:
 
 	//-------------------メンバ関数-------------------//
 
+	//--------CameraPhase--------//
+
+	// CameraPhase
+
+	// カメラフェーズ設定
+	// 参照元 ... CameraPhase::m_now_camera
+	// 参照先 ... フェーズ遷移の影響を受ける全クラス
+	void SetNowCameraPhaseState(CameraPhase::eCameraPhase& camera_phase);
+
+	// カメラフェーズ取得
+	// 参照元 ... CameraPhase::m_now_camera
+	// 参照先 ... フェーズ状態の取得が必要な全クラス（フェーズ遷移の影響を持つクラス）
+	const CameraPhase::eCameraPhase& GetNowCameraPhaseState() const ;
+
+	//----------------------------//
+
+
 	//---------StagePhase---------//
 
-	// stagePhase
+	// StagePhase
 
 	// ステージフェーズ取得
 	// 参照元 ... StagePhase::m_stage_phase
 	// 参照先 ... フェーズ状態の取得が必要な全クラス（フェーズ遷移の影響を持つクラス）
-	StagePhase::eStagePhase GetNowStagePhaseState() const;
+	const StagePhase::eStagePhase& GetNowStagePhaseState() const;
 
 	//---------------------------//
 
@@ -174,7 +193,6 @@ public:
 	// 参照元 ... CinemaBack::m_is_third
 	// 参照先 ... StagePhase::Update(float delta_time)
 	bool GetCinemaBackIsThird() const;
-
 
 	// シネマバックのフォグフラグ設定
 	// 参照元 ... CinemaBack::m_is_fog
@@ -795,16 +813,6 @@ public:
 	// 参照先 ... GimmickGenerator::CheckGimmicks(const float delta_time,)
 	bool IsCameraFixed() const;
 
-	// ゲームカメラのアクティブ状態設定
-	// 参照元 ... GameCamera::m_is_active_game
-	// 参照先 ... カメラ切り替えに関連する関数
-	void SetIsActiveGameCamera(bool is_active_game);
-
-	// ゲームカメラのアクティブ状態取得
-	// 参照元 ... GameCamera::m_is_active_game
-	// 参照先 ... ゲームカメラで描画する関数
-	bool GetIsActiveGameCamera() const;
-
 	// CameraLoad
 
 	// カメラ配列の情報取得
@@ -827,6 +835,11 @@ public:
 
 
 	//-----------------ポインタSetter-----------------//
+
+	void SetCameraPhase(std::shared_ptr<CameraPhase>& cameraPhase)
+	{
+		m_cameraPhase = cameraPhase;
+	}
 
 	void SetStagePhase(std::shared_ptr<StagePhase>& stagePhase)
 	{

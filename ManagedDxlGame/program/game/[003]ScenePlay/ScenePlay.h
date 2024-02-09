@@ -6,6 +6,7 @@
 class PlayFactory;
 class GameCamera;
 class CinemaCamera;
+class CameraPhase;
 class StagePhase;
 class GimmickGenerator;
 class ScreenShot;
@@ -26,7 +27,10 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
+
+	std::shared_ptr<CameraPhase> m_cameraPhase = nullptr;
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
+
 	std::shared_ptr<GimmickGenerator> m_gimmickGenerator = nullptr;
 	std::shared_ptr<ScreenShot> m_screenShot = nullptr;
 

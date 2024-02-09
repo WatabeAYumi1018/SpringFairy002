@@ -82,24 +82,21 @@ void CinemaCamera::ToSlide(const float delta_time,const tnl::Vector3& offset,flo
 bool CinemaCamera::SeqTrigger(const float delta_time)
 {
 	// １番のイベントの場合（登場カメラ）
-	if (m_mediator->GetEventLane().s_id == 1
-		|| tnl::Input::IsKeyDown(eKeys::KB_1))
+	if (m_mediator->GetEventLane().s_id == 1)
 	{
 		// 最初の紹介
 		m_mediator->SetCinemaBackIsFirst(true);
 
 		tnl_sequence_.change(&CinemaCamera::SeqFirst);
 	}
-	if (m_mediator->GetEventLane().s_id == 6
-		|| tnl::Input::IsKeyDown(eKeys::KB_2))
+	if (m_mediator->GetEventLane().s_id == 6)
 	{
 		// エリア２へ移行
 		m_mediator->SetCinemaBackIsSecond(true);
 
 		tnl_sequence_.change(&CinemaCamera::SeqSecond);
 	}
-	if (m_mediator->GetEventLane().s_id == 9
-		|| tnl::Input::IsKeyDown(eKeys::KB_3))
+	if (m_mediator->GetEventLane().s_id == 9)
 	{
 		// エリア３へ移行
 		m_mediator->SetCinemaBackIsThird(true);
@@ -122,12 +119,19 @@ bool CinemaCamera::SeqFirst(const float delta_time)
 		ToSlide(delta_time, {0,80,-100},10);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
 		Fixed({ 0,80,-100 });
 	});
 
 	m_mediator->SetCinemaBackIsFirst(false);
+
+	CameraPhase::eCameraPhase camera_phase
+		= CameraPhase::eCameraPhase::e_game;
+
+	// ゲームカメラ開始
+	m_mediator->SetNowCameraPhaseState(camera_phase);
+
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 
@@ -154,6 +158,12 @@ bool CinemaCamera::SeqSecond(const float delta_time)
 	m_mediator->SetCinemaBackIsSecond(false);
 
 	m_mediator->SetIsCinemaBackFog(false);
+
+	CameraPhase::eCameraPhase camera_phase
+		= CameraPhase::eCameraPhase::e_game;
+
+	// ゲームカメラ開始
+	m_mediator->SetNowCameraPhaseState(camera_phase);
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 
@@ -204,6 +214,12 @@ bool CinemaCamera::SeqThird(const float delta_time)
 	});
 
 	m_mediator->SetCinemaBackIsThird(false);
+
+	CameraPhase::eCameraPhase camera_phase
+		= CameraPhase::eCameraPhase::e_game;
+
+	// ゲームカメラ開始
+	m_mediator->SetNowCameraPhaseState(camera_phase);
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 

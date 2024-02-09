@@ -1,5 +1,6 @@
 #include "../../../../../wta_library/wta_Convert.h"
 #include "../../../[002]Mediator/Mediator.h"
+#include "../../../[003]Phase/CameraPhase.h"
 #include "CameraTargetPlayer.h"
 
 
@@ -19,8 +20,11 @@ void CameraTargetPlayer::Update(float delta_time)
 
 	if (m_event.s_id == 6 || m_event.s_id == 9)
 	{
+		CameraPhase::eCameraPhase camera_phase
+			= CameraPhase::eCameraPhase::e_cinema;
+
 		// シネマカメラ開始
-		m_mediator->SetIsActiveGameCamera(false);
+		m_mediator->SetNowCameraPhaseState(camera_phase);
 	}
 
 	// プレイヤーのアニメーション自動発生フラグ設定

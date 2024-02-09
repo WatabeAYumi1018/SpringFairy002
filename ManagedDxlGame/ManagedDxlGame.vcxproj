@@ -237,7 +237,7 @@
     <ClCompile Include="program\game\[001]Common\[001]Camera\OpCamera.cpp" />
     <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[002]Mediator\Mediator.cpp" />
-    <ClCompile Include="program\game\[001]Common\[003]Phase\GamePhase.cpp" />
+    <ClCompile Include="program\game\[001]Common\[003]Phase\CameraPhase.cpp" />
     <ClCompile Include="program\game\[001]Common\[003]Phase\StagePhase.cpp" />
     <ClCompile Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.cpp" />
     <ClCompile Include="program\game\[001]Common\[005]Factory\OpFactory.cpp" />
@@ -364,7 +364,7 @@
     <ClInclude Include="program\game\[001]Common\[001]Camera\OpCamera.h" />
     <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.h" />
     <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h" />
-    <ClInclude Include="program\game\[001]Common\[003]Phase\GamePhase.h" />
+    <ClInclude Include="program\game\[001]Common\[003]Phase\CameraPhase.h" />
     <ClInclude Include="program\game\[001]Common\[003]Phase\StagePhase.h" />
     <ClInclude Include="program\game\[001]Common\[004]ScreenShot\ScreenShot.h" />
     <ClInclude Include="program\game\[001]Common\[005]Factory\OpFactory.h" />

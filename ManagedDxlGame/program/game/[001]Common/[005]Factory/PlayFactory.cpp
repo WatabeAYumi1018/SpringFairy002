@@ -39,6 +39,8 @@
 #include "../[001]Camera/CinemaCamera.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
 #include "../[002]Mediator/Mediator.h"
+#include "../[003]Phase/CameraPhase.h"
+#include "../[003]Phase/StagePhase.h"
 #include "../[004]ScreenShot/ScreenShot.h"
 #include "PlayFactory.h"
 
@@ -71,6 +73,7 @@ void PlayFactory::CreateObject()
 	m_collision_player_partner 
 		= std::make_shared<wta::Collision<Player, Partner>>();
 
+	m_cameraPhase = std::make_shared<CameraPhase>();
 	m_stagePhase = std::make_shared<StagePhase>();
 
 	m_skyBox = std::make_shared<SkyBox>();
@@ -135,6 +138,7 @@ void PlayFactory::CreateObject()
 
 void PlayFactory::SetObjectReference()
 {
+	m_mediator->SetCameraPhase(m_cameraPhase);
 	m_mediator->SetStagePhase(m_stagePhase);
 	m_mediator->SetCinemaBack(m_cinemaBack);
 	m_mediator->SetLaneLoad(m_laneLoad);
@@ -261,8 +265,6 @@ void PlayFactory::StorageObjectGameCamera()
 	m_objects_gameCamera.emplace_back(m_player);
 	m_objects_gameCamera.emplace_back(m_effect);
 	m_objects_gameCamera.emplace_back(m_score);
-	//m_objects_gameCamera.emplace_back(m_charaGraph);
-	//m_objects_gameCamera.emplace_back(m_text);
 }
 
 void PlayFactory::StorageObjectCinemaCamera()

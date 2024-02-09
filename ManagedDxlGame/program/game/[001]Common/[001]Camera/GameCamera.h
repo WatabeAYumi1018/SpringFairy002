@@ -61,7 +61,6 @@ private:
 
 	bool m_is_fixed = false;
 
-	bool m_is_active_game = false;
 
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
@@ -112,13 +111,6 @@ private:
 	bool SeqRotateToFix(const float delta_time);
 
 
-	//// 上からの視点処理
-	//void Bottom();
-	//// 下の視点
-	//bool SeqBottom(const float delta_time);
-	//// 下からfixへ移行
-	//bool SeqBottomToFix(const float delta_time);
-
 	//-----デバッグ用-----//
 
 	//マウスの回転動作制御
@@ -155,13 +147,6 @@ public:
 	//inline tnl::Vector3 down() { return -up(); }
 
 	bool IsFixed() const { return m_is_fixed; }
-
-	void SetIsActiveGame(bool is_active_game)
-	{
-		m_is_active_game = is_active_game; 
-	}
-
-	bool GetIsActiveGame() const { return m_is_active_game; }
 
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)

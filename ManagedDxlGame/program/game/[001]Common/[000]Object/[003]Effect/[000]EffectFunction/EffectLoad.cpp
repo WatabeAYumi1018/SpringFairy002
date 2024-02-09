@@ -30,7 +30,10 @@ void EffectLoad::LoadEffectTypeInfo()
 
 		effect_info.s_id = m_csv_effect_type_info[y][0].getInt();
 
-		effect_info.s_effect_path = m_csv_effect_type_info[y][1].getString();
+		effect_info.e_group 
+			= static_cast<Effect::eEffectGroup>(m_csv_effect_type_info[y][1].getInt());
+
+		effect_info.s_effect_path = m_csv_effect_type_info[y][2].getString();
 
 		m_effect_type.emplace_back(effect_info);
 	}

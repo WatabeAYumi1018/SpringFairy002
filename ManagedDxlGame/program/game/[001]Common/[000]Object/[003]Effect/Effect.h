@@ -8,9 +8,19 @@ class Effect : public Object
 
 public:
 
+	enum eEffectGroup
+	{
+		e_bloom,
+		e_dance,
+		e_cinema,
+		e_screen,
+		e_other
+	};
+
 	struct sEffectType
 	{
 		int s_id;
+		eEffectGroup e_group;
 		std::string s_effect_path;
 	};
 
@@ -19,6 +29,11 @@ public:
 
 
 private:
+
+
+	bool m_is_bloom = false;
+	bool m_is_dance = false;
+	bool m_is_event_dance = false;
 
 	std::vector<sEffectType> m_effect_types;
 

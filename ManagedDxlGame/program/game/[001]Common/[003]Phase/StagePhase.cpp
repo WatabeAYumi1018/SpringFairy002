@@ -1,6 +1,5 @@
-#include "../dxlib_ext/dxlib_ext.h"
-#include "StagePhase.h"
 #include "../[002]Mediator/Mediator.h"
+#include "StagePhase.h"
 
 
 void StagePhase::Update(float delta_time)
@@ -23,10 +22,7 @@ bool StagePhase::SeqFlower(const float delta_time)
 	}
 
 	// 再生が終了するまでループ
-	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-	{
-		DrawStringEx(0,0,1,"fly");
-	});
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});
 
 	TNL_SEQ_CO_END;
 }
@@ -64,10 +60,7 @@ bool StagePhase::SeqFancy(const float delta_time)
 	}
 
 	// 押すまでループ
-	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-	{
-		DrawStringEx(0, 0, 1, "fancy");
-	});
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});
 
 	TNL_SEQ_CO_END;
 }

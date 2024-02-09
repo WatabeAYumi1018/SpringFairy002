@@ -17,6 +17,7 @@ namespace wta
 	class Collision;
 }
 
+class CameraPhase;
 class StagePhase;
 
 class Object;
@@ -95,9 +96,6 @@ private:
 
 	// オブジェクトを格納するlist（シネマカメラ）
 	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera;
-	//std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_half_right;
-	//std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_third_left;
-	//std::list<std::shared_ptr<Object>> m_objects_cinemaCamera_third_right;
 
 	// プレイヤー衝突オブジェクトを格納するlist
 	std::vector<std::shared_ptr<Gimmick>> m_gimmicks;
@@ -107,6 +105,7 @@ private:
 	std::shared_ptr<wta::Collision<dxe::Mesh, Gimmick>> m_collision_mesh_item = nullptr;
 	std::shared_ptr<wta::Collision<Player, Partner>> m_collision_player_partner = nullptr;
 
+	std::shared_ptr<CameraPhase> m_cameraPhase = nullptr;
 	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
 
 	std::shared_ptr<SkyBox> m_skyBox = nullptr;
@@ -163,9 +162,6 @@ private:
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
 
 	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
-	//std::shared_ptr<CinemaCamera> m_cinemaCamera_half_right = nullptr;
-	//std::shared_ptr<CinemaCamera> m_cinemaCamera_third_left = nullptr;
-	//std::shared_ptr<CinemaCamera> m_cinemaCamera_third_right = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
@@ -177,8 +173,6 @@ private:
 	// 各オブジェクト同士の参照を設定
 	// 生成の順番を考慮せず、後付けで参照できるように
 	void SetObjectReference();
-	// モデルオブジェクトのプール
-	//void PoolModelObject();
 	// アイテムオブジェクトのプール
 	void PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types);
 	// 生成したオブジェクトをlistに格納
@@ -199,21 +193,6 @@ public:
 		return m_objects_cinemaCamera;
 	}
 
-	//const std::list<std::shared_ptr<Object>>& GetObjectsCinemaCameraHalf() const
-	//{
-	//	return m_objects_cinemaCamera_half_right;
-	//}
-
-	//const std::list<std::shared_ptr<Object>>& GetObjectsCinemaCameraThirdLeft() const
-	//{
-	//	return m_objects_cinemaCamera_third_left;
-	//}
-
-	//const std::list<std::shared_ptr<Object>>& GetObjectsCinemaCameraThirdRight() const
-	//{
-	//	return m_objects_cinemaCamera_third_right;
-	//}
-
 	// カメラの取得
 	const std::shared_ptr<GameCamera>& GetOpCamera() const
 	{
@@ -226,20 +205,11 @@ public:
 		return m_cinemaCamera;
 	}
 
-	//const std::shared_ptr<CinemaCamera>& GetCinemaCameraHalfRight() const
-	//{
-	//	return m_cinemaCamera_half_right;
-	//}
-
-	//const std::shared_ptr<CinemaCamera>& GetCinemaCameraThirdLeft() const
-	//{
-	//	return m_cinemaCamera_third_left;
-	//}
-
-	//const std::shared_ptr<CinemaCamera>& GetCinemaCameraThirdRight() const
-	//{
-	//	return m_cinemaCamera_third_right;
-	//}
+	// カメラフェーズの取得
+	const std::shared_ptr<CameraPhase>& GetCameraPhase() const
+	{
+		return m_cameraPhase;
+	}
 
 	// フェーズの取得
 	const std::shared_ptr<StagePhase>& GetStagePhase() const
