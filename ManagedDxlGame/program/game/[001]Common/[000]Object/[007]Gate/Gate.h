@@ -23,7 +23,7 @@ public:
 private:
 
 	// ゲートの動き開始フラグ
-	bool m_is_active = false;
+	bool m_is_not_active = false;
 	// ゲートが開いたフラグ
 	bool m_is_opend = false;
 

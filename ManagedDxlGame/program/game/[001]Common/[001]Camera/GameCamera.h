@@ -68,7 +68,7 @@ private:
 	// 自動経路による回転
 	tnl::Quaternion m_rot;
 
-	StagePhase::eStagePhase m_now_stage_phase
+	StagePhase::eStagePhase m_now_stage
 					= StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス

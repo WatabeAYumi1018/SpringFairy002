@@ -2,6 +2,8 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "../../../library/tnl_sequence.h"
 
+class Mediator;
+
 
 class CameraPhase
 {
@@ -22,7 +24,10 @@ private:
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(CameraPhase, &CameraPhase::SeqCinema);
 
+	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	// フェーズ遷移
+	void PhaseChange();
 	// シネマ画面
 	bool SeqCinema(const float delta_time);
 	// メイン画面
@@ -32,10 +37,10 @@ public:
 
 	void Update(float delta_time);
 
-	void SetNowCameraPhase(eCameraPhase& camera)
-	{
-		m_now_camera = camera;
-	}
-
 	const eCameraPhase& GetNowCameraPhase() const { return m_now_camera; }
+
+	void SetMediator(std::shared_ptr<Mediator>& mediator)
+	{
+		m_mediator = mediator;
+	}
 };

@@ -61,14 +61,12 @@ class Title;
 class GateLoad;
 
 class CameraLoad;
+class CinemaCamera;
 
 class Mediator
 {
 
 private:
-
-	//CinemaCamera::eCameraSplitType active_cinema_type;
-
 
 	//--------------------ポインタ--------------------//
 
@@ -128,6 +126,7 @@ private:
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
+	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
 
 
 	//------------------------------------------------//
@@ -139,11 +138,6 @@ public:
 	//--------CameraPhase--------//
 
 	// CameraPhase
-
-	// カメラフェーズ設定
-	// 参照元 ... CameraPhase::m_now_camera
-	// 参照先 ... フェーズ遷移の影響を受ける全クラス
-	void SetNowCameraPhaseState(CameraPhase::eCameraPhase& camera_phase);
 
 	// カメラフェーズ取得
 	// 参照元 ... CameraPhase::m_now_camera
@@ -168,31 +162,6 @@ public:
 	//---------CinemaBack---------//
 
 	// CinemaBack
-
-	// シネマバック一番フラグ設定
-	// 参照元 ... CinemaBack::m_is_first
-	// 参照先 ... CinemaCamera::Update(float delta_time)
-	void SetCinemaBackIsFirst(bool is_first);
-
-	// シネマバック二番フラグ設定
-	// 参照元 ... CinemaBack::m_is_second
-	// 参照先 ... CinemaCamera::Update(float delta_time)
-	void SetCinemaBackIsSecond(bool is_second);
-
-	// シネマバック二番フラグ取得
-	// 参照元 ... CinemaBack::m_is_second
-	// 参照先 ... StagePhase::Update(float delta_time)
-	bool GetCinemaBackIsSecond() const;
-
-	// シネマバック三番フラグ設定
-	// 参照元 ... CinemaBack::m_is_third
-	// 参照先 ... CinemaCamera::Update(float delta_time)
-	void SetCinemaBackIsThird(bool is_third);
-
-	// シネマバック三番フラグ取得
-	// 参照元 ... CinemaBack::m_is_third
-	// 参照先 ... StagePhase::Update(float delta_time)
-	bool GetCinemaBackIsThird() const;
 
 	// シネマバックのフォグフラグ設定
 	// 参照元 ... CinemaBack::m_is_fog
@@ -827,6 +796,16 @@ public:
 
 	// CinemaCamera
 
+	// シネマカメラの活性化フラグ設定
+	// 参照元 ... CinemaCamera::m_is_active
+	// 参照先 ... シネマカメラの活性化フラグが必要な全クラス
+	void SetCinemaCameraIsActive(bool is_active);
+
+	// シネマカメラの活性化フラグ取得
+	// 参照元 ... CinemaCamera::m_is_active
+	// 参照先 ... シネマカメラの活性化フラグが必要な全クラス
+	bool GetCinemaCameraIsActive() const;
+
 
 	//---------------------------//
 
@@ -1029,6 +1008,11 @@ public:
 	void SetCameraLoad(std::shared_ptr<CameraLoad>& cameraLoad)
 	{
 		m_cameraLoad = cameraLoad;
+	}
+
+	void SetCinemaCamera(std::shared_ptr<CinemaCamera>& cinemaCamera)
+	{
+		m_cinemaCamera = cinemaCamera;
 	}
 
 	//------------------------------------------------//

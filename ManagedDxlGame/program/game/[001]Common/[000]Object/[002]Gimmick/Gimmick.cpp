@@ -51,7 +51,7 @@ void Gimmick::Update(const float delta_time)
 
 void Gimmick::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	if (m_is_active)
+	if (m_is_not_active)
 	{		
 		MV1DrawModel(m_gimmick_data.s_model_hdl);
 	}
@@ -75,7 +75,7 @@ void Gimmick::LoadGimmickData(const Gimmick::sGimmickTypeInfo& gimmick_info)
 void Gimmick::Reset()
 {
 	m_pos = { 0,0,0 };
-	m_is_active = false;
+	m_is_not_active = false;
 	m_is_draw_change = false;
 	m_is_collision = false;
 	m_emissive_value = 0.0f;

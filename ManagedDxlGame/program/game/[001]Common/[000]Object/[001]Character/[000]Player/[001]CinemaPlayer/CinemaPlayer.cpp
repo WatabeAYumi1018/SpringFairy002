@@ -276,8 +276,6 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 		m_is_dance = false;
 		m_is_idle = true;
-
-		m_mediator->SetAnimElapsedTimeDance(0);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]() 
@@ -307,6 +305,8 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 	});
 
 	m_is_idle = false;
+
+	m_mediator->SetAnimElapsedTimeDance(0);
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 

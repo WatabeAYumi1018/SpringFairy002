@@ -1,4 +1,5 @@
 #include "../[002]Mediator/Mediator.h"
+#include "../[003]Phase/StagePhase.h"
 #include "CinemaCamera.h"
 
 
@@ -7,7 +8,7 @@ CinemaCamera::CinemaCamera()
 	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT)
 {
 	// 使用する画面の作成
-	m_all_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
+	m_screen_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
 
 	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
 	near_ = 10;
@@ -16,7 +17,7 @@ CinemaCamera::CinemaCamera()
 void CinemaCamera::SetCanvas()
 {
 	// 画面に描画
-	SetDrawScreen(m_all_hdl);
+	SetDrawScreen(m_screen_hdl);
 	ClearDrawScreen();
 }
 
@@ -25,17 +26,6 @@ void CinemaCamera::update(const float delta_time)
 	dxe::Camera::update(delta_time);
 
 	tnl_sequence_.update(delta_time);
-
-	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT))
-	{
-		m_move_mouse = true;
-	}
-
-	if(m_move_mouse)
-	{
-		Control(delta_time);
-	}
-
 }
 
 void CinemaCamera::Render()
@@ -44,7 +34,7 @@ void CinemaCamera::Render()
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH
-					, DXE_WINDOW_HEIGHT, m_all_hdl, FALSE);
+					, DXE_WINDOW_HEIGHT, m_screen_hdl, FALSE);
 }
 
 tnl::Vector3 CinemaCamera::Lerp(const tnl::Vector3& start
@@ -81,26 +71,19 @@ void CinemaCamera::ToSlide(const float delta_time,const tnl::Vector3& offset,flo
 
 bool CinemaCamera::SeqTrigger(const float delta_time)
 {
-	// １番のイベントの場合（登場カメラ）
-	if (m_mediator->GetEventLane().s_id == 1)
-	{
-		// 最初の紹介
-		m_mediator->SetCinemaBackIsFirst(true);
+	StagePhase::eStagePhase stage_phase
+			= m_mediator->GetNowStagePhaseState();
 
+	if (stage_phase == StagePhase::eStagePhase::e_flower)
+	{
 		tnl_sequence_.change(&CinemaCamera::SeqFirst);
 	}
-	if (m_mediator->GetEventLane().s_id == 6)
+	if (stage_phase == StagePhase::eStagePhase::e_wood)
 	{
-		// エリア２へ移行
-		m_mediator->SetCinemaBackIsSecond(true);
-
 		tnl_sequence_.change(&CinemaCamera::SeqSecond);
 	}
-	if (m_mediator->GetEventLane().s_id == 9)
+	if (stage_phase == StagePhase::eStagePhase::e_fancy)
 	{
-		// エリア３へ移行
-		m_mediator->SetCinemaBackIsThird(true);
-
 		tnl_sequence_.change(&CinemaCamera::SeqThird);
 	}
 
@@ -124,14 +107,7 @@ bool CinemaCamera::SeqFirst(const float delta_time)
 		Fixed({ 0,80,-100 });
 	});
 
-	m_mediator->SetCinemaBackIsFirst(false);
-
-	CameraPhase::eCameraPhase camera_phase
-		= CameraPhase::eCameraPhase::e_game;
-
-	// ゲームカメラ開始
-	m_mediator->SetNowCameraPhaseState(camera_phase);
-
+	m_is_active = false;
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 
@@ -155,15 +131,9 @@ bool CinemaCamera::SeqSecond(const float delta_time)
 		Fixed({ 0,0,-2000 });
 	});
 
-	m_mediator->SetCinemaBackIsSecond(false);
-
 	m_mediator->SetIsCinemaBackFog(false);
 
-	CameraPhase::eCameraPhase camera_phase
-		= CameraPhase::eCameraPhase::e_game;
-
-	// ゲームカメラ開始
-	m_mediator->SetNowCameraPhaseState(camera_phase);
+	m_is_active = false;
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 
@@ -208,18 +178,12 @@ bool CinemaCamera::SeqThird(const float delta_time)
 		ToSlide(delta_time, { 0,0,-300 }, 10);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(7, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
 		Fixed({ 0,0,-300 });
 	});
 
-	m_mediator->SetCinemaBackIsThird(false);
-
-	CameraPhase::eCameraPhase camera_phase
-		= CameraPhase::eCameraPhase::e_game;
-
-	// ゲームカメラ開始
-	m_mediator->SetNowCameraPhaseState(camera_phase);
+	m_is_active = false;
 
 	tnl_sequence_.change(&CinemaCamera::SeqTrigger);
 

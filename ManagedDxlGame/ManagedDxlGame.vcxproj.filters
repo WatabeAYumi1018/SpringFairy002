@@ -512,6 +512,9 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectGenerator.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -913,6 +916,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectGenerator.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

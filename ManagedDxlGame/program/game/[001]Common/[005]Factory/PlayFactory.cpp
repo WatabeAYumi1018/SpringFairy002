@@ -173,7 +173,9 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetCharaGraphDraw(m_charaGraphDraw);
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
+	m_mediator->SetCinemaCamera(m_cinemaCamera);
 
+	m_cameraPhase->SetMediator(m_mediator);
 	m_stagePhase->SetMediator(m_mediator);
 	m_skyBox->SetMediator(m_mediator);
 	m_cinemaBack->SetMediator(m_mediator);

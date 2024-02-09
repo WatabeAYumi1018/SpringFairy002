@@ -15,42 +15,6 @@ void CameraTargetPlayer::Update(float delta_time)
 {
 	tnl_sequence_.update(delta_time);
 
-	DrawStringEx(500, 0, -1, "カメラID番号 : %d", m_camera_info.s_id);
-	DrawStringEx(500, 20, -1, "イベントID番号 : %d", m_event.s_id);
-
-	if (m_event.s_id == 6 || m_event.s_id == 9)
-	{
-		CameraPhase::eCameraPhase camera_phase
-			= CameraPhase::eCameraPhase::e_cinema;
-
-		// シネマカメラ開始
-		m_mediator->SetNowCameraPhaseState(camera_phase);
-	}
-
-	// プレイヤーのアニメーション自動発生フラグ設定
-	//if (m_event.s_id == 6)
-	//{
-	//	m_mediator->SetIsPlayerEventDance(true);
-	//}
-
-	//if (m_gimmick.s_id == 1)
-	//{
-	//	Gimmick::sGimmickTypeInfo gimmick_type
-	//		= m_mediator->GetGimmickLoadInfoById(m_gimmick.s_id);
-	//}
-}
-
-void CameraTargetPlayer::Draw(std::shared_ptr<dxe::Camera> camera)
-{
-	////// 当たり判定デバッグ用
-	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
-	//pos.y += m_collision_size;
-	//DrawSphere3D(pos, m_collision_size, 32, -1, -1, true);
-
-	//// 座標デバッグ用
-	//DrawStringEx(1000, 100, -1, "TargetPos_x:%f", m_pos.x);
-	//DrawStringEx(1000, 120, -1, "TargetPos_y:%f", m_pos.y);
-	//DrawStringEx(1000, 140, -1, "TargetPos_z:%f", m_pos.z);
 }
 
 void CameraTargetPlayer::MoveMatrix(const float delta_time)

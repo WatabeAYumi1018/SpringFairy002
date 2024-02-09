@@ -37,11 +37,6 @@
 
 // CameraPhase
 
-void Mediator::SetNowCameraPhaseState(CameraPhase::eCameraPhase& camera_phase)
-{
-	m_cameraPhase->SetNowCameraPhase(camera_phase);
-}
-
 const CameraPhase::eCameraPhase& Mediator::GetNowCameraPhaseState() const
 {
 	return m_cameraPhase->GetNowCameraPhase();
@@ -62,32 +57,6 @@ const StagePhase::eStagePhase& Mediator::GetNowStagePhaseState() const
 //---------CinemaBack---------//
 
 // CinemaBack
-
-void Mediator::SetCinemaBackIsFirst(bool is_first)
-{
-	m_cinemaBack->SetIsFirst(is_first);
-}
-
-void Mediator::SetCinemaBackIsSecond(bool is_second)
-{
-	m_cinemaBack->SetIsSecond(is_second);
-}
-
-bool Mediator::GetCinemaBackIsSecond() const
-{
-	return m_cinemaBack->GetIsSecond();
-}
-
-void Mediator::SetCinemaBackIsThird(bool is_third)
-{
-	m_cinemaBack->SetIsThird(is_third);
-}
-
-bool Mediator::GetCinemaBackIsThird() const
-{
-	return m_cinemaBack->GetIsThird();
-}
-
 
 void Mediator::SetIsCinemaBackFog(bool is_fog)
 {
@@ -725,7 +694,15 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 
 // CinemaCamera
 
+void Mediator::SetCinemaCameraIsActive(bool is_active)
+{
+	m_cinemaCamera->SetIsActive(is_active);
+}
 
+bool Mediator::GetCinemaCameraIsActive() const
+{
+	return m_cinemaCamera->GetIsActive();
+}
 
 //---------------------------//
 
