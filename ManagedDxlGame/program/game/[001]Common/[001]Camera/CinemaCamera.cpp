@@ -102,7 +102,7 @@ bool CinemaCamera::SeqFirst(const float delta_time)
 		ToSlide(delta_time, {0,80,-100},10);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
 		Fixed({ 0,80,-100 });
 	});
@@ -178,7 +178,7 @@ bool CinemaCamera::SeqThird(const float delta_time)
 		ToSlide(delta_time, { 0,0,-300 }, 10);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
 	{
 		Fixed({ 0,0,-300 });
 	});

@@ -5,7 +5,7 @@
 
 Butterfly::Butterfly()
 {
-	m_pos = { 0,0,0 };
+	m_game_pos = { 0,0,0 };
 
 	// モデルをカメラ座標に反映させるため、目にみえないメッシュを生成
 	m_mesh = dxe::Mesh::CreateSphereMV(0.001f);
@@ -29,7 +29,7 @@ void Butterfly::Initialize()
 
 	SetLight(m_model_hdl);
 
-	m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
+	m_rot = tnl::Quaternion::LookAtAxisY(m_game_pos, m_game_pos + tnl::Vector3(0, 0, 1));
 
 	//// エミッシブカラーを設定してモデルを発光させる
 	//DxLib::COLOR_F emissive = {10.0f, 10.0f, 10.0f, 1 }; // 強い発光
@@ -50,7 +50,7 @@ void Butterfly::Update(const float delta_time)
 		tnl_sequence_.update(delta_time);
 	}
 
-	m_mesh->pos_ = m_pos;
+	m_mesh->pos_ = m_game_pos;
 
 	// 回転と座標から行列を計算
 	m_matrix = CalcMatrix();
@@ -106,10 +106,10 @@ void Butterfly::MoveRound(const float delta_time)
 	float angle = progress * tnl::ToRadian(360);
 
 	// 円運動
-	m_pos.x = center_pos.x + sin(angle) * radius;
-	m_pos.z = center_pos.z + cos(angle) * radius;
+	m_game_pos.x = center_pos.x + sin(angle) * radius;
+	m_game_pos.z = center_pos.z + cos(angle) * radius;
 	// Y軸上昇の処理
-	m_pos.y += delta_time * 30 ; 
+	m_game_pos.y += delta_time * 30 ; 
 
 	// 進行方向を算出
 	tnl::Vector3 next_direction 
@@ -118,7 +118,7 @@ void Butterfly::MoveRound(const float delta_time)
 	
 	// 進行方向に向かって回転
 	tnl::Quaternion direction_rot
-		= tnl::Quaternion::LookAt(m_pos, m_pos + next_direction, tnl::Vector3(0, 1, 0));
+		= tnl::Quaternion::LookAt(m_game_pos, m_game_pos + next_direction, tnl::Vector3(0, 1, 0));
 
 	// 体を傾ける回転の適用
 	tnl::Quaternion tilt_rot 
@@ -133,7 +133,7 @@ void Butterfly::MoveStraightHeight(const float delta_time)
 	// 速度を計算
 	float move_speed = m_speed * delta_time;
 
-	m_pos.z += move_speed;
+	m_game_pos.z += move_speed;
 }
 
 void Butterfly::MoveStraightWidth(const float delta_time)
@@ -141,19 +141,19 @@ void Butterfly::MoveStraightWidth(const float delta_time)
 	// 速度を計算
 	float move_speed = m_speed * delta_time;
 
-	m_pos.x -= move_speed;
+	m_game_pos.x -= move_speed;
 }
 
 bool Butterfly::SeqMove(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		m_pos = {500,0,0};
+		m_game_pos = {500,0,0};
 
-		m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
+		m_rot = tnl::Quaternion::LookAtAxisY(m_game_pos, m_game_pos + tnl::Vector3(-1, 0, 0));
 	}
 
-	if (abs(m_pos.x - m_mediator->GetCinemaPlayerPos().x) < 100)
+	if (abs(m_game_pos.x - m_mediator->GetCinemaPlayerPos().x) < 100)
 	{
 		tnl_sequence_.change(&Butterfly::SeqRound);
 	}
@@ -168,7 +168,7 @@ bool Butterfly::SeqMove(const float delta_time)
 
 bool Butterfly::SeqRound(const float delta_time)
 {
-	if (m_pos.y > 150)
+	if (m_game_pos.y > 150)
 	{
 		// フェードアウト処理
 		// 透明度を下げる速度を定義（例: 0.5fは1秒間に半分の透明度になる）
@@ -179,8 +179,12 @@ bool Butterfly::SeqRound(const float delta_time)
 
 		// 透明度を更新
 		float new_opacity = current_opacity - fade_out_speed;
+
 		// 透明度が負の値にならないように調整
-		if (new_opacity < 0) new_opacity = 0; 
+		if (new_opacity < 0)
+		{
+			new_opacity = 0;
+		}
 
 		// 新しい透明度をモデルに適用
 		MV1SetOpacityRate(m_model_hdl, new_opacity);
@@ -188,6 +192,9 @@ bool Butterfly::SeqRound(const float delta_time)
 		// 透明度が0になったら、シネマアクティブをfalseにしてフェードアウト完了
 		if (new_opacity <= 0)
 		{
+			// 透明フラグを立てる
+			m_is_clear = true;
+
 			m_is_cinema_active = false;
 
 			TNL_SEQ_CO_END;

@@ -18,7 +18,7 @@ public:
 
 private:
 
-	tnl::Vector3 m_pos;
+	tnl::Vector3 m_game_pos;
 
 	bool m_is_ground_active = false;
 

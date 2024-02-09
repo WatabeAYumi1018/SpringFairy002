@@ -67,6 +67,8 @@ public:
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
+	bool GetIsDance() const { return m_is_dance; }
+
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

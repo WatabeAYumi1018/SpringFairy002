@@ -8,7 +8,6 @@
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerDraw.h"
-#include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerSkill.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
 #include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayer/CinemaPlayer.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
@@ -23,6 +22,7 @@
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
+#include "../[000]Object/[003]Effect/[000]EffectFunction/EffectHandle.h"
 #include "../[000]Object/[004]Score/Score.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextLoad.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
@@ -292,6 +292,11 @@ bool Mediator::GetIsPlayerBloom() const
 	return m_playerDraw->GetIsBloom();
 }
 
+bool Mediator::GetIsPlayerDance() const
+{
+	return m_playerDraw->GetIsDance();
+}
+
 void Mediator::SetAnimElapsedTimeDance(float elapsed_time_dance)
 {
 	m_playerDraw->SetElapsedTimeDance(elapsed_time_dance);
@@ -322,13 +327,6 @@ void Mediator::CinemaPlayerAnimDance(const float delta_time)
 	m_playerDraw->CinemaAnimDance(delta_time);
 }
 
-// playerSkill
-
-void Mediator::UpdatePlayerSkill(const float delta_time)
-{
-	m_playerSkill->Update(delta_time);
-}
-
 // playerCollision
 
 void Mediator::InitCollisionRegister()
@@ -348,6 +346,11 @@ void Mediator::UpdateCollisionCheck()
 const tnl::Vector3& Mediator::GetCinemaPlayerPos() const
 {
 	return m_cinemaPlayer->GetPos();
+}
+
+bool Mediator::GetCinemaPlayerIsDance() const
+{
+	return m_cinemaPlayer->GetIsDance();
 }
 
 //--------------------------//
@@ -499,9 +502,9 @@ void Mediator::SetButterflyIsOpActive(bool is_op_active)
 	m_butterfly->SetIsOpActive(is_op_active);
 }
 
-bool Mediator::GetButterflyIsPowder() const
+bool Mediator::GetButterflyIsClear() const
 {
-	return m_butterfly->GetIsPowder();
+	return m_butterfly->GetIsClear();
 }
 
 void Mediator::SetButterflyIsCinemaActive(bool is_cinema_active)
@@ -521,11 +524,17 @@ int Mediator::GetButterflyModelHdl() const
 	return m_butterflyLoad->GetModelHdl();
 }
 
-
 //-----------------------------//
 
 
 //-----------Gimmick-----------//
+
+// Gimmick
+
+bool Mediator::GetGimmickIsCollision() const
+{
+	return m_gimmick->GetIsCollision();
+}
 
 // GimmickPool
 
@@ -561,6 +570,48 @@ bool Mediator::GetIsGimmickGroundActive() const
 const std::vector<Effect::sEffectType>& Mediator::GetEffectLoadInfo() const
 {
 	return m_effectLoad->GetEffectType();
+}
+
+// EffectHandle
+
+void Mediator::InitializeEffectHandle()
+{
+	m_effectHandle->Initialize();
+}
+
+void Mediator::UpdateEffectHandle()
+{
+	m_effectHandle->Update();
+}
+
+const tnl::Vector3& Mediator::GetEffectHandlePos() const
+{
+	return m_effectHandle->GetGamePos();
+}
+
+const std::vector<std::shared_ptr<dxe::Particle>>& Mediator::GetEffectPlayerActionParticles() const
+{
+	return m_effectHandle->GetPlayerActionParticles();
+}
+
+const std::vector<std::shared_ptr<dxe::Particle>>& Mediator::GetEffectGimmickParticles() const
+{
+	return m_effectHandle->GetGimmickParticles();
+}
+
+const std::vector<std::shared_ptr<dxe::Particle>>& Mediator::GetEffectCharaPathParticles() const
+{
+	return m_effectHandle->GetCharaPathParticles();
+}
+
+const std::vector<std::shared_ptr<dxe::Particle>>& Mediator::GetEffectScreenParticles() const
+{
+	return m_effectHandle->GetScreenParticles();
+}
+
+const std::vector<std::shared_ptr<dxe::Particle>>& Mediator::GetEffectEventParticles() const
+{
+	return m_effectHandle->GetEventParticles();
 }
 
 //--------------------------//

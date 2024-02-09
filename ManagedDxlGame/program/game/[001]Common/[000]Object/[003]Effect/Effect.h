@@ -3,46 +3,44 @@
 
 class Mediator;
 
+
 class Effect : public Object
 {
 
 public:
 
-	enum eEffectGroup
-	{
-		e_bloom,
-		e_dance,
-		e_cinema,
-		e_screen,
-		e_other
-	};
-
 	struct sEffectType
 	{
 		int s_id;
-		eEffectGroup e_group;
 		std::string s_effect_path;
 	};
 
 	Effect();
+
 	~Effect();
 
 
 private:
 
-
-	bool m_is_bloom = false;
-	bool m_is_dance = false;
-	bool m_is_event_dance = false;
-
-	std::vector<sEffectType> m_effect_types;
-
-	std::vector<std::shared_ptr<dxe::Particle>> m_particles;
+	// プレイヤーのアクションエフェクト
+	std::vector<std::shared_ptr<dxe::Particle>> m_player_action_particles;
+	// ギミックエフェクト
+	std::vector<std::shared_ptr<dxe::Particle>> m_gimmick_particles;
+	// キャラクターの軌道エフェクト
+	std::vector<std::shared_ptr<dxe::Particle>> m_chara_path_particles;
+	// スクリーンエフェクト
+	std::vector<std::shared_ptr<dxe::Particle>> m_screen_particles;
+	// イベントエフェクト
+	std::vector<std::shared_ptr<dxe::Particle>> m_event_particles;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	// ファイルパスの文字列中にattackがあるかどうか
-	bool ContainsAttack(const std::string& str);
+	// 各アクティブエフェクトの取得
+	void GetActiveParticle();
+
+	// アクティブエフェクトのレンダー処理
+	void ActiveEffect(std::shared_ptr<dxe::Camera> camera
+					 , std::vector<std::shared_ptr<dxe::Particle>>& particles);
 
 public:
 

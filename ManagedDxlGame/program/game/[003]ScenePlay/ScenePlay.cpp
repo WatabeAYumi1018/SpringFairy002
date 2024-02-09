@@ -43,19 +43,17 @@ void ScenePlay::Initialize()
 	m_objects_cinemaCamera 
 		= m_factory->GetObjectsCinemaCamera();
 	// カメラの取得
-	m_gameCamera = m_factory->GetOpCamera();
+	m_gameCamera = m_factory->GetGameCamera();
 	// シネマカメラの取得
 	m_cinemaCamera = m_factory->GetCinemaCamera();
 	// カメラフェーズの取得
 	m_cameraPhase = m_factory->GetCameraPhase();
 	// ステージの取得
 	m_stagePhase = m_factory->GetStagePhase();
-	// アイテムジェネレータの取得
+	// ギミックジェネレータの取得
 	m_gimmickGenerator = m_factory->GetGimmickGenerator();
 	// スクリーンショットの取得
 	m_screenShot = m_factory->GetScreenShot();
-
-	//m_gimmickGenerator->Initialize();
 
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{

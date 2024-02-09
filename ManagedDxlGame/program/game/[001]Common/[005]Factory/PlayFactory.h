@@ -40,7 +40,6 @@ class Player;
 class PlayerLoad;
 class PlayerMove;
 class PlayerDraw;
-class PlayerSkill;
 class PlayerCollision;
 class CinemaPlayer;
 
@@ -61,6 +60,7 @@ class GimmickGenerator;
 
 class Effect;
 class EffectLoad;
+class EffectHandle;
 
 class Score;
 
@@ -126,7 +126,6 @@ private:
 	std::shared_ptr<PlayerLoad> m_playerLoad = nullptr;
 	std::shared_ptr<PlayerMove> m_playerMove = nullptr;
 	std::shared_ptr<PlayerDraw> m_playerDraw = nullptr;
-	std::shared_ptr<PlayerSkill> m_playerSkill = nullptr;
 	std::shared_ptr<PlayerCollision> m_playerCollision = nullptr;
 	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
 
@@ -147,6 +146,7 @@ private:
 
 	std::shared_ptr<Effect> m_effect = nullptr;
 	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
+	std::shared_ptr<EffectHandle> m_effectHandle = nullptr;
 
 	std::shared_ptr<Score> m_score = nullptr;
 
@@ -194,7 +194,7 @@ public:
 	}
 
 	// ƒJƒƒ‰‚Ìæ“¾
-	const std::shared_ptr<GameCamera>& GetOpCamera() const
+	const std::shared_ptr<GameCamera>& GetGameCamera() const
 	{
 		return m_gameCamera;
 	}

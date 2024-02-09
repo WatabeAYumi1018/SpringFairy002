@@ -66,7 +66,7 @@ public:
 	}
 
 	// ƒJƒƒ‰‚Ìæ“¾
-	const std::shared_ptr<OpCamera>& GetOpCamera() const
+	const std::shared_ptr<OpCamera>& GetGameCamera() const
 	{
 		return m_opCamera;
 	}

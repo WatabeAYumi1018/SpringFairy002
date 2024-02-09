@@ -58,10 +58,10 @@ namespace dxe {
 
     //--------------------------------------------------------------------------------------------------------------------------------
     Particle::Particle
-        ( const Shared<dxe::Texture>& texture
+    (const Shared<dxe::Texture>& texture
         , ePlayType play_type
         , int particle_num
-        , float time_limit ){
+        , float time_limit) {
 
         texture_ = texture;
         play_type_ = play_type;
@@ -69,7 +69,7 @@ namespace dxe {
         time_limit_ = time_limit;
         random_value_ = tnl::GetRandomDistributionFloat(0.0f, 1.0f);
 
-        refreshProcess() ;
+        refreshProcess();
         reloadTexture();
         createShader();
     }
@@ -110,9 +110,9 @@ namespace dxe {
         };
 
 
-//
-// リソースからコンパイル
-//
+        //
+        // リソースからコンパイル
+        //
 #if DXE_PTCL_SHADER_COMPLIE
 
         hr = D3DCompileFromFile(L"shader/particle/particle.hlsl", nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
@@ -273,9 +273,9 @@ namespace dxe {
 
 #else
 
-//
-// コンパイル済みヘッダから作成
-//
+        //
+        // コンパイル済みヘッダから作成
+        //
         ID3D11GeometryShader* gs = nullptr;
         hr = pd3dDevice->CreateGeometryShaderWithStreamOutput(
             &g_particle_GS0_Main,
@@ -343,7 +343,7 @@ namespace dxe {
         //
         ID3D11PixelShader* ps = nullptr;
         hr = pd3dDevice->CreatePixelShader(
-            &g_particle_PS1_Main, 
+            &g_particle_PS1_Main,
             sizeof(g_particle_PS1_Main), NULL, &ps);
         pixel_shader_.Attach(ps);
         if (S_OK != hr) {
@@ -384,7 +384,7 @@ namespace dxe {
     //---------------------------------------------------------------------------------------------------------------------------------------------
     void Particle::refreshProcess() {
 
-        is_init_draw_ = true ;
+        is_init_draw_ = true;
 
         HRESULT hr = E_FAIL;
         ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
@@ -468,7 +468,7 @@ namespace dxe {
         //wchar_t buff[256] = { 0 };
         //tnl::ToWChara(buff, texture_file_path);
         //hr = CreateWICTextureFromFile(pd3dDevice, buff, &res, &srv);
-        hr = CreateWICTextureFromMemory(pd3dDevice, (uint8_t*)texture_->getFileData(), (size_t)texture_->getDataSize(), & res, &srv);
+        hr = CreateWICTextureFromMemory(pd3dDevice, (uint8_t*)texture_->getFileData(), (size_t)texture_->getDataSize(), &res, &srv);
         texture_resouce_.Attach(res);
         shader_resouce_view_.Attach(srv);
         if (S_OK != hr) {
@@ -508,7 +508,7 @@ namespace dxe {
     ID3D11BlendState* Particle::default_blend_state = nullptr;
     ID3D11RasterizerState* Particle::default_rasterize_state = nullptr;
     ID3D11SamplerState* Particle::default_sampler_state = nullptr;
-    ID3D11ShaderResourceView* Particle::default_pixel_shader_resouce_view = nullptr ;
+    ID3D11ShaderResourceView* Particle::default_pixel_shader_resouce_view = nullptr;
     void Particle::renderBegin() {
 
         ID3D11DeviceContext* pImmediateContext = (ID3D11DeviceContext*)DxLib::GetUseDirect3D11DeviceContext();
@@ -557,7 +557,7 @@ namespace dxe {
 
 
     //--------------------------------------------------------------------------------------------------------------------------------
-	void Particle::render(Shared<Camera> camera) {
+    void Particle::render(Shared<Camera> camera) {
 
         HRESULT hr = E_FAIL;
         ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
@@ -568,7 +568,7 @@ namespace dxe {
         // 定数バッファを設定
         //
         {
-            PTCL_CBUFFER* cbuffer = nullptr ;
+            PTCL_CBUFFER* cbuffer = nullptr;
             XMMATRIX matView, matProj, matWVP, matWorld;
             D3D11_MAPPED_SUBRESOURCE mappedResource;
 
@@ -621,7 +621,7 @@ namespace dxe {
             cbuffer->near_alpha_distance_ = near_alpha_distance_;
             cbuffer->origin_range_ = origin_range_;
             cbuffer->conv_position_ = conv_position_;
-            cbuffer->play_type_ = static_cast<int>( play_type_ );
+            cbuffer->play_type_ = static_cast<int>(play_type_);
             cbuffer->adulation_emitter_ = (is_adulation_emitter) ? 1 : 0;
             cbuffer->distortion_mode_ = static_cast<int>(distortion_mode_);
             cbuffer->origin_mode_ = static_cast<int>(origin_mode_);
@@ -778,7 +778,7 @@ namespace dxe {
             pImmediateContext->DrawAuto();
         }
 
-	}
+    }
 
     //---------------------------------------------------------------------------------------------------------------------------------------------
     void Particle::saveStatus(const std::string& file_path) {
@@ -956,10 +956,10 @@ namespace dxe {
         clone->pos_ = pos_;
         clone->emissive_ = emissive_;
         clone->diff_direction_ = diff_direction_;
-        clone->gravity_direction_ = gravity_direction_ ;
-        clone->conv_position_ = conv_position_ ;
-        clone->origin_axis_ = origin_axis_ ;
-         
+        clone->gravity_direction_ = gravity_direction_;
+        clone->conv_position_ = conv_position_;
+        clone->origin_axis_ = origin_axis_;
+
         clone->size_x_ = size_x_;
         clone->size_y_ = size_y_;
         clone->scale_ = scale_;
@@ -987,7 +987,7 @@ namespace dxe {
         clone->play_type_ = play_type_;
         clone->blend_mode_ = blend_mode_;
         clone->origin_mode_ = origin_mode_;
-        clone->eject_type_ = eject_type_ ;
+        clone->eject_type_ = eject_type_;
         clone->move_surface_ = move_surface_;
         clone->posture_type_ = posture_type_;
         clone->disp_size_mode_ = disp_size_mode_;
@@ -1009,7 +1009,7 @@ namespace dxe {
         clone->rasterizer_state_ = rasterizer_state_;
         clone->sampler_state_ = sampler_state_;
 
-        return clone ;
+        return clone;
     }
 
 

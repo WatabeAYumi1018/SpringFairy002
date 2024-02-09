@@ -7,12 +7,7 @@
 
 Player::Player() 
 {
-	m_pos = { 0 };
-
 	m_collision_size =  100;
-	//m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
-
-	//SetLight(m_model_hdl);
 
 	for (int i = 0; i < 15; ++i)
 	{
@@ -21,8 +16,6 @@ Player::Player()
 		m_meshs.emplace_back(mesh);
 	}
 }
-
-Player::~Player(){}
 
 void Player::Initialize()
 {
@@ -34,15 +27,11 @@ void Player::Initialize()
 
 	SetLight(m_model_hdl);
 
-	//m_mediator->GetPlayerMoveAutoMove();
 	m_mediator->InitCollisionRegister();
 }
 
 void Player::Update(float delta_time)
 {
-	// スキル更新
-	//m_mediator->UpdatePlayerSkill(delta_time);
-
 	// アニメーション更新処理
 	m_mediator->UpdatePlayerAnim(delta_time);
 
@@ -57,25 +46,12 @@ void Player::Update(float delta_time)
 	{
 		m_mediator->IsInCameraFlustum();
 	}
-	////// 当たり判定デバッグ用
-	VECTOR pos = wta::ConvertToVECTOR(m_pos);
-	pos.y += m_collision_size;
-	DrawSphere3D(pos, m_collision_size,32, GetColor(255, 0, 0), GetColor(255,0,0), true);
-
-	//tnl::Vector3 forward = Forward();
-
-	//// 大体7秒で2000くらい？
-	//	
 }
 
 void Player::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	// モデル描画処理
 	m_mediator->DrawPlayerModel();
-	//for (std::shared_ptr<dxe::Mesh>& mesh : m_meshs)
-	//{
-	//	mesh->render(camera);
-	//}
 }
 
 void Player::UpdateMatrix(float delta_time)
@@ -101,7 +77,7 @@ void Player::UpdateMesh(float delta_time)
 		std::shared_ptr<dxe::Mesh>& mesh = m_meshs[i];
 
 		// メッシュの位置を設定（プレイヤーの位置に前方向ベクトルを加算）
-		mesh->pos_ = m_pos + forward * distance;
+		mesh->pos_ = m_game_pos + forward * distance;
 
 		// Y軸におけるオフセット（必要に応じて設定）
 		mesh->pos_.y += 150;
@@ -122,10 +98,6 @@ tnl::Vector3 Player::Forward()
 	// 前方向ベクトルを回転行列で変換
 	tnl::Vector3 forward 
 		= tnl::Vector3::Transform(base_forward, rotMatrix);
-
-	DrawStringEx(0, 60, -1, "PlayerForward_x:%f", forward.x);
-	DrawStringEx(0, 80, -1, "PlayerForward_y:%f", forward.y);
-	DrawStringEx(0, 100, -1, "PlayerForward_z:%f", forward.z);
 
 	return forward;
 }

@@ -26,7 +26,6 @@ class Player;
 class PlayerLoad;
 class PlayerMove;	
 class PlayerDraw;
-class PlayerSkill;
 class PlayerCollision;
 class CinemaPlayer;
 
@@ -47,6 +46,7 @@ class GimmickGenerator;
 class GimmickPool;
 
 class EffectLoad;
+class EffectHandle;
 
 class Score;
 
@@ -89,7 +89,6 @@ private:
 	std::shared_ptr<PlayerLoad> m_playerLoad = nullptr;
 	std::shared_ptr<PlayerMove> m_playerMove = nullptr;
 	std::shared_ptr<PlayerDraw> m_playerDraw = nullptr;
-	std::shared_ptr<PlayerSkill> m_playerSkill = nullptr;
 	std::shared_ptr<PlayerCollision> m_playerCollision = nullptr;
 	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
 
@@ -110,6 +109,7 @@ private:
 	std::shared_ptr<GimmickPool> m_gimmickPool = nullptr;
 
 	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
+	std::shared_ptr<EffectHandle> m_effectHandle = nullptr;
 
 	std::shared_ptr<Score> m_score = nullptr;
 
@@ -299,7 +299,7 @@ public:
 
 	// プレイヤーの前方向の取得
 	// 参照元 ... Player::tnl::Vector3 Forward();
-	// 参照先 ... 
+	// 参照先 ... プレイヤーの前方向が必要な全クラス
 	tnl::Vector3 PlayerForward();
 
 	// playerLoad
@@ -408,6 +408,11 @@ public:
 	// 参照先 ... ブルームフラグが必要な全クラス
 	bool GetIsPlayerBloom() const;
 
+	// ダンスフラグ取得
+	// 参照元 ... PlayerDraw::m_is_dance
+	// 参照先 ... ダンスフラグが必要な全クラス
+	bool GetIsPlayerDance() const;
+
 	// イベントによるダンスアニメーションフラグ取得
 	// 参照元 ... PlayerDraw::m_is_event_dance
 	// 参照先 ... PhaseManager::Update(float delta_time)
@@ -428,13 +433,6 @@ public:
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void CinemaPlayerAnimDance(const float delta_time);
 
-	// playerSkill
-
-	// プレイヤースキルの更新処理
-	// 参照元 ... PlayerSkill::Update(float delta_time)
-	// 参照先 ... Player::Update(float delta_time)
-	void UpdatePlayerSkill(const float delta_time);
-
 	// playerCollision
 
 	// プレイヤーの当たり判定の登録
@@ -453,6 +451,11 @@ public:
 	// 参照元 ... Player::m_pos
 	// 参照先 ... Playerの座標が必要な全クラス
 	const tnl::Vector3& GetCinemaPlayerPos() const;
+
+	// シネマプレイヤーのダンスフラグ取得
+	// 参照元 ... Player::m_is_dance
+	// 参照先 ... Player関連クラス
+	bool GetCinemaPlayerIsDance() const;
 
 	//--------------------------//
 
@@ -604,9 +607,9 @@ public:
 	void SetButterflyIsOpActive(bool is_op_active);
 
 	// バタフライの鱗粉フラグ取得
-	// 参照元 ... Butterfly::m_is_powder
+	// 参照元 ... Butterfly::m_is_clear
 	// 参照先 ... Opに関連する関数
-	bool GetButterflyIsPowder() const;
+	bool GetButterflyIsClear() const;
 
 	// バタフライのシネマフラグ設定
 	// 参照元 ... Butterfly::m_is_cinema_active
@@ -629,6 +632,13 @@ public:
 
 
 	//-----------Gimmick-----------//
+
+	// Gimmick
+
+	// ギミックの当たり判定取得
+	// 参照元 ... Gimmick::m_is_collision
+	// 参照先 ... Gimmick::Update(float delta_time)
+	bool GetGimmickIsCollision() const ;
 
 	// GimmickPool
 
@@ -665,6 +675,48 @@ public:
 	// 参照元 ... EffectLoad::m_effect_info
 	// 参照先 ... Effect::関連する関数
 	const std::vector<Effect::sEffectType>& GetEffectLoadInfo() const;
+
+	// EffectHandle
+
+	// エフェクトハンドルの初期化
+	// 参照元 ... EffectHandle::Initialize()
+	// 参照先 ... Effect::関連する関数
+	void InitializeEffectHandle();
+
+	// 実行エフェクトの更新
+	// 参照元 ... EffectHandle::Update(float delta_time)
+	// 参照先 ... Effect::関連する関数
+	void UpdateEffectHandle();
+
+	// エフェクトの座標取得
+	// 参照元 ... EffectHandle::m_pos
+	// 参照先 ... Effect::関連する関数
+	const tnl::Vector3& GetEffectHandlePos() const;
+
+	// プレイヤーのアクションエフェクト取得
+	// 参照元 ... EffectHandle::m_player_action_particles
+	// 参照先 ... Effect::関連する関数
+	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectPlayerActionParticles() const;
+
+	// ギミックのエフェクト取得
+	// 参照元 ... EffectHandle::m_gimmick_particles
+	// 参照先 ... Effect::関連する関数
+	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectGimmickParticles() const;
+
+	// キャラのパスエフェクト取得
+	// 参照元 ... EffectHandle::m_chara_path_particles
+	// 参照先 ... Effect::関連する関数
+	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectCharaPathParticles() const;
+
+	// スクリーンエフェクト取得
+	// 参照元 ... EffectHandle::m_screen_particles
+	// 参照先 ... Effect::関連する関数
+	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectScreenParticles() const;
+
+	// イベントエフェクト取得
+	// 参照元 ... EffectHandle::m_event_particles
+	// 参照先 ... Effect::関連する関数
+	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectEventParticles() const;
 
 	//--------------------------//
 
@@ -880,11 +932,6 @@ public:
 		m_playerDraw = playerDraw;
 	}
 
-	void SetPlayerSkill(std::shared_ptr<PlayerSkill>& playerSkill)
-	{
-		m_playerSkill = playerSkill;
-	}
-
 	void SetPlayerCollision(std::shared_ptr<PlayerCollision>& playerCollision)
 	{
 		m_playerCollision = playerCollision;
@@ -958,6 +1005,11 @@ public:
 	void SetEffectLoad(std::shared_ptr<EffectLoad>& effectLoad)
 	{
 		m_effectLoad = effectLoad;
+	}
+
+	void SetEffectHandle(std::shared_ptr<EffectHandle>& effectHandle)
+	{
+		m_effectHandle = effectHandle;
 	}
 
 	void SetScore(std::shared_ptr<Score>& score)

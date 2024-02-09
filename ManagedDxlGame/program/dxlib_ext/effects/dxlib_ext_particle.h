@@ -360,4 +360,5 @@ namespace dxe {
 		static ID3D11SamplerState* default_sampler_state;
 		static ID3D11ShaderResourceView* default_pixel_shader_resouce_view;
 	};
+
 }

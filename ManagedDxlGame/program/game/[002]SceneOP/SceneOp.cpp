@@ -35,7 +35,7 @@ void SceneOp::Initialize()
 	// 各オブジェクトの参照をFactoryクラスから取得
 	m_objects = m_factory->GetObjects();
 	// カメラの取得
-	m_opCamera = m_factory->GetOpCamera();
+	m_opCamera = m_factory->GetGameCamera();
 
 	for (std::shared_ptr<Object>& object : m_objects)
 	{
