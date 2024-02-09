@@ -1,10 +1,15 @@
-3D DXlib 「SpringFairy」
+3D DXlib 
+
+「SpringFairy」
 
 ～概要～
 
 言語:C++
+
 制作期間:2か月
+
 ジャンル:ファンタジック・シューティングゲーム
+
 
 ～力を入れているポイント～
 
