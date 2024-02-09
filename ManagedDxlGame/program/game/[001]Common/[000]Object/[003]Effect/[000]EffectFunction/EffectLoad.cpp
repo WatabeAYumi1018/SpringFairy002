@@ -9,7 +9,8 @@ EffectLoad::EffectLoad()
 
 EffectLoad::~EffectLoad()
 {
-
+	m_csv_effect_type_info.clear();
+	m_effect_type.clear();
 }
 
 void EffectLoad::LoadEffectTypeInfo()

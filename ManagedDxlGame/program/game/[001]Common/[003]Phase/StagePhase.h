@@ -22,14 +22,14 @@ public:
 
 private:
 
-	eStagePhase m_now_stage_phase = eStagePhase::e_flower;
+	eStagePhase m_now_stage = eStagePhase::e_flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(StagePhase, &StagePhase::SeqFlower);
 
-	// メディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	void PhaseChange();
 
 	// お花エリア
 	bool SeqFlower(const float delta_time);
@@ -42,7 +42,7 @@ public:
 
 	void Update(float delta_time);
 
-	eStagePhase GetNowStagePhase() const { return m_now_stage_phase; }
+	const eStagePhase& GetNowStagePhase() const { return m_now_stage; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

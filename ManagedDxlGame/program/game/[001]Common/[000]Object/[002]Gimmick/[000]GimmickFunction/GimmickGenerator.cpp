@@ -146,7 +146,8 @@ void GimmickGenerator::SetPlacePos(std::shared_ptr<Gimmick>& gimmick
     pos.y = Floor::DRAW_DISTANCE;
 
     // 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
-    if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
+    if (m_mediator->GetNowStagePhaseState() 
+        == StagePhase::eStagePhase::e_wood)
     {
         pos.y *= 2;
     }

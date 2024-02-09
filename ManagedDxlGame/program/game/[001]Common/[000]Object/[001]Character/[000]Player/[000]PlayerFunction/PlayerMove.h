@@ -24,7 +24,7 @@ private:
 	// 八の字の回転速度
 	float m_figure_eight_rotation = 10;
 
-	tnl::Vector3 m_pos;
+	tnl::Vector3 m_game_pos;
 	// ターゲット計算で一時的に使用
 	tnl::Quaternion m_target_rot;
 	//モデルの回転取得用

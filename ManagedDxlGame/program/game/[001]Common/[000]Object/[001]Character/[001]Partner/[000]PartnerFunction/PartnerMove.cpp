@@ -5,12 +5,12 @@
 
 void PartnerMove::Update(float delta_time)
 {
-	m_pos = m_mediator->GetPartnerPos();
+	m_game_pos = m_mediator->GetPartnerPos();
 	m_rot = m_mediator->GetPartnerRot();
 
 	// 自動経路による移動と回転の更新
-	m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
-	m_mediator->MoveAstarCharaUpdateRot(delta_time, m_pos,m_rot);
+	m_mediator->MoveAstarCharaUpdatePos(delta_time, m_game_pos);
+	m_mediator->MoveAstarCharaUpdateRot(delta_time, m_game_pos,m_rot);
 
 	UpdatePos(delta_time);
 
@@ -22,7 +22,7 @@ void PartnerMove::Update(float delta_time)
     //UpdateRot(delta_time);
 
 	// パートナーの位置と回転を更新
-	m_mediator->SetPartnerPos(m_pos);
+	m_mediator->SetPartnerPos(m_game_pos);
 	m_mediator->SetPartnerRot(m_rot);
 }
 
@@ -50,7 +50,7 @@ void PartnerMove::UpdatePos(const float delta_time)
     m_offset.z = orbit_radius * sinf(m_move_time * m_orbit_frequency);
 
     // 自動移動による位置にオーバーレイ
-    m_pos += m_offset;
+    m_game_pos += m_offset;
 }
 
 //void PartnerMove::UpdateRot(const float delta_time)

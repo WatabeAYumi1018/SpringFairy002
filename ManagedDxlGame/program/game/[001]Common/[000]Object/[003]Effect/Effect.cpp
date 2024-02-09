@@ -9,56 +9,19 @@ Effect::Effect()
 
 Effect::~Effect()
 {
-    m_effect_types.clear();
-
-    for (std::shared_ptr<dxe::Particle>& particle : m_particles)
-    {
-        particle.reset();
-    }
-
-    m_particles.clear();
+	
 }
 
 void Effect::Initialize()
 {
-    m_effect_types = m_mediator->GetEffectLoadInfo();
-
-    for (sEffectType& effect_type : m_effect_types)
-    {
-        std::shared_ptr<dxe::Particle> particle = nullptr;
-
-        particle = std::make_shared<dxe::Particle>(effect_type.s_effect_path.c_str());
-    
-        m_particles.emplace_back(particle);
-    }
+    m_mediator->InitializeEffectHandle();
 }
 
 void Effect::Update(float delta_time)
 {
-    // オフセット値
-    float offset = 150.0f;
+    m_mediator->UpdateEffectHandle();
 
-    // キャラの正面向きを取得
-    tnl::Vector3 forward = m_mediator->PlayerForward();
-
-    // プレイヤーの位置を取得
-    m_pos = m_mediator->GetPlayerPos();
-
-    // 攻撃ボタンのフラグが立っていたら一回再生
-    for (sEffectType& effect_type : m_effect_types)
-    {
-        if (ContainsAttack(effect_type.s_effect_path)
-            && m_mediator->GetIsPlayerBloom())
-        {
-            m_particles[effect_type.s_id]->start();
-            m_particles[effect_type.s_id]->setPosition({ m_pos.x, m_pos.y + offset,m_pos.z });
-            m_particles[effect_type.s_id]->setDiffDirection(forward);
-        }
-      //  else
-      //  {
-    		//m_particles[effect_type.s_id]->setPosition(m_pos);
-      //  }
-    }
+    GetActiveParticle();
 }
 
 void Effect::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -66,19 +29,42 @@ void Effect::Draw(std::shared_ptr<dxe::Camera> camera)
     // パーティクルの描画開始
     dxe::Particle::renderBegin();
 
-    // パーティクルを描画
-    for (std::shared_ptr<dxe::Particle>& particle : m_particles)
-    {
-        particle->render(camera);
-    }
+    ActiveEffect(camera, m_player_action_particles);
+
+    //ActiveEffect(camera, m_gimmick_particles);
+
+    //ActiveEffect(camera, m_chara_path_particles);
+
+    //ActiveEffect(camera, m_screen_particles);
+
+    //ActiveEffect(camera, m_event_particles);
     
     // パーティクルの描画終了
     dxe::Particle::renderEnd();
 }
 
-bool Effect::ContainsAttack(const std::string& str)
+void Effect::GetActiveParticle()
 {
-    // npos : 文字列が見つからなかった場合の返り値
-    return str.find("attack") != std::string::npos;
+    m_player_action_particles = m_mediator->GetEffectPlayerActionParticles();
+
+    m_gimmick_particles = m_mediator->GetEffectGimmickParticles();
+
+    m_chara_path_particles = m_mediator->GetEffectCharaPathParticles();
+
+    m_screen_particles = m_mediator->GetEffectScreenParticles();
+
+    m_event_particles = m_mediator->GetEffectEventParticles();
 }
 
+void Effect::ActiveEffect(std::shared_ptr<dxe::Camera> camera
+                          ,std::vector<std::shared_ptr<dxe::Particle>>& particles)
+{
+    // ベクターが空じゃない場合に描画
+    if (!particles.empty())
+    {
+        for (std::shared_ptr<dxe::Particle>& particle : particles)
+        {
+            particle->render(camera);
+        }
+    }
+}

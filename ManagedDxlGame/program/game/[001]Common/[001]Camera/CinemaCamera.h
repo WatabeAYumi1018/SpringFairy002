@@ -18,9 +18,11 @@ public:
 private:
 
 	// スクリーンハンドル
-	int m_all_hdl = 0;
+	int m_screen_hdl = 0;
 
 	bool m_move_mouse = false;
+	// シネマカメラの活性化フラグ
+	bool m_is_active = true;
 
 	// 各数値 : 疑似プレイヤーとの距離感
 	tnl::Vector3 m_offset = { 0, 0, -400 };
@@ -73,7 +75,13 @@ public:
 	void Render();
 
 	// スクリーンハンドルを取得
-	int GetAllHdl() const { return m_all_hdl; }
+	int GetAllHdl() const { return m_screen_hdl; }
+
+	// シネマカメラの活性化フラグを設定
+	void SetIsActive(bool is_active) { m_is_active = is_active; }
+
+	// シネマカメラの活性化フラグを取得
+	bool GetIsActive() const { return m_is_active; }
 
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)

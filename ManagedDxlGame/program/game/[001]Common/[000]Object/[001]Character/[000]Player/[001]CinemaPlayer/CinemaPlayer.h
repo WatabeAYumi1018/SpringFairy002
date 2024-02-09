@@ -24,14 +24,9 @@ private:
 	float m_total_time = 4.0f;
 	// 円運動の経過時間
 	float m_elapsed_time_circle = 0.0f;
-	// 一時停止している時間を追跡するためのタイマー
-	float m_pause_timer = 0.0f;
 
 	bool m_is_idle = false;
-	bool m_is_move = false;
 	bool m_is_dance = false;
-	// 回転が一時停止しているかを追跡するためのフラグ
-	bool m_is_paused = false; 
 	
 	// プレイヤーの自己発光
 	DxLib::COLOR_F m_emissive = { 0.5f,0.5f,0.5f,1 };
@@ -71,6 +66,8 @@ public:
 	void Update(const float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	bool GetIsDance() const { return m_is_dance; }
 
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)

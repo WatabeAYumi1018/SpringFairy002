@@ -5,26 +5,13 @@
 
 void PlayerMove::Update(float delta_time)
 {
-	m_pos = m_mediator->GetPlayerPos();
+	m_game_pos = m_mediator->GetPlayerPos();
 	m_rot = m_mediator->GetPlayerRot();
 
 	tnl_sequence_.update(delta_time);
 
-	m_mediator->SetPlayerPos(m_pos);
+	m_mediator->SetPlayerPos(m_game_pos);
 	m_mediator->SetPlayerRot(m_rot);
-
-	//GameCamera::eCameraType camera_type = GameCamera::eCameraType::e_none;
-
-	//if (camera_type == GameCamera::eCameraType::e_side)
-	//{
-	//	float camera_pos = m_mediator->GetCameraPos().z;
-
-	//	float offset = -400;
-
-	//	m_pos.z += camera_pos + offset;
-
-	//	m_mediator->SetPlayerPos(m_pos);
-	//}
 }
 
 bool PlayerMove::PushButton()
@@ -106,8 +93,8 @@ bool PlayerMove::PushButton()
 void PlayerMove::MoveMatrix(float delta_time)
 {
 	// 自動経路による移動と回転の更新
-	m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
-	m_mediator->MoveAstarCharaUpdateRot(delta_time, m_pos, m_rot);
+	m_mediator->MoveAstarCharaUpdatePos(delta_time, m_game_pos);
+	m_mediator->MoveAstarCharaUpdateRot(delta_time, m_game_pos, m_rot);
 
 	if (PushButton())
 	{
@@ -128,7 +115,7 @@ void PlayerMove::ControlMoveMatrix(float delta_time)
 
 	// 傾きをリセット（初期向きに戻す）
 	m_target_rot 
-		= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
+		= tnl::Quaternion::LookAtAxisY(m_game_pos, m_game_pos + tnl::Vector3(0, 0, 1));
 	// 傾斜の初期化
 	tnl::Quaternion tilt_rotation;
 	// 傾ける角度
@@ -187,7 +174,7 @@ void PlayerMove::ControlMoveMatrix(float delta_time)
 			= tnl::Vector3::Normalize(move_direction) * move_speed * delta_time;
 	}
 	// プレイヤーの位置を更新
-	m_pos += move_direction;
+	m_game_pos += move_direction;
 
 	// 現在の姿勢に傾斜を適用
 	m_target_rot = m_rot * tilt_rotation;
@@ -208,11 +195,11 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 					* 2 * tnl::ToRadian(180);
 
 	// 宙返りの軌道に沿った座標更新
-	m_pos.y = m_pos.y + sin(angle) * salto_radius;
-	m_pos.z = m_pos.z + cos(angle) * salto_radius;
+	m_game_pos.y = m_game_pos.y + sin(angle) * salto_radius;
+	m_game_pos.z = m_game_pos.z + cos(angle) * salto_radius;
 
 	// 傾きをリセット（初期向きに戻す）
-	m_target_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
+	m_target_rot = tnl::Quaternion::LookAtAxisY(m_game_pos, m_game_pos + tnl::Vector3(0, 0, 1));
 
 	tnl::Quaternion salt_rot
 		= tnl::Quaternion::RotationAxis(tnl::Vector3(-1, 0, 0), angle);
@@ -221,30 +208,10 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 
 	// 現在の回転から目標の回転に向けてslerpを行う
 	m_rot.slerp(m_target_rot, delta_time * salt_move_speed);
-
-	//// 座標、回転の更新
-	//m_mediator->SetPlayerPos(m_pos);
-	//m_mediator->SetPlayerRot(m_rot);
 }
 
 bool PlayerMove::SeqNormal(const float delta_time)
 {
-	//if (tnl_sequence_.isStart())
-	//{
-	//	m_stage_phase = m_mediator->GetNowStagePhaseState();
-	//}
-
-	//// フェーズ移行で地上になったら地上実行処理へ
-	//if (m_stage_phase != m_mediator->GetNowStagePhaseState())
-	//{
-	//	tnl_sequence_.change(&PlayerMove::SeqGround);
-	//}
-
-	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C))
-	//{
-	//	tnl_sequence_.change(&PlayerMove::SeqSaltoAction);
-	//}
-	
 	if (m_mediator->GetEventLane().s_id == 5)
 	{
 		tnl_sequence_.change(&PlayerMove::SeqStop);
@@ -277,7 +244,7 @@ bool PlayerMove::SeqStop(const float delta_time)
 
 bool PlayerMove::SeqUpMove(const float delta_time)
 {
-	if(m_pos.y >= 500)
+	if(m_game_pos.y >= 500)
 	{
 		tnl_sequence_.change(&PlayerMove::SeqNormal);
 	}
@@ -286,7 +253,7 @@ bool PlayerMove::SeqUpMove(const float delta_time)
 	{
 		MoveMatrix(delta_time);
 		// y座標を上昇
-		m_pos.y += delta_time * 100;
+		m_game_pos.y += delta_time * 100;
 	});
 
 	TNL_SEQ_CO_END;
@@ -294,9 +261,9 @@ bool PlayerMove::SeqUpMove(const float delta_time)
 
 bool PlayerMove::SeqDownMove(const float delta_time)
 {
-	if(m_pos.y <= 0)
+	if(m_game_pos.y <= 0)
 	{
-		m_pos.y = 0;
+		m_game_pos.y = 0;
 
 		tnl_sequence_.change(&PlayerMove::SeqNormal);
 	}
@@ -305,7 +272,7 @@ bool PlayerMove::SeqDownMove(const float delta_time)
 	{
 		MoveMatrix(delta_time);
 		// y座標を下降
-		m_pos.y -= delta_time * 50;
+		m_game_pos.y -= delta_time * 50;
 	});
 
 	TNL_SEQ_CO_END;
@@ -315,7 +282,7 @@ bool PlayerMove::SeqSaltoAction(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
-		m_pos = m_mediator->GetPlayerPos();
+		m_game_pos = m_mediator->GetPlayerPos();
 		m_rot = m_mediator->GetPlayerRot();
 	}
 

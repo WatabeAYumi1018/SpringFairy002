@@ -3,6 +3,7 @@
 
 class Mediator;
 
+
 class Effect : public Object
 {
 
@@ -15,19 +16,31 @@ public:
 	};
 
 	Effect();
+
 	~Effect();
 
 
 private:
 
-	std::vector<sEffectType> m_effect_types;
-
-	std::vector<std::shared_ptr<dxe::Particle>> m_particles;
+	// プレイヤーのアクションエフェクト
+	std::vector<std::shared_ptr<dxe::Particle>> m_player_action_particles;
+	// ギミックエフェクト
+	std::vector<std::shared_ptr<dxe::Particle>> m_gimmick_particles;
+	// キャラクターの軌道エフェクト
+	std::vector<std::shared_ptr<dxe::Particle>> m_chara_path_particles;
+	// スクリーンエフェクト
+	std::vector<std::shared_ptr<dxe::Particle>> m_screen_particles;
+	// イベントエフェクト
+	std::vector<std::shared_ptr<dxe::Particle>> m_event_particles;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	// ファイルパスの文字列中にattackがあるかどうか
-	bool ContainsAttack(const std::string& str);
+	// 各アクティブエフェクトの取得
+	void GetActiveParticle();
+
+	// アクティブエフェクトのレンダー処理
+	void ActiveEffect(std::shared_ptr<dxe::Camera> camera
+					 , std::vector<std::shared_ptr<dxe::Particle>>& particles);
 
 public:
 

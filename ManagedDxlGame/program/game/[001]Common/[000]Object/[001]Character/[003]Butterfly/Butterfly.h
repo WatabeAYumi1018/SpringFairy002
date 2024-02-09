@@ -34,8 +34,8 @@ private:
 	bool m_is_op_active = false;
 	// 円運動フラグ
 	bool m_is_circle = false;
-	// 鱗粉フラグ
-	bool m_is_powder = false;
+	// 消滅フラグ
+	bool m_is_clear = false;
 	// シネマ描画フラグ
 	bool m_is_cinema_active = false;
 
@@ -68,7 +68,7 @@ public:
 
 	void SetIsOpActive(bool is_op_active) { m_is_op_active = is_op_active; }
 
-	bool GetIsPowder() const { return m_is_powder; }
+	bool GetIsClear() const { return m_is_clear; }
 
 	void SetIsCinemaActive(bool is_cinema_active)
 	{

@@ -37,10 +37,6 @@ private:
 	float m_elapsed_time = 0.0f;
 	float m_total_active_time = 2.0f;
 
-	bool m_is_first = false;
-	bool m_is_second = false;
-	bool m_is_third = false;
-
 	bool m_is_fog = false;
 	bool m_is_bubble = false;
 
@@ -66,16 +62,6 @@ public:
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 	
-	void SetIsFirst(bool is_first) { m_is_first = is_first; }
-
-	void SetIsSecond(bool is_second) { m_is_second = is_second; }
-
-	bool GetIsSecond() const { return m_is_second; }
-
-	void SetIsThird(bool is_third) { m_is_third = is_third; }
-
-	bool GetIsThird() const { return m_is_third; }
-
 	void SetIsFog(bool is_fog) { m_is_fog = is_fog; }
 
 	void SetIsBubble(bool is_bubble) { m_is_bubble = is_bubble; }

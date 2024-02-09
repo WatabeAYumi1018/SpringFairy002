@@ -10,7 +10,7 @@ void Character::StartPos()
 		if (start.s_id == 1)
 		{
 			// グリッドの中心座標に設定
-			m_pos = start.s_pos + tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
+			m_game_pos = start.s_pos + tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
 		}
 	}
 }
@@ -20,7 +20,7 @@ Lane::sLane Character::CurrentMoveLane()
 {
 	// プレイヤー座標をグリッド座標に変換
 	auto [chara_x, chara_z]
-		= wta::ConvertFloatToGridInt(m_pos, Lane::LANE_SIZE);
+		= wta::ConvertFloatToGridInt(m_game_pos, Lane::LANE_SIZE);
 
 	std::vector<Lane::sLane> lane_vec = m_mediator->GetStageLane();
 
@@ -70,7 +70,7 @@ GameCamera::sCamera Character::CurrentCamera()
 {
 	// キャラ座標をグリッド座標に変換
 	auto [chara_x, chara_z]
-		= wta::ConvertFloatToGridInt(m_pos, Lane::LANE_SIZE);
+		= wta::ConvertFloatToGridInt(m_game_pos, Lane::LANE_SIZE);
 
 	std::vector<GameCamera::sCamera> camera_lane_vec
 		= m_mediator->GetCameraLaneVector();
@@ -99,7 +99,7 @@ Lane::sLaneEvent Character::CurrentEventLane()
 {
 	// キャラ座標をグリッド座標に変換
 	auto [chara_x, chara_z]
-		= wta::ConvertFloatToGridInt(m_pos, Lane::LANE_SIZE);
+		= wta::ConvertFloatToGridInt(m_game_pos, Lane::LANE_SIZE);
 
 	std::vector<Lane::sLaneEvent> event_lane_vec
 		= m_mediator->GetStageLaneEvent();
