@@ -11,7 +11,7 @@ protected:
 	//-----------------------------------メンバ変数-----------------------------------//
 
 	// 座標
-	tnl::Vector3 m_game_pos;
+	tnl::Vector3 m_pos;
 	// サイズ
 	tnl::Vector3 m_size;
 	// 回転
@@ -37,9 +37,9 @@ public:
 
 	//----------------------------Setter&Getter----------------------------//
 
-	void SetPos(const tnl::Vector3& pos) { m_game_pos = pos; }
+	void SetPos(const tnl::Vector3& pos) { m_pos = pos; }
 
-	const tnl::Vector3& GetPos() const { return m_game_pos; }
+	const tnl::Vector3& GetPos() const { return m_pos; }
 
 	void SetSize(const tnl::Vector3& size) { m_size = size; }
 

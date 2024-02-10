@@ -75,7 +75,7 @@ void Gimmick::LoadGimmickData(const Gimmick::sGimmickTypeInfo& gimmick_info)
 
 void Gimmick::Reset()
 {
-	m_game_pos = { 0,0,0 };
+	m_pos = { 0,0,0 };
 	m_is_not_active = false;
 	m_is_draw_change = false;
 	m_is_collision = false;
@@ -96,10 +96,10 @@ void Gimmick::MoveFlower(const float delta_time)
 		elapsed_time += delta_time * 10;
 
 		// ç∂âEÇ…Ç‰ÇÁÇ‰ÇÁóhÇÍÇ»Ç™ÇÁÇ‰Ç¡Ç≠ÇËóéâ∫
-		m_game_pos.x += sin(elapsed_time) * 10;
-		m_game_pos.y -= elapsed_time * 5;
+		m_pos.x += sin(elapsed_time) * 10;
+		m_pos.y -= elapsed_time * 5;
 
-		if (m_game_pos.y < m_mediator->GetPlayerPos().y - 750)
+		if (m_pos.y < m_mediator->GetPlayerPos().y - 750)
 		{
 			elapsed_time = 0.0f;
 		}

@@ -27,7 +27,7 @@ Title::~Title()
 
 void Title::Update(const float delta_time)
 {
-    m_game_pos = { 0,150,0 };
+    m_pos = { 0,150,0 };
 
     // ‰ñ“]‚ÆÀ•W‚©‚çs—ñ‚ğŒvZ
     m_matrix = GetTransformMatrix();

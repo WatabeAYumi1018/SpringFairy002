@@ -20,7 +20,7 @@ void CameraTargetPlayer::Update(float delta_time)
 void CameraTargetPlayer::MoveMatrix(const float delta_time)
 {
 	// 自動経路による移動の更新
-	m_mediator->MoveAstarTargetPos(delta_time, m_game_pos);
+	m_mediator->MoveAstarTargetPos(delta_time, m_pos);
 
 	// カメラレーンの取得
 	m_camera_info = CurrentCameraType();
@@ -76,7 +76,7 @@ bool CameraTargetPlayer::SeqStop(const float delta_time)
 
 bool CameraTargetPlayer::SeqUpMove(const float delta_time)
 {
-	if(m_game_pos.y > 500)
+	if(m_pos.y > 500)
 	{
 		tnl_sequence_.change(&CameraTargetPlayer::SeqNormal);
 	}
@@ -93,7 +93,7 @@ bool CameraTargetPlayer::SeqUpMove(const float delta_time)
 	{
 		MoveMatrix(delta_time);
 		// y座標を上昇
-		m_game_pos.y += delta_time * 50;
+		m_pos.y += delta_time * 50;
 	});
 
 	TNL_SEQ_CO_END;
@@ -101,7 +101,7 @@ bool CameraTargetPlayer::SeqUpMove(const float delta_time)
 
 bool CameraTargetPlayer::SeqDownMove(const float delta_time)
 {
-	if( m_game_pos.y == 0 )
+	if(m_pos.y == 0 )
 	{
 		tnl_sequence_.change(&CameraTargetPlayer::SeqNormal);
 	}
@@ -118,7 +118,7 @@ bool CameraTargetPlayer::SeqDownMove(const float delta_time)
 	{
 		MoveMatrix(delta_time);
 		// y座標を下降
-		m_game_pos.y -= delta_time * 100;
+		m_pos.y -= delta_time * 100;
 
 	});
 

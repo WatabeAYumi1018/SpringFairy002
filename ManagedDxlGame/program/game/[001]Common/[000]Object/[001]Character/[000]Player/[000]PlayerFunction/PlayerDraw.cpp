@@ -131,6 +131,10 @@ bool PlayerDraw::SeqMove(const float delta_time)
 
 		m_time_count_move
 			= MV1GetAttachAnimTotalTime(m_model_game_hdl, m_anim_move_index);
+
+		MusicManager::GetInstance().StopSE(1);
+
+		MusicManager::GetInstance().StopSE(2);
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X))
@@ -176,8 +180,6 @@ bool PlayerDraw::SeqBloom(const float delta_time)
 
 			MusicManager::GetInstance().PlaySE(1);
 		});
-
-		MusicManager::GetInstance().StopSE(1);
 
 		m_is_bloom = false;
 
@@ -235,8 +237,6 @@ bool PlayerDraw::SeqDance(const float delta_time)
 			
 			MusicManager::GetInstance().PlaySE(2);
 		});
-
-		MusicManager::GetInstance().StopSE(2);
 
 		m_is_dance = false;
 

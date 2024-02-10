@@ -20,11 +20,8 @@ void MusicSE::Play(int id)
 	{
 		m_is_playing = true;
 
-		if (id != 0)
-		{
-			// ‰Šú‰¹—Ê‚ğİ’è
-			ChangeVolumeSoundMem(m_current_volume, m_ses_info[id].s_se_hdl);
-		}
+		// ‰Šú‰¹—Ê‚ğİ’è
+		ChangeVolumeSoundMem(m_current_volume, m_ses_info[id].s_se_hdl);
 
 		PlaySoundMem(m_ses_info[id].s_se_hdl, DX_PLAYTYPE_BACK);
 	}

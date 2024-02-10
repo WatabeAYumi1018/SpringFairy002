@@ -77,7 +77,7 @@ void Player::UpdateMesh(float delta_time)
 		std::shared_ptr<dxe::Mesh>& mesh = m_meshs[i];
 
 		// メッシュの位置を設定（プレイヤーの位置に前方向ベクトルを加算）
-		mesh->pos_ = m_game_pos + forward * distance;
+		mesh->pos_ = m_pos + forward * distance;
 
 		// Y軸におけるオフセット（必要に応じて設定）
 		mesh->pos_.y += 150;
