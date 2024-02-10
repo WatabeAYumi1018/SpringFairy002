@@ -1,3 +1,4 @@
+#include "../../[000]GameEngine/[002]Music/MusicManager.h"
 #include "../[002]Mediator/Mediator.h"
 #include "StagePhase.h"
 
@@ -24,6 +25,11 @@ void StagePhase::PhaseChange()
 // ストーリー画面
 bool StagePhase::SeqFlower(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		MusicManager::GetInstance().PlayBGM(delta_time, 1);
+	}
+
 	// 二番の映像が開始したら
 	if (m_now_stage == eStagePhase::e_wood)
 	{
@@ -42,6 +48,8 @@ bool StagePhase::SeqWood(const float delta_time)
 		tnl_sequence_.change(&StagePhase::SeqFancy);
 	}
 
+	//MusicManager::GetInstance().PlayBGM(delta_time, 2);
+
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});
 
 	TNL_SEQ_CO_END;
@@ -54,6 +62,8 @@ bool StagePhase::SeqFancy(const float delta_time)
 	//{
 		//エンディングフラグon
 	//}
+
+	//MusicManager::GetInstance().PlayBGM(delta_time, 3);
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});
 

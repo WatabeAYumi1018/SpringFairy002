@@ -1,4 +1,5 @@
 #include "../../../../../../wta_library/wta_Convert.h"
+#include "../../../../../[000]GameEngine/[002]Music/MusicManager.h"
 #include "../../../../[002]Mediator/Mediator.h"
 #include "PlayerDraw.h"
 
@@ -172,7 +173,11 @@ bool PlayerDraw::SeqBloom(const float delta_time)
 			m_is_bloom = true;
 
 			AnimBloom(delta_time);
+
+			MusicManager::GetInstance().PlaySE(1);
 		});
+
+		MusicManager::GetInstance().StopSE(1);
 
 		m_is_bloom = false;
 
@@ -227,7 +232,11 @@ bool PlayerDraw::SeqDance(const float delta_time)
 			m_is_dance = true;
 
 			AnimDance(delta_time, m_model_game_hdl);
+			
+			MusicManager::GetInstance().PlaySE(2);
 		});
+
+		MusicManager::GetInstance().StopSE(2);
 
 		m_is_dance = false;
 

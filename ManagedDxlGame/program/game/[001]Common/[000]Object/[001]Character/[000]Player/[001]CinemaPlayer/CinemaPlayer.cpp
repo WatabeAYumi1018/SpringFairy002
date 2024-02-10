@@ -1,4 +1,4 @@
-
+#include "../../../../../[000]GameEngine/[002]Music/MusicManager.h"
 #include "../../../../[001]Camera/CinemaCamera.h"
 #include "../../../../[002]Mediator/Mediator.h"
 #include "CinemaPlayer.h"
@@ -268,6 +268,8 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
 	{
 		MoveRoundFrontToBack(delta_time);
+
+		MusicManager::GetInstance().PlaySE(3);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
@@ -307,6 +309,8 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 	m_is_idle = false;
 
 	m_mediator->SetAnimElapsedTimeDance(0);
+
+	MusicManager::GetInstance().StopSE(3);
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 
@@ -376,7 +380,11 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 	{
 		m_is_idle = false;	
 		m_is_dance = true;
+
+		MusicManager::GetInstance().PlaySE(3);
 	});
+
+	MusicManager::GetInstance().StopSE(3);
 
 	SetDefaultLightParameter("directional_light_parameter.bin");
 
@@ -447,7 +455,11 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 	{
 		m_is_idle = false;
 		m_is_dance = true;
+
+		MusicManager::GetInstance().PlaySE(4);
 	});
+
+	MusicManager::GetInstance().StopSE(4);
 
 	m_is_dance = false;
 

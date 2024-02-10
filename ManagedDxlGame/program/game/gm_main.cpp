@@ -743,6 +743,7 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "gm_main.h"
 #include "[000]GameEngine/[001]Scene/SceneManager.h"
+#include "[000]GameEngine/[002]Music/MusicManager.h"
 #include "[002]SceneOP/SceneOp.h"
 #include "[003]ScenePlay/ScenePlay.h"
 
@@ -755,6 +756,10 @@ void gameStart()
 	SetWindowText("Spring Fairy");
 
 	SceneManager::GetInstance(new SceneOp());
+
+	// âπäyÇÃì«Ç›çûÇ›
+	MusicManager::GetInstance().LoadBGM();
+	MusicManager::GetInstance().LoadSE();
 }
 
 //------------------------------------------------------------------------------------------------------------

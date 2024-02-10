@@ -3,53 +3,59 @@
 
 
 // BGM‚Ì“Ç‚İ‚İ
-void MusicManager::LoadBGM(const std::string& path)
+void MusicManager::LoadBGM()
 {
-    m_bgm = std::make_unique<MusicBGM>(path);
+    m_bgm = std::make_shared<MusicBGM>();
 }
 
 // Œø‰Ê‰¹‚Ì“Ç‚İ‚İ
-void MusicManager::LoadSE(const std::string& key, const std::string& path)
+void MusicManager::LoadSE()
 {
-    m_se[key] = std::make_unique<MusicSE>(path);
+    m_se = std::make_shared<MusicSE>();
 }
 
 // BGM‚ÌÄ¶
-void MusicManager::PlayBGM()
+void MusicManager::PlayBGM(const float delta_time,int id)
 {
     if (m_bgm)
     {
-        m_bgm->Play();
+        m_bgm->Play(id);
     }
 }
 
 // BGM‚Ì’â~
-void MusicManager::StopBGM()
+void MusicManager::StopBGM(int id)
 {
     if (m_bgm)
     {
-        m_bgm->Stop();
+        m_bgm->Stop(id);
     }
 }
 
-// Œø‰Ê‰¹‚ÌÄ¶
-void MusicManager::PlaySE(const std::string& key)
+bool MusicManager::IsStopBGM(int id)
 {
-    auto it = m_se.find(key);
-
-    if (it != m_se.end())
+    if (m_bgm)
     {
-        it->second->Play();
+        m_bgm->Stop(id);
+	}
+	return false;
+}
+
+
+// Œø‰Ê‰¹‚ÌÄ¶
+void MusicManager::PlaySE(int id)
+{
+    if (m_se)
+    {
+        m_se->Play(id);
     }
 }
 
 // Œø‰Ê‰¹‚Ì’â~
-void MusicManager::StopSE(const std::string& key)
+void MusicManager::StopSE(int id)
 {
-    auto it = m_se.find(key);
-
-    if (it != m_se.end())
+    if (m_se)
     {
-        it->second->Stop();
+        m_se->Stop(id);
     }
 }

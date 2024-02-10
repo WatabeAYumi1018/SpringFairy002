@@ -1,5 +1,6 @@
 #include <random>
 #include "../../../../wta_library/wta_Convert.h"
+#include "../../../[000]GameEngine/[002]Music/MusicManager.h"
 #include "../../[002]Mediator/Mediator.h"
 #include "Gimmick.h"
 
@@ -125,6 +126,11 @@ void Gimmick::MoveButterfly(const float delta_time)
 
 bool Gimmick::SeqNormal(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		MusicManager::GetInstance().StopSE(0);
+	}
+
 	if (m_is_hit)
 	{
 		tnl_sequence_.change(&Gimmick::SeqHit);
@@ -147,6 +153,8 @@ bool Gimmick::SeqHit(const float delta_time)
 	if (m_is_collision)
 	{
 		m_emissive_value = 0.6f;
+
+
 
 		tnl_sequence_.change(&Gimmick::SeqLightUp);
 	}
@@ -236,6 +244,8 @@ bool Gimmick::SeqChangeEnd(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
+		MusicManager::GetInstance().PlaySE(0);
+
 		// テクスチャを変える
 		MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0
 								, m_gimmick_data.s_texture_b_hdl, FALSE);
