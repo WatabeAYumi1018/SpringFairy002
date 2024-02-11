@@ -223,7 +223,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickPool.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.cpp" />
-    <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectHandle.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[004]Score\Score.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[001]Text\Text.cpp" />
@@ -353,7 +352,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickPool.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\Effect.h" />
-    <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectHandle.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[004]Score\Score.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[001]Text\Text.h" />

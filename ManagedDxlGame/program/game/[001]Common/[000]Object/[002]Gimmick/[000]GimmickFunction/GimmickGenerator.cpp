@@ -37,11 +37,11 @@ void GimmickGenerator::CreateGimmick(const float delta_time)
 
     if (stage_phase == StagePhase::eStagePhase::e_wood)
     {
-        CalcGroundPos(delta_time, Gimmick::eGimmickType::tree);
+        CalcGroundPos(delta_time, Gimmick::eGimmickType::wood);
     }
     else
     {
-        CalcGroundPos(delta_time, Gimmick::eGimmickType::plant);
+        CalcGroundPos(delta_time, Gimmick::eGimmickType::ground_flower);
     }
  
  // if (stage_phase == StagePhase::eStagePhase::e_fancy)

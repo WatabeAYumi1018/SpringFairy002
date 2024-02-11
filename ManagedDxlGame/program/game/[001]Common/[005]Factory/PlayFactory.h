@@ -60,7 +60,7 @@ class GimmickGenerator;
 
 class Effect;
 class EffectLoad;
-class EffectHandle;
+//class EffectHandle;
 
 class Score;
 
@@ -146,7 +146,7 @@ private:
 
 	std::shared_ptr<Effect> m_effect = nullptr;
 	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
-	std::shared_ptr<EffectHandle> m_effectHandle = nullptr;
+	//std::shared_ptr<EffectHandle> m_effectHandle = nullptr;
 
 	std::shared_ptr<Score> m_score = nullptr;
 

@@ -22,7 +22,7 @@
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
-#include "../[000]Object/[003]Effect/[000]EffectFunction/EffectHandle.h"
+//#include "../[000]Object/[003]Effect/[000]EffectFunction/EffectHandle.h"
 #include "../[000]Object/[004]Score/Score.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextLoad.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
@@ -43,6 +43,7 @@ const CameraPhase::eCameraPhase& Mediator::GetNowCameraPhaseState() const
 }
 
 //----------------------------//
+
 
 //---------StagePhase---------//
 
@@ -573,46 +574,27 @@ const std::vector<Effect::sEffectType>& Mediator::GetEffectLoadInfo() const
 }
 
 // EffectHandle
+//
+//std::vector<std::shared_ptr<dxe::Particle>>& Mediator::InitializeEffectHandle()
+//{
+//	return m_effectHandle->Initialize();
+//}
+//
+//void Mediator::UpdateEffectHandle()
+//{
+//	m_effectHandle->Update();
+//}
+//
+//int Mediator::GetEffectHandleStartId() const
+//{
+//	return m_effectHandle->GetStartId();
+//}
+//
+//int Mediator::GetEffectHandleEndId() const
+//{
+//	return m_effectHandle->GetEndId();
+//}
 
-void Mediator::InitializeEffectHandle()
-{
-	m_effectHandle->Initialize();
-}
-
-void Mediator::UpdateEffectHandle()
-{
-	m_effectHandle->Update();
-}
-
-const tnl::Vector3& Mediator::GetEffectHandlePos() const
-{
-	return m_effectHandle->GetGamePos();
-}
-
-const std::vector<std::shared_ptr<dxe::Particle>>& Mediator::GetEffectPlayerActionParticles() const
-{
-	return m_effectHandle->GetPlayerActionParticles();
-}
-
-const std::vector<std::shared_ptr<dxe::Particle>>& Mediator::GetEffectGimmickParticles() const
-{
-	return m_effectHandle->GetGimmickParticles();
-}
-
-const std::vector<std::shared_ptr<dxe::Particle>>& Mediator::GetEffectCharaPathParticles() const
-{
-	return m_effectHandle->GetCharaPathParticles();
-}
-
-const std::vector<std::shared_ptr<dxe::Particle>>& Mediator::GetEffectScreenParticles() const
-{
-	return m_effectHandle->GetScreenParticles();
-}
-
-const std::vector<std::shared_ptr<dxe::Particle>>& Mediator::GetEffectEventParticles() const
-{
-	return m_effectHandle->GetEventParticles();
-}
 
 //--------------------------//
 

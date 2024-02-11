@@ -4,11 +4,6 @@
 
 Text::Text()
 {
-	SetFontSize(20);
-
-	//•¶ŽšƒtƒHƒ“ƒg
-	tnl::AddFontTTF("font/pen.ttf");
-
 	m_window_hdl
 		= LoadGraph("graphics/ui/message/window.png");
 }

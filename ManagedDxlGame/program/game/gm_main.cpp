@@ -755,6 +755,11 @@ void gameStart()
 	srand(time(0));
 	SetWindowText("Spring Fairy");
 
+	SetFontSize(20);
+
+	//文字フォント
+	tnl::AddFontTTF("font/pen.ttf");
+
 	SceneManager::GetInstance(new SceneOp());
 
 	// 音楽の読み込み

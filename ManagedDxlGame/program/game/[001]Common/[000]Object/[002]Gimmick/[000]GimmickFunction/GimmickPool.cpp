@@ -16,13 +16,13 @@ void GimmickPool::AddGimmick(std::shared_ptr<Gimmick>& gimmick
 {
     switch (type)
     {
-    case Gimmick::eGimmickType::plant:
+    case Gimmick::eGimmickType::ground_flower:
     
         m_gimmick_plants.emplace_back(gimmick);
         
         break;
     
-    case Gimmick::eGimmickType::tree:
+    case Gimmick::eGimmickType::wood:
     
         m_gimmick_trees.emplace_back(gimmick);
         
@@ -63,13 +63,13 @@ std::vector<std::shared_ptr<Gimmick>>& GimmickPool::GetGimmickPools(Gimmick::eGi
 {
     switch (type)
     {
-    case Gimmick::eGimmickType::plant:
+    case Gimmick::eGimmickType::ground_flower:
 		
 		return m_gimmick_plants;
 
         break;
 
-    case Gimmick::eGimmickType::tree:
+    case Gimmick::eGimmickType::wood:
 
         return m_gimmick_trees;
 
@@ -92,25 +92,3 @@ std::vector<std::shared_ptr<Gimmick>>& GimmickPool::GetGimmickPools(Gimmick::eGi
 		break;
     }
 }
-
-
-//// 活性化アイテムの取得
-//std::shared_ptr<Item> ItemPool::GetActiveItem()
-//{
-//	std::vector<std::shared_ptr<Item>>::iterator active_items;
-//
-//    // 活性化していないアイテムを探す
-//	active_items = std::find_if(m_items.begin(), m_items.end(),
-//        		[](std::shared_ptr<Item> item) { return !item->GetIsActive(); });
-//
-//	// 活性化していないアイテムが見つからなかった場合
-//	if (active_items == m_items.end())
-//	{
-//		return nullptr;
-//	}
-//
-//	// 活性化していないアイテムを活性化する
-//	(*active_items)->SetIsActive(true);
-//
-//	return (*active_items);
-//}

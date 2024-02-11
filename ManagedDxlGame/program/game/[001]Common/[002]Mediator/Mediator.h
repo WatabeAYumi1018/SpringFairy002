@@ -46,7 +46,6 @@ class GimmickGenerator;
 class GimmickPool;
 
 class EffectLoad;
-class EffectHandle;
 
 class Score;
 
@@ -109,7 +108,6 @@ private:
 	std::shared_ptr<GimmickPool> m_gimmickPool = nullptr;
 
 	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
-	std::shared_ptr<EffectHandle> m_effectHandle = nullptr;
 
 	std::shared_ptr<Score> m_score = nullptr;
 
@@ -676,48 +674,6 @@ public:
 	// 参照先 ... Effect::関連する関数
 	const std::vector<Effect::sEffectType>& GetEffectLoadInfo() const;
 
-	// EffectHandle
-
-	// エフェクトハンドルの初期化
-	// 参照元 ... EffectHandle::Initialize()
-	// 参照先 ... Effect::関連する関数
-	void InitializeEffectHandle();
-
-	// 実行エフェクトの更新
-	// 参照元 ... EffectHandle::Update(float delta_time)
-	// 参照先 ... Effect::関連する関数
-	void UpdateEffectHandle();
-
-	// エフェクトの座標取得
-	// 参照元 ... EffectHandle::m_pos
-	// 参照先 ... Effect::関連する関数
-	const tnl::Vector3& GetEffectHandlePos() const;
-
-	// プレイヤーのアクションエフェクト取得
-	// 参照元 ... EffectHandle::m_player_action_particles
-	// 参照先 ... Effect::関連する関数
-	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectPlayerActionParticles() const;
-
-	// ギミックのエフェクト取得
-	// 参照元 ... EffectHandle::m_gimmick_particles
-	// 参照先 ... Effect::関連する関数
-	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectGimmickParticles() const;
-
-	// キャラのパスエフェクト取得
-	// 参照元 ... EffectHandle::m_chara_path_particles
-	// 参照先 ... Effect::関連する関数
-	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectCharaPathParticles() const;
-
-	// スクリーンエフェクト取得
-	// 参照元 ... EffectHandle::m_screen_particles
-	// 参照先 ... Effect::関連する関数
-	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectScreenParticles() const;
-
-	// イベントエフェクト取得
-	// 参照元 ... EffectHandle::m_event_particles
-	// 参照先 ... Effect::関連する関数
-	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectEventParticles() const;
-
 	//--------------------------//
 
 
@@ -1009,11 +965,6 @@ public:
 	void SetEffectLoad(std::shared_ptr<EffectLoad>& effectLoad)
 	{
 		m_effectLoad = effectLoad;
-	}
-
-	void SetEffectHandle(std::shared_ptr<EffectHandle>& effectHandle)
-	{
-		m_effectHandle = effectHandle;
 	}
 
 	void SetScore(std::shared_ptr<Score>& score)

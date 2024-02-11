@@ -13,8 +13,8 @@ public:
 
 	enum class eGimmickType
 	{
-		plant,
-		tree,
+		ground_flower,
+		wood,
 		sky_flower,
 		butterfly,
 		Max

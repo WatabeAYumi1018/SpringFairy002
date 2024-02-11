@@ -27,7 +27,7 @@
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
-#include "../[000]Object/[003]Effect/[000]EffectFunction/EffectHandle.h"
+//#include "../[000]Object/[003]Effect/[000]EffectFunction/EffectHandle.h"
 #include "../[000]Object/[004]Score/Score.h"
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextLoad.h"
@@ -116,7 +116,7 @@ void PlayFactory::CreateObject()
 
 	m_effect = std::make_shared<Effect>();
 	m_effectLoad = std::make_shared<EffectLoad>();
-	m_effectHandle = std::make_shared<EffectHandle>();
+	//m_effectHandle = std::make_shared<EffectHandle>();
 
 	m_score = std::make_shared<Score>();
 
@@ -166,7 +166,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetGimmickGenerator(m_gimmickGenerator);
 	m_mediator->SetGimmickPool(m_gimmickPool);
 	m_mediator->SetEffectLoad(m_effectLoad);
-	m_mediator->SetEffectHandle(m_effectHandle);
+	//m_mediator->SetEffectHandle(m_effectHandle);
 	m_mediator->SetScore(m_score);
 	m_mediator->SetText(m_text);
 	m_mediator->SetTextLoad(m_textLoad);
@@ -206,7 +206,7 @@ void PlayFactory::SetMediatorReference()
 	m_butterfly->SetMediator(m_mediator);
 	m_gimmickGenerator->SetMediator(m_mediator);
 	m_effect->SetMediator(m_mediator);
-	m_effectHandle->SetMediator(m_mediator);
+	//m_effectHandle->SetMediator(m_mediator);
 	m_score->SetMediator(m_mediator);
 	m_text->SetMediator(m_mediator);
 	m_textDraw->SetMediator(m_mediator);
@@ -231,7 +231,7 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 
 			gimmick->LoadGimmickData(type_info);
 
-			if (type_info.s_type == Gimmick::eGimmickType::tree)
+			if (type_info.s_type == Gimmick::eGimmickType::wood)
 			{
 				gimmick->SetCollisionSize(500);
 			}
@@ -261,8 +261,8 @@ void PlayFactory::StorageObjectGameCamera()
 	m_objects_gameCamera.emplace_back(m_cameraTargetPlayer);
 
 	// 各ギミックタイプごとに処理
-	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::plant));
-	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::tree));
+	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::ground_flower));
+	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::wood));
 	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::sky_flower));
 
 	m_playerCollision->SetGimmicks(m_gimmicks);
@@ -284,7 +284,7 @@ void PlayFactory::StorageObjectCinemaCamera()
 	// シネマ用プレイヤー
 	m_objects_cinemaCamera.emplace_back(m_cinemaPlayer);
 	// シネマ用エフェクト
-	m_objects_cinemaCamera.emplace_back(m_effect);
+	//m_objects_cinemaCamera.emplace_back(m_effect);
 	// シネマ用蝶
 	m_objects_cinemaCamera.emplace_back(m_butterfly);
 }

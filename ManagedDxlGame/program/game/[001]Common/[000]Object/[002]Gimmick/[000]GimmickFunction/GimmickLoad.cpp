@@ -62,13 +62,13 @@ const std::vector<Gimmick::sGimmickTypeInfo>& GimmickLoad::GetGimmicksType(Gimmi
 {
 	switch (type)
 	{
-	case Gimmick::eGimmickType::plant:
+	case Gimmick::eGimmickType::ground_flower:
 
 		return m_ground_flowers;
 
 		break;
 
-	case Gimmick::eGimmickType::tree:
+	case Gimmick::eGimmickType::wood:
 
 		return m_woods;
 
@@ -91,47 +91,4 @@ const std::vector<Gimmick::sGimmickTypeInfo>& GimmickLoad::GetGimmicksType(Gimmi
 		break;
 	}
 }
-
-
-
-//Gimmick::sGimmickTypeInfo GimmickLoad::GetGimmickInfoById(int id)
-//{
-//	for (const Gimmick::sGimmickTypeInfo& gimmick : gimmick_type)
-//	{
-//		if (gimmick.s_id == id)
-//		{
-//			return gimmick;
-//		}
-//	}
-//	// IDが見つからなかった場合のデフォルト値
-//	return Gimmick::sGimmickTypeInfo();
-//}
-
-//void GimmickLoad::LoadGimmickVector()
-//{
-//	// csvファイルの読み込み
-//	m_csv_gimmick_lane = tnl::LoadCsv<int>("csv/gimmick/gimmick_lane.csv");
-//
-//	Gimmick::sGimmick gimmick_lane;
-//
-//	// レーン配列の情報取得と格納
-//	for (int y = 0; y < m_lane_height; y++)
-//	{
-//		for (int x = 0; x < m_lane_width; x++)
-//		{
-//			// －1は除外
-//			if (m_csv_gimmick_lane[y][x] == -1)
-//			{
-//				continue;
-//			}
-//
-//			gimmick_lane.s_id = m_csv_gimmick_lane[y][x];
-//
-//			gimmick_lane.s_pos
-//				= tnl::Vector3(x * Lane::LANE_SIZE, 0, y * Lane::LANE_SIZE);
-//
-//			m_gimmick_lanes.emplace_back(gimmick_lane);
-//		}
-//	}
-//}
 

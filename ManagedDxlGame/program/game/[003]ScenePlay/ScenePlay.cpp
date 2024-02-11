@@ -15,7 +15,6 @@ ScenePlay::ScenePlay() : m_factory(std::make_shared<PlayFactory>())
 {
 	Initialize();
 
-	//ChangeLightTypeDir(VGet(0.0f, -1.0f, 0.0f));
 	SetDefaultLightParameter("directional_light_parameter.bin");
 }
 
@@ -103,8 +102,6 @@ void ScenePlay::Draw(const float delta_time)
 	if (m_cameraPhase->GetNowCameraPhase()
 		== CameraPhase::eCameraPhase::e_game)
 	{
-		//DrawGridGround(m_gameCamera);
-
 		for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 		{
 			object->Draw(m_gameCamera);
@@ -112,8 +109,6 @@ void ScenePlay::Draw(const float delta_time)
 	}
 	else
 	{
-		//DrawGridGround(m_cinemaCamera);
-
 		for (std::shared_ptr<Object>& object : m_objects_cinemaCamera)
 		{
 			object->Draw(m_cinemaCamera);
@@ -123,9 +118,6 @@ void ScenePlay::Draw(const float delta_time)
 	}
 
 	m_screenShot->SaveScreenShot();
-
-	// Fps•\Ž¦
-	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
 }
 
 void ScenePlay::Finalize()

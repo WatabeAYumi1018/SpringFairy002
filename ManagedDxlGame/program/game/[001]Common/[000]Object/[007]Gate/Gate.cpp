@@ -3,6 +3,11 @@
 
 
 
+Gate::Gate()
+{
+    m_enter_hdl = LoadGraph("graphics/ui/other/press_enter.png");
+}
+
 void Gate::Initialize()
 {
     m_gates_info = m_mediator->GetGatesInfo();
@@ -16,6 +21,8 @@ void Gate::Update(const float delta_time)
     {
         tnl_sequence_.update(delta_time);
     }
+
+    UpdateEnterGraph(delta_time);
 }
 
 void Gate::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -27,6 +34,11 @@ void Gate::Draw(std::shared_ptr<dxe::Camera> camera)
             mesh->render(camera);
         }
     }
+
+    if (m_enter_active)
+    {
+		DrawGraph(450, 500, m_enter_hdl, TRUE);
+	}
 }
 
 void Gate::CreateMesh()
@@ -66,6 +78,22 @@ void Gate::SetMeshMatrix()
     m_meshes[2]->pos_.x += 3450;
     m_meshes[2]->pos_.y -= 2000;
     m_meshes[2]->pos_.z = m_mediator->GetButterflyPos().z + 1300;
+}
+
+void Gate::UpdateEnterGraph(const float delta_time)
+{
+    // ゲートが開いたら画像の点滅表示
+    if (m_is_opend)
+    {
+        m_elasped_time += delta_time;
+
+        if (m_elasped_time > 1)
+        {
+            m_enter_active = !m_enter_active;
+
+            m_elasped_time = 0;
+        }
+    }
 }
 
 bool Gate::SeqTrigger(const float delta_time)

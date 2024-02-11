@@ -509,9 +509,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectHandle.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[000]GameEngine\[002]Music\MusicManager.cpp">
       <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
     </ClCompile>
@@ -919,9 +916,6 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectHandle.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[000]GameEngine\[002]Music\MusicManager.h">
       <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
