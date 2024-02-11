@@ -29,6 +29,13 @@ public:
 
 	//-------------------------------------------------------------------------------//
 	
+private:
+
+	// SE再生状態を追跡するフラグ
+	bool m_is_playing = false;
+
+	float m_current_volume = 150.0f;
+
 	// SEの種類読み取り専用（csvファイル）
 	std::vector<std::vector<tnl::CsvCell>> m_csv_se_info;
 	// SEの種類情報格納用
@@ -43,10 +50,10 @@ public:
 
 	// 再生
 	// tips ... 効果音を再生するときに呼び出します
-	void Play();
+	void Play(int id);
 	// 停止
 	// tips ... 効果音を停止するときに呼び出します
-	void Stop();
+	void Stop(int id);
 
 	//-----------------------------------------------------------------------------//
 };

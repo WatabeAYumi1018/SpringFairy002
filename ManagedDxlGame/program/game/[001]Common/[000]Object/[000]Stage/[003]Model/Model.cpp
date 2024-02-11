@@ -14,7 +14,6 @@ void Model::Initialize()
 
 void Model::Update(float delta_time)
 {
-
 }
 
 void Model::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -25,79 +24,116 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 		if (m_mediator->GetNowStagePhaseState()
 					== StagePhase::eStagePhase::e_flower)
 		{
-			DrawStage(m_models_info, 0);
+			DrawStageNormal(m_models_info, 0, 1500);
 		}
 		else if(m_mediator->GetNowStagePhaseState() 
 					== StagePhase::eStagePhase::e_wood)
 		{
-			DrawStage(m_models_info, 1);
+			DrawStageNormal(m_models_info, 1, 1800);
 		}
 		else
 		{
-			DrawStage(m_models_info, 2);
+			DrawStageNormal(m_models_info, 2, 1000);
 		}
 	}
 	// サイドを向いた時の処理
 	else
 	{
-
+        if (m_mediator->GetNowStagePhaseState()
+            == StagePhase::eStagePhase::e_flower)
+        {
+            DrawStageRot(m_models_info, 0,1500);
+        }
+        else if (m_mediator->GetNowStagePhaseState()
+                == StagePhase::eStagePhase::e_wood)
+        {
+          DrawStageRot(m_models_info, 1,1800);
+        }
+        else
+        {
+          DrawStageRot(m_models_info, 2,1500);
+        }
 	}
 }
 
-void Model::DrawStage(std::vector<sModelInfo>& models_info,int id)
+void Model::CalcGridPos(int grid_size)
 {
-	// モデルサイズとグリッドサイズ
-	int model_size = 1500;
-	int grid_size = 1500;
-
 	tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
-	
+
 	// プレイヤーの現在位置からグリッド座標を取得
-	int target_grid_x = static_cast<int>(target_pos.x / grid_size);
-	int target_grid_z = static_cast<int>(target_pos.z / grid_size);
-
-	// 描画範囲の設定（ターゲットの位置を中心に前方に向けて）
-	int draw_range = 10; 
-
-	for (int z = target_grid_z; z < target_grid_z + draw_range; z++) 
-	{
-		for (int x = target_grid_x - draw_range / 2; x <= target_grid_x + draw_range / 2; x++)
-		{
-			// 透明化処理（ある程度後方にあるモデルは描画しない）
-			if (z < target_grid_z - grid_size)
-			{
-				continue;
-			}
-
-			// モデルの座標を計算
-			tnl::Vector3 pos;
-
-			pos.x = static_cast<float>(x * model_size);
-			
-			pos.y = Floor::DRAW_DISTANCE;
-			
-			if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
-			{
-				// 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
-				pos.y *= 2;
-			}
-
-			// 前方を少し遠めに設定し突然のモデルの出現を防ぐ
-			pos.z = static_cast<float>(z * model_size) + 1000;
-
-			// モデルのワールド座標を設定
-			VECTOR pos_vec =wta::ConvertToVECTOR(pos);
-
-			// モデルの位置を設定
-			MV1SetPosition(models_info[id].s_model_hdl, pos_vec);
-
-			// モデルを描画
-			MV1DrawModel(models_info[id].s_model_hdl);
-		}
-	}
+    m_grid_x = static_cast<int>(target_pos.x / grid_size);
+    m_grid_z = static_cast<int>(target_pos.z / grid_size);
 }
 
+tnl::Vector3 Model::CalcModelPos(int x, int z,int grid_size)
+{
+	tnl::Vector3 pos;
 
+	pos.x = static_cast<float>(x * grid_size);
+	pos.y = Floor::DRAW_DISTANCE;
+
+    if (m_mediator->GetNowStagePhaseState() 
+        == StagePhase::eStagePhase::e_wood)
+    {
+		// エリアwoodの時は特別な処理（例: フロアの描画位置を下げる）
+		pos.y *= 2;
+	}
+
+	// モデルの前方オフセットを適用
+	pos.z = static_cast<float>(z * grid_size);
+
+	return pos;
+}
+
+void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id,int grid_size)
+{
+    // 描画範囲の設定（ターゲットの位置を中心に全方向に向けて）
+    int draw_range = 7;
+
+    CalcGridPos(grid_size);
+
+    for (int z = m_grid_z - draw_range; z <= m_grid_z + draw_range; z++)
+    {
+        for (int x = m_grid_x - draw_range; x <= m_grid_x + draw_range; x++)
+        {  
+            m_pos = CalcModelPos(x, z,grid_size);
+
+            m_rot = { 0,0,0,1 };
+
+            MATRIX matrix = GetTransformMatrix();
+
+            MV1SetMatrix(models_info[id].s_model_hdl, matrix);
+
+            // モデルを描画
+            MV1DrawModel(models_info[id].s_model_hdl);
+        }
+    }
+}
+
+void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id,int grid_size)
+{
+    int draw_range = 7;
+
+    CalcGridPos(grid_size);
+
+    for (int z = m_grid_z - draw_range; z <= m_grid_z + draw_range; z++)
+    {
+        for (int x = m_grid_x - draw_range; x <= m_grid_x + draw_range; x++)
+        {
+            m_pos = CalcModelPos(x, z,grid_size);
+
+            tnl::Vector3 forward_pos = m_mediator->PlayerForward();
+
+            m_rot = tnl::Quaternion::LookAtAxisY(m_pos,forward_pos);
+
+            MATRIX matrix = GetTransformMatrix();
+
+            MV1SetMatrix(models_info[id].s_model_hdl, matrix);
+
+            MV1DrawModel(models_info[id].s_model_hdl);
+        }
+    }
+}
 
 //void Model::SetTextureIndex(sStageModelType& model)
 //{

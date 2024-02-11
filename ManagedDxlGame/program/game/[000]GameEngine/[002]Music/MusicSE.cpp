@@ -1,7 +1,6 @@
 #include "MusicSE.h"
 
 
-
 MusicSE::MusicSE()
 {
 	LoadSEInfo();
@@ -15,19 +14,26 @@ MusicSE::~MusicSE()
 	}
 }
 
-void MusicSE::Play()
+void MusicSE::Play(int id)
 {
-	for (int i = 0; i < m_ses_info.size(); ++i)
+	if (!m_is_playing)
 	{
-		PlaySoundMem(m_ses_info[i].s_se_hdl, DX_PLAYTYPE_BACK);
+		m_is_playing = true;
+
+		// 初期音量を設定
+		ChangeVolumeSoundMem(m_current_volume, m_ses_info[id].s_se_hdl);
+
+		PlaySoundMem(m_ses_info[id].s_se_hdl, DX_PLAYTYPE_BACK);
 	}
 }
 
-void MusicSE::Stop()
+void MusicSE::Stop(int id)
 {
-	for (int i = 0; i < m_ses_info.size(); ++i)
+	if (m_is_playing)
 	{
-		StopSoundMem(m_ses_info[i].s_se_hdl);
+		m_is_playing = false;
+
+		StopSoundMem(m_ses_info[id].s_se_hdl);
 	}
 }
 
@@ -36,14 +42,15 @@ void MusicSE::LoadSEInfo()
 	// SEの種類読み取り専用（csvファイル）
 	m_csv_se_info = tnl::LoadCsv<tnl::CsvCell>("csv/music/se.csv");
 
-	// マップタイルの総数を取得
-	int max_num = m_csv_se_info.size();
-
 	// 0行目は説明文なので読み飛ばす
-	for (int y = 1; y < max_num; ++y)
+	for (int y = 1; y < m_csv_se_info.size(); ++y)
 	{
-		m_ses_info[y].s_id = m_csv_se_info[y][0].getInt();
+		MusicSE::sMusicSE se_info;
 
-		m_ses_info[y].s_se_hdl = LoadSoundMem(m_csv_se_info[y][1].getString().c_str());
+		se_info.s_id = m_csv_se_info[y][0].getInt();
+
+		se_info.s_se_hdl = LoadSoundMem(m_csv_se_info[y][1].getString().c_str());
+
+		m_ses_info.emplace_back(se_info);
 	}
 }

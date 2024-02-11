@@ -15,11 +15,11 @@ public:
 private:
 	
 	// ①草花のギミックモデル(静的)
-	std::vector<std::vector<tnl::CsvCell>> m_csv_plants;
-	std::vector<Gimmick::sGimmickTypeInfo> m_plants;
+	std::vector<std::vector<tnl::CsvCell>> m_csv_ground_flowers;
+	std::vector<Gimmick::sGimmickTypeInfo> m_ground_flowers;
 	// ②樹木のギミックモデル(静的)
-	std::vector<std::vector<tnl::CsvCell>> m_csv_trees;
-	std::vector<Gimmick::sGimmickTypeInfo> m_trees;
+	std::vector<std::vector<tnl::CsvCell>> m_csv_woods;
+	std::vector<Gimmick::sGimmickTypeInfo> m_woods;
 	// ③舞う花のギミックモデル(動的)
 	std::vector<std::vector<tnl::CsvCell>> m_csv_sky_flowers;
 	std::vector<Gimmick::sGimmickTypeInfo> m_sky_flowers;

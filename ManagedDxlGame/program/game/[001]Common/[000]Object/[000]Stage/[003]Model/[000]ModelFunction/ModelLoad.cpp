@@ -27,7 +27,7 @@ void ModelLoad::LoadModelTypeInfo()
 {
 	// csvファイルの読み込み
 	m_csv_model_info
-		= tnl::LoadCsv<tnl::CsvCell>("csv/stage/model/stage_group_model_info.csv");
+		= tnl::LoadCsv<tnl::CsvCell>("csv/stage/model/stage_area_model_info.csv");
 
 	// マップタイルの総数を取得
 	int max_num = m_csv_model_info.size();
@@ -51,6 +51,15 @@ void ModelLoad::LoadModelTypeInfo()
 		model_info.s_texture_c_hdl
 			= LoadGraph(m_csv_model_info[y][4].getString().c_str());
 
+		model_info.s_texture_d_hdl
+			= LoadGraph(m_csv_model_info[y][5].getString().c_str());
+
+		model_info.s_texture_e_hdl
+			= LoadGraph(m_csv_model_info[y][6].getString().c_str());
+
+		model_info.s_texture_f_hdl
+			= LoadGraph(m_csv_model_info[y][7].getString().c_str());
+
 		model_info.s_material_count 
 				= MV1GetMaterialNum(model_info.s_model_hdl);
 
@@ -65,7 +74,7 @@ void ModelLoad::LoadModelTypeInfo()
 		}
 		else
 		{
-			SetTextureIndex(model_info, 43, 73, 102);
+			SetTextureIndex(model_info, 22, 42, 62, 82, 102 );
 		}
 
 		m_model_info.emplace_back(model_info);
@@ -91,10 +100,44 @@ void ModelLoad::SetTextureIndex(Model::sModelInfo model_info, int a, int b, int 
 			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
 				, model_info.s_texture_c_hdl, FALSE);
 		}
+
+		SetLight(model_info, i);
+	}
+}
+
+void ModelLoad::SetTextureIndex(Model::sModelInfo model_info, int a, int b, int c, int d, int e)
+{
+	for (int i = 0; i < model_info.s_material_count; ++i)
+	{
+		if (i < a)
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+				, model_info.s_texture_a_hdl, FALSE);
+		}
+		else if (i >= a && i < b)
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+				, model_info.s_texture_b_hdl, FALSE);
+		}
+		else if (i >= b && i < c)
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+				, model_info.s_texture_c_hdl, FALSE);
+		}
+		else if (i >= c && i < d)
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+							, model_info.s_texture_d_hdl, FALSE);
+		}
+		else if (i >= d && i < e)
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+							, model_info.s_texture_e_hdl, FALSE);
+		}
 		else
 		{
 			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
-				, model_info.s_texture_d_hdl, FALSE);
+							, model_info.s_texture_f_hdl, FALSE);
 		}
 
 		SetLight(model_info, i);
@@ -102,11 +145,19 @@ void ModelLoad::SetTextureIndex(Model::sModelInfo model_info, int a, int b, int 
 }
 
 void ModelLoad::SetLight(Model::sModelInfo model_info, int i)
-{
+{	
 	DxLib::COLOR_F emissive = { 0.8f,0.8f,0.8f,1 };
 	DxLib::COLOR_F ambient = { 1,1,1,1 };
 	DxLib::COLOR_F diffuse = { 0.8f,0.8f,0.8f,1 };
 	DxLib::COLOR_F specular = { 0,0,0,1 };
+
+	if (i == 2)
+	{
+		DxLib::COLOR_F emissive = { 1,1,1,1 };
+		DxLib::COLOR_F ambient = { 1,1,1,1 };
+		DxLib::COLOR_F diffuse = { 1,1,1,1 };
+		DxLib::COLOR_F specular = { 0,0,0,1 };
+	}
 
 	MV1SetMaterialEmiColor(model_info.s_model_hdl, i, emissive);
 	MV1SetMaterialAmbColor(model_info.s_model_hdl, i, ambient);

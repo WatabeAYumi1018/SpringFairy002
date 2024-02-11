@@ -51,6 +51,8 @@ PlayFactory::PlayFactory()
 
 	SetObjectReference();
 
+	SetMediatorReference();
+
 	StorageObjectGameCamera();
 
 	StorageObjectCinemaCamera();
@@ -174,7 +176,10 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
 	m_mediator->SetCinemaCamera(m_cinemaCamera);
+}
 
+void PlayFactory::SetMediatorReference()
+{
 	m_cameraPhase->SetMediator(m_mediator);
 	m_stagePhase->SetMediator(m_mediator);
 	m_skyBox->SetMediator(m_mediator);
@@ -204,7 +209,6 @@ void PlayFactory::SetObjectReference()
 	m_effectHandle->SetMediator(m_mediator);
 	m_score->SetMediator(m_mediator);
 	m_text->SetMediator(m_mediator);
-	m_textLoad->SetMediator(m_mediator);
 	m_textDraw->SetMediator(m_mediator);
 	m_charaGraph->SetMediator(m_mediator);
 	m_charaGraphDraw->SetMediator(m_mediator);
@@ -267,6 +271,8 @@ void PlayFactory::StorageObjectGameCamera()
 	m_objects_gameCamera.emplace_back(m_player);
 	m_objects_gameCamera.emplace_back(m_effect);
 	m_objects_gameCamera.emplace_back(m_score);
+	m_objects_gameCamera.emplace_back(m_charaGraph);
+	m_objects_gameCamera.emplace_back(m_text);
 }
 
 void PlayFactory::StorageObjectCinemaCamera()

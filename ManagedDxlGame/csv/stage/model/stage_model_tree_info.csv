@@ -1,0 +1,3 @@
+モデルID,モデル ファイルパス,テクスチャ ファイルパス1,テクスチャ ファイルパス2,テクスチャ ファイルパス3,マテリアル名1,マテリアル名2,マテリアル名3
+0,model/stage/tree/blossom.mv1,model/stage/tree/oak_branch.png,model/stage/tree/birch_leaf.png,branch,sakura,,
+1,model/stage/tree/blossom.mv1,model/stage/tree/oak_branch.png,model/stage/tree/blossom.png,branch,sakura,,

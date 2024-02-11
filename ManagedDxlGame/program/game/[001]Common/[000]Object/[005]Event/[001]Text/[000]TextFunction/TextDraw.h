@@ -27,8 +27,8 @@ private:
 
 	// IDごとの待機フラグ
 	bool m_is_interval = false;
-
-	bool m_is_end = false;
+	// テキスト表示終了フラグ
+	bool m_is_end = true;
 
 	std::vector<Text::sTextData> m_lane_text_data;
 
@@ -38,12 +38,21 @@ private:
 	TNL_CO_SEQUENCE(TextDraw, &TextDraw::SeqStop);
 
 	// 一行一文字ずつ表示する処理
-	void DrawTextData(const float delta_time, std::string text_line);
+	void DrawTextData(const float delta_time
+						, std::string text_line_first
+						, std::string text_line_second);
+
 	// レーンに該当するテキストIDの表示が終了したら次のIDを表示
 	void SetNextText(const float delta_time);
+	// 表示テキストIDの設定
+	void UpdateTexts();
 
+
+	// テキストの描画を停止
 	bool SeqStop(const float delta_time);
+	// テキストの描画を開始
 	bool SeqDrawTextData(const float delta_time);
+	// 次のテキストの設定
 	bool SeqSetNextText(const float delta_time);
 
 public:
@@ -51,21 +60,20 @@ public:
 
 	void Update(const float delta_time);
 
-	// 表示する文字のみの描画
 	void Draw();
 
-	//// レーンIDに該当する全ての表示終了
-	//bool IsTextEnd();
+	bool GetIsEnd() const { return m_is_end; }
 
-	void SetIsEnd(bool is_end) { m_is_end = is_end; }
+	int GetNowTextID() const { return m_now_text_id; }
+	
+	const std::vector<Text::sTextData>& GetLaneTextData() const 
+	{
+		return m_lane_text_data; 
+	}
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;
 	}
 };
-
-
-// プレイヤー名
-//std::string m_player_request_name;
 

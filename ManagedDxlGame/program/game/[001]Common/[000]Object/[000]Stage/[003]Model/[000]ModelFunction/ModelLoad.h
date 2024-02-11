@@ -22,7 +22,10 @@ private:
 	// ステージモデルの情報読み込み
 	void LoadModelTypeInfo();
 
+	// ステージ3以外のモデル画像設定
 	void SetTextureIndex(Model::sModelInfo model_info, int a, int b, int c);
+	// ステージ3のモデル画像設定
+	void SetTextureIndex(Model::sModelInfo model_info, int a, int b, int c, int d, int e);
 
 	void SetLight(Model::sModelInfo model_info, int i);
 

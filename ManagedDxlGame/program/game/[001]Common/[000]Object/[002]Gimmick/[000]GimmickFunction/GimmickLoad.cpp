@@ -4,11 +4,11 @@
 
 GimmickLoad::GimmickLoad()
 {
-	m_csv_plants
-		= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/plant.csv");
+	m_csv_ground_flowers
+		= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/ground_flower.csv");
 
-	m_csv_trees
-		= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/tree.csv");
+	m_csv_woods
+		= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/wood.csv");
 
 	m_csv_sky_flowers
 		= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/sky_flower.csv");
@@ -16,20 +16,20 @@ GimmickLoad::GimmickLoad()
 	//m_csv_gimmick_butterfly
 	//	= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/butterfly.csv");
 
-	LoadGimmickTypeInfo(m_csv_plants, m_plants);
+	LoadGimmickTypeInfo(m_csv_ground_flowers, m_ground_flowers);
 	
-	LoadGimmickTypeInfo(m_csv_trees, m_trees);
+	LoadGimmickTypeInfo(m_csv_woods, m_woods);
 	
 	LoadGimmickTypeInfo(m_csv_sky_flowers, m_sky_flowers);
 }
 
 GimmickLoad::~GimmickLoad()
 {
-	m_csv_plants.clear();
-	m_csv_trees.clear();
+	m_csv_ground_flowers.clear();
+	m_csv_woods.clear();
 	m_csv_sky_flowers.clear();
-	m_plants.clear();
-	m_trees.clear();
+	m_ground_flowers.clear();
+	m_woods.clear();
 	m_sky_flowers.clear();
 }
 
@@ -64,13 +64,13 @@ const std::vector<Gimmick::sGimmickTypeInfo>& GimmickLoad::GetGimmicksType(Gimmi
 	{
 	case Gimmick::eGimmickType::plant:
 
-		return m_plants;
+		return m_ground_flowers;
 
 		break;
 
 	case Gimmick::eGimmickType::tree:
 
-		return m_trees;
+		return m_woods;
 
 		break;
 

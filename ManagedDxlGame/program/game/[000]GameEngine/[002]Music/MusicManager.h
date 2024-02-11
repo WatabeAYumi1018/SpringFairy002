@@ -25,9 +25,9 @@ private:
     //-----------------------------------メンバ関数-----------------------------------//
 
     // BGMの読み込み用
-    std::unique_ptr<MusicBGM> m_bgm;
+    std::shared_ptr<MusicBGM> m_bgm = nullptr;
     // 効果音の読み込み用
-    std::map<std::string, std::unique_ptr<MusicSE>> m_se;
+    std::shared_ptr<MusicSE> m_se = nullptr;
 
     //--------------------------------------------------------------------------------//
 
@@ -39,6 +39,7 @@ public:
     static MusicManager& GetInstance()
     {
         static MusicManager instance;
+
         return instance;
     }
 
@@ -48,33 +49,31 @@ public:
     //----------------------------------メンバ関数----------------------------------//
 
     // BGMの読み込み
-    // arg ... 再生したいBGMのパス
     // tips ... BGMを設定する時に呼び出します
-    // ex ... 	MusicManager::GetInstance().LoadBGM("music/title.mp3");
-    void LoadBGM(const std::string& path);
+    void LoadBGM();
 
     // 効果音の読み込み
-    // arg1 ... 効果音のキー
-    // arg2 ... 再生したい効果音のパス
     // tips ... 効果音を設定する時に呼び出します
-    // ex ... 	MusicManager::GetInstance().LoadSE("jump", "se/jump.mp3");
-    void LoadSE(const std::string& key, const std::string& path);
+    void LoadSE();
 
     // BGMの再生
     // tips ... BGMをループ再生するときに呼び出します
-    void PlayBGM();
+    void PlayBGM(const float delta_time, int id);
+
     // BGMの停止
     // tips ... BGMを停止するときに呼び出します
-    void StopBGM();
+    void StopBGM(int id);
+
+    // BGMの停止フラグ
+    bool IsStopBGM(int id);
 
     // 効果音の再生
-    // arg ... 再生したい効果音のキー
     // tips ... 効果音を再生するときに呼び出します
-    void PlaySE(const std::string& key);
+    void PlaySE(int id);
+
     // 効果音の停止
-    // arg ... 停止したい効果音のキー
     // tips ... 効果音を停止するときに呼び出します
-    void StopSE(const std::string& key);
+    void StopSE(int id);
 
     //------------------------------------------------------------------------------//
 };

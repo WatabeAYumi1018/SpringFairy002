@@ -737,15 +737,10 @@ public:
 
 	// TextLoad
 
-	// レーンIDに該当するテキスト文字の取得
-	// 参照元 ... TextLoad::GetTextsLane()
+	// テキスト全データの取得
+	// 参照元 ... TextLoad::m_texts_all
 	// 参照先 ... Text::関連する関数
-	void GetTextsLoadLane();
-	
-	// レーンIDに該当す全ての構造体データの取得
-	// 参照元 ... TextLoad::m_texts_for_lane
-	// 参照先 ... Text::関連する関数
-	const std::vector<Text::sTextData>& GetTextsLoadForLane() const;
+	const std::vector<Text::sTextData>& GetTextsLoadAll() const;
 
 	// TextDraw
 
@@ -762,7 +757,18 @@ public:
 	// テキストの描画終了フラグの取得
 	// 参照元 ... TextDraw::m_is_end
 	// 参照先 ... TextLoad
-	void SetIsTextDrawEnd(bool is_end);
+	bool GetIsTextDrawEnd();
+
+	// 現在のテキストID取得
+	// 参照元 ... TextDraw::m_now_text_id
+	// 参照先 ... Text::関連する関数
+	int GetNowTextDrawID() const;
+
+	// 現在のレーンの全テキストデータ取得
+	// 参照元 ... TextDraw::m_lane_text_data
+	// 参照先 ... Text::関連する関数
+	const std::vector<Text::sTextData>& GetLaneTextDrawData() const;
+
 
 	//---------------------------//
 
@@ -775,8 +781,6 @@ public:
 	// 参照元 ... CharaGraphLoad::m_graph_info
 	// 参照先 ... CharaGraph
 	const std::vector<CharaGraph::sGraphInfo>& GetCharaGraphLoadInfo() const;
-
-	// CharaGraphDraw
 
 	//---------------------------//
 

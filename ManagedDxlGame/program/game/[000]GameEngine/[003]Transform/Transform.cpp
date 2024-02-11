@@ -25,7 +25,7 @@ MATRIX Transform::GetTransformMatrix()
 	// ‡BÀ•W‚ğİ’è‚·‚é
 
 	// tnl::m_pos‚ğVECTORŒ^‚É•ÏŠ·
-	VECTOR vecter_pos = wta::ConvertToVECTOR(m_game_pos);
+	VECTOR vecter_pos = wta::ConvertToVECTOR(m_pos);
 
 	// ˆÚ“®‚ğİ’è‚·‚é
 	MATRIX matrix_translation = MGetTranslate(vecter_pos);

@@ -1,0 +1,4 @@
+モデルID,モデル ファイルパス,テクスチャ ファイルパス 1,テクスチャ ファイルパス 2,テクスチャ ファイルパス 3,テクスチャ ファイルパス 4,テクスチャ ファイルパス 5,テクスチャ ファイルパス 6
+0,model/stage/flower/flower.mv1,model/stage/flower/plant.png,model/stage/flower/plant_yellow.png,model/stage/flower/plant_pink.png,model/stage/flower/plant_orange.png,,
+1,model/stage/wood/wood.mv1,model/stage/wood/plant_a.png,model/stage/wood/plant_b.png,model/stage/wood/birch_diffuse.png,model/stage/wood/tree_trunk.png,,
+2,model/stage/fancy/fancy.mv1,model/stage/fancy/plant.png,model/stage/fancy/plant_yellow.png,model/stage/fancy/plant_pink.png,model/stage/fancy/plant_orange.png,model/stage/fancy/plant_blue.png,model/stage/fancy/plant_white.png

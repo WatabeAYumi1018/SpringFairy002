@@ -1,8 +1,8 @@
 #pragma once
+#include "../../[000]Stage/[001]Lane/Lane.h"
 #include "../../Object.h"
 
 class Mediator;
-class GameCamera;
 
 
 class CharaGraph : public Object
@@ -17,12 +17,10 @@ public:
 		int s_id;
 		// 描画位置
 		int s_graph_side;
-		// 描画座標
-		tnl::Vector3 s_graph_pos;
 		// 描画ハンドル
 		int s_graph_hdl;
-		// 画像ファイルパス
-		std::string s_graph_path;
+		// 描画座標
+		tnl::Vector3 s_graph_pos;
 	};
 
 	CharaGraph();
@@ -31,12 +29,8 @@ public:
 
 private:
 
-	int m_window_hdl = 0;
 
 	float m_elapsed_time = 0.0f;
-
-	bool m_window_active = true;
-
 
 	std::vector<CharaGraph::sGraphInfo> m_chara_graph;
 
@@ -46,12 +40,14 @@ private:
 	// メディエーターのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	// キャラ画像の読み取り
-	void LoadCharaGraph();
 	//// キャラ画像のスライド処理
-	//void UpdateCharaSlideGraph(const float delta_time, int graph_id);
-	// キャラ画像の描画
-	void DrawCharaGraph(int graph_id);
+	//void UpdateCharaSlideGraph(const float delta_time, int graph_id);	
+
+	// キャラ画像の更新
+	void UpdateCharaGraph();
+	
+	void DrawCharaGraph();
+
 
 	// スライドイン
 	bool SeqSlideIn(const float delta_time);

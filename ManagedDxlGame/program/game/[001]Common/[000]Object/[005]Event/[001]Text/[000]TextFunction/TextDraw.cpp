@@ -5,18 +5,27 @@
 
 void TextDraw::Update(const float delta_time)
 {
-    m_mediator->GetTextsLoadLane();
+    UpdateTexts();
 
-    // テキストを取得する
-    m_lane_text_data = m_mediator->GetTextsLoadForLane();
+    // テキストが空の場合は更新しない
+    if (m_lane_text_data.empty())
+    {
+        return;
+    }
 
     tnl_sequence_.update(delta_time);
 }
 
 void TextDraw::Draw()
 {
-    int draw_x = 500;
-    int draw_y = 500;
+    // 空の場合は描画しない
+    if (m_lane_text_data.empty())
+    {
+		return;
+	}
+
+    int start_x = 500;
+    int start_y = 550;
     int draw_y_interval = 50;
 
     // 現在表示するべきテキスト行を決定
@@ -27,43 +36,83 @@ void TextDraw::Draw()
         = m_lane_text_data[m_now_text_id].s_text_line_second;
 
     // 1行目のテキストを描画
-    DrawStringEx(draw_x, draw_y, 1, line_to_draw_first.substr(0, m_index_char_first).c_str());
+    DrawStringEx(start_x, start_y, 1
+                 ,line_to_draw_first.substr(0, m_index_char_first).c_str());
 
-    DrawStringEx(draw_x, draw_y + draw_y_interval, 1, line_to_draw_second.substr(0, m_index_char_second).c_str());    
+    DrawStringEx(start_x, start_y + draw_y_interval, 1
+                 ,line_to_draw_second.substr(0, m_index_char_second).c_str());
+}
+
+void TextDraw::UpdateTexts()
+{
+    Lane::sLaneEvent lane_event = m_mediator->GetEventLane();
+
+    // テキスト描画をしないレーンIDの場合は処理を終了
+    if (lane_event.s_id == -1
+        || lane_event.s_id == 1
+        || lane_event.s_id == 7
+        || lane_event.s_id == 10)
+    {
+        return;
+    }
+
+    // 上記以外であれば描画を開始
+    m_is_end = false;
+
+    int lane_id = lane_event.s_id;
+
+    m_lane_text_data.clear();
+
+    std::vector<Text::sTextData> story_texts_all
+                        = m_mediator->GetTextsLoadAll();
+
+    // レーン番号に基づいてテキストデータを一括格納
+    for (const Text::sTextData& story_text : story_texts_all)
+    {
+        if (story_text.s_lane_id == lane_id)
+        {
+            m_lane_text_data.emplace_back(story_text);
+        }
+    }
 }
 
 // 一行一文字ずつ表示する処理
-void TextDraw::DrawTextData(const float delta_time, std::string text_line)
+void TextDraw::DrawTextData(const float delta_time
+                            , std::string text_line_first
+                            , std::string text_line_second)
 {
-    m_elapsed_time_last_char += delta_time;
+    m_elapsed_time_last_char += delta_time * 1.5f;
 
     if (m_elapsed_time_last_char >= m_char_interval)
     {
         m_elapsed_time_last_char = 0.0f;
 
         // 文字を1つずつ表示
-        if (m_now_text_lane_num == 0)
+        if (m_now_text_lane_num == 0 
+            && m_index_char_first < text_line_first.length() * 2)
         {
             m_index_char_first += 2;
         }
-        else
+        else if (m_now_text_lane_num == 1 
+            && m_index_char_second < text_line_second.length() * 2)
         {
             m_index_char_second += 2;
         }
     }
 
-    if (m_index_char_first > text_line.length() * 2)
+    // 両方の行の文字の描画が完了したかどうかをチェック
+    if (m_index_char_first >= text_line_first.length() * 2 
+        && m_now_text_lane_num == 0)
     {
-        if (m_now_text_lane_num == 0)
-        {
-            m_now_text_lane_num= 1;
-        }
-        
-        if(m_index_char_second > text_line.length() * 2)
-        {
-            // 描画を停止し、ウェイトタイムに入る
-            m_is_interval = true;
-        }
+        m_now_text_lane_num = 1;
+        m_index_char_first = text_line_first.length() * 2; // 現在の行の長さを固定
+    }
+
+    if (m_index_char_second >= text_line_second.length() * 2 
+        && m_now_text_lane_num == 1)
+    {
+        // 描画を停止し、ウェイトタイムに入る
+        m_is_interval = true;
     }
 }
 
@@ -72,6 +121,14 @@ void TextDraw::SetNextText(const float delta_time)
 {
     // 次の行の文字表示までの待機時間
     float wait_time = 0.5f;
+
+    // 最後に描画された行が特定の文字を含むかチェック
+    if (m_lane_text_data[m_now_text_id].s_text_line_second.find("Xボタン") != std::string::npos
+        ||m_lane_text_data[m_now_text_id].s_text_line_second.find("Zボタン") != std::string::npos) 
+    {
+        // 操作説明の場合は待機時間を5倍
+        wait_time *= 5;  
+    }
 
     m_elasped_time += delta_time;
 
@@ -125,7 +182,18 @@ bool TextDraw::SeqDrawTextData(const float delta_time)
 
     TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
     {
-		DrawTextData(delta_time, m_lane_text_data[m_now_text_id].s_text_line_first);
+        // テキストIDが範囲内にあるかを確認
+        if (m_now_text_id < m_lane_text_data.size())
+        {
+            DrawTextData(delta_time
+                         , m_lane_text_data[m_now_text_id].s_text_line_first
+                         , m_lane_text_data[m_now_text_id].s_text_line_second);
+        }
+        // 範囲外の場合は描画を停止
+        else
+        {
+			m_is_end = true;
+        }
     });
 
     TNL_SEQ_CO_END;
@@ -133,11 +201,12 @@ bool TextDraw::SeqDrawTextData(const float delta_time)
 
 bool TextDraw::SeqSetNextText(const float delta_time)
 {
+    // ウェイトタイムが経過したら次のテキストIDへ
     if (!m_is_interval)
     {
         tnl_sequence_.change(&TextDraw::SeqDrawTextData);
     }
-
+    // テキストの表示が終了している場合はStopへリセット
     if (m_is_end)
     {
         tnl_sequence_.change(&TextDraw::SeqStop);

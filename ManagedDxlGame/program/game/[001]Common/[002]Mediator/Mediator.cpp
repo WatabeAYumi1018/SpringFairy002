@@ -633,15 +633,9 @@ void Mediator::SetIsScoreAdd(bool is_add)
 
 // TextLoad
 
-void Mediator::GetTextsLoadLane()
+const std::vector<Text::sTextData>& Mediator::GetTextsLoadAll() const
 {
-	m_textLoad->GetTextsLane();
-}
-
-
-const std::vector<Text::sTextData>& Mediator::GetTextsLoadForLane() const
-{
-	return m_textLoad->GetTextsForLane();
+	return m_textLoad->GetTextsAll();
 }
 
 // TextDraw
@@ -656,24 +650,33 @@ void Mediator::DrawTextMessage()
 	m_textDraw->Draw();
 }
 
-void Mediator::SetIsTextDrawEnd(bool is_end)
+bool Mediator::GetIsTextDrawEnd()
 {
-	m_textDraw->SetIsEnd(is_end);
+	return m_textDraw->GetIsEnd();
 }
+
+int Mediator::GetNowTextDrawID()const
+{
+	return m_textDraw->GetNowTextID();
+}
+
+const std::vector<Text::sTextData>& Mediator::GetLaneTextDrawData() const
+{
+	return m_textDraw->GetLaneTextData();
+}
+
 
 //---------------------------//
 
 
 //-----------Graph----------//
 
-// GraphLoad
+// CharaGraphLoad
 
 const std::vector<CharaGraph::sGraphInfo>& Mediator::GetCharaGraphLoadInfo() const
 {
 	return m_charaGraphLoad->GetGraphInfo();
 }
-
-// CharaGraphDraw
 
 //---------------------------//
 
