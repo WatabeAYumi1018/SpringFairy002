@@ -5,22 +5,9 @@
 
 CharaGraphDraw::~CharaGraphDraw()
 {
-	for (CharaGraph::sGraphInfo& chara_graph : m_chara_graph)
-	{
-		DeleteGraph(chara_graph.s_graph_hdl);
-	}
+	m_chara_graph.clear();
 }
 
-void CharaGraphDraw::LoadCharaGraph()
-{
-	m_chara_graph = m_mediator->GetCharaGraphLoadInfo();
-
-	for(CharaGraph::sGraphInfo& chara_graph : m_chara_graph)
-	{
-		chara_graph.s_graph_hdl 
-			= LoadGraph(chara_graph.s_graph_path.c_str());
-	}
-}
 
 void CharaGraphDraw::UpdateCharaSlideGraph(const float delta_time, int graph_id)
 {
@@ -38,12 +25,4 @@ void CharaGraphDraw::UpdateCharaSlideGraph(const float delta_time, int graph_id)
 		// x=DXE_WINDOW_WIDTHから開始
 		// m_chara_graph[graph_id].s_graph_pos.xまでスライド
 	}
-}
-
-//　これを用いてテキストデータのidを設定することで対称画像の描画
-void CharaGraphDraw::DrawCharaGraph(int graph_id)
-{
-	DrawGraph(m_chara_graph[graph_id].s_graph_pos.x
-			  , m_chara_graph[graph_id].s_graph_pos.y
-			  ,m_chara_graph[graph_id].s_graph_hdl,TRUE);
 }

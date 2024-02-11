@@ -25,12 +25,11 @@ private:
 
 public:
 
-	// キャラ画像の読み取り
-	void LoadCharaGraph();
 	// キャラ画像のスライド処理
 	void UpdateCharaSlideGraph(const float delta_time,int graph_id);
+
 	// キャラ画像の描画
-	void DrawCharaGraph(int graph_id);
+	void Draw();
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator) 
 	{

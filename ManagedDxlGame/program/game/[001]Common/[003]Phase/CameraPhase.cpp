@@ -13,8 +13,8 @@ void CameraPhase::Update(float delta_time)
 void CameraPhase::PhaseChange()
 {
 	// ターゲットが特定のレーンに入ったら遷移
-	if (m_mediator->GetEventLane().s_id == 6
-		|| m_mediator->GetEventLane().s_id == 9)
+	if (m_mediator->GetEventLane().s_id == 7
+		|| m_mediator->GetEventLane().s_id == 10)
 	{
 		m_mediator->SetCinemaCameraIsActive(true);
 		

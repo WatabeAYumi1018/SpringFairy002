@@ -21,7 +21,7 @@ LaneLoad::~LaneLoad()
 void LaneLoad::LoadLaneVector()
 {
 	// csvファイルの読み込み
-	m_csv_lane = tnl::LoadCsv<int>("csv/stage/lane/stage_lane.csv");
+	m_csv_lane = tnl::LoadCsv<int>("csv/stage/stage/stage_lane.csv");
 
 	// レーン配列の高さ
 	m_lane_height = m_csv_lane.size();

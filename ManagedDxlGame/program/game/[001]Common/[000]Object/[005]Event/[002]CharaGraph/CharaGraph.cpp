@@ -4,58 +4,62 @@
 
 CharaGraph::CharaGraph()
 {
-	m_window_hdl
-		= LoadGraph("graphics/ui/message/window.png");
 }
 
 CharaGraph::~CharaGraph()
 {
-	DeleteGraph(m_window_hdl);
-
-	for (CharaGraph::sGraphInfo& chara_graph : m_chara_graph)
-	{
-		DeleteGraph(chara_graph.s_graph_hdl);
-	}
+	m_chara_graph.clear();
 }
 
 void CharaGraph::Initialize()
 {
-	LoadCharaGraph();
+	m_chara_graph = m_mediator->GetCharaGraphLoadInfo();
 }
-
 
 void CharaGraph::Update(float delta_time)
 {
-	tnl_sequence_.update(delta_time);
+	//tnl_sequence_.update(delta_time);
 }
 
 void CharaGraph::Draw(std::shared_ptr<dxe::Camera> camera)
-{
-	if (m_window_active)
-	{
-		DrawGraph(500, 400, m_window_hdl, TRUE);
 
-		DrawCharaGraph(0);
-		DrawCharaGraph(5);
+{
+	if (!m_mediator->GetIsTextDrawEnd())
+	{
+		DrawCharaGraph();
 	}
 }
 
-void CharaGraph::LoadCharaGraph()
+void CharaGraph::DrawCharaGraph()
 {
-	m_chara_graph = m_mediator->GetCharaGraphLoadInfo();
+	std::vector <Text::sTextData> texts_data
+					= m_mediator->GetLaneTextDrawData();
 
-	for (CharaGraph::sGraphInfo& chara_graph : m_chara_graph)
+	// テキストデータが空の場合は処理を終了
+	if (texts_data.empty())
 	{
-		chara_graph.s_graph_hdl
-			= LoadGraph(chara_graph.s_graph_path.c_str());
+		return;
 	}
-}
 
-void CharaGraph::DrawCharaGraph(int graph_id)
-{
-	DrawGraph(m_chara_graph[graph_id].s_graph_pos.x
-		, m_chara_graph[graph_id].s_graph_pos.y
-		, m_chara_graph[graph_id].s_graph_hdl, TRUE);
+	int now_id = m_mediator->GetNowTextDrawID();
+
+	int player_id = texts_data[now_id].s_player_graph_id;
+
+	int partner_id = texts_data[now_id].s_partner_graph_id;
+
+	if (player_id != -1)
+	{
+		DrawGraph(m_chara_graph[player_id].s_graph_pos.x
+			, m_chara_graph[player_id].s_graph_pos.y
+			, m_chara_graph[player_id].s_graph_hdl, TRUE);
+	}
+
+	if (partner_id != -1)
+	{
+		DrawGraph(m_chara_graph[partner_id].s_graph_pos.x
+			, m_chara_graph[partner_id].s_graph_pos.y
+			, m_chara_graph[partner_id].s_graph_hdl, TRUE);
+	}
 }
 
 bool CharaGraph::SeqSlideIn(const float delta_time)
@@ -88,11 +92,6 @@ bool CharaGraph::SeqSlideIn(const float delta_time)
 
 bool CharaGraph::SeqDrawChange(const float delta_time)
 {
-	if (tnl_sequence_.isStart())
-	{
-		m_window_active = true;
-	}
-
 	// テキスト終了フラグが経ったら
 	//if ()
 	//{
@@ -110,11 +109,6 @@ bool CharaGraph::SeqDrawChange(const float delta_time)
 
 bool CharaGraph::SeqSlideOut(const float delta_time)
 {
-	if (tnl_sequence_.isStart())
-	{
-		m_window_active = false;
-	}
-
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
 	{
 		float start_x = m_chara_graph[0].s_graph_pos.x;
@@ -140,3 +134,4 @@ bool CharaGraph::SeqSlideOut(const float delta_time)
 
 	TNL_SEQ_CO_END;
 }
+

@@ -12,11 +12,11 @@ void StagePhase::Update(float delta_time)
 
 void StagePhase::PhaseChange()
 {
-	if (m_mediator->GetEventLane().s_id == 6)
+	if (m_mediator->GetEventLane().s_id == 7)
 	{
 		m_now_stage = eStagePhase::e_wood;
 	}
-	else if (m_mediator->GetEventLane().s_id == 9)
+	else if (m_mediator->GetEventLane().s_id == 10)
 	{
 		m_now_stage = eStagePhase::e_fancy;
 	}

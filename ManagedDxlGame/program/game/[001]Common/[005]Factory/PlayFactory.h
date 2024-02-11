@@ -173,6 +173,8 @@ private:
 	// 各オブジェクト同士の参照を設定
 	// 生成の順番を考慮せず、後付けで参照できるように
 	void SetObjectReference();
+	// メディエータの参照を設定
+	void SetMediatorReference();
 	// アイテムオブジェクトのプール
 	void PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types);
 	// 生成したオブジェクトをlistに格納

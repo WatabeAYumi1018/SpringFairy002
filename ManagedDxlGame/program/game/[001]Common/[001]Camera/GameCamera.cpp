@@ -214,6 +214,10 @@ bool GameCamera::SeqRightSide(const float delta_time)
 	if (tnl_sequence_.isStart())
 	{
 		m_is_fixed = false;
+
+		tnl::Vector3 pos = m_mediator->GetCameraTargetPlayerPos();
+
+		m_mediator->SetPlayerPos(pos);
 	}
 
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
@@ -263,6 +267,10 @@ bool GameCamera::SeqLeftSide(const float delta_time)
 	if (tnl_sequence_.isStart())
 	{
 		m_is_fixed = false;
+
+		tnl::Vector3 pos = m_mediator->GetCameraTargetPlayerPos();
+
+		m_mediator->SetPlayerPos(pos);
 	}
 
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
@@ -360,6 +368,10 @@ bool GameCamera::SeqRotate(const float delta_time)
 	if (tnl_sequence_.isStart())
 	{
 		m_is_fixed = false;
+
+		tnl::Vector3 pos = m_mediator->GetCameraTargetPlayerPos();
+
+		m_mediator->SetPlayerPos(pos);
 	}
 
 	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
