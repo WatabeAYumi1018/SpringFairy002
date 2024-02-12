@@ -75,6 +75,8 @@ void ScreenShot::ShowScreenShot()
     DrawRotaGraph(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT / 2
                   , 1, tnl::ToRadian(10), image_hdl, TRUE, FALSE);
 
+    m_mediator->SetEnterGraphIsActive(true);
+
     // ‰æ‘œƒnƒ“ƒhƒ‹‚Ì‰ð•ú
     DeleteGraph(image_hdl);
 }

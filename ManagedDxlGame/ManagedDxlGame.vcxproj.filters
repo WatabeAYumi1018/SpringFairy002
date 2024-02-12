@@ -177,6 +177,9 @@
     <Filter Include="program\[003] game\[004]SceneED">
       <UniqueIdentifier>{209bb2fd-cce4-4ed5-9855-f4f107b61dc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[008]EnterGraph">
+      <UniqueIdentifier>{e84ac7ef-66fb-4f85-ad5a-1c1738f12dd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">
@@ -514,6 +517,9 @@
     </ClCompile>
     <ClCompile Include="program\game\[000]GameEngine\[002]Music\MusicBGM.cpp">
       <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]EnterGraph\EnterGraph.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]EnterGraph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -919,6 +925,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]EnterGraph\EnterGraph.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]EnterGraph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

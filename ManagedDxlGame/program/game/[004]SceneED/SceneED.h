@@ -2,7 +2,8 @@
 #include "../[000]GameEngine/[001]Scene/SceneBase.h"
 
 class ScreenShot;
-
+class EnterGraph;
+class Mediator;
 
 class SceneEd : public SceneBase
 {
@@ -15,7 +16,12 @@ public:
 
 private:
 
+	// エンターハンドル
+	int m_enter_hdl = 0;
+
 	std::shared_ptr<ScreenShot> m_screen_shot = nullptr;
+	std::shared_ptr<EnterGraph> m_enter_graph = nullptr;
+	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 	// シーケンス
 	tnl::Sequence<SceneEd> m_sequence
@@ -23,7 +29,6 @@ private:
 
 	// シーケンス開始
 	bool SeqStart(const float delta_time);
-
 
 public:
 

@@ -22,16 +22,11 @@ public:
 
 private:
 
-	int m_enter_hdl= 0;
 
 	// ゲートの動き開始フラグ
 	bool m_is_active = false;
 	// ゲートが開いたフラグ
 	bool m_is_opend = false;
-	// エンターキー表示フラグ
-	bool m_enter_active = false;
-
-	float m_elasped_time = 0.0f;
 
 	// ゲートデータを格納
 	std::vector<sGateInfo> m_gates_info;
@@ -50,8 +45,6 @@ private:
 	void CreateMesh();
 	// メッシュの配置指定
 	void SetMeshMatrix();
-	// スタートボタン表示更新処理
-	void UpdateEnterGraph(const float delta_time);
 
 	// トリガー処理
 	bool SeqTrigger(const float delta_time);

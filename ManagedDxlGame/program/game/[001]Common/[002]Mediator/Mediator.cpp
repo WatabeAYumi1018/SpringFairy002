@@ -28,6 +28,7 @@
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[006]Title/Title.h"
 #include "../[000]Object/[007]Gate/[000]GateFunction/GateLoad.h"
+#include "../[000]Object/[008]EnterGraph/EnterGraph.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
 #include "../[004]ScreenShot/ScreenShot.h"
 
@@ -282,7 +283,7 @@ void Mediator::SetPlayerLookSideLeft(bool look_side)
 
 bool Mediator::GetPlayerLookSideLeft() const
 {
-std::shared_ptr<LaneMove> shared_laneMove = m_laneMove.lock();
+	std::shared_ptr<LaneMove> shared_laneMove = m_laneMove.lock();
 
 	if (shared_laneMove)
 	{
@@ -366,7 +367,7 @@ const tnl::Vector3& Mediator::GetPlayerPos() const
 
 const tnl::Quaternion& Mediator::GetPlayerRot() const
 {
-std::shared_ptr<Player> shared_player = m_player.lock();
+	std::shared_ptr<Player> shared_player = m_player.lock();
 
 	if (shared_player)
 	{
@@ -1514,6 +1515,27 @@ const std::vector<Gate::sGateInfo>& Mediator::GetGatesInfo() const
 	else
 	{
 		throw std::runtime_error("GateLoad shared pointer is expired");
+	}
+}
+
+//---------------------------//
+
+
+//--------EnterGraph--------//
+
+// EnterGraph
+
+void Mediator::SetEnterGraphIsActive(bool is_active)
+{
+	std::shared_ptr<EnterGraph> shared_enterGraph = m_enterGraph.lock();
+
+	if (shared_enterGraph)
+	{
+		return shared_enterGraph->SetIsActive(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("EnterGraph shared pointer is expired");
 	}
 }
 

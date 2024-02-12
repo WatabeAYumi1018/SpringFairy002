@@ -233,6 +233,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[006]Title\Title.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[007]Gate\Gate.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[007]Gate\[000]GateFunction\GateLoad.cpp" />
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]EnterGraph\EnterGraph.cpp" />
     <ClCompile Include="program\game\[001]Common\[001]Camera\CinemaCamera.cpp" />
     <ClCompile Include="program\game\[001]Common\[001]Camera\GameCamera.cpp" />
     <ClCompile Include="program\game\[001]Common\[001]Camera\OpCamera.cpp" />
@@ -361,6 +362,7 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[006]Title\Title.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[007]Gate\Gate.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[007]Gate\[000]GateFunction\GateLoad.h" />
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]EnterGraph\EnterGraph.h" />
     <ClInclude Include="program\game\[001]Common\[001]Camera\CinemaCamera.h" />
     <ClInclude Include="program\game\[001]Common\[001]Camera\GameCamera.h" />
     <ClInclude Include="program\game\[001]Common\[001]Camera\OpCamera.h" />

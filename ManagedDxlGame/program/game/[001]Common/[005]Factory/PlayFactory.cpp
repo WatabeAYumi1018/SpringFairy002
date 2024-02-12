@@ -167,6 +167,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetTextLoad(m_textLoad);
 	m_mediator->SetTextDraw(m_textDraw);
 	m_mediator->SetCharaGraphLoad(m_charaGraphLoad);
+	m_mediator->SetScreenShot(m_screenShot);
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
 	m_mediator->SetCinemaCamera(m_cinemaCamera);
@@ -204,6 +205,7 @@ void PlayFactory::SetMediatorReference()
 	m_text->SetMediator(m_mediator);
 	m_textDraw->SetMediator(m_mediator);
 	m_charaGraph->SetMediator(m_mediator);
+	m_screenShot->SetMediator(m_mediator);
 	m_gameCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
 	m_cinemaCamera->SetMediator(m_mediator);

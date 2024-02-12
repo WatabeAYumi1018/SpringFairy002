@@ -59,6 +59,8 @@ class Title;
 
 class GateLoad;
 
+class EnterGraph;
+
 class CameraLoad;
 class CinemaCamera;
 
@@ -123,6 +125,8 @@ private:
 	std::weak_ptr<Title> m_title;
 
 	std::weak_ptr<GateLoad> m_gateLoad;
+
+	std::weak_ptr<EnterGraph> m_enterGraph;
 
 	std::weak_ptr<GameCamera> m_gameCamera;
 	std::weak_ptr<CameraLoad> m_cameraLoad;
@@ -773,6 +777,18 @@ public:
 	//---------------------------//
 
 
+	//--------EnterGraph--------//
+
+	// EnterGraph
+
+	// ゲートの情報取得
+	// 参照元 ... EnterGraph::m_is_active
+	// 参照先 ... エンター画像を管理する
+	void SetEnterGraphIsActive(bool is_active);
+
+	//---------------------------//
+
+
 	//-----------Camera----------//
 
 	// GameCamera
@@ -1014,6 +1030,11 @@ public:
 	void SetGateLoad(std::shared_ptr<GateLoad>& gateLoad)
 	{
 		m_gateLoad = gateLoad;
+	}
+
+	void SetEnterGraph(std::shared_ptr<EnterGraph>& enterGraph)
+	{
+		m_enterGraph = enterGraph;
 	}
 
 	void SetGameCamera(std::shared_ptr<GameCamera>& gameCamera)
