@@ -231,13 +231,13 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 
 			gimmick->LoadGimmickData(type_info);
 
-			if (type_info.s_type == Gimmick::eGimmickType::wood)
+			if (type_info.s_type == Gimmick::eGimmickType::e_wood)
 			{
 				gimmick->SetCollisionSize(500);
 			}
 			else
 			{
-				gimmick->SetCollisionSize(300);
+				gimmick->SetCollisionSize(200);
 			}
 
 			gimmick->SetMediator(m_mediator);
@@ -261,9 +261,9 @@ void PlayFactory::StorageObjectGameCamera()
 	m_objects_gameCamera.emplace_back(m_cameraTargetPlayer);
 
 	// 各ギミックタイプごとに処理
-	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::ground_flower));
-	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::wood));
-	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::sky_flower));
+	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::e_ground_flower));
+	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::e_wood));
+	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::e_sky_flower));
 
 	m_playerCollision->SetGimmicks(m_gimmicks);
 

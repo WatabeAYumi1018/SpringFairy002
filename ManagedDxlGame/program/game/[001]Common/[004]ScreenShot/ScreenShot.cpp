@@ -21,8 +21,10 @@ void ScreenShot::LoadBack()
 
 void ScreenShot::SaveScreenShot()
 {
-    if (//m_mediator->GetEventLane().s_id ==12
-         tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB))
+    // テキストで"ハイチーズ"の掛け声の後にスクリーンショットを撮る
+    if (!m_is_shot 
+        && (m_mediator->GetEventLane().s_id == 13
+            || tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB)))
     {
         // スクリーンショットをファイルに保存
         std::string final_path 
@@ -31,7 +33,14 @@ void ScreenShot::SaveScreenShot()
         // 画像を保存
         SaveDrawScreenToPNG(0, 0, DXE_WINDOW_WIDTH
                             , DXE_WINDOW_HEIGHT, final_path.c_str());
+
+        m_is_shot = true;
     }
+
+    if (tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB))
+    {
+		m_is_shot = false;
+	}
 }
 
 void ScreenShot::ShowScreenShot()
@@ -76,9 +85,12 @@ std::string ScreenShot::GetNextFileName(const std::string& directry
     int max_num = 0;
 
     // ディレクトリが存在しない場合は作成
+    // std::filesystem::path : ファイルシステムのパスを表す
+    // std::filesystem::current_path() : 現在の作業ディレクトリを取得
     std::filesystem::path dir_path 
 		= std::filesystem::current_path() / m_directry;
-    
+
+    // std::filesystem::create_directories : ディレクトリを作成
 	std::filesystem::create_directories(dir_path);
 
     // ディレクトリ内のファイルをイテレーション

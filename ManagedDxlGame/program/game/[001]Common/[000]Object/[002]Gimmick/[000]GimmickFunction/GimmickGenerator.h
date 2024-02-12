@@ -18,13 +18,13 @@ public:
 
 private:
 
-	tnl::Vector3 m_game_pos;
-
 	bool m_is_ground_active = false;
 
 	bool m_is_sky_flower_active = false;
 
-	Gimmick::eGimmickType m_gimmick_type = Gimmick::eGimmickType::Max;
+
+
+	Gimmick::eGimmickType m_gimmick_type = Gimmick::eGimmickType::e_max;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
@@ -46,8 +46,6 @@ private:
 						, const tnl::Vector3& forward
 						, const tnl::Vector3& perpendicular);
 
-	// 特定のギミックを取得
-	std::shared_ptr<Gimmick> GetInactiveType(std::vector<std::shared_ptr<Gimmick>>& gimmicks);
 
 	// ギミックの状態更新
 	void CheckGimmicks(const float delta_time
@@ -55,7 +53,7 @@ private:
 						, std::shared_ptr<Gimmick> gimmick);
 
 	// 空中でのランダム生成
-	void GenerateGimmick(const float delta_time);
+	void CalcSkyFlowerPos(const float delta_time, Gimmick::eGimmickType type);
 
 	// 空中のランダム座標算出
 	tnl::Vector3 CalcRandomPos();
@@ -67,9 +65,6 @@ private:
 	bool SeqButterfly(const float delta_time);
 
 public:
-
-	// レーン情報取得
-	void Initialize();
 
 	// アイテムの状態更新
 	void Update(const float delta_time);

@@ -212,7 +212,7 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 
 bool PlayerMove::SeqNormal(const float delta_time)
 {
-	if (m_mediator->GetEventLane().s_id == 5)
+	if (m_mediator->GetEventLane().s_id == 6)
 	{
 		tnl_sequence_.change(&PlayerMove::SeqStop);
 	}

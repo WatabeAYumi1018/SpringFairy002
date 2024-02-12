@@ -37,7 +37,7 @@ void Gate::Draw(std::shared_ptr<dxe::Camera> camera)
 
     if (m_enter_active)
     {
-		DrawGraph(450, 500, m_enter_hdl, TRUE);
+		DrawGraph(480, 550, m_enter_hdl, TRUE);
 	}
 }
 

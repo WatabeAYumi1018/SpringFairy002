@@ -16,25 +16,25 @@ void GimmickPool::AddGimmick(std::shared_ptr<Gimmick>& gimmick
 {
     switch (type)
     {
-    case Gimmick::eGimmickType::ground_flower:
+    case Gimmick::eGimmickType::e_ground_flower:
     
         m_gimmick_plants.emplace_back(gimmick);
         
         break;
     
-    case Gimmick::eGimmickType::wood:
+    case Gimmick::eGimmickType::e_wood:
     
         m_gimmick_trees.emplace_back(gimmick);
         
         break;
     
-    case Gimmick::eGimmickType::sky_flower:
+    case Gimmick::eGimmickType::e_sky_flower:
 
         m_gimmick_sky_flowers.emplace_back(gimmick);
 
         break;
 
-    case Gimmick::eGimmickType::butterfly:
+    case Gimmick::eGimmickType::e_butterfly:
 
         m_gimmick_butterflys.emplace_back(gimmick);
 
@@ -46,42 +46,29 @@ void GimmickPool::AddGimmick(std::shared_ptr<Gimmick>& gimmick
     }
 }
 
-std::shared_ptr<Gimmick> GimmickPool::GetNotActiveGimmick(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
-{
-    for (std::shared_ptr<Gimmick>& gimmick : gimmicks)
-    {
-        // ”ñŠˆ«‰»ƒAƒCƒeƒ€‚ð’T‚·
-        if (!gimmick->GetIsActive())
-        {
-            return gimmick;
-        }
-    }
-    return nullptr;
-}
-
 std::vector<std::shared_ptr<Gimmick>>& GimmickPool::GetGimmickPools(Gimmick::eGimmickType type)
 {
     switch (type)
     {
-    case Gimmick::eGimmickType::ground_flower:
+    case Gimmick::eGimmickType::e_ground_flower:
 		
 		return m_gimmick_plants;
 
         break;
 
-    case Gimmick::eGimmickType::wood:
+    case Gimmick::eGimmickType::e_wood:
 
         return m_gimmick_trees;
 
 		break;
 
-    case Gimmick::eGimmickType::sky_flower:
+    case Gimmick::eGimmickType::e_sky_flower:
 
 		return m_gimmick_sky_flowers;
 
         break;
 
-    case Gimmick::eGimmickType::butterfly:
+    case Gimmick::eGimmickType::e_butterfly:
 
         return m_gimmick_butterflys;
 

@@ -62,19 +62,19 @@ const std::vector<Gimmick::sGimmickTypeInfo>& GimmickLoad::GetGimmicksType(Gimmi
 {
 	switch (type)
 	{
-	case Gimmick::eGimmickType::ground_flower:
+	case Gimmick::eGimmickType::e_ground_flower:
 
 		return m_ground_flowers;
 
 		break;
 
-	case Gimmick::eGimmickType::wood:
+	case Gimmick::eGimmickType::e_wood:
 
 		return m_woods;
 
 		break;
 
-	case Gimmick::eGimmickType::sky_flower:
+	case Gimmick::eGimmickType::e_sky_flower:
 
 		return m_sky_flowers;
 

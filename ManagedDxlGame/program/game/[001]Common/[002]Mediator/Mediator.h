@@ -62,6 +62,8 @@ class GateLoad;
 class CameraLoad;
 class CinemaCamera;
 
+class ScreenShot;
+
 class Mediator
 {
 
@@ -126,6 +128,7 @@ private:
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
 	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
 
+	std::shared_ptr<ScreenShot> m_screenShot = nullptr;
 
 	//------------------------------------------------//
 
@@ -640,11 +643,6 @@ public:
 
 	// GimmickPool
 
-	// アイテムプールのアクティブ状態取得
-	// 参照元 ... GimmickPool::GetNotActiveGimmick(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
-	// 参照先 ... GimmickGenerator::
-	std::shared_ptr<Gimmick> GetNotActiveGimmickPool(std::vector<std::shared_ptr<Gimmick>>& gimmicks);
-
 	// ギミックプールのベクター取得
 	// 参照元 ... GimmickPool::GetGimmickPools()
 	// 参照先 ... GimmickGenerator::関連する関数
@@ -699,6 +697,11 @@ public:
 	const std::vector<Text::sTextData>& GetTextsLoadAll() const;
 
 	// TextDraw
+
+	// テキストの初期化
+	// 参照元 ... TextDraw::Initialize()
+	// 参照先 ... Text::Initialize()
+	void InitializeText();
 
 	// テキストの処理
 	// 参照元 ... TextDraw::Update(const float delta_time)
@@ -818,6 +821,17 @@ public:
 	// 参照先 ... シネマカメラの活性化フラグが必要な全クラス
 	bool GetCinemaCameraIsActive() const;
 
+	//---------------------------//
+
+
+	//---------ScreenShot--------//
+
+	// ScreenShot
+
+	// スクリーンショットフラグ設定
+	// 参照元 ... ScreenShot::m_is_shot
+	// 参照先 ... CharaGraph::	void DrawScreenShotGraph();
+	bool IsScreenShot() const;
 
 	//---------------------------//
 
@@ -932,9 +946,9 @@ public:
 		m_cinemaCameraTarget = cinemaCameraTarget;
 	}
 
-	void SetButterfly(std::shared_ptr<Butterfly>& butterfly)
+	void SetButterfly(std::shared_ptr<Butterfly>& e_butterfly)
 	{
-		m_butterfly = butterfly;
+		m_butterfly = e_butterfly;
 	}
 
 	void SetButterflyLoad(std::shared_ptr<ButterflyLoad>& butterflyLoad)
@@ -1020,6 +1034,11 @@ public:
 	void SetCinemaCamera(std::shared_ptr<CinemaCamera>& cinemaCamera)
 	{
 		m_cinemaCamera = cinemaCamera;
+	}
+
+	void SetScreenShot(std::shared_ptr<ScreenShot>& screenShot)
+	{
+		m_screenShot = screenShot;
 	}
 
 	//------------------------------------------------//

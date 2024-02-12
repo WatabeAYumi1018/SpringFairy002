@@ -37,7 +37,7 @@ bool CameraTargetPlayer::SeqNormal(const float delta_time)
 		m_is_move_down = false;
 	}
 
-	if (m_event.s_id == 5)
+	if (m_event.s_id == 6)
 	{
 		tnl_sequence_.change(&CameraTargetPlayer::SeqStop);
 	}

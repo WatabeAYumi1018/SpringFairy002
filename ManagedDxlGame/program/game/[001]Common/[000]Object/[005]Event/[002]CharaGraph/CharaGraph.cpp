@@ -22,7 +22,6 @@ void CharaGraph::Update(float delta_time)
 }
 
 void CharaGraph::Draw(std::shared_ptr<dxe::Camera> camera)
-
 {
 	if (!m_mediator->GetIsTextDrawEnd())
 	{
@@ -61,6 +60,12 @@ void CharaGraph::DrawCharaGraph()
 			, m_chara_graph[partner_id].s_graph_hdl, TRUE);
 	}
 }
+
+void CharaGraph::DrawScreenShotGraph()
+{
+
+}
+
 
 bool CharaGraph::SeqSlideIn(const float delta_time)
 {

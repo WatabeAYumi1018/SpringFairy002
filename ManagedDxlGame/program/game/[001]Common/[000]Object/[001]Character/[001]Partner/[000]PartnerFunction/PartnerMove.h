@@ -41,7 +41,7 @@ private:
 	float m_last_rotation_time = 0.0f;
 
 	// 現在座標
-	tnl::Vector3 m_game_pos;
+	tnl::Vector3 m_pos;
 	// 移動座標オフセット
 	tnl::Vector3 m_offset;
 	// 衝突時の中点

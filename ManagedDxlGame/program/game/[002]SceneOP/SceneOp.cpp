@@ -69,9 +69,6 @@ void SceneOp::Draw(const float delta_time)
 	{
 		object->Draw(m_opCamera);
 	}
-
-	// Fps•\Ž¦
-	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
 }
 
 void SceneOp::Finalize()

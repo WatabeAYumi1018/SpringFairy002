@@ -2,6 +2,10 @@
 #include "TextDraw.h"
 
 
+void TextDraw::Initialize()
+{
+    m_story_texts_all = m_mediator->GetTextsLoadAll();
+}
 
 void TextDraw::Update(const float delta_time)
 {
@@ -51,7 +55,8 @@ void TextDraw::UpdateTexts()
     if (lane_event.s_id == -1
         || lane_event.s_id == 1
         || lane_event.s_id == 7
-        || lane_event.s_id == 10)
+        || lane_event.s_id == 10
+        || lane_event.s_id == 14)
     {
         return;
     }
@@ -63,11 +68,8 @@ void TextDraw::UpdateTexts()
 
     m_lane_text_data.clear();
 
-    std::vector<Text::sTextData> story_texts_all
-                        = m_mediator->GetTextsLoadAll();
-
     // レーン番号に基づいてテキストデータを一括格納
-    for (const Text::sTextData& story_text : story_texts_all)
+    for (const Text::sTextData& story_text : m_story_texts_all)
     {
         if (story_text.s_lane_id == lane_id)
         {

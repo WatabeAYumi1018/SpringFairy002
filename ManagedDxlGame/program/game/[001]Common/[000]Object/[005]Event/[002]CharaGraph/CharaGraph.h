@@ -45,9 +45,10 @@ private:
 
 	// キャラ画像の更新
 	void UpdateCharaGraph();
-	
+	// キャラ画像の描画
 	void DrawCharaGraph();
-
+	// スクリーンショット時の描画
+	void DrawScreenShotGraph();
 
 	// スライドイン
 	bool SeqSlideIn(const float delta_time);

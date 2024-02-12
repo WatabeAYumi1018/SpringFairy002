@@ -6,7 +6,6 @@
 #include "../[001]Common/[003]Phase/CameraPhase.h"
 #include "../[001]Common/[004]ScreenShot/ScreenShot.h"
 #include "../[001]Common/[005]Factory/PlayFactory.h"
-#include "../[003]ScenePlay/ScenePlay.h"
 #include "../[004]SceneED/SceneED.h"
 #include "ScenePlay.h"
 
@@ -25,7 +24,8 @@ ScenePlay::~ScenePlay()
 
 bool ScenePlay::SeqStart(const float delta_time)
 {
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
+	if (m_stagePhase->GetNowStagePhase() 
+		== StagePhase::eStagePhase::e_end)
 	{
 		SceneManager* scene = SceneManager::GetInstance();
 

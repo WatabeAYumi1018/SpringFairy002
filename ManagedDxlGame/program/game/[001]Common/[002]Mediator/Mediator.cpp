@@ -539,11 +539,6 @@ bool Mediator::GetGimmickIsCollision() const
 
 // GimmickPool
 
-std::shared_ptr<Gimmick> Mediator::GetNotActiveGimmickPool(std::vector<std::shared_ptr<Gimmick>>& gimmicks) 
-{
-	return m_gimmickPool->GetNotActiveGimmick(gimmicks);
-}
-
 std::vector<std::shared_ptr<Gimmick>>& Mediator::GetGimmickTypePools(Gimmick::eGimmickType type)
 {
 	return m_gimmickPool->GetGimmickPools(type);
@@ -621,6 +616,11 @@ const std::vector<Text::sTextData>& Mediator::GetTextsLoadAll() const
 }
 
 // TextDraw
+
+void Mediator::InitializeText()
+{
+	m_textDraw->Initialize();
+}
 
 void Mediator::UpdateText(const float delta_time)
 {
@@ -743,3 +743,13 @@ bool Mediator::GetCinemaCameraIsActive() const
 //---------------------------//
 
 
+//---------ScreenShot--------//
+
+// ScreenShot
+
+bool Mediator::IsScreenShot() const
+{
+	return m_screenShot->IsShot();
+}
+
+//---------------------------//

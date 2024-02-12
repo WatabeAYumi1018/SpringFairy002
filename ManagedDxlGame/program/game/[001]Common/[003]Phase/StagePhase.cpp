@@ -3,6 +3,7 @@
 #include "StagePhase.h"
 
 
+
 void StagePhase::Update(float delta_time)
 {
 	PhaseChange();
@@ -57,11 +58,11 @@ bool StagePhase::SeqWood(const float delta_time)
 
 bool StagePhase::SeqFancy(const float delta_time)
 {
-	// メッセージ終わったら
-	//if ()
-	//{
-		//エンディングフラグon
-	//}
+	// 14に入ったらEDへ
+	if (m_mediator->GetEventLane().s_id == 14)
+	{
+		m_now_stage = StagePhase::eStagePhase::e_end;
+	}
 
 	//MusicManager::GetInstance().PlayBGM(delta_time, 3);
 

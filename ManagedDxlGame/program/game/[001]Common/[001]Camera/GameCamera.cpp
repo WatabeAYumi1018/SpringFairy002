@@ -12,20 +12,12 @@ void GameCamera::update(const float delta_time)
 {
 	dxe::Camera::update(delta_time);
 
-	//// イベント中の場合描画を制限（登場カメラ）
-	//if (m_mediator->GetEventLane().s_id == 1
-	//	|| m_mediator->GetEventLane().s_id == 5
-	//	|| m_mediator->GetEventLane().s_id == 9)
-	//{
-	//	m_is_active_game = false;
-	//}
-
 	tnl_sequence_.update(delta_time);
 }
 
 void GameCamera::IsInFlustum()
 {
-	int max = static_cast<int>(eFlustum::Max);
+	int max = static_cast<int>(eFlustum::e_max);
 
 	for (int i = 0; i < max; ++i)
 	{
@@ -119,12 +111,6 @@ void GameCamera::ConditionType()
 
 			break;
 		}
-		//case eCameraType::e_bottom:
-		//{
-		//	tnl_sequence_.change(&GameCamera::SeqBottom);
-		//
-		//	break;
-		//}
 		case eCameraType::e_rotate:
 		{
 			tnl_sequence_.change(&GameCamera::SeqRotate);
@@ -192,6 +178,7 @@ bool GameCamera::SeqFixed(const float delta_time)
 		m_mediator->SetPlayerPos(pos);
 	}
 
+	// デバッグ用
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))
 	{
 		m_is_fixed = false;
@@ -322,11 +309,6 @@ bool GameCamera::SeqFront(const float delta_time)
 		m_is_fixed = false;
 	}
 
-	if (m_mediator->GetTargetCameraInfo().s_type == eCameraType::e_fixed)
-	{
-		tnl_sequence_.change(&GameCamera::SeqFrontToFix);
-	}
-
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_RIGHT))
 	{
 		tnl_sequence_.change(&GameCamera::SeqControl);
@@ -335,12 +317,12 @@ bool GameCamera::SeqFront(const float delta_time)
 	// 正面へカメラを移動
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.5f, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 0, 0, -400 }, 3);
+		ToSlide(delta_time, { 0, 100, 400 }, 3);
 	});
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		Fixed({ 0, 0, -800 });
+		Fixed({ 0, 100, 400 });
 	});
 
 	TNL_SEQ_CO_END;

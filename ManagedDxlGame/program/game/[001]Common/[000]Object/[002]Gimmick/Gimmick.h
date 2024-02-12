@@ -13,11 +13,11 @@ public:
 
 	enum class eGimmickType
 	{
-		ground_flower,
-		wood,
-		sky_flower,
-		butterfly,
-		Max
+		e_ground_flower,
+		e_wood,
+		e_sky_flower,
+		e_butterfly,
+		e_max
 	};
 
 	// Factoryで生成した各モデルにhdlを対応させるためstring型でパスを格納
@@ -44,8 +44,8 @@ private:
 	float m_time_elapsed = 0.0f;
 
 
-	// 個別のアクティブ状態(初期状態は非アクティブ)
-	bool m_is_not_active = false;
+	// 個別のアクティブ状態
+	bool m_is_active = false;
 	// 当たり判定内到達の合図
 	bool m_is_hit = false;
 	// 衝突判定
@@ -97,9 +97,9 @@ public:
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
 
-	void SetIsActive(bool is_active) { m_is_not_active = is_active; }
+	void SetIsActive(bool is_active) { m_is_active = is_active; }
 
-	bool GetIsActive() const { return m_is_not_active; }
+	bool GetIsActive() const { return m_is_active; }
 
 	void SetIsHit(bool is_hit) { m_is_hit = is_hit; }
 
@@ -123,40 +123,3 @@ public:
 		m_mediator = mediator;
 	}
 };
-
-
-
-//struct sGimmick
-//{
-//	int s_id;
-//	tnl::Vector3 s_pos;
-//};
-
-	//// ①草花のギミックモデル(静的)
-	//std::vector<Gimmick::sGimmickTypeInfo> m_plants;
-	//// ②樹木のギミックモデル(静的)
-	//std::vector<Gimmick::sGimmickTypeInfo> m_trees;
-	//// ③舞う花のギミックモデル(動的)
-	//std::vector<Gimmick::sGimmickTypeInfo> m_sky_flowers;
-	//// ④蝶のギミックモデル(動的)
-	//std::vector<Gimmick::sGimmickTypeInfo> m_butterflys;
-
-	//const std::vector<Gimmick::sGimmickTypeInfo>& GetPlants() const 
-	//{
-	//	return m_plants; 
-	//}
-
-	//const std::vector<Gimmick::sGimmickTypeInfo>& GetTrees() const
-	//{
-	//	return m_trees; 
-	//}
-
-	//const std::vector<Gimmick::sGimmickTypeInfo>& GetSkyFlowers() const
-	//{
-	//	return m_sky_flowers; 
-	//}
-
-	//const std::vector<Gimmick::sGimmickTypeInfo>& GetButterflys() const
-	//{
-	//	return m_butterflys; 
-	//}

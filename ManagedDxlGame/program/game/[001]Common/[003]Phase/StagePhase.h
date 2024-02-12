@@ -17,7 +17,8 @@ public:
 	{
 		e_flower,
 		e_wood,
-		e_fancy
+		e_fancy,
+		e_end
 	};
 
 private:

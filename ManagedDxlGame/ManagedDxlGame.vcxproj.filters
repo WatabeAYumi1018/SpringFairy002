@@ -443,9 +443,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickDraw.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClCompile>
@@ -491,7 +488,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[004]SceneED\SceneED.cpp">
+    <ClCompile Include="program\game\[004]SceneED\SceneEd.cpp">
       <Filter>program\[003] game\[004]SceneED</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.cpp">
@@ -725,9 +722,6 @@
     <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_screen_efffect.h">
       <Filter>program\[001] dxlib_ext\example</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h">
-      <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[003]Phase\CameraPhase.h">
       <Filter>program\[003] game\[001]Common\[003]Phase</Filter>
     </ClInclude>
@@ -851,9 +845,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickDraw.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClInclude>
@@ -899,7 +890,7 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[004]SceneED\SceneED.h">
+    <ClInclude Include="program\game\[004]SceneED\SceneEd.h">
       <Filter>program\[003] game\[004]SceneED</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.h">
@@ -925,6 +916,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[000]GameEngine\[002]Music\MusicBGM.h">
       <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h">
+      <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

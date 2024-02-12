@@ -34,12 +34,12 @@ public:
 
 private:
 
-	// 現在のテキストインデックス番号
-	int m_now_text_index = 0;
 	// ウィンドウハンドル
 	int m_window_hdl = 0;
 	// ウィンドウのアルファ値(最初は透明)
 	int m_window_alpha = 0;
+	// 現在のテキストインデックス番号
+	int m_now_text_index = 0;
 
 	// 経過時間
 	float m_elasped_time = 0.0f;
@@ -48,9 +48,6 @@ private:
 
 	// メディエーターのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
-
-	// テキストID表示毎の待機時間を設定
-	void SetNextText(const float delta_time, std::vector<std::string> id);
 
 	// テキストデータを格納
 	void UpdateTexts();
@@ -61,6 +58,8 @@ private:
 	void DrawWindow();
 
 public:
+
+	void Initialize() override;
 
 	void Update(float delta_time) override;
 

@@ -25,7 +25,7 @@ private:
 	int m_enter_hdl= 0;
 
 	// ゲートの動き開始フラグ
-	bool m_is_not_active = false;
+	bool m_is_active = false;
 	// ゲートが開いたフラグ
 	bool m_is_opend = false;
 	// エンターキー表示フラグ

@@ -29,10 +29,6 @@ public:
 	void AddGimmick(std::shared_ptr<Gimmick>& gimmick
 					,Gimmick::eGimmickType type);
 
-	// ”ñŠˆ«‰»ƒAƒCƒeƒ€‚Ìæ“¾
-	std::shared_ptr<Gimmick> GetNotActiveGimmick(std::vector<std::shared_ptr<Gimmick>>& gimmicks);
-
-
 	int GetGimmickCreateNum() const
 	{
 		return m_gimmick_create_num;
