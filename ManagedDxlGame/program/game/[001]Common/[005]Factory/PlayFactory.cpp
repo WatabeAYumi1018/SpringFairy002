@@ -27,14 +27,12 @@
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
-//#include "../[000]Object/[003]Effect/[000]EffectFunction/EffectHandle.h"
 #include "../[000]Object/[004]Score/Score.h"
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextLoad.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
 #include "../[000]Object//[005]Event/[002]CharaGraph/CharaGraph.h"
 #include "../[000]Object//[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
-#include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphDraw.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[001]Camera/CinemaCamera.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
@@ -116,7 +114,6 @@ void PlayFactory::CreateObject()
 
 	m_effect = std::make_shared<Effect>();
 	m_effectLoad = std::make_shared<EffectLoad>();
-	//m_effectHandle = std::make_shared<EffectHandle>();
 
 	m_score = std::make_shared<Score>();
 
@@ -126,7 +123,6 @@ void PlayFactory::CreateObject()
 
 	m_charaGraph = std::make_shared<CharaGraph>();
 	m_charaGraphLoad = std::make_shared<CharaGraphLoad>();
-	m_charaGraphDraw = std::make_shared<CharaGraphDraw>();
 
 	m_gameCamera = std::make_shared<GameCamera>();
 	m_cameraLoad = std::make_shared<CameraLoad>();
@@ -166,13 +162,11 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetGimmickGenerator(m_gimmickGenerator);
 	m_mediator->SetGimmickPool(m_gimmickPool);
 	m_mediator->SetEffectLoad(m_effectLoad);
-	//m_mediator->SetEffectHandle(m_effectHandle);
 	m_mediator->SetScore(m_score);
 	m_mediator->SetText(m_text);
 	m_mediator->SetTextLoad(m_textLoad);
 	m_mediator->SetTextDraw(m_textDraw);
 	m_mediator->SetCharaGraphLoad(m_charaGraphLoad);
-	m_mediator->SetCharaGraphDraw(m_charaGraphDraw);
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
 	m_mediator->SetCinemaCamera(m_cinemaCamera);
@@ -206,12 +200,10 @@ void PlayFactory::SetMediatorReference()
 	m_butterfly->SetMediator(m_mediator);
 	m_gimmickGenerator->SetMediator(m_mediator);
 	m_effect->SetMediator(m_mediator);
-	//m_effectHandle->SetMediator(m_mediator);
 	m_score->SetMediator(m_mediator);
 	m_text->SetMediator(m_mediator);
 	m_textDraw->SetMediator(m_mediator);
 	m_charaGraph->SetMediator(m_mediator);
-	m_charaGraphDraw->SetMediator(m_mediator);
 	m_gameCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
 	m_cinemaCamera->SetMediator(m_mediator);

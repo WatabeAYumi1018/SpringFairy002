@@ -71,64 +71,64 @@ private:
 
 	//--------------------ƒ|ƒCƒ“ƒ^--------------------//
 
-	std::shared_ptr<CameraPhase> m_cameraPhase = nullptr;
-	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
+	std::weak_ptr<CameraPhase> m_cameraPhase;
+	std::weak_ptr<StagePhase> m_stagePhase;
 
-	std::shared_ptr<CinemaBack> m_cinemaBack = nullptr;
-	std::shared_ptr<SkyBox> m_skyBox = nullptr;
+	std::weak_ptr<CinemaBack> m_cinemaBack;
+	std::weak_ptr<SkyBox> m_skyBox;
 
-	std::shared_ptr<Lane> m_lane = nullptr;
-	std::shared_ptr<LaneLoad> m_laneLoad = nullptr;
-	std::shared_ptr<LaneMove> m_laneMove = nullptr;
+	std::weak_ptr<Lane> m_lane;
+	std::weak_ptr<LaneLoad> m_laneLoad;
+	std::weak_ptr<LaneMove> m_laneMove;
 
-	std::shared_ptr<Model> m_model = nullptr;
-	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
+	std::weak_ptr<Model> m_model;
+	std::weak_ptr<ModelLoad> m_modelLoad;
 
-	std::shared_ptr<Character> m_character = nullptr;
+	std::weak_ptr<Character> m_character;
 
-	std::shared_ptr<Player> m_player = nullptr;
-	std::shared_ptr<PlayerLoad> m_playerLoad = nullptr;
-	std::shared_ptr<PlayerMove> m_playerMove = nullptr;
-	std::shared_ptr<PlayerDraw> m_playerDraw = nullptr;
-	std::shared_ptr<PlayerCollision> m_playerCollision = nullptr;
-	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
+	std::weak_ptr<Player> m_player;
+	std::weak_ptr<PlayerLoad> m_playerLoad;
+	std::weak_ptr<PlayerMove> m_playerMove;
+	std::weak_ptr<PlayerDraw> m_playerDraw;
+	std::weak_ptr<PlayerCollision> m_playerCollision;
+	std::weak_ptr<CinemaPlayer> m_cinemaPlayer;
 
-	std::shared_ptr<Partner> m_partner = nullptr;
-	std::shared_ptr<PartnerLoad> m_partnerLoad = nullptr;
-	std::shared_ptr<PartnerMove> m_partnerMove = nullptr;
-	std::shared_ptr<PartnerDraw> m_partnerDraw = nullptr;
+	std::weak_ptr<Partner> m_partner;
+	std::weak_ptr<PartnerLoad> m_partnerLoad;
+	std::weak_ptr<PartnerMove> m_partnerMove;
+	std::weak_ptr<PartnerDraw> m_partnerDraw;
 
-	std::shared_ptr<CameraTargetPlayer> m_cameraTargetPlayer = nullptr;
-	std::shared_ptr<CinemaCameraTarget> m_cinemaCameraTarget = nullptr;
+	std::weak_ptr<CameraTargetPlayer> m_cameraTargetPlayer;
+	std::weak_ptr<CinemaCameraTarget> m_cinemaCameraTarget;
 
-	std::shared_ptr<Butterfly> m_butterfly = nullptr;
-	std::shared_ptr<ButterflyLoad> m_butterflyLoad = nullptr;
+	std::weak_ptr<Butterfly> m_butterfly;
+	std::weak_ptr<ButterflyLoad> m_butterflyLoad;
 
-	std::shared_ptr<Gimmick> m_gimmick = nullptr;
-	std::shared_ptr<GimmickLoad> m_gimmickLoad = nullptr;
-	std::shared_ptr<GimmickGenerator> m_gimmickGenerator = nullptr;
-	std::shared_ptr<GimmickPool> m_gimmickPool = nullptr;
+	std::weak_ptr<Gimmick> m_gimmick;
+	std::weak_ptr<GimmickLoad> m_gimmickLoad;
+	std::weak_ptr<GimmickGenerator> m_gimmickGenerator;
+	std::weak_ptr<GimmickPool> m_gimmickPool;
 
-	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
+	std::weak_ptr<EffectLoad> m_effectLoad;
 
-	std::shared_ptr<Score> m_score = nullptr;
+	std::weak_ptr<Score> m_score;
 
-	std::shared_ptr<Text> m_text = nullptr;
-	std::shared_ptr<TextLoad> m_textLoad = nullptr;
-	std::shared_ptr<TextDraw> m_textDraw = nullptr;
+	std::weak_ptr<Text> m_text;
+	std::weak_ptr<TextLoad> m_textLoad;
+	std::weak_ptr<TextDraw> m_textDraw;
 
-	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
-	std::shared_ptr<CharaGraphDraw> m_charaGraphDraw = nullptr;
+	std::weak_ptr<CharaGraph> m_charaGraph;
+	std::weak_ptr<CharaGraphLoad> m_charaGraphLoad;
 
-	std::shared_ptr<Title> m_title = nullptr;
+	std::weak_ptr<Title> m_title;
 
-	std::shared_ptr<GateLoad> m_gateLoad = nullptr;
+	std::weak_ptr<GateLoad> m_gateLoad;
 
-	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
-	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
+	std::weak_ptr<GameCamera> m_gameCamera;
+	std::weak_ptr<CameraLoad> m_cameraLoad;
+	std::weak_ptr<CinemaCamera> m_cinemaCamera;
 
-	std::shared_ptr<ScreenShot> m_screenShot = nullptr;
+	std::weak_ptr<ScreenShot> m_screenShot;
 
 	//------------------------------------------------//
 
@@ -1004,11 +1004,6 @@ public:
 	void SetCharaGraphLoad(std::shared_ptr<CharaGraphLoad>& charaGraphLoad)
 	{
 		m_charaGraphLoad = charaGraphLoad;
-	}
-
-	void SetCharaGraphDraw(std::shared_ptr<CharaGraphDraw>& charaGraphDraw)
-	{
-		m_charaGraphDraw = charaGraphDraw;
 	}
 
 	void SetTitle(std::shared_ptr<Title>& title)
