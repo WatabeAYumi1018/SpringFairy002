@@ -1,8 +1,10 @@
 #pragma once
 #include "../Object.h"
 
+
 class EnterGraph : public Object
 {
+
 public:
 
 	EnterGraph();

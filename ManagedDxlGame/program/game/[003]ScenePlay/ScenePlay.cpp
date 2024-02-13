@@ -25,7 +25,7 @@ ScenePlay::~ScenePlay()
 bool ScenePlay::SeqStart(const float delta_time)
 {
 	if (m_stagePhase->GetNowStagePhase() 
-		== StagePhase::eStagePhase::e_end
+				== StagePhase::eStagePhase::e_end
 		|| tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
 	{
 		SceneManager* scene = SceneManager::GetInstance();

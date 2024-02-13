@@ -48,6 +48,10 @@ void Text::UpdateWindow(const float delta_time)
 	// 描画終了
 	else
 	{
+		// プレイヤーとパートナーをスライドアウト
+		m_mediator->SetGraphIsSlidOutPlayer(true);
+		m_mediator->SetGraphIsSlidOutPartner(true);
+
 		m_window_alpha -= delta_time * m_alpha_speed;
 
 		// 0 : 完全透明
@@ -60,7 +64,7 @@ void Text::UpdateWindow(const float delta_time)
 
 void Text::DrawWindow()
 {
-	int start_x = 480;
+	int start_x = 490;
 	int start_y = 500;
 
 	// アルファブレンドを設定

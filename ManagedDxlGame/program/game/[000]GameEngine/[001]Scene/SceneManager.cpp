@@ -6,7 +6,7 @@
 SceneManager::SceneManager(SceneBase* start_scene)
 	: m_now_scene(start_scene)
 {
-	//トランジション用のグラフィックを読み込む(黒背景)
+	//トランジション用のグラフィックを読み込む(白背景)
 	m_tansition_hdl = LoadGraph("graphics/white.png");
 }
 
@@ -60,7 +60,7 @@ bool SceneManager::SeqTransIn(const float delta_time)
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
 	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT
-		, m_tansition_hdl, true);
+					, m_tansition_hdl, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, m_alpha);
 

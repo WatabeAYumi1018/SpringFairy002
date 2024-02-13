@@ -79,7 +79,9 @@ void SkyBox::Draw(std::shared_ptr<dxe::Camera> camera)
 		}
 
 		if (m_mediator->GetNowStagePhaseState()
-			== StagePhase::eStagePhase::e_fancy)
+			== StagePhase::eStagePhase::e_fancy
+			|| m_mediator->GetNowStagePhaseState()
+			== StagePhase::eStagePhase::e_end)
 		{
 			m_meshs[3]->render(camera);
 		}

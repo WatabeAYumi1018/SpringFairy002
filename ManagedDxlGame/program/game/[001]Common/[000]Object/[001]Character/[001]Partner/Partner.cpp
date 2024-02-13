@@ -27,12 +27,6 @@ void Partner::Update(float delta_time)
 
 	// 行列計算の更新
 	UpdateMatrix(delta_time);
-
-	//if (m_mediator->GetPlayerMovePushButton())
-	//{
-	//	// 行列計算の更新
-	//	UpdateMatrix(delta_time);
-	//}
 }
 
 void Partner::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -40,16 +34,18 @@ void Partner::Draw(std::shared_ptr<dxe::Camera> camera)
 	// モデル描画処理
 	m_mediator->DrawPartnerModel();
 
-	//// 座標デバッグ用
-	//DrawStringEx(1000, 0, 1, "PartnerPos_x:%f", m_pos.x);
-	//DrawStringEx(1000, 20, 1, "PartnerPos_y:%f", m_pos.y);
-	//DrawStringEx(1000, 40, 1, "PartnerPos_z:%f", m_pos.z);
-
-	////// 当たり判定デバッグ用
-	//VECTOR pos = wta::ConvertToVECTOR(m_pos);
-	//pos.y += m_collision_size;
-	//DrawSphere3D(pos, m_collision_size, 32, GetColor(255, 0, 0), GetColor(255, 0, 0), true);
-
+	if (m_mediator->GetNowStagePhaseState()
+		== StagePhase::eStagePhase::e_wood)
+	{
+		DxLib::COLOR_F emissive = { 0.7f,0.7f,0.7f,1 };
+		MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
+	}
+	else if (m_mediator->GetNowStagePhaseState()
+		== StagePhase::eStagePhase::e_fancy)
+	{
+		DxLib::COLOR_F emissive = { 0.9f,0.9f,0.9f,1 };
+		MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
+	}
 }
 
 void Partner::UpdateMatrix(float delta_time)

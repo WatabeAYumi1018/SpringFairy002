@@ -46,7 +46,7 @@ public:
 		return m_camera_info; 
 	}
 
-	const Lane::sLaneEvent& GetEvent() const
+	const Lane::sLaneEvent& GetCurrentEvent() const
 	{
 		return m_event;
 	}

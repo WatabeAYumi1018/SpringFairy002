@@ -35,8 +35,6 @@ public:
 
 	// 足元自動移動レーンを取得
 	Lane::sLane CurrentMoveLane();
-	//// 足元アイテムレーンを取得
-	//Gimmick::sGimmick CurrentGimmickLane();
 	// 足元のイベントレーンを取得
 	Lane::sLaneEvent CurrentEventLane();
 	// 足元のカメラ情報を取得

@@ -23,12 +23,14 @@
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickPool.h"
 #include "../[000]Object/[003]Effect/[000]EffectFunction/EffectLoad.h"
 #include "../[000]Object/[004]Score/Score.h"
+#include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextLoad.h"
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[006]Title/Title.h"
 #include "../[000]Object/[007]Gate/[000]GateFunction/GateLoad.h"
-#include "../[000]Object/[008]EnterGraph/EnterGraph.h"
+#include "../[000]Object/[008]OtherGraph/EnterGraph.h"
+#include "../[000]Object/[008]OtherGraph/ChangeGraph.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
 #include "../[004]ScreenShot/ScreenShot.h"
 
@@ -1069,13 +1071,13 @@ const GameCamera::sCameraInfo& Mediator::GetTargetCameraInfo() const
 	}
 }
 
-const Lane::sLaneEvent& Mediator::GetEventLane() const
+const Lane::sLaneEvent& Mediator::GetCurrentEventLane() const
 {
 	std::shared_ptr<CameraTargetPlayer> shared_cameraTargetPlayer = m_cameraTargetPlayer.lock();
 
 	if (shared_cameraTargetPlayer)
 	{
-		return shared_cameraTargetPlayer->GetEvent();
+		return shared_cameraTargetPlayer->GetCurrentEvent();
 	}
 	else
 	{
@@ -1339,6 +1341,22 @@ void Mediator::SetIsScoreAdd(bool is_add)
 
 //------------Text-----------//
 
+// Text
+
+int Mediator::GetTextWindowAlpha() const
+{
+	std::shared_ptr<Text> shared_text = m_text.lock();
+
+	if (shared_text)
+	{
+		return shared_text->GetWindowAlpha();
+	}
+	else
+	{
+		throw std::runtime_error("Text shared pointer is expired");
+	}
+}
+
 // TextLoad
 
 const std::vector<Text::sTextData>& Mediator::GetTextsLoadAll() const
@@ -1446,6 +1464,36 @@ const std::vector<Text::sTextData>& Mediator::GetLaneTextDrawData() const
 
 //-----------Graph----------//
 
+// CharaGraph
+
+void Mediator::SetGraphIsSlidOutPlayer(bool is_slide_out_player)
+{
+	std::shared_ptr<CharaGraph> shared_charaGraph = m_charaGraph.lock();
+
+	if (shared_charaGraph)
+	{
+		shared_charaGraph->SetIsSlidOutPlayer(is_slide_out_player);
+	}
+	else
+	{
+		throw std::runtime_error("CharaGraph shared pointer is expired");
+	}
+}
+
+void Mediator::SetGraphIsSlidOutPartner(bool is_slide_out_partner)
+{
+	std::shared_ptr<CharaGraph> shared_charaGraph = m_charaGraph.lock();
+
+	if (shared_charaGraph)
+	{
+		shared_charaGraph->SetIsSlidOutPartner(is_slide_out_partner);
+	}
+	else
+	{
+		throw std::runtime_error("CharaGraph shared pointer is expired");
+	}
+}
+
 // CharaGraphLoad
 
 const std::vector<CharaGraph::sGraphInfo>& Mediator::GetCharaGraphLoadInfo() const
@@ -1521,7 +1569,7 @@ const std::vector<Gate::sGateInfo>& Mediator::GetGatesInfo() const
 //---------------------------//
 
 
-//--------EnterGraph--------//
+//--------OtherGraph---------//
 
 // EnterGraph
 
@@ -1538,6 +1586,81 @@ void Mediator::SetEnterGraphIsActive(bool is_active)
 		throw std::runtime_error("EnterGraph shared pointer is expired");
 	}
 }
+
+// ChangeGraph
+
+void Mediator::SetChangeGraphIsActiveTulip(bool is_active)
+{
+	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+
+	if (shared_changeGraph)
+	{
+		shared_changeGraph->SetIsActiveTulip(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("ChangeGraph shared pointer is expired");
+	}
+}
+
+void Mediator::SetChangeGraphIsActiveWhite(bool is_active)
+{
+	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+
+	if (shared_changeGraph)
+	{
+		shared_changeGraph->SetIsActiveWhite(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("ChangeGraph shared pointer is expired");
+	}
+}
+
+void Mediator::SetChangeGraphIsActiveBlossom(bool is_active)
+{
+	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+
+	if (shared_changeGraph)
+	{
+		shared_changeGraph->SetIsActiveBlossom(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("ChangeGraph shared pointer is expired");
+	}
+}
+
+void Mediator::SetChangeGraphIsActiveButterfly(bool is_active)
+{
+	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+
+	if (shared_changeGraph)
+	{
+		shared_changeGraph->SetIsActiveButterfly(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("ChangeGraph shared pointer is expired");
+	}
+}
+
+// OtherGraphLoad
+
+const std::vector<ChangeGraph::sChangeGraphInfo>& Mediator::GetChangeGraphInfo() const
+{
+	std::shared_ptr<OtherGraphLoad> shared_otherGraphLoad = m_otherGraphLoad.lock();
+
+	if (shared_otherGraphLoad)
+	{
+		return shared_otherGraphLoad->GetGraphInfo();
+	}
+	else
+	{
+		throw std::runtime_error("OtherGraphLoad shared pointer is expired");
+	}
+}
+
 
 //---------------------------//
 
@@ -1669,13 +1792,13 @@ bool Mediator::GetCinemaCameraIsActive() const
 
 // ScreenShot
 
-bool Mediator::IsScreenShot() const
+bool Mediator::GetIsScreenShot() const
 {
 	std::shared_ptr<ScreenShot> shared_screenShot = m_screenShot.lock();
 
 	if (shared_screenShot)
 	{
-		return shared_screenShot->IsShot();
+		return shared_screenShot->GetIsShot();
 	}
 	else
 	{

@@ -4,7 +4,7 @@
 #include "../[000]Object/[006]Title/Title.h"
 #include "../[000]Object/[007]Gate/Gate.h"
 #include "../[000]Object/[007]Gate/[000]GateFunction/GateLoad.h"
-#include "../[000]Object/[008]EnterGraph/EnterGraph.h"
+#include "../[000]Object/[008]OtherGraph/EnterGraph.h"
 #include "../[001]Camera/OpCamera.h"
 #include "../[002]Mediator/Mediator.h"
 #include "OpFactory.h"

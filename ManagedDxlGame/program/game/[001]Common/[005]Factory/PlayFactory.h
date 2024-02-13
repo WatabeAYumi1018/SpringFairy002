@@ -63,12 +63,15 @@ class EffectLoad;
 
 class Score;
 
-class CharaGraph;
-class CharaGraphLoad;
-
 class Text;
 class TextLoad;
 class TextDraw;
+
+class CharaGraph;
+class CharaGraphLoad;
+
+class ChangeGraph;
+class OtherGraphLoad;
 
 class GameCamera;
 class CameraLoad;
@@ -153,6 +156,9 @@ private:
 
 	std::shared_ptr<CharaGraph> m_charaGraph = nullptr;
 	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
+
+	std::shared_ptr<ChangeGraph> m_changeGraph = nullptr;
+	std::shared_ptr<OtherGraphLoad> m_otherGraphLoad = nullptr;
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;

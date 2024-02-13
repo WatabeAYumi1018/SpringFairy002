@@ -8,7 +8,7 @@ void PartnerMove::Update(float delta_time)
 	m_pos = m_mediator->GetPartnerPos();
 	m_rot = m_mediator->GetPartnerRot();
 
-    if (m_mediator->GetEventLane().s_id != 6)
+    if (m_mediator->GetCurrentEventLane().s_id != 6)
     {
         // 自動経路による移動と回転の更新
         m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
@@ -16,12 +16,11 @@ void PartnerMove::Update(float delta_time)
 
         UpdatePos(delta_time);
     }
-    //if (m_is_pushed)
-    //{
-    //    CorrectPos(delta_time);
-    //}
 
-    //UpdateRot(delta_time);
+    if (m_mediator->GetCurrentEventLane().s_id == 14)
+    {
+        m_pos.y += delta_time * 1000;
+    }
 
 	// パートナーの位置と回転を更新
 	m_mediator->SetPartnerPos(m_pos);

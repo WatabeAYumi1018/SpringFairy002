@@ -55,7 +55,7 @@ public:
 	// スクリーンショットの表示処理
 	void ShowScreenShot();
 
-	bool IsShot() const { return m_is_shot; }
+	bool GetIsShot() const { return m_is_shot; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

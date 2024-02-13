@@ -17,6 +17,17 @@ void GameCamera::update(const float delta_time)
 
 void GameCamera::IsInFlustum()
 {
+	// ‚È‚º‚©ƒoƒ‰ƒoƒ‰‚É‘‚©‚È‚¢‚Æ”½‰f‚³‚ê‚È‚¢
+	if (m_mediator->CurrentCameraLane().s_id == 5)
+	{
+		return;
+	}
+
+	if(m_mediator->CurrentCameraLane().s_id == 7)
+	{
+		return;
+	}
+
 	int max = static_cast<int>(eFlustum::e_max);
 
 	for (int i = 0; i < max; ++i)

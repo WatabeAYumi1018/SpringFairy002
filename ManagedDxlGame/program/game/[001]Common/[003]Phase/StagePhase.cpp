@@ -13,11 +13,11 @@ void StagePhase::Update(float delta_time)
 
 void StagePhase::PhaseChange()
 {
-	if (m_mediator->GetEventLane().s_id == 7)
+	if (m_mediator->GetCurrentEventLane().s_id == 7)
 	{
 		m_now_stage = eStagePhase::e_wood;
 	}
-	else if (m_mediator->GetEventLane().s_id == 10)
+	else if (m_mediator->GetCurrentEventLane().s_id == 10)
 	{
 		m_now_stage = eStagePhase::e_fancy;
 	}
@@ -59,9 +59,10 @@ bool StagePhase::SeqWood(const float delta_time)
 bool StagePhase::SeqFancy(const float delta_time)
 {
 	// 14‚É“ü‚Á‚½‚çED‚Ö
-	if (m_mediator->GetEventLane().s_id == 14)
+	if (m_mediator->GetPlayerPos().y > 2000
+		&& m_mediator->GetPartnerPos().y > 2000)
 	{
-		m_now_stage = StagePhase::eStagePhase::e_end;
+		m_now_stage = eStagePhase::e_end;
 	}
 
 	//MusicManager::GetInstance().PlayBGM(delta_time, 3);

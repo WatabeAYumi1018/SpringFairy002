@@ -177,8 +177,11 @@
     <Filter Include="program\[003] game\[004]SceneED">
       <UniqueIdentifier>{209bb2fd-cce4-4ed5-9855-f4f107b61dc6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[008]EnterGraph">
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[008]OtherGraph">
       <UniqueIdentifier>{e84ac7ef-66fb-4f85-ad5a-1c1738f12dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction">
+      <UniqueIdentifier>{1cf23756-1bfb-49c4-8d93-389dbbd55aac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -437,9 +440,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\CharaGraph.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
     </ClCompile>
@@ -518,8 +518,14 @@
     <ClCompile Include="program\game\[000]GameEngine\[002]Music\MusicBGM.cpp">
       <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[008]EnterGraph\EnterGraph.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[008]EnterGraph</Filter>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction\OtherGraphLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\EnterGraph.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -842,9 +848,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\CharaGraph.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
     </ClInclude>
@@ -926,8 +929,14 @@
     <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[008]EnterGraph\EnterGraph.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[008]EnterGraph</Filter>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction\OtherGraphLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\EnterGraph.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

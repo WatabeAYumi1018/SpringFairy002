@@ -239,17 +239,17 @@ void CinemaPlayer::MoveRoundBackToFront(const float delta_time,float radian,bool
 bool CinemaPlayer::SeqTrigger(const float delta_time)
 {
 	// １番のイベントの場合（登場カメラ）
-	if (m_mediator->GetEventLane().s_id == 1)
+	if (m_mediator->GetCurrentEventLane().s_id == 1)
 	{
 		// 最初の紹介
 		tnl_sequence_.change(&CinemaPlayer::SeqFirst);
 	}
-	if (m_mediator->GetEventLane().s_id == 7)
+	if (m_mediator->GetCurrentEventLane().s_id == 7)
 	{
 		// エリア２へ移行
 		tnl_sequence_.change(&CinemaPlayer::SeqSecond);
 	}
-	if (m_mediator->GetEventLane().s_id == 10)
+	if (m_mediator->GetCurrentEventLane().s_id == 10)
 	{
 		// エリア３へ移行
 		tnl_sequence_.change(&CinemaPlayer::SeqThird);
@@ -304,6 +304,8 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 		m_pos.y -= delta_time * 100;
 		m_pos.z += delta_time * 500;
+
+		m_mediator->SetChangeGraphIsActiveTulip(true);
 	});
 
 	m_is_idle = false;
@@ -382,6 +384,10 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 		m_is_dance = true;
 
 		MusicManager::GetInstance().PlaySE(3);
+
+		m_mediator->SetChangeGraphIsActiveWhite(true);
+
+		m_mediator->SetChangeGraphIsActiveBlossom(true);
 	});
 
 	MusicManager::GetInstance().StopSE(3);
@@ -457,6 +463,8 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 		m_is_dance = true;
 
 		MusicManager::GetInstance().PlaySE(4);
+
+		m_mediator->SetChangeGraphIsActiveButterfly(true);
 	});
 
 	MusicManager::GetInstance().StopSE(4);

@@ -33,6 +33,8 @@
 #include "../[000]Object/[005]Event/[001]Text/[000]TextFunction/TextDraw.h"
 #include "../[000]Object//[005]Event/[002]CharaGraph/CharaGraph.h"
 #include "../[000]Object//[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
+#include "../[000]Object/[008]OtherGraph/ChangeGraph.h"
+#include "../[000]Object/[008]OtherGraph/[000]OtherFunction/OtherGraphLoad.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[001]Camera/CinemaCamera.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
@@ -124,6 +126,9 @@ void PlayFactory::CreateObject()
 	m_charaGraph = std::make_shared<CharaGraph>();
 	m_charaGraphLoad = std::make_shared<CharaGraphLoad>();
 
+	m_changeGraph = std::make_shared<ChangeGraph>();
+	m_otherGraphLoad = std::make_shared<OtherGraphLoad>();
+
 	m_gameCamera = std::make_shared<GameCamera>();
 	m_cameraLoad = std::make_shared<CameraLoad>();
 
@@ -166,7 +171,10 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetText(m_text);
 	m_mediator->SetTextLoad(m_textLoad);
 	m_mediator->SetTextDraw(m_textDraw);
+	m_mediator->SetCharaGraph(m_charaGraph);
 	m_mediator->SetCharaGraphLoad(m_charaGraphLoad);
+	m_mediator->SetChangeGraph(m_changeGraph);
+	m_mediator->SetOtherGraphLoad(m_otherGraphLoad);
 	m_mediator->SetScreenShot(m_screenShot);
 	m_mediator->SetGameCamera(m_gameCamera);
 	m_mediator->SetCameraLoad(m_cameraLoad);
@@ -205,6 +213,7 @@ void PlayFactory::SetMediatorReference()
 	m_text->SetMediator(m_mediator);
 	m_textDraw->SetMediator(m_mediator);
 	m_charaGraph->SetMediator(m_mediator);
+	m_changeGraph->SetMediator(m_mediator);
 	m_screenShot->SetMediator(m_mediator);
 	m_gameCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
@@ -277,10 +286,12 @@ void PlayFactory::StorageObjectCinemaCamera()
 	m_objects_cinemaCamera.emplace_back(m_cinemaBack);
 	// シネマ用プレイヤー
 	m_objects_cinemaCamera.emplace_back(m_cinemaPlayer);
-	// シネマ用エフェクト
-	//m_objects_cinemaCamera.emplace_back(m_effect);
 	// シネマ用蝶
 	m_objects_cinemaCamera.emplace_back(m_butterfly);
+	// sceneチェンジ用画像
+	m_objects_cinemaCamera.emplace_back(m_changeGraph);
+	// シネマ用エフェクト
+	m_objects_cinemaCamera.emplace_back(m_effect);
 }
 
 //// 初期化

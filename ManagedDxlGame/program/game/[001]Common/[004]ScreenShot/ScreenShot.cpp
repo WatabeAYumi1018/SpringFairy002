@@ -23,7 +23,7 @@ void ScreenShot::SaveScreenShot()
 {
     // テキストで"ハイチーズ"の掛け声の後にスクリーンショットを撮る
     if (!m_is_shot 
-        && (m_mediator->GetEventLane().s_id == 13
+        && (m_mediator->GetCurrentEventLane().s_id == 13
             || tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB)))
     {
         // スクリーンショットをファイルに保存

@@ -37,7 +37,8 @@ private:
 	// ウィンドウハンドル
 	int m_window_hdl = 0;
 	// ウィンドウのアルファ値(最初は透明)
-	int m_window_alpha = 0;
+	// キャラクター画像でのフラグと関連付けるため-1で初期化
+	int m_window_alpha = -1;
 	// 現在のテキストインデックス番号
 	int m_now_text_index = 0;
 
@@ -64,6 +65,8 @@ public:
 	void Update(float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	int GetWindowAlpha() const { return m_window_alpha; }
 
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)

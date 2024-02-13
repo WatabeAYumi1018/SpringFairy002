@@ -6,6 +6,7 @@
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/CharaGraph.h"
 #include "../[000]Object/[007]Gate/Gate.h"
+#include "../[000]Object/[008]OtherGraph/[000]OtherFunction/OtherGraphLoad.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[001]Camera/CinemaCamera.h"
 #include "../[003]Phase/CameraPhase.h"
@@ -49,17 +50,20 @@ class EffectLoad;
 
 class Score;
 
+class Text;
 class TextLoad;
 class TextDraw;
 
+class CharaGraph;
 class CharaGraphLoad;
-class CharaGraphDraw;
 
 class Title;
 
 class GateLoad;
 
 class EnterGraph;
+class ChangeGraph;
+class OtherGraphLoad;
 
 class CameraLoad;
 class CinemaCamera;
@@ -127,6 +131,8 @@ private:
 	std::weak_ptr<GateLoad> m_gateLoad;
 
 	std::weak_ptr<EnterGraph> m_enterGraph;
+	std::weak_ptr<ChangeGraph> m_changeGraph;	
+	std::weak_ptr<OtherGraphLoad> m_otherGraphLoad;
 
 	std::weak_ptr<GameCamera> m_gameCamera;
 	std::weak_ptr<CameraLoad> m_cameraLoad;
@@ -565,7 +571,7 @@ public:
 	// キャラクターの足元イベントレーンを取得
 	// 参照元 ... Character::m_event
 	// 参照先 ... イベントレーンが必要な全クラス
-	const Lane::sLaneEvent& GetEventLane() const;
+	const Lane::sLaneEvent& GetCurrentEventLane() const;
 
 	// ターゲットのスピードアップフラグ
 	// 参照元 ... Character::m_is_speed_up
@@ -693,6 +699,13 @@ public:
 
 	//------------Text-----------//
 
+	// Text
+
+	// テキストウィンドウのα値取得
+	// 参照元 ... Text::m_window_alpha
+	// 参照先 ... CharaGraph::Update(float delta_time)
+	int GetTextWindowAlpha() const;
+
 	// TextLoad
 
 	// テキスト全データの取得
@@ -732,11 +745,22 @@ public:
 	// 参照先 ... Text::関連する関数
 	const std::vector<Text::sTextData>& GetLaneTextDrawData() const;
 
-
 	//---------------------------//
 
 	
 	//--------CharaGraph---------//
+
+	// CharaGraph
+
+	// プレイヤー画像スライドアウトフラグ設定
+	// 参照元 ... CharaGraph::m_is_slide_out_player
+	// 参照先 ... Text::Update(float delta_time)
+	void SetGraphIsSlidOutPlayer(bool is_slide_out_player);
+
+	// パートナー画像スライドアウトフラグ設定
+	// 参照元 ... CharaGraph::m_is_slide_out_partner
+	// 参照先 ... Text::Update(float delta_time)
+	void SetGraphIsSlidOutPartner(bool is_slide_out_partner);
 
 	// CharaGraphLoad
 
@@ -777,7 +801,7 @@ public:
 	//---------------------------//
 
 
-	//--------EnterGraph--------//
+	//--------OtherGraph---------//
 
 	// EnterGraph
 
@@ -785,6 +809,35 @@ public:
 	// 参照元 ... EnterGraph::m_is_active
 	// 参照先 ... エンター画像を管理する
 	void SetEnterGraphIsActive(bool is_active);
+
+	// ChangeGraph
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_active_tulip
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsActiveTulip(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_active_white
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsActiveWhite(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_active_butterfly
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsActiveBlossom(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_active_butterfly
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsActiveButterfly(bool is_active);
+
+	// OtherGraphLoad
+
+	// 画像データを取得
+	// 参照元 ... OtherGraphLoad::m_graph_info
+	// 参照先 ... ChangeGraph::関連する関数
+	const std::vector<ChangeGraph::sChangeGraphInfo>& GetChangeGraphInfo() const;
 
 	//---------------------------//
 
@@ -847,7 +900,7 @@ public:
 	// スクリーンショットフラグ設定
 	// 参照元 ... ScreenShot::m_is_shot
 	// 参照先 ... CharaGraph::	void DrawScreenShotGraph();
-	bool IsScreenShot() const;
+	bool GetIsScreenShot() const;
 
 	//---------------------------//
 
@@ -1016,6 +1069,11 @@ public:
 	{
 		m_textDraw = textDraw;
 	}
+
+	void SetCharaGraph(std::shared_ptr<CharaGraph>& charaGraph)
+	{
+		m_charaGraph = charaGraph;
+	}
 	
 	void SetCharaGraphLoad(std::shared_ptr<CharaGraphLoad>& charaGraphLoad)
 	{
@@ -1035,6 +1093,16 @@ public:
 	void SetEnterGraph(std::shared_ptr<EnterGraph>& enterGraph)
 	{
 		m_enterGraph = enterGraph;
+	}
+
+	void SetChangeGraph(std::shared_ptr<ChangeGraph>& changeGraph)
+	{
+		m_changeGraph = changeGraph;
+	}
+
+	void SetOtherGraphLoad(std::shared_ptr<OtherGraphLoad>& otherGraphLoad)
+	{
+		m_otherGraphLoad = otherGraphLoad;
 	}
 
 	void SetGameCamera(std::shared_ptr<GameCamera>& gameCamera)

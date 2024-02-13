@@ -65,6 +65,7 @@ public:
 
 	void Draw();
 
+	// テキストの表示フラグを取得
 	bool GetIsEnd() const { return m_is_end; }
 
 	int GetNowTextID() const { return m_now_text_id; }

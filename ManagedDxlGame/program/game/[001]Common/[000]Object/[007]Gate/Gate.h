@@ -49,7 +49,7 @@ private:
 	// トリガー処理
 	bool SeqTrigger(const float delta_time);
 	// イラストの変更処理
-	bool SeqDrawChange(const float delta_time);
+	bool SeqStay(const float delta_time);
 	// ゲートオープン処理
 	bool SeqOpen(const float delta_time);
 
