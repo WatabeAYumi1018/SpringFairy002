@@ -184,7 +184,6 @@ public:
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void SetIsCinemaBackBubble(bool is_bubble);
 
-
 	//----------------------------//
 	
 	
@@ -198,8 +197,8 @@ public:
 	void SetSkyIsOp(bool is_op);
 
 	//---------------------------//
-	 
-	 
+
+
 	//-----------Stage-----------//
 
 	// LaneLoad
@@ -275,6 +274,11 @@ public:
 	// 参照元 ... ModelLoad::m_model_info
 	// 参照先 ... ModelPool::関連する関数
 	const std::vector<Model::sModelInfo>& GetStageModelInfo() const;
+
+	// 樹木ステージモデルの情報取得
+	// 参照元 ... ModelLoad::m_tree_info
+	// 参照先 ... ModelPool::関連する関数
+	const std::vector<Model::sTreeInfo>& GetStageTreeInfo() const;
 
 	//--------------------------//
 

@@ -3,7 +3,8 @@
 
 EnterGraph::EnterGraph()
 {
-	m_enter_hdl = LoadGraph("graphics/other/press_enter.png");
+	m_enter_hdl 
+        = LoadGraph("graphics/other/enterGraph/press_enter.png");
 }
 
 EnterGraph::~EnterGraph()

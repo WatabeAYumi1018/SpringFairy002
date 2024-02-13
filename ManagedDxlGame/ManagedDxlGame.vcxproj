@@ -199,7 +199,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneMove.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[002]Floor\Floor.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\Model.cpp" />
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelGenerator.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\Character.cpp" />
@@ -329,7 +328,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneMove.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[002]Floor\Floor.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\Model.h" />
-    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelGenerator.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\Character.h" />

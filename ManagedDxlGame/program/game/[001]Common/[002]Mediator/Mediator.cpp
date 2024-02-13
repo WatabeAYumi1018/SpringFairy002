@@ -318,6 +318,20 @@ const std::vector<Model::sModelInfo>& Mediator::GetStageModelInfo() const
 	}
 }
 
+const std::vector<Model::sTreeInfo>& Mediator::GetStageTreeInfo() const
+{
+	std::shared_ptr<ModelLoad> shared_modelLoad = m_modelLoad.lock();
+
+	if (shared_modelLoad)
+	{
+		return shared_modelLoad->GetTreeInfo();
+	}
+	else
+	{
+		throw std::runtime_error("ModelLoad shared pointer is expired");
+	}
+}
+
 //--------------------------//
 
 

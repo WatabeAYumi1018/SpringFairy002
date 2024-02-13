@@ -42,9 +42,14 @@ void SkyBox::CreateSkyBox()
 		m_mesh = dxe::Mesh::CreateCubeMV(60000);
 		m_mesh->setTexture(dxe::Texture::CreateFromFile(sky_info.s_texture_path));
 		m_mesh->loadMaterial(sky_info.s_material_path);
-		m_screen_effect = std::make_shared<dxe::ScreenEffect>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+		
+		m_screen_effect 
+			= std::make_shared<dxe::ScreenEffect>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+
 		m_screen_effect->loadStatus(sky_info.s_screen_effect_path);
-		// -10000 : 座標の調整(デフォルトで{0}になっていて端っこまで到達してしまうため)
+		
+		// 20000 : 座標の調整(
+		// デフォルトで{0}。端っこまでの到達を防ぐ
 		m_mesh->pos_ = { 20000, 0, 0 };
 
 		m_meshs.emplace_back(m_mesh);
