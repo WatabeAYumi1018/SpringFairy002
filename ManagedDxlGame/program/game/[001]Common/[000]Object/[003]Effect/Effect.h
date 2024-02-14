@@ -27,6 +27,9 @@ private:
 	int m_start_id = 0;
 	int m_end_id = 0;
 
+	// オフセット値
+	float m_offset = 150.0f;
+
 	CameraPhase::eCameraPhase m_camera_phase
 		= CameraPhase::eCameraPhase::e_cinema;
 
@@ -39,13 +42,22 @@ private:
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	// 各アクティブエフェクトの取得
-	void EffectOffset(int start, int end);
+	// エフェクトのオフセット設定
+	void EffectOffset(tnl::Vector3& pos, tnl::Vector3& forward);
+	// プレイヤーアクションエフェクト設定
+	void EffectPlayerAction(int start, int end,bool is_game = true);
+	// 軌跡エフェクト設定
+	void EffectPath(bool is_player = true);
+	// 蝶エフェクト設定
+	void EffectButterfly();
+	// ギミックエフェクト設定
+	void EffectGimmick();
+	// スクリーンエフェクト設定
+	void EffectScreen(int start,int end);
 
-	// シネマ画面のエフェクト遷移
+	// シネマ画面のエフェクト処理
 	void EffectTransCinema();
-
-	// ゲーム画面のエフェクト遷移
+	// ゲーム画面のエフェクト処理
 	void EffectTransGame();
 
 public:

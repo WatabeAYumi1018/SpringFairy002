@@ -11,7 +11,7 @@ SceneOp::SceneOp() : m_factory(std::make_shared<OpFactory>())
 	Initialize();
 
 	//ChangeLightTypeDir(VGet(0.0f, -1.0f, 0.0f));
-	SetDefaultLightParameter("directional_light_parameter.bin");
+	SetDefaultLightParameter("directional_light002.bin");
 }
 
 SceneOp::~SceneOp()

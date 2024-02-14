@@ -29,10 +29,6 @@ private:
 	bool SeqNormal(const float delta_time);
 	// ’â~ˆ—
 	bool SeqStop(const float delta_time);
-	// ã¸ˆ—
-	bool SeqUpMove(const float delta_time);
-	// ‰º~ˆ—
-	bool SeqDownMove(const float delta_time);
 
 public:
 

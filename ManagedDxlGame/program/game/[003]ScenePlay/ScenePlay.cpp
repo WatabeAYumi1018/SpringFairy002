@@ -13,8 +13,6 @@
 ScenePlay::ScenePlay() : m_factory(std::make_shared<PlayFactory>())
 {
 	Initialize();
-
-	SetDefaultLightParameter("directional_light_parameter.bin");
 }
 
 ScenePlay::~ScenePlay()

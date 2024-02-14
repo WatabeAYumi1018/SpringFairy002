@@ -1113,20 +1113,6 @@ bool Mediator::GetIsTargetSpeedUp() const
 	}
 }
 
-bool Mediator::GetIsTargetMoveDown() const
-{
-	std::shared_ptr<CameraTargetPlayer> shared_cameraTargetPlayer = m_cameraTargetPlayer.lock();
-
-	if (shared_cameraTargetPlayer)
-	{
-		return shared_cameraTargetPlayer->GetIsMoveDown();
-	}
-	else
-	{
-		throw std::runtime_error("CameraTargetPlayer shared pointer is expired");
-	}
-}
-
 //-------------------------------//
 
 
@@ -1183,6 +1169,20 @@ void Mediator::SetButterflyIsOpActive(bool is_op_active)
 	}
 }
 
+void Mediator::SetButterflyIsCinemaActive(bool is_cinema_active)
+{
+	std::shared_ptr<Butterfly> shared_butterfly = m_butterfly.lock();
+
+	if (shared_butterfly)
+	{
+		shared_butterfly->SetIsCinemaActive(is_cinema_active);
+	}
+	else
+	{
+		throw std::runtime_error("Butterfly shared pointer is expired");
+	}
+}
+
 bool Mediator::GetButterflyIsClear() const
 {
 	std::shared_ptr<Butterfly> shared_butterfly = m_butterfly.lock();
@@ -1197,19 +1197,20 @@ bool Mediator::GetButterflyIsClear() const
 	}
 }
 
-void Mediator::SetButterflyIsCinemaActive(bool is_cinema_active)
+const tnl::Vector3& Mediator::GetButterflyNextDirection() const
 {
 	std::shared_ptr<Butterfly> shared_butterfly = m_butterfly.lock();
 
 	if (shared_butterfly)
 	{
-		shared_butterfly->SetIsCinemaActive(is_cinema_active);
+		return shared_butterfly->GetNextDirection();
 	}
 	else
 	{
 		throw std::runtime_error("Butterfly shared pointer is expired");
 	}
 }
+
 
 bool Mediator::GetButterflyIsCinemaActive() const
 {
@@ -1247,6 +1248,20 @@ int Mediator::GetButterflyModelHdl() const
 //-----------Gimmick-----------//
 
 // Gimmick
+
+const tnl::Vector3& Mediator::GetGimmickPos() const
+{
+	std::shared_ptr<Gimmick> shared_gimmick = m_gimmick.lock();
+
+	if (shared_gimmick)
+	{
+		return shared_gimmick->GetPos();
+	}
+	else
+	{
+		throw std::runtime_error("Gimmick shared pointer is expired");
+	}
+}
 
 bool Mediator::GetGimmickIsCollision() const
 {

@@ -28,6 +28,8 @@ bool StagePhase::SeqFlower(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
+		SetDefaultLightParameter("directional_light001.bin");
+
 		MusicManager::GetInstance().PlayBGM(delta_time, 1);
 	}
 

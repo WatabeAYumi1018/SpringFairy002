@@ -34,6 +34,7 @@ void Effect::Initialize()
 
 void Effect::Update(float delta_time)
 {
+	// ゲームのフェーズ情報を取得
     m_camera_phase = m_mediator->GetNowCameraPhaseState();
     m_stage_phase = m_mediator->GetNowStagePhaseState();
 
@@ -64,20 +65,8 @@ void Effect::Draw(std::shared_ptr<dxe::Camera> camera)
     dxe::Particle::renderEnd();
 }
 
-void Effect::EffectOffset(int start, int end)
+void Effect::EffectOffset(tnl::Vector3& pos, tnl::Vector3& forward)
 {
-	m_start_id = start;
-	m_end_id = end;
-
-	// オフセット値
-	float offset = 150.0f;
-
-	// キャラの正面向きを取得
-	tnl::Vector3 forward = m_mediator->PlayerForward();
-
-	// プレイヤーの位置を取得
-	tnl::Vector3 m_pos = m_mediator->GetPlayerPos();
-
 	for (int i = m_start_id; i <= m_end_id; ++i)
 	{
 		// 範囲外のエフェクトはスキップ
@@ -90,96 +79,152 @@ void Effect::EffectOffset(int start, int end)
 		if (m_mediator->GetIsPlayerBloom())
 		{
 			m_particles[i]->start();
-			m_particles[i]->setPosition({ m_pos.x, m_pos.y + offset,m_pos.z });
+			m_particles[i]->setPosition({ pos.x, pos.y + m_offset,pos.z });
 			m_particles[i]->setDiffDirection(forward);
+			// アニメーションとエフェクトの再生時間調整
+			m_particles[i]->setTimeScale(2);
 		}
+
 		// Danceエフェクトの場合
-		else if (m_mediator->GetIsPlayerDance())
+		if (m_mediator->GetIsPlayerDance()
+			|| m_mediator->GetCinemaPlayerIsDance())
 		{
 			m_particles[i]->start();
-			m_particles[i]->setPosition({ m_pos.x, m_pos.y + offset,m_pos.z });
+			m_particles[i]->setPosition({ pos.x, pos.y + m_offset,pos.z });
+			// アニメーションとエフェクトの再生時間調整
+			m_particles[i]->setTimeScale(1.5f);
 		}
+	}
+}
+
+void Effect::EffectPlayerAction(int start, int end,bool is_game)
+{
+	m_start_id = start;
+	m_end_id = end;
+
+	// プレイヤーの位置を取得
+	tnl::Vector3 pos;
+	// キャラの正面向きを取得
+	tnl::Vector3 forward = m_mediator->PlayerForward();
+
+	if (is_game)
+	{
+		pos = m_mediator->GetPlayerPos();
+	}
+	else
+	{
+		pos = m_mediator->GetCinemaPlayerPos();
+	}
+
+	EffectOffset(pos, forward);
+}
+
+void Effect::EffectPath(bool is_player)
+{
+	tnl::Vector3 pos;
+	tnl::Vector3 direction;
+
+	if (is_player)
+	{
+		pos = m_mediator->GetPlayerPos();
+		direction = m_mediator->PlayerForward();
+	}
+	else
+	{
+		pos = m_mediator->GetButterflyPos();
+		// 進行方向を取得
+		direction = m_mediator->GetButterflyNextDirection();
+	}
+
+	m_particles[36]->start();
+	m_particles[36]->setPosition(pos);
+	// 方向とは逆に設定
+	m_particles[36]->setDiffDirection(-direction);
+}
+
+void Effect::EffectButterfly()
+{
+	tnl::Vector3 pos = m_mediator->GetButterflyPos();
+
+	// 消える瞬間にエフェクトを再生
+	if (m_mediator->GetButterflyIsClear())
+	{
+		// 該当エフェクトを指定
+		m_particles[19]->start();
+		m_particles[19]->setPosition(pos);
+		// アニメーションとエフェクトの再生時間調整
+		m_particles[19]->setTimeScale(1.5f);
+	}
+}
+
+void Effect::EffectGimmick()
+{
+	tnl::Vector3 pos = m_mediator->GetGimmickPos();
+
+		// ギミックエフェクト（単発再生）
+	if (m_mediator->GetGimmickIsCollision())
+	{
+		// 該当エフェクトを指定
+		m_particles[39]->start();
+		m_particles[39]->setPosition(pos);
+	}
+}
+
+void Effect::EffectScreen(int start,int end)
+{
+	// スクリーンエフェクト（ループ再生）
+	for (int i = start; i <= end; ++i)
+	{
+		m_particles[i]->start();
 	}
 }
 
 void Effect::EffectTransCinema()
 {
-	if (m_stage_phase == StagePhase::eStagePhase::e_flower)
+	// ダンスに関連するエフェクト再生
+	if (m_mediator->GetCinemaPlayerIsDance())
 	{
-		if (m_mediator->GetCinemaPlayerIsDance())
+		EffectPlayerAction(12, 15,false);
+
+		if (m_stage_phase == StagePhase::eStagePhase::e_wood)
 		{
-			EffectOffset(16, 17);
+			EffectScreen(16,18);
+		}
+
+		if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
+		{
+			EffectScreen(20, 23);
 		}
 	}
-
-	else if (m_stage_phase == StagePhase::eStagePhase::e_wood)
-	{
-		if (m_mediator->GetCinemaPlayerIsDance())
-		{
-			EffectOffset(22, 23);
-		}
-	}
-
-	else if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
+	
+	if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
 	{
 		// キャラ軌跡エフェクト（ループ再生）
 		if (m_mediator->GetButterflyIsCinemaActive())
 		{
-			EffectOffset(26, 26);
-		}
-		// 蝶のクリアエフェクト（単発再生）
-		if (m_mediator->GetButterflyIsClear())
-		{
-			EffectOffset(19, 19);
+			EffectButterfly();
+			EffectPath(false);
 		}
 	}
 }
 
 void Effect::EffectTransGame()
 {
-	if (m_stage_phase == StagePhase::eStagePhase::e_flower)
+	if (m_mediator->GetIsPlayerBloom())
 	{
-		if (m_mediator->GetIsPlayerBloom())
-		{
-			EffectOffset(0, 13);
-		}
-		else if (m_mediator->GetIsPlayerDance())
-		{
-			EffectOffset(16, 17);
-		}
+		EffectPlayerAction(0, 11);
 	}
-	else if (m_stage_phase == StagePhase::eStagePhase::e_wood)
+	else if (m_mediator->GetIsPlayerDance())
 	{
-		if (m_mediator->GetIsPlayerBloom())
-		{
-			EffectOffset(0, 15);
-		}
-		else if (m_mediator->GetIsPlayerDance())
-		{
-			EffectOffset(16, 17);
-		}
+		EffectPlayerAction(12, 15);
 	}
-	else if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
+	
+	if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
 	{
-		if (m_mediator->GetIsPlayerBloom())
-		{
-			EffectOffset(0, 15);
-		}
-		else if (m_mediator->GetIsPlayerDance())
-		{
-			EffectOffset(16, 17);
-		}
-
-		// スクリーンエフェクト（ループ再生）
-		EffectOffset(20, 24);
 		// キャラ軌跡エフェクト（ループ再生）
-		EffectOffset(26, 26);
+		EffectPath();
+		// スクリーンエフェクト（ループ再生）
+		EffectScreen(16, 18);
+		EffectScreen(25, 34);
 	}
-
-	// ギミックエフェクト（単発再生）
-	if (m_mediator->GetGimmickIsCollision())
-	{
-		EffectOffset(25, 25);
-	}
-
 }

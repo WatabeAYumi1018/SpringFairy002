@@ -582,16 +582,6 @@ public:
 	// 参照先 ... LaneMove::自動移動に関連するクラス
 	bool GetIsTargetSpeedUp() const;
 
-	//// ターゲットの上昇移動フラグ
-	//// 参照元 ... Character::m_is_move_up
-	//// 参照先 ... LaneMove::自動移動に関連するクラス
-	//bool GetIsTargetMoveUp() const;
-
-	// ターゲットの下降移動フラグ
-	// 参照元 ... Character::m_is_move_down
-	// 参照先 ... LaneMove::自動移動に関連するクラス
-	bool GetIsTargetMoveDown() const;
-
 	//-------------------------------//
 
 
@@ -621,15 +611,20 @@ public:
 	// 参照先 ... OpCamera::Update(float delta_time)
 	void SetButterflyIsOpActive(bool is_op_active);
 
+	// バタフライのシネマフラグ設定
+	// 参照元 ... Butterfly::m_is_cinema_active
+	// 参照先 ... OpCamera::Update(float delta_time)
+	void SetButterflyIsCinemaActive(bool is_cinema_active);
+
 	// バタフライの鱗粉フラグ取得
 	// 参照元 ... Butterfly::m_is_clear
 	// 参照先 ... Opに関連する関数
 	bool GetButterflyIsClear() const;
 
-	// バタフライのシネマフラグ設定
-	// 参照元 ... Butterfly::m_is_cinema_active
-	// 参照先 ... OpCamera::Update(float delta_time)
-	void SetButterflyIsCinemaActive(bool is_cinema_active);
+	// バタフライの進行方向取得
+	// 参照元 ... Butterfly::m_next_direction
+	// 参照先 ... Effect::EffectButerfly
+	const tnl::Vector3& GetButterflyNextDirection() const;
 
 	// バタフライのシネマフラグ取得
 	// 参照元 ... Butterfly::m_is_cinema_active
@@ -649,6 +644,11 @@ public:
 	//-----------Gimmick-----------//
 
 	// Gimmick
+
+	// ギミックの座標取得
+	// 参照元 ... Gimmick::m_pos
+	// 参照先 ... Effect::EffectGimmick
+	const tnl::Vector3& GetGimmickPos() const;
 
 	// ギミックの当たり判定取得
 	// 参照元 ... Gimmick::m_is_collision

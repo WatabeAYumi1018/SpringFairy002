@@ -14,9 +14,9 @@
 //// 　　dxe::Particle や dxe::InstMeshPool など DirectX を直接制御するクラスの render 関数は
 ////　　 dxe::DirectXRenderBegin() dxe::DirectXRenderEnd() で囲った中でコールしてください  
 ////-----------------------------------------------------------------------------------------------------------
-//
-//
-//
+
+
+
 //#include <time.h>
 //#include <string>
 //#include <numbers>
@@ -83,7 +83,7 @@
 //    camera = std::make_shared<TransformCamera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 //    camera->pos_ = { 0, 100, -250 };
 //
-//    ptcl = std::make_shared<dxe::Particle>("radiation.bin");
+//    ptcl = std::make_shared<dxe::Particle>("effect/bloom/bubble_blue.bin");
 //
 //}
 //
@@ -149,8 +149,6 @@
 //    // パーティクルの描画終了
 //    //
 //    dxe::DirectXRenderEnd();
-//
-//
 //
 //
 //    if (is_draw_controller) ptcl->drawGuiController({ 0, 0 });

@@ -176,9 +176,9 @@ bool PlayerDraw::SeqBloom(const float delta_time)
 		{
 			AnimBloom(delta_time);
 
-			MusicManager::GetInstance().PlaySE(1);
-
 			m_is_bloom = true;
+
+			MusicManager::GetInstance().PlaySE(1);
 		});
 
 		m_is_bloom = false;
@@ -229,7 +229,7 @@ bool PlayerDraw::SeqDance(const float delta_time)
 	{
 		MV1DetachAnim(m_model_game_hdl, m_anim_move_index);
 
-		TNL_SEQ_CO_FRM_YIELD_RETURN(m_time_count_dance * 2, delta_time, [&]()
+		TNL_SEQ_CO_FRM_YIELD_RETURN(m_time_count_dance * 1.5f, delta_time, [&]()
 		{
 			AnimDance(delta_time, m_model_game_hdl);
 			

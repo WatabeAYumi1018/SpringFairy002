@@ -443,9 +443,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClCompile>
@@ -523,6 +520,9 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -848,9 +848,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClInclude>
@@ -931,6 +928,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
