@@ -15,12 +15,18 @@ public:
 	{
 		// csvで定義した識別番号
 		int s_id;
-		// 描画位置
-		int s_graph_side;
 		// 描画ハンドル
 		int s_graph_hdl;
-		// 描画座標
-		tnl::Vector3 s_graph_pos;
+		// スライド速度
+		float s_slide_speed;
+		// 開始描画座標
+		float s_start_pos_x;
+		// 現在の描画座標
+		float s_current_pos_x;
+		// 最終描画座標
+		float s_end_pos_x;
+		// Y座標
+		float s_pos_y;
 	};
 
 	CharaGraph();
@@ -29,32 +35,30 @@ public:
 
 private:
 
+	int m_now_id = 0;
+	int m_player_id = 0;
+	int m_partner_id = 0;
 
-	float m_elapsed_time = 0.0f;
+	float m_elapsed_time = 0;
+
+	bool m_is_slide_in_player = true;
+	bool m_is_slide_in_partner = true;
+
+	bool m_is_slide_out_player = false;
+	bool m_is_slide_out_partner = false;
 
 	std::vector<CharaGraph::sGraphInfo> m_chara_graph;
-
-	// コルーチンシーケンス
-	TNL_CO_SEQUENCE(CharaGraph, &CharaGraph::SeqSlideIn);
 
 	// メディエーターのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-	//// キャラ画像のスライド処理
-	//void UpdateCharaSlideGraph(const float delta_time, int graph_id);	
-
-	// キャラ画像の更新
-	void UpdateCharaGraph();
-	
+	// キャラ画像の座標更新
+	void UpdateSlideIn(const float delta_time);
+	void UpdateSlideOut(const float delta_time);
+	// キャラ画像の描画
 	void DrawCharaGraph();
-
-
-	// スライドイン
-	bool SeqSlideIn(const float delta_time);
-	// 描画中
-	bool SeqDrawChange(const float delta_time);
-	// スライドアウト
-	bool SeqSlideOut(const float delta_time);
+	// スクリーンショット時の描画
+	void DrawScreenShot();
 
 public:
 
@@ -63,6 +67,16 @@ public:
 	void Update(float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	void SetIsSlidOutPlayer(bool is_slide_out_player)
+	{
+		m_is_slide_out_player = is_slide_out_player;
+	}
+
+	void SetIsSlidOutPartner(bool is_slide_out_partner)
+	{
+		m_is_slide_out_partner = is_slide_out_partner;
+	}
 
 	// プレイヤーのメディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)

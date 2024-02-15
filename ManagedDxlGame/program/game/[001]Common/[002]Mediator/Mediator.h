@@ -6,6 +6,7 @@
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
 #include "../[000]Object/[005]Event/[002]CharaGraph/CharaGraph.h"
 #include "../[000]Object/[007]Gate/Gate.h"
+#include "../[000]Object/[008]OtherGraph/[000]OtherFunction/OtherGraphLoad.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[001]Camera/CinemaCamera.h"
 #include "../[003]Phase/CameraPhase.h"
@@ -46,22 +47,28 @@ class GimmickGenerator;
 class GimmickPool;
 
 class EffectLoad;
-class EffectHandle;
 
 class Score;
 
+class Text;
 class TextLoad;
 class TextDraw;
 
+class CharaGraph;
 class CharaGraphLoad;
-class CharaGraphDraw;
 
 class Title;
 
 class GateLoad;
 
+class EnterGraph;
+class ChangeGraph;
+class OtherGraphLoad;
+
 class CameraLoad;
 class CinemaCamera;
+
+class ScreenShot;
 
 class Mediator
 {
@@ -70,64 +77,68 @@ private:
 
 	//--------------------ポインタ--------------------//
 
-	std::shared_ptr<CameraPhase> m_cameraPhase = nullptr;
-	std::shared_ptr<StagePhase> m_stagePhase = nullptr;
+	std::weak_ptr<CameraPhase> m_cameraPhase;
+	std::weak_ptr<StagePhase> m_stagePhase;
 
-	std::shared_ptr<CinemaBack> m_cinemaBack = nullptr;
-	std::shared_ptr<SkyBox> m_skyBox = nullptr;
+	std::weak_ptr<CinemaBack> m_cinemaBack;
+	std::weak_ptr<SkyBox> m_skyBox;
 
-	std::shared_ptr<Lane> m_lane = nullptr;
-	std::shared_ptr<LaneLoad> m_laneLoad = nullptr;
-	std::shared_ptr<LaneMove> m_laneMove = nullptr;
+	std::weak_ptr<Lane> m_lane;
+	std::weak_ptr<LaneLoad> m_laneLoad;
+	std::weak_ptr<LaneMove> m_laneMove;
 
-	std::shared_ptr<Model> m_model = nullptr;
-	std::shared_ptr<ModelLoad> m_modelLoad = nullptr;
+	std::weak_ptr<Model> m_model;
+	std::weak_ptr<ModelLoad> m_modelLoad;
 
-	std::shared_ptr<Character> m_character = nullptr;
+	std::weak_ptr<Character> m_character;
 
-	std::shared_ptr<Player> m_player = nullptr;
-	std::shared_ptr<PlayerLoad> m_playerLoad = nullptr;
-	std::shared_ptr<PlayerMove> m_playerMove = nullptr;
-	std::shared_ptr<PlayerDraw> m_playerDraw = nullptr;
-	std::shared_ptr<PlayerCollision> m_playerCollision = nullptr;
-	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
+	std::weak_ptr<Player> m_player;
+	std::weak_ptr<PlayerLoad> m_playerLoad;
+	std::weak_ptr<PlayerMove> m_playerMove;
+	std::weak_ptr<PlayerDraw> m_playerDraw;
+	std::weak_ptr<PlayerCollision> m_playerCollision;
+	std::weak_ptr<CinemaPlayer> m_cinemaPlayer;
 
-	std::shared_ptr<Partner> m_partner = nullptr;
-	std::shared_ptr<PartnerLoad> m_partnerLoad = nullptr;
-	std::shared_ptr<PartnerMove> m_partnerMove = nullptr;
-	std::shared_ptr<PartnerDraw> m_partnerDraw = nullptr;
+	std::weak_ptr<Partner> m_partner;
+	std::weak_ptr<PartnerLoad> m_partnerLoad;
+	std::weak_ptr<PartnerMove> m_partnerMove;
+	std::weak_ptr<PartnerDraw> m_partnerDraw;
 
-	std::shared_ptr<CameraTargetPlayer> m_cameraTargetPlayer = nullptr;
-	std::shared_ptr<CinemaCameraTarget> m_cinemaCameraTarget = nullptr;
+	std::weak_ptr<CameraTargetPlayer> m_cameraTargetPlayer;
+	std::weak_ptr<CinemaCameraTarget> m_cinemaCameraTarget;
 
-	std::shared_ptr<Butterfly> m_butterfly = nullptr;
-	std::shared_ptr<ButterflyLoad> m_butterflyLoad = nullptr;
+	std::weak_ptr<Butterfly> m_butterfly;
+	std::weak_ptr<ButterflyLoad> m_butterflyLoad;
 
-	std::shared_ptr<Gimmick> m_gimmick = nullptr;
-	std::shared_ptr<GimmickLoad> m_gimmickLoad = nullptr;
-	std::shared_ptr<GimmickGenerator> m_gimmickGenerator = nullptr;
-	std::shared_ptr<GimmickPool> m_gimmickPool = nullptr;
+	std::weak_ptr<Gimmick> m_gimmick;
+	std::weak_ptr<GimmickLoad> m_gimmickLoad;
+	std::weak_ptr<GimmickGenerator> m_gimmickGenerator;
+	std::weak_ptr<GimmickPool> m_gimmickPool;
 
-	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
-	std::shared_ptr<EffectHandle> m_effectHandle = nullptr;
+	std::weak_ptr<EffectLoad> m_effectLoad;
 
-	std::shared_ptr<Score> m_score = nullptr;
+	std::weak_ptr<Score> m_score;
 
-	std::shared_ptr<Text> m_text = nullptr;
-	std::shared_ptr<TextLoad> m_textLoad = nullptr;
-	std::shared_ptr<TextDraw> m_textDraw = nullptr;
+	std::weak_ptr<Text> m_text;
+	std::weak_ptr<TextLoad> m_textLoad;
+	std::weak_ptr<TextDraw> m_textDraw;
 
-	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
-	std::shared_ptr<CharaGraphDraw> m_charaGraphDraw = nullptr;
+	std::weak_ptr<CharaGraph> m_charaGraph;
+	std::weak_ptr<CharaGraphLoad> m_charaGraphLoad;
 
-	std::shared_ptr<Title> m_title = nullptr;
+	std::weak_ptr<Title> m_title;
 
-	std::shared_ptr<GateLoad> m_gateLoad = nullptr;
+	std::weak_ptr<GateLoad> m_gateLoad;
 
-	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
-	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
-	std::shared_ptr<CinemaCamera> m_cinemaCamera = nullptr;
+	std::weak_ptr<EnterGraph> m_enterGraph;
+	std::weak_ptr<ChangeGraph> m_changeGraph;	
+	std::weak_ptr<OtherGraphLoad> m_otherGraphLoad;
 
+	std::weak_ptr<GameCamera> m_gameCamera;
+	std::weak_ptr<CameraLoad> m_cameraLoad;
+	std::weak_ptr<CinemaCamera> m_cinemaCamera;
+
+	std::weak_ptr<ScreenShot> m_screenShot;
 
 	//------------------------------------------------//
 
@@ -173,7 +184,6 @@ public:
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void SetIsCinemaBackBubble(bool is_bubble);
 
-
 	//----------------------------//
 	
 	
@@ -187,8 +197,8 @@ public:
 	void SetSkyIsOp(bool is_op);
 
 	//---------------------------//
-	 
-	 
+
+
 	//-----------Stage-----------//
 
 	// LaneLoad
@@ -264,6 +274,11 @@ public:
 	// 参照元 ... ModelLoad::m_model_info
 	// 参照先 ... ModelPool::関連する関数
 	const std::vector<Model::sModelInfo>& GetStageModelInfo() const;
+
+	// 樹木ステージモデルの情報取得
+	// 参照元 ... ModelLoad::m_tree_info
+	// 参照先 ... ModelPool::関連する関数
+	const std::vector<Model::sTreeInfo>& GetStageTreeInfo() const;
 
 	//--------------------------//
 
@@ -560,22 +575,12 @@ public:
 	// キャラクターの足元イベントレーンを取得
 	// 参照元 ... Character::m_event
 	// 参照先 ... イベントレーンが必要な全クラス
-	const Lane::sLaneEvent& GetEventLane() const;
+	const Lane::sLaneEvent& GetCurrentEventLane() const;
 
 	// ターゲットのスピードアップフラグ
 	// 参照元 ... Character::m_is_speed_up
 	// 参照先 ... LaneMove::自動移動に関連するクラス
 	bool GetIsTargetSpeedUp() const;
-
-	//// ターゲットの上昇移動フラグ
-	//// 参照元 ... Character::m_is_move_up
-	//// 参照先 ... LaneMove::自動移動に関連するクラス
-	//bool GetIsTargetMoveUp() const;
-
-	// ターゲットの下降移動フラグ
-	// 参照元 ... Character::m_is_move_down
-	// 参照先 ... LaneMove::自動移動に関連するクラス
-	bool GetIsTargetMoveDown() const;
 
 	//-------------------------------//
 
@@ -606,15 +611,20 @@ public:
 	// 参照先 ... OpCamera::Update(float delta_time)
 	void SetButterflyIsOpActive(bool is_op_active);
 
+	// バタフライのシネマフラグ設定
+	// 参照元 ... Butterfly::m_is_cinema_active
+	// 参照先 ... OpCamera::Update(float delta_time)
+	void SetButterflyIsCinemaActive(bool is_cinema_active);
+
 	// バタフライの鱗粉フラグ取得
 	// 参照元 ... Butterfly::m_is_clear
 	// 参照先 ... Opに関連する関数
 	bool GetButterflyIsClear() const;
 
-	// バタフライのシネマフラグ設定
-	// 参照元 ... Butterfly::m_is_cinema_active
-	// 参照先 ... OpCamera::Update(float delta_time)
-	void SetButterflyIsCinemaActive(bool is_cinema_active);
+	// バタフライの進行方向取得
+	// 参照元 ... Butterfly::m_next_direction
+	// 参照先 ... Effect::EffectButerfly
+	const tnl::Vector3& GetButterflyNextDirection() const;
 
 	// バタフライのシネマフラグ取得
 	// 参照元 ... Butterfly::m_is_cinema_active
@@ -635,17 +645,17 @@ public:
 
 	// Gimmick
 
+	// ギミックの座標取得
+	// 参照元 ... Gimmick::m_pos
+	// 参照先 ... Effect::EffectGimmick
+	const tnl::Vector3& GetGimmickPos() const;
+
 	// ギミックの当たり判定取得
 	// 参照元 ... Gimmick::m_is_collision
 	// 参照先 ... Gimmick::Update(float delta_time)
 	bool GetGimmickIsCollision() const ;
 
 	// GimmickPool
-
-	// アイテムプールのアクティブ状態取得
-	// 参照元 ... GimmickPool::GetNotActiveGimmick(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
-	// 参照先 ... GimmickGenerator::
-	std::shared_ptr<Gimmick> GetNotActiveGimmickPool(std::vector<std::shared_ptr<Gimmick>>& gimmicks);
 
 	// ギミックプールのベクター取得
 	// 参照元 ... GimmickPool::GetGimmickPools()
@@ -676,48 +686,6 @@ public:
 	// 参照先 ... Effect::関連する関数
 	const std::vector<Effect::sEffectType>& GetEffectLoadInfo() const;
 
-	// EffectHandle
-
-	// エフェクトハンドルの初期化
-	// 参照元 ... EffectHandle::Initialize()
-	// 参照先 ... Effect::関連する関数
-	void InitializeEffectHandle();
-
-	// 実行エフェクトの更新
-	// 参照元 ... EffectHandle::Update(float delta_time)
-	// 参照先 ... Effect::関連する関数
-	void UpdateEffectHandle();
-
-	// エフェクトの座標取得
-	// 参照元 ... EffectHandle::m_pos
-	// 参照先 ... Effect::関連する関数
-	const tnl::Vector3& GetEffectHandlePos() const;
-
-	// プレイヤーのアクションエフェクト取得
-	// 参照元 ... EffectHandle::m_player_action_particles
-	// 参照先 ... Effect::関連する関数
-	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectPlayerActionParticles() const;
-
-	// ギミックのエフェクト取得
-	// 参照元 ... EffectHandle::m_gimmick_particles
-	// 参照先 ... Effect::関連する関数
-	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectGimmickParticles() const;
-
-	// キャラのパスエフェクト取得
-	// 参照元 ... EffectHandle::m_chara_path_particles
-	// 参照先 ... Effect::関連する関数
-	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectCharaPathParticles() const;
-
-	// スクリーンエフェクト取得
-	// 参照元 ... EffectHandle::m_screen_particles
-	// 参照先 ... Effect::関連する関数
-	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectScreenParticles() const;
-
-	// イベントエフェクト取得
-	// 参照元 ... EffectHandle::m_event_particles
-	// 参照先 ... Effect::関連する関数
-	const std::vector<std::shared_ptr<dxe::Particle>>& GetEffectEventParticles() const;
-
 	//--------------------------//
 
 
@@ -735,6 +703,13 @@ public:
 
 	//------------Text-----------//
 
+	// Text
+
+	// テキストウィンドウのα値取得
+	// 参照元 ... Text::m_window_alpha
+	// 参照先 ... CharaGraph::Update(float delta_time)
+	int GetTextWindowAlpha() const;
+
 	// TextLoad
 
 	// テキスト全データの取得
@@ -743,6 +718,11 @@ public:
 	const std::vector<Text::sTextData>& GetTextsLoadAll() const;
 
 	// TextDraw
+
+	// テキストの初期化
+	// 参照元 ... TextDraw::Initialize()
+	// 参照先 ... Text::Initialize()
+	void InitializeText();
 
 	// テキストの処理
 	// 参照元 ... TextDraw::Update(const float delta_time)
@@ -769,11 +749,22 @@ public:
 	// 参照先 ... Text::関連する関数
 	const std::vector<Text::sTextData>& GetLaneTextDrawData() const;
 
-
 	//---------------------------//
 
 	
 	//--------CharaGraph---------//
+
+	// CharaGraph
+
+	// プレイヤー画像スライドアウトフラグ設定
+	// 参照元 ... CharaGraph::m_is_slide_out_player
+	// 参照先 ... Text::Update(float delta_time)
+	void SetGraphIsSlidOutPlayer(bool is_slide_out_player);
+
+	// パートナー画像スライドアウトフラグ設定
+	// 参照元 ... CharaGraph::m_is_slide_out_partner
+	// 参照先 ... Text::Update(float delta_time)
+	void SetGraphIsSlidOutPartner(bool is_slide_out_partner);
 
 	// CharaGraphLoad
 
@@ -810,6 +801,47 @@ public:
 	// 参照元 ... GateLoad::m_gates
 	// 参照先 ... Gate::モデル情報が必要な全関数
 	const std::vector<Gate::sGateInfo>& GetGatesInfo() const;
+
+	//---------------------------//
+
+
+	//--------OtherGraph---------//
+
+	// EnterGraph
+
+	// ゲートの情報取得
+	// 参照元 ... EnterGraph::m_is_active
+	// 参照先 ... エンター画像を管理する
+	void SetEnterGraphIsActive(bool is_active);
+
+	// ChangeGraph
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_active_tulip
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsActiveTulip(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_active_white
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsActiveWhite(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_active_butterfly
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsActiveBlossom(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_active_butterfly
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsActiveButterfly(bool is_active);
+
+	// OtherGraphLoad
+
+	// 画像データを取得
+	// 参照元 ... OtherGraphLoad::m_graph_info
+	// 参照先 ... ChangeGraph::関連する関数
+	const std::vector<ChangeGraph::sChangeGraphInfo>& GetChangeGraphInfo() const;
 
 	//---------------------------//
 
@@ -862,6 +894,17 @@ public:
 	// 参照先 ... シネマカメラの活性化フラグが必要な全クラス
 	bool GetCinemaCameraIsActive() const;
 
+	//---------------------------//
+
+
+	//---------ScreenShot--------//
+
+	// ScreenShot
+
+	// スクリーンショットフラグ設定
+	// 参照元 ... ScreenShot::m_is_shot
+	// 参照先 ... CharaGraph::	void DrawScreenShotGraph();
+	bool GetIsScreenShot() const;
 
 	//---------------------------//
 
@@ -976,9 +1019,9 @@ public:
 		m_cinemaCameraTarget = cinemaCameraTarget;
 	}
 
-	void SetButterfly(std::shared_ptr<Butterfly>& butterfly)
+	void SetButterfly(std::shared_ptr<Butterfly>& e_butterfly)
 	{
-		m_butterfly = butterfly;
+		m_butterfly = e_butterfly;
 	}
 
 	void SetButterflyLoad(std::shared_ptr<ButterflyLoad>& butterflyLoad)
@@ -1011,11 +1054,6 @@ public:
 		m_effectLoad = effectLoad;
 	}
 
-	void SetEffectHandle(std::shared_ptr<EffectHandle>& effectHandle)
-	{
-		m_effectHandle = effectHandle;
-	}
-
 	void SetScore(std::shared_ptr<Score>& score)
 	{
 		m_score = score;
@@ -1035,15 +1073,15 @@ public:
 	{
 		m_textDraw = textDraw;
 	}
+
+	void SetCharaGraph(std::shared_ptr<CharaGraph>& charaGraph)
+	{
+		m_charaGraph = charaGraph;
+	}
 	
 	void SetCharaGraphLoad(std::shared_ptr<CharaGraphLoad>& charaGraphLoad)
 	{
 		m_charaGraphLoad = charaGraphLoad;
-	}
-
-	void SetCharaGraphDraw(std::shared_ptr<CharaGraphDraw>& charaGraphDraw)
-	{
-		m_charaGraphDraw = charaGraphDraw;
 	}
 
 	void SetTitle(std::shared_ptr<Title>& title)
@@ -1054,6 +1092,21 @@ public:
 	void SetGateLoad(std::shared_ptr<GateLoad>& gateLoad)
 	{
 		m_gateLoad = gateLoad;
+	}
+
+	void SetEnterGraph(std::shared_ptr<EnterGraph>& enterGraph)
+	{
+		m_enterGraph = enterGraph;
+	}
+
+	void SetChangeGraph(std::shared_ptr<ChangeGraph>& changeGraph)
+	{
+		m_changeGraph = changeGraph;
+	}
+
+	void SetOtherGraphLoad(std::shared_ptr<OtherGraphLoad>& otherGraphLoad)
+	{
+		m_otherGraphLoad = otherGraphLoad;
 	}
 
 	void SetGameCamera(std::shared_ptr<GameCamera>& gameCamera)
@@ -1069,6 +1122,11 @@ public:
 	void SetCinemaCamera(std::shared_ptr<CinemaCamera>& cinemaCamera)
 	{
 		m_cinemaCamera = cinemaCamera;
+	}
+
+	void SetScreenShot(std::shared_ptr<ScreenShot>& screenShot)
+	{
+		m_screenShot = screenShot;
 	}
 
 	//------------------------------------------------//

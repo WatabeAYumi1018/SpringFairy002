@@ -24,6 +24,8 @@ private:
 	// スタンプするパートナーの画像
 	int m_partner_hdl = 0;
 
+	bool m_is_shot = false;
+
 	// 保存先ディレクトリ
 	std::string m_directry = "images"; 
 	// 基本ファイル名
@@ -53,6 +55,7 @@ public:
 	// スクリーンショットの表示処理
 	void ShowScreenShot();
 
+	bool GetIsShot() const { return m_is_shot; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

@@ -3,6 +3,11 @@
 
 
 
+Gate::Gate()
+{
+
+}
+
 void Gate::Initialize()
 {
     m_gates_info = m_mediator->GetGatesInfo();
@@ -75,13 +80,13 @@ bool Gate::SeqTrigger(const float delta_time)
         SetMeshMatrix();
     }
    
-    tnl_sequence_.change(&Gate::SeqDrawChange);
+    tnl_sequence_.change(&Gate::SeqStay);
 
 
     TNL_SEQ_CO_END;
 }
 
-bool Gate::SeqDrawChange(const float delta_time)
+bool Gate::SeqStay(const float delta_time)
 {
     TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
     {
@@ -109,6 +114,8 @@ bool Gate::SeqOpen(const float delta_time)
     });
 
     m_is_opend = true;
+
+    m_mediator->SetEnterGraphIsActive(true);
 
     TNL_SEQ_CO_END;
 }

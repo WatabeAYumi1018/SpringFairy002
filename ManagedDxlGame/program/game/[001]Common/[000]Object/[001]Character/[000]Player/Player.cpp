@@ -43,16 +43,26 @@ void Player::Update(float delta_time)
 
 	m_mediator->UpdateCollisionCheck();
 
-	if (m_mediator->CurrentCameraLane().s_id != 7)
-	{
-		m_mediator->IsInCameraFlustum();
-	}
+	m_mediator->IsInCameraFlustum();
 }
 
 void Player::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	// ƒ‚ƒfƒ‹•`‰æˆ—
 	m_mediator->DrawPlayerModel();
+
+	if (m_mediator->GetNowStagePhaseState()
+		== StagePhase::eStagePhase::e_wood)
+	{
+		DxLib::COLOR_F emissive = { 0.7f,0.7f,0.7f,1 };
+		MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
+	}
+	else if (m_mediator->GetNowStagePhaseState()
+			== StagePhase::eStagePhase::e_fancy)
+	{
+		DxLib::COLOR_F emissive = { 0.9f,0.9f,0.9f,1 };
+		MV1SetMaterialEmiColor(m_model_hdl, 0, emissive);
+	}
 }
 
 void Player::UpdateMatrix(float delta_time)

@@ -21,20 +21,6 @@ Gimmick::~Gimmick()
 void Gimmick::Initialize()
 {
 	SetLight(m_gimmick_data.s_model_hdl);
-
-	//SetLight();
-
-	// モデル読み取り
-	//ここですべてのモデルの情報を元に読み込み処理(GetItemLoadInfoById関数でfor分で各モデルを回すべき？)
-	//m_gimmick_data = m_mediator->GetGimmickLoadInfoById(0);
-	//m_plants = m_mediator->GetGimmickPlants();
-
-	//m_trees = m_mediator->GetGimmickTrees();
-
-	//m_sky_flowers = m_mediator->GetGimmickSkyFlowers();
-
-	//// アイテムの種類の総数を取得
-	//m_id_num = m_mediator->GetGimmickIdNum();
 }
 
 void Gimmick::Update(const float delta_time)
@@ -52,7 +38,7 @@ void Gimmick::Update(const float delta_time)
 
 void Gimmick::Draw(std::shared_ptr<dxe::Camera> camera)
 {
-	if (m_is_not_active)
+	if (m_is_active)
 	{		
 		MV1DrawModel(m_gimmick_data.s_model_hdl);
 	}
@@ -76,7 +62,7 @@ void Gimmick::LoadGimmickData(const Gimmick::sGimmickTypeInfo& gimmick_info)
 void Gimmick::Reset()
 {
 	m_pos = { 0,0,0 };
-	m_is_not_active = false;
+	m_is_active = false;
 	m_is_draw_change = false;
 	m_is_collision = false;
 	m_emissive_value = 0.0f;
@@ -260,29 +246,3 @@ bool Gimmick::SeqChangeEnd(const float delta_time)
 
 	TNL_SEQ_CO_END;
 }
-
-
-//int Gimmick::RandomTexture()
-//{
-//	// ID 0 は除外
-//	return tnl::GetRandomDistributionInt(1, m_id_num);
-//}
-//
-//void Gimmick::ChangeTexture()
-//{
-//	int new_texture = RandomTexture();
-//
-//	// 新しいテクスチャ情報を取得
-//	//Gimmick::sGimmickTypeInfo new_texture_id
-//	//		= m_mediator->GetGimmickLoadInfoById(new_texture);
-//
-//	// 古いテクスチャを削除
-//	DeleteGraph(m_gimmick_data.s_texture_a_hdl);
-//
-//	// 新しいテクスチャを読み込み
-//	//m_gimmick_data.s_texture_hdl 
-//	//	= LoadGraph(new_texture_id.s_texture_path.c_str());
-//
-//	//// テクスチャをモデルに適用
-//	//MV1SetTextureGraphHandle(m_gimmick_data.s_model_hdl, 0, m_gimmick_data.s_texture_hdl, FALSE);
-//}

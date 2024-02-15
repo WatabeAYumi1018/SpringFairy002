@@ -60,17 +60,18 @@ class GimmickGenerator;
 
 class Effect;
 class EffectLoad;
-class EffectHandle;
 
 class Score;
-
-class CharaGraph;
-class CharaGraphLoad;
-class CharaGraphDraw;
 
 class Text;
 class TextLoad;
 class TextDraw;
+
+class CharaGraph;
+class CharaGraphLoad;
+
+class ChangeGraph;
+class OtherGraphLoad;
 
 class GameCamera;
 class CameraLoad;
@@ -146,7 +147,6 @@ private:
 
 	std::shared_ptr<Effect> m_effect = nullptr;
 	std::shared_ptr<EffectLoad> m_effectLoad = nullptr;
-	std::shared_ptr<EffectHandle> m_effectHandle = nullptr;
 
 	std::shared_ptr<Score> m_score = nullptr;
 
@@ -156,7 +156,9 @@ private:
 
 	std::shared_ptr<CharaGraph> m_charaGraph = nullptr;
 	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
-	std::shared_ptr<CharaGraphDraw> m_charaGraphDraw = nullptr;
+
+	std::shared_ptr<ChangeGraph> m_changeGraph = nullptr;
+	std::shared_ptr<OtherGraphLoad> m_otherGraphLoad = nullptr;
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;

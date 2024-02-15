@@ -14,14 +14,13 @@ LaneLoad::~LaneLoad()
 	m_lanes.clear();
 	m_csv_lane_event.clear();
 	m_lane_event.clear();
-	//m_csv_lane_event_info.clear();
-	//m_lane_event_info.clear();
 }
 
 void LaneLoad::LoadLaneVector()
 {
 	// csvファイルの読み込み
-	m_csv_lane = tnl::LoadCsv<int>("csv/stage/stage/stage_lane.csv");
+	m_csv_lane 
+		= tnl::LoadCsv<int>("csv/stage/move/move_lane.csv");
 
 	// レーン配列の高さ
 	m_lane_height = m_csv_lane.size();
@@ -79,28 +78,3 @@ void LaneLoad::LoadLaneEventVector()
 		}
 	}
 }
-
-
-//void LaneLoad::LoadLaneEventInfo()
-//{
-//	// csvファイルの読み込み
-//	m_csv_lane_event_info
-//		= tnl::LoadCsv<tnl::CsvCell>("csv/stage_event_info.csv");
-//
-//	// マップタイルの総数を取得
-//	int max_num = m_csv_lane_event_info.size();
-//
-//	m_lane_event_total_num = max_num - 1;
-//
-//	// 0行目は説明文なので読み飛ばす
-//	for (int y = 1; y < max_num; ++y)
-//	{
-//		Lane::sLaneEventInfo event_info;
-//
-//		event_info.s_id = m_csv_lane_event_info[y][0].getInt();
-//
-//		event_info.s_type = m_csv_lane_event_info[y][1].getString();
-//
-//		m_lane_event_info.emplace_back(event_info);
-//	}
-//}

@@ -15,6 +15,8 @@ class Title;
 class Gate;
 class GateLoad;
 
+class EnterGraph;
+
 class Mediator;
 
 class OpCamera;
@@ -44,6 +46,8 @@ private:
 
 	std::shared_ptr<Gate> m_gate = nullptr;
 	std::shared_ptr<GateLoad> m_gateLoad = nullptr;
+
+	std::shared_ptr<EnterGraph> m_enterGraph = nullptr;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 	std::shared_ptr<OpCamera> m_opCamera = nullptr;

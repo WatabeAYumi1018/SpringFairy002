@@ -53,7 +53,7 @@ private:
 	// ƒgƒŠƒK[ˆ—
 	bool SeqTrigger(const float delta_time);
 	// ’Êí•`‰æ
-	bool SeqDrawChange(const float delta_time);
+	bool SeqStay(const float delta_time);
 	// Á‚¦‚éˆ—
 	bool SeqOpen(const float delta_time);
 

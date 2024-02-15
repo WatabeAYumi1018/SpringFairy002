@@ -29,8 +29,10 @@ private:
 	bool m_is_interval = false;
 	// テキスト表示終了フラグ
 	bool m_is_end = true;
-
+	// 現在のテキストデータ
 	std::vector<Text::sTextData> m_lane_text_data;
+	// 全テキストデータ
+	std::vector<Text::sTextData> m_story_texts_all;
 
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
@@ -57,11 +59,13 @@ private:
 
 public:
 
+	void Initialize();
 
 	void Update(const float delta_time);
 
 	void Draw();
 
+	// テキストの表示フラグを取得
 	bool GetIsEnd() const { return m_is_end; }
 
 	int GetNowTextID() const { return m_now_text_id; }

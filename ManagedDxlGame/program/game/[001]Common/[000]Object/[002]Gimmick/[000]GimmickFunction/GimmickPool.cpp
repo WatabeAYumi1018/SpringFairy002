@@ -16,25 +16,25 @@ void GimmickPool::AddGimmick(std::shared_ptr<Gimmick>& gimmick
 {
     switch (type)
     {
-    case Gimmick::eGimmickType::plant:
+    case Gimmick::eGimmickType::e_ground_flower:
     
         m_gimmick_plants.emplace_back(gimmick);
         
         break;
     
-    case Gimmick::eGimmickType::tree:
+    case Gimmick::eGimmickType::e_wood:
     
         m_gimmick_trees.emplace_back(gimmick);
         
         break;
     
-    case Gimmick::eGimmickType::sky_flower:
+    case Gimmick::eGimmickType::e_sky_flower:
 
         m_gimmick_sky_flowers.emplace_back(gimmick);
 
         break;
 
-    case Gimmick::eGimmickType::butterfly:
+    case Gimmick::eGimmickType::e_butterfly:
 
         m_gimmick_butterflys.emplace_back(gimmick);
 
@@ -46,42 +46,29 @@ void GimmickPool::AddGimmick(std::shared_ptr<Gimmick>& gimmick
     }
 }
 
-std::shared_ptr<Gimmick> GimmickPool::GetNotActiveGimmick(std::vector<std::shared_ptr<Gimmick>>& gimmicks)
-{
-    for (std::shared_ptr<Gimmick>& gimmick : gimmicks)
-    {
-        // 非活性化アイテムを探す
-        if (!gimmick->GetIsActive())
-        {
-            return gimmick;
-        }
-    }
-    return nullptr;
-}
-
 std::vector<std::shared_ptr<Gimmick>>& GimmickPool::GetGimmickPools(Gimmick::eGimmickType type)
 {
     switch (type)
     {
-    case Gimmick::eGimmickType::plant:
+    case Gimmick::eGimmickType::e_ground_flower:
 		
 		return m_gimmick_plants;
 
         break;
 
-    case Gimmick::eGimmickType::tree:
+    case Gimmick::eGimmickType::e_wood:
 
         return m_gimmick_trees;
 
 		break;
 
-    case Gimmick::eGimmickType::sky_flower:
+    case Gimmick::eGimmickType::e_sky_flower:
 
 		return m_gimmick_sky_flowers;
 
         break;
 
-    case Gimmick::eGimmickType::butterfly:
+    case Gimmick::eGimmickType::e_butterfly:
 
         return m_gimmick_butterflys;
 
@@ -92,25 +79,3 @@ std::vector<std::shared_ptr<Gimmick>>& GimmickPool::GetGimmickPools(Gimmick::eGi
 		break;
     }
 }
-
-
-//// 活性化アイテムの取得
-//std::shared_ptr<Item> ItemPool::GetActiveItem()
-//{
-//	std::vector<std::shared_ptr<Item>>::iterator active_items;
-//
-//    // 活性化していないアイテムを探す
-//	active_items = std::find_if(m_items.begin(), m_items.end(),
-//        		[](std::shared_ptr<Item> item) { return !item->GetIsActive(); });
-//
-//	// 活性化していないアイテムが見つからなかった場合
-//	if (active_items == m_items.end())
-//	{
-//		return nullptr;
-//	}
-//
-//	// 活性化していないアイテムを活性化する
-//	(*active_items)->SetIsActive(true);
-//
-//	return (*active_items);
-//}

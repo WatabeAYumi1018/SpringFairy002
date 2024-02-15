@@ -18,120 +18,165 @@ void CharaGraph::Initialize()
 
 void CharaGraph::Update(float delta_time)
 {
-	//tnl_sequence_.update(delta_time);
+	// テキストが終了していない場合
+	if (!m_mediator->GetIsTextDrawEnd())
+	{
+		std::vector <Text::sTextData> texts_data
+			= m_mediator->GetLaneTextDrawData();
+
+		// テキストデータが空の場合は処理を終了
+		if (texts_data.empty())
+		{
+			return;
+		}
+
+		m_now_id = m_mediator->GetNowTextDrawID();
+
+		m_player_id
+			= texts_data[m_now_id].s_player_graph_id;
+
+		m_partner_id
+			= texts_data[m_now_id].s_partner_graph_id;
+
+		//　-1でなく、スライドインフラグがtrueの時
+		UpdateSlideIn(delta_time);
+	}
+	else
+	{
+		// ウィンドウの透明度が100未満になったらスライドアウト
+		if (m_mediator->GetTextWindowAlpha() < 200)
+		{
+			// -1でなく、スライドアウトフラグがtrueの時
+			UpdateSlideOut(delta_time);
+		}
+	}
 }
 
 void CharaGraph::Draw(std::shared_ptr<dxe::Camera> camera)
-
 {
-	if (!m_mediator->GetIsTextDrawEnd())
+	if (m_mediator->GetTextWindowAlpha() > 0)
 	{
 		DrawCharaGraph();
+	}
+
+	if (!m_mediator->GetIsScreenShot()
+		&& (m_mediator->GetCurrentEventLane().s_id == 13
+			|| tnl::Input::IsKeyDownTrigger(eKeys::KB_TAB)))
+	{
+		DrawScreenShot();
+	}
+}
+
+void CharaGraph::UpdateSlideIn(const float delta_time)
+{
+	// -1でなく、かつスライドフラグ
+	if (m_player_id != -1 && m_is_slide_in_player)
+	{
+		m_chara_graph[m_player_id].s_current_pos_x
+			+= delta_time * m_chara_graph[m_player_id].s_slide_speed;
+
+		if (m_chara_graph[m_player_id].s_current_pos_x 
+			>= m_chara_graph[m_player_id].s_end_pos_x)
+		{
+			// プレイヤー画像のID全てに対して処理を行う
+			for (int i = 0; i <= 3; ++i)
+			{
+				m_chara_graph[i].s_current_pos_x 
+					= m_chara_graph[i].s_end_pos_x;
+			}
+			m_is_slide_in_player = false;
+		}
+	}
+
+	if (m_partner_id != -1 && m_is_slide_in_partner)
+	{
+		m_chara_graph[m_partner_id].s_current_pos_x
+			-= delta_time * m_chara_graph[m_partner_id].s_slide_speed;
+
+		if (m_chara_graph[m_partner_id].s_current_pos_x
+			<= m_chara_graph[m_partner_id].s_end_pos_x)
+		{
+			// パートナー画像のID全てに対して処理を行う
+			for (int i = 4; i <= 7; ++i)
+			{
+				m_chara_graph[i].s_current_pos_x
+					= m_chara_graph[i].s_end_pos_x;
+			}
+			m_is_slide_in_partner = false;
+		}
+	}
+}
+
+void CharaGraph::UpdateSlideOut(const float delta_time)
+{
+	if (m_player_id != -1 && m_is_slide_out_player)
+	{
+		m_chara_graph[m_player_id].s_current_pos_x
+			-= delta_time * m_chara_graph[m_player_id].s_slide_speed;
+
+		if (m_chara_graph[m_player_id].s_current_pos_x
+			<= m_chara_graph[m_player_id].s_start_pos_x)
+		{
+			// プレイヤー画像のID全てに対して処理を行う
+			for (int i = 0; i <= 3 ; ++i)
+			{
+				m_chara_graph[i].s_current_pos_x
+					= m_chara_graph[i].s_start_pos_x;
+			}
+
+			// フラグリセット
+			m_is_slide_in_player = true;
+			m_is_slide_out_player = false;
+		}
+		
+	}
+
+	if (m_partner_id != -1 && m_is_slide_out_partner)
+	{
+		m_chara_graph[m_partner_id].s_current_pos_x
+			+= delta_time * m_chara_graph[m_partner_id].s_slide_speed;
+
+		if (m_chara_graph[m_partner_id].s_current_pos_x
+			>= m_chara_graph[m_partner_id].s_start_pos_x)
+		{
+			// パートナー画像のID全てに対して処理を行う
+			for (int i = 4; i <= 7; ++i)
+			{
+				m_chara_graph[i].s_current_pos_x
+					= m_chara_graph[i].s_start_pos_x;
+			}
+			// フラグリセット
+			m_is_slide_in_partner = true;
+			m_is_slide_out_partner = false;
+		}
 	}
 }
 
 void CharaGraph::DrawCharaGraph()
 {
-	std::vector <Text::sTextData> texts_data
-					= m_mediator->GetLaneTextDrawData();
-
-	// テキストデータが空の場合は処理を終了
-	if (texts_data.empty())
+	if (m_player_id != -1)
 	{
-		return;
+		DrawGraph(m_chara_graph[m_player_id].s_current_pos_x
+				, m_chara_graph[m_player_id].s_pos_y
+				, m_chara_graph[m_player_id].s_graph_hdl, TRUE);
 	}
 
-	int now_id = m_mediator->GetNowTextDrawID();
-
-	int player_id = texts_data[now_id].s_player_graph_id;
-
-	int partner_id = texts_data[now_id].s_partner_graph_id;
-
-	if (player_id != -1)
+	if (m_partner_id != -1)
 	{
-		DrawGraph(m_chara_graph[player_id].s_graph_pos.x
-			, m_chara_graph[player_id].s_graph_pos.y
-			, m_chara_graph[player_id].s_graph_hdl, TRUE);
-	}
-
-	if (partner_id != -1)
-	{
-		DrawGraph(m_chara_graph[partner_id].s_graph_pos.x
-			, m_chara_graph[partner_id].s_graph_pos.y
-			, m_chara_graph[partner_id].s_graph_hdl, TRUE);
+		DrawGraph(m_chara_graph[m_partner_id].s_current_pos_x
+				, m_chara_graph[m_partner_id].s_pos_y
+				, m_chara_graph[m_partner_id].s_graph_hdl, TRUE);
 	}
 }
 
-bool CharaGraph::SeqSlideIn(const float delta_time)
+void CharaGraph::DrawScreenShot()
 {
-	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
-	{
-		float start_x = 0;
-		float end_x = m_chara_graph[0].s_graph_pos.x;
+	// 特定の画像を描画
+	DrawGraph(m_chara_graph[1].s_end_pos_x
+			, m_chara_graph[1].s_pos_y
+			, m_chara_graph[1].s_graph_hdl, TRUE);
 
-		// 左からスライド
-		if (m_chara_graph[0].s_graph_side == 0)
-		{
-			start_x = -200;
-		}
-		// 右からスライド
-		else
-		{
-			start_x = DXE_WINDOW_WIDTH + 200;
-		}
-
-		// 現在のスライド位置を計算
-		float current_x = start_x + (end_x - start_x) * delta_time * 5;
-
-		// グラフィックの位置を更新
-		m_chara_graph[0].s_graph_pos.x = current_x;
-	});
-
-	TNL_SEQ_CO_END;
+	DrawGraph(m_chara_graph[5].s_end_pos_x
+			, m_chara_graph[5].s_pos_y
+			, m_chara_graph[5].s_graph_hdl, TRUE);
 }
-
-bool CharaGraph::SeqDrawChange(const float delta_time)
-{
-	// テキスト終了フラグが経ったら
-	//if ()
-	//{
-	//	tnl_sequence_.change(&Graph::SeqSlideOut);
-	//}
-
-	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-	{
-		
-		// 座標変更なし
-	});
-
-	TNL_SEQ_CO_END;
-}
-
-bool CharaGraph::SeqSlideOut(const float delta_time)
-{
-	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
-	{
-		float start_x = m_chara_graph[0].s_graph_pos.x;
-		float end_x = 0;
-
-		// 左からスライド
-		if (m_chara_graph[0].s_graph_side == 0)
-		{
-			end_x = -200;
-		}
-		// 右からスライド
-		else
-		{
-			end_x = DXE_WINDOW_WIDTH + 200;
-		}
-
-		// 現在のスライド位置を計算
-		float current_x = start_x + (end_x - start_x) * delta_time * 5;
-
-		// グラフィックの位置を更新
-		m_chara_graph[0].s_graph_pos.x = current_x;
-	});
-
-	TNL_SEQ_CO_END;
-}
-

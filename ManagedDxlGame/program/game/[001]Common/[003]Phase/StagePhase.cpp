@@ -3,6 +3,7 @@
 #include "StagePhase.h"
 
 
+
 void StagePhase::Update(float delta_time)
 {
 	PhaseChange();
@@ -12,11 +13,11 @@ void StagePhase::Update(float delta_time)
 
 void StagePhase::PhaseChange()
 {
-	if (m_mediator->GetEventLane().s_id == 7)
+	if (m_mediator->GetCurrentEventLane().s_id == 7)
 	{
 		m_now_stage = eStagePhase::e_wood;
 	}
-	else if (m_mediator->GetEventLane().s_id == 10)
+	else if (m_mediator->GetCurrentEventLane().s_id == 10)
 	{
 		m_now_stage = eStagePhase::e_fancy;
 	}
@@ -27,6 +28,8 @@ bool StagePhase::SeqFlower(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
+		SetDefaultLightParameter("directional_light001.bin");
+
 		MusicManager::GetInstance().PlayBGM(delta_time, 1);
 	}
 
@@ -57,11 +60,12 @@ bool StagePhase::SeqWood(const float delta_time)
 
 bool StagePhase::SeqFancy(const float delta_time)
 {
-	// メッセージ終わったら
-	//if ()
-	//{
-		//エンディングフラグon
-	//}
+	// 14に入ったらEDへ
+	if (m_mediator->GetPlayerPos().y > 2000
+		&& m_mediator->GetPartnerPos().y > 2000)
+	{
+		m_now_stage = eStagePhase::e_end;
+	}
 
 	//MusicManager::GetInstance().PlayBGM(delta_time, 3);
 

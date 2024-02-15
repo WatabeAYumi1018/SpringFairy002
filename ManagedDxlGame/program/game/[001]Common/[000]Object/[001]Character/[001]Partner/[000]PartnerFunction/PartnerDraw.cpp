@@ -8,9 +8,11 @@ void PartnerDraw::Initialize()
 	// モデル読み取り
 	m_model_hdl = m_mediator->GetPartnerModelHdl();
 	// idleボーン
-	m_anim_bone_idle_cinema_hdl = m_mediator->GetPartnerAnimBoneIdleHdl();
+	m_anim_bone_idle_cinema_hdl 
+		= m_mediator->GetPartnerAnimBoneIdleHdl();
 	// moveボーン
-	m_anim_bone_move_game_hdl = m_mediator->GetPartnerAnimBoneMoveHdl();
+	m_anim_bone_move_game_hdl 
+		= m_mediator->GetPartnerAnimBoneMoveHdl();
 }
 
 void PartnerDraw::Update(float delta_time)
@@ -88,11 +90,6 @@ bool PartnerDraw::SeqIdle(float delta_time)
 		m_time_count_idle
 			= MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_idle_index);
 	}
-
-	//if (m_mediator->GetPlayerMovePushButton())
-	//{
-	//	tnl_sequence_.change(&EnemyDraw::SeqMove);
-	//}
 
 	// ボタンが押されるまでループ
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()

@@ -44,9 +44,6 @@ public:
 	// レーン配列の幅取得
 	int GetLaneWidth() const {	return m_lane_width; }
 
-	//// イベントタイプの総数取得
-	//int GetLaneEventTotalNum() const { return m_lane_event_total_num; }
-
 	// レーン配列の情報取得
 	const std::vector<Lane::sLane>& GetLane() const 
 	{
@@ -58,10 +55,4 @@ public:
 	{
 		return m_lane_event;
 	}
-
-	//// イベント情報取得
-	//const std::vector<Lane::sLaneEventInfo>& GetLaneEventInfo() const
-	//{
-	//	return m_lane_event_info;
-	//}
 };

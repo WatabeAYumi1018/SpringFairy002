@@ -2,6 +2,10 @@
 #include "TextDraw.h"
 
 
+void TextDraw::Initialize()
+{
+    m_story_texts_all = m_mediator->GetTextsLoadAll();
+}
 
 void TextDraw::Update(const float delta_time)
 {
@@ -24,7 +28,7 @@ void TextDraw::Draw()
 		return;
 	}
 
-    int start_x = 500;
+    int start_x = 510;
     int start_y = 550;
     int draw_y_interval = 50;
 
@@ -45,13 +49,14 @@ void TextDraw::Draw()
 
 void TextDraw::UpdateTexts()
 {
-    Lane::sLaneEvent lane_event = m_mediator->GetEventLane();
+    Lane::sLaneEvent lane_event = m_mediator->GetCurrentEventLane();
 
     // テキスト描画をしないレーンIDの場合は処理を終了
     if (lane_event.s_id == -1
         || lane_event.s_id == 1
         || lane_event.s_id == 7
-        || lane_event.s_id == 10)
+        || lane_event.s_id == 10
+        || lane_event.s_id == 14)
     {
         return;
     }
@@ -63,11 +68,8 @@ void TextDraw::UpdateTexts()
 
     m_lane_text_data.clear();
 
-    std::vector<Text::sTextData> story_texts_all
-                        = m_mediator->GetTextsLoadAll();
-
     // レーン番号に基づいてテキストデータを一括格納
-    for (const Text::sTextData& story_text : story_texts_all)
+    for (const Text::sTextData& story_text : m_story_texts_all)
     {
         if (story_text.s_lane_id == lane_id)
         {
@@ -221,34 +223,7 @@ bool TextDraw::SeqSetNextText(const float delta_time)
 }
 
 
-//bool TextDraw::IsTextEnd()
-//{
-//    // 現在の行がidのサイズを越える（描画終了）
-//    return m_index_line >= m_text_lines.size();
-//}
-//
-//void TextDraw::SetNextText(float delta_time, std::vector<std::string> id)
-//{
-//    // 次のテキストの表示までの待機時間
-//
-//	float wait_time = 2.0f;
-//
-//	m_elasped_time += delta_time;
-//
-//	if (m_elasped_time >= wait_time)
-//	{
-//		m_now_text_index++;
-//
-//		m_elasped_time = 0.0f;
-//
-//		if (m_now_text_index < id.size())
-//		{
-//			// 次のテキストIDの準備
-//			
-//		}
-//	}
-//}
-//
+
 
 
 

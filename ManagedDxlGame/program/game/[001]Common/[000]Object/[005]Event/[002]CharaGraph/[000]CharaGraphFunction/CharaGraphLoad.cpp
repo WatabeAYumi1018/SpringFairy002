@@ -32,19 +32,18 @@ void CharaGraphLoad::LoadGraphInfo()
 
 		graph_info.s_id = m_csv_graph_info[y][0].getInt();
 
-		graph_info.s_graph_side = m_csv_graph_info[y][1].getInt();
-
-		if (graph_info.s_graph_side == 0)
-		{
-			graph_info.s_graph_pos = tnl::Vector3(900, 450, 0);
-		}
-		else
-		{
-			graph_info.s_graph_pos = tnl::Vector3(100, 300, 0);
-		}
-
 		graph_info.s_graph_hdl 
-			= LoadGraph(m_csv_graph_info[y][2].getString().c_str());
+			= LoadGraph(m_csv_graph_info[y][1].getString().c_str());
+
+		graph_info.s_slide_speed = m_csv_graph_info[y][2].getFloat();
+
+		graph_info.s_start_pos_x = m_csv_graph_info[y][3].getFloat();
+
+		graph_info.s_current_pos_x = m_csv_graph_info[y][4].getFloat();
+
+		graph_info.s_end_pos_x = m_csv_graph_info[y][5].getFloat();
+
+		graph_info.s_pos_y = m_csv_graph_info[y][6].getFloat();
 
 		m_graph_info.emplace_back(graph_info);
 	}

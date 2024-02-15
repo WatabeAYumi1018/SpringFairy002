@@ -24,7 +24,7 @@ private:
 	// 八の字の回転速度
 	float m_figure_eight_rotation = 10;
 
-	tnl::Vector3 m_game_pos;
+	tnl::Vector3 m_pos;
 	// ターゲット計算で一時的に使用
 	tnl::Quaternion m_target_rot;
 	//モデルの回転取得用
@@ -32,8 +32,6 @@ private:
 
 	// 上下左右の方向
 	eDirection direction = eDirection::e_none;
-	// 現在のステージフェーズ
-	//StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(PlayerMove, &PlayerMove::SeqNormal);

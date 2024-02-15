@@ -29,10 +29,6 @@ private:
 	bool SeqNormal(const float delta_time);
 	// ’â~ˆ—
 	bool SeqStop(const float delta_time);
-	// ã¸ˆ—
-	bool SeqUpMove(const float delta_time);
-	// ‰º~ˆ—
-	bool SeqDownMove(const float delta_time);
 
 public:
 
@@ -46,7 +42,7 @@ public:
 		return m_camera_info; 
 	}
 
-	const Lane::sLaneEvent& GetEvent() const
+	const Lane::sLaneEvent& GetCurrentEvent() const
 	{
 		return m_event;
 	}

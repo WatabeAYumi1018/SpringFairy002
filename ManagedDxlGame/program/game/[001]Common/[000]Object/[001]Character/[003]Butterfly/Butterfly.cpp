@@ -112,13 +112,13 @@ void Butterfly::MoveRound(const float delta_time)
 	m_pos.y += delta_time * 30 ;
 
 	// 進行方向を算出
-	tnl::Vector3 next_direction 
+	m_next_direction
 		= tnl::Vector3(sin(angle + delta_time * m_speed), 0
 					  , cos(angle + delta_time * m_speed));
 	
 	// 進行方向に向かって回転
 	tnl::Quaternion direction_rot
-		= tnl::Quaternion::LookAt(m_pos, m_pos + next_direction, tnl::Vector3(0, 1, 0));
+		= tnl::Quaternion::LookAt(m_pos, m_pos + m_next_direction, tnl::Vector3(0, 1, 0));
 
 	// 体を傾ける回転の適用
 	tnl::Quaternion tilt_rot 

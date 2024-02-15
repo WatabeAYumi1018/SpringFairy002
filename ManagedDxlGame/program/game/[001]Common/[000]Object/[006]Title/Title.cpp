@@ -79,13 +79,13 @@ bool Title::SeqTrigger(const float delta_time)
 {
     if (m_is_draw)
     {
-        tnl_sequence_.change(&Title::SeqDrawChange);
+        tnl_sequence_.change(&Title::SeqStay);
     }
 
     return false;
 }
 
-bool Title::SeqDrawChange(const float delta_time)
+bool Title::SeqStay(const float delta_time)
 {
     TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
     {

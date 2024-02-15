@@ -177,6 +177,12 @@
     <Filter Include="program\[003] game\[004]SceneED">
       <UniqueIdentifier>{209bb2fd-cce4-4ed5-9855-f4f107b61dc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[008]OtherGraph">
+      <UniqueIdentifier>{e84ac7ef-66fb-4f85-ad5a-1c1738f12dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction">
+      <UniqueIdentifier>{1cf23756-1bfb-49c4-8d93-389dbbd55aac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">
@@ -434,17 +440,8 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\CharaGraph.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickDraw.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
@@ -454,9 +451,6 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelGenerator.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[005]Factory\OpFactory.cpp">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
@@ -491,7 +485,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[004]SceneED\SceneED.cpp">
+    <ClCompile Include="program\game\[004]SceneED\SceneEd.cpp">
       <Filter>program\[003] game\[004]SceneED</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.cpp">
@@ -509,9 +503,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectHandle.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[000]GameEngine\[002]Music\MusicManager.cpp">
       <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
     </ClCompile>
@@ -520,6 +511,18 @@
     </ClCompile>
     <ClCompile Include="program\game\[000]GameEngine\[002]Music\MusicBGM.cpp">
       <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction\OtherGraphLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\EnterGraph.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -728,9 +731,6 @@
     <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_screen_efffect.h">
       <Filter>program\[001] dxlib_ext\example</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h">
-      <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[003]Phase\CameraPhase.h">
       <Filter>program\[003] game\[001]Common\[003]Phase</Filter>
     </ClInclude>
@@ -845,17 +845,8 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\CharaGraph.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphDraw.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphFunction\CharaGraphLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[005]Event\[002]CharaGraph\[000]CharaGraphicFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickDraw.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction\GimmickLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick\[000]GimmickFunction</Filter>
@@ -865,9 +856,6 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.h">
       <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelGenerator.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
@@ -902,7 +890,7 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[004]SceneED\SceneED.h">
+    <ClInclude Include="program\game\[004]SceneED\SceneEd.h">
       <Filter>program\[003] game\[004]SceneED</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.h">
@@ -920,9 +908,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectHandle.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[000]GameEngine\[002]Music\MusicManager.h">
       <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
     </ClInclude>
@@ -931,6 +916,21 @@
     </ClInclude>
     <ClInclude Include="program\game\[000]GameEngine\[002]Music\MusicBGM.h">
       <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h">
+      <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction\OtherGraphLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\EnterGraph.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

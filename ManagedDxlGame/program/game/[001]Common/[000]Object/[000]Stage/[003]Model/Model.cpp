@@ -1,4 +1,3 @@
-#include "../dxlib_ext/dxlib_ext.h"
 #include "../../../../../wta_library/wta_Convert.h"
 #include "../../../[002]Mediator/Mediator.h"
 #include "../../../[003]Phase/StagePhase.h"
@@ -10,10 +9,9 @@ void Model::Initialize()
 {
 	// ステージモデルの情報を取得
 	m_models_info = m_mediator->GetStageModelInfo();
-}
-
-void Model::Update(float delta_time)
-{
+    m_trees_info = m_mediator->GetStageTreeInfo();
+    // 静的モデルで毎フレーム算出する必要はない
+    SetTreePos();
 }
 
 void Model::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -34,7 +32,8 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 		else
 		{
 			DrawStageNormal(m_models_info, 2, 1000);
-		}
+            DrawTree();
+        }
 	}
 	// サイドを向いた時の処理
 	else
@@ -52,13 +51,15 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
         else
         {
           DrawStageRot(m_models_info, 2,1500);
+          DrawTree();
         }
 	}
 }
 
 void Model::CalcGridPos(int grid_size)
 {
-	tnl::Vector3 target_pos = m_mediator->GetCameraTargetPlayerPos();
+	tnl::Vector3 target_pos 
+        = m_mediator->GetCameraTargetPlayerPos();
 
 	// プレイヤーの現在位置からグリッド座標を取得
     m_grid_x = static_cast<int>(target_pos.x / grid_size);
@@ -135,234 +136,44 @@ void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id,int grid_si
     }
 }
 
-//void Model::SetTextureIndex(sStageModelType& model)
-//{
-//	for (int i = 0; i < MV1GetMaterialNum(model.s_model_hdl); i++)
-//	{
-//		const TCHAR* material_name = MV1GetMaterialName(model.s_model_hdl, i);
-//
-//		if (!model.s_material_a_name.empty()
-//			&& _tcscmp(material_name, _T(model.s_material_a_name.c_str())) == 0)
-//		{
-//			MV1SetTextureGraphHandle(model.s_model_hdl, i
-//									, model.s_texture_a_hdl, FALSE);
-//		}
-//
-//		if (!model.s_material_b_name.empty()
-//			&& _tcscmp(material_name, _T(model.s_material_b_name.c_str())) == 0)
-//		{
-//			MV1SetTextureGraphHandle(model.s_model_hdl, i
-//									, model.s_texture_b_hdl, FALSE);
-//		}
-//
-//		if (!model.s_material_c_name.empty()
-//			&& _tcscmp(material_name, _T(model.s_material_c_name.c_str())) == 0)
-//		{
-//			MV1SetTextureGraphHandle(model.s_model_hdl
-//									, i, model.s_texture_c_hdl, FALSE);
-//		}
-//	}
-//}
+void Model::SetTreePos()
+{
+    // 樹木モデルを20本描画
+    for (int i = 0; i< 20 ; ++i)
+    {
+        // ステージ3描画のため、デフォルト座標を事前に設定
+        tnl::Vector3 pos = { 0,0,0 };
 
-//void Model::DrawGrass()
-//{
-//	std::vector<tnl::Matrix> grass_world_matrixs;
-//
-//	// IDが4のモデルを取得
-//	sMeshModelType& model_grass = m_model_map[4];
-//	// グリッドのサイズ
-//	int grid_size = 150;
-//	// グリッドの半分のサイズ
-//	int half_grid_size = grid_size / 2;
-//	// フロア間のスペース
-//	int spacing = 300;
-//
-//	float distance = -2000;
-//
-//	// 指定されたグリッド内でモデルを繰り返し描画
-//	for (int i = -half_grid_size; i < half_grid_size; i++)
-//	{
-//		for (int j = -half_grid_size; j < half_grid_size; j++)
-//		{
-//			// ライティング設定
-//			SetLight(model_grass.s_model_hdl);
-//
-//			// 各フロアの座標を計算
-//			float x = static_cast<float> (i * spacing);
-//			float z = static_cast<float> (j * spacing);
-//
-//			tnl::Vector3 pos = { x, distance, z };
-//
-//			//MV1SetPosition(model_grass.s_model_hdl, pos_vec);
-//
-//			tnl::Matrix world_matrix = wta::ConvertTnlToMatrix(pos);
-//
-//			grass_world_matrixs.emplace_back(world_matrix);
-//
-//			// モデルを描画
-//			//MV1DrawModel(model_grass.s_model_hdl);
-//		}
-//
-//		// グループメッシュの作成
-//		std::shared_ptr<dxe::Mesh> grass_base_mesh
-//			= dxe::Mesh::CreateFromFileMV(model_grass.s_model_path);
-//	}
-//}
+        pos.x = tnl::GetRandomDistributionFloat(21000, 27000);
 
-//void Model::DrawModelSet(const std::vector<Model::sStageModel>& model_set
-//						 , int num_sets, int spacing)
-//{
-//	// 各セットに対してループ
-//	for (int set_index = 0; set_index < num_sets; set_index++)
-//	{
-//		// セットの基準座標を計算
-//		float base_x = ((set_index % 2) == 0) ? spacing : -spacing;
-//		float base_z = (set_index < 2) ? spacing : -spacing;
-//
-//		// CSVから読み込んだモデルの配列をループ
-//		for (const Model::sStageModel& model : model_set)
-//		{
-//			if (model.s_id == -1) continue;
-//
-//			// 各モデルの座標をセットの基準座標に加算
-//			float x = base_x + model.s_pos.x;
-//			float y = model.s_pos.y;
-//			float z = base_z + model.s_pos.z;
-//
-//			// モデルの位置を設定
-//			VECTOR pos_vec = wta::ConvertToVECTOR({ x, y, z });
-//
-//			MV1SetPosition(m_model_map[model.s_id].s_model_hdl, pos_vec);
-//
-//			// ライティング設定
-//			SetLight(m_model_map[model.s_id].s_model_hdl);
-//
-//			// モデルを描画
-//			MV1DrawModel(m_model_map[model.s_id].s_model_hdl);
-//		}
-//	}
-//}
+        // 一本植えるごとにオフセットを設定
+        float offset = 1500.0f;
+        
+        // x座標は+-が交互になるように設定
+        if (i % 2 == 0)
+        {
+            offset = -1500.0f;
+		}
 
-//void Model::DrawModel(const sStageModel& model)
-//{
-//	sStageModelType& data = m_model_map[model.s_id];
-//
-//	SetLight(data.s_model_hdl);
-//
-//	VECTOR pos_vec = wta::ConvertToVECTOR(model.s_pos);
-//
-//	MV1SetPosition(data.s_model_hdl, pos_vec);
-//
-//	MV1DrawModel(data.s_model_hdl);
-//}
+        pos.x += offset * i;
+        pos.y = Floor::DRAW_DISTANCE;
+        pos.z += offset * i;
 
-//void  Model::CopyInitModel(int texture_a
-//							,int texture_b
-//							, int texture_c
-//							, int material_count
-//							, std::string name_a
-//							, std::string name_b
-//							, std::string name_c)
-//{
-//	m_texture_a_hdl = texture_a;
-//	m_texture_b_hdl = texture_b;
-//	m_texture_c_hdl = texture_c;
-//	m_material_count = material_count;
-//	m_material_a_name = name_a;
-//	m_material_b_name = name_b;
-//	m_material_c_name = name_c;
-//
-//	SetTextureIndex(m_material_a_name, m_material_b_name, m_material_c_name);
-//}
-//
-//void Model::Initialize()
-//{
-//	const std::vector<Model::sStageModel>& models 
-//						= m_mediator->GetStageTreeVector();
-//
-//	for (const Model::sStageModel& model : models)
-//	{
-//		if (model.s_id == -1)
-//		{
-//			continue;
-//		}
-//
-//		m_pos = model.s_pos;
-//
-//		// Vector3をVECTORに変換
-//		VECTOR dx_vec_pos = wta::ConvertToVECTOR(m_pos);
-//		// 保存された位置情報を使用して描画
-//		MV1SetPosition(m_model_hdl, dx_vec_pos);
-//	}
-//}
+		VECTOR pos_vec = wta::ConvertToVECTOR(pos);
 
+        m_trees_pos.emplace_back(pos_vec);
+	}
+}
 
-// 世界と個別生存フラグがtrueの時のみ描画
-//if (//m_is_world_active && 
-//	m_is_alive_active)
-//{
-
-//VECTOR pos_vec = wta::ConvertToVECTOR(m_pos);
-
-//MV1SetPosition(m_model_hdl, pos_vec);
-
-//MV1DrawModel(m_model_hdl);
-//}
-
-//// 現実世界
-//bool Model::SeqReal(const float delta_time)
-//{
-//	if (tnl_sequence_.isStart())
-//	{
-//		m_mediator->IsActivatePoolAllModels(eWorldType::e_real);
-//	}
-//
-//	// 夢世界に変更されたら切り替え
-//	if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_ground)
-//	{
-//		tnl_sequence_.change(&Model::SeqDream);
-//	}
-//
-//	// 再生が終了するまでループ
-//	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});
-//
-//	TNL_SEQ_CO_END;
-//}
-//
-//// 夢の世界
-//bool Model::SeqDream(const float delta_time)
-//{
-//	if (tnl_sequence_.isStart())
-//	{
-//		// 全モデルのアクティブ化と非アクティブ化の更新
-//		m_mediator->IsActivatePoolAllModels(eWorldType::e_dream);
-//	}
-//
-//	// 夢世界に変更されたら切り替え
-//	if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_fly)
-//	{
-//		tnl_sequence_.change(&Model::SeqReal);
-//	}
-//
-//	// 押すまでループ
-//	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});
-//
-//	TNL_SEQ_CO_END;
-//}
-
-//void Model::ToggleActive(bool is_world_active)
-//{
-//	m_is_world_active = is_world_active;
-//	// 世界フラグがfalseの時は個別フラグもfalse
-//	if(m_is_world_active)
-//	{
-//		m_is_alive_active = true;
-//	}
-//}
-
-//void Model::SetBothActive(bool is_world_active, bool is_alive_active)
-//{
-//	m_is_world_active = is_world_active;
-//	m_is_alive_active = is_alive_active;
-//}
-
+void Model::DrawTree()
+{
+    for (VECTOR tree_pos : m_trees_pos)
+    {
+        // ライティング設定
+        SetLight(m_trees_info[1].s_model_hdl);
+        // 保存された位置情報を使用して描画
+        MV1SetPosition(m_trees_info[1].s_model_hdl, tree_pos);
+        // モデルを描画
+        MV1DrawModel(m_trees_info[1].s_model_hdl);
+    }
+}
