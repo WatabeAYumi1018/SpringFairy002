@@ -22,16 +22,16 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 		if (m_mediator->GetNowStagePhaseState()
 					== StagePhase::eStagePhase::e_flower)
 		{
-			DrawStageNormal(m_models_info, 0, 1500);
+			DrawStageNormal(m_models_info, 0);
 		}
 		else if(m_mediator->GetNowStagePhaseState() 
 					== StagePhase::eStagePhase::e_wood)
 		{
-			DrawStageNormal(m_models_info, 1, 1800);
+			DrawStageNormal(m_models_info, 1);
 		}
 		else
 		{
-			DrawStageNormal(m_models_info, 2, 1000);
+			DrawStageNormal(m_models_info, 2);
             DrawTree();
         }
 	}
@@ -41,16 +41,16 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
         if (m_mediator->GetNowStagePhaseState()
             == StagePhase::eStagePhase::e_flower)
         {
-            DrawStageRot(m_models_info, 0,1500);
+            DrawStageRot(m_models_info, 0);
         }
         else if (m_mediator->GetNowStagePhaseState()
                 == StagePhase::eStagePhase::e_wood)
         {
-          DrawStageRot(m_models_info, 1,1800);
+          DrawStageRot(m_models_info, 1);
         }
         else
         {
-          DrawStageRot(m_models_info, 2,1500);
+          DrawStageRot(m_models_info, 2);
           DrawTree();
         }
 	}
@@ -86,10 +86,12 @@ tnl::Vector3 Model::CalcModelPos(int x, int z,int grid_size)
 	return pos;
 }
 
-void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id,int grid_size)
+void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id)
 {
     // 描画範囲の設定（ターゲットの位置を中心に全方向に向けて）
-    int draw_range = 7;
+    int draw_range = 3;
+
+    int grid_size = 1500;
 
     CalcGridPos(grid_size);
 
@@ -111,9 +113,11 @@ void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id,int gri
     }
 }
 
-void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id,int grid_size)
+void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id)
 {
-    int draw_range = 7;
+    int draw_range = 3;
+
+    int grid_size = 1500;
 
     CalcGridPos(grid_size);
 

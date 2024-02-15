@@ -14,6 +14,8 @@ public:
 	{
 		int s_id;
 		std::string s_texture_path;
+		tnl::Vector3 s_pos;
+		tnl::Vector3 s_scale;
 	};
 
 	Gate();
@@ -43,8 +45,6 @@ private:
 
 	// メッシュの生成
 	void CreateMesh();
-	// メッシュの配置指定
-	void SetMeshMatrix();
 
 	// トリガー処理
 	bool SeqTrigger(const float delta_time);

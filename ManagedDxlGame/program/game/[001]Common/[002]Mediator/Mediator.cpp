@@ -1328,6 +1328,23 @@ bool Mediator::GetIsGimmickGroundActive() const
 
 //----------Effect----------//
 
+// Effect
+
+void Mediator::SetEffectIsScreen(bool is_screen)
+{
+	std::shared_ptr<Effect> shared_effect = m_effect.lock();
+
+	if (shared_effect)
+	{
+		shared_effect->SetIsScreen(is_screen);
+	}
+	else
+	{
+		throw std::runtime_error("Effect shared pointer is expired");
+	}
+
+}
+
 // EffectLoad
 
 const std::vector<Effect::sEffectType>& Mediator::GetEffectLoadInfo() const
@@ -1698,6 +1715,20 @@ const std::vector<ChangeGraph::sChangeGraphInfo>& Mediator::GetChangeGraphInfo()
 
 // GameCamera
 
+const tnl::Vector3& Mediator::GetGameCameraPos() const
+{
+	std::shared_ptr<GameCamera> shared_gameCamera = m_gameCamera.lock();
+
+	if (shared_gameCamera)
+	{
+		return shared_gameCamera->GetPos();
+	}
+	else
+	{
+		throw std::runtime_error("GameCamera shared pointer is expired");
+	}
+}
+
 const tnl::Vector3& Mediator::GetCameraForward() const
 {
 	std::shared_ptr<GameCamera> shared_gameCamera = m_gameCamera.lock();
@@ -1785,6 +1816,20 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 }
 
 // CinemaCamera
+
+const tnl::Vector3& Mediator::GetCinemaCameraPos() const
+{
+	std::shared_ptr<CinemaCamera> shared_cinemaCamera = m_cinemaCamera.lock();
+
+	if (shared_cinemaCamera)
+	{
+		return shared_cinemaCamera->GetPos();
+	}
+	else
+	{
+		throw std::runtime_error("CinemaCamera shared pointer is expired");
+	}
+}
 
 void Mediator::SetCinemaCameraIsActive(bool is_active)
 {

@@ -356,9 +356,6 @@
     <ClCompile Include="program\game\[001]Common\[001]Camera\GameCamera.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction</Filter>
     </ClCompile>

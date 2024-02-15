@@ -115,6 +115,8 @@ void ScenePlay::Draw(const float delta_time)
 	
 		m_cinemaCamera->Render();
 	}
+	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
+
 
 	m_screenShot->SaveScreenShot();
 }

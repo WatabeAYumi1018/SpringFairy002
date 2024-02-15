@@ -30,6 +30,8 @@ private:
 	// オフセット値
 	float m_offset = 150.0f;
 
+	bool m_is_screen = false;
+
 	CameraPhase::eCameraPhase m_camera_phase
 		= CameraPhase::eCameraPhase::e_cinema;
 
@@ -39,26 +41,30 @@ private:
 	std::vector<std::shared_ptr<dxe::Particle>> m_particles;
 
 	std::vector<Effect::sEffectType> m_effects_type;
+	// エフェクトのアクティブ状態
+	std::unordered_map<int,bool> m_active_effects;
 
 	std::shared_ptr<Mediator> m_mediator = nullptr;
-
-	// エフェクトのオフセット設定
-	void EffectOffset(tnl::Vector3& pos, tnl::Vector3& forward);
-	// プレイヤーアクションエフェクト設定
-	void EffectPlayerAction(int start, int end,bool is_game = true);
-	// 軌跡エフェクト設定
-	void EffectPath(bool is_player = true);
-	// 蝶エフェクト設定
-	void EffectButterfly();
-	// ギミックエフェクト設定
-	void EffectGimmick();
-	// スクリーンエフェクト設定
-	void EffectScreen(int start,int end);
-
+	
 	// シネマ画面のエフェクト処理
 	void EffectTransCinema();
 	// ゲーム画面のエフェクト処理
 	void EffectTransGame();
+
+	// エフェクトのアクティブ設定
+	void SetEffectActive(int start, int end, bool is_active);
+	// エフェクトのオフセット設定
+	void EffectOffset(int start,int end,tnl::Vector3& pos);
+	// プレイヤーアクションエフェクト設定
+	void EffectPlayerAction(int start, int end,bool is_game = true);
+	// 軌跡エフェクト設定
+	void EffectPath(int start, int end, bool is_player = true);
+	// 蝶エフェクト設定
+	void EffectButterfly(int id);
+	// ギミックエフェクト設定
+	void EffectGimmick(int id);
+	// スクリーンエフェクト設定
+	void EffectScreen(int start, int end, bool is_game = true);
 
 public:
 
@@ -67,6 +73,11 @@ public:
 	void Update(const float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	void SetIsScreen(bool is_screen)
+	{
+		m_is_screen = is_screen;
+	}
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

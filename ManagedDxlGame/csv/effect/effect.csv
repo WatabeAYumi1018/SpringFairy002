@@ -36,6 +36,5 @@ ID,エフェクトパス
 34,effect/screen/fall/glow_fall_green.bin
 35,effect/other/player_path_pink.bin
 36,effect/other/player_path_yellow.bin
-37,effect/other/player_path_blue.bin
-38,effect/other/player_path_green.bin
-39,effect/other/gimmick_hit.bin
+37,effect/other/player_path_green.bin
+38,effect/other/gimmick_hit.bin

@@ -194,7 +194,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\Object.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp" />
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneMove.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[002]Floor\Floor.cpp" />

@@ -115,6 +115,7 @@ private:
 	std::weak_ptr<GimmickGenerator> m_gimmickGenerator;
 	std::weak_ptr<GimmickPool> m_gimmickPool;
 
+	std::weak_ptr<Effect> m_effect;
 	std::weak_ptr<EffectLoad> m_effectLoad;
 
 	std::weak_ptr<Score> m_score;
@@ -679,6 +680,13 @@ public:
 
 	//----------Effect----------//
 
+	// Effect
+
+	// スクリーンエフェクトのアクティブ状態設定
+	// 参照元 ... Effect::m_is_active
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetEffectIsScreen(bool is_screen);
+
 	// EffectLoad
 
 	// エフェクト情報の取得
@@ -850,6 +858,11 @@ public:
 
 	// GameCamera
 
+	// カメラの座標取得
+	// 参照元 ... GameCamera::m_pos
+	// 参照先 ... Effect::SffectScreen()
+	const tnl::Vector3& GetGameCameraPos() const;
+
 	// カメラの前方向取得
 	// 参照元 ... GameCamera::forward()
 	// 参照先 ... PlayerMove::ControlMoveMatrix(float delta_time)
@@ -883,6 +896,11 @@ public:
 	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
 
 	// CinemaCamera
+
+	// シネマカメラの座標取得
+	// 参照元 ... CinemaCamera::m_pos
+	// 参照先 ... Effect::EffectScreen()
+	const tnl::Vector3& GetCinemaCameraPos() const;
 
 	// シネマカメラの活性化フラグ設定
 	// 参照元 ... CinemaCamera::m_is_active
@@ -1047,6 +1065,11 @@ public:
 	void SetGimmickPool(std::shared_ptr<GimmickPool>& itemPool)
 	{
 		m_gimmickPool = itemPool;
+	}
+
+	void SetEffect(std::shared_ptr<Effect>& effect)
+	{
+		m_effect = effect;
 	}
 
 	void SetEffectLoad(std::shared_ptr<EffectLoad>& effectLoad)

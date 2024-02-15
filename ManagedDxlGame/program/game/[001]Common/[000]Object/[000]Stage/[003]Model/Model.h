@@ -61,10 +61,10 @@ private:
 	tnl::Vector3 CalcModelPos(int x, int z, int grid_size);
 
 	// 背景モデル生成（通常描画）
-	void DrawStageNormal(std::vector<sModelInfo>& models_info,int id, int grid_size);
+	void DrawStageNormal(std::vector<sModelInfo>& models_info,int id);
 
 	// 背景モデル生成（ギミック攻撃時）
-	void DrawStageRot(std::vector<sModelInfo>& models_info, int id, int grid_size);
+	void DrawStageRot(std::vector<sModelInfo>& models_info, int id);
 
 	// 樹木座標設定
 	void SetTreePos();
