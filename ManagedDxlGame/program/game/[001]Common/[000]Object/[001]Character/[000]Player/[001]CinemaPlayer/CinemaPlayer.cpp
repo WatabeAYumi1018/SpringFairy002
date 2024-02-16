@@ -13,7 +13,7 @@ CinemaPlayer::CinemaPlayer()
 
 CinemaPlayer::~CinemaPlayer()
 {
-
+	MV1DeleteModel(m_model_hdl);
 }
 
 void CinemaPlayer::Initialize()
@@ -305,7 +305,8 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 		m_pos.y -= delta_time * 100;
 		m_pos.z += delta_time * 500;
 
-		m_mediator->SetChangeGraphIsActiveTulip(true);
+		m_mediator->SetChangeGraphIsFlower(true);
+		m_mediator->SetChildGraphIsFlower(true);
 	});
 
 	m_is_idle = false;
@@ -325,6 +326,9 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 	{
 		m_is_idle= true;
 		m_pos = { 100,100,0 };
+
+		m_mediator->SetChangeGraphIsFlower(false);
+		m_mediator->SetChildGraphIsFlower(false);
 	}
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
@@ -378,16 +382,24 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&](){});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
 	{
 		m_is_idle = false;	
 		m_is_dance = true;
 
 		MusicManager::GetInstance().PlaySE(3);
+	});
 
+	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
+	{
+		m_mediator->SetChangeGraphIsWood(true);
+		m_mediator->SetChildGraphIsWood(true);
+	});
+
+	TNL_SEQ_CO_TIM_YIELD_RETURN(2.5f, delta_time, [&]()
+	{
 		m_mediator->SetChangeGraphIsActiveWhite(true);
-
-		m_mediator->SetChangeGraphIsActiveBlossom(true);
+		m_mediator->SetChildGraphIsActiveWhite(true);
 	});
 
 	MusicManager::GetInstance().StopSE(3);
@@ -463,8 +475,13 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 		m_is_dance = true;
 
 		MusicManager::GetInstance().PlaySE(4);
+	});
 
-		m_mediator->SetChangeGraphIsActiveButterfly(true);
+	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
+	{
+		m_mediator->SetEffectIsScreen(true);
+		m_mediator->SetChangeGraphIsActiveWhite(true);
+		m_mediator->SetChildGraphIsActiveWhite(true);
 	});
 
 	MusicManager::GetInstance().StopSE(4);
@@ -472,6 +489,8 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 	m_is_dance = false;
 
 	m_mediator->SetAnimElapsedTimeDance(0);
+
+	m_mediator->SetEffectIsScreen(false);
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 

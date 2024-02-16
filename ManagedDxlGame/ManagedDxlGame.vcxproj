@@ -231,6 +231,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[007]Gate\Gate.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[007]Gate\[000]GateFunction\GateLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.cpp" />
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChildChangeGraph.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\EnterGraph.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction\OtherGraphLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[001]Camera\CinemaCamera.cpp" />
@@ -360,6 +361,7 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[007]Gate\Gate.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[007]Gate\[000]GateFunction\GateLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.h" />
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChildChangeGraph.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\EnterGraph.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction\OtherGraphLoad.h" />
     <ClInclude Include="program\game\[001]Common\[001]Camera\CinemaCamera.h" />

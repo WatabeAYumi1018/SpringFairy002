@@ -31,6 +31,7 @@
 #include "../[000]Object/[007]Gate/[000]GateFunction/GateLoad.h"
 #include "../[000]Object/[008]OtherGraph/EnterGraph.h"
 #include "../[000]Object/[008]OtherGraph/ChangeGraph.h"
+#include "../[000]Object/[008]OtherGraph/ChildChangeGraph.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
 #include "../[004]ScreenShot/ScreenShot.h"
 
@@ -1635,13 +1636,41 @@ void Mediator::SetEnterGraphIsActive(bool is_active)
 
 // ChangeGraph
 
-void Mediator::SetChangeGraphIsActiveTulip(bool is_active)
+void Mediator::SetChangeGraphIsFlower(bool is_active)
 {
 	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
 
 	if (shared_changeGraph)
 	{
-		shared_changeGraph->SetIsActiveTulip(is_active);
+		shared_changeGraph->SetIsFlower(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("ChangeGraph shared pointer is expired");
+	}
+}
+
+void Mediator::SetChangeGraphIsWood(bool is_active)
+{
+	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+
+	if (shared_changeGraph)
+	{
+		shared_changeGraph->SetIsWood(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("ChangeGraph shared pointer is expired");
+	}
+}
+
+void Mediator::SetChangeGraphIsFancy(bool is_active)
+{
+	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+
+	if (shared_changeGraph)
+	{
+		shared_changeGraph->SetIsFancy(is_active);
 	}
 	else
 	{
@@ -1663,31 +1692,61 @@ void Mediator::SetChangeGraphIsActiveWhite(bool is_active)
 	}
 }
 
-void Mediator::SetChangeGraphIsActiveBlossom(bool is_active)
-{
-	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+// ChildChangeGraph
 
-	if (shared_changeGraph)
+void Mediator::SetChildGraphIsFlower(bool is_active)
+{
+	std::shared_ptr<ChildChangeGraph> shared_childChangeGraph = m_childChangeGraph.lock();
+
+	if (shared_childChangeGraph)
 	{
-		shared_changeGraph->SetIsActiveBlossom(is_active);
+		shared_childChangeGraph->SetIsFlower(is_active);
 	}
 	else
 	{
-		throw std::runtime_error("ChangeGraph shared pointer is expired");
+		throw std::runtime_error("ChildChangeGraph shared pointer is expired");
 	}
 }
 
-void Mediator::SetChangeGraphIsActiveButterfly(bool is_active)
+void Mediator::SetChildGraphIsWood(bool is_active)
 {
-	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+	std::shared_ptr<ChildChangeGraph> shared_childChangeGraph = m_childChangeGraph.lock();
 
-	if (shared_changeGraph)
+	if (shared_childChangeGraph)
 	{
-		shared_changeGraph->SetIsActiveButterfly(is_active);
+		shared_childChangeGraph->SetIsWood(is_active);
 	}
 	else
 	{
-		throw std::runtime_error("ChangeGraph shared pointer is expired");
+		throw std::runtime_error("ChildChangeGraph shared pointer is expired");
+	}
+}
+
+void Mediator::SetChildGraphIsFancy(bool is_active)
+{
+	std::shared_ptr<ChildChangeGraph> shared_childChangeGraph = m_childChangeGraph.lock();
+
+	if (shared_childChangeGraph)
+	{
+		shared_childChangeGraph->SetIsFancy(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("ChildChangeGraph shared pointer is expired");
+	}
+}
+
+void Mediator::SetChildGraphIsActiveWhite(bool is_active)
+{
+	std::shared_ptr<ChildChangeGraph> shared_childChangeGraph = m_childChangeGraph.lock();
+
+	if (shared_childChangeGraph)
+	{
+		shared_childChangeGraph->SetIsActiveWhite(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("ChildChangeGraph shared pointer is expired");
 	}
 }
 
@@ -1706,7 +1765,6 @@ const std::vector<ChangeGraph::sChangeGraphInfo>& Mediator::GetChangeGraphInfo()
 		throw std::runtime_error("OtherGraphLoad shared pointer is expired");
 	}
 }
-
 
 //---------------------------//
 

@@ -89,7 +89,7 @@ tnl::Vector3 Model::CalcModelPos(int x, int z,int grid_size)
 void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id)
 {
     // 描画範囲の設定（ターゲットの位置を中心に全方向に向けて）
-    int draw_range = 3;
+    int draw_range = 7;
 
     int grid_size = 1500;
 
@@ -115,7 +115,7 @@ void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id)
 
 void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id)
 {
-    int draw_range = 3;
+    int draw_range = 5;
 
     int grid_size = 1500;
 

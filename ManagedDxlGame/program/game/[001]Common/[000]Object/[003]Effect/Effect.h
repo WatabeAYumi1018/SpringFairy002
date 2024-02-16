@@ -74,10 +74,7 @@ public:
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
-	void SetIsScreen(bool is_screen)
-	{
-		m_is_screen = is_screen;
-	}
+	void SetIsScreen(bool is_screen) { m_is_screen = is_screen; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

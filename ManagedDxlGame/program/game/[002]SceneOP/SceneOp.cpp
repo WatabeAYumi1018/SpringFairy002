@@ -21,7 +21,8 @@ SceneOp::~SceneOp()
 
 bool SceneOp::SeqStart(const float delta_time)
 {
-	if (m_opCamera->GetPos().z >= 1400)
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
+		//(m_opCamera->GetPos().z >= 1400)
 	{
 		MusicManager::GetInstance().PlaySE(0);
 	

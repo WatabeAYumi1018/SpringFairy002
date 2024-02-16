@@ -63,6 +63,7 @@ class GateLoad;
 
 class EnterGraph;
 class ChangeGraph;
+class ChildChangeGraph;
 class OtherGraphLoad;
 
 class CameraLoad;
@@ -133,6 +134,7 @@ private:
 
 	std::weak_ptr<EnterGraph> m_enterGraph;
 	std::weak_ptr<ChangeGraph> m_changeGraph;	
+	std::weak_ptr<ChildChangeGraph> m_childChangeGraph;
 	std::weak_ptr<OtherGraphLoad> m_otherGraphLoad;
 
 	std::weak_ptr<GameCamera> m_gameCamera;
@@ -825,24 +827,46 @@ public:
 	// ChangeGraph
 
 	// グラフィックの描画フラグ設定
-	// 参照元 ... ChangeGraph::m_is_active_tulip
+	// 参照元 ... ChangeGraph::m_is_flower
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void SetChangeGraphIsActiveTulip(bool is_active);
+	void SetChangeGraphIsFlower(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_wood
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsWood(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_fancy
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsFancy(bool is_active);
 
 	// グラフィックの描画フラグ設定
 	// 参照元 ... ChangeGraph::m_is_active_white
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void SetChangeGraphIsActiveWhite(bool is_active);
 
-	// グラフィックの描画フラグ設定
-	// 参照元 ... ChangeGraph::m_is_active_butterfly
-	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void SetChangeGraphIsActiveBlossom(bool is_active);
+	// ChildChangeGraph
 
 	// グラフィックの描画フラグ設定
-	// 参照元 ... ChangeGraph::m_is_active_butterfly
+	// 参照元 ... ChangeGraph::m_is_flower
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void SetChangeGraphIsActiveButterfly(bool is_active);
+	void SetChildGraphIsFlower(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_wood
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChildGraphIsWood(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_fancy
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChildGraphIsFancy(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_active_white
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChildGraphIsActiveWhite(bool is_active);
 
 	// OtherGraphLoad
 
@@ -1125,6 +1149,11 @@ public:
 	void SetChangeGraph(std::shared_ptr<ChangeGraph>& changeGraph)
 	{
 		m_changeGraph = changeGraph;
+	}
+
+	void SetChildChangeGraph(std::shared_ptr<ChildChangeGraph>& childCharaGraph)
+	{
+		m_childChangeGraph = childCharaGraph;
 	}
 
 	void SetOtherGraphLoad(std::shared_ptr<OtherGraphLoad>& otherGraphLoad)

@@ -126,12 +126,10 @@ bool CinemaCamera::SeqSecond(const float delta_time)
 		ToSlide(delta_time, { 0,0,-2000 },2);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(8, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(9, delta_time, [&]()
 	{
 		Fixed({ 0,0,-2000 });
 	});
-
-	m_mediator->SetIsCinemaBackFog(false);
 
 	m_is_active = false;
 

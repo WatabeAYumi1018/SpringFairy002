@@ -16,7 +16,7 @@
 ////-----------------------------------------------------------------------------------------------------------
 
 
-//
+
 //#include <time.h>
 //#include <string>
 //#include <numbers>
@@ -755,7 +755,7 @@ void gameStart()
 	SetFontSize(20);
 
 	//文字フォント
-	tnl::AddFontTTF("font/pen.ttf");
+	tnl::AddFontTTF("font/work.ttf");
 
 	SceneManager::GetInstance(new SceneOp());
 
@@ -768,6 +768,8 @@ void gameStart()
 // 毎フレーム実行されます
 void gameMain(float delta_time) 
 {
+	ChangeFont("font/work.ttf", DX_CHARSET_DEFAULT);
+
 	SceneManager::GetInstance()->Update(delta_time);
 }
 

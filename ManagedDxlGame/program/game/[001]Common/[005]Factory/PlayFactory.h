@@ -71,6 +71,7 @@ class CharaGraph;
 class CharaGraphLoad;
 
 class ChangeGraph;
+class ChildChangeGraph;
 class OtherGraphLoad;
 
 class GameCamera;
@@ -158,6 +159,7 @@ private:
 	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
 
 	std::shared_ptr<ChangeGraph> m_changeGraph = nullptr;
+	std::shared_ptr<ChildChangeGraph> m_childChangeGraph = nullptr;
 	std::shared_ptr<OtherGraphLoad> m_otherGraphLoad = nullptr;
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;

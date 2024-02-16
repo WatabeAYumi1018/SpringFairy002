@@ -48,6 +48,12 @@ void Effect::Initialize()
 
 void Effect::Update(float delta_time)
 {
+	if (m_mediator->GetCurrentEventLane().s_id != 12
+		|| m_mediator->GetCurrentEventLane().s_id != 13)
+	{
+		return;
+	}
+
 	// ゲームのフェーズ情報を取得
     m_camera_phase = m_mediator->GetNowCameraPhaseState();
     m_stage_phase = m_mediator->GetNowStagePhaseState();
@@ -91,22 +97,13 @@ void Effect::EffectTransCinema()
 		EffectPlayerAction(12, 15, false);
 	}
 
-	if (m_stage_phase == StagePhase::eStagePhase::e_flower)
-	{
-		SetEffectActive(16, 18, true);
-		EffectScreen(16, 18,false);
-	}
-
-	if (m_stage_phase == StagePhase::eStagePhase::e_wood)
-	{
-		SetEffectActive(16, 18, false);
-		SetEffectActive(20, 23, true);
-		EffectScreen(20, 23, false);
-	}
-
 	if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
 	{
-		SetEffectActive(20, 23, false);
+		if (m_is_screen)
+		{
+			SetEffectActive(20, 20, true);
+			EffectScreen(20, 20, false);
+		}
 
 		// キャラ軌跡エフェクト（ループ再生）
 		if (m_mediator->GetButterflyIsCinemaActive())
@@ -116,11 +113,6 @@ void Effect::EffectTransCinema()
 
 			SetEffectActive(36, 36, true);
 			EffectPath(36, false);
-		}
-		else
-		{
-			SetEffectActive(19, 19, false);
-			SetEffectActive(36, 36, false);
 		}
 	}
 }
@@ -145,11 +137,11 @@ void Effect::EffectTransGame()
 		EffectGimmick(38);
 	}
 
-	if (m_stage_phase == StagePhase::eStagePhase::e_flower)
+	if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
 	{
 		// キャラ軌跡エフェクト（ループ再生）
-		//SetEffectActive(36, 36, true);
-		//EffectPath(35,37);
+		SetEffectActive(35, 37, true);
+		EffectPath(35,37);
 
 		SetEffectActive(25, 34, true);
 		EffectScreen(25, 34);
@@ -244,8 +236,8 @@ void Effect::EffectPath(int start,int end,bool is_player)
 	{
 		m_particles[i]->start();
 		m_particles[i]->setPosition({ pos.x,pos.y + m_offset,pos.z });
-		m_particles[i]->setSizeX(10);
-		m_particles[i]->setSizeY(10);
+		m_particles[i]->setSizeX(5);
+		m_particles[i]->setSizeY(5);
 		// 方向とは逆に設定
 		m_particles[i]->setDiffDirection(-direction);
 	}
