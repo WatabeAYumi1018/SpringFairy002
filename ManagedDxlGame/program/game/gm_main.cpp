@@ -750,12 +750,14 @@
 void gameStart() 
 {
 	srand(time(0));
+	
+	// ウィンドウタイトル
 	SetWindowText("Spring Fairy");
 
-	SetFontSize(20);
-
 	//文字フォント
-	tnl::AddFontTTF("font/work.ttf");
+	SetFontSize(20);
+	tnl::AddFontTTF("font/Yomogi-Regular.ttf");
+	ChangeFont("Yomogi", DX_CHARSET_DEFAULT);
 
 	SceneManager::GetInstance(new SceneOp());
 
@@ -768,8 +770,6 @@ void gameStart()
 // 毎フレーム実行されます
 void gameMain(float delta_time) 
 {
-	ChangeFont("font/work.ttf", DX_CHARSET_DEFAULT);
-
 	SceneManager::GetInstance()->Update(delta_time);
 }
 

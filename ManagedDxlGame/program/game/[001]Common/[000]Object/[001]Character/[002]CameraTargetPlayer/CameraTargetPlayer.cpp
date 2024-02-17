@@ -14,6 +14,17 @@ void CameraTargetPlayer::Initialize()
 void CameraTargetPlayer::Update(float delta_time)
 {
 	tnl_sequence_.update(delta_time);
+
+	if (m_event.s_id == 3)
+	{
+		m_mediator->SetChangeGraphIsFlower(false);
+		m_mediator->SetChildGraphIsFlower(false);
+	}
+	else if (m_event.s_id == 9)
+	{
+		m_mediator->SetChangeGraphIsWood(false);
+		m_mediator->SetChildGraphIsWood(false);
+	}
 }
 
 void CameraTargetPlayer::MoveMatrix(const float delta_time)

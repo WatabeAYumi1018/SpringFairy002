@@ -110,7 +110,6 @@ private:
 	// プレイヤー周りの回転からfixへ移行
 	bool SeqRotateToFix(const float delta_time);
 
-
 	//-----デバッグ用-----//
 
 	//マウスの回転動作制御

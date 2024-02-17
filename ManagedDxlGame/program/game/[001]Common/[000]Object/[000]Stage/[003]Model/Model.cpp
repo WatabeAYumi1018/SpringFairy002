@@ -31,7 +31,15 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 		}
 		else
 		{
-			DrawStageNormal(m_models_info, 2);
+            if (m_look_side_front)
+            {
+                DrawStageRot(m_models_info, 2);
+            }
+            else
+            {
+                DrawStageNormal(m_models_info, 2);
+            }
+            
             DrawTree();
         }
 	}
@@ -89,7 +97,7 @@ tnl::Vector3 Model::CalcModelPos(int x, int z,int grid_size)
 void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id)
 {
     // 描画範囲の設定（ターゲットの位置を中心に全方向に向けて）
-    int draw_range = 7;
+    int draw_range = 5;
 
     int grid_size = 1500;
 
@@ -127,9 +135,18 @@ void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id)
         {
             m_pos = CalcModelPos(x, z,grid_size);
 
-            tnl::Vector3 forward_pos = m_mediator->PlayerForward();
-
-            m_rot = tnl::Quaternion::LookAtAxisY(m_pos,forward_pos);
+            if (m_mediator->GetPlayerLookSideRight())
+            {
+				m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
+			}
+            else if(m_mediator->GetPlayerLookSideLeft())
+            {
+				m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 0));
+			}
+            else if (m_look_side_front)
+            {
+                m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, -1));
+            }
 
             MATRIX matrix = GetTransformMatrix();
 
@@ -142,26 +159,26 @@ void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id)
 
 void Model::SetTreePos()
 {
-    // 樹木モデルを20本描画
-    for (int i = 0; i< 20 ; ++i)
+    // 樹木モデルを10本描画
+    for (int i = 0; i < 10 ; ++i)
     {
         // ステージ3描画のため、デフォルト座標を事前に設定
-        tnl::Vector3 pos = { 0,0,0 };
+        tnl::Vector3 pos;
 
-        pos.x = tnl::GetRandomDistributionFloat(21000, 27000);
+        // 読み取ったグリッドの最後の列を取得
+        int width = m_mediator->GetStageLaneWidth();
 
-        // 一本植えるごとにオフセットを設定
-        float offset = 1500.0f;
-        
-        // x座標は+-が交互になるように設定
-        if (i % 2 == 0)
-        {
-            offset = -1500.0f;
-		}
+        // 最後の列から一定の範囲内でランダムに樹木を配置
+        // 2 : なるべく広めに配置するための値
+        int range = 4;
 
-        pos.x += offset * i;
+        // ワールド座標に変換
+        float max_x = static_cast<float>((width + range) * Lane::LANE_SIZE);
+        float min_x = static_cast<float>((width - range) * Lane::LANE_SIZE);
+
+        pos.x = tnl::GetRandomDistributionFloat(min_x, max_x);
         pos.y = Floor::DRAW_DISTANCE;
-        pos.z += offset * i;
+        pos.z += Lane::LANE_SIZE * 2 * i;
 
 		VECTOR pos_vec = wta::ConvertToVECTOR(pos);
 

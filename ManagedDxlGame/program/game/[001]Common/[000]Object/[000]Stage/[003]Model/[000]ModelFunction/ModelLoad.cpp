@@ -106,6 +106,11 @@ void ModelLoad::SetTextureIndex(Model::sModelInfo model_info, int a, int b, int 
 			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
 				, model_info.s_texture_c_hdl, FALSE);
 		}
+		else
+		{
+			MV1SetTextureGraphHandle(model_info.s_model_hdl, i
+				, model_info.s_texture_d_hdl, FALSE);
+		}
 
 		SetLight(model_info, i);
 	}

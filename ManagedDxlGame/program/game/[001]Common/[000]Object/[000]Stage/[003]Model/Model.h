@@ -44,6 +44,8 @@ private:
 	int m_grid_x = 0;
 	int m_grid_z = 0;
 
+	// 正面からの視点
+	bool m_look_side_front = false;
 	// 個別のアクティブ状態
 	bool m_is_alive_active = false;
 
@@ -76,6 +78,8 @@ public:
 	void Initialize() override;
 	
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	void LookSideFront(bool is_front){ m_look_side_front = is_front; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

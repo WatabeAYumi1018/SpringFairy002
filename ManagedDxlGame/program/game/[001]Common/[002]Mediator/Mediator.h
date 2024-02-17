@@ -271,6 +271,13 @@ public:
 
 	//----------Model-----------//
 
+	// model
+
+	// モデルの向きフラグ設定
+	// 参照元 ... Model::m_look_side_front
+	// 参照先 ... GameCamera::ConditionType()
+	void LookSideModelFront(bool is_front);
+
 	// modelLoad
 
 	// ステージモデルの情報取得
@@ -837,11 +844,6 @@ public:
 	void SetChangeGraphIsWood(bool is_active);
 
 	// グラフィックの描画フラグ設定
-	// 参照元 ... ChangeGraph::m_is_fancy
-	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void SetChangeGraphIsFancy(bool is_active);
-
-	// グラフィックの描画フラグ設定
 	// 参照元 ... ChangeGraph::m_is_active_white
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void SetChangeGraphIsActiveWhite(bool is_active);
@@ -857,11 +859,6 @@ public:
 	// 参照元 ... ChangeGraph::m_is_wood
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void SetChildGraphIsWood(bool is_active);
-
-	// グラフィックの描画フラグ設定
-	// 参照元 ... ChangeGraph::m_is_fancy
-	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void SetChildGraphIsFancy(bool is_active);
 
 	// グラフィックの描画フラグ設定
 	// 参照元 ... ChangeGraph::m_is_active_white

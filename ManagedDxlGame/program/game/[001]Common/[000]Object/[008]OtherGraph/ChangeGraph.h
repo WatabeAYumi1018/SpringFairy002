@@ -27,7 +27,6 @@ protected:
 	// •`‰æƒtƒ‰ƒO
 	bool m_is_flower = false;
 	bool m_is_wood = false;
-	bool m_is_fancy = false;
 	bool m_is_active_white = false;
 	bool m_is_not_active_white = false;
 
@@ -56,8 +55,6 @@ public:
 	void SetIsFlower(bool is_active) { m_is_flower = is_active; }
 
 	void SetIsWood(bool is_active) { m_is_wood = is_active; }
-
-	void SetIsFancy(bool is_active) { m_is_fancy = is_active; }
 
 	void SetIsActiveWhite(bool is_active)
 	{

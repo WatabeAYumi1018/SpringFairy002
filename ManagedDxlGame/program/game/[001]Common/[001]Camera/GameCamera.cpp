@@ -130,6 +130,8 @@ void GameCamera::ConditionType()
 		}
 		case eCameraType::e_front:
 		{
+			m_mediator->LookSideModelFront(true);
+
 			tnl_sequence_.change(&GameCamera::SeqFront);
 		
 			break;

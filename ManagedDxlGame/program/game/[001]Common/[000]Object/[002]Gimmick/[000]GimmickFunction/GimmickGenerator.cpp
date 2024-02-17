@@ -53,8 +53,8 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
 
     // forwardとへ移行なベクトルを計算
     tnl::Vector3 perpendicular = DirectionCalcPos(forward);
-    // 500 : 疑似プレイヤーとギミックとの最低距離
-    tnl::Vector3 start_offset = perpendicular * 500.0f;
+    // 300 : 疑似プレイヤーとギミックとの最低距離
+    tnl::Vector3 start_offset = perpendicular * 300.0f;
 
     tnl::Vector3 target_pos 
         = m_mediator->GetCameraTargetPlayerPos() + start_offset;
@@ -67,8 +67,9 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
             // 座標決定
             SetPlacePos(gimmick, target_pos, forward, perpendicular);
 
-            // 2 : エリアwoodの時は木のモデルが大きいためギミック間の距離を広げる
-            if (m_mediator->GetNowStagePhaseState() == StagePhase::eStagePhase::e_wood)
+            // 2 : 木のモデルが大きいためギミック間の距離を広げる
+            if (m_mediator->GetNowStagePhaseState() 
+                == StagePhase::eStagePhase::e_wood)
             {
                 target_pos += forward * 400.0f * 2;
 			}
@@ -191,13 +192,13 @@ tnl::Vector3 GimmickGenerator::CalcRandomPos()
 
 bool GimmickGenerator::SeqFlower(const float delta_time)
 {
-       //// 足元idが1の場合移行
-       //if (m_gimmick_lane.s_id == 1)
-       //{
-       //    m_is_flower_active = false;
+    //// 足元idが1の場合移行
+    //if (m_gimmick_lane.s_id == 1)
+    //{
+    //    m_is_flower_active = false;
 
-       //	tnl_sequence_.change(&GimmickGenerator::SeqButterfly);
-       //}
+    //	tnl_sequence_.change(&GimmickGenerator::SeqButterfly);
+    //}
 
     TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
     {

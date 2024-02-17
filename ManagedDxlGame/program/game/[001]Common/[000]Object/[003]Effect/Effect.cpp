@@ -48,10 +48,11 @@ void Effect::Initialize()
 
 void Effect::Update(float delta_time)
 {
-	if (m_mediator->GetCurrentEventLane().s_id != 12
-		|| m_mediator->GetCurrentEventLane().s_id != 13)
+	if (m_mediator->GetCurrentEventLane().s_id == 12)
 	{
-		return;
+		m_is_not_draw = true;
+
+		SetEffectActive(22, 31, false);
 	}
 
 	// ゲームのフェーズ情報を取得
@@ -99,20 +100,16 @@ void Effect::EffectTransCinema()
 
 	if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
 	{
+		SetEffectActive(20, 20, true);
+		SetEffectActive(16, 19, true);
+
+		EffectScreen(16, 19, false);
+		EffectButterfly(20);
+
 		if (m_is_screen)
 		{
-			SetEffectActive(20, 20, true);
-			EffectScreen(20, 20, false);
-		}
-
-		// キャラ軌跡エフェクト（ループ再生）
-		if (m_mediator->GetButterflyIsCinemaActive())
-		{
-			SetEffectActive(19, 19, true);
-			EffectButterfly(19);
-
-			SetEffectActive(36, 36, true);
-			EffectPath(36, false);
+			SetEffectActive(21, 21, true);
+			EffectScreen(21, 21, false);
 		}
 	}
 }
@@ -133,18 +130,19 @@ void Effect::EffectTransGame()
 
 	if (m_mediator->GetGimmickIsCollision())
 	{
-		SetEffectActive(38, 38, true);
-		EffectGimmick(38);
+		SetEffectActive(35, 35, true);
+		EffectGimmick(35);
 	}
 
 	if (m_stage_phase == StagePhase::eStagePhase::e_fancy)
 	{
-		// キャラ軌跡エフェクト（ループ再生）
-		SetEffectActive(35, 37, true);
-		EffectPath(35,37);
+		// スクリーンエフェクト（ループ再生）
+		if (!m_is_not_draw)
+		{
+			SetEffectActive(22, 31, true);
+		}
 
-		SetEffectActive(25, 34, true);
-		EffectScreen(25, 34);
+		EffectScreen(22, 31);
 	}
 }
 
@@ -253,8 +251,6 @@ void Effect::EffectButterfly(int id)
 		// 該当エフェクトを指定
 		m_particles[id]->start();
 		m_particles[id]->setPosition(pos);
-		// アニメーションとエフェクトの再生時間調整
-		m_particles[id]->setTimeScale(1.5f);
 	}
 }
 

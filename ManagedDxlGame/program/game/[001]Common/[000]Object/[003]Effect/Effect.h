@@ -31,6 +31,7 @@ private:
 	float m_offset = 150.0f;
 
 	bool m_is_screen = false;
+	bool m_is_not_draw = false;
 
 	CameraPhase::eCameraPhase m_camera_phase
 		= CameraPhase::eCameraPhase::e_cinema;

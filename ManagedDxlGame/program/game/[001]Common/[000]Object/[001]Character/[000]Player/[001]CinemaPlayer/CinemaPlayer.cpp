@@ -315,6 +315,9 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 	MusicManager::GetInstance().StopSE(3);
 
+	// ‰æ–ÊŠO‚Ö”z’u
+	m_pos = { 1000,1000,0 };
+
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 
 	TNL_SEQ_CO_END;
@@ -326,9 +329,6 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 	{
 		m_is_idle= true;
 		m_pos = { 100,100,0 };
-
-		m_mediator->SetChangeGraphIsFlower(false);
-		m_mediator->SetChildGraphIsFlower(false);
 	}
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()

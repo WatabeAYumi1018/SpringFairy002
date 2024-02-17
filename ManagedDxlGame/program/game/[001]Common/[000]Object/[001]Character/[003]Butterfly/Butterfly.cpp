@@ -180,25 +180,24 @@ bool Butterfly::SeqRound(const float delta_time)
 		// 透明度を更新
 		float new_opacity = current_opacity - fade_out_speed;
 
+		if (new_opacity < 10)
+		{
+			// 透明フラグを立てる
+			m_is_clear = true;
+		}
+
 		// 透明度が負の値にならないように調整
 		if (new_opacity < 0)
 		{
 			new_opacity = 0;
+
+			m_is_clear = false;
+
+			m_is_cinema_active = false;
 		}
 
 		// 新しい透明度をモデルに適用
 		MV1SetOpacityRate(m_model_hdl, new_opacity);
-
-		// 透明度が0になったら、シネマアクティブをfalseにしてフェードアウト完了
-		if (new_opacity <= 0)
-		{
-			// 透明フラグを立てる
-			m_is_clear = true;
-
-			m_is_cinema_active = false;
-
-			TNL_SEQ_CO_END;
-		}
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()

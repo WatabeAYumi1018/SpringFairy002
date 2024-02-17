@@ -60,6 +60,11 @@ bool StagePhase::SeqWood(const float delta_time)
 
 bool StagePhase::SeqFancy(const float delta_time)
 {
+	if (tnl_sequence_.isStart())
+	{
+		SetDefaultLightParameter("directional_light001.bin");
+	}
+
 	// 14‚É“ü‚Á‚½‚çED‚Ö
 	if (m_mediator->GetPlayerPos().y > 2000
 		&& m_mediator->GetPartnerPos().y > 2000)

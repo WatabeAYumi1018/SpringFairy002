@@ -303,6 +303,22 @@ bool Mediator::GetPlayerLookSideLeft() const
 
 //----------Model-----------//
 
+// model
+
+void Mediator::LookSideModelFront(bool is_front)
+{
+	std::shared_ptr<Model> shared_model = m_model.lock();
+
+	if (shared_model)
+	{
+		shared_model->LookSideFront(is_front);
+	}
+	else
+	{
+		throw std::runtime_error("Model shared pointer is expired");
+	}
+}
+
 // modelLoad
 
 const std::vector<Model::sModelInfo>& Mediator::GetStageModelInfo() const
@@ -1664,20 +1680,6 @@ void Mediator::SetChangeGraphIsWood(bool is_active)
 	}
 }
 
-void Mediator::SetChangeGraphIsFancy(bool is_active)
-{
-	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
-
-	if (shared_changeGraph)
-	{
-		shared_changeGraph->SetIsFancy(is_active);
-	}
-	else
-	{
-		throw std::runtime_error("ChangeGraph shared pointer is expired");
-	}
-}
-
 void Mediator::SetChangeGraphIsActiveWhite(bool is_active)
 {
 	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
@@ -1715,20 +1717,6 @@ void Mediator::SetChildGraphIsWood(bool is_active)
 	if (shared_childChangeGraph)
 	{
 		shared_childChangeGraph->SetIsWood(is_active);
-	}
-	else
-	{
-		throw std::runtime_error("ChildChangeGraph shared pointer is expired");
-	}
-}
-
-void Mediator::SetChildGraphIsFancy(bool is_active)
-{
-	std::shared_ptr<ChildChangeGraph> shared_childChangeGraph = m_childChangeGraph.lock();
-
-	if (shared_childChangeGraph)
-	{
-		shared_childChangeGraph->SetIsFancy(is_active);
 	}
 	else
 	{
