@@ -4,6 +4,13 @@
 #include "../[000]Object/[002]Gimmick/Gimmick.h"
 
 
+///////////////////////////////////////////////////////////////////////////
+//
+// Playシーンのオブジェクト生成クラス
+//
+///////////////////////////////////////////////////////////////////////////
+
+
 // 名前空間＋テンプレートの前方宣言
 namespace wta 
 {
@@ -71,6 +78,7 @@ class CharaGraph;
 class CharaGraphLoad;
 
 class ChangeGraph;
+class ChildChangeGraph;
 class OtherGraphLoad;
 
 class GameCamera;
@@ -158,6 +166,7 @@ private:
 	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
 
 	std::shared_ptr<ChangeGraph> m_changeGraph = nullptr;
+	std::shared_ptr<ChildChangeGraph> m_childChangeGraph = nullptr;
 	std::shared_ptr<OtherGraphLoad> m_otherGraphLoad = nullptr;
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;

@@ -14,8 +14,6 @@ public:
 
 private:
 
-	int m_id_num = 0;
-
 	// エフェクトの種類読み取り専用（csvファイル）
 	std::vector<std::vector<tnl::CsvCell>> m_csv_effect_type_info;
 	// エフェクトの種類情報格納用

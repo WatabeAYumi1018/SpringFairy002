@@ -50,38 +50,22 @@ void Gate::CreateMesh()
 
         m_mesh->setMtrlEmissive(eim);
 
-        m_mesh->pos_ = { 0, 0, 0 };
+        m_mesh->pos_ = gate_info.s_pos;
+
+        m_mesh->scl_ = gate_info.s_scale;
 
         m_meshes.emplace_back(m_mesh);
     }
-}
-
-void Gate::SetMeshMatrix()
-{
-    m_meshes[0]->scl_ = { 2 };
-    m_meshes[0]->pos_.x = 0;
-    m_meshes[0]->pos_.z = m_mediator->GetButterflyPos().z + 1500;
-
-    m_meshes[1]->scl_ = { 1,1.5f,1 };
-    m_meshes[1]->pos_.x -= 3500;
-    m_meshes[1]->pos_.y -= 2000;
-    m_meshes[1]->pos_.z = m_mediator->GetButterflyPos().z + 1300;
-
-    m_meshes[2]->scl_ = { 1,1.5f,1 };
-    m_meshes[2]->pos_.x += 3450;
-    m_meshes[2]->pos_.y -= 2000;
-    m_meshes[2]->pos_.z = m_mediator->GetButterflyPos().z + 1300;
 }
 
 bool Gate::SeqTrigger(const float delta_time)
 {
     if (tnl_sequence_.isStart())
     {
-        SetMeshMatrix();
+        CreateMesh();
     }
    
     tnl_sequence_.change(&Gate::SeqStay);
-
 
     TNL_SEQ_CO_END;
 }

@@ -78,9 +78,6 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage">
       <UniqueIdentifier>{88d540be-0bf7-42de-b8a7-7887f59d3c1c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character">
-      <UniqueIdentifier>{b5c4a5e8-aaab-46a4-9e29-5a3fca2dfc5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[003]Effect">
       <UniqueIdentifier>{98828e77-34cb-47d5-ba36-2d904a63be72}</UniqueIdentifier>
     </Filter>
@@ -101,21 +98,6 @@
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction">
       <UniqueIdentifier>{04bdf5c5-270e-44f0-b47c-b7e151cab276}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner">
-      <UniqueIdentifier>{1d255a47-0f8d-4501-8c03-734364aa0997}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer">
-      <UniqueIdentifier>{f3a0b5c8-4b00-4610-9192-fce76c35d30e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player">
-      <UniqueIdentifier>{db16480d-17b2-4f9a-8fb4-1043e3a03c42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction">
-      <UniqueIdentifier>{26e9bf99-195c-4940-9b15-34d2526b8b77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction">
-      <UniqueIdentifier>{89267a6f-e8c2-4769-ad37-895e6e91ccac}</UniqueIdentifier>
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[004]Score">
       <UniqueIdentifier>{323efee6-b030-4447-82f6-0984dd691149}</UniqueIdentifier>
@@ -156,17 +138,8 @@
     <Filter Include="program\[003] game\[001]Common\[001]Camera\[000]CameraFunction">
       <UniqueIdentifier>{70fcb5db-60bb-4f04-96ae-b6608e809683}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly">
-      <UniqueIdentifier>{b061350c-b7ca-42e5-9b0f-4e884b2a7884}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[006]Title">
       <UniqueIdentifier>{be5d258a-f212-4c22-8cf0-ec116523cda9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer">
-      <UniqueIdentifier>{5cc6594b-443f-418a-9dd8-64fc2a3d6a4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction">
-      <UniqueIdentifier>{faf8dd25-e158-4e04-af47-a93bcbe96d39}</UniqueIdentifier>
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[007]Gate">
       <UniqueIdentifier>{be16eb9e-68ac-4be4-a0b7-0a94c1bee20c}</UniqueIdentifier>
@@ -182,6 +155,33 @@
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction">
       <UniqueIdentifier>{1cf23756-1bfb-49c4-8d93-389dbbd55aac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character">
+      <UniqueIdentifier>{b5c4a5e8-aaab-46a4-9e29-5a3fca2dfc5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner">
+      <UniqueIdentifier>{1d255a47-0f8d-4501-8c03-734364aa0997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction">
+      <UniqueIdentifier>{89267a6f-e8c2-4769-ad37-895e6e91ccac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer">
+      <UniqueIdentifier>{f3a0b5c8-4b00-4610-9192-fce76c35d30e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player">
+      <UniqueIdentifier>{db16480d-17b2-4f9a-8fb4-1043e3a03c42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction">
+      <UniqueIdentifier>{26e9bf99-195c-4940-9b15-34d2526b8b77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer">
+      <UniqueIdentifier>{5cc6594b-443f-418a-9dd8-64fc2a3d6a4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly">
+      <UniqueIdentifier>{b061350c-b7ca-42e5-9b0f-4e884b2a7884}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction">
+      <UniqueIdentifier>{faf8dd25-e158-4e04-af47-a93bcbe96d39}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -356,9 +356,6 @@
     <ClCompile Include="program\game\[001]Common\[001]Camera\GameCamera.cpp">
       <Filter>program\[003] game\[001]Common\[001]Camera</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\Lane.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction\LaneLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane\[000]LaneFunction</Filter>
     </ClCompile>
@@ -512,17 +509,20 @@
     <ClCompile Include="program\game\[000]GameEngine\[002]Music\MusicBGM.cpp">
       <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction\OtherGraphLoad.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\EnterGraph.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction\OtherGraphLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChildChangeGraph.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -920,17 +920,20 @@
     <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction\OtherGraphLoad.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\EnterGraph.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[002]Gimmick\Gimmick.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[002]Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction\OtherGraphLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph\[000]OtherFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChangeGraph.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChildChangeGraph.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

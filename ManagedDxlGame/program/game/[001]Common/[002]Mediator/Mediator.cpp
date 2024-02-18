@@ -31,6 +31,7 @@
 #include "../[000]Object/[007]Gate/[000]GateFunction/GateLoad.h"
 #include "../[000]Object/[008]OtherGraph/EnterGraph.h"
 #include "../[000]Object/[008]OtherGraph/ChangeGraph.h"
+#include "../[000]Object/[008]OtherGraph/ChildChangeGraph.h"
 #include "../[001]Camera/[000]CameraFunction/CameraLoad.h"
 #include "../[004]ScreenShot/ScreenShot.h"
 
@@ -301,6 +302,22 @@ bool Mediator::GetPlayerLookSideLeft() const
 
 
 //----------Model-----------//
+
+// model
+
+void Mediator::LookSideModelFront(bool is_front)
+{
+	std::shared_ptr<Model> shared_model = m_model.lock();
+
+	if (shared_model)
+	{
+		shared_model->LookSideFront(is_front);
+	}
+	else
+	{
+		throw std::runtime_error("Model shared pointer is expired");
+	}
+}
 
 // modelLoad
 
@@ -1328,6 +1345,23 @@ bool Mediator::GetIsGimmickGroundActive() const
 
 //----------Effect----------//
 
+// Effect
+
+void Mediator::SetEffectIsScreen(bool is_screen)
+{
+	std::shared_ptr<Effect> shared_effect = m_effect.lock();
+
+	if (shared_effect)
+	{
+		shared_effect->SetIsScreen(is_screen);
+	}
+	else
+	{
+		throw std::runtime_error("Effect shared pointer is expired");
+	}
+
+}
+
 // EffectLoad
 
 const std::vector<Effect::sEffectType>& Mediator::GetEffectLoadInfo() const
@@ -1618,13 +1652,27 @@ void Mediator::SetEnterGraphIsActive(bool is_active)
 
 // ChangeGraph
 
-void Mediator::SetChangeGraphIsActiveTulip(bool is_active)
+void Mediator::SetChangeGraphIsFlower(bool is_active)
 {
 	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
 
 	if (shared_changeGraph)
 	{
-		shared_changeGraph->SetIsActiveTulip(is_active);
+		shared_changeGraph->SetIsFlower(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("ChangeGraph shared pointer is expired");
+	}
+}
+
+void Mediator::SetChangeGraphIsWood(bool is_active)
+{
+	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+
+	if (shared_changeGraph)
+	{
+		shared_changeGraph->SetIsWood(is_active);
 	}
 	else
 	{
@@ -1646,31 +1694,47 @@ void Mediator::SetChangeGraphIsActiveWhite(bool is_active)
 	}
 }
 
-void Mediator::SetChangeGraphIsActiveBlossom(bool is_active)
-{
-	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+// ChildChangeGraph
 
-	if (shared_changeGraph)
+void Mediator::SetChildGraphIsFlower(bool is_active)
+{
+	std::shared_ptr<ChildChangeGraph> shared_childChangeGraph = m_childChangeGraph.lock();
+
+	if (shared_childChangeGraph)
 	{
-		shared_changeGraph->SetIsActiveBlossom(is_active);
+		shared_childChangeGraph->SetIsFlower(is_active);
 	}
 	else
 	{
-		throw std::runtime_error("ChangeGraph shared pointer is expired");
+		throw std::runtime_error("ChildChangeGraph shared pointer is expired");
 	}
 }
 
-void Mediator::SetChangeGraphIsActiveButterfly(bool is_active)
+void Mediator::SetChildGraphIsWood(bool is_active)
 {
-	std::shared_ptr<ChangeGraph> shared_changeGraph = m_changeGraph.lock();
+	std::shared_ptr<ChildChangeGraph> shared_childChangeGraph = m_childChangeGraph.lock();
 
-	if (shared_changeGraph)
+	if (shared_childChangeGraph)
 	{
-		shared_changeGraph->SetIsActiveButterfly(is_active);
+		shared_childChangeGraph->SetIsWood(is_active);
 	}
 	else
 	{
-		throw std::runtime_error("ChangeGraph shared pointer is expired");
+		throw std::runtime_error("ChildChangeGraph shared pointer is expired");
+	}
+}
+
+void Mediator::SetChildGraphIsActiveWhite(bool is_active)
+{
+	std::shared_ptr<ChildChangeGraph> shared_childChangeGraph = m_childChangeGraph.lock();
+
+	if (shared_childChangeGraph)
+	{
+		shared_childChangeGraph->SetIsActiveWhite(is_active);
+	}
+	else
+	{
+		throw std::runtime_error("ChildChangeGraph shared pointer is expired");
 	}
 }
 
@@ -1690,13 +1754,26 @@ const std::vector<ChangeGraph::sChangeGraphInfo>& Mediator::GetChangeGraphInfo()
 	}
 }
 
-
 //---------------------------//
 
 
 //----------Camera---------//
 
 // GameCamera
+
+const tnl::Vector3& Mediator::GetGameCameraPos() const
+{
+	std::shared_ptr<GameCamera> shared_gameCamera = m_gameCamera.lock();
+
+	if (shared_gameCamera)
+	{
+		return shared_gameCamera->GetPos();
+	}
+	else
+	{
+		throw std::runtime_error("GameCamera shared pointer is expired");
+	}
+}
 
 const tnl::Vector3& Mediator::GetCameraForward() const
 {
@@ -1785,6 +1862,20 @@ GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
 }
 
 // CinemaCamera
+
+const tnl::Vector3& Mediator::GetCinemaCameraPos() const
+{
+	std::shared_ptr<CinemaCamera> shared_cinemaCamera = m_cinemaCamera.lock();
+
+	if (shared_cinemaCamera)
+	{
+		return shared_cinemaCamera->GetPos();
+	}
+	else
+	{
+		throw std::runtime_error("CinemaCamera shared pointer is expired");
+	}
+}
 
 void Mediator::SetCinemaCameraIsActive(bool is_active)
 {

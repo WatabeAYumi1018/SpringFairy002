@@ -28,8 +28,8 @@ void OtherGraphLoad::LoadOtherGraph()
 			= LoadGraph(m_csv_graph_info[y][1].getString().c_str());
 
 		graph_info.s_pos = { m_csv_graph_info[y][2].getFloat()
-							,m_csv_graph_info[y][3].getFloat() 
-							,0};
+							,m_csv_graph_info[y][3].getFloat()
+							,0 };
 
 		graph_info.s_speed = m_csv_graph_info[y][4].getFloat();
 

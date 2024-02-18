@@ -20,7 +20,8 @@ void LaneLoad::LoadLaneVector()
 {
 	// csvファイルの読み込み
 	m_csv_lane 
-		= tnl::LoadCsv<int>("csv/stage/move/move_lane.csv");
+		//= tnl::LoadCsv<int>("csv/stage/move/move_lane.csv");
+		= tnl::LoadCsv<int>("csv/stage/move/move_lane0219.csv");
 
 	// レーン配列の高さ
 	m_lane_height = m_csv_lane.size();
@@ -54,7 +55,8 @@ void LaneLoad::LoadLaneEventVector()
 {
 	// csvファイルの読み込み
 	m_csv_lane_event 
-		= tnl::LoadCsv<int>("csv/stage/event/event_lane.csv");
+		//= tnl::LoadCsv<int>("csv/stage/event/event_lane.csv");
+		= tnl::LoadCsv<int>("csv/stage/event/event_lane0219.csv");
 
 	Lane::sLaneEvent lane_event;
 

@@ -3,7 +3,7 @@
 #include "../ChangeGraph.h"
 
 
-class OtherGraphLoad 
+class OtherGraphLoad
 {
 
 public:

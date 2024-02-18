@@ -44,6 +44,8 @@ private:
 	int m_grid_x = 0;
 	int m_grid_z = 0;
 
+	// 正面からの視点
+	bool m_look_side_front = false;
 	// 個別のアクティブ状態
 	bool m_is_alive_active = false;
 
@@ -61,10 +63,10 @@ private:
 	tnl::Vector3 CalcModelPos(int x, int z, int grid_size);
 
 	// 背景モデル生成（通常描画）
-	void DrawStageNormal(std::vector<sModelInfo>& models_info,int id, int grid_size);
+	void DrawStageNormal(std::vector<sModelInfo>& models_info,int id);
 
 	// 背景モデル生成（ギミック攻撃時）
-	void DrawStageRot(std::vector<sModelInfo>& models_info, int id, int grid_size);
+	void DrawStageRot(std::vector<sModelInfo>& models_info, int id);
 
 	// 樹木座標設定
 	void SetTreePos();
@@ -76,6 +78,8 @@ public:
 	void Initialize() override;
 	
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	void LookSideFront(bool is_front){ m_look_side_front = is_front; }
 
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{

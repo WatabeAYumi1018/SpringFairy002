@@ -102,7 +102,7 @@ bool CinemaCamera::SeqFirst(const float delta_time)
 		ToSlide(delta_time, {0,80,-100},10);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(2.4f, delta_time, [&]()
 	{
 		Fixed({ 0,80,-100 });
 	});
@@ -126,12 +126,10 @@ bool CinemaCamera::SeqSecond(const float delta_time)
 		ToSlide(delta_time, { 0,0,-2000 },2);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(8, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(9, delta_time, [&]()
 	{
 		Fixed({ 0,0,-2000 });
 	});
-
-	m_mediator->SetIsCinemaBackFog(false);
 
 	m_is_active = false;
 
@@ -178,7 +176,7 @@ bool CinemaCamera::SeqThird(const float delta_time)
 		ToSlide(delta_time, { 0,0,-300 }, 10);
 	});
 
-	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
+	TNL_SEQ_CO_TIM_YIELD_RETURN(4.5f, delta_time, [&]()
 	{
 		Fixed({ 0,0,-300 });
 	});

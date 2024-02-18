@@ -56,6 +56,7 @@ void TextDraw::UpdateTexts()
         || lane_event.s_id == 1
         || lane_event.s_id == 7
         || lane_event.s_id == 10
+        || lane_event.s_id == 12
         || lane_event.s_id == 14)
     {
         return;

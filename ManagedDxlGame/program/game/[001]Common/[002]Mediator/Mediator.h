@@ -12,6 +12,13 @@
 #include "../[003]Phase/CameraPhase.h"
 #include "../[003]Phase/StagePhase.h"
 
+///////////////////////////////////////////////////////////////////////////
+//
+// クラス間の情報のやり取りを行うクラス（weak参照）
+//
+///////////////////////////////////////////////////////////////////////////
+
+
 
 class CinemaBack;
 class SkyBox;
@@ -63,6 +70,7 @@ class GateLoad;
 
 class EnterGraph;
 class ChangeGraph;
+class ChildChangeGraph;
 class OtherGraphLoad;
 
 class CameraLoad;
@@ -115,6 +123,7 @@ private:
 	std::weak_ptr<GimmickGenerator> m_gimmickGenerator;
 	std::weak_ptr<GimmickPool> m_gimmickPool;
 
+	std::weak_ptr<Effect> m_effect;
 	std::weak_ptr<EffectLoad> m_effectLoad;
 
 	std::weak_ptr<Score> m_score;
@@ -132,6 +141,7 @@ private:
 
 	std::weak_ptr<EnterGraph> m_enterGraph;
 	std::weak_ptr<ChangeGraph> m_changeGraph;	
+	std::weak_ptr<ChildChangeGraph> m_childChangeGraph;
 	std::weak_ptr<OtherGraphLoad> m_otherGraphLoad;
 
 	std::weak_ptr<GameCamera> m_gameCamera;
@@ -267,6 +277,13 @@ public:
 
 
 	//----------Model-----------//
+
+	// model
+
+	// モデルの向きフラグ設定
+	// 参照元 ... Model::m_look_side_front
+	// 参照先 ... GameCamera::ConditionType()
+	void LookSideModelFront(bool is_front);
 
 	// modelLoad
 
@@ -679,6 +696,13 @@ public:
 
 	//----------Effect----------//
 
+	// Effect
+
+	// スクリーンエフェクトのアクティブ状態設定
+	// 参照元 ... Effect::m_is_active
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetEffectIsScreen(bool is_screen);
+
 	// EffectLoad
 
 	// エフェクト情報の取得
@@ -817,24 +841,36 @@ public:
 	// ChangeGraph
 
 	// グラフィックの描画フラグ設定
-	// 参照元 ... ChangeGraph::m_is_active_tulip
+	// 参照元 ... ChangeGraph::m_is_flower
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void SetChangeGraphIsActiveTulip(bool is_active);
+	void SetChangeGraphIsFlower(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_wood
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChangeGraphIsWood(bool is_active);
 
 	// グラフィックの描画フラグ設定
 	// 参照元 ... ChangeGraph::m_is_active_white
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void SetChangeGraphIsActiveWhite(bool is_active);
 
-	// グラフィックの描画フラグ設定
-	// 参照元 ... ChangeGraph::m_is_active_butterfly
-	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void SetChangeGraphIsActiveBlossom(bool is_active);
+	// ChildChangeGraph
 
 	// グラフィックの描画フラグ設定
-	// 参照元 ... ChangeGraph::m_is_active_butterfly
+	// 参照元 ... ChangeGraph::m_is_flower
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void SetChangeGraphIsActiveButterfly(bool is_active);
+	void SetChildGraphIsFlower(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_wood
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChildGraphIsWood(bool is_active);
+
+	// グラフィックの描画フラグ設定
+	// 参照元 ... ChangeGraph::m_is_active_white
+	// 参照先 ... CinemaPlayer::Update(float delta_time)
+	void SetChildGraphIsActiveWhite(bool is_active);
 
 	// OtherGraphLoad
 
@@ -849,6 +885,11 @@ public:
 	//-----------Camera----------//
 
 	// GameCamera
+
+	// カメラの座標取得
+	// 参照元 ... GameCamera::m_pos
+	// 参照先 ... Effect::SffectScreen()
+	const tnl::Vector3& GetGameCameraPos() const;
 
 	// カメラの前方向取得
 	// 参照元 ... GameCamera::forward()
@@ -883,6 +924,11 @@ public:
 	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
 
 	// CinemaCamera
+
+	// シネマカメラの座標取得
+	// 参照元 ... CinemaCamera::m_pos
+	// 参照先 ... Effect::EffectScreen()
+	const tnl::Vector3& GetCinemaCameraPos() const;
 
 	// シネマカメラの活性化フラグ設定
 	// 参照元 ... CinemaCamera::m_is_active
@@ -1049,6 +1095,11 @@ public:
 		m_gimmickPool = itemPool;
 	}
 
+	void SetEffect(std::shared_ptr<Effect>& effect)
+	{
+		m_effect = effect;
+	}
+
 	void SetEffectLoad(std::shared_ptr<EffectLoad>& effectLoad)
 	{
 		m_effectLoad = effectLoad;
@@ -1102,6 +1153,11 @@ public:
 	void SetChangeGraph(std::shared_ptr<ChangeGraph>& changeGraph)
 	{
 		m_changeGraph = changeGraph;
+	}
+
+	void SetChildChangeGraph(std::shared_ptr<ChildChangeGraph>& childCharaGraph)
+	{
+		m_childChangeGraph = childCharaGraph;
 	}
 
 	void SetOtherGraphLoad(std::shared_ptr<OtherGraphLoad>& otherGraphLoad)

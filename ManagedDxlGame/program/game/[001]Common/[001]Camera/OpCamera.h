@@ -19,6 +19,7 @@ private:
 	// 各数値 : 疑似プレイヤーとの距離感
 	tnl::Vector3 m_offset = { 0, 300, -100 };
 	tnl::Vector3 m_new_offset = { 0,0,-5000 };
+	tnl::Vector3 m_stage_in_offset = { 0,0,1200 };
 	// 回転
 	tnl::Quaternion m_rot;
 
@@ -50,6 +51,8 @@ private:
 	bool SeqUpToBack(const float delta_time);
 	// 引き
 	bool SeqBack(const float delta_time);
+	// ステージIN
+	bool SeqStageIn(const float delta_time);
 
 	void Control(const float delta_time);
 

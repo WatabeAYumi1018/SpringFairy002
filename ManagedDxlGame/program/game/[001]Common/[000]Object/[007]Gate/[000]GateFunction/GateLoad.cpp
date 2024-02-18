@@ -27,7 +27,17 @@ void GateLoad::LoadGate()
 
 		gate_info.s_id = m_csv_gates[y][0].getInt();
 
-		gate_info.s_texture_path = m_csv_gates[y][2].getString();
+		gate_info.s_texture_path = m_csv_gates[y][1].getString();
+
+		gate_info.s_pos
+			= tnl::Vector3(m_csv_gates[y][2].getFloat()
+							, m_csv_gates[y][3].getFloat()
+							, m_csv_gates[y][4].getFloat());
+
+		gate_info.s_scale
+			= tnl::Vector3(m_csv_gates[y][5].getFloat()
+							, m_csv_gates[y][6].getFloat()
+							, m_csv_gates[y][7].getFloat());
 
 		m_gates.emplace_back(gate_info);
 	}

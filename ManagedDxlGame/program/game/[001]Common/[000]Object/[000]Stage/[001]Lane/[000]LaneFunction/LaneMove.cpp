@@ -45,10 +45,15 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 	m_target_direction = next_center_pos - pos;
 
 	// 中心座標までの距離を計算
-	float distance_to_center = abs(m_target_direction.length());
+	float distance_to_center = m_target_direction.length();
 	
 	// 中心付近に到達したらステップ更新
 	StepUpdate(delta_time, distance_to_center, pos);
+
+	// 移動のためベクトル正規化
+	m_target_direction.normalize();
+	// 移動速度を更新
+	MoveSpeed(delta_time, m_target_direction, pos);
 }
 
 void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
@@ -70,7 +75,7 @@ void LaneMove::MoveAstarCharaPos(const float delta_time, tnl::Vector3& pos)
 		= wta::ConvertGridIntToFloat(m_next_grid, Lane::LANE_SIZE);
 
 	// 次のグリッドへの方向ベクトルを計算
-	m_chara_direction = (next_grid_pos - current_grid_pos);
+	m_chara_direction = next_grid_pos - current_grid_pos;
 	m_chara_direction.normalize();
 	
 	// 方向ベクトルが存在する場合
@@ -134,14 +139,6 @@ void LaneMove::StepUpdate(const float delta_time, float distance, tnl::Vector3& 
 
 		// ステップ更新後のグリッドを設定
 		UpdateGrids();
-	}
-	else
-	{
-		// 単位ベクトルに変換
-		m_target_direction.normalize();
-
-		// 移動速度を更新
-		MoveSpeed(delta_time, m_target_direction, pos);
 	}
 }
 

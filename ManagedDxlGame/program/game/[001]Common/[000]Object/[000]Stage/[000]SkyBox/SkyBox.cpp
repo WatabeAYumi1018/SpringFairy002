@@ -48,7 +48,7 @@ void SkyBox::CreateSkyBox()
 
 		m_screen_effect->loadStatus(sky_info.s_screen_effect_path);
 		
-		// 20000 : 座標の調整(
+		// 20000 : 座標の調整
 		// デフォルトで{0}。端っこまでの到達を防ぐ
 		m_mesh->pos_ = { 20000, 0, 0 };
 

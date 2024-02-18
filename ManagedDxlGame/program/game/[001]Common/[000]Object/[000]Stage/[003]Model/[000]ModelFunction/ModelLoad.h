@@ -33,19 +33,20 @@ private:
 	void SetTextureIndex(Model::sModelInfo model_info, int a, int b, int c);
 	// ステージ3のモデル画像設定
 	void SetTextureIndex(Model::sModelInfo model_info, int a, int b, int c, int d, int e);
-
+	// ライト設定
 	void SetLight(Model::sModelInfo model_info, int i);
-
+	// 樹木モデルの画像設定
 	void SetTextureTreeIndex(Model::sTreeInfo& model);
 
 
 public:
 
+	// ステージモデルの情報取得
 	const std::vector<Model::sModelInfo>& GetModelInfo() const
 	{
 		return m_model_info;
 	}
-
+	// 樹木モデルの情報取得
 	const std::vector<Model::sTreeInfo>& GetTreeInfo() const
 	{
 		return m_trees_info;

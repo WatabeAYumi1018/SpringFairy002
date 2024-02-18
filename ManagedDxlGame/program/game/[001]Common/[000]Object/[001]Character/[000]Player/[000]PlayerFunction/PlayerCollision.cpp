@@ -109,8 +109,14 @@ void PlayerCollision::IsIntersectGimmickPos(std::shared_ptr<dxe::Mesh> mesh
 		{
 			gimmick->SetIsHit(false);
 		}
-		// プレイヤーがブルーム状態なら当たり判定
+		// プレイヤーがアクション状態なら当たり判定
 		else if (m_mediator->GetIsPlayerBloom())
+		{
+			gimmick->SetIsCollision(true);
+		}
+		else if (m_mediator->GetIsPlayerDance() 
+				&& abs(m_player->GetPos().x - gimmick->GetPos().x) < 500
+				&& abs(m_player->GetPos().z - gimmick->GetPos().z) < 500)
 		{
 			gimmick->SetIsCollision(true);
 		}

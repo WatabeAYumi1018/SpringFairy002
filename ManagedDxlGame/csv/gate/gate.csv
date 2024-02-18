@@ -1,4 +1,8 @@
-モデルID,モデル ファイルパス,テクスチャ ファイルパス
-0,model/gate/gate.mv1,model/gate/arch_flower.jpg
-1,model/gate/gate.mv1,model/gate/gate_left.png
-2,model/gate/gate.mv1,model/gate/gate_right.png
+モデルID,テクスチャ ファイルパス,X座標,Y座標,Z座標,スケールX,スケールY,スケールZ
+0,graphics/event/flower.jpg,0,0,1500,1.8,1.8,1.8
+1,graphics/event/gate_left.png,-3500,-2000,1300,1,1.5,1
+2,graphics/event/gate_right.png,3450,-2000,1300,1,1.5,1
+3,graphics/event/arch.png,0,0,1200,1.8,1.8,1.8
+4,graphics/event/frame-white.png,0,0,1000,1.8,1.8,1.8
+5,graphics/event/player_gate.png,-4800,-1500,800,0.4,0.8,0
+6,graphics/event/partner_gate.png,5000,-2000,800,0.3,0.5,0

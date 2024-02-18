@@ -9,10 +9,10 @@ Player::Player()
 {
 	m_collision_size =  100;
 
-	for (int i = 0; i < 15; ++i)
+	for (int i = 0; i < 20; ++i)
 	{
 		std::shared_ptr<dxe::Mesh> mesh
-				= dxe::Mesh::CreateSphereMV(70);
+				= dxe::Mesh::CreateSphereMV(100);
 
 		m_meshs.emplace_back(mesh);
 	}
@@ -43,7 +43,7 @@ void Player::Update(float delta_time)
 
 	m_mediator->UpdateCollisionCheck();
 
-	m_mediator->IsInCameraFlustum();
+	//m_mediator->IsInCameraFlustum();
 }
 
 void Player::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -83,7 +83,11 @@ void Player::UpdateMesh(float delta_time)
 
 	float distance = 100.0f;
 
-	for (int i = 0; i < m_meshs.size(); ++i)
+	// 最初はプレイヤーの位置に設定
+	m_meshs[0]->pos_ = m_pos;
+	m_meshs[0]->pos_.y += 150;
+
+	for (int i = 1; i < m_meshs.size(); ++i)
 	{
 		std::shared_ptr<dxe::Mesh>& mesh = m_meshs[i];
 

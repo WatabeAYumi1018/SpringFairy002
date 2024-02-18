@@ -64,7 +64,7 @@ private:
 
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
-	tnl::Vector3 m_offset = { 0, 200, -400 };
+	tnl::Vector3 m_offset = { 0, 0, -400 };
 	// 自動経路による回転
 	tnl::Quaternion m_rot;
 
@@ -110,7 +110,6 @@ private:
 	// プレイヤー周りの回転からfixへ移行
 	bool SeqRotateToFix(const float delta_time);
 
-
 	//-----デバッグ用-----//
 
 	//マウスの回転動作制御
@@ -143,8 +142,6 @@ public:
 		up_ = tnl::Vector3::TransformCoord({ 0, 1, 0 }, m_rot);
 		return up_;
 	}
-
-	//inline tnl::Vector3 down() { return -up(); }
 
 	bool IsFixed() const { return m_is_fixed; }
 

@@ -129,6 +129,11 @@ bool OpCamera::SeqBack(const float delta_time)
 		m_mediator->SetButterflyIsOpActive(false);
 	}
 
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
+	{
+		tnl_sequence_.change(&OpCamera::SeqStageIn);
+	}
+
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
 		Fixed(m_new_offset);
@@ -137,6 +142,20 @@ bool OpCamera::SeqBack(const float delta_time)
 	TNL_SEQ_CO_END;
 }
 
+bool OpCamera::SeqStageIn(const float delta_time)
+{
+	TNL_SEQ_CO_TIM_YIELD_RETURN(0.1f, delta_time, [&]()
+	{
+		ToOffset(delta_time, m_stage_in_offset);
+	});
+
+	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
+	{
+		Fixed(m_stage_in_offset);
+	});
+
+	TNL_SEQ_CO_END;
+}
 
 void OpCamera::Control(const float delta_time)
 {

@@ -34,6 +34,7 @@
 #include "../[000]Object//[005]Event/[002]CharaGraph/CharaGraph.h"
 #include "../[000]Object//[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[008]OtherGraph/ChangeGraph.h"
+#include "../[000]Object/[008]OtherGraph/ChildChangeGraph.h"
 #include "../[000]Object/[008]OtherGraph/[000]OtherFunction/OtherGraphLoad.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[001]Camera/CinemaCamera.h"
@@ -127,6 +128,7 @@ void PlayFactory::CreateObject()
 	m_charaGraphLoad = std::make_shared<CharaGraphLoad>();
 
 	m_changeGraph = std::make_shared<ChangeGraph>();
+	m_childChangeGraph = std::make_shared<ChildChangeGraph>();
 	m_otherGraphLoad = std::make_shared<OtherGraphLoad>();
 
 	m_gameCamera = std::make_shared<GameCamera>();
@@ -166,6 +168,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetGimmickLoad(m_gimmickLoad);
 	m_mediator->SetGimmickGenerator(m_gimmickGenerator);
 	m_mediator->SetGimmickPool(m_gimmickPool);
+	m_mediator->SetEffect(m_effect);
 	m_mediator->SetEffectLoad(m_effectLoad);
 	m_mediator->SetScore(m_score);
 	m_mediator->SetText(m_text);
@@ -174,6 +177,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetCharaGraph(m_charaGraph);
 	m_mediator->SetCharaGraphLoad(m_charaGraphLoad);
 	m_mediator->SetChangeGraph(m_changeGraph);
+	m_mediator->SetChildChangeGraph(m_childChangeGraph);
 	m_mediator->SetOtherGraphLoad(m_otherGraphLoad);
 	m_mediator->SetScreenShot(m_screenShot);
 	m_mediator->SetGameCamera(m_gameCamera);
@@ -214,6 +218,7 @@ void PlayFactory::SetMediatorReference()
 	m_textDraw->SetMediator(m_mediator);
 	m_charaGraph->SetMediator(m_mediator);
 	m_changeGraph->SetMediator(m_mediator);
+	m_childChangeGraph->SetMediator(m_mediator);
 	m_screenShot->SetMediator(m_mediator);
 	m_gameCamera->SetMediator(m_mediator);
 	m_cameraLoad->SetMediator(m_mediator);
@@ -240,7 +245,7 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 			}
 			else
 			{
-				gimmick->SetCollisionSize(200);
+				gimmick->SetCollisionSize(300);
 			}
 
 			gimmick->SetMediator(m_mediator);
@@ -276,6 +281,7 @@ void PlayFactory::StorageObjectGameCamera()
 	m_objects_gameCamera.emplace_back(m_score);
 	m_objects_gameCamera.emplace_back(m_charaGraph);
 	m_objects_gameCamera.emplace_back(m_text);
+	m_objects_gameCamera.emplace_back(m_childChangeGraph);
 }
 
 void PlayFactory::StorageObjectCinemaCamera()
@@ -288,10 +294,10 @@ void PlayFactory::StorageObjectCinemaCamera()
 	m_objects_cinemaCamera.emplace_back(m_cinemaPlayer);
 	// シネマ用蝶
 	m_objects_cinemaCamera.emplace_back(m_butterfly);
-	// sceneチェンジ用画像
-	m_objects_cinemaCamera.emplace_back(m_changeGraph);
 	// シネマ用エフェクト
 	m_objects_cinemaCamera.emplace_back(m_effect);
+	// sceneチェンジ用画像
+	m_objects_cinemaCamera.emplace_back(m_changeGraph);
 }
 
 //// 初期化
