@@ -25,7 +25,9 @@ bool ScenePlay::SeqStart(const float delta_time)
 	if (m_stagePhase->GetNowStagePhase() 
 				== StagePhase::eStagePhase::e_end
 		|| tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
-	{
+	{		
+		MusicManager::GetInstance().StopBGM(1);
+
 		SceneManager* scene = SceneManager::GetInstance();
 
 		scene->ChangeScene(new SceneEd());
@@ -67,6 +69,8 @@ void ScenePlay::Initialize()
 
 void ScenePlay::Update(const float delta_time)
 {
+	MusicManager::GetInstance().PlayBGM(delta_time, 1);
+
 	m_sequence.update(delta_time);
 
 	m_cameraPhase->Update(delta_time);
@@ -115,8 +119,6 @@ void ScenePlay::Draw(const float delta_time)
 	
 		m_cinemaCamera->Render();
 	}
-	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
-
 
 	m_screenShot->SaveScreenShot();
 }

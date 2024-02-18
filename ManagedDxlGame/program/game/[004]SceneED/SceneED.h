@@ -1,6 +1,14 @@
 #pragma once
 #include "../[000]GameEngine/[001]Scene/SceneBase.h"
 
+
+///////////////////////////////////////////////////////////////////////////
+//
+// Endシーンの一括処理を行うクラス
+//
+///////////////////////////////////////////////////////////////////////////
+
+
 class ScreenShot;
 class EnterGraph;
 class Mediator;
@@ -12,7 +20,7 @@ public:
 
 	SceneEd();
 
-	~SceneEd() {}
+	~SceneEd();
 
 private:
 
@@ -35,4 +43,6 @@ public:
 	void Update(const float delta_time) override;
 
 	void Draw(const float delta_time) override;
+
+	void Finalize() override;
 };

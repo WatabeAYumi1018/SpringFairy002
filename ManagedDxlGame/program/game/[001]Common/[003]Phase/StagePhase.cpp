@@ -29,8 +29,6 @@ bool StagePhase::SeqFlower(const float delta_time)
 	if (tnl_sequence_.isStart())
 	{
 		SetDefaultLightParameter("directional_light001.bin");
-
-		MusicManager::GetInstance().PlayBGM(delta_time, 1);
 	}
 
 	// “ñ”Ô‚Ì‰f‘œ‚ªŠJŽn‚µ‚½‚ç
@@ -51,8 +49,6 @@ bool StagePhase::SeqWood(const float delta_time)
 		tnl_sequence_.change(&StagePhase::SeqFancy);
 	}
 
-	//MusicManager::GetInstance().PlayBGM(delta_time, 2);
-
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});
 
 	TNL_SEQ_CO_END;
@@ -71,8 +67,6 @@ bool StagePhase::SeqFancy(const float delta_time)
 	{
 		m_now_stage = eStagePhase::e_end;
 	}
-
-	//MusicManager::GetInstance().PlayBGM(delta_time, 3);
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});
 

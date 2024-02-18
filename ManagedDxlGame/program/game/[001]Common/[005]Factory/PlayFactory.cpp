@@ -245,7 +245,7 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 			}
 			else
 			{
-				gimmick->SetCollisionSize(200);
+				gimmick->SetCollisionSize(300);
 			}
 
 			gimmick->SetMediator(m_mediator);

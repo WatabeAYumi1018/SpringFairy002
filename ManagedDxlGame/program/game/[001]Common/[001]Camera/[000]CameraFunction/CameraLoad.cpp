@@ -35,7 +35,8 @@ void CameraLoad::LoadCameraVector()
 {
 	// csvƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
 	m_csv_camera_lane 
-		= tnl::LoadCsv<int>("csv/stage/camera/camera_lane.csv");
+		//= tnl::LoadCsv<int>("csv/stage/camera/camera_lane.csv");
+		= tnl::LoadCsv<int>("csv/stage/camera/camera_lane0219.csv");
 
 	GameCamera::sCamera camera;
 

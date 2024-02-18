@@ -31,9 +31,6 @@ void Gimmick::Update(const float delta_time)
 	MV1SetMatrix(m_gimmick_data.s_model_hdl, m_matrix);
 
 	tnl_sequence_.update(delta_time);
-
-	// ñàÉtÉåÅ[ÉÄÇ†Ç©ÇÒ
-	//MoveFlower(delta_time);
 }
 
 void Gimmick::Draw(std::shared_ptr<dxe::Camera> camera)
@@ -112,11 +109,6 @@ void Gimmick::MoveButterfly(const float delta_time)
 
 bool Gimmick::SeqNormal(const float delta_time)
 {
-	if (tnl_sequence_.isStart())
-	{
-		MusicManager::GetInstance().StopSE(0);
-	}
-
 	if (m_is_hit)
 	{
 		tnl_sequence_.change(&Gimmick::SeqHit);
@@ -139,8 +131,6 @@ bool Gimmick::SeqHit(const float delta_time)
 	if (m_is_collision)
 	{
 		m_emissive_value = 0.6f;
-
-
 
 		tnl_sequence_.change(&Gimmick::SeqLightUp);
 	}
