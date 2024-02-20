@@ -1,9 +1,18 @@
 #pragma once
 #include "../../../../../../library/tnl_sequence.h"
-#include "../../../../../[000]GameEngine/[000]Engine/Engine.h"
+#include "../../Character.h"
 #include "../Partner.h"
 
+
 class Mediator;
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// 
+// パートナーの描画処理に関するクラス
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 class PartnerDraw
@@ -45,9 +54,11 @@ private:
 	float m_anim_move_offset = 0;
 
 	// エネミーの種類（テクスチャ）
-	Partner::ePartnerType m_enemy_type = Partner::ePartnerType::green;
+	Partner::ePartnerType m_enemy_type
+		= Partner::ePartnerType::green;
 
-	eDirection m_direction = eDirection::e_none;
+	Character::eDirection m_direction
+		= Character::eDirection::e_none;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(PartnerDraw, &PartnerDraw::SeqIdle);

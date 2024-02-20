@@ -17,13 +17,10 @@ void GameCamera::update(const float delta_time)
 
 void GameCamera::IsInFlustum()
 {
-	// ‚È‚º‚©ƒoƒ‰ƒoƒ‰‚É‘‚©‚È‚¢‚Æ”½‰f‚³‚ê‚È‚¢
-	if (m_mediator->CurrentCameraLane().s_id == 5)
-	{
-		return;
-	}
-
-	if(m_mediator->CurrentCameraLane().s_id == 7)
+	// 
+	if (m_mediator->CurrentTargetCameraLane().s_id == 5
+		|| m_mediator->CurrentTargetCameraLane().s_id == 12
+		|| m_mediator->CurrentTargetCameraLane().s_id == 13)
 	{
 		return;
 	}

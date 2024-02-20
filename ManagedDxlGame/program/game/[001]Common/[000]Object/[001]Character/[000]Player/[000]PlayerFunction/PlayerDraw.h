@@ -1,8 +1,15 @@
 #pragma once
 #include "../../../../../../library/tnl_sequence.h"
-#include "../../../../../[000]GameEngine/[000]Engine/Engine.h"
+#include "../../Character.h"
 
 class Mediator;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// 
+// プレイヤーのアニメーション描画を管理するクラス
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
 
 class PlayerDraw
 {
@@ -62,9 +69,11 @@ private:
 	bool m_is_touch_move = false;
 	bool m_is_touch_dance = false;
 
-	eDirection m_direction = eDirection::e_none;
+	Character::eDirection m_direction
+		= Character::eDirection::e_none;
 
-	StagePhase::eStagePhase m_stage_phase = StagePhase::eStagePhase::e_flower;
+	StagePhase::eStagePhase m_stage_phase 
+		= StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(PlayerDraw, &PlayerDraw::SeqMove);

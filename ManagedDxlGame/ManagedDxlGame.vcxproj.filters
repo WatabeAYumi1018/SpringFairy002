@@ -51,18 +51,6 @@
     <Filter Include="program\[003] game\[003]ScenePlay">
       <UniqueIdentifier>{cf060e49-c498-4ab9-b3d6-a8254f2abd71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[000]GameEngine\[000]Engine">
-      <UniqueIdentifier>{aa17744f-39ca-4d04-b50a-782458fd273b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[000]GameEngine\[001]Scene">
-      <UniqueIdentifier>{16f93680-4f8b-4355-a5dd-389b1603504c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[000]GameEngine\[002]Music">
-      <UniqueIdentifier>{a3d2bed8-e302-4c55-a349-0693a06c5889}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[000]GameEngine\[003]Transform">
-      <UniqueIdentifier>{68249300-0d2e-4751-b187-a41184a5f285}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object">
       <UniqueIdentifier>{507a8372-f6cc-4253-9fe6-2e97ad6c737b}</UniqueIdentifier>
     </Filter>
@@ -80,9 +68,6 @@
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[003]Effect">
       <UniqueIdentifier>{98828e77-34cb-47d5-ba36-2d904a63be72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox">
-      <UniqueIdentifier>{7c3d1d32-0965-4b9b-9129-1f3ea0040e0e}</UniqueIdentifier>
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[001]Lane">
       <UniqueIdentifier>{f002e19f-114f-4f74-bac0-db78ad5e9a80}</UniqueIdentifier>
@@ -174,14 +159,23 @@
     <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction">
       <UniqueIdentifier>{26e9bf99-195c-4940-9b15-34d2526b8b77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer">
-      <UniqueIdentifier>{5cc6594b-443f-418a-9dd8-64fc2a3d6a4b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly">
       <UniqueIdentifier>{b061350c-b7ca-42e5-9b0f-4e884b2a7884}</UniqueIdentifier>
     </Filter>
     <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[003]Butterfly\[000]ButterflyFunction">
       <UniqueIdentifier>{faf8dd25-e158-4e04-af47-a93bcbe96d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back">
+      <UniqueIdentifier>{7c3d1d32-0965-4b9b-9129-1f3ea0040e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[000]GameEngine\[000]Scene">
+      <UniqueIdentifier>{16f93680-4f8b-4355-a5dd-389b1603504c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[000]GameEngine\[001]Music">
+      <UniqueIdentifier>{a3d2bed8-e302-4c55-a349-0693a06c5889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[000]GameEngine\[002]Transform">
+      <UniqueIdentifier>{68249300-0d2e-4751-b187-a41184a5f285}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -368,12 +362,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\Model.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelLoad.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\Character.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character</Filter>
     </ClCompile>
@@ -409,12 +397,6 @@
     </ClCompile>
     <ClCompile Include="program\game\[003]ScenePlay\ScenePlay.cpp">
       <Filter>program\[003] game\[003]ScenePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[000]GameEngine\[001]Scene\SceneManager.cpp">
-      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[000]GameEngine\[003]Transform\Transform.cpp">
-      <Filter>program\[003] game\[000]GameEngine\[003]Transform</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
@@ -485,29 +467,11 @@
     <ClCompile Include="program\game\[004]SceneED\SceneEd.cpp">
       <Filter>program\[003] game\[004]SceneED</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTarget.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[002]SceneOP\SceneOp.cpp">
       <Filter>program\[003] game\[002]SceneOp</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[000]GameEngine\[002]Music\MusicManager.cpp">
-      <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[000]GameEngine\[002]Music\MusicSE.cpp">
-      <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[000]GameEngine\[002]Music\MusicBGM.cpp">
-      <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\EnterGraph.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
@@ -523,6 +487,33 @@
     </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChildChangeGraph.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\CinemaBack.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\SkyBox.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\CinemaPlayer.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[000]GameEngine\[000]Scene\SceneManager.cpp">
+      <Filter>program\[003] game\[000]GameEngine\[000]Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[000]GameEngine\[001]Music\MusicBGM.cpp">
+      <Filter>program\[003] game\[000]GameEngine\[001]Music</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[000]GameEngine\[001]Music\MusicManager.cpp">
+      <Filter>program\[003] game\[000]GameEngine\[001]Music</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[000]GameEngine\[001]Music\MusicSE.cpp">
+      <Filter>program\[003] game\[000]GameEngine\[001]Music</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[000]GameEngine\[002]Transform\Transform.cpp">
+      <Filter>program\[003] game\[000]GameEngine\[002]Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -812,18 +803,6 @@
     <ClInclude Include="program\wta_library\wta_SimplexNoise.h">
       <Filter>program\[002]wta_library</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[000]GameEngine\[000]Engine\Engine.h">
-      <Filter>program\[003] game\[000]GameEngine\[000]Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[000]GameEngine\[001]Scene\SceneBase.h">
-      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[000]GameEngine\[001]Scene\SceneManager.h">
-      <Filter>program\[003] game\[000]GameEngine\[001]Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[000]GameEngine\[003]Transform\Transform.h">
-      <Filter>program\[003] game\[000]GameEngine\[003]Transform</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
     </ClInclude>
@@ -856,9 +835,6 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[001]Camera\[000]CameraFunction\CameraLoad.h">
       <Filter>program\[003] game\[001]Common\[001]Camera\[000]CameraFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction\ModelPool.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[003]Model\[000]ModelFunction</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[005]Factory\OpFactory.h">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
@@ -893,29 +869,11 @@
     <ClInclude Include="program\game\[004]SceneED\SceneEd.h">
       <Filter>program\[003] game\[004]SceneED</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer\CinemaPlayer.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayer</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTarget.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\CinemaBack.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h">
       <Filter>program\[003] game\[001]Common\[002]Mediator</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]SkyBox\SkyBox.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]SkyBox</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[000]GameEngine\[002]Music\MusicManager.h">
-      <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[000]GameEngine\[002]Music\MusicSE.h">
-      <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[000]GameEngine\[002]Music\MusicBGM.h">
-      <Filter>program\[003] game\[000]GameEngine\[002]Music</Filter>
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
@@ -934,6 +892,33 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChildChangeGraph.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\CinemaBack.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\SkyBox.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\CinemaPlayer.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GameEngine\[000]Scene\SceneBase.h">
+      <Filter>program\[003] game\[000]GameEngine\[000]Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GameEngine\[000]Scene\SceneManager.h">
+      <Filter>program\[003] game\[000]GameEngine\[000]Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GameEngine\[001]Music\MusicBGM.h">
+      <Filter>program\[003] game\[000]GameEngine\[001]Music</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GameEngine\[001]Music\MusicManager.h">
+      <Filter>program\[003] game\[000]GameEngine\[001]Music</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GameEngine\[001]Music\MusicSE.h">
+      <Filter>program\[003] game\[000]GameEngine\[001]Music</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[000]GameEngine\[002]Transform\Transform.h">
+      <Filter>program\[003] game\[000]GameEngine\[002]Transform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,15 +1,17 @@
 #pragma once
-#include "../dxlib_ext/dxlib_ext.h"
 #include "../../../../../../library/tnl_sequence.h"
 #include "../../../../../../wta_library/wta_Astar.h"
-#include "../../../../../[000]GameEngine/[000]Engine/Engine.h"
-#include "../../../../[003]Phase/StagePhase.h"
 #include "../../../[000]Stage/[001]Lane/Lane.h"
-
+#include "../../Character.h"
 
 class Mediator;
 
-// Moverクラス（プレイヤー、エネミーなど移動に関する処理を行う）
+/////////////////////////////////////////////////////////////////////////////////////////
+// 
+// プレイヤーの移動処理のクラス
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
 
 class PlayerMove
 {
@@ -31,7 +33,8 @@ private:
 	tnl::Quaternion m_rot;
 
 	// 上下左右の方向
-	eDirection direction = eDirection::e_none;
+	Character::eDirection direction 
+		= Character::eDirection::e_none;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(PlayerMove, &PlayerMove::SeqNormal);

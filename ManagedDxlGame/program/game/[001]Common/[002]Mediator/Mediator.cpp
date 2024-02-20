@@ -1,6 +1,6 @@
 #include "Mediator.h"
-#include "../[000]Object/[000]Stage/[000]SkyBox/CinemaBack.h"
-#include "../[000]Object/[000]Stage/[000]SkyBox/SkyBox.h"
+#include "../[000]Object/[000]Stage/[000]Back/CinemaBack.h"
+#include "../[000]Object/[000]Stage/[000]Back/SkyBox.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
@@ -9,7 +9,7 @@
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerDraw.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
-#include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayer/CinemaPlayer.h"
+#include "../[000]Object/[001]Character/[000]Player/CinemaPlayer.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerLoad.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
@@ -935,20 +935,6 @@ const float Mediator::GetPartnerCollisionSize() const
 	}
 }
 
-GameCamera::sCamera Mediator::CurrentCameraLane()
-{
-	std::shared_ptr<Partner> shared_partner = m_partner.lock();
-
-	if (shared_partner)
-	{
-		return shared_partner->CurrentCamera();
-	}
-	else
-	{
-		throw std::runtime_error("Partner shared pointer is expired");
-	}
-}
-
 // PartnerLoad
 
 int Mediator::GetPartnerModelHdl() const
@@ -1090,11 +1076,27 @@ const tnl::Vector3& Mediator::GetCameraTargetPlayerPos() const
 
 const GameCamera::sCameraInfo& Mediator::GetTargetCameraInfo() const
 {
-	std::shared_ptr<CameraTargetPlayer> shared_cameraTargetPlayer = m_cameraTargetPlayer.lock();
+	std::shared_ptr<CameraTargetPlayer> shared_cameraTargetPlayer 
+		= m_cameraTargetPlayer.lock();
 
 	if (shared_cameraTargetPlayer)
 	{
 		return shared_cameraTargetPlayer->GetCameraInfo();
+	}
+	else
+	{
+		throw std::runtime_error("CameraTargetPlayer shared pointer is expired");
+	}
+}
+
+GameCamera::sCamera Mediator::CurrentTargetCameraLane()
+{
+	std::shared_ptr<CameraTargetPlayer> shared_cameraTargetPlayer
+		= m_cameraTargetPlayer.lock();
+
+	if (shared_cameraTargetPlayer)
+	{
+		return shared_cameraTargetPlayer->CurrentCameraLane();
 	}
 	else
 	{

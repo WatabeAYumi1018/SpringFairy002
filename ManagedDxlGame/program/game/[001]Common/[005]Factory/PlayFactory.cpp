@@ -1,19 +1,18 @@
 #include "../../../wta_library/wta_Astar.h"
 #include "../../../wta_library/wta_Collision.h"
-#include "../[000]Object/[000]Stage/[000]SkyBox/SkyBox.h"
-#include "../[000]Object/[000]Stage/[000]SkyBox/CinemaBack.h"
+#include "../[000]Object/[000]Stage/[000]Back/SkyBox.h"
+#include "../[000]Object/[000]Stage/[000]Back/CinemaBack.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[002]Floor/Floor.h"
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
-#include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelPool.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerDraw.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
-#include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayer/CinemaPlayer.h"
+#include "../[000]Object/[001]Character/[000]Player/CinemaPlayer.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerLoad.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
@@ -44,6 +43,7 @@
 #include "../[003]Phase/StagePhase.h"
 #include "../[004]ScreenShot/ScreenShot.h"
 #include "PlayFactory.h"
+
 
 
 PlayFactory::PlayFactory()
@@ -89,7 +89,6 @@ void PlayFactory::CreateObject()
 
 	m_model = std::make_shared<Model>();
 	m_modelLoad = std::make_shared<ModelLoad>();
-	m_modelPool = std::make_shared<ModelPool>();
 
 	m_character = std::make_shared<Character>();
 

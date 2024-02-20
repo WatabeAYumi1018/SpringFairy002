@@ -1,7 +1,7 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
 #include "../../../../../../library/tnl_sequence.h"
-#include "../../../../../[000]GameEngine/[000]Engine/Engine.h"
+#include "../../Character.h"
 
 
 class Mediator;

@@ -10,7 +10,8 @@ CinemaCamera::CinemaCamera()
 	// 使用する画面の作成
 	m_screen_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
 
-	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
+	// カメラに映る範囲の最近距離
+	// 10 : ドアップのため限りなく0に近い数値で
 	near_ = 10;
 }
 

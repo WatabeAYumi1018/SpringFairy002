@@ -15,6 +15,25 @@
 class Character : public Object
 {
 
+public:
+
+	// 方向を定義
+	enum class eDirection
+	{
+		e_none,
+		e_front,
+		e_back,
+		e_right,
+		e_left,
+		e_front_right,
+		e_back_right,
+		e_front_left,
+		e_back_left
+	};
+
+	Character() {}
+	~Character() {}
+
 protected:
 
 	// モデルハンドル
@@ -31,18 +50,18 @@ protected:
 
 	// キャラクターの行列計算
 	MATRIX CalcMatrix();
-
-
-public:
-
-	// 足元のカメラレーンを取得
-	GameCamera::sCamera CurrentCamera();
 	// 足元自動移動レーンを取得
 	Lane::sLane CurrentMoveLane();
 	// 足元のイベントレーンを取得
 	Lane::sLaneEvent CurrentEventLane();
 	// 足元のカメラ情報を取得
 	GameCamera::sCameraInfo CurrentCameraType();
+
+
+public:
+
+	// 足元のカメラレーンを取得
+	GameCamera::sCamera CurrentCameraLane();
 	// スピードアップフラグを取得
 	bool GetIsSpeedUp() const { return m_is_speed_up; }
 	// メディエーターポインタを設定

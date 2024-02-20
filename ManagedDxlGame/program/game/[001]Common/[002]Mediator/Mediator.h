@@ -521,11 +521,6 @@ public:
 	// 参照先 ... Partnerの回転が必要な全クラス
 	const tnl::Quaternion& GetPartnerRot() const;
 
-	// 現在の足元カメラ取得
-	// 参照元 ... Partner::CurrentCamera()
-	// 参照先 ... GimmickGenerator::CalcGimmickRandomPos()
-	GameCamera::sCamera CurrentCameraLane();
-
 	// PartnerLoad
 
 	// パートナーモデルハンドルの取得
@@ -588,6 +583,11 @@ public:
 	// 参照元 ... CameraTargetPlayer::m_camera_info
 	// 参照先 ... 
 	const GameCamera::sCameraInfo& GetTargetCameraInfo() const;
+
+	// 現在の足元カメラ取得
+	// 参照元 ... Partner::CurrentCameraLane()
+	// 参照先 ... GimmickGenerator::CalcGimmickRandomPos()
+	GameCamera::sCamera CurrentTargetCameraLane();
 
 	// キャラクターの足元イベントレーンを取得
 	// 参照元 ... Character::m_event

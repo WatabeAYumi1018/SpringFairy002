@@ -164,7 +164,7 @@ void GimmickGenerator::CalcSkyFlowerPos(const float delta_time,Gimmick::eGimmick
 
     for (std::shared_ptr<Gimmick>& gimmick : gimmicks)
     {
-        if (m_mediator->CurrentCameraLane().s_id == 0)
+        if (m_mediator->CurrentTargetCameraLane().s_id == 0)
         {
             tnl::Vector3 pos = CalcRandomPos();
 

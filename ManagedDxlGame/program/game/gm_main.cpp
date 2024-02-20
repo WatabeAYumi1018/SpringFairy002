@@ -5,8 +5,8 @@
 #include <functional>
 #include "../dxlib_ext/dxlib_ext.h"
 #include "gm_main.h"
-#include "[000]GameEngine/[001]Scene/SceneManager.h"
-#include "[000]GameEngine/[002]Music/MusicManager.h"
+#include "[000]GameEngine/[000]Scene/SceneManager.h"
+#include "[000]GameEngine/[001]Music/MusicManager.h"
 #include "[002]SceneOP/SceneOp.h"
 
 
