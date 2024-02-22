@@ -9,6 +9,7 @@ TextLoad::TextLoad()
 TextLoad::~TextLoad()
 {
 	m_csv_texts.clear();
+	m_texts_all.clear();
 }
 
 // テキストデータを読み取る

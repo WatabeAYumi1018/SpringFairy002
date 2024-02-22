@@ -2,11 +2,6 @@
 #include "Effect.h"
 
 
-Effect::Effect()
-{
-
-}
-
 Effect::~Effect()
 {
 	m_effects_type.clear();

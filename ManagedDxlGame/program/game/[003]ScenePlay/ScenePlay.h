@@ -28,11 +28,23 @@ class ScenePlay : public SceneBase
 
 public:
 
-	ScenePlay();
+	//--------------------------コンストラクタ、デストラクタ---------------------------//
 
+	ScenePlay();
 	~ScenePlay();
 
+	//--------------------------------------------------------------------------------//
+
 private:
+	
+	//-----------------------------------メンバ変数-----------------------------------//
+
+	// ゲームカメラ管轄のオブジェクトlist
+	std::list<std::shared_ptr<Object>> m_objects_gameCamera;
+	// シネマカメラ管轄のオブジェクトlist
+	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera;
+
+	// 各クラスのポインタ
 
 	std::shared_ptr<PlayFactory> m_factory = nullptr;
 
@@ -46,15 +58,17 @@ private:
 
 	std::shared_ptr<ScreenShot> m_screenShot = nullptr;
 
-	std::list<std::shared_ptr<Object>> m_objects_gameCamera;
-	std::list<std::shared_ptr<Object>> m_objects_cinemaCamera;
-
 	// シーケンス
 	tnl::Sequence<ScenePlay> m_sequence
 		= tnl::Sequence<ScenePlay>(this, &ScenePlay::SeqStart);
 
+	//--------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数-----------------------------------//
 
 	// シーケンス開始
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqStart(const float delta_time);
 
 public:
@@ -66,4 +80,6 @@ public:
 	void Draw(const float delta_time) override;
 
 	void Finalize() override;
+
+	//--------------------------------------------------------------------------------//
 };

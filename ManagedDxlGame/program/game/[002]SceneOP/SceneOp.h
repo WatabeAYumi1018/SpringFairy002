@@ -18,24 +18,37 @@ class SceneOp : public SceneBase
 
 public:
 
-	SceneOp();
+	//--------------------------コンストラクタ、デストラクタ---------------------------//
 
+	SceneOp();
 	~SceneOp();
+
+	//--------------------------------------------------------------------------------//
 
 private:
 
-	std::shared_ptr<OpFactory> m_factory = nullptr;
+	//-----------------------------------メンバ変数-----------------------------------//
 
+	// オブジェクトリスト
+ 	std::list<std::shared_ptr<Object>> m_objects;
+	
+	// Opファクトリーのポインタ
+	std::shared_ptr<OpFactory> m_factory = nullptr;
+	// Opカメラのポインタ
 	std::shared_ptr<OpCamera> m_opCamera = nullptr;
 
-	std::list<std::shared_ptr<Object>> m_objects;
 
 	// シーケンス
 	tnl::Sequence<SceneOp> m_sequence
 		= tnl::Sequence<SceneOp>(this, &SceneOp::SeqStart);
 
+	//--------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数-----------------------------------//
 
 	// シーケンス開始
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqStart(const float delta_time);
 
 public:
@@ -47,4 +60,6 @@ public:
 	void Draw(const float delta_time) override;
 
 	void Finalize() override;
+
+	//--------------------------------------------------------------------------------//
 };

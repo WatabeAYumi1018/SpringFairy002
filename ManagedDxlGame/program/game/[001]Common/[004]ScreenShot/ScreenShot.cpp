@@ -12,11 +12,13 @@ ScreenShot::ScreenShot()
 ScreenShot::~ScreenShot() 
 {
     DeleteGraph(m_back_hdl);
+
+    m_chara_graph.clear();
 }
 
 void ScreenShot::LoadBack()
 {
-    m_back_hdl = LoadGraph("graphics/event/flower_arch.jpg");
+    m_back_hdl = LoadGraph("graphics/gate/flower.jpg");
 }
 
 void ScreenShot::SaveScreenShot()
@@ -65,6 +67,7 @@ void ScreenShot::ShowScreenShot()
     int image_width, image_height;
 
     GetGraphSize(image_hdl, &image_width, &image_height);
+
     // •`‰æƒ‚[ƒh‚ğİ’è‚µ‚Ä‰æ¿‚ğŒüã
     SetDrawMode(DX_DRAWMODE_BILINEAR);
 

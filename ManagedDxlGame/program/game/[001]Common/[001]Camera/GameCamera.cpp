@@ -430,9 +430,9 @@ void GameCamera::Control(const float delta_time)
 }
 
 tnl::Vector3 GameCamera::RotateAroundPlayer(const tnl::Vector3& point
-	, const tnl::Vector3& pivot
-	, const tnl::Vector3& axis
-	, float angle)
+											, const tnl::Vector3& pivot
+											, const tnl::Vector3& axis
+											, float angle)
 {
 	// ‰ñ“]
 	tnl::Quaternion rotation

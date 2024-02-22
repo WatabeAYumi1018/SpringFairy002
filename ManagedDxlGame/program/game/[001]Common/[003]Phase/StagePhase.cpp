@@ -4,7 +4,7 @@
 
 
 
-void StagePhase::Update(float delta_time)
+void StagePhase::Update(const float delta_time)
 {
 	PhaseChange();
 

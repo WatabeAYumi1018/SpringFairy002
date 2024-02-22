@@ -95,11 +95,16 @@ class PlayFactory
 
 public:
 
+	//--------------------------コンストラクタ、デストラクタ---------------------------//
+
 	PlayFactory();
-	
 	~PlayFactory();
 
+	//--------------------------------------------------------------------------------//
+
 private:
+
+	//-----------------------------------メンバ変数-----------------------------------//
 
 	// オブジェクトを格納するlist(ゲームカメラ)
 	std::list<std::shared_ptr<Object>> m_objects_gameCamera;
@@ -109,6 +114,8 @@ private:
 
 	// プレイヤー衝突オブジェクトを格納するlist
 	std::vector<std::shared_ptr<Gimmick>> m_gimmicks;
+
+	// 各クラスのポインタ
 
 	std::shared_ptr<wta::Astar<Lane::sLane>> m_astar = nullptr;
 	std::shared_ptr<wta::Collision<Player, Gimmick>> m_collision_player_item = nullptr;
@@ -180,21 +187,45 @@ private:
 
 	std::shared_ptr<ScreenShot> m_screenShot = nullptr;
 
+	//--------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数-----------------------------------//
+
+	// ※実行順として、CreateObject() -> SetObjectReference() -> SetMediatorReference()
+	//   PoolGimmickType() -> StorageObjectGameCamera() -> StorageObjectCinemaCamera()
 
 	// 各オブジェクトの生成と初期化
+	// tips ... 初期化時に一度だけ呼び出す関数
 	void CreateObject();
+	
 	// 各オブジェクト同士の参照を設定
-	// 生成の順番を考慮せず、後付けで参照できるように
+ 	// tips ... 初期化時に一度だけ呼び出す関数
+	// 　　　　 生成の順番を考慮せず、後付けで参照できるように
 	void SetObjectReference();
+	
 	// メディエータの参照を設定
+	// tips ... 初期化時に一度だけ呼び出す関数
 	void SetMediatorReference();
+
 	// アイテムオブジェクトのプール
+	// arg ... ギミックの種類ベクター
+	// tips ... 初期化時に一度だけ呼び出す関数
 	void PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types);
-	// 生成したオブジェクトをlistに格納
+	
+	// 生成したオブジェクトをゲームカメラの管轄listに格納
+	// tips ... 初期化時に一度だけ呼び出す関数
 	void StorageObjectGameCamera();
+
+	// 生成したオブジェクトをシネマカメラの管轄listに格納
+	// tips ... 初期化時に一度だけ呼び出す関数
 	void StorageObjectCinemaCamera();
 
+	//--------------------------------------------------------------------------------//
+
 public:
+
+	//----------------------------------Setter&Getter----------------------------------//
 
 	// listに格納したオブジェクトの取得(ゲームカメラ)
 	const std::list<std::shared_ptr<Object>>& GetObjectsGameCamera() const
@@ -208,7 +239,7 @@ public:
 		return m_objects_cinemaCamera;
 	}
 
-	// カメラの取得
+	// ゲームカメラの取得
 	const std::shared_ptr<GameCamera>& GetGameCamera() const
 	{
 		return m_gameCamera;
@@ -226,19 +257,23 @@ public:
 		return m_cameraPhase;
 	}
 
-	// フェーズの取得
+	// ステージフェーズの取得
 	const std::shared_ptr<StagePhase>& GetStagePhase() const
 	{
 		return m_stagePhase;
 	}
 
+	// ギミックジェネレーターの取得
 	const std::shared_ptr<GimmickGenerator>& GetGimmickGenerator() const
 	{
 		return m_gimmickGenerator;
 	}
 
+	// スクリーンショットの取得
 	const std::shared_ptr<ScreenShot>& GetScreenShot() const
 	{
 		return m_screenShot;
 	}
+
+	//--------------------------------------------------------------------------------//
 };

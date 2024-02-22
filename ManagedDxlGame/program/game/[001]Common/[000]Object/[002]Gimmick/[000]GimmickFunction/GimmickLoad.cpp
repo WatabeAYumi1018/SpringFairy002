@@ -13,9 +13,6 @@ GimmickLoad::GimmickLoad()
 	m_csv_sky_flowers
 		= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/sky_flower.csv");
 
-	//m_csv_gimmick_butterfly
-	//	= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/butterfly.csv");
-
 	LoadGimmickTypeInfo(m_csv_ground_flowers, m_ground_flowers);
 	
 	LoadGimmickTypeInfo(m_csv_woods, m_woods);
@@ -79,12 +76,6 @@ const std::vector<Gimmick::sGimmickTypeInfo>& GimmickLoad::GetGimmicksType(Gimmi
 		return m_sky_flowers;
 
 		break;
-
-	//case Gimmick::eGimmickType::butterfly:
-	//
-	//	return m_butterflys;
-	//
-	//	break;
 
 	default:
 

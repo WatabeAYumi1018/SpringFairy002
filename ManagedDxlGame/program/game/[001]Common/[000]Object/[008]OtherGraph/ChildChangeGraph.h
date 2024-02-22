@@ -16,15 +16,22 @@ class ChildChangeGraph : public ChangeGraph
 
 public:
 
-	ChildChangeGraph();
+	//--------------------------コンストラクタ、デストラクタ---------------------------//
 
+	ChildChangeGraph();
 	~ChildChangeGraph();
 
+	//---------------------------------------------------------------------------------//
+
 private:
+
+	//-----------------------------------メンバ関数------------------------------------//
 
 	void Initialize() override;
 
 	void Update(const float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	//---------------------------------------------------------------------------------//
 };

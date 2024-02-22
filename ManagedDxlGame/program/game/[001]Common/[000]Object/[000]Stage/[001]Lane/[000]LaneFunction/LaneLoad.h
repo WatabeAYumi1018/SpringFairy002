@@ -68,10 +68,7 @@ public:
 	int GetLaneWidth() const {	return m_lane_width; }
 
 	// レーン配列の情報取得
-	const std::vector<Lane::sLane>& GetLane() const 
-	{
-		return m_lanes; 
-	}
+	const std::vector<Lane::sLane>& GetLane() const { return m_lanes; }
 
 	// イベント配列の情報取得
 	const std::vector<Lane::sLaneEvent>& GetLaneEvent() const

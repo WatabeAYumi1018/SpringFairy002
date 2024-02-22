@@ -55,16 +55,10 @@ public:
 	//----------------------------------Setter&Getter----------------------------------//
 
 	// カメラ情報の取得
-	const GameCamera::sCameraInfo& GetCameraInfo() const
-	{
-		return m_camera_info; 
-	}
+	const GameCamera::sCameraInfo& GetCameraInfo() const { return m_camera_info; }
 
 	// イベント情報の取得
-	const Lane::sLaneEvent& GetCurrentEvent() const
-	{
-		return m_event;
-	}
+	const Lane::sLaneEvent& GetCurrentEvent() const { return m_event; }
 
 	//---------------------------------------------------------------------------------//
 };

@@ -16,6 +16,9 @@ class Score : public Object
 
 public:
 
+	//-------------------------------------構造体--------------------------------------//
+
+	// スコアの情報
 	struct sScoreDate
 	{
 		int s_num;
@@ -23,12 +26,22 @@ public:
 		std::string s_score_path; 
 	};
 	
-	Score();
-	
+	//---------------------------------------------------------------------------------//
+
+
+	//--------------------------コンストラクタ、デストラクタ---------------------------//
+
+	Score();	
 	~Score();
 
-	const int SCORE = 10;
+	//---------------------------------------------------------------------------------//
 
+
+	//-----------------------------------メンバ変数------------------------------------//
+
+	// スコアの得点
+	const int SCORE = 10;
+	// スコアの最大値
 	const int SCORE_MAX = 999;
 
 private:
@@ -47,32 +60,51 @@ private:
 	// スコア加算判定
 	bool m_is_add = false;
 
+	// スコアの情報読み取り専用（csvファイル）
 	std::vector<std::vector<tnl::CsvCell>> m_csv_score_data;
-
+	
+	// スコアの情報
 	std::vector<sScoreDate> m_score_date;
 
+	// メディエータのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
+
+	//---------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数------------------------------------//
 
 	// スコア情報を読み込む
 	void LoadScoreData();
+
 	// スコアの画像を読み込む
 	void LoadScoreGraph();
+
 	// スコアを各桁に分解
 	void ScoreAttach();
 
 public:
 
-	// スコアを加算する
-	void AddScore();
-
 	void Update(const float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
+	// スコアを加算する
+	void AddScore();
+
+	//---------------------------------------------------------------------------------//
+
+
+	//----------------------------------Setter&Getter----------------------------------//
+
+	// スコアの合計を設定
 	void SetIsAdd(bool is_add) { m_is_add = is_add; }
 
+	// メディエータの設定
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;
 	}
+
+	//---------------------------------------------------------------------------------//
 };

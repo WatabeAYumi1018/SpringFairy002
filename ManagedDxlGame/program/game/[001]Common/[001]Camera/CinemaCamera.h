@@ -18,11 +18,16 @@ class CinemaCamera : public dxe::Camera
 
 public:
 
-	CinemaCamera();
+	//--------------------------コンストラクタ、デストラクタ---------------------------//
 
+	CinemaCamera();
 	~CinemaCamera() {}
 
+	//--------------------------------------------------------------------------------//
+
 private:
+
+	//-----------------------------------メンバ変数-----------------------------------//
 
 	// スクリーンハンドル
 	int m_screen_hdl = 0;
@@ -41,33 +46,64 @@ private:
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(CinemaCamera, &CinemaCamera::SeqTrigger);
 
+	//--------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数-----------------------------------//
+
 	// 線形補間関数
+	// arg1 ... 開始座標
+	// arg2 ... 終了座標
+	// arg3 ... 補間係数
 	tnl::Vector3 Lerp(const tnl::Vector3& start
 					, const tnl::Vector3& end, float t);
 
 	// 固定
+	// arg ... オフセット座標
 	void Fixed(const tnl::Vector3& offset);
+
 	// スライド処理
+	// arg1 ... delta_time(前フレームからの経過時間)
+	// arg2 ... オフセット座標
+	// arg3 ... 移動速度
 	void ToSlide(const float delta_time, const tnl::Vector3& offset, float speed);
 
 	//-------
 
 	// 待機
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqTrigger(const float delta_time);
+
 	// 紹介
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqFirst(const float delta_time);
+
 	// エリア２への移行
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqSecond(const float delta_time);
+
 	// エリア３への移行
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqThird(const float delta_time);
 
 public:
 
-	void SetCanvas();
-
 	void update(const float delta_time) override;
 
+	// キャンバスの設定
+	// tips ... ScenePlayクラスにて更新処理
+	// 　　　　 前の描画を消去し、新たな描画を行う処理
+	void SetCanvas();
+
+	// 描画されたオブジェクトを裏画面に描画する処理
+	// tips ... ScenePlayクラスにて更新処理(個々のオブジェクトが描画終えた時、毎フレーム実行)
 	void Render();
+
+	//--------------------------------------------------------------------------------//
+
+
+	//----------------------------------Setter&Getter----------------------------------//
+
 
 	// スクリーンハンドルを取得
 	int GetAllHdl() const { return m_screen_hdl; }
@@ -83,137 +119,10 @@ public:
 	{
 		m_mediator = mediator;
 	}
+
+	//--------------------------------------------------------------------------------//
+
 };
 
 
 
-//class CinemaCamera : public dxe::Camera
-//{
-//
-//public:
-//
-//	//enum class eCameraSplitType
-//	//{
-//	//	e_all,
-//	//	e_half_right,
-//	//	e_third_left,
-//	//	e_third_right
-//	//};
-//
-//	// 全画面シネマカメラにするデフォルトコンストラクタ
-//	CinemaCamera();
-//	//// 状況に応じた画面分割をするコンストラクタ
-//	//CinemaCamera(int width, int height, eCameraSplitType type);
-//
-//	~CinemaCamera() {}
-//
-//private:
-//
-//	// スクリーンハンドル
-//	int m_all_hdl = 0;
-//	//int m_half_right = 0;
-//	//int m_third_left = 0;
-//	//int m_third_right = 0;
-//
-//	//// 分割の幅
-//	//int m_split_width_left = 0;
-//	//int m_split_width_right = 0;
-//
-//	//// 最初の分割比率
-//	//float split_rate = 1.0f / 3.0f;
-//
-//	bool m_move_mouse = false;
-//
-//	//bool m_is_half_right_active = false;
-//	//bool m_is_third_left_active = false;
-//	//bool m_is_third_right_active = false;
-//
-//	// 追従する対象(疑似プレイヤーを想定)
-//	// 各数値 : 疑似プレイヤーとの距離感
-//	tnl::Vector3 m_offset = { 0, 0, -400 };
-//	// 追従による座標補正
-//	tnl::Vector3 m_fix_pos = { 0,0,0 };
-//
-//	//eCameraSplitType m_type = eCameraSplitType::e_all;
-//
-//	// メディエーターのポインタ
-//	std::shared_ptr<Mediator> m_mediator = nullptr;
-//
-//	// コルーチンシーケンス
-//	TNL_CO_SEQUENCE(CinemaCamera, &CinemaCamera::SeqTrigger);
-//
-//	//// 画面作成
-//	//void CreateScreen();
-//	//// 分割の更新
-//	//void UpdateSplit(const float delta_time);
-//
-//	// 線形補間関数
-//	tnl::Vector3 Lerp(const tnl::Vector3& start
-//		, const tnl::Vector3& end, float t);
-//
-//	// 固定
-//	void Fixed(const tnl::Vector3& offset);
-//	// スライド処理
-//	void ToSlide(const float delta_time, const tnl::Vector3& offset, float speed);
-//
-//	//-------
-//
-//	// 待機
-//	bool SeqTrigger(const float delta_time);
-//	// 紹介
-//	bool SeqFirst(const float delta_time);
-//	// エリア２への移行
-//	bool SeqSecond(const float delta_time);
-//	// エリア３への移行
-//	bool SeqThird(const float delta_time);
-//
-//	//-----デバッグ用-----//
-//
-//	//マウスの回転動作制御
-//	void Control(const float delta_time);
-//
-//	// 周辺を360度回転制御
-//	tnl::Vector3 RotateAroundPlayer(const tnl::Vector3& point
-//		, const tnl::Vector3& pivot
-//		, const tnl::Vector3& axis
-//		, float angle);
-//
-//public:
-//
-//	void SetCanvas();
-//
-//	//void SetCanvas(int screen_hdl);
-//
-//	void update(const float delta_time) override;
-//
-//	void Render();
-//
-//	//void Render(int screen_hdl);
-//
-//	// スクリーンハンドルを取得
-//	int GetAllHdl() const { return m_all_hdl; }
-//
-//	//int GetHalfRightHdl() const { return m_half_right; }
-//	//
-//	//int GetThirdRightHdl() const { return m_third_right; }
-//	//
-//	//int GetThirdLeftHdl() const { return m_third_left; }
-//
-//	//float GetSplitWidthLeft() const { return m_split_width_left; }
-//
-//	//float GetSplitWidthRight() const { return m_split_width_right; }
-//
-//	//bool GetIsHalfRightActive() const { return m_is_half_right_active; }
-//
-//	//bool GetIsThirdLeftActive() const { return m_is_third_left_active; }
-//
-//	//bool GetIsThirdRightActive() const { return m_is_third_right_active; }
-//
-//	//eCameraSplitType GetActiveType() const { return m_type; }
-//
-//	// プレイヤーのメディエーターを設定	
-//	void SetMediator(std::shared_ptr<Mediator>& mediator)
-//	{
-//		m_mediator = mediator;
-//	}
-//};

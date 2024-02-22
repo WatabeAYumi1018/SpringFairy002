@@ -1797,13 +1797,13 @@ void Mediator::IsInCameraFlustum()
 	}
 }
 
-bool Mediator::IsCameraFixed() const
+bool Mediator::GetIsCameraFixed() const
 {
 	std::shared_ptr<GameCamera> shared_gameCamera = m_gameCamera.lock();
 
 	if (shared_gameCamera)
 	{
-		return shared_gameCamera->IsFixed();
+		return shared_gameCamera->GetIsFixed();
 	}
 	else
 	{

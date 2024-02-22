@@ -114,13 +114,12 @@ public:
 	//---------------------------------Setter&Getter---------------------------------//
 
 	// 透明化のフラグ設定
-	// arg ... 透明化フラグ
 	void SetIsFog(bool is_fog) { m_is_fog = is_fog; }
+	
 	// バブルのフラグ設定
-	// arg ... バブルフラグ
 	void SetIsBubble(bool is_bubble) { m_is_bubble = is_bubble; }
+	
 	// メディエータの設定
-	// arg ... メディエータのポインタ
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;

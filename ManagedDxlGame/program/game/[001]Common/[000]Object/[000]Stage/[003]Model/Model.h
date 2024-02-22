@@ -123,7 +123,6 @@ public:
 	//----------------------------------Setter&Getter----------------------------------//
 
 	// 床背景モデル前方フラグ設定
-	// arg ... 前方フラグ
 	void LookSideFront(bool is_front){ m_look_side_front = is_front; }
 
 	// メディエータのポインタ設定

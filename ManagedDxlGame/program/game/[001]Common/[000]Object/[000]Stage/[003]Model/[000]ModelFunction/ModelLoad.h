@@ -66,6 +66,7 @@ public:
 	{
 		return m_model_info;
 	}
+
 	// ÷–Øƒ‚ƒfƒ‹‚Ìî•ñæ“¾
 	const std::vector<Model::sTreeInfo>& GetTreeInfo() const
 	{

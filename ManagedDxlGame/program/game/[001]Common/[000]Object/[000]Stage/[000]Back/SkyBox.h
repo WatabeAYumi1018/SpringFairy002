@@ -78,11 +78,9 @@ public:
 	//----------------------------------Setter&Getter----------------------------------//
 
 	// スカイボックスのOPフラグの設定
-	// arg ... OP描画フラグ
 	void SetIsOp(bool is_op) { m_is_op = is_op; }
 
 	// メディエータの設定
-	// arg ... メディエータのポインタ
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;

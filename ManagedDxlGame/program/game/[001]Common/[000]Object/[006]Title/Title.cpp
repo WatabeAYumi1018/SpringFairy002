@@ -7,9 +7,9 @@ Title::Title()
 {
     m_model_hdl = MV1LoadModel("model/title/title.mv1");
 
-    m_texture_game_hdl = LoadGraph("model/title/title.png");
+    m_texture_hdl = LoadGraph("model/title/title.png");
 
-    MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_game_hdl, FALSE);
+    MV1SetTextureGraphHandle(m_model_hdl, 0, m_texture_hdl, FALSE);
 
     m_scale = { 3 };
 
@@ -22,7 +22,7 @@ Title::Title()
 Title::~Title()
 {
 	MV1DeleteModel(m_model_hdl);
-	DeleteGraph(m_texture_game_hdl);
+	DeleteGraph(m_texture_hdl);
 }
 
 void Title::Update(const float delta_time)
@@ -72,7 +72,6 @@ void Title::EndDraw(const float delta_time)
         // “§–¾‰»
         m_alpha = 0.0f;
     }
-
 }
 
 bool Title::SeqTrigger(const float delta_time)

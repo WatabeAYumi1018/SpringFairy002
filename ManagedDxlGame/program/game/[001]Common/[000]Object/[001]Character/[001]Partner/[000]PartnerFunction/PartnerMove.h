@@ -78,7 +78,6 @@ public:
 	//----------------------------------Setter&Getter----------------------------------//
 
 	// 座標補正フラグの設定
-	// arg ... 押し出しフラグ
 	void SetIsPushed(bool is_pushed) { m_is_pushed = is_pushed ; }
 
 	// メディエータのポインタの設定

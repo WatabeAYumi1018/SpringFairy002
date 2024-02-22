@@ -4,6 +4,11 @@
 
 Text::Text()
 {
+	//文字フォント（作中で変更がないため直接入力）
+	SetFontSize(20);
+	tnl::AddFontTTF("font/Yomogi-Regular.ttf");
+	ChangeFont("Yomogi", DX_CHARSET_DEFAULT);
+
 	m_window_hdl
 		= LoadGraph("graphics/ui/message/window.png");
 }
@@ -18,7 +23,7 @@ void Text::Initialize()
 	m_mediator->InitializeText();
 }
 
-void Text::Update(float delta_time)
+void Text::Update(const float delta_time)
 {
 	UpdateWindow(delta_time);
 

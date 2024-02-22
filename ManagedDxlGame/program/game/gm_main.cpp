@@ -19,11 +19,6 @@ void gameStart()
 	// ウィンドウタイトル
 	SetWindowText("Spring Fairy");
 
-	//文字フォント（作中で変更がないため直接入力）
-	SetFontSize(20);
-	tnl::AddFontTTF("font/Yomogi-Regular.ttf");
-	ChangeFont("Yomogi", DX_CHARSET_DEFAULT);
-
 	SceneManager::GetInstance(new SceneOp());
 
 	// 音楽の読み込み
