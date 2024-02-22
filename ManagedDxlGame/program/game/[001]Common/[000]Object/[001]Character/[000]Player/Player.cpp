@@ -18,6 +18,13 @@ Player::Player()
 	}
 }
 
+Player::~Player()
+{
+	MV1DeleteModel(m_model_hdl);
+	
+	m_meshs.clear();
+}
+
 void Player::Initialize()
 {
 	StartPos();
@@ -43,7 +50,7 @@ void Player::Update(float delta_time)
 
 	m_mediator->UpdateCollisionCheck();
 
-	//m_mediator->IsInCameraFlustum();
+	m_mediator->IsInCameraFlustum();
 }
 
 void Player::Draw(std::shared_ptr<dxe::Camera> camera)

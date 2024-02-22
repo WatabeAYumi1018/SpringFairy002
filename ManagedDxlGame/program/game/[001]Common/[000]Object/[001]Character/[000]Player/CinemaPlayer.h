@@ -12,7 +12,6 @@ class Mediator;
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 class CinemaPlayer : public Character
 {
 
@@ -30,6 +29,7 @@ private:
 	float m_radius = 10.0f;
 	// ‰~‰^“®ˆê‰ñ•ª‚Ì‘ŠÔ
 	float m_total_time = 4.0f;
+	
 	// ‰~‰^“®‚ÌŒo‰ßŠÔ
 	float m_elapsed_time_circle = 0.0f;
 

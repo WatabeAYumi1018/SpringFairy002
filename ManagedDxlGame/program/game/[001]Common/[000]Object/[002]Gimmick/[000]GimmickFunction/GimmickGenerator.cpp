@@ -132,7 +132,7 @@ void GimmickGenerator::SetPlacePos(std::shared_ptr<Gimmick>& gimmick
     // ギミックの新しい位置を計算
     tnl::Vector3 pos = target_pos + perpendicular * forward_distance;
     
-    pos.y = Floor::DRAW_DISTANCE;
+    pos.y = Floor::DRAW_OFFSET;
 
     // 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
     if (m_mediator->GetNowStagePhaseState() 

@@ -8,12 +8,13 @@ PartnerLoad::PartnerLoad()
 
 PartnerLoad::~PartnerLoad()
 {
-	m_csv_model.clear();
-
 	MV1DeleteModel(m_model_hdl);
 	MV1DeleteModel(m_anim_bone_idle_cinema_hdl);
 	MV1DeleteModel(m_anim_bone_move_game_hdl);
+
 	DeleteGraph(m_texture_game_hdl);
+
+	m_csv_model.clear();
 }
 
 void PartnerLoad::LoadPartnerModelInfo()

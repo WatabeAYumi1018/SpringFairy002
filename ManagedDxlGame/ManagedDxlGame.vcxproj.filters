@@ -177,6 +177,12 @@
     <Filter Include="program\[003] game\[000]GameEngine\[002]Transform">
       <UniqueIdentifier>{68249300-0d2e-4751-b187-a41184a5f285}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back\[000]BackFunction">
+      <UniqueIdentifier>{9fb2d7c9-f080-4d68-ad31-96ccf987bcce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction">
+      <UniqueIdentifier>{d800ea1a-8189-4a68-81e9-b247892d070c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">
@@ -488,9 +494,6 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChildChangeGraph.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\CinemaBack.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\SkyBox.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
     </ClCompile>
@@ -514,6 +517,18 @@
     </ClCompile>
     <ClCompile Include="program\game\[000]GameEngine\[002]Transform\Transform.cpp">
       <Filter>program\[003] game\[000]GameEngine\[002]Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\[000]BackFunction\BackLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back\[000]BackFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\CinemaBack.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPlayerLoad.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPayerMove.cpp">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -893,9 +908,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[008]OtherGraph\ChildChangeGraph.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[008]OtherGraph</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\CinemaBack.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\SkyBox.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
     </ClInclude>
@@ -919,6 +931,18 @@
     </ClInclude>
     <ClInclude Include="program\game\[000]GameEngine\[002]Transform\Transform.h">
       <Filter>program\[003] game\[000]GameEngine\[002]Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\[000]BackFunction\BackLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back\[000]BackFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\CinemaBack.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPlayerLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPayerMove.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

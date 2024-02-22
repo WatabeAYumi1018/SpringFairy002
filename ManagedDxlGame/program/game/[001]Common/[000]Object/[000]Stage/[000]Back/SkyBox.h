@@ -1,5 +1,4 @@
 #pragma once
-#include "../../../[003]Phase/StagePhase.h"
 #include "../../Object.h"
 
 class Mediator;
@@ -19,6 +18,7 @@ public:
 
 	//-------------------------------------構造体--------------------------------------//
 
+	// スカイボックスの情報
 	struct sSkyBoxInfo
 	{
 		int s_id;
@@ -34,27 +34,26 @@ public:
 
 	SkyBox();
 
-	~SkyBox() {}
+	~SkyBox();
 
 	//---------------------------------------------------------------------------------//
 
 private:
 
-	//--------------------------コンストラクタ、デストラクタ--------------------------//
+	//-----------------------------------メンバ変数------------------------------------//
 
 	// OPのみのフラグ(Opカメラでのみ設定)
 	bool m_is_op = false;
 
-	std::vector<std::vector<tnl::CsvCell>> m_csv_skybox_info;
-
+	// スカイボックスの情報
 	std::vector<sSkyBoxInfo> m_skybox_info;
-
+	// スカイボックスのメッシュ
 	std::vector<std::shared_ptr<dxe::Mesh>> m_meshs;
-
+	// メッシュのポインタ
 	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
-
+	// スクリーンエフェクトのポインタ
 	std::shared_ptr<dxe::ScreenEffect> m_screen_effect = nullptr;
-
+	// メディエータのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 	//---------------------------------------------------------------------------------//
@@ -62,11 +61,12 @@ private:
 
 	//----------------------------------メンバ関数----------------------------------//
 
-	void LoadSkyBoxInfo();
-
+	// スカイボックスの作成
 	void CreateSkyBox();
 
 public:
+
+	void Initialize() override;
 
 	void Update(float delta_time) override;
 
@@ -77,9 +77,12 @@ public:
 
 	//----------------------------------Setter&Getter----------------------------------//
 
+	// スカイボックスのOPフラグの設定
+	// arg ... OP描画フラグ
 	void SetIsOp(bool is_op) { m_is_op = is_op; }
 
-
+	// メディエータの設定
+	// arg ... メディエータのポインタ
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;

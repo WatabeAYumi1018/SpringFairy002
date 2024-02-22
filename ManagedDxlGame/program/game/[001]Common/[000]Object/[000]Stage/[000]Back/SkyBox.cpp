@@ -1,38 +1,24 @@
 #include "../../../[002]Mediator/Mediator.h"
+#include "../../../[003]Phase/StagePhase.h"
 #include "SkyBox.h"
 
 
 SkyBox::SkyBox()
 {
-	LoadSkyBoxInfo();
-
-	CreateSkyBox();
+	
 }
 
-void SkyBox::LoadSkyBoxInfo()
+SkyBox::~SkyBox()
 {
-	// csvファイルの読み込み
-	m_csv_skybox_info
-		= tnl::LoadCsv<tnl::CsvCell>("csv/stage/sky/skyBox_info.csv");
+	m_skybox_info.clear();
+	m_meshs.clear();
+}
 
-	// マップタイルの総数を取得
-	int max_num = m_csv_skybox_info.size();
+void SkyBox::Initialize()
+{
+	m_skybox_info = m_mediator->GetSkyBoxGraphInfo();
 
-	// 0行目は説明文なので読み飛ばす
-	for (int y = 1; y < max_num; ++y)
-	{
-		SkyBox::sSkyBoxInfo sky_info;
-
-		sky_info.s_id = m_csv_skybox_info[y][0].getInt();
-
-		sky_info.s_texture_path = m_csv_skybox_info[y][1].getString().c_str();
-
-		sky_info.s_material_path = m_csv_skybox_info[y][2].getString().c_str();
-
-		sky_info.s_screen_effect_path = m_csv_skybox_info[y][3].getString().c_str();
-
-		m_skybox_info.emplace_back(sky_info);
-	}
+	CreateSkyBox();
 }
 
 void SkyBox::CreateSkyBox()
@@ -40,15 +26,15 @@ void SkyBox::CreateSkyBox()
 	for (sSkyBoxInfo& sky_info : m_skybox_info)
 	{
 		m_mesh = dxe::Mesh::CreateCubeMV(60000);
-		m_mesh->setTexture(dxe::Texture::CreateFromFile(sky_info.s_texture_path));
-		m_mesh->loadMaterial(sky_info.s_material_path);
+		m_mesh->setTexture(dxe::Texture::CreateFromFile(sky_info.s_texture_path.c_str()));
+		m_mesh->loadMaterial(sky_info.s_material_path.c_str());
 		
 		m_screen_effect 
 			= std::make_shared<dxe::ScreenEffect>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 
-		m_screen_effect->loadStatus(sky_info.s_screen_effect_path);
+		m_screen_effect->loadStatus(sky_info.s_screen_effect_path.c_str());
 		
-		// 20000 : 座標の調整
+		// 20000 : 座標の調整。あまり変えることもないため直接入力
 		// デフォルトで{0}。端っこまでの到達を防ぐ
 		m_mesh->pos_ = { 20000, 0, 0 };
 

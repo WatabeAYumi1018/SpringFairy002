@@ -11,6 +11,7 @@
 class Object;
 
 class SkyBox;
+class BackLoad;
 
 class Butterfly;
 class ButterflyLoad;
@@ -43,6 +44,7 @@ private:
 	std::shared_ptr<Object> m_object = nullptr;
 
 	std::shared_ptr<SkyBox> m_skyBox = nullptr;
+	std::shared_ptr<BackLoad> m_backLoad = nullptr;
 
 	std::shared_ptr<Butterfly> m_butterfly = nullptr;
 	std::shared_ptr<ButterflyLoad> m_butterflyLoad = nullptr;

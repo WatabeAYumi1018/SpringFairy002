@@ -15,7 +15,7 @@ OtherGraphLoad::~OtherGraphLoad()
 void OtherGraphLoad::LoadOtherGraph()
 {
 	m_csv_graph_info
-		= tnl::LoadCsv<tnl::CsvCell>("csv/other/other_graph.csv");
+		= tnl::LoadCsv<tnl::CsvCell>("csv/other/otherGraph.csv");
 
 	// 0s–Ú‚Íà–¾•¶‚È‚Ì‚Å“Ç‚İ”ò‚Î‚·
 	for (int y = 1; y < m_csv_graph_info.size(); ++y)

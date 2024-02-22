@@ -1,4 +1,5 @@
-#include "../[000]Object/[000]Stage/[000]SkyBox/SkyBox.h"
+#include "../[000]Object/[000]Stage/[000]Back/SkyBox.h"
+#include "../[000]Object/[000]Stage/[000]Back/[000]BackFunction/BackLoad.h"
 #include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
 #include "../[000]Object/[001]Character/[003]Butterfly/[000]ButterflyFunction/ButterflyLoad.h"
 #include "../[000]Object/[006]Title/Title.h"
@@ -29,6 +30,7 @@ void OpFactory::CreateObject()
 	m_object = std::make_shared<Object>();
 
 	m_skyBox = std::make_shared<SkyBox>();
+	m_backLoad = std::make_shared<BackLoad>();
 
 	m_butterfly = std::make_shared<Butterfly>();
 	m_butterflyLoad = std::make_shared<ButterflyLoad>();
@@ -48,6 +50,7 @@ void OpFactory::CreateObject()
 void OpFactory::SetObjectReference()
 {
 	m_mediator->SetSkyBox(m_skyBox);
+	m_mediator->SetBackLoad(m_backLoad);
 	m_mediator->SetButterfly(m_butterfly);
 	m_mediator->SetButterflyLoad(m_butterflyLoad);
 	m_mediator->SetTitle(m_title);

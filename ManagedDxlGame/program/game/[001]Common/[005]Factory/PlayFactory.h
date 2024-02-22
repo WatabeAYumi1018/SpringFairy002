@@ -31,6 +31,7 @@ class Object;
 
 class SkyBox;
 class CinemaBack;
+class BackLoad;
 
 class LaneLoad;
 class LaneMove;
@@ -119,6 +120,7 @@ private:
 
 	std::shared_ptr<SkyBox> m_skyBox = nullptr;
 	std::shared_ptr<CinemaBack> m_cinemaBack = nullptr;
+	std::shared_ptr<BackLoad> m_backLoad = nullptr;
 
 	std::shared_ptr<LaneLoad> m_laneLoad = nullptr;
 	std::shared_ptr<LaneMove> m_laneMove = nullptr;

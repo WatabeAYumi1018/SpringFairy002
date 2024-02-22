@@ -1,6 +1,5 @@
 #include "Mediator.h"
-#include "../[000]Object/[000]Stage/[000]Back/CinemaBack.h"
-#include "../[000]Object/[000]Stage/[000]Back/SkyBox.h"
+#include "../[000]Object/[000]Stage/[000]Back/[000]BackFunction/BackLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
@@ -128,6 +127,41 @@ void Mediator::SetSkyIsOp(bool is_op)
 	else
 	{
 		throw std::runtime_error("SkyBox shared pointer is expired");
+	}
+}
+
+//---------------------------//
+
+
+//---------BackLoad----------//
+
+// BackLoad
+
+const std::vector<CinemaBack::sCinemaBackInfo>& Mediator::GetCinemaBackGraphInfo() const
+{
+	std::shared_ptr<BackLoad> shared_backLoad = m_backLoad.lock();
+
+	if (shared_backLoad)
+	{
+		return shared_backLoad->GetCinemaGraphInfo();
+	}
+	else
+	{
+		throw std::runtime_error("BackLoad shared pointer is expired");
+	}
+}
+
+const std::vector<SkyBox::sSkyBoxInfo>& Mediator::GetSkyBoxGraphInfo() const
+{
+	std::shared_ptr<BackLoad> shared_backLoad = m_backLoad.lock();
+
+	if (shared_backLoad)
+	{
+		return shared_backLoad->GetSkyGraphInfo();
+	}
+	else
+	{
+		throw std::runtime_error("BackLoad shared pointer is expired");
 	}
 }
 
@@ -498,20 +532,6 @@ int Mediator::GetPlayerAnimBoneMoveGameHdl() const
 	}
 }
 
-int Mediator::GetPlayerAnimBoneMoveCinemaHdl() const
-{
-	std::shared_ptr<PlayerLoad> shared_playerLoad = m_playerLoad.lock();
-
-	if (shared_playerLoad)
-	{
-		return shared_playerLoad->GetAnimBoneMoveCinemaHdl();
-	}
-	else
-	{
-		throw std::runtime_error("PlayerLoad shared pointer is expired");
-	}
-}
-
 int Mediator::GetPlayerAnimBoneBloomGameHdl() const
 {
 	std::shared_ptr<PlayerLoad> shared_playerLoad = m_playerLoad.lock();
@@ -726,34 +746,6 @@ void Mediator::SetAnimElapsedTimeDance(float elapsed_time_dance)
 	}
 }
 
-void Mediator::SetIsPlayerEventDance(bool is_dance)
-{
-	std::shared_ptr<PlayerDraw> shared_playerDraw = m_playerDraw.lock();
-
-	if (shared_playerDraw)
-	{
-		shared_playerDraw->SetIsEventDance(is_dance);
-	}
-	else
-	{
-		throw std::runtime_error("PlayerDraw shared pointer is expired");
-	}
-}
-
-bool Mediator::GetIsPlayerEventDance() const
-{
-	std::shared_ptr<PlayerDraw> shared_playerDraw = m_playerDraw.lock();
-
-	if (shared_playerDraw)
-	{
-		return shared_playerDraw->GetIsEventDance();
-	}
-	else
-	{
-		throw std::runtime_error("PlayerDraw shared pointer is expired");
-	}
-}
-
 void Mediator::CinemaPlayerAnimIdle(const float delta_time)
 {
 	std::shared_ptr<PlayerDraw> shared_playerDraw = m_playerDraw.lock();
@@ -761,20 +753,6 @@ void Mediator::CinemaPlayerAnimIdle(const float delta_time)
 	if (shared_playerDraw)
 	{
 		shared_playerDraw->CinemaAnimIdle(delta_time);
-	}
-	else
-	{
-		throw std::runtime_error("PlayerDraw shared pointer is expired");
-	}
-}
-
-void Mediator::CinemaPlayerAnimMove(const float delta_time)
-{
-	std::shared_ptr<PlayerDraw> shared_playerDraw = m_playerDraw.lock();
-
-	if (shared_playerDraw)
-	{
-		shared_playerDraw->CinemaAnimMove(delta_time);
 	}
 	else
 	{

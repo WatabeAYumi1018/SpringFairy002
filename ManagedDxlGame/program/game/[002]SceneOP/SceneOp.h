@@ -2,16 +2,15 @@
 #include "../[000]GameEngine/[000]Scene/SceneBase.h"
 #include "../[001]Common/[000]Object/Object.h"
 
+class OpFactory;
+class OpCamera;
+
 
 ///////////////////////////////////////////////////////////////////////////
 //
 // OPシーンの一括処理を行うクラス
 //
 ///////////////////////////////////////////////////////////////////////////
-
-
-class OpFactory;
-class OpCamera;
 
 
 class SceneOp : public SceneBase

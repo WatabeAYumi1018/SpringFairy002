@@ -66,6 +66,9 @@ void CinemaPlayer::MoveRoundFrontToBack(const float delta_time)
 	tnl::Vector3 pos = { 0, 0, 0 };
 
 	// ‰~‰^“®‚Ì”¼ŒaB‰ŠúÀ•W‚Æ’†SÀ•W‚©‚çŒvŽZ
+	// pow : ‚×‚«æ‚ÌŒvŽZ
+	// sqrt : •½•ûª‚ÌŒvŽZ
+	// 2 : 2æ(•ÏX‚È‚µ)
 	float radius
 		= sqrt(pow(m_pos.x - pos.x, 2) + pow(m_pos.z - pos.z, 2));
 
@@ -73,7 +76,8 @@ void CinemaPlayer::MoveRoundFrontToBack(const float delta_time)
 	float angle = (m_elapsed_time_circle / m_total_time) * tnl::ToRadian(360);
 
 	// xÀ•W‚ÌˆÊ’u‚ðŒvŽZ
-	if (angle >= tnl::ToRadian(360))
+	// 360 : 360“x‚ð’´‚¦‚½‚ç–ß‚é(•ÏX‚È‚µ)
+	if (angle >= tnl::ToRadian(360.0f))
 	{
 		m_pos.x = pos.x - 50;
 	}
@@ -83,19 +87,21 @@ void CinemaPlayer::MoveRoundFrontToBack(const float delta_time)
 	}
 
 	// yÀ•W‚ÌˆÊ’u‚ðŒvŽZ
-	if (angle >= tnl::ToRadian(360))
+	// 360 : 360“x‚ð’´‚¦‚½‚ç–ß‚é(•ÏX‚È‚µ)
+	if (angle >= tnl::ToRadian(360.0f))
 	{
 		m_pos.y = pos.y - 150;
 	}
 	else
 	{
 		// Œ»Ý‚ÌŠp“x‚É‰ž‚¶‚ÄYŽ²‚ÌˆÊ’u‚ðŒvŽZ
-		m_pos.y = (1 - (angle / tnl::ToRadian(360))) * m_pos.y
-					+ (angle / tnl::ToRadian(360)) * pos.y;
+		m_pos.y = (1 - (angle / tnl::ToRadian(360.0f))) * m_pos.y
+					+ (angle / tnl::ToRadian(360.0f)) * pos.y;
 	}
 
 	// ZÀ•W‚ÌˆÊ’u‚ðŒvŽZ
-	if (angle >= tnl::ToRadian(360))
+	// 360 : 360“x‚ð’´‚¦‚½‚ç–ß‚é(•ÏX‚È‚µ)
+	if (angle >= tnl::ToRadian(360.0f))
 	{
 		m_pos.z = pos.z;
 	}
@@ -106,7 +112,7 @@ void CinemaPlayer::MoveRoundFrontToBack(const float delta_time)
 
 	// ‰~‰^“®’†‚ÌˆÚ“®•ûŒü‚ðŒü‚­‚½‚ß‚Ì‰ñ“]‚ðŒvŽZ
 	tnl::Vector3 nextPos 
-		= pos + tnl::Vector3(sin(angle + tnl::ToRadian(90)), 0
+		= pos + tnl::Vector3(sin(angle + tnl::ToRadian(90.0f)), 0
 		, cos(angle + tnl::ToRadian(90)));
 	
 	// Œü‚«‚ð•Ï‚¦‚é
@@ -114,8 +120,9 @@ void CinemaPlayer::MoveRoundFrontToBack(const float delta_time)
 		= tnl::Quaternion::LookAt(m_pos, nextPos, tnl::Vector3(0, 1, 0));
 
 	// XŽ²Žü‚è‚Éˆê’èŠp“xŒX‚¯‚é
+	// 50 : 50“x(•ÏX‚Ì‰Â”\«‚ ‚èBj
 	tnl::Quaternion tilt_rot 
-		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50));
+		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50.0f));
 
 	// ‰ñ“]‚Ì‘g‚Ý‡‚í‚¹
 	m_rot = direction_rot * tilt_rot;
@@ -131,9 +138,9 @@ void CinemaPlayer::MoveRotUpDown(const float delta_time,float speed,bool up)
 	total_rot += rot_speed * delta_time;
 
 	// 720“x‚ð’´‚¦‚½‚çƒŠƒZƒbƒg
-	if (total_rot > tnl::ToRadian(720))
+	if (total_rot > tnl::ToRadian(720.0f))
 	{
-		total_rot -= tnl::ToRadian(720);
+		total_rot -= tnl::ToRadian(720.0f);
 	}
 
 	// YŽ²Žü‚è‚Ì‰ñ“]ƒNƒH[ƒ^ƒjƒIƒ“‚ð¶¬
@@ -172,7 +179,7 @@ void CinemaPlayer::MoveBackCenter(const float delta_time)
 
 		// YÀ•W‚ðƒTƒCƒ“”g‚Å•âŠÔi‘å‚«‚ÈŒÊ‚ð•`‚­j
 		float amplitude = 20.0f; // ŒÊ‚Ì‚‚³
-		m_pos.y = start_pos.y + sin(phase * tnl::ToRadian(180)) * amplitude; // ƒTƒCƒ“”g‚Ì—˜—p
+		m_pos.y = start_pos.y + sin(phase * tnl::ToRadian(180.0f)) * amplitude; // ƒTƒCƒ“”g‚Ì—˜—p
 
 		// “™‰Á‘¬‰^“®‚Å‚ÌˆÊ’u‚Ì•âŠÔ
 		m_pos.x = Lerp(start_pos.x, end_pos.x, phase);
@@ -227,7 +234,8 @@ void CinemaPlayer::MoveRoundBackToFront(const float delta_time,float radian,bool
 
 	// ˆÚ“®•ûŒü‚ðŒü‚­‚½‚ß‚Ì‰ñ“]‚ðŒvŽZ
 	tnl::Vector3 next_direction 
-		= tnl::Vector3(sin(angle + tnl::ToRadian(90)), 0, cos(angle + tnl::ToRadian(90)));
+		= tnl::Vector3(sin(angle + tnl::ToRadian(90.0f)), 0
+					  , cos(angle + tnl::ToRadian(90)));
 	
 	tnl::Quaternion direction_rot 
 		= tnl::Quaternion::LookAt(m_pos, m_pos + next_direction, tnl::Vector3(0, 1, 0));
@@ -311,7 +319,7 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 
 	m_is_idle = false;
 
-	m_mediator->SetAnimElapsedTimeDance(0);
+	m_mediator->SetAnimElapsedTimeDance();
 
 	MusicManager::GetInstance().StopSE(3);
 
@@ -410,7 +418,7 @@ bool CinemaPlayer::SeqSecond(const float delta_time)
 
 	m_is_dance = false;
 
-	m_mediator->SetAnimElapsedTimeDance(0);
+	m_mediator->SetAnimElapsedTimeDance();
 
 	m_mediator->SetIsCinemaBackFog(false);
 
@@ -448,11 +456,13 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
+		// 360“x‰ñ“]
 		MoveRoundBackToFront(delta_time,360,false);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]() 
 	{
+		// -360“x‰ñ“]
 		MoveRoundBackToFront(delta_time, -360,true);
 	});
 
@@ -488,7 +498,7 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 
 	m_is_dance = false;
 
-	m_mediator->SetAnimElapsedTimeDance(0);
+	m_mediator->SetAnimElapsedTimeDance();
 
 	m_mediator->SetEffectIsScreen(false);
 

@@ -1,4 +1,6 @@
 #pragma once
+#include "../[000]Object/[000]Stage/[000]Back/CinemaBack.h"
+#include "../[000]Object/[000]Stage/[000]Back/SkyBox.h"
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
 #include "../[000]Object/[002]Gimmick/Gimmick.h"
@@ -20,8 +22,7 @@
 
 
 
-class CinemaBack;
-class SkyBox;
+class BackLoad;
 
 class LaneLoad;
 class LaneMove;
@@ -90,6 +91,7 @@ private:
 
 	std::weak_ptr<CinemaBack> m_cinemaBack;
 	std::weak_ptr<SkyBox> m_skyBox;
+	std::weak_ptr<BackLoad> m_backLoad;
 
 	std::weak_ptr<Lane> m_lane;
 	std::weak_ptr<LaneLoad> m_laneLoad;
@@ -205,6 +207,23 @@ public:
 	// 参照元 ... SkyBox::m_is_op
 	// 参照先 ... OpCamera::Update(float delta_time)
 	void SetSkyIsOp(bool is_op);
+
+	//---------------------------//
+
+
+	//---------BackLoad----------//
+
+	// BackLoad
+
+	// シネマ背景画像データを取得
+	// 参照元 ... BackLoad::m_cinema_back_info
+	// 参照先 ... CinemaBack::関連する関数
+	const std::vector<CinemaBack::sCinemaBackInfo>& GetCinemaBackGraphInfo() const;
+
+	// スカイボックス画像データを取得
+	// 参照元 ... BackLoad::m_sky_box_info
+	// 参照先 ... SkyBox::関連する関数
+	const std::vector<SkyBox::sSkyBoxInfo>& GetSkyBoxGraphInfo() const;
 
 	//---------------------------//
 
@@ -356,11 +375,6 @@ public:
 	// 参照先 ... Player関連クラス
 	int GetPlayerAnimBoneMoveGameHdl() const;
 
-	// プレイヤーのシネマ移動ボーンハンドル取得
-	// 参照元 ... PlayerLoad::m_anim_bone_move_cinema_hdl
-	// 参照先 ... Player関連クラス
-	int GetPlayerAnimBoneMoveCinemaHdl() const;
-
 	// プレイヤーのブルームボーンハンドル取得
 	// 参照元 ... PlayerLoad::m_anim_bone_bloom_game_hdl
 	// 参照先 ... Player関連クラス
@@ -426,14 +440,10 @@ public:
 	void DrawPlayerModel();
 
 	// シネマプレイヤーのダンス経過時間設定
+	// 基本デフォルト0にリセットのため引数は空入力にする
 	// 参照元 ... Player::m_elapsed_time_dance
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void SetAnimElapsedTimeDance(float elapsed_time_dance);
-
-	// イベントによるダンスアニメーションフラグ設定
-	// 参照元 ... PlayerDraw::m_is_event_dance
-	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
-	void SetIsPlayerEventDance(bool is_dance);
+	void SetAnimElapsedTimeDance(float elapsed_time_dance = 0);
 
 	// ブルームフラグ取得
 	// 参照元 ... PlayerDraw::m_is_bloom
@@ -445,20 +455,10 @@ public:
 	// 参照先 ... ダンスフラグが必要な全クラス
 	bool GetIsPlayerDance() const;
 
-	// イベントによるダンスアニメーションフラグ取得
-	// 参照元 ... PlayerDraw::m_is_event_dance
-	// 参照先 ... PhaseManager::Update(float delta_time)
-	bool GetIsPlayerEventDance() const;
-
 	// イベントによるidleアニメーション処理
 	// 参照元 ... PlayerDraw::CinemaAnimIdle(float delta_time)
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void CinemaPlayerAnimIdle(const float delta_time);
-
-	// イベントによるmoveアニメーション処理
-	// 参照元 ... PlayerDraw::CinemaAnimMove(float delta_time)
-	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void CinemaPlayerAnimMove(const float delta_time);
 	
 	// イベントによるdanceアニメーション処理
 	// 参照元 ... PlayerDraw::CinemaAnimDance(float delta_time)
@@ -978,6 +978,11 @@ public:
 	void SetSkyBox(std::shared_ptr<SkyBox>& skyBox)
 	{
 		m_skyBox = skyBox;
+	}
+
+	void SetBackLoad(std::shared_ptr<BackLoad>& backLoad)
+	{
+		m_backLoad = backLoad;
 	}
 
 	void SetLaneLoad(std::shared_ptr<LaneLoad>& laneLoad)

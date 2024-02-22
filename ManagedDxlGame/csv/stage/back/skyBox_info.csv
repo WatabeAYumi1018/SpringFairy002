@@ -1,0 +1,5 @@
+スカイボックスID,テクスチャパス,マテリアルファイルパス,スクリーンエフェクトファイルパス
+0,graphics/back/skyBox/op.png,graphics/back/skyBox/material.bin,graphics/back/skyBox/screen_effect.bin
+1,graphics/back/skyBox/flower.png,graphics/back/skyBox/material.bin,graphics/back/skyBox/screen_effect.bin
+2,graphics/back/skyBox/wood.png,graphics/back/skyBox/material.bin,graphics/back/skyBox/screen_effect.bin
+3,graphics/back/skyBox/fancy.png,graphics/back/skyBox/material.bin,graphics/back/skyBox/screen_effect.bin

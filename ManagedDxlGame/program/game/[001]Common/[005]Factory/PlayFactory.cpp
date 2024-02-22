@@ -2,6 +2,7 @@
 #include "../../../wta_library/wta_Collision.h"
 #include "../[000]Object/[000]Stage/[000]Back/SkyBox.h"
 #include "../[000]Object/[000]Stage/[000]Back/CinemaBack.h"
+#include "../[000]Object/[000]Stage/[000]Back/[000]BackFunction/BackLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneLoad.h"
 #include "../[000]Object/[000]Stage/[001]Lane/[000]LaneFunction/LaneMove.h"
 #include "../[000]Object/[000]Stage/[002]Floor/Floor.h"
@@ -81,6 +82,7 @@ void PlayFactory::CreateObject()
 
 	m_skyBox = std::make_shared<SkyBox>();
 	m_cinemaBack = std::make_shared<CinemaBack>();
+	m_backLoad = std::make_shared<BackLoad>();
 
 	m_laneLoad = std::make_shared<LaneLoad>();
 	m_laneMove = std::make_shared<LaneMove>();
@@ -145,6 +147,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetCameraPhase(m_cameraPhase);
 	m_mediator->SetStagePhase(m_stagePhase);
 	m_mediator->SetCinemaBack(m_cinemaBack);
+	m_mediator->SetBackLoad(m_backLoad);
 	m_mediator->SetLaneLoad(m_laneLoad);
 	m_mediator->SetLaneMove(m_laneMove);
 	m_mediator->SetModel(m_model);
@@ -298,94 +301,3 @@ void PlayFactory::StorageObjectCinemaCamera()
 	// sceneチェンジ用画像
 	m_objects_cinemaCamera.emplace_back(m_changeGraph);
 }
-
-//// 初期化
-//m_itemGenerator->Initialize();
-//// ランダム座標設定
-//m_itemGenerator->GenerateItem();
-
-//void Factory::PoolModelObject()
-//{
-//	int create_num = m_modelPool->GetModelCreateNum();
-//
-//	// 各IDに対してモデルを1個ずつ生成
-//	for (int id = 0; id < m_modelLoad->GetModelTotalNum(); ++id)
-//	{
-//		std::shared_ptr<Model> stage_model 
-//					= std::make_shared<Model>(id);
-//			
-//		stage_model->SetMediator(m_mediator);
-//			
-//		m_mediator->SetModel(stage_model);
-//		
-//		stage_model->LoadInitModel();
-//		
-//		m_modelPool->AddModel(stage_model);
-//
-//		m_objects.emplace_back(stage_model);
-//
-//		// 残りのモデルを複製
-//		for (int i = 0; i < create_num ; ++i)
-//		{
-//			int new_model_hdl = MV1DuplicateModel(stage_model->GetModelHdl());
-//			
-//			std::shared_ptr<Model> model_copy 
-//				= std::make_shared<Model>(new_model_hdl, id); 
-//			
-//			model_copy->CopyInitModel( stage_model->GetTextureAHdl()
-//										, stage_model->GetTextureBHdl()
-//										, stage_model->GetTextureCHdl()
-//										, stage_model->GetMaterialCount()
-//										, stage_model->GetMaterialAName()
-//										, stage_model->GetMaterialBName()
-//										, stage_model->GetMaterialCName());
-//
-//			// 複製をプールに追加
-//			m_modelPool->AddModel(model_copy);
-//			
-//			m_objects.emplace_back(model_copy);
-//		}
-//	}
-//}
-
-//void Factory::PoolModelObject()
-//{
-//	int create_num = m_modelPool->GetModelCreateNum() >> 1;
-//
-//	for (int id = 0; id < m_modelLoad->GetModelTotalNum(); ++id)
-//	{
-//		// 各IDに対して現実のモデルを5個生成
-//		for (int i = 0; i < create_num; ++i)
-//		{
-//			auto model_real
-//				= std::make_shared<Model>(id, Model::eWorldType::e_real);
-//
-//			model_real->SetMediator(m_mediator);
-//
-//			m_mediator->SetModel(model_real);
-//			// ロードと初期化
-//			model_real->LoadAndInitModels();
-//			// プール（モデル型ベクター）に追加（アクティブ可否の操作）
-//			m_modelPool->AddModel(model_real);
-//			// オブジェクト型リストに追加（ポリモフィズムのため）
-//			m_objects.emplace_back(model_real);
-//		}
-//
-//		// 各IDに対して夢のモデルを5個生成
-//		for (int i = 0; i < create_num; ++i)
-//		{
-//			auto model_dream
-//				= std::make_shared<Model>(id, Model::eWorldType::e_dream);
-//
-//			model_dream->SetMediator(m_mediator);
-//
-//			m_mediator->SetModel(model_dream);
-//
-//			model_dream->LoadAndInitModels();
-//
-//			m_modelPool->AddModel(model_dream);
-//
-//			m_objects.emplace_back(model_dream);
-//		}
-//	}
-//}
