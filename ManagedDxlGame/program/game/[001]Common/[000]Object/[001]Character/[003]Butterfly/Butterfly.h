@@ -17,9 +17,12 @@ public:
 private:
 
 	float m_speed = 100.0f;
-	float m_elapsed_time_circle = 0.0f;
 	float m_total_time = 2.0f;
 	float m_radius = 100.0f;
+	// moveアニメーションの速度
+	float m_anim_speed = 100.0f;
+	
+	float m_elapsed_time_circle = 0.0f;
 	
 	// moveアニメーションのインデックス
 	int m_anim_index = 0;
@@ -27,16 +30,12 @@ private:
 	float m_elapsed_time = 0.0f;
 	// moveアニメーションのループ時間
 	float m_time_count= 0.0f;
-	// moveアニメーションの速度
-	float m_anim_speed = 100.0f;
 
 	 //進行方向
 	tnl::Vector3 m_next_direction;
 
 	// オープニング描画フラグ
 	bool m_is_op_active = false;
-	// 円運動フラグ
-	bool m_is_circle = false;
 	// 消滅フラグ
 	bool m_is_clear = false;
 	// シネマ描画フラグ

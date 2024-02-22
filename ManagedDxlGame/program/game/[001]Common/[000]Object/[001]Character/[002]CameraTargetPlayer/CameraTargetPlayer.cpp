@@ -4,14 +4,14 @@
 #include "CameraTargetPlayer.h"
 
 
-void CameraTargetPlayer::Initialize()
+void GameCameraTarget::Initialize()
 {
 	m_collision_size = 50;
 
 	StartPos();
 }
 
-void CameraTargetPlayer::Update(float delta_time)
+void GameCameraTarget::Update(float delta_time)
 {
 	tnl_sequence_.update(delta_time);
 
@@ -27,7 +27,7 @@ void CameraTargetPlayer::Update(float delta_time)
 	}
 }
 
-void CameraTargetPlayer::MoveMatrix(const float delta_time)
+void GameCameraTarget::MoveMatrix(const float delta_time)
 {
 	// 自動経路による移動の更新
 	m_mediator->MoveAstarTargetPos(delta_time, m_pos);
@@ -38,7 +38,7 @@ void CameraTargetPlayer::MoveMatrix(const float delta_time)
 	m_event = CurrentEventLane();
 }
 
-bool CameraTargetPlayer::SeqNormal(const float delta_time)
+bool GameCameraTarget::SeqNormal(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
@@ -47,7 +47,7 @@ bool CameraTargetPlayer::SeqNormal(const float delta_time)
 
 	if (m_event.s_id == 6)
 	{
-		tnl_sequence_.change(&CameraTargetPlayer::SeqStop);
+		tnl_sequence_.change(&GameCameraTarget::SeqStop);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
@@ -58,21 +58,23 @@ bool CameraTargetPlayer::SeqNormal(const float delta_time)
 	TNL_SEQ_CO_END;
 }
 
-bool CameraTargetPlayer::SeqStop(const float delta_time)
+bool GameCameraTarget::SeqStop(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
 	{
-		// 数秒間座標更新を停止
+		// 5秒間座標更新を停止
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(10, delta_time, [&]()
 	{
+		// 10秒間座標更新速度を上げる
+
 		m_is_speed_up = true;
 
 		MoveMatrix(delta_time);
 	});
 
-	tnl_sequence_.change(&CameraTargetPlayer::SeqNormal);
+	tnl_sequence_.change(&GameCameraTarget::SeqNormal);
 
 	TNL_SEQ_CO_END;
 }

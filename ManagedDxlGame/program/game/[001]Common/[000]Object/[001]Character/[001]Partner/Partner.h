@@ -15,31 +15,28 @@ class Partner : public Character
 
 public:
 
-	enum class ePartnerType
-	{
-		green,
-		black,
-		pink
-	};
+	//--------------------------コンストラクタ、デストラクタ--------------------------//
 
 	Partner();
+	~Partner();
 
-	~Partner() {}
-
-
-	//----------------------------------------//
+	//---------------------------------------------------------------------------------//
 
 private:
 
+	//-----------------------------------メンバ関数------------------------------------//
+
 	// 行列の更新処理
-	void UpdateMatrix(float delta_time);
+	// arg ... delta_time(前フレームからの経過時間)
+	void UpdateMatrix(const float delta_time);
 
 public:
 
-	// 初期化
 	void Initialize() override;
-	// 更新
-	void Update(float delta_time) override;
-	// 描画処理
+	
+	void Update(const float delta_time) override;
+	
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	//---------------------------------------------------------------------------------//
 };

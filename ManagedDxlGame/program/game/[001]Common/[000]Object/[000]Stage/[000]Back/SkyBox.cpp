@@ -3,11 +3,6 @@
 #include "SkyBox.h"
 
 
-SkyBox::SkyBox()
-{
-	
-}
-
 SkyBox::~SkyBox()
 {
 	m_skybox_info.clear();
@@ -25,7 +20,9 @@ void SkyBox::CreateSkyBox()
 {
 	for (sSkyBoxInfo& sky_info : m_skybox_info)
 	{
-		m_mesh = dxe::Mesh::CreateCubeMV(60000);
+		float size = 60000.0f;
+
+		m_mesh = dxe::Mesh::CreateCubeMV(size);
 		m_mesh->setTexture(dxe::Texture::CreateFromFile(sky_info.s_texture_path.c_str()));
 		m_mesh->loadMaterial(sky_info.s_material_path.c_str());
 		
@@ -42,7 +39,7 @@ void SkyBox::CreateSkyBox()
 	}
 }
 
-void SkyBox::Update(float delta_time)
+void SkyBox::Update(const float delta_time)
 {
 	m_rot *= tnl::Quaternion::RotationAxis({ 0, 0, 1 }, tnl::ToRadian(180.0f));
 }

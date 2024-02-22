@@ -17,6 +17,10 @@
 ///////////////////////////////////////////////////////////////////////////
 //
 // クラス間の情報のやり取りを行うクラス（weak参照）
+// ※責任が重すぎること。かつ他クラスとの依存度も深いのが問題。
+// 　但し、今回はあくまでコンストラクタの引数を無くし、参照を渡すことを目的に使用。
+// 　本来のメディエータとは異なるため、今後はリファクタリングが必要。
+// 　尚、今回は制作規模や分割化での複雑さ軽減を考え、全てのクラスを参照している。
 //
 ///////////////////////////////////////////////////////////////////////////
 
@@ -43,7 +47,7 @@ class PartnerLoad;
 class PartnerMove;
 class PartnerDraw;
 
-class CameraTargetPlayer;
+class GameCameraTarget;
 class CinemaCameraTarget;
 
 class Butterfly;
@@ -114,7 +118,7 @@ private:
 	std::weak_ptr<PartnerMove> m_partnerMove;
 	std::weak_ptr<PartnerDraw> m_partnerDraw;
 
-	std::weak_ptr<CameraTargetPlayer> m_cameraTargetPlayer;
+	std::weak_ptr<GameCameraTarget> m_gameCameraTarget;
 	std::weak_ptr<CinemaCameraTarget> m_cinemaCameraTarget;
 
 	std::weak_ptr<Butterfly> m_butterfly;
@@ -570,22 +574,22 @@ public:
 	//------------------------------//
 
 
-	//------CameraTargetPlayer------//
+	//------GameCameraTarget------//
 
-	// CameraTargetPlayer
+	// GameCameraTarget
 
 	// カメラのターゲット座標取得
-	// 参照元 ... CameraTargetPlayer::GetPos()
+	// 参照元 ... GameCameraTarget::GetPos()
 	// 参照先 ... OriginalCamera::target_
-	const tnl::Vector3& GetCameraTargetPlayerPos() const;
+	const tnl::Vector3& GetGameCameraTargetPos() const;
 
 	// 現在のカメラタイプ取得
-	// 参照元 ... CameraTargetPlayer::m_camera_info
-	// 参照先 ... 
+	// 参照元 ... GameCameraTarget::m_camera_info
+	// 参照先 ... GameCamera::関連する関数
 	const GameCamera::sCameraInfo& GetTargetCameraInfo() const;
 
 	// 現在の足元カメラ取得
-	// 参照元 ... Partner::CurrentCameraLane()
+	// 参照元 ... Character::CurrentCameraLane()
 	// 参照先 ... GimmickGenerator::CalcGimmickRandomPos()
 	GameCamera::sCamera CurrentTargetCameraLane();
 
@@ -1060,9 +1064,9 @@ public:
 		m_partnerDraw = partnerDraw;
 	}
 
-	void SetCameraTargetPlayer(std::shared_ptr<CameraTargetPlayer>& cameraTargetPlayer)
+	void SetCameraTargetPlayer(std::shared_ptr<GameCameraTarget>& gameCameraTarget)
 	{
-		m_cameraTargetPlayer = cameraTargetPlayer;
+		m_gameCameraTarget = gameCameraTarget;
 	}
 
 	void SetCinemaCameraTarget(std::shared_ptr<CinemaCameraTarget>& cinemaCameraTarget)

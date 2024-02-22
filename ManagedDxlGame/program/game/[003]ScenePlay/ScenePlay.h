@@ -3,20 +3,24 @@
 #include "../[001]Common/[000]Object/Object.h"
 
 
+class PlayFactory;
+
+class GameCamera;
+class CinemaCamera;
+
+class CameraPhase;
+class StagePhase;
+
+class GimmickGenerator;
+
+class ScreenShot;
+
+
 ///////////////////////////////////////////////////////////////////////////
 //
 // Playシーンの一括処理を行うクラス
 //
 ///////////////////////////////////////////////////////////////////////////
-
-
-class PlayFactory;
-class GameCamera;
-class CinemaCamera;
-class CameraPhase;
-class StagePhase;
-class GimmickGenerator;
-class ScreenShot;
 
 
 class ScenePlay : public SceneBase

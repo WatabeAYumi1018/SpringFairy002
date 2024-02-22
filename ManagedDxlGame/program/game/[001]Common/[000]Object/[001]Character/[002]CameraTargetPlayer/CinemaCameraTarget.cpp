@@ -3,7 +3,9 @@
 
 CinemaCameraTarget::CinemaCameraTarget()
 {
-	m_mesh = dxe::Mesh::CreateSphereMV(0.001f);
+	// カメラ座標変換のために必要だけど、描画はされないよう限りなく0に近いサイズ
+	float size = 0.001f;
+	m_mesh = dxe::Mesh::CreateSphereMV(size);
 	m_mesh->pos_ = { 0 };
 	m_pos = m_mesh->pos_;
 }

@@ -6,7 +6,7 @@ class Mediator;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // 
-// シネマカメラ演出時の背景描画処理クラス
+// シネマカメラ演出時の背景の定義と更新描画を行うクラス
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -61,8 +61,8 @@ private:
 	// 透明度の変化速度
 	float m_alpha_speed = 5;
 	// バブルの生成サイズ最小値・最大値
-	float m_bubble_size_min = 400.0f;
-	float m_bubble_size_max = 500.0f;
+	float m_bubble_size_min = 40.0f;
+	float m_bubble_size_max = 50.0f;
 	// バブルの生成速度最小値・最大値
 	float m_bubble_life_time_min = 100.0f;
 	float m_bubble_life_time_max = 150.0f;

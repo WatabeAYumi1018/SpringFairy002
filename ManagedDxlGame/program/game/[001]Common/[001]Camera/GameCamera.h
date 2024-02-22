@@ -3,8 +3,17 @@
 #include "../[003]Phase/StagePhase.h"
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
 
-
 class Mediator;
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+// ゲームカメラの更新処理を行うクラス
+// ※処理を他のクラス同様分割化した場合、参照渡しが複雑になり扱いにくくなるため
+// 　今回は1クラスにまとめている
+//
+///////////////////////////////////////////////////////////////////////////
+
 
 
 class GameCamera : public dxe::Camera
@@ -131,10 +140,10 @@ private:
 
 public:
 
+	void update(const float delta_time) override;
+
 	// フラスタムとの当たり判定
 	void IsInFlustum();
-
-	void update(const float delta_time) override;
 
 	// ターゲットの概念を無くした姿勢処理
 	inline tnl::Vector3 up()

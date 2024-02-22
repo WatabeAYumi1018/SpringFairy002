@@ -10,17 +10,6 @@ void OpCamera::update(const float delta_time)
 	dxe::Camera::update(delta_time);
 
 	tnl_sequence_.update(delta_time);
-
-	// スペース押したら
-	if (tnl::Input::IsKeyDown(eKeys::KB_SPACE))
-	{
-		m_is_mouse = true;
-	}
-
-	if (m_is_mouse)
-	{
-		Control(delta_time);
-	}
 }
 
 tnl::Vector3 OpCamera::Lerp(const tnl::Vector3& start
@@ -155,44 +144,4 @@ bool OpCamera::SeqStageIn(const float delta_time)
 	});
 
 	TNL_SEQ_CO_END;
-}
-
-void OpCamera::Control(const float delta_time)
-{
-	// マウスの移動量を取得
-	tnl::Vector3 mouse_velocity = tnl::Input::GetMouseVelocity();
-	// マウス感度の調整
-	float mouse_sensitivity = 0.1f;
-	// カメラの回転
-	float yaw = mouse_velocity.x * mouse_sensitivity;
-	float pitch = mouse_velocity.y * mouse_sensitivity;
-	// カメラの横回転（Y軸回転）
-	pos_ = RotateAroundPlayer(pos_, target_, tnl::Vector3(0, 1, 0), yaw);
-	// カメラの縦回転（X軸回転）
-	pos_ = RotateAroundPlayer(pos_, target_, right(), pitch);
-	// カメラの前後移動
-	float scroll = tnl::Input::GetMouseWheel();
-	// ズーム感度
-	float zoom_sensitivity = 0.5f;
-
-	pos_ += forward() * scroll * zoom_sensitivity;
-	// カメラの向きを更新
-	view_ = tnl::Matrix::LookAtLH(pos_, target_, up_);
-}
-
-tnl::Vector3 OpCamera::RotateAroundPlayer(const tnl::Vector3& point
-	, const tnl::Vector3& pivot
-	, const tnl::Vector3& axis
-	, float angle)
-{
-	// 回転
-	tnl::Quaternion rotation
-		= tnl::Quaternion::RotationAxis(axis, tnl::ToRadian(angle));
-	// 回転行列を生成
-	tnl::Matrix rotation_matrix = tnl::Matrix::RotationQuaternion(rotation);
-	// 点を回転行列で変換
-	tnl::Vector3 transformed_point
-		= tnl::Vector3::Transform(point - pivot, rotation_matrix);
-	// 変換した点にピボットを加算して最終的な位置を得る
-	return transformed_point + pivot;
 }

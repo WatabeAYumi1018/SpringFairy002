@@ -921,7 +921,7 @@ int Mediator::GetPartnerModelHdl() const
 
 	if (shared_partnerLoad)
 	{
-		return shared_partnerLoad->GetModelGameHdl();
+		return shared_partnerLoad->GetModelHdl();
 	}
 	else
 	{
@@ -949,7 +949,7 @@ std::shared_ptr<PartnerLoad> shared_partnerLoad = m_partnerLoad.lock();
 
 	if (shared_partnerLoad)
 	{
-		return shared_partnerLoad->GetAnimBoneMoveGameHdl();
+		return shared_partnerLoad->GetAnimBoneMoveHdl();
 	}
 	else
 	{
@@ -1034,17 +1034,17 @@ void Mediator::DrawPartnerModel()
 //--------------------------//
 
 
-//----CameraTargetPlayer----//
+//----GameCameraTarget----//
 
-// CameraTargetPlayer
+// GameCameraTarget
 
-const tnl::Vector3& Mediator::GetCameraTargetPlayerPos() const
+const tnl::Vector3& Mediator::GetGameCameraTargetPos() const
 {
-	std::shared_ptr<CameraTargetPlayer> shared_cameraTargetPlayer = m_cameraTargetPlayer.lock();
+	std::shared_ptr<GameCameraTarget> shared_gameCameraTarget = m_gameCameraTarget.lock();
 
-	if (shared_cameraTargetPlayer)
+	if (shared_gameCameraTarget)
 	{
-		return shared_cameraTargetPlayer->GetPos();
+		return shared_gameCameraTarget->GetPos();
 	}
 	else
 	{
@@ -1054,12 +1054,12 @@ const tnl::Vector3& Mediator::GetCameraTargetPlayerPos() const
 
 const GameCamera::sCameraInfo& Mediator::GetTargetCameraInfo() const
 {
-	std::shared_ptr<CameraTargetPlayer> shared_cameraTargetPlayer 
-		= m_cameraTargetPlayer.lock();
+	std::shared_ptr<GameCameraTarget> shared_gameCameraTarget
+		= m_gameCameraTarget.lock();
 
-	if (shared_cameraTargetPlayer)
+	if (shared_gameCameraTarget)
 	{
-		return shared_cameraTargetPlayer->GetCameraInfo();
+		return shared_gameCameraTarget->GetCameraInfo();
 	}
 	else
 	{
@@ -1069,12 +1069,12 @@ const GameCamera::sCameraInfo& Mediator::GetTargetCameraInfo() const
 
 GameCamera::sCamera Mediator::CurrentTargetCameraLane()
 {
-	std::shared_ptr<CameraTargetPlayer> shared_cameraTargetPlayer
-		= m_cameraTargetPlayer.lock();
+	std::shared_ptr<GameCameraTarget> shared_gameCameraTarget
+		= m_gameCameraTarget.lock();
 
-	if (shared_cameraTargetPlayer)
+	if (shared_gameCameraTarget)
 	{
-		return shared_cameraTargetPlayer->CurrentCameraLane();
+		return shared_gameCameraTarget->CurrentCameraLane();
 	}
 	else
 	{
@@ -1084,11 +1084,11 @@ GameCamera::sCamera Mediator::CurrentTargetCameraLane()
 
 const Lane::sLaneEvent& Mediator::GetCurrentEventLane() const
 {
-	std::shared_ptr<CameraTargetPlayer> shared_cameraTargetPlayer = m_cameraTargetPlayer.lock();
+	std::shared_ptr<GameCameraTarget> shared_gameCameraTarget = m_gameCameraTarget.lock();
 
-	if (shared_cameraTargetPlayer)
+	if (shared_gameCameraTarget)
 	{
-		return shared_cameraTargetPlayer->GetCurrentEvent();
+		return shared_gameCameraTarget->GetCurrentEvent();
 	}
 	else
 	{
@@ -1098,11 +1098,11 @@ const Lane::sLaneEvent& Mediator::GetCurrentEventLane() const
 
 bool Mediator::GetIsTargetSpeedUp() const
 {
-	std::shared_ptr<CameraTargetPlayer> shared_cameraTargetPlayer = m_cameraTargetPlayer.lock();
+	std::shared_ptr<GameCameraTarget> shared_gameCameraTarget = m_gameCameraTarget.lock();
 
-	if (shared_cameraTargetPlayer)
+	if (shared_gameCameraTarget)
 	{
-		return shared_cameraTargetPlayer->GetIsSpeedUp();
+		return shared_gameCameraTarget->GetIsSpeedUp();
 	}
 	else
 	{

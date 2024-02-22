@@ -102,7 +102,9 @@ void CinemaBack::LoadSkyBackInfo()
 	m_sky_box = m_mediator->GetSkyBoxGraphInfo();
 
 	// 2000 : 背景についてはサイズ変更することはないため固定値
-	m_mesh = dxe::Mesh::CreateCubeMV(2000);
+	float size = 2000.0f;
+
+	m_mesh = dxe::Mesh::CreateCubeMV(size);
 	m_mesh->setTexture(dxe::Texture::CreateFromFile(m_sky_box[2].s_texture_path.c_str()));
 	m_mesh->loadMaterial(m_sky_box[2].s_material_path.c_str());
 }

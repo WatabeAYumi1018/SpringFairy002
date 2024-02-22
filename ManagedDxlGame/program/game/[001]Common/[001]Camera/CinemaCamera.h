@@ -2,8 +2,15 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "../[003]Phase/StagePhase.h"
 
-
 class Mediator;
+
+///////////////////////////////////////////////////////////////////////////
+//
+// シネマカメラの更新処理を行うクラス
+// ※処理を他のクラス同様分割化した場合、参照渡しが複雑になり扱いにくくなるため
+// 　今回は1クラスにまとめている
+//
+///////////////////////////////////////////////////////////////////////////
 
 
 class CinemaCamera : public dxe::Camera
@@ -20,7 +27,6 @@ private:
 	// スクリーンハンドル
 	int m_screen_hdl = 0;
 
-	bool m_move_mouse = false;
 	// シネマカメラの活性化フラグ
 	bool m_is_active = true;
 
@@ -54,17 +60,6 @@ private:
 	bool SeqSecond(const float delta_time);
 	// エリア３への移行
 	bool SeqThird(const float delta_time);
-
-	//-----デバッグ用-----//
-
-	//マウスの回転動作制御
-	void Control(const float delta_time);
-
-	// 周辺を360度回転制御
-	tnl::Vector3 RotateAroundPlayer(const tnl::Vector3& point
-									, const tnl::Vector3& pivot
-									, const tnl::Vector3& axis
-									, float angle);
 
 public:
 

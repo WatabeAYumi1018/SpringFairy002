@@ -83,7 +83,7 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 void Model::CalcGridPos(int grid_size)
 {
 	tnl::Vector3 target_pos 
-        = m_mediator->GetCameraTargetPlayerPos();
+        = m_mediator->GetGameCameraTargetPos();
 
 	// プレイヤーの現在位置からグリッド座標を取得
     m_grid_x = static_cast<int>(target_pos.x / grid_size);

@@ -138,7 +138,7 @@ void GameCamera::ConditionType()
 
 void GameCamera::Fixed(const tnl::Vector3& offset)
 {
-	target_ = m_mediator->GetCameraTargetPlayerPos();
+	target_ = m_mediator->GetGameCameraTargetPos();
 
 	pos_.x = target_.x + offset.x;
 	pos_.y = target_.y + offset.y;
@@ -149,7 +149,7 @@ void GameCamera::ToSlide(const float delta_time, const tnl::Vector3& offset, flo
 {
 	// 目的の位置を計算
 	tnl::Vector3 target_pos
-		= m_mediator->GetCameraTargetPlayerPos() + offset;
+		= m_mediator->GetGameCameraTargetPos() + offset;
 
 	// 補間を使用してカメラ位置を更新
 	pos_ = Lerp(pos_, target_pos, delta_time * speed);
@@ -183,7 +183,7 @@ bool GameCamera::SeqFixed(const float delta_time)
 
 		m_mediator->SetPlayerLookSideLeft(false);
 
-		tnl::Vector3 pos = m_mediator->GetCameraTargetPlayerPos();
+		tnl::Vector3 pos = m_mediator->GetGameCameraTargetPos();
 
 		m_mediator->SetPlayerPos(pos);
 	}
@@ -212,7 +212,7 @@ bool GameCamera::SeqRightSide(const float delta_time)
 	{
 		m_is_fixed = false;
 
-		tnl::Vector3 pos = m_mediator->GetCameraTargetPlayerPos();
+		tnl::Vector3 pos = m_mediator->GetGameCameraTargetPos();
 
 		m_mediator->SetPlayerPos(pos);
 	}
@@ -265,7 +265,7 @@ bool GameCamera::SeqLeftSide(const float delta_time)
 	{
 		m_is_fixed = false;
 
-		tnl::Vector3 pos = m_mediator->GetCameraTargetPlayerPos();
+		tnl::Vector3 pos = m_mediator->GetGameCameraTargetPos();
 
 		m_mediator->SetPlayerPos(pos);
 	}
@@ -361,7 +361,7 @@ bool GameCamera::SeqRotate(const float delta_time)
 	{
 		m_is_fixed = false;
 
-		tnl::Vector3 pos = m_mediator->GetCameraTargetPlayerPos();
+		tnl::Vector3 pos = m_mediator->GetGameCameraTargetPos();
 
 		m_mediator->SetPlayerPos(pos);
 	}

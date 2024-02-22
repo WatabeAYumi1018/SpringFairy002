@@ -4,13 +4,6 @@
 #include "../[000]Object/[002]Gimmick/Gimmick.h"
 
 
-///////////////////////////////////////////////////////////////////////////
-//
-// Playシーンのオブジェクト生成クラス
-//
-///////////////////////////////////////////////////////////////////////////
-
-
 // 名前空間＋テンプレートの前方宣言
 namespace wta 
 {
@@ -56,7 +49,7 @@ class PartnerLoad;
 class PartnerMove;
 class PartnerDraw;
 
-class CameraTargetPlayer;
+class GameCameraTarget;
 class CinemaCameraTarget;
 
 class Butterfly;
@@ -89,6 +82,13 @@ class CinemaCamera;
 class Mediator;
 
 class ScreenShot;
+
+///////////////////////////////////////////////////////////////////////////
+//
+// Playシーンのオブジェクト生成クラス
+//
+///////////////////////////////////////////////////////////////////////////
+
 
 class PlayFactory
 {
@@ -145,7 +145,7 @@ private:
 	std::shared_ptr<PartnerMove> m_partnerMove = nullptr;
 	std::shared_ptr<PartnerDraw> m_partnerDraw = nullptr;
 
-	std::shared_ptr<CameraTargetPlayer> m_cameraTargetPlayer = nullptr;
+	std::shared_ptr<GameCameraTarget> m_gameCameraTarget = nullptr;
 	std::shared_ptr<CinemaCameraTarget> m_cinemaCameraTarget = nullptr;
 
 	std::shared_ptr<Butterfly> m_butterfly = nullptr;

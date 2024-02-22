@@ -57,7 +57,7 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
     tnl::Vector3 start_offset = perpendicular * 300.0f;
 
     tnl::Vector3 target_pos 
-        = m_mediator->GetCameraTargetPlayerPos() + start_offset;
+        = m_mediator->GetGameCameraTargetPos() + start_offset;
 
     for (std::shared_ptr<Gimmick>& gimmick : gimmicks)
     {
@@ -178,7 +178,7 @@ void GimmickGenerator::CalcSkyFlowerPos(const float delta_time,Gimmick::eGimmick
 
 tnl::Vector3 GimmickGenerator::CalcRandomPos()
 {
-    tnl::Vector3 player_pos = m_mediator->GetCameraTargetPlayerPos();
+    tnl::Vector3 player_pos = m_mediator->GetGameCameraTargetPos();
 
     float offset = 700.0f;
 
@@ -207,24 +207,6 @@ bool GimmickGenerator::SeqFlower(const float delta_time)
 
     TNL_SEQ_CO_END;
 }
-
-//bool GimmickGenerator::SeqButterfly(const float delta_time)
-//{
-//    // ‘«Œ³id‚ª1‚Ìê‡ˆÚs
-//    //if (m_gimmick_lane.s_id == 0)
-//    //{
-//    //    m_is_flower_active = true;
-//
-//    //    tnl_sequence_.change(&GimmickGenerator::SeqFlower);
-//    //}
-//
-//    TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-//        {
-//            GenerateGimmick(delta_time);
-//        });
-//
-//    TNL_SEQ_CO_END;
-//}
 
 void GimmickGenerator::CheckGimmicks(const float delta_time
                                      , Gimmick::eGimmickType type

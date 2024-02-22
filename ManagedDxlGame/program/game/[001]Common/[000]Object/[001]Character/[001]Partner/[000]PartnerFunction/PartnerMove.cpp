@@ -3,7 +3,7 @@
 #include "PartnerMove.h"
 
 
-void PartnerMove::Update(float delta_time)
+void PartnerMove::Update(const float delta_time)
 {
 	m_pos = m_mediator->GetPartnerPos();
 	m_rot = m_mediator->GetPartnerRot();
@@ -14,7 +14,7 @@ void PartnerMove::Update(float delta_time)
         m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
         m_mediator->MoveAstarCharaUpdateRot(delta_time, m_pos, m_rot);
 
-        UpdatePos(delta_time);
+        UpdateRandomPos(delta_time);
     }
 
     if (m_mediator->GetCurrentEventLane().s_id == 14)
@@ -27,7 +27,7 @@ void PartnerMove::Update(float delta_time)
 	m_mediator->SetPartnerRot(m_rot);
 }
 
-void PartnerMove::UpdatePos(const float delta_time)
+void PartnerMove::UpdateRandomPos(const float delta_time)
 {
     m_move_time += delta_time;
 

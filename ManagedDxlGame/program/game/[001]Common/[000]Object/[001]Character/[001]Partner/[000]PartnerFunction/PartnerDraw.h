@@ -14,27 +14,30 @@ class Mediator;
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 class PartnerDraw
 {
 
 public:
 
-	PartnerDraw() {}
+	//--------------------------コンストラクタ、デストラクタ--------------------------//
 
-	~PartnerDraw() {}
+	PartnerDraw() {}
+	~PartnerDraw();
+
+	//---------------------------------------------------------------------------------//
 
 private:
+
+	//-----------------------------------メンバ変数------------------------------------//
+
+	// ※現在moveは使用していませんが、今後の拡張を見越して残しています
 
 	// モデル
 	int m_model_hdl = 0;
 	// moveボーン
-	int m_anim_bone_move_game_hdl = 0;
+	int m_anim_bone_move_hdl = 0;
 	// idleボーン
-	int m_anim_bone_idle_cinema_hdl = 0;
-
-	// テクスチャ
-	int m_texture_game_hdl = 0;
+	int m_anim_bone_idle_hdl = 0;
 
 	// アニメーションインデックス番号
 	int m_anim_move_index = 0;
@@ -50,15 +53,6 @@ private:
 
 	// アニメーションの速度
 	float m_anim_speed = 10;
-	// walkアニメーションのオフセット
-	float m_anim_move_offset = 0;
-
-	// エネミーの種類（テクスチャ）
-	Partner::ePartnerType m_enemy_type
-		= Partner::ePartnerType::green;
-
-	Character::eDirection m_direction
-		= Character::eDirection::e_none;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(PartnerDraw, &PartnerDraw::SeqIdle);
@@ -66,27 +60,45 @@ private:
 	// プレイヤーメディエータのスマートポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	//---------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数------------------------------------//
+
 	// 単発再生の時間設定をする
-	void AnimMove(float delta_time);
+	// arg ... delta_time(前フレームからの経過時間)
+	void AnimMove(const float delta_time);
+
 	// ループ再生の時間設定をする　
-	void AnimIdle(float delta_time);
+	// arg ... delta_time(前フレームからの経過時間)
+	void AnimIdle(const float delta_time);
 
 	// 移動状態
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqMove(const float delta_time);
-	// アイドル状態
-	bool SeqIdle(const float delta_time);
 
+	// アイドル状態
+	// arg ... delta_time(前フレームからの経過時間)
+	bool SeqIdle(const float delta_time);
 
 public:
 
 	void Initialize();
-	// アニメーションの更新処理
-	void Update(float delta_time);
-	// PlayerHumanクラスのDraw関数にて毎フレーム呼び出す
+	
+	void Update(const float delta_time);
+	
 	void Draw();
 
+	//---------------------------------------------------------------------------------//
+
+
+	//----------------------------------Setter&Getter----------------------------------//
+
+	// メディエータのポインタ設定
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;
 	}
+
+	//---------------------------------------------------------------------------------//
 };

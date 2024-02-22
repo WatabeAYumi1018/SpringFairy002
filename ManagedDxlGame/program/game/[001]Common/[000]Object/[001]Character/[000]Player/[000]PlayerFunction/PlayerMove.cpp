@@ -3,7 +3,7 @@
 #include "PlayerMove.h"
 
 
-void PlayerMove::Update(float delta_time)
+void PlayerMove::Update(const float delta_time)
 {
 	m_pos = m_mediator->GetPlayerPos();
 	m_rot = m_mediator->GetPlayerRot();
@@ -90,7 +90,7 @@ bool PlayerMove::PushButton()
 	return false;
 }
 
-void PlayerMove::MoveMatrix(float delta_time)
+void PlayerMove::MoveMatrix(const float delta_time)
 {
 	// 自動経路による移動と回転の更新
 	m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
@@ -102,7 +102,7 @@ void PlayerMove::MoveMatrix(float delta_time)
 	}
 }
 
-void PlayerMove::ControlMoveMatrix(float delta_time)
+void PlayerMove::ControlMoveMatrix(const float delta_time)
 {
 	float move_speed = m_mediator->GetPlayerMoveSpeed();
 	float move_rot = m_mediator->GetPlayerMoveRot();
@@ -185,7 +185,7 @@ void PlayerMove::ControlMoveMatrix(float delta_time)
 	m_rot.slerp(m_target_rot, delta_time * move_rot);
 }
 
-void PlayerMove::SaltoActionMatrix(float delta_time)
+void PlayerMove::SaltoActionMatrix(const float delta_time)
 {
 	float salto_total_time = m_mediator->GetPlayerSaltoTotalTime();
 	float salto_radius = m_mediator->GetPlayerSaltoRadius();
@@ -262,6 +262,7 @@ bool PlayerMove::SeqUpMove(const float delta_time)
 		// y座標を上昇
 		// 1000 : 上昇速度
 		// ※本来はデバッグで外部から設定できるようにするのが好ましい
+		// 　まだ実装も反映していないため、今のところは直接入力
 		m_pos.y += delta_time * 1000;
 	});
 
@@ -284,6 +285,7 @@ bool PlayerMove::SeqDownMove(const float delta_time)
 		// y座標を下降
 		// 50 : 下降速度
 		// ※本来はデバッグで外部から設定できるようにするのが好ましい
+		// 　まだ実装も反映していないため、今のところは直接入力
 		m_pos.y -= delta_time * 50;
 	});
 

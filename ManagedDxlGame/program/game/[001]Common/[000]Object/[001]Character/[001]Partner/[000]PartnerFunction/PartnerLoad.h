@@ -14,31 +14,52 @@ class PartnerLoad
 
 public:
 
-	PartnerLoad();
+	//--------------------------コンストラクタ、デストラクタ--------------------------//
 
+	PartnerLoad();
 	~PartnerLoad();
 
+	//---------------------------------------------------------------------------------//
+
 private:
+
+	//-----------------------------------メンバ変数------------------------------------//
 
 	// モデル
 	int m_model_hdl = 0;
 	// idleボーン
-	int m_anim_bone_idle_cinema_hdl = 0;
+	int m_anim_bone_idle_hdl = 0;
 	// moveボーン
-	int m_anim_bone_move_game_hdl = 0;
+	int m_anim_bone_move_hdl = 0;
 	// テクスチャ
-	int m_texture_game_hdl = 0;
+	int m_texture_hdl = 0;
 
 	// パートナーの移動情報読み取り専用（csvファイル）
 	std::vector<std::vector<std::string>> m_csv_model;
 
+	//---------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数------------------------------------//
+
+	// パートナーのモデル情報読み込み
+	// tips ... 初期化時に一度だけ呼び出す
 	void LoadPartnerModelInfo();
+
+	//---------------------------------------------------------------------------------//
 
 public:
 
-	int GetModelGameHdl() const { return m_model_hdl; }
+	//----------------------------------Setter&Getter----------------------------------//
 
-	int GetAnimBoneIdleHdl() const { return m_anim_bone_idle_cinema_hdl; }
+	// モデルハンドルの取得
+	int GetModelHdl() const { return m_model_hdl; }
 
-	int GetAnimBoneMoveGameHdl() const { return m_anim_bone_move_game_hdl; }
+	// idleモデルハンドルの取得
+	int GetAnimBoneIdleHdl() const { return m_anim_bone_idle_hdl; }
+
+	// moveモデルハンドルの取得
+	int GetAnimBoneMoveHdl() const { return m_anim_bone_move_hdl; }
+
+	//---------------------------------------------------------------------------------//
 };

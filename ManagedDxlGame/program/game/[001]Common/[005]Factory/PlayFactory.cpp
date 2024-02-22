@@ -106,7 +106,7 @@ void PlayFactory::CreateObject()
 	m_partnerMove = std::make_shared<PartnerMove>();
 	m_partnerDraw = std::make_shared<PartnerDraw>();
 
-	m_cameraTargetPlayer = std::make_shared<CameraTargetPlayer>();
+	m_gameCameraTarget = std::make_shared<GameCameraTarget>();
 	m_cinemaCameraTarget = std::make_shared<CinemaCameraTarget>();
 
 	m_butterfly = std::make_shared<Butterfly>();
@@ -163,7 +163,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetPartnerLoad(m_partnerLoad);
 	m_mediator->SetPartnerMove(m_partnerMove);
 	m_mediator->SetPartnerDraw(m_partnerDraw);
-	m_mediator->SetCameraTargetPlayer(m_cameraTargetPlayer);
+	m_mediator->SetCameraTargetPlayer(m_gameCameraTarget);
 	m_mediator->SetCinemaCameraTarget(m_cinemaCameraTarget);
 	m_mediator->SetButterfly(m_butterfly);
 	m_mediator->SetButterflyLoad(m_butterflyLoad);
@@ -211,7 +211,7 @@ void PlayFactory::SetMediatorReference()
 	m_partner->SetMediator(m_mediator);
 	m_partnerMove->SetMediator(m_mediator);
 	m_partnerDraw->SetMediator(m_mediator);
-	m_cameraTargetPlayer->SetMediator(m_mediator);
+	m_gameCameraTarget->SetMediator(m_mediator);
 	m_butterfly->SetMediator(m_mediator);
 	m_gimmickGenerator->SetMediator(m_mediator);
 	m_effect->SetMediator(m_mediator);
@@ -268,7 +268,7 @@ void PlayFactory::StorageObjectGameCamera()
 	m_objects_gameCamera.emplace_back(m_skyBox);
 	m_objects_gameCamera.emplace_back(m_floor);
 	m_objects_gameCamera.emplace_back(m_model);
-	m_objects_gameCamera.emplace_back(m_cameraTargetPlayer);
+	m_objects_gameCamera.emplace_back(m_gameCameraTarget);
 
 	// 各ギミックタイプごとに処理
 	PoolGimmickType(m_gimmickLoad->GetGimmicksType(Gimmick::eGimmickType::e_ground_flower));

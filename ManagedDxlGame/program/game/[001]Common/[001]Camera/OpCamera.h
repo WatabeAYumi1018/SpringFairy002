@@ -3,6 +3,12 @@
 
 class Mediator;
 
+///////////////////////////////////////////////////////////////////////////
+//
+// OPカメラの更新処理を行うクラス
+//
+///////////////////////////////////////////////////////////////////////////
+
 
 class OpCamera : public dxe::Camera
 {
@@ -23,11 +29,8 @@ private:
 	// 回転
 	tnl::Quaternion m_rot;
 
-	bool m_is_mouse = false;
-
 	// メディエーターのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
-
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(OpCamera, &OpCamera::SeqNormal);
@@ -53,14 +56,6 @@ private:
 	bool SeqBack(const float delta_time);
 	// ステージIN
 	bool SeqStageIn(const float delta_time);
-
-	void Control(const float delta_time);
-
-	tnl::Vector3 RotateAroundPlayer(const tnl::Vector3& point
-		, const tnl::Vector3& pivot
-		, const tnl::Vector3& axis
-		, float angle);
-
 
 public:
 
