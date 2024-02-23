@@ -34,12 +34,12 @@ bool ScenePlay::SeqStart(const float delta_time)
 	return true;
 }
 
-void ScenePlay::Initialize()
+void ScenePlay::GetFromFactory()
 {
 	// 各オブジェクトの参照をFactoryクラスから取得
 	m_objects_gameCamera
 		= m_factory->GetObjectsGameCamera();
-	m_objects_cinemaCamera 
+	m_objects_cinemaCamera
 		= m_factory->GetObjectsCinemaCamera();
 	// カメラの取得
 	m_gameCamera = m_factory->GetGameCamera();
@@ -53,7 +53,13 @@ void ScenePlay::Initialize()
 	m_gimmickGenerator = m_factory->GetGimmickGenerator();
 	// スクリーンショットの取得
 	m_screenShot = m_factory->GetScreenShot();
+}
 
+void ScenePlay::Initialize()
+{
+	// オブジェクトに属さないクラスの初期化
+	GetFromFactory();
+	
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
 		object->Initialize();

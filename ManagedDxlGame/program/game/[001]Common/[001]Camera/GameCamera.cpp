@@ -7,7 +7,6 @@
 GameCamera::GameCamera()
 	: dxe::Camera(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT){}
 
-
 void GameCamera::update(const float delta_time)
 {
 	dxe::Camera::update(delta_time);
@@ -17,7 +16,7 @@ void GameCamera::update(const float delta_time)
 
 void GameCamera::IsInFlustum()
 {
-	// 
+	// 特定のカメラレーンの場合は処理をスキップ
 	if (m_mediator->CurrentTargetCameraLane().s_id == 5
 		|| m_mediator->CurrentTargetCameraLane().s_id == 12
 		|| m_mediator->CurrentTargetCameraLane().s_id == 13)
@@ -157,20 +156,15 @@ void GameCamera::ToSlide(const float delta_time, const tnl::Vector3& offset, flo
 
 void GameCamera::Rotate(const float delta_time)
 {
-	// 軌道半径
-	float orbit_radius = 400.0f;
-	// 軌道高さ
-	float orbit_height = 500.0f;
-
 	target_ = m_mediator->GetPlayerPos();
 
 	// 回転角度の更新
 	m_rot_angle += delta_time;
 
 	// カメラ位置の計算（プレイヤーの周りを円軌道で回転）
-	pos_.x = target_.x + cos(m_rot_angle) * orbit_radius;
-	pos_.y = target_.y + orbit_height;
-	pos_.z = target_.z + sin(m_rot_angle) * orbit_radius;
+	pos_.x = target_.x + cos(m_rot_angle) * m_orbit_radius;
+	pos_.y = target_.y + m_orbit_height;
+	pos_.z = target_.z + sin(m_rot_angle) * m_orbit_radius;
 }
 
 bool GameCamera::SeqFixed(const float delta_time)
@@ -198,9 +192,10 @@ bool GameCamera::SeqFixed(const float delta_time)
 
 	ConditionType();
 
+	// -1 : 無限ループ
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		Fixed({ 0,0,-400 });
+		Fixed(m_fix_offset);
 	});
 
 	TNL_SEQ_CO_END;
@@ -228,14 +223,18 @@ bool GameCamera::SeqRightSide(const float delta_time)
 	}
 
 	// サイドへカメラを移動
+	// 0.3f : 移動時間(秒)
+	// ※このあたりの値をデバッグにした方が最適。
+	// コルーチンのタイム指定など全てデバッグにすると膨大な量になるため、
+	// 今回はあくまで簡易的に設定。
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.3f, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 400, 0, 0 }, 5);
+		ToSlide(delta_time, m_right_side_offset, m_slide_start_speed);
 	});
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		Fixed({ 400, 0, 0 });
+		Fixed(m_right_side_offset);
 	});
 
 	TNL_SEQ_CO_END;
@@ -245,13 +244,13 @@ bool GameCamera::SeqRightSideToFix(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		Fixed({ 400, 0, 0 });
+		Fixed(m_right_side_offset);
 	});
 
 	// カメラを元の位置に戻す
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.4f, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 0, 0, -400 }, 2);
+		ToSlide(delta_time, m_fix_offset, m_slide_speed);
 	});
 
 	tnl_sequence_.change(&GameCamera::SeqFixed);
@@ -283,12 +282,12 @@ bool GameCamera::SeqLeftSide(const float delta_time)
 	// サイドへカメラを移動
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.3f, delta_time, [&]()
 	{
-		ToSlide(delta_time, { -400, 0, 0 }, 5);
+		ToSlide(delta_time, m_left_side_offset, m_slide_start_speed);
 	});
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		Fixed({ -400, 0, 0 });
+		Fixed(m_left_side_offset);
 	});
 
 	TNL_SEQ_CO_END;
@@ -298,13 +297,13 @@ bool GameCamera::SeqLeftSideToFix(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		Fixed({ -400, 0, 0 });
+		Fixed(m_left_side_offset);
 	});
 
 	// カメラを元の位置に戻す
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.4f, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 0, 0, -400 }, 2);
+		ToSlide(delta_time, m_fix_offset, m_slide_speed);
 	});
 
 	tnl_sequence_.change(&GameCamera::SeqFixed);
@@ -327,12 +326,12 @@ bool GameCamera::SeqFront(const float delta_time)
 	// 正面へカメラを移動
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.5f, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 0, 0, 400 }, 3);
+		ToSlide(delta_time, m_front_offset, m_slide_speed);
 	});
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		Fixed({ 0, 0, 400 });
+		Fixed(m_front_offset);
 	});
 
 	TNL_SEQ_CO_END;
@@ -342,12 +341,12 @@ bool GameCamera::SeqFrontToFix(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
 	{
-		Fixed({ 0, 0, -400 });
+		Fixed(m_fix_offset);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.4f, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 0, 0, -400 }, 2);
+		ToSlide(delta_time, m_fix_offset, m_slide_speed);
 	});
 
 	tnl_sequence_.change(&GameCamera::SeqFixed);
@@ -394,7 +393,7 @@ bool GameCamera::SeqRotateToFix(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.6f, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 0, 0, -400 }, 2);
+		ToSlide(delta_time, m_fix_offset, m_slide_speed);
 	});
 
 	m_rot_angle = 0;
@@ -457,7 +456,7 @@ bool GameCamera::SeqFollow(const float delta_time)
 	{
 		target_ = m_mediator->GetPlayerPos();
 
-		pos_ = target_ + m_offset;
+		pos_ = target_ + m_fix_offset;
 	});
 
 	TNL_SEQ_CO_END;

@@ -33,7 +33,7 @@ void OpCamera::ToOffset(const float delta_time, tnl::Vector3& offset)
 	tnl::Vector3 target_pos = m_mediator->GetButterflyPos() + offset;
 
 	// 補間を使用してカメラ位置を更新
-	pos_ = Lerp(pos_, target_pos, 0.3f);
+	pos_ = Lerp(pos_, target_pos, m_slide_speed);
 }
 
 bool OpCamera::SeqNormal(const float delta_time)
@@ -59,9 +59,7 @@ bool OpCamera::SeqNormalToUp(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.2f, delta_time, [&]()
 	{
-		tnl::Vector3 offset = tnl::Vector3(0, 300, -500);
-
-		ToOffset(delta_time, offset);
+		ToOffset(delta_time, m_title_offset);
 	});
 
 	tnl_sequence_.change(&OpCamera::SeqUp);
@@ -84,9 +82,7 @@ bool OpCamera::SeqUp(const float delta_time)
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		tnl::Vector3 offset = tnl::Vector3(0, 300, -500);
-
-		Fixed(offset);
+		Fixed(m_title_offset);
 	});
 
 	TNL_SEQ_CO_END;
@@ -103,7 +99,7 @@ bool OpCamera::SeqUpToBack(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(0.2f, delta_time, [&]()
 	{
-		ToOffset(delta_time, m_new_offset);
+		ToOffset(delta_time, m_gate_offset);
 	});
 
 	tnl_sequence_.change(&OpCamera::SeqBack);
@@ -120,7 +116,7 @@ bool OpCamera::SeqBack(const float delta_time)
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
-		Fixed(m_new_offset);
+		Fixed(m_gate_offset);
 	});
 
 	TNL_SEQ_CO_END;

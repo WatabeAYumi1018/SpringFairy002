@@ -948,18 +948,6 @@ public:
 	// 参照先 ... GimmickGenerator::CheckGimmicks(const float delta_time,)
 	bool GetIsCameraFixed() const;
 
-	// CameraLoad
-
-	// カメラ配列の情報取得
-	// 参照元 ... CameraLoad::m_cameras
-	// 参照先 ... Camera::関連する関数
-	const std::vector<GameCamera::sCamera>& GetCameraLaneVector() const;
-
-	// カメラ情報の取得
-	// 参照元 ... CameraLoad::GetCameraInfoById(int id)
-	// 参照先 ... Camera::関連する関数
-	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
-
 	// CinemaCamera
 
 	// シネマカメラの座標取得
@@ -976,6 +964,18 @@ public:
 	// 参照元 ... CinemaCamera::m_is_active
 	// 参照先 ... シネマカメラの活性化フラグが必要な全クラス
 	bool GetCinemaCameraIsActive() const;
+
+	// CameraLoad
+
+	// カメラ配列の情報取得
+	// 参照元 ... CameraLoad::m_cameras
+	// 参照先 ... Camera::関連する関数
+	const std::vector<GameCamera::sCamera>& GetCameraLaneVector() const;
+
+	// カメラ情報の取得
+	// 参照元 ... CameraLoad::GetCameraInfoById(int id)
+	// 参照先 ... Camera::関連する関数
+	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
 
 	//---------------------------//
 

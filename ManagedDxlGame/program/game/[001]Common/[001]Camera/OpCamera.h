@@ -26,16 +26,17 @@ private:
 
 	//-----------------------------------メンバ変数-----------------------------------//
 
+	// カメラのスライド速度補間係数
+	float m_slide_speed = 0.3f;	
+
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
-
-	// カメラのオフセット
+	// スタート時のオフセット
 	tnl::Vector3 m_offset = { 0, 300, -100 };
-	// カメラのスライドによる新しいオフセット
-	tnl::Vector3 m_new_offset = { 0,0,-5000 };
-
-	// 回転
-	tnl::Quaternion m_rot;
+	// タイトルロゴ描画時のオフセット
+	tnl::Vector3 m_title_offset = { 0, 300, -500 };
+	// ゲート描画時のオフセット
+	tnl::Vector3 m_gate_offset = { 0,0,-5000 };
 
 	// メディエーターのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
@@ -59,7 +60,7 @@ private:
 	// arg ... オフセット座標
 	void Fixed(tnl::Vector3& offset);
 
-	// カメラ移行
+	// カメラのオフセット移行処理
 	// arg ... delta_time(前フレームからの経過時間)
 	void ToOffset(const float delta_time, tnl::Vector3& offset);
 

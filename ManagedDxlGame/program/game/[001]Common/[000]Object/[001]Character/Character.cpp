@@ -10,6 +10,7 @@ void Character::StartPos()
 		if (start.s_id == 1)
 		{
 			// グリッドの中心座標に設定
+			// 2 : グリッドの半分のため固定値
 			m_pos = start.s_pos + tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
 		}
 	}

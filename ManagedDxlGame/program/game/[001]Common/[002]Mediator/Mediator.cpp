@@ -1841,36 +1841,6 @@ bool Mediator::GetIsCameraFixed() const
 	}
 }
 
-// CameraLoad
-
-const std::vector<GameCamera::sCamera>& Mediator::GetCameraLaneVector() const
-{
-	std::shared_ptr<CameraLoad> shared_cameraLoad = m_cameraLoad.lock();
-
-	if (shared_cameraLoad)
-	{
-		return shared_cameraLoad->GetCameraLane();
-	}
-	else
-	{
-		throw std::runtime_error("CameraLoad shared pointer is expired");
-	}
-}
-
-GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
-{
-	std::shared_ptr<CameraLoad> shared_cameraLoad = m_cameraLoad.lock();
-
-	if (shared_cameraLoad)
-	{
-		return shared_cameraLoad->GetCameraInfoById(id);
-	}
-	else
-	{
-		throw std::runtime_error("CameraLoad shared pointer is expired");
-	}
-}
-
 // CinemaCamera
 
 const tnl::Vector3& Mediator::GetCinemaCameraPos() const
@@ -1912,6 +1882,36 @@ bool Mediator::GetCinemaCameraIsActive() const
 	else
 	{
 		throw std::runtime_error("CinemaCamera shared pointer is expired");
+	}
+}
+
+// CameraLoad
+
+const std::vector<GameCamera::sCamera>& Mediator::GetCameraLaneVector() const
+{
+	std::shared_ptr<CameraLoad> shared_cameraLoad = m_cameraLoad.lock();
+
+	if (shared_cameraLoad)
+	{
+		return shared_cameraLoad->GetCameraLane();
+	}
+	else
+	{
+		throw std::runtime_error("CameraLoad shared pointer is expired");
+	}
+}
+
+GameCamera::sCameraInfo Mediator::GetCameraTypeInfoById(int id)
+{
+	std::shared_ptr<CameraLoad> shared_cameraLoad = m_cameraLoad.lock();
+
+	if (shared_cameraLoad)
+	{
+		return shared_cameraLoad->GetCameraInfoById(id);
+	}
+	else
+	{
+		throw std::runtime_error("CameraLoad shared pointer is expired");
 	}
 }
 

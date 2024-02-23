@@ -1,6 +1,5 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
-#include "../[003]Phase/StagePhase.h"
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
 
 class Mediator;
@@ -21,6 +20,9 @@ class GameCamera : public dxe::Camera
 
 public:
 
+	//-----------------------------------enum class------------------------------------//
+
+	// カメラの種類
 	enum class eCameraType
 	{
 		// 固定された視点
@@ -47,17 +49,27 @@ public:
 		e_none
 	};
 
+	//--------------------------------------------------------------------------------//
+
+
+	//-------------------------------------構造体--------------------------------------//
+
+	// カメラレーン情報
 	struct sCamera
 	{
 		int s_id;
 		tnl::Vector3 s_pos;
 	};
 
+	// カメラ情報
 	struct sCameraInfo
 	{
 		int s_id;
 		eCameraType s_type;
 	};
+
+	//--------------------------------------------------------------------------------//
+
 
 	//--------------------------コンストラクタ、デストラクタ---------------------------//
 
@@ -72,20 +84,35 @@ private:
 
 	// 回転角度
 	float m_rot_angle = 0.0f;
+	// 軌道半径
+	float m_orbit_radius = 400.0f;
+	// 軌道高さ
+	float m_orbit_height = 500.0f;
+	// スライド時の速度(基本値)
+	float m_slide_speed = 2.0f;
+	// スライド時の速度(変動値)
+	// ※スライドスタート時は少しゆったりさせたいため大きめに設定
+	float m_slide_start_speed = 5.0f;
+
 	// 固定フラグ
 	bool m_is_fixed = false;
 
-
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
-	tnl::Vector3 m_offset = { 0, 0, -400 };
+	// 通常のカメラ固定時のオフセット
+	tnl::Vector3 m_fix_offset = { 0, 0, -400 };
 	
+	// 右サイドビュー時のオフセット
+	tnl::Vector3 m_right_side_offset = { 400, 0, 0 };
+
+	// 左サイドビュー時のオフセット
+	tnl::Vector3 m_left_side_offset = { -400, 0, 0 };
+
+	// 正面からの視点時のオフセット
+	tnl::Vector3 m_front_offset = { 0, 0, 400 };
+
 	// 自動経路による回転
 	tnl::Quaternion m_rot;
-
-	// ステージフェーズ
-	StagePhase::eStagePhase m_now_stage
-					= StagePhase::eStagePhase::e_flower;
 
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(GameCamera, &GameCamera::SeqFixed);
@@ -157,6 +184,7 @@ private:
 	// プレイヤー周りの回転からfixへ移行
 	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqRotateToFix(const float delta_time);
+
 
 	//-----デバッグ用-----//
 

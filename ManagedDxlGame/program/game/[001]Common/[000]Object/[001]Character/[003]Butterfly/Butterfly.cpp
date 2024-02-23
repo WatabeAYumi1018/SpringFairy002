@@ -114,8 +114,8 @@ void Butterfly::MoveRound(const float delta_time)
 
 	// 進行方向を算出
 	m_next_direction
-		= tnl::Vector3(sin(angle + delta_time * m_speed), 0
-						, cos(angle + delta_time * m_speed));
+		= tnl::Vector3(sin(angle + delta_time * m_paras[0].s_num), 0
+						, cos(angle + delta_time * m_paras[0].s_num));
 
 	// 進行方向に向かって回転
 	tnl::Quaternion direction_rot

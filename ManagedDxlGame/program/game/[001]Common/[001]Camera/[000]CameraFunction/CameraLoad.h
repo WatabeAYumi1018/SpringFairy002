@@ -1,5 +1,4 @@
 #pragma once
-#include "../dxlib_ext/dxlib_ext.h"
 #include "../GameCamera.h"
 
 class Mediator;

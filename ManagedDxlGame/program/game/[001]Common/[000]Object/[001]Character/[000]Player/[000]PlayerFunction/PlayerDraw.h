@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../../../../library/tnl_sequence.h"
+#include "../../../../[003]Phase/StagePhase.h"
 #include "../../Character.h"
 
 class Mediator;
