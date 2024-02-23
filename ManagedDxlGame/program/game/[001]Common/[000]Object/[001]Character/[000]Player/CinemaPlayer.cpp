@@ -24,7 +24,7 @@ void CinemaPlayer::Initialize()
 
 	SetLight(m_model_hdl);
 
-	m_paras = m_mediator->GetCinemaPlayerLoadParameter();
+	m_paras = m_mediator->GetCinemaPlayerParameters();
 	
 	m_pos = { m_paras[1].s_num,m_paras[2].s_num,m_paras[3].s_num };
 }
@@ -482,7 +482,7 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		MoveRotUpDown(delta_time, m_paras[31].s_num,true);
+		MoveRotUpDown(delta_time, m_paras[31].s_num);
 		
 		m_pos.y += delta_time * m_paras[32].s_num;
 
@@ -501,7 +501,7 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]() 
 	{
 		// -360“x‰ñ“]
-		MoveRoundBackToFront(delta_time, m_paras[43].s_num,true);
+		MoveRoundBackToFront(delta_time, m_paras[43].s_num);
 	});
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(1, delta_time, [&]()

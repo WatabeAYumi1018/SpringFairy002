@@ -5,7 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // 
 // シネマプレイヤーのcsvファイルの読み込みクラス
-// プレイヤーからは独立した内容のため、個別でクラス生成
+// プレイヤーとは独立した内容のため、PlayerLoadでなく個別でクラス生成
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,11 +26,11 @@ private:
 
 	//-----------------------------------メンバ変数------------------------------------//
 
-	// csvファイルの情報
-	std::vector<std::vector<tnl::CsvCell>> m_csv_cinemaPlayer_parameters;
+	// csvファイルの情報(読み取り専用)
+	std::vector<std::vector<tnl::CsvCell>> m_csv_parameters;
 
-	// シネマプレイヤーの各種パラメータ
-	std::vector<CinemaPlayer::sCinemaPlayerParameter> m_cinemaPlayer_parameters;
+	// 各種パラメータ
+	std::vector<CinemaPlayer::sCinemaPlayerParameter> m_parameters;
 
 	//---------------------------------------------------------------------------------//
 
@@ -39,7 +39,7 @@ private:
 
 	// シネマプレイヤーのパラメータ情報読み取り専用（csvファイル）
 	// tips ... 初期化時に一度だけ呼び出す
-	void LoadCinemaPlayerParameter();
+	void LoadParameter();
 
 	//---------------------------------------------------------------------------------//
 
@@ -48,9 +48,9 @@ public:
 	//----------------------------------Setter&Getter----------------------------------//
 
 	// シネマプレイヤーのパラメータ情報取得
-	const std::vector<CinemaPlayer::sCinemaPlayerParameter>& GetCinemaPlayerParameter() const
+	const std::vector<CinemaPlayer::sCinemaPlayerParameter>& GetParameters() const
 	{
-		return m_cinemaPlayer_parameters;
+		return m_parameters;
 	}
 
 	//---------------------------------------------------------------------------------//

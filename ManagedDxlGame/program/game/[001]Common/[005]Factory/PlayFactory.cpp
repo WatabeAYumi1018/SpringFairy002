@@ -328,11 +328,12 @@ void PlayFactory::SharedExReset()
 	m_modelLoad.reset();
 	m_character.reset();
 	m_player.reset();
+	m_cinemaPlayer.reset();
 	m_playerLoad.reset();
 	m_playerMove.reset();
 	m_playerDraw.reset();
 	m_playerCollision.reset();
-	m_cinemaPlayer.reset();
+	m_cinemaPlayerLoad.reset();
 	m_partner.reset();
 	m_partnerLoad.reset();
 	m_partnerMove.reset();

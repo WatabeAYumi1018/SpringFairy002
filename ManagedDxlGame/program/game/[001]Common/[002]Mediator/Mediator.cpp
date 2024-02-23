@@ -15,7 +15,6 @@
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerDraw.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CameraTargetPlayer.h"
 #include "../[000]Object/[001]Character/[002]CameraTargetPlayer/CinemaCameraTarget.h"
-#include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
 #include "../[000]Object/[001]Character/[003]Butterfly/[000]ButterflyFunction/ButterflyLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickLoad.h"
 #include "../[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
@@ -838,13 +837,13 @@ void Mediator::UpdateCollisionCheck()
 
 // cinemaPlayerLoad
 
-const std::vector<CinemaPlayer::sCinemaPlayerParameter>& Mediator::GetCinemaPlayerLoadParameter() const
+const std::vector<CinemaPlayer::sCinemaPlayerParameter>& Mediator::GetCinemaPlayerParameters() const
 {
 	std::shared_ptr<CinemaPlayerLoad> shared_cinemaPlayerLoad = m_cinemaPlayerLoad.lock();
 
 	if (shared_cinemaPlayerLoad)
 	{
-		return shared_cinemaPlayerLoad->GetCinemaPlayerParameter();
+		return shared_cinemaPlayerLoad->GetParameters();
 	}
 	else
 	{
@@ -1254,6 +1253,21 @@ int Mediator::GetButterflyModelHdl() const
 		throw std::runtime_error("ButterflyLoad shared pointer is expired");
 	}
 }
+
+const std::vector<Butterfly::sButterflyParameter>& Mediator::GetButterflyParameters() const
+{
+	std::shared_ptr<ButterflyLoad> shared_butterflyLoad = m_butterflyLoad.lock();
+
+	if (shared_butterflyLoad)
+	{
+		return shared_butterflyLoad->GetParameters();
+	}
+	else
+	{
+		throw std::runtime_error("ButterflyLoad shared pointer is expired");
+	}
+}
+
 
 //-----------------------------//
 

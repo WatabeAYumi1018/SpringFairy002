@@ -62,8 +62,7 @@ bool StagePhase::SeqFancy(const float delta_time)
 	}
 
 	// 14‚É“ü‚Á‚½‚çED‚Ö
-	if (m_mediator->GetPlayerPos().y > 2000
-		&& m_mediator->GetPartnerPos().y > 2000)
+	if (m_mediator->GetPlayerPos().y > m_goal_pos_y)
 	{
 		m_now_stage = eStagePhase::e_end;
 	}

@@ -4,6 +4,7 @@
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
 #include "../[000]Object/[001]Character/[000]Player/CinemaPlayer.h"
+#include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
 #include "../[000]Object/[002]Gimmick/Gimmick.h"
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
@@ -22,11 +23,11 @@
 // 
 // ①責任が重すぎること。かつ他クラスとの依存度も深いのが問題。
 // 　本来のメディエータとは異なるため、今後はリファクタリングが必要。
-// 　尚、今回は制作規模や分割化での複雑さ軽減を考え、全てのクラスを参照している。
+// 　尚、今回は制作規模や、分割化での複雑さ軽減を考え、全てのクラスを参照。
 // 
 // ②各クラスへの参照をするため、毎フレーム大量のshared_ptrを生成するのも問題。
 // 　現状、設計の見直しをするのも現実的ではないため、今後はリファクタリングが必要。
-// 　但し、そうなると大量のshared_ptrを持つクラスが多くなるため、設計の見直しは今後の課題。
+// 　但し、そうなると大量のshared_ptrを生成するクラスが多くなるため、設計の見直し必須。
 // 
 // ※今回はあくまで、コンストラクタの引数を無くし、参照を渡すことを目的に使用。
 // 　その上での改善点は多数あるため、次作にて対応を考える。
@@ -58,7 +59,6 @@ class PartnerDraw;
 class GameCameraTarget;
 class CinemaCameraTarget;
 
-class Butterfly;
 class ButterflyLoad;
 		
 class Gimmick;
@@ -517,9 +517,9 @@ public:
 	// cinemaPlayerLoad
 
 	// シネマプレイヤーの各種パラメーター情報取得
-	// 参照元 ... CinemaPlayerLoad::m_cinema_player_parameter
+	// 参照元 ... CinemaPlayerLoad::m_parameter
 	// 参照先 ... CinemaPlayer関連クラス
-	const std::vector<CinemaPlayer::sCinemaPlayerParameter>& GetCinemaPlayerLoadParameter() const;
+	const std::vector<CinemaPlayer::sCinemaPlayerParameter>& GetCinemaPlayerParameters() const;
 
 	//--------------------------//
 
@@ -686,6 +686,11 @@ public:
 	// 参照元 ... ButterflyLoad::m_model_hdl
 	// 参照先 ... Butterfly関連クラス
 	int GetButterflyModelHdl() const;
+
+	// バタフライの各種パラメーター情報取得
+	// 参照元 ... ButterflyLoad::m_parameter
+	// 参照先 ... Butterfly関連クラス
+	const std::vector<Butterfly::sButterflyParameter>& GetButterflyParameters() const;
 
 	//-----------------------------//
 

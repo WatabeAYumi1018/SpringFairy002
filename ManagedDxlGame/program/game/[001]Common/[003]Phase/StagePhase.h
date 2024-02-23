@@ -41,6 +41,9 @@ private:
 
 	//-----------------------------------メンバ変数------------------------------------//
 
+	// ゴールのy座標
+	float m_goal_pos_y = 3000.0f;
+
 	// 現在のステージフェーズ
 	eStagePhase m_now_stage = eStagePhase::e_flower;
 
