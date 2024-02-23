@@ -73,6 +73,7 @@ void SceneOp::Draw(const float delta_time)
 void SceneOp::Finalize()
 {
 	MusicManager::GetInstance().StopBGM(0);
+	MusicManager::GetInstance().StopSE(0);
 
 	m_objects.clear();
 

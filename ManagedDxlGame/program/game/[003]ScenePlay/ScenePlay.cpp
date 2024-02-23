@@ -26,8 +26,6 @@ bool ScenePlay::SeqStart(const float delta_time)
 			== StagePhase::eStagePhase::e_end
 		|| tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
 	{		
-		MusicManager::GetInstance().StopBGM(1);
-
 		SceneManager* scene = SceneManager::GetInstance();
 
 		scene->ChangeScene(new SceneEd());
@@ -125,6 +123,8 @@ void ScenePlay::Draw(const float delta_time)
 
 void ScenePlay::Finalize()
 {
+	MusicManager::GetInstance().StopBGM(1);
+
 	m_objects_gameCamera.clear();
 
 	m_objects_cinemaCamera.clear();

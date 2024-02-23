@@ -57,7 +57,6 @@ void SceneEd::Finalize()
 	MusicManager::GetInstance().StopBGM(4);
 	MusicManager::GetInstance().StopSE(0);
 
-
 	//	デストラクタにて循環参照を明示的に解消
 	//	今回、各クラスからメディエータへの参照がsharedで行われているため、
 	//	カウントが0にならないと思われる事案が発生。

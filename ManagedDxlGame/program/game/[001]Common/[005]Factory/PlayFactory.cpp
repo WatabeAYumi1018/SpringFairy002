@@ -306,6 +306,7 @@ void PlayFactory::StorageObjectCinemaCamera()
 	m_objects_cinemaCamera.emplace_back(m_changeGraph);
 }
 
+// 明示的なリセットは本来必要ないが、メモリリークが発生しているため一時的な対処として実装
 void PlayFactory::SharedExReset()
 {
 	m_astar.reset();

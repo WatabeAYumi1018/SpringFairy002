@@ -7,7 +7,7 @@
 #include "gm_main.h"
 #include "[000]GameEngine/[000]Scene/SceneManager.h"
 #include "[000]GameEngine/[001]Music/MusicManager.h"
-#include "[004]SceneED/SceneEd.h"
+#include "[002]SceneOP/SceneOp.h"
 
 #include <stdlib.h>
 #include <crtdbg.h>
@@ -21,7 +21,7 @@ void gameStart()
 	// ウィンドウタイトル
 	SetWindowText("Spring Fairy");
 
-	SceneManager::GetInstance(new SceneEd());
+	SceneManager::GetInstance(new SceneOp());
 
 	// 音楽の読み込み
 	MusicManager::GetInstance().LoadBGM();
