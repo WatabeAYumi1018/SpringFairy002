@@ -45,17 +45,6 @@ public:
         return instance;
     }
 
-    // ƒƒ‚ƒŠ‰ğ•ú
-    static void DeleteInstance()
-	{
-		MusicManager& instance = GetInstance();
-	
-        delete &instance;
-
-        instance.m_bgm.reset();
-        instance.m_se.reset();
-	}
-
     //------------------------------------------------------------------------------//
 
 

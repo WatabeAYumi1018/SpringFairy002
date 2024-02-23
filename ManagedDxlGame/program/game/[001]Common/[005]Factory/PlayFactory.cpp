@@ -66,6 +66,9 @@ PlayFactory::~PlayFactory()
 {
 	m_objects_gameCamera.clear();
 	m_objects_cinemaCamera.clear();
+	m_gimmicks.clear();
+
+	SharedExReset();
 }
 
 void PlayFactory::CreateObject()
@@ -301,4 +304,56 @@ void PlayFactory::StorageObjectCinemaCamera()
 	m_objects_cinemaCamera.emplace_back(m_effect);
 	// sceneチェンジ用画像
 	m_objects_cinemaCamera.emplace_back(m_changeGraph);
+}
+
+void PlayFactory::SharedExReset()
+{
+	m_astar.reset();
+	m_collision_player_item.reset();
+	m_collision_mesh_item.reset();
+	m_collision_player_partner.reset();
+	m_cameraPhase.reset();
+	m_stagePhase.reset();
+	m_skyBox.reset();
+	m_cinemaBack.reset();
+	m_backLoad.reset();
+	m_laneLoad.reset();
+	m_laneMove.reset();
+	m_floor.reset();
+	m_model.reset();
+	m_modelLoad.reset();
+	m_character.reset();
+	m_player.reset();
+	m_playerLoad.reset();
+	m_playerMove.reset();
+	m_playerDraw.reset();
+	m_playerCollision.reset();
+	m_cinemaPlayer.reset();
+	m_partner.reset();
+	m_partnerLoad.reset();
+	m_partnerMove.reset();
+	m_partnerDraw.reset();
+	m_gameCameraTarget.reset();
+	m_cinemaCameraTarget.reset();
+	m_butterfly.reset();
+	m_butterflyLoad.reset();
+	m_gimmickLoad.reset();
+	m_gimmickGenerator.reset();
+	m_gimmickPool.reset();
+	m_effect.reset();
+	m_effectLoad.reset();
+	m_score.reset();
+	m_text.reset();
+	m_textLoad.reset();
+	m_textDraw.reset();
+	m_charaGraph.reset();
+	m_charaGraphLoad.reset();
+	m_changeGraph.reset();
+	m_childChangeGraph.reset();
+	m_otherGraphLoad.reset();
+	m_gameCamera.reset();
+	m_cameraLoad.reset();
+	m_cinemaCamera.reset();
+	m_mediator.reset();
+	m_screenShot.reset();
 }

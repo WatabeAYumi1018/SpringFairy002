@@ -24,30 +24,7 @@ OpFactory::~OpFactory()
 {
 	m_objects.clear();
 
-	//m_object.use_count();
-	//m_skyBox.use_count();
-	//m_backLoad.use_count();
-	//m_butterfly.use_count();
-	//m_butterflyLoad.use_count();
-	//m_title.use_count();
-	//m_gate.use_count();
-	//m_gateLoad.use_count();
-	//m_mediator.use_count();
-	//m_opCamera.use_count();
-
-
-	m_object.reset();
-	m_skyBox.reset();
-	m_backLoad.reset();
-	m_butterfly.reset();
-	m_butterflyLoad.reset();
-	m_title.reset();
-	m_gate.reset();
-	m_gateLoad.reset();
-	m_mediator.reset();
-	m_opCamera.reset();
-
-	//参照カウント確認
+	SharedExReset();
 }
 
 void OpFactory::CreateObject()
@@ -96,4 +73,20 @@ void OpFactory::StorageObject()
 	m_objects.emplace_back(m_butterfly);
 	m_objects.emplace_back(m_title);
 	m_objects.emplace_back(m_enterGraph);
+}
+
+// 明示的なリセットは本来必要ないが、メモリリークが発生しているため一時的な対処として実装
+void OpFactory::SharedExReset()
+{
+	m_object.reset();
+	m_skyBox.reset();
+	m_backLoad.reset();
+	m_butterfly.reset();
+	m_butterflyLoad.reset();
+	m_title.reset();
+	m_gate.reset();
+	m_gateLoad.reset();
+	m_mediator.reset();
+	m_enterGraph.reset();
+	m_opCamera.reset();
 }
