@@ -33,11 +33,8 @@ GimmickLoad::~GimmickLoad()
 void GimmickLoad::LoadGimmickTypeInfo(std::vector<std::vector<tnl::CsvCell>>& csv_gimmick
 									 ,std::vector<Gimmick::sGimmickTypeInfo>& gimmicks)
 {
-	// マップタイルの総数を取得
-	int max_num = csv_gimmick.size();
-
 	// 0行目は説明文なので読み飛ばす
-	for (int y = 1; y < max_num; ++y)
+	for (int y = 1; y < csv_gimmick.size(); ++y)
 	{
 		Gimmick::sGimmickTypeInfo gimmick_info;
 

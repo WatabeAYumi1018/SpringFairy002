@@ -1,5 +1,4 @@
 #pragma once
-#include "../dxlib_ext/dxlib_ext.h"
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
 #include "../[000]Object/[002]Gimmick/Gimmick.h"
 
@@ -38,11 +37,12 @@ class ModelPool;
 class Character;
 
 class Player;
+class CinemaPlayer;
 class PlayerLoad;
 class PlayerMove;
 class PlayerDraw;
 class PlayerCollision;
-class CinemaPlayer;
+class CinemaPlayerLoad;
 
 class Partner;
 class PartnerLoad;
@@ -141,11 +141,12 @@ private:
 	std::shared_ptr<Character> m_character = nullptr;
 
 	std::shared_ptr<Player> m_player = nullptr;
+	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
 	std::shared_ptr<PlayerLoad> m_playerLoad = nullptr;
 	std::shared_ptr<PlayerMove> m_playerMove = nullptr;
 	std::shared_ptr<PlayerDraw> m_playerDraw = nullptr;
 	std::shared_ptr<PlayerCollision> m_playerCollision = nullptr;
-	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
+	std::shared_ptr<CinemaPlayerLoad> m_cinemaPlayerLoad = nullptr;
 
 	std::shared_ptr<Partner> m_partner = nullptr;
 	std::shared_ptr<PartnerLoad> m_partnerLoad = nullptr;

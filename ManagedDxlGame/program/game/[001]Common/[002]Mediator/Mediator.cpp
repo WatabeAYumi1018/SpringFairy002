@@ -8,7 +8,7 @@
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerDraw.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
-#include "../[000]Object/[001]Character/[000]Player/CinemaPlayer.h"
+#include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayerFunction/CinemaPlayerLoad.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerLoad.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
@@ -474,6 +474,36 @@ tnl::Vector3 Mediator::PlayerForward()
 	}
 }
 
+// cinemaPlayer
+
+const tnl::Vector3& Mediator::GetCinemaPlayerPos() const
+{
+	std::shared_ptr<CinemaPlayer> shared_cinemaPlayer = m_cinemaPlayer.lock();
+
+	if (shared_cinemaPlayer)
+	{
+		return shared_cinemaPlayer->GetPos();
+	}
+	else
+	{
+		throw std::runtime_error("CinemaPlayer shared pointer is expired");
+	}
+}
+
+bool Mediator::GetCinemaPlayerIsDance() const
+{
+	std::shared_ptr<CinemaPlayer> shared_cinemaPlayer = m_cinemaPlayer.lock();
+
+	if (shared_cinemaPlayer)
+	{
+		return shared_cinemaPlayer->GetIsDance();
+	}
+	else
+	{
+		throw std::runtime_error("CinemaPlayer shared pointer is expired");
+	}
+}
+
 // playerLoad
 
 int Mediator::GetPlayerModelGameHdl() const
@@ -806,33 +836,19 @@ void Mediator::UpdateCollisionCheck()
 	}
 }
 
-// CinemaPlayer
+// cinemaPlayerLoad
 
-const tnl::Vector3& Mediator::GetCinemaPlayerPos() const
+const std::vector<CinemaPlayer::sCinemaPlayerParameter>& Mediator::GetCinemaPlayerLoadParameter() const
 {
-	std::shared_ptr<CinemaPlayer> shared_cinemaPlayer = m_cinemaPlayer.lock();
+	std::shared_ptr<CinemaPlayerLoad> shared_cinemaPlayerLoad = m_cinemaPlayerLoad.lock();
 
-	if (shared_cinemaPlayer)
+	if (shared_cinemaPlayerLoad)
 	{
-		return shared_cinemaPlayer->GetPos();
+		return shared_cinemaPlayerLoad->GetCinemaPlayerParameter();
 	}
 	else
 	{
-		throw std::runtime_error("CinemaPlayer shared pointer is expired");
-	}
-}
-
-bool Mediator::GetCinemaPlayerIsDance() const
-{
-	std::shared_ptr<CinemaPlayer> shared_cinemaPlayer = m_cinemaPlayer.lock();
-
-	if (shared_cinemaPlayer)
-	{
-		return shared_cinemaPlayer->GetIsDance();
-	}
-	else
-	{
-		throw std::runtime_error("CinemaPlayer shared pointer is expired");
+		throw std::runtime_error("CinemaPlayerLoad shared pointer is expired");
 	}
 }
 

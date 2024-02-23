@@ -524,10 +524,7 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\CinemaBack.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPlayerLoad.cpp">
-      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPayerMove.cpp">
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction\CinemaPlayerLoad.cpp">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
     </ClCompile>
   </ItemGroup>
@@ -935,14 +932,11 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[000]Stage\[000]Back\CinemaBack.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[000]Stage\[000]Back</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPlayerLoad.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPayerMove.h">
-      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[004]SceneED\SceneEd.h">
       <Filter>program\[003] game\[004]SceneED</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction\CinemaPlayerLoad.h">
+      <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

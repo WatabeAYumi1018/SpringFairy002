@@ -35,7 +35,6 @@ public:
 private:
 
 	// 各クラスのポインタ
-
 	std::shared_ptr<ScreenShot> m_screen_shot = nullptr;
 	std::shared_ptr<EnterGraph> m_enter_graph = nullptr;
 	std::shared_ptr<Mediator> m_mediator = nullptr;

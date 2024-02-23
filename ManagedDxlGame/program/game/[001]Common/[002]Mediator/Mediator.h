@@ -3,6 +3,7 @@
 #include "../[000]Object/[000]Stage/[000]Back/SkyBox.h"
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
+#include "../[000]Object/[001]Character/[000]Player/CinemaPlayer.h"
 #include "../[000]Object/[002]Gimmick/Gimmick.h"
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
@@ -25,14 +26,12 @@
 // 
 // ②各クラスへの参照をするため、毎フレーム大量のshared_ptrを生成するのも問題。
 // 　現状、設計の見直しをするのも現実的ではないため、今後はリファクタリングが必要。
-// 　本来は、sharedはファクトリーのみに持たせ、それ以外はweakで参照するのが望ましい。
 // 　但し、そうなると大量のshared_ptrを持つクラスが多くなるため、設計の見直しは今後の課題。
 // 
 // ※今回はあくまで、コンストラクタの引数を無くし、参照を渡すことを目的に使用。
 // 　その上での改善点は多数あるため、次作にて対応を考える。
 //
 ///////////////////////////////////////////////////////////////////////////
-
 
 
 class BackLoad;
@@ -49,7 +48,7 @@ class PlayerLoad;
 class PlayerMove;	
 class PlayerDraw;
 class PlayerCollision;
-class CinemaPlayer;
+class CinemaPlayerLoad;
 
 class Partner;
 class PartnerLoad;
@@ -128,11 +127,12 @@ private:
 	std::weak_ptr<Character> m_character;
 
 	std::weak_ptr<Player> m_player;
+	std::weak_ptr<CinemaPlayer> m_cinemaPlayer;
 	std::weak_ptr<PlayerLoad> m_playerLoad;
 	std::weak_ptr<PlayerMove> m_playerMove;
 	std::weak_ptr<PlayerDraw> m_playerDraw;
 	std::weak_ptr<PlayerCollision> m_playerCollision;
-	std::weak_ptr<CinemaPlayer> m_cinemaPlayer;
+	std::weak_ptr<CinemaPlayerLoad> m_cinemaPlayerLoad;
 
 	std::weak_ptr<Partner> m_partner;
 	std::weak_ptr<PartnerLoad> m_partnerLoad;
@@ -378,6 +378,18 @@ public:
 	// 参照先 ... プレイヤーの前方向が必要な全クラス
 	tnl::Vector3 PlayerForward();
 
+	// cinemaPlayer
+
+	// シネマプレイヤーの座標取得
+	// 参照元 ... Player::m_pos
+	// 参照先 ... Playerの座標が必要な全クラス
+	const tnl::Vector3& GetCinemaPlayerPos() const;
+
+	// シネマプレイヤーのダンスフラグ取得
+	// 参照元 ... Player::m_is_dance
+	// 参照先 ... Player関連クラス
+	bool GetCinemaPlayerIsDance() const;
+
 	// playerLoad
 
 	// プレイヤーモデルハンドルの取得
@@ -502,17 +514,12 @@ public:
 	// 参照先 ... Player::Update(float delta_time)
 	void UpdateCollisionCheck();
 
-	// CinemaPlayer
+	// cinemaPlayerLoad
 
-	// シネマプレイヤーの座標取得
-	// 参照元 ... Player::m_pos
-	// 参照先 ... Playerの座標が必要な全クラス
-	const tnl::Vector3& GetCinemaPlayerPos() const;
-
-	// シネマプレイヤーのダンスフラグ取得
-	// 参照元 ... Player::m_is_dance
-	// 参照先 ... Player関連クラス
-	bool GetCinemaPlayerIsDance() const;
+	// シネマプレイヤーの各種パラメーター情報取得
+	// 参照元 ... CinemaPlayerLoad::m_cinema_player_parameter
+	// 参照先 ... CinemaPlayer関連クラス
+	const std::vector<CinemaPlayer::sCinemaPlayerParameter>& GetCinemaPlayerLoadParameter() const;
 
 	//--------------------------//
 
@@ -1042,6 +1049,11 @@ public:
 		m_player = player;
 	}
 
+	void SetCinemaPlayer(std::shared_ptr<CinemaPlayer>& cinemaPlayer)
+	{
+		m_cinemaPlayer = cinemaPlayer;
+	}
+
 	void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 	{
 		m_playerLoad = playerLoad;
@@ -1062,9 +1074,9 @@ public:
 		m_playerCollision = playerCollision;
 	}
 
-	void SetCinemaPlayer(std::shared_ptr<CinemaPlayer>& cinemaPlayer)
+	void SetCinemaPlayerLoad(std::shared_ptr<CinemaPlayerLoad>& cinemaPlayerLoad)
 	{
-		m_cinemaPlayer = cinemaPlayer;
+		m_cinemaPlayerLoad = cinemaPlayerLoad;
 	}
 
 	void SetPartner(std::shared_ptr<Partner>& partner)

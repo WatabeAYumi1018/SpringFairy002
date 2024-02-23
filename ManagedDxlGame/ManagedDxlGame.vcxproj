@@ -203,12 +203,11 @@
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\Character.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\CinemaPlayer.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\Player.cpp" />
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPayerMove.cpp" />
-    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPlayerLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerCollision.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerDraw.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMove.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerLoad.cpp" />
+    <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction\CinemaPlayerLoad.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\Partner.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerDraw.cpp" />
     <ClCompile Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.cpp" />
@@ -334,12 +333,11 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\Character.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\CinemaPlayer.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\Player.h" />
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPayerMove.h" />
-    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPlayerLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerCollision.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerDraw.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerMove.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\PlayerLoad.h" />
+    <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction\CinemaPlayerLoad.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\Partner.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerDraw.h" />
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.h" />

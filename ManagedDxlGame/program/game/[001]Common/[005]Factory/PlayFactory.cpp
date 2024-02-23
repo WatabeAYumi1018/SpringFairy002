@@ -9,11 +9,12 @@
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
 #include "../[000]Object/[000]Stage/[003]Model/[000]ModelFunction/ModelLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/Player.h"
+#include "../[000]Object/[001]Character/[000]Player/CinemaPlayer.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerLoad.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerMove.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerDraw.h"
 #include "../[000]Object/[001]Character/[000]Player/[000]PlayerFunction/PlayerCollision.h"
-#include "../[000]Object/[001]Character/[000]Player/CinemaPlayer.h"
+#include "../[000]Object/[001]Character/[000]Player/[001]CinemaPlayerFunction/CinemaPlayerLoad.h"
 #include "../[000]Object/[001]Character/[001]Partner/Partner.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerLoad.h"
 #include "../[000]Object/[001]Character/[001]Partner/[000]PartnerFunction/PartnerMove.h"
@@ -99,11 +100,12 @@ void PlayFactory::CreateObject()
 	m_character = std::make_shared<Character>();
 
 	m_player = std::make_shared<Player>();
+	m_cinemaPlayer = std::make_shared<CinemaPlayer>();
 	m_playerLoad = std::make_shared<PlayerLoad>();
 	m_playerMove = std::make_shared<PlayerMove>();
 	m_playerDraw = std::make_shared<PlayerDraw>();
 	m_playerCollision = std::make_shared<PlayerCollision>();
-	m_cinemaPlayer = std::make_shared<CinemaPlayer>();
+	m_cinemaPlayerLoad = std::make_shared<CinemaPlayerLoad>();
 
 	m_partner = std::make_shared<Partner>();
 	m_partnerLoad = std::make_shared<PartnerLoad>();
@@ -158,11 +160,12 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetModelLoad(m_modelLoad);
 	m_mediator->SetCharacter(m_character);
 	m_mediator->SetPlayer(m_player);
+	m_mediator->SetCinemaPlayer(m_cinemaPlayer);
 	m_mediator->SetPlayerLoad(m_playerLoad);
 	m_mediator->SetPlayerMove(m_playerMove);
 	m_mediator->SetPlayerDraw(m_playerDraw);
 	m_mediator->SetPlayerCollision(m_playerCollision);
-	m_mediator->SetCinemaPlayer(m_cinemaPlayer);
+	m_mediator->SetCinemaPlayerLoad(m_cinemaPlayerLoad);
 	m_mediator->SetPartner(m_partner);
 	m_mediator->SetPartnerLoad(m_partnerLoad);
 	m_mediator->SetPartnerMove(m_partnerMove);
