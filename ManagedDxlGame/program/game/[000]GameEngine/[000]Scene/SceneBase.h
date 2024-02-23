@@ -24,10 +24,10 @@ public:
 	virtual void Initialize() {}
 	// 更新
 	// arg... delta_time(前フレームからの経過時間)
-	virtual void Update(float delta_time) {}
+	virtual void Update(const float delta_time) {}
 	// 描画
 	// arg... delta_time(前フレームからの経過時間)
-	virtual void Draw(float delta_time) {}
+	virtual void Draw(const float delta_time) {}
 	// 破棄
 	virtual void Finalize() {}
 

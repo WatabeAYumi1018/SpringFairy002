@@ -9,7 +9,9 @@
 #include "[000]GameEngine/[001]Music/MusicManager.h"
 #include "[002]SceneOP/SceneOp.h"
 
-
+#include <stdlib.h>
+#include <crtdbg.h>
+#define _CRTDBG_MAP_ALLOC
 //------------------------------------------------------------------------------------------------------------
 // ゲーム起動時に１度だけ実行されます
 void gameStart() 
@@ -38,4 +40,9 @@ void gameMain(float delta_time)
 void gameEnd() 
 {
 	SceneManager::GetInstance()->Finalize();
+	
+	MusicManager::GetInstance().DeleteInstance();
+
+	// メモリリークのチェック
+	_CrtDumpMemoryLeaks();
 }

@@ -881,9 +881,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction\PartnerLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[001]Partner\[000]PartnerFunction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[004]SceneED\SceneEd.h">
-      <Filter>program\[003] game\[004]SceneED</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTarget.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
     </ClInclude>
@@ -943,6 +940,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[000]PlayerFunction\CinemaPayerMove.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[004]SceneED\SceneEd.h">
+      <Filter>program\[003] game\[004]SceneED</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

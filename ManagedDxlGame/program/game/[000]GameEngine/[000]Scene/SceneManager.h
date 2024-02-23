@@ -72,7 +72,7 @@ public:
 	// tips ... ƒV[ƒ“‘JˆÚ‚ÌÛ‚ÉŒÄ‚Ño‚µ‚Ü‚·
 	void ChangeScene(SceneBase* next_scene, float trans_time = 0.5f);
 
-	void Update(float delta_time);
+	void Update(const float delta_time);
 
 
 	//-----staticŠÖ”-----//

@@ -65,6 +65,7 @@ PlayFactory::PlayFactory()
 PlayFactory::~PlayFactory()
 {
 	m_objects_gameCamera.clear();
+	m_objects_cinemaCamera.clear();
 }
 
 void PlayFactory::CreateObject()

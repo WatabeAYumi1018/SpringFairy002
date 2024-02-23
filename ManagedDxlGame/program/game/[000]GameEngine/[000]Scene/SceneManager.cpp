@@ -18,13 +18,14 @@ SceneManager* SceneManager::GetInstance(SceneBase* start_scene)
 
 	if (!instance)
 	{
+
 		instance = new SceneManager(start_scene);
 	}
 	return instance;
 }
 
 //現在のシーンの更新と描画
-void SceneManager::Update(float delta_time)
+void SceneManager::Update(const float delta_time)
 {
 	if (m_now_scene)
 	{
@@ -108,5 +109,9 @@ bool SceneManager::SeqTransOut(const float delta_time)
 
 void SceneManager::Finalize()
 {
-	delete GetInstance();
+	static SceneManager* instance = GetInstance();
+
+	delete instance;
+	// ここでstatic変数をnullptrにしてリセット
+	instance = nullptr; 
 }
