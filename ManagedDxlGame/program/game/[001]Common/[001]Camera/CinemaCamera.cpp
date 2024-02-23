@@ -10,8 +10,42 @@ CinemaCamera::CinemaCamera()
 	// 使用する画面の作成
 	m_screen_hdl = MakeScreen(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, TRUE);
 
-	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
+	// カメラに映る範囲の最近距離
+	// 10 : ドアップのため限りなく0に近い数値で（ほぼ変更ないため固定値）
 	near_ = 10;
+
+	LoadParameter();
+}
+
+CinemaCamera::~CinemaCamera()
+{
+	// 画面の解放
+	DeleteGraph(m_screen_hdl);
+
+	m_csv_parameters.clear();
+	m_paras.clear();
+}
+
+void CinemaCamera::LoadParameter()
+{
+	m_csv_parameters
+		= tnl::LoadCsv<tnl::CsvCell>("csv/stage/camera/cinemaCamera_move.csv");
+
+	// 0行目は説明文なので読み飛ばす
+	// 0列目は見やすさのために記入しただけで不要な数値のため読み飛ばす
+	// 2列目はパラメータ名、4列目はパラメータの内容となっており、今回は不要
+	for (int y = 1; y < m_csv_parameters.size(); ++y)
+	{
+		CinemaCamera::sCinemaCameraParameter cinemaCamera_parameter;
+
+		cinemaCamera_parameter.s_id
+			= m_csv_parameters[y][1].getInt();
+
+		cinemaCamera_parameter.s_num
+			= m_csv_parameters[y][3].getFloat();
+
+		m_paras.emplace_back(cinemaCamera_parameter);
+	}
 }
 
 void CinemaCamera::SetCanvas()
@@ -33,6 +67,7 @@ void CinemaCamera::Render()
 	// 描画対象を表画面に設定
 	SetDrawScreen(DX_SCREEN_BACK);
 
+	// 全画面のため0～Maxまで描画
 	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH
 					, DXE_WINDOW_HEIGHT, m_screen_hdl, FALSE);
 }
@@ -66,6 +101,7 @@ void CinemaCamera::ToSlide(const float delta_time,const tnl::Vector3& offset,flo
 		= tnl::Vector3(target_.x + offset.x, target_.y + offset.y, target_.z + offset.z);
 
 	// 補間を使用してカメラ位置を更新
+	// 速度を掛けることで補間の速度を調整(細かい調整のため)
 	pos_ = Lerp(pos_, target_pos, delta_time * speed);
 }
 
@@ -94,17 +130,17 @@ bool CinemaCamera::SeqFirst(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
 	{
-		Fixed({0,200,-500});
+		Fixed({ m_paras[1].s_num,m_paras[2].s_num,m_paras[3].s_num });
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		ToSlide(delta_time, {0,80,-100},10);
+		ToSlide(delta_time, { m_paras[4].s_num,m_paras[5].s_num,m_paras[6].s_num }, m_paras[0].s_num);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2.4f, delta_time, [&]()
 	{
-		Fixed({ 0,80,-100 });
+		Fixed({ m_paras[4].s_num,m_paras[5].s_num,m_paras[6].s_num });
 	});
 
 	m_is_active = false;
@@ -118,17 +154,17 @@ bool CinemaCamera::SeqSecond(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		Fixed({ 0,0,-100 });
+		Fixed({ m_paras[10].s_num,m_paras[11].s_num,m_paras[12].s_num  });
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 0,0,-2000 },2);
+		ToSlide(delta_time, { m_paras[13].s_num,m_paras[14].s_num,m_paras[15].s_num },m_paras[16].s_num);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(9, delta_time, [&]()
 	{
-		Fixed({ 0,0,-2000 });
+		Fixed({ m_paras[17].s_num,m_paras[18].s_num,m_paras[19].s_num });
 	});
 
 	m_is_active = false;
@@ -142,17 +178,17 @@ bool CinemaCamera::SeqThird(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(2, delta_time, [&]()
 	{
-		Fixed({ 0,0,-700 });
+		Fixed({ m_paras[20].s_num,m_paras[21].s_num,m_paras[22].s_num });
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		ToSlide(delta_time, { 700,0,-300 }, 10);
+		ToSlide(delta_time, { m_paras[23].s_num,m_paras[24].s_num,m_paras[25].s_num }, m_paras[0].s_num);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
-		ToSlide(delta_time, { -700,0,-500 }, 10);
+		ToSlide(delta_time, { m_paras[26].s_num,m_paras[27].s_num,m_paras[28].s_num }, m_paras[0].s_num);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
@@ -161,24 +197,24 @@ bool CinemaCamera::SeqThird(const float delta_time)
 
 		target_ = m_mediator->GetButterflyPos();
 
-		ToSlide(delta_time, { 0,100,-200 }, 10);
+		ToSlide(delta_time, { m_paras[29].s_num,m_paras[30].s_num,m_paras[31].s_num }, m_paras[0].s_num);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(8, delta_time, [&]()
 	{
-		Fixed({ 0,100,-300 });
+		Fixed({ m_paras[32].s_num,m_paras[33].s_num,m_paras[34].s_num });
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(1, delta_time, [&]()
 	{
 		target_ = m_mediator->GetCinemaCameraTargetPos();
 
-		ToSlide(delta_time, { 0,0,-300 }, 10);
+		ToSlide(delta_time, { m_paras[35].s_num,m_paras[36].s_num,m_paras[37].s_num }, m_paras[0].s_num);
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(4.5f, delta_time, [&]()
 	{
-		Fixed({ 0,0,-300 });
+		Fixed({ m_paras[35].s_num,m_paras[36].s_num,m_paras[37].s_num });
 	});
 
 	m_is_active = false;
@@ -187,106 +223,3 @@ bool CinemaCamera::SeqThird(const float delta_time)
 
 	TNL_SEQ_CO_END;
 }
-
-
-// -----デバッグ用----- //
-
-void CinemaCamera::Control(const float delta_time)
-{
-	// マウスの移動量を取得
-	tnl::Vector3 mouse_velocity = tnl::Input::GetMouseVelocity();
-	// マウス感度の調整
-	float mouse_sensitivity = 0.1f;
-	// カメラの回転
-	float yaw = mouse_velocity.x * mouse_sensitivity;
-	float pitch = mouse_velocity.y * mouse_sensitivity;
-	// カメラの横回転（Y軸回転）
-	pos_ = RotateAroundPlayer(pos_, target_, tnl::Vector3(0, 1, 0), yaw);
-	// カメラの縦回転（X軸回転）
-	pos_ = RotateAroundPlayer(pos_, target_, right(), pitch);
-	// カメラの前後移動
-	float scroll = tnl::Input::GetMouseWheel();
-	// ズーム感度
-	float zoom_sensitivity = 0.5f;
-
-	pos_ += forward() * scroll * zoom_sensitivity;
-	// カメラの向きを更新
-	view_ = tnl::Matrix::LookAtLH(pos_, target_, up_);
-}
-
-tnl::Vector3 CinemaCamera::RotateAroundPlayer(const tnl::Vector3& point
-												, const tnl::Vector3& pivot
-												, const tnl::Vector3& axis
-												, float angle)
-{
-	// 回転
-	tnl::Quaternion rotation
-		= tnl::Quaternion::RotationAxis(axis, tnl::ToRadian(angle));
-	// 回転行列を生成
-	tnl::Matrix rotation_matrix = tnl::Matrix::RotationQuaternion(rotation);
-	// 点を回転行列で変換
-	tnl::Vector3 transformed_point
-		= tnl::Vector3::Transform(point - pivot, rotation_matrix);
-	// 変換した点にピボットを加算して最終的な位置を得る
-	return transformed_point + pivot;
-}
-
-//// 分割比率に基づいて各スクリーンの幅を計算します。
-//m_split_width_left
-//	= static_cast<int>(DXE_WINDOW_WIDTH * (1.0f - split_rate) / 2);
-
-//m_split_width_right = DXE_WINDOW_WIDTH - m_split_width_left;
-
-//CinemaCamera::CinemaCamera(int screen_w, int screen_h, CinemaCamera::eCameraSplitType type)
-//	: dxe::Camera(screen_w, screen_h), m_type(type)
-//{
-//	// 使用する画面の作成
-//	CreateScreen();
-//
-//	// カメラに映る範囲の最近距離(ドアップのため限りなく0に近い数値で)
-//	near_ = 10;
-//}
-
-//if (m_type == eCameraSplitType::e_half_right)
-//{
-//	DrawExtendGraph(DXE_WINDOW_WIDTH / 2, 0, DXE_WINDOW_WIDTH
-//					, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
-//}
-//if (m_type == eCameraSplitType::e_third_left)
-//{
-//	DrawExtendGraph(0, 0, m_split_width_left
-//					, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
-//}
-//if (m_type == eCameraSplitType::e_third_right)
-//{
-//	DrawExtendGraph(m_split_width_right, 0, DXE_WINDOW_WIDTH
-//					, DXE_WINDOW_HEIGHT, screen_hdl, FALSE);
-//}	
-
-//void CinemaCamera::CreateScreen()
-//{	
-//	m_half_right
-//		= MakeScreen(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT, TRUE);
-//
-//	m_third_left
-//		= MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
-//
-//	m_third_right
-//		= MakeScreen(DXE_WINDOW_WIDTH / 3, DXE_WINDOW_HEIGHT, TRUE);
-//}
-//
-//void CinemaCamera::UpdateSplit(const float delta_time)
-//{
-//	// 分割比率の変更
-//	split_rate += delta_time;
-//
-//	// 分割比率が1を超えたら1にする
-//	if (split_rate > 1.0f)
-//	{
-//		split_rate = 1.0f;
-//
-//		m_is_third_left_active = false;
-//		m_is_third_right_active = false;
-//	}
-//}
-

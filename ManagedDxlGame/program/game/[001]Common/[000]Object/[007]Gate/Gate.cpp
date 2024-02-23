@@ -3,9 +3,10 @@
 
 
 
-Gate::Gate()
+Gate::~Gate()
 {
-
+    m_gates_info.clear();
+    m_meshes.clear();
 }
 
 void Gate::Initialize()

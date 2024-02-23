@@ -3,7 +3,7 @@
 #include "PlayerMove.h"
 
 
-void PlayerMove::Update(float delta_time)
+void PlayerMove::Update(const float delta_time)
 {
 	m_pos = m_mediator->GetPlayerPos();
 	m_rot = m_mediator->GetPlayerRot();
@@ -25,15 +25,15 @@ bool PlayerMove::PushButton()
 	// 上
 	if (up)
 	{
-		direction = eDirection::e_front;
+		m_direction = Character::eDirection::e_front;
 
 		if (right)
 		{
-			direction = eDirection::e_front_right;
+			m_direction = Character::eDirection::e_front_right;
 		}
 		else if (left)
 		{
-			direction = eDirection::e_front_left;
+			m_direction = Character::eDirection::e_front_left;
 		}
 
 		return true;
@@ -41,15 +41,15 @@ bool PlayerMove::PushButton()
 	// 下
 	else if (down)
 	{
-		direction = eDirection::e_back;
+		m_direction = Character::eDirection::e_back;
 
 		if (right)
 		{
-			direction = eDirection::e_back_right;
+			m_direction = Character::eDirection::e_back_right;
 		}
 		else if (left)
 		{
-			direction = eDirection::e_back_left;
+			m_direction = Character::eDirection::e_back_left;
 		}
 
 		return true;
@@ -57,15 +57,15 @@ bool PlayerMove::PushButton()
 	// 右
 	else if (right)
 	{
-		direction = eDirection::e_right;
+		m_direction = Character::eDirection::e_right;
 
 		if (up)
 		{
-			direction = eDirection::e_front_right;
+			m_direction = Character::eDirection::e_front_right;
 		}
 		else if (down)
 		{
-			direction = eDirection::e_back_right;
+			m_direction = Character::eDirection::e_back_right;
 		}
 
 		return true;
@@ -73,15 +73,15 @@ bool PlayerMove::PushButton()
 	// 左
 	else if (left)
 	{
-		direction = eDirection::e_left;
+		m_direction = Character::eDirection::e_left;
 
 		if (up)
 		{
-			direction = eDirection::e_front_left;
+			m_direction = Character::eDirection::e_front_left;
 		}
 		else if (down)
 		{
-			direction = eDirection::e_back_left;
+			m_direction = Character::eDirection::e_back_left;
 		}
 
 		return true;
@@ -90,7 +90,7 @@ bool PlayerMove::PushButton()
 	return false;
 }
 
-void PlayerMove::MoveMatrix(float delta_time)
+void PlayerMove::MoveMatrix(const float delta_time)
 {
 	// 自動経路による移動と回転の更新
 	m_mediator->MoveAstarCharaUpdatePos(delta_time, m_pos);
@@ -102,7 +102,7 @@ void PlayerMove::MoveMatrix(float delta_time)
 	}
 }
 
-void PlayerMove::ControlMoveMatrix(float delta_time)
+void PlayerMove::ControlMoveMatrix(const float delta_time)
 {
 	float move_speed = m_mediator->GetPlayerMoveSpeed();
 	float move_rot = m_mediator->GetPlayerMoveRot();
@@ -118,16 +118,14 @@ void PlayerMove::ControlMoveMatrix(float delta_time)
 		= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
 	// 傾斜の初期化
 	tnl::Quaternion tilt_rotation;
-	// 傾ける角度
-	float tilt_angle = 0.05f;
 
 	if (tnl::Input::IsKeyDown(eKeys::KB_UP))
 	{
-		move_direction.y += delta_time * 10;
+		move_direction.y += delta_time * m_move_high_and_low_speed;
 
 		// 後ろに傾ける
 		tilt_rotation
-			= tnl::Quaternion::RotationAxis(camera_right, -tilt_angle);
+			= tnl::Quaternion::RotationAxis(camera_right, -m_rot_angle);
 	}
 	if (tnl::Input::IsKeyDown(eKeys::KB_RIGHT))
 	{
@@ -135,7 +133,7 @@ void PlayerMove::ControlMoveMatrix(float delta_time)
 
 		// 右方向に傾ける
 		tilt_rotation 
-			= tnl::Quaternion::RotationAxis(camera_forward, -tilt_angle);
+			= tnl::Quaternion::RotationAxis(camera_forward, -m_rot_angle);
 	}
 	if (tnl::Input::IsKeyDown(eKeys::KB_LEFT))
 	{
@@ -143,26 +141,31 @@ void PlayerMove::ControlMoveMatrix(float delta_time)
 
 		// 左方向に傾ける
 		tilt_rotation 
-			= tnl::Quaternion::RotationAxis(camera_forward, tilt_angle);
+			= tnl::Quaternion::RotationAxis(camera_forward, m_rot_angle);
 	}
 	if (tnl::Input::IsKeyDown(eKeys::KB_DOWN))
 	{
 		if (m_mediator->GetPlayerLookSideRight()
 			|| m_mediator->GetPlayerLookSideLeft())
 		{
-			move_direction.y -= delta_time / 10;
+			// サイドを向いている時は傾き具合を大きくする
+			move_direction.y -= delta_time / m_side_rot_rate;
+
+			// 3 : 傾き具合（ここでしか使用しない数値)
+			// ※本来はデバッグで外部から設定できるようにするのが好ましい
+			float tilt_rot_rate = 3.0f;
 
 			// 傾き度合を大きくする
 			tilt_rotation
-				= tnl::Quaternion::RotationAxis(camera_right, tilt_angle * 3);
+				= tnl::Quaternion::RotationAxis(camera_right, m_rot_angle * tilt_rot_rate);
 		}
 		else
 		{
-			move_direction.y -= delta_time * 10;
+			move_direction.y -= delta_time * m_move_high_and_low_speed;
 
 			// 前に傾く
 			tilt_rotation
-				= tnl::Quaternion::RotationAxis(camera_right, tilt_angle);
+				= tnl::Quaternion::RotationAxis(camera_right, m_rot_angle);
 		}
 	}
 
@@ -182,7 +185,7 @@ void PlayerMove::ControlMoveMatrix(float delta_time)
 	m_rot.slerp(m_target_rot, delta_time * move_rot);
 }
 
-void PlayerMove::SaltoActionMatrix(float delta_time)
+void PlayerMove::SaltoActionMatrix(const float delta_time)
 {
 	float salto_total_time = m_mediator->GetPlayerSaltoTotalTime();
 	float salto_radius = m_mediator->GetPlayerSaltoRadius();
@@ -191,15 +194,17 @@ void PlayerMove::SaltoActionMatrix(float delta_time)
 	m_salto_elapsed_time += delta_time;
 
 	// 宙返りの全体の進行時間
+	// 180 : 半分の角度を2倍とする
 	float angle = (m_salto_elapsed_time / salto_total_time) 
-					* 2 * tnl::ToRadian(180);
+					* 2 * tnl::ToRadian(180.0f);
 
 	// 宙返りの軌道に沿った座標更新
 	m_pos.y = m_pos.y + sin(angle) * salto_radius;
 	m_pos.z = m_pos.z + cos(angle) * salto_radius;
 
 	// 傾きをリセット（初期向きに戻す）
-	m_target_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
+	m_target_rot
+		= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
 
 	tnl::Quaternion salt_rot
 		= tnl::Quaternion::RotationAxis(tnl::Vector3(-1, 0, 0), angle);
@@ -234,11 +239,12 @@ bool PlayerMove::SeqStop(const float delta_time)
 {
 	TNL_SEQ_CO_TIM_YIELD_RETURN(5, delta_time, [&]()
 	{
-		// 数秒間座標更新を停止
+		// 5秒間座標更新を停止
 	});
 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(10, delta_time, [&]()
 	{
+		// 10秒間倍速で座標更新
 		MoveMatrix(delta_time);
 	});
 
@@ -254,6 +260,9 @@ bool PlayerMove::SeqUpMove(const float delta_time)
 		MoveMatrix(delta_time);
 
 		// y座標を上昇
+		// 1000 : 上昇速度
+		// ※本来はデバッグで外部から設定できるようにするのが好ましい
+		// 　まだ実装も反映していないため、今のところは直接入力
 		m_pos.y += delta_time * 1000;
 	});
 
@@ -272,7 +281,11 @@ bool PlayerMove::SeqDownMove(const float delta_time)
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
 	{
 		MoveMatrix(delta_time);
+
 		// y座標を下降
+		// 50 : 下降速度
+		// ※本来はデバッグで外部から設定できるようにするのが好ましい
+		// 　まだ実装も反映していないため、今のところは直接入力
 		m_pos.y -= delta_time * 50;
 	});
 
@@ -302,112 +315,4 @@ bool PlayerMove::SeqSaltoAction(const float delta_time)
 	TNL_SEQ_CO_END;
 }
 
-
-//bool PlayerMove::SeqGround(const float delta_time)
-//{
-//	if (tnl_sequence_.isStart())
-//	{
-//		m_stage_phase = m_mediator->GetNowStagePhaseState();
-//	}
-//
-//	// フェーズが以降し、空中になったら空中実行処理へ
-//	if (m_stage_phase != m_mediator->GetNowStagePhaseState())
-//	{
-//		tnl_sequence_.change(&PlayerMove::SeqFly);
-//	}
-//
-//	// 押すまでループ
-//	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-//	{
-//		DrawStringEx(0, 0, 1, "ground");
-//
-//		if (PushButton()) 
-//		{
-//			GroundMoveMatrix(delta_time);
-//		}
-//	});
-//
-//	TNL_SEQ_CO_END;
-//}
-
-// プレイヤーの基本向きは正面
-// ただし、敵がいる時は敵の方向を向く。（右に敵がいれば右に９０度回転）
-// つまり、敵が登場した方向ベクトルをプレイヤーの正面とする
-
-//void PlayerMove::GroundMoveMatrix(float delta_time)
-//{
-//	tnl::Vector3 pos = m_mediator->GetPlayerPos();
-//	tnl::Quaternion rot = m_mediator->GetPlayerRot();
-//
-//	// 移動による経過
-//	float move_elapsed = delta_time * m_move_speed;
-//
-//	if (direction == eDirection::front)
-//	{
-//		pos.z += move_elapsed;
-//
-//		m_target_rot
-//			= tnl::Quaternion::LookAtAxisY(pos, pos + tnl::Vector3(0, 0, 1));
-//	}
-//	else if (direction == eDirection::back)
-//	{
-//		pos.z -= move_elapsed;
-//
-//		m_target_rot
-//			= tnl::Quaternion::LookAtAxisY(pos, pos + tnl::Vector3(0, 0, -1));
-//	}
-//	else if (direction == eDirection::right)
-//	{
-//		pos.x += move_elapsed;
-//
-//		m_target_rot
-//			= tnl::Quaternion::LookAtAxisY(pos, pos + tnl::Vector3(1, 0, 0));
-//	}
-//	else if (direction == eDirection::left)
-//	{
-//		pos.x -= move_elapsed;
-//
-//		m_target_rot
-//			= tnl::Quaternion::LookAtAxisY(pos, pos + tnl::Vector3(-1, 0, 0));
-//	}
-//	else if (direction == eDirection::front_right)
-//	{
-//		pos.x += move_elapsed;
-//		pos.z += move_elapsed;
-//
-//		m_target_rot
-//			= tnl::Quaternion::LookAtAxisY(pos, pos + tnl::Vector3(1, 0, 1));
-//	}
-//	else if (direction == eDirection::front_left)
-//	{
-//		pos.x -= move_elapsed;
-//		pos.z += move_elapsed;
-//
-//		m_target_rot
-//			= tnl::Quaternion::LookAtAxisY(pos, pos + tnl::Vector3(-1, 0, 1));
-//	}
-//	else if (direction == eDirection::back_right)
-//	{
-//		pos.x += move_elapsed;
-//		pos.z -= move_elapsed;
-//
-//		m_target_rot
-//			= tnl::Quaternion::LookAtAxisY(pos, pos + tnl::Vector3(1, 0, -1));
-//	}
-//	else if (direction == eDirection::back_left)
-//	{
-//		pos.x -= move_elapsed;
-//		pos.z -= move_elapsed;
-//
-//		m_target_rot
-//			= tnl::Quaternion::LookAtAxisY(pos, pos + tnl::Vector3(-1, 0, -1));
-//	}
-//
-//	// 現在の回転を目標の回転に向けてslerpで補間
-//	rot.slerp(m_target_rot, delta_time * m_move_rotation);
-//
-//	// 座標、回転の更新
-//	m_mediator->SetPlayerPos(pos);
-//	m_mediator->SetPlayerRot(rot);
-//}
 

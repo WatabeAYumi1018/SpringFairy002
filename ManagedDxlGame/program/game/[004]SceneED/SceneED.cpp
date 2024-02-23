@@ -1,5 +1,5 @@
-#include "../[000]GameEngine/[001]Scene/SceneManager.h"
-#include "../[000]GameEngine/[002]Music/MusicManager.h"
+#include "../[000]GameEngine/[000]Scene/SceneManager.h"
+#include "../[000]GameEngine/[001]Music/MusicManager.h"
 #include "../[001]Common/[000]Object/[008]OtherGraph/EnterGraph.h"
 #include "../[001]Common/[002]Mediator/Mediator.h"
 #include "../[001]Common/[004]ScreenShot/ScreenShot.h"
@@ -55,4 +55,18 @@ void SceneEd::Draw(const float delta_time)
 void SceneEd::Finalize()
 {
 	MusicManager::GetInstance().StopBGM(4);
+	MusicManager::GetInstance().StopSE(0);
+
+	//	デストラクタにて循環参照を明示的に解消
+	//	今回、各クラスからメディエータへの参照がsharedで行われているため、
+	//	カウントが0にならないと思われる事案が発生。
+	//	改善策として、メディエータへのweak参照が挙げられますが、
+	//	毎フレーム大量のshared_ptrを生成する事になるため、
+	//	パフォーマンスへの影響を懸念。
+	//	作成終盤の現段階で設計の見直しは現実的でないため、
+	//	今回は明示的に解消する事にしました。
+	//  今後の大きな課題として、設計の見直しを行う事が挙げられます。
+	m_enter_graph.reset();
+	m_mediator.reset();
+	m_screen_shot.reset();
 }

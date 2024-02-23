@@ -10,12 +10,13 @@ void Character::StartPos()
 		if (start.s_id == 1)
 		{
 			// グリッドの中心座標に設定
+			// 2 : グリッドの半分のため固定値
 			m_pos = start.s_pos + tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
 		}
 	}
 }
 
-// プレイヤーの足元レーンを取得
+// 足元レーンを取得
 Lane::sLane Character::CurrentMoveLane()
 {
 	// プレイヤー座標をグリッド座標に変換
@@ -40,33 +41,7 @@ Lane::sLane Character::CurrentMoveLane()
 	return Lane::sLane();
 }
 
-//Gimmick::sGimmick Character::CurrentGimmickLane()
-//{
-//	// プレイヤー座標をグリッド座標に変換
-//	auto [chara_x, chara_z]
-//		= wta::ConvertFloatToGridInt(m_pos, Lane::LANE_SIZE);
-//
-//	std::vector<Gimmick::sGimmick> item_vec = m_mediator->GetGimmickLoadLane();
-//
-//	// 配列を使用し、グリッド座標からタイルIDを取得
-//	for (Gimmick::sGimmick& item_lane : item_vec)
-//	{
-//		auto [item_lane_x, item_lane_z]
-//			= wta::ConvertFloatToGridInt(item_lane.s_pos, Lane::LANE_SIZE);
-//
-//		// キャラがタイルの領域内にいるかを判定
-//		if (chara_x == item_lane_x && chara_z == item_lane_z)
-//		{
-//			m_mediator->SetGimmickIsActive(true);
-//
-//			return item_lane;
-//		}
-//	}
-//	// 該当なし
-//	return Gimmick::sGimmick();
-//}
-
-GameCamera::sCamera Character::CurrentCamera()
+GameCamera::sCamera Character::CurrentCameraLane()
 {
 	// キャラ座標をグリッド座標に変換
 	auto [chara_x, chara_z]
@@ -83,10 +58,7 @@ GameCamera::sCamera Character::CurrentCamera()
 
 		// キャラがタイルの領域内にいるかを判定
 		if (chara_x == camera_lane_x && chara_z == camera_lane_z)
-		{
-			DrawStringEx(500, 50, -1, "カメラレーン座標.x : %d", camera_lane_x);
-			DrawStringEx(500, 70, -1, "カメラレーン座標.z : %d", camera_lane_z);
-			
+		{			
 			return camera_lane;
 		}
 	}
@@ -113,9 +85,6 @@ Lane::sLaneEvent Character::CurrentEventLane()
 		// キャラがタイルの領域内にいるかを判定
 		if (chara_x == event_lane_x && chara_z == event_lane_z)
 		{
-			DrawStringEx(500, 90, -1, "イベントレーン座標.x : %d", event_lane_x);
-			DrawStringEx(500, 110, -1, "イベントレーン座標.z : %d", event_lane_z);
-
 			return event_lane;
 		}
 	}
@@ -136,5 +105,5 @@ MATRIX Character::CalcMatrix()
 GameCamera::sCameraInfo Character::CurrentCameraType()
 {
 	// 現在のカメラのタイプを取得
-	return 	m_mediator->GetCameraTypeInfoById(CurrentCamera().s_id);
+	return 	m_mediator->GetCameraTypeInfoById(CurrentCameraLane().s_id);
 }

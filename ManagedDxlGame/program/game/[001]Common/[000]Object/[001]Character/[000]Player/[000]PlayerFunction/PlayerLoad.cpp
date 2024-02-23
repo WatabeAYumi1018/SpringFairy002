@@ -10,18 +10,18 @@ PlayerLoad::PlayerLoad()
 
 PlayerLoad::~PlayerLoad()
 {
-	m_csv_move.clear();
-	m_csv_model.clear();
 	MV1DeleteModel(m_model_game_hdl);
 	MV1DeleteModel(m_model_cinema_hdl);
 	MV1DeleteModel(m_anim_bone_idle_cinema_hdl);
 	MV1DeleteModel(m_anim_bone_move_game_hdl);
-	MV1DeleteModel(m_anim_bone_move_cinema_hdl);
 	MV1DeleteModel(m_anim_bone_bloom_game_hdl);
 	MV1DeleteModel(m_anim_bone_dance_game_hdl);
 	MV1DeleteModel(m_anim_bone_dance_cinema_hdl);
 	DeleteGraph(m_texture_game_hdl);
 	DeleteGraph(m_texture_cinema_hdl);
+
+	m_csv_move.clear();
+	m_csv_model.clear();
 }
 
 void PlayerLoad::LoadPlayerMoveInfo()
@@ -45,21 +45,32 @@ void PlayerLoad::LoadPlayerModelInfo()
 		= tnl::LoadCsv<std::string>("csv/character/player/player_model.csv");
 
 	// 各パラメータの値を格納
-	m_model_game_hdl = MV1LoadModel(m_csv_model[1][1].c_str());
-	m_model_cinema_hdl = MV1LoadModel(m_csv_model[1][1].c_str());
+	m_model_game_hdl
+		= MV1LoadModel(m_csv_model[1][1].c_str());
 
-	m_anim_bone_idle_cinema_hdl = MV1LoadModel(m_csv_model[2][1].c_str());
+	m_model_cinema_hdl
+		= MV1LoadModel(m_csv_model[1][1].c_str());
+
+	m_anim_bone_idle_cinema_hdl 
+		= MV1LoadModel(m_csv_model[2][1].c_str());
 	
-	m_anim_bone_move_game_hdl = MV1LoadModel(m_csv_model[3][1].c_str());
-	m_anim_bone_move_cinema_hdl = MV1LoadModel(m_csv_model[3][1].c_str());
+	m_anim_bone_move_game_hdl 
+		= MV1LoadModel(m_csv_model[3][1].c_str());
 	
-	m_anim_bone_bloom_game_hdl = MV1LoadModel(m_csv_model[4][1].c_str());
+	m_anim_bone_bloom_game_hdl
+		= MV1LoadModel(m_csv_model[4][1].c_str());
 	
-	m_anim_bone_dance_game_hdl = MV1LoadModel(m_csv_model[5][1].c_str());
-	m_anim_bone_dance_cinema_hdl = MV1LoadModel(m_csv_model[5][1].c_str());
+	m_anim_bone_dance_game_hdl 
+		= MV1LoadModel(m_csv_model[5][1].c_str());
+
+	m_anim_bone_dance_cinema_hdl 
+		= MV1LoadModel(m_csv_model[5][1].c_str());
 	
-	m_texture_game_hdl = LoadGraph(m_csv_model[6][1].c_str());
-	m_texture_cinema_hdl = LoadGraph(m_csv_model[6][1].c_str());
+	m_texture_game_hdl
+		= LoadGraph(m_csv_model[6][1].c_str());
+
+	m_texture_cinema_hdl 
+		= LoadGraph(m_csv_model[6][1].c_str());
 
 	// 材質の指定はないため引数は0
 	MV1SetTextureGraphHandle(m_model_game_hdl, 0, m_texture_game_hdl, FALSE);

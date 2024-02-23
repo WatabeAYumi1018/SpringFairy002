@@ -5,11 +5,13 @@
 #include <functional>
 #include "../dxlib_ext/dxlib_ext.h"
 #include "gm_main.h"
-#include "[000]GameEngine/[001]Scene/SceneManager.h"
-#include "[000]GameEngine/[002]Music/MusicManager.h"
+#include "[000]GameEngine/[000]Scene/SceneManager.h"
+#include "[000]GameEngine/[001]Music/MusicManager.h"
 #include "[002]SceneOP/SceneOp.h"
 
-
+#include <stdlib.h>
+#include <crtdbg.h>
+#define _CRTDBG_MAP_ALLOC
 //------------------------------------------------------------------------------------------------------------
 // ゲーム起動時に１度だけ実行されます
 void gameStart() 
@@ -18,11 +20,6 @@ void gameStart()
 	
 	// ウィンドウタイトル
 	SetWindowText("Spring Fairy");
-
-	//文字フォント
-	SetFontSize(20);
-	tnl::AddFontTTF("font/Yomogi-Regular.ttf");
-	ChangeFont("Yomogi", DX_CHARSET_DEFAULT);
 
 	SceneManager::GetInstance(new SceneOp());
 
@@ -43,4 +40,8 @@ void gameMain(float delta_time)
 void gameEnd() 
 {
 	SceneManager::GetInstance()->Finalize();
+	
+
+	// メモリリークのチェック
+	_CrtDumpMemoryLeaks();
 }

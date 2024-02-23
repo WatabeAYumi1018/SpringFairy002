@@ -3,14 +3,21 @@
 
 class Mediator;
 
-// 生成位置と間隔をランダムに
-// ダンスした後のテクスチャ変更もランダムに
+///////////////////////////////////////////////////////////////////////////
+//
+// ギミックの定義と更新描画処理を行うクラス
+//
+///////////////////////////////////////////////////////////////////////////
+
 
 class Gimmick : public Object
 {
 
 public:
 
+	//-----------------------------------enum class------------------------------------//
+
+	// ギミックの種類
 	enum class eGimmickType
 	{
 		e_ground_flower,
@@ -19,6 +26,11 @@ public:
 		e_butterfly,
 		e_max
 	};
+
+	//---------------------------------------------------------------------------------//
+
+
+	//-------------------------------------構造体--------------------------------------//
 
 	// Factoryで生成した各モデルにhdlを対応させるためstring型でパスを格納
 	struct sGimmickTypeInfo
@@ -33,16 +45,22 @@ public:
 		eGimmickType s_type;
 	};
 
-	Gimmick();
+	//---------------------------------------------------------------------------------//
 
+
+	//--------------------------コンストラクタ、デストラクタ---------------------------//
+
+	Gimmick();
 	~Gimmick();
+
+	//---------------------------------------------------------------------------------//
 
 private:
 
+	//-----------------------------------メンバ変数------------------------------------//
+
+	// エミッシブの値
 	float m_emissive_value = 0.0f;
-
-	float m_time_elapsed = 0.0f;
-
 
 	// 個別のアクティブ状態
 	bool m_is_active = false;
@@ -65,61 +83,94 @@ private:
 	// メディエーターポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
+	//---------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数------------------------------------//
+
 	// アイテムフラワーの落下処理
+	// arg ... delta_time(前フレームからの経過時間)
 	void MoveFlower(const float delta_time);
+
 	// アイテムバタフライの移動処理
+	// arg ... delta_time(前フレームからの経過時間)
 	void MoveButterfly(const float delta_time);
 
 	// 初期状態
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqNormal(const float delta_time);
+
 	// 当たり判定射程内のライトアップ
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqHit(const float delta_time);
+
 	// 衝突によるライトアップ開始
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqLightUp(const float delta_time);
+
 	// ライトアップ終了とテクスチャ変更
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqLightDown(const float delta_time);
+
 	// 変化完了
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqChangeEnd(const float delta_time);
 
 public:
 
-	// モデルの情報読み込み(Factoryクラスにて設定)
-	void LoadGimmickData(const Gimmick::sGimmickTypeInfo& gimmick_info);
-
-	// モデルの初期化（非アクティブ化）
-	void Reset();
-
-	// モデルのロードと初期化
 	void Initialize() override;
 
 	void Update(const float delta_time) override;
 
 	void Draw(std::shared_ptr<dxe::Camera> camera) override;
 
+	// モデルの情報読み込み(Factoryクラスにて設定)
+	// arg ... ギミックの種類
+	void LoadGimmickData(const Gimmick::sGimmickTypeInfo& gimmick_info);
 
+	// モデルの初期化（非アクティブ化）
+	void Reset();
+
+	//---------------------------------------------------------------------------------//
+
+
+	//----------------------------------Setter&Getter----------------------------------//
+
+	// ギミックの活性化フラグを設定
 	void SetIsActive(bool is_active) { m_is_active = is_active; }
 
+	// ギミックの活性化フラグを取得
 	bool GetIsActive() const { return m_is_active; }
 
+	// 衝突判定の合図を設定
 	void SetIsHit(bool is_hit) { m_is_hit = is_hit; }
 
+	// 衝突判定の合図を取得
 	bool GetIsHit() const { return m_is_hit; }
 
+	// 衝突のフラグを設定
 	void SetIsCollision(bool is_collision) { m_is_collision = is_collision; }
 
+	// 衝突のフラグを取得
 	bool GetIsCollision() const { return m_is_collision; }
 
+	// 描画状態変化のフラグを設定
 	void SetIsDrawChange(bool is_draw_change) { m_is_draw_change = is_draw_change; }
 
+	// 描画状態変化のフラグを取得
 	bool GetIsDrawChange() const { return m_is_draw_change; }
 
+	// ギミックの種類を設定
 	void SetGimmickData(sGimmickTypeInfo gimmick_info) 
 	{
 		m_gimmick_data =  gimmick_info;
 	}
 
+	// メディエータのポインタを設定
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;
 	}
+
+	//---------------------------------------------------------------------------------//
 };

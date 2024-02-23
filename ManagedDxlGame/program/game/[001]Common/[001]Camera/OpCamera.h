@@ -3,72 +3,101 @@
 
 class Mediator;
 
+///////////////////////////////////////////////////////////////////////////
+//
+// OPカメラの更新処理を行うクラス
+//
+///////////////////////////////////////////////////////////////////////////
+
 
 class OpCamera : public dxe::Camera
 {
 
 public:
 
-	OpCamera();
+	//--------------------------コンストラクタ、デストラクタ---------------------------//
 
+	OpCamera();
 	~OpCamera() {}
+
+	//--------------------------------------------------------------------------------//
 
 private:
 
+	//-----------------------------------メンバ変数-----------------------------------//
+
+	// カメラのスライド速度補間係数
+	float m_slide_speed = 0.3f;	
+
 	// 追従する対象(疑似プレイヤーを想定)
 	// 各数値 : 疑似プレイヤーとの距離感
+	// スタート時のオフセット
 	tnl::Vector3 m_offset = { 0, 300, -100 };
-	tnl::Vector3 m_new_offset = { 0,0,-5000 };
-	tnl::Vector3 m_stage_in_offset = { 0,0,1200 };
-	// 回転
-	tnl::Quaternion m_rot;
-
-	bool m_is_mouse = false;
+	// タイトルロゴ描画時のオフセット
+	tnl::Vector3 m_title_offset = { 0, 300, -500 };
+	// ゲート描画時のオフセット
+	tnl::Vector3 m_gate_offset = { 0,0,-5000 };
 
 	// メディエーターのポインタ
 	std::shared_ptr<Mediator> m_mediator = nullptr;
 
-
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(OpCamera, &OpCamera::SeqNormal);
 
+	//--------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数-----------------------------------//
+
 	// 線形補間関数
+	// arg1 ... 開始座標
+	// arg2 ... 終了座標
+	// arg3 ... 補間係数
 	tnl::Vector3 Lerp(const tnl::Vector3& start
 			 		, const tnl::Vector3& end, float t);
 
 	// 固定カメラ
+	// arg ... オフセット座標
 	void Fixed(tnl::Vector3& offset);
-	// カメラ移行
+
+	// カメラのオフセット移行処理
+	// arg ... delta_time(前フレームからの経過時間)
 	void ToOffset(const float delta_time, tnl::Vector3& offset);
 
 	// 通常
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqNormal(const float delta_time);
+
 	// 通常からアップへ移行
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqNormalToUp(const float delta_time);
+
 	// アップ
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqUp(const float delta_time);
+
 	// アップから引きへ移行
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqUpToBack(const float delta_time);
+	
 	// 引き
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqBack(const float delta_time);
-	// ステージIN
-	bool SeqStageIn(const float delta_time);
-
-	void Control(const float delta_time);
-
-	tnl::Vector3 RotateAroundPlayer(const tnl::Vector3& point
-		, const tnl::Vector3& pivot
-		, const tnl::Vector3& axis
-		, float angle);
-
 
 public:
 
 	void update(const float delta_time) override;
 
-	// プレイヤーのメディエーターを設定	
+	//--------------------------------------------------------------------------------//
+
+
+	//----------------------------------Setter&Getter----------------------------------//
+
+	// メディエーターを設定	
 	void SetMediator(std::shared_ptr<Mediator>& mediator)
 	{
 		m_mediator = mediator;
 	}
+
+	//--------------------------------------------------------------------------------//
 };

@@ -1,5 +1,5 @@
-#include "../[000]GameEngine/[001]Scene/SceneManager.h"
-#include "../[000]GameEngine/[002]Music/MusicManager.h"
+#include "../[000]GameEngine/[000]Scene/SceneManager.h"
+#include "../[000]GameEngine/[001]Music/MusicManager.h"
 #include "../[001]Common/[000]Object/[002]Gimmick/[000]GimmickFunction/GimmickGenerator.h"
 #include "../[001]Common/[001]Camera/GameCamera.h"
 #include "../[001]Common/[001]Camera/CinemaCamera.h"
@@ -23,11 +23,9 @@ ScenePlay::~ScenePlay()
 bool ScenePlay::SeqStart(const float delta_time)
 {
 	if (m_stagePhase->GetNowStagePhase() 
-				== StagePhase::eStagePhase::e_end
+			== StagePhase::eStagePhase::e_end
 		|| tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
 	{		
-		MusicManager::GetInstance().StopBGM(1);
-
 		SceneManager* scene = SceneManager::GetInstance();
 
 		scene->ChangeScene(new SceneEd());
@@ -36,12 +34,12 @@ bool ScenePlay::SeqStart(const float delta_time)
 	return true;
 }
 
-void ScenePlay::Initialize()
+void ScenePlay::GetFromFactory()
 {
 	// 各オブジェクトの参照をFactoryクラスから取得
 	m_objects_gameCamera
 		= m_factory->GetObjectsGameCamera();
-	m_objects_cinemaCamera 
+	m_objects_cinemaCamera
 		= m_factory->GetObjectsCinemaCamera();
 	// カメラの取得
 	m_gameCamera = m_factory->GetGameCamera();
@@ -55,7 +53,13 @@ void ScenePlay::Initialize()
 	m_gimmickGenerator = m_factory->GetGimmickGenerator();
 	// スクリーンショットの取得
 	m_screenShot = m_factory->GetScreenShot();
+}
 
+void ScenePlay::Initialize()
+{
+	// オブジェクトに属さないクラスの初期化
+	GetFromFactory();
+	
 	for (std::shared_ptr<Object>& object : m_objects_gameCamera)
 	{
 		object->Initialize();
@@ -125,6 +129,8 @@ void ScenePlay::Draw(const float delta_time)
 
 void ScenePlay::Finalize()
 {
+	MusicManager::GetInstance().StopBGM(1);
+
 	m_objects_gameCamera.clear();
 
 	m_objects_cinemaCamera.clear();

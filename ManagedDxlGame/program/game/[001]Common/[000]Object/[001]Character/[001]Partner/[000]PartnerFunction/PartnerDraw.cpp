@@ -3,19 +3,26 @@
 #include "PartnerDraw.h"
 
 
+PartnerDraw::~PartnerDraw()
+{
+	MV1DeleteModel(m_model_hdl);
+	MV1DeleteModel(m_anim_bone_idle_hdl);
+	MV1DeleteModel(m_anim_bone_move_hdl);
+}
+
 void PartnerDraw::Initialize()
 {
 	// モデル読み取り
 	m_model_hdl = m_mediator->GetPartnerModelHdl();
 	// idleボーン
-	m_anim_bone_idle_cinema_hdl 
+	m_anim_bone_idle_hdl 
 		= m_mediator->GetPartnerAnimBoneIdleHdl();
 	// moveボーン
-	m_anim_bone_move_game_hdl 
+	m_anim_bone_move_hdl 
 		= m_mediator->GetPartnerAnimBoneMoveHdl();
 }
 
-void PartnerDraw::Update(float delta_time)
+void PartnerDraw::Update(const float delta_time)
 {
 	tnl_sequence_.update(delta_time);
 }
@@ -25,7 +32,7 @@ void PartnerDraw::Draw()
 	MV1DrawModel(m_model_hdl);
 }
 
-void PartnerDraw::AnimMove(float delta_time)
+void PartnerDraw::AnimMove(const float delta_time)
 {
 	// moveアニメーション更新処理
 	m_elapsed_time_move += m_anim_speed * delta_time;
@@ -40,7 +47,7 @@ void PartnerDraw::AnimMove(float delta_time)
 						, m_elapsed_time_move);
 }
 
-void PartnerDraw::AnimIdle(float delta_time)
+void PartnerDraw::AnimIdle(const float delta_time)
 {
 	// idleアニメーション更新処理
 	m_elapsed_time_idle += m_anim_speed * delta_time;
@@ -53,19 +60,17 @@ void PartnerDraw::AnimIdle(float delta_time)
 	MV1SetAttachAnimTime(m_model_hdl, m_anim_idle_index, m_elapsed_time_idle);
 }
 
-bool PartnerDraw::SeqMove(float delta_time)
+bool PartnerDraw::SeqMove(const float delta_time)
 {
 	if (tnl_sequence_.isStart())
 	{
 		MV1DetachAnim(m_model_hdl, m_anim_move_index);
 
 		m_anim_move_index
-			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_move_game_hdl);
+			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_move_hdl);
 
 		m_time_count_move
 			= MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_move_index);
-			
-		m_time_count_move -= m_anim_move_offset;
 	}
 
 	// ボタンが離れるまでループ
@@ -77,7 +82,7 @@ bool PartnerDraw::SeqMove(float delta_time)
 	TNL_SEQ_CO_END;
 }
 
-bool PartnerDraw::SeqIdle(float delta_time)
+bool PartnerDraw::SeqIdle(const float delta_time)
 {
 	// 呼び出す直前にデタッチ（一度だけ実行）
 	if (tnl_sequence_.isStart())
@@ -85,7 +90,7 @@ bool PartnerDraw::SeqIdle(float delta_time)
 		MV1DetachAnim(m_model_hdl, m_anim_idle_index);
 
 		m_anim_idle_index
-			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_idle_cinema_hdl);
+			= MV1AttachAnim(m_model_hdl, 0, m_anim_bone_idle_hdl);
 
 		m_time_count_idle
 			= MV1GetAttachAnimTotalTime(m_model_hdl, m_anim_idle_index);

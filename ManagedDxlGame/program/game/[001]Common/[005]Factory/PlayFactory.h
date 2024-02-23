@@ -1,14 +1,6 @@
 #pragma once
-#include "../dxlib_ext/dxlib_ext.h"
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
 #include "../[000]Object/[002]Gimmick/Gimmick.h"
-
-
-///////////////////////////////////////////////////////////////////////////
-//
-// Playシーンのオブジェクト生成クラス
-//
-///////////////////////////////////////////////////////////////////////////
 
 
 // 名前空間＋テンプレートの前方宣言
@@ -31,6 +23,7 @@ class Object;
 
 class SkyBox;
 class CinemaBack;
+class BackLoad;
 
 class LaneLoad;
 class LaneMove;
@@ -44,18 +37,19 @@ class ModelPool;
 class Character;
 
 class Player;
+class CinemaPlayer;
 class PlayerLoad;
 class PlayerMove;
 class PlayerDraw;
 class PlayerCollision;
-class CinemaPlayer;
+class CinemaPlayerLoad;
 
 class Partner;
 class PartnerLoad;
 class PartnerMove;
 class PartnerDraw;
 
-class CameraTargetPlayer;
+class GameCameraTarget;
 class CinemaCameraTarget;
 
 class Butterfly;
@@ -89,16 +83,28 @@ class Mediator;
 
 class ScreenShot;
 
+///////////////////////////////////////////////////////////////////////////
+//
+// Playシーンのオブジェクト生成クラス
+//
+///////////////////////////////////////////////////////////////////////////
+
+
 class PlayFactory
 {
 
 public:
 
+	//--------------------------コンストラクタ、デストラクタ---------------------------//
+
 	PlayFactory();
-	
 	~PlayFactory();
 
+	//--------------------------------------------------------------------------------//
+
 private:
+
+	//-----------------------------------メンバ変数-----------------------------------//
 
 	// オブジェクトを格納するlist(ゲームカメラ)
 	std::list<std::shared_ptr<Object>> m_objects_gameCamera;
@@ -108,6 +114,8 @@ private:
 
 	// プレイヤー衝突オブジェクトを格納するlist
 	std::vector<std::shared_ptr<Gimmick>> m_gimmicks;
+
+	// 各クラスのポインタ
 
 	std::shared_ptr<wta::Astar<Lane::sLane>> m_astar = nullptr;
 	std::shared_ptr<wta::Collision<Player, Gimmick>> m_collision_player_item = nullptr;
@@ -119,6 +127,7 @@ private:
 
 	std::shared_ptr<SkyBox> m_skyBox = nullptr;
 	std::shared_ptr<CinemaBack> m_cinemaBack = nullptr;
+	std::shared_ptr<BackLoad> m_backLoad = nullptr;
 
 	std::shared_ptr<LaneLoad> m_laneLoad = nullptr;
 	std::shared_ptr<LaneMove> m_laneMove = nullptr;
@@ -132,18 +141,19 @@ private:
 	std::shared_ptr<Character> m_character = nullptr;
 
 	std::shared_ptr<Player> m_player = nullptr;
+	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
 	std::shared_ptr<PlayerLoad> m_playerLoad = nullptr;
 	std::shared_ptr<PlayerMove> m_playerMove = nullptr;
 	std::shared_ptr<PlayerDraw> m_playerDraw = nullptr;
 	std::shared_ptr<PlayerCollision> m_playerCollision = nullptr;
-	std::shared_ptr<CinemaPlayer> m_cinemaPlayer = nullptr;
+	std::shared_ptr<CinemaPlayerLoad> m_cinemaPlayerLoad = nullptr;
 
 	std::shared_ptr<Partner> m_partner = nullptr;
 	std::shared_ptr<PartnerLoad> m_partnerLoad = nullptr;
 	std::shared_ptr<PartnerMove> m_partnerMove = nullptr;
 	std::shared_ptr<PartnerDraw> m_partnerDraw = nullptr;
 
-	std::shared_ptr<CameraTargetPlayer> m_cameraTargetPlayer = nullptr;
+	std::shared_ptr<GameCameraTarget> m_gameCameraTarget = nullptr;
 	std::shared_ptr<CinemaCameraTarget> m_cinemaCameraTarget = nullptr;
 
 	std::shared_ptr<Butterfly> m_butterfly = nullptr;
@@ -178,21 +188,56 @@ private:
 
 	std::shared_ptr<ScreenShot> m_screenShot = nullptr;
 
+	//--------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数-----------------------------------//
+
+	// ※実行順として、CreateObject() -> SetObjectReference() -> SetMediatorReference()
+	//   PoolGimmickType() -> StorageObjectGameCamera() -> StorageObjectCinemaCamera()
 
 	// 各オブジェクトの生成と初期化
+	// tips ... 初期化時に一度だけ呼び出す関数
 	void CreateObject();
+	
 	// 各オブジェクト同士の参照を設定
-	// 生成の順番を考慮せず、後付けで参照できるように
+ 	// tips ... 初期化時に一度だけ呼び出す関数
+	// 　　　　 生成の順番を考慮せず、後付けで参照できるように
 	void SetObjectReference();
+	
 	// メディエータの参照を設定
+	// tips ... 初期化時に一度だけ呼び出す関数
 	void SetMediatorReference();
+
 	// アイテムオブジェクトのプール
+	// arg ... ギミックの種類ベクター
+	// tips ... 初期化時に一度だけ呼び出す関数
 	void PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& gimmick_types);
-	// 生成したオブジェクトをlistに格納
+	
+	// 生成したオブジェクトをゲームカメラの管轄listに格納
+	// tips ... 初期化時に一度だけ呼び出す関数
 	void StorageObjectGameCamera();
+
+	// 生成したオブジェクトをシネマカメラの管轄listに格納
+	// tips ... 初期化時に一度だけ呼び出す関数
 	void StorageObjectCinemaCamera();
 
+	//	デストラクタにて循環参照を明示的に解消
+	//	今回、各クラスからメディエータへの参照がsharedで行われているため、
+	//	カウントが0にならないと思われる事案が発生。
+	//	改善策として、メディエータへのweak参照が挙げられますが、
+	//	毎フレーム大量のshared_ptrを生成する事になるため、
+	//	パフォーマンスへの影響を懸念。
+	//	作成終盤の現段階で設計の見直しは現実的でないため、
+	//	今回は明示的に解消する事にしました。
+	//  今後の大きな課題として、設計の見直しを行う事が挙げられます。
+	void SharedExReset();
+
+	//--------------------------------------------------------------------------------//
+
 public:
+
+	//----------------------------------Setter&Getter----------------------------------//
 
 	// listに格納したオブジェクトの取得(ゲームカメラ)
 	const std::list<std::shared_ptr<Object>>& GetObjectsGameCamera() const
@@ -206,7 +251,7 @@ public:
 		return m_objects_cinemaCamera;
 	}
 
-	// カメラの取得
+	// ゲームカメラの取得
 	const std::shared_ptr<GameCamera>& GetGameCamera() const
 	{
 		return m_gameCamera;
@@ -224,19 +269,23 @@ public:
 		return m_cameraPhase;
 	}
 
-	// フェーズの取得
+	// ステージフェーズの取得
 	const std::shared_ptr<StagePhase>& GetStagePhase() const
 	{
 		return m_stagePhase;
 	}
 
+	// ギミックジェネレーターの取得
 	const std::shared_ptr<GimmickGenerator>& GetGimmickGenerator() const
 	{
 		return m_gimmickGenerator;
 	}
 
+	// スクリーンショットの取得
 	const std::shared_ptr<ScreenShot>& GetScreenShot() const
 	{
 		return m_screenShot;
 	}
+
+	//--------------------------------------------------------------------------------//
 };

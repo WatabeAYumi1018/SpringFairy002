@@ -14,38 +14,58 @@ class Player : public Character
 
 public:
 
+	//--------------------------コンストラクタ、デストラクタ--------------------------//
+
 	Player();
+	~Player();
 
-	~Player() {}
-
-
-	//----------------------------------------//
+	//---------------------------------------------------------------------------------//
 
 private:
 
-	// メッシュ
+	//-----------------------------------メンバ変数------------------------------------//
+
+	// メッシュの生成数
+	int m_mesh_create_num = 20;
+
+	// メッシュポインタのベクター
 	std::vector<std::shared_ptr<dxe::Mesh>> m_meshs;
 
+	//---------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数------------------------------------//
+
 	// 行列の更新処理
-	void UpdateMatrix(float delta_time);
+	// arg ... delta_time(前フレームからの経過時間)
+	void UpdateMatrix(const float delta_time);
+
 	// メッシュの更新処理
-	void UpdateMesh(float delta_time);
+	// arg ... delta_time(前フレームからの経過時間)
+	void UpdateMesh(const float delta_time);
 
 public:
 
-	// 前方向の算出
+	void Initialize() override;
+
+	void Update(const float delta_time) override;
+	
+	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+
+	// 前方向のベクトル算出
 	tnl::Vector3 Forward();
 
-	// 初期化
-	void Initialize() override;
-	// 更新
-	void Update(float delta_time) override;
-	// 描画処理
-	void Draw(std::shared_ptr<dxe::Camera> camera) override;
+	//---------------------------------------------------------------------------------//
+
 	
-	// メッシュの取得
+	//----------------------------------Setter&Getter----------------------------------//
+
+	// メッシュポインタのベクター取得
+	// tips ... 当たり判定などで使用
 	const std::vector<std::shared_ptr<dxe::Mesh>>& GetMeshs() const
 	{
 		return m_meshs;
 	}
+
+	//---------------------------------------------------------------------------------//
 };

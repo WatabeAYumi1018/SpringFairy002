@@ -1,19 +1,44 @@
 #include "../../../../../../wta_library/wta_Convert.h"
-#include "../../../../../[000]GameEngine/[002]Music/MusicManager.h"
+#include "../../../../../[000]GameEngine/[001]Music/MusicManager.h"
 #include "../../../../[002]Mediator/Mediator.h"
 #include "PlayerDraw.h"
 
 
+PlayerDraw::~PlayerDraw()
+{
+	MV1DetachAnim(m_model_game_hdl, m_anim_move_index);
+	MV1DetachAnim(m_model_game_hdl, m_anim_bloom_index);
+	MV1DetachAnim(m_model_game_hdl, m_anim_dance_index);
+	
+	MV1DetachAnim(m_model_cinema_hdl, m_anim_idle_index);
+	MV1DetachAnim(m_model_cinema_hdl, m_anim_dance_index);
+
+	MV1DeleteModel(m_model_game_hdl);
+	MV1DeleteModel(m_model_cinema_hdl);
+}
+
 void PlayerDraw::Initialize()
 {
-	m_model_game_hdl = m_mediator->GetPlayerModelGameHdl();
-	m_model_cinema_hdl = m_mediator->GetPlayerModelCinemaHdl();
-	m_anim_bone_idle_cinema_hdl = m_mediator->GetPlayerAnimBoneIdleCinemaHdl();
-	m_anim_bone_move_game_hdl = m_mediator->GetPlayerAnimBoneMoveGameHdl();
-	m_anim_bone_move_cinema_hdl = m_mediator->GetPlayerAnimBoneMoveCinemaHdl();
-	m_anim_bone_bloom_game_hdl = m_mediator->GetPlayerAnimBoneBloomGameHdl();
-	m_anim_bone_dance_game_hdl = m_mediator->GetPlayerAnimBoneDanceGameHdl();
-	m_anim_bone_dance_cinema_hdl = m_mediator->GetPlayerAnimBoneDanceCinemaHdl();
+	m_model_game_hdl 
+		= m_mediator->GetPlayerModelGameHdl();
+
+	m_model_cinema_hdl
+		= m_mediator->GetPlayerModelCinemaHdl();
+
+	m_anim_bone_move_game_hdl 
+		= m_mediator->GetPlayerAnimBoneMoveGameHdl();
+
+	m_anim_bone_bloom_game_hdl 
+		= m_mediator->GetPlayerAnimBoneBloomGameHdl();
+
+	m_anim_bone_dance_game_hdl 
+		= m_mediator->GetPlayerAnimBoneDanceGameHdl();
+
+	m_anim_bone_idle_cinema_hdl
+		= m_mediator->GetPlayerAnimBoneIdleCinemaHdl();
+
+	m_anim_bone_dance_cinema_hdl 
+		= m_mediator->GetPlayerAnimBoneDanceCinemaHdl();
 }
 
 void PlayerDraw::Update(const float delta_time)
@@ -27,14 +52,14 @@ void PlayerDraw::Draw()
 {
 	if (m_mediator->GetIsGimmickGroundActive())
 	{
-		// アルファ値を0.5（半透明）に設定
+		// 0.5 : 半透明
 		MV1SetMaterialDifColor(m_model_game_hdl, 0
 								, GetColorF(1.0f, 1.0f, 1.0f, 0.5f)); 
 	
 		// モデルを描画
 		MV1DrawModel(m_model_game_hdl);
 
-		// アルファ値を1.0（不透明）に設定
+		// 1.0 : 不透明
 		MV1SetMaterialDifColor(m_model_game_hdl, 0
 								, GetColorF(1.0f, 1.0f, 1.0f, 1.0f)); 
 	}
@@ -75,6 +100,7 @@ void PlayerDraw::AnimMove(const float delta_time,int model_hdl )
 {
 	// moveアニメーション更新処理
 	// 2 : idleの二倍の速度で再生するとちょうどいい
+	// ※アニメーションモデルの元データに起因するためほぼ変更はない。
 	m_elapsed_time_move += m_anim_speed * 2 * delta_time;
 
 	if (m_elapsed_time_move > m_time_count_move)
@@ -103,6 +129,8 @@ void PlayerDraw::AnimIdle(const float delta_time)
 void PlayerDraw::AnimBloom(const float delta_time)
 {
 	// bloomアニメーション更新処理
+	// 2 : bloomの二倍の速度で再生するとちょうどいい
+	// ※アニメーションモデルの元データに起因するためほぼ変更はない。
 	m_elapsed_time_bloom += m_anim_speed * delta_time * 2;
 
 	MV1SetAttachAnimTime(m_model_game_hdl
@@ -113,6 +141,8 @@ void PlayerDraw::AnimBloom(const float delta_time)
 void PlayerDraw::AnimDance(const float delta_time, int model_hdl)
 {
 	// danceアニメーション更新処理
+	// 3 : danceの二倍の速度で再生するとちょうどいい
+	// ※アニメーションモデルの元データに起因するためほぼ変更はない。
 	m_elapsed_time_dance += m_anim_speed * delta_time * 3;
 
 	MV1SetAttachAnimTime(model_hdl
@@ -142,7 +172,7 @@ bool PlayerDraw::SeqMove(const float delta_time)
 		tnl_sequence_.change(&PlayerDraw::SeqBloom);
 	}
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z) || m_is_event_dance)
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z))
 	{
 		tnl_sequence_.change(&PlayerDraw::SeqDance);
 	}
@@ -164,7 +194,7 @@ bool PlayerDraw::SeqBloom(const float delta_time)
 	}
 
 	// ブレンド処理
-	if (m_blend_timer < 1.0f)
+	if (m_blend_timer < m_blend_total_time)
 	{
 		AnimBlend(delta_time, m_model_game_hdl, m_anim_move_index, m_anim_bloom_index);
 	}
@@ -199,7 +229,7 @@ bool PlayerDraw::SeqBloomToMove(const float delta_time)
 	}
 
 	// ブレンド処理
-	if (m_blend_timer < 1.0f)
+	if (m_blend_timer < m_blend_total_time)
 	{
 		AnimBlend(delta_time, m_model_game_hdl, m_anim_bloom_index, m_anim_move_index);
 	}
@@ -221,7 +251,7 @@ bool PlayerDraw::SeqDance(const float delta_time)
 	}
 
 	// ブレンド処理
-	if (m_blend_timer < 1.0f)
+	if (m_blend_timer < m_blend_total_time)
 	{
 		AnimBlend(delta_time, m_model_game_hdl,m_anim_move_index, m_anim_dance_index);
 	}
@@ -242,8 +272,6 @@ bool PlayerDraw::SeqDance(const float delta_time)
 
 		m_elapsed_time_dance = 0;
 
-		m_is_event_dance = false;
-
 		tnl_sequence_.change(&PlayerDraw::SeqDanceToMove);
 	}
 
@@ -258,7 +286,7 @@ bool PlayerDraw::SeqDanceToMove(const float delta_time)
 	}
 
 	// ブレンド処理
-	if (m_blend_timer < 1.0f)
+	if (m_blend_timer < m_blend_total_time)
 	{
 		AnimBlend(delta_time, m_model_game_hdl, m_anim_dance_index, m_anim_move_index);
 	}
@@ -287,36 +315,12 @@ void PlayerDraw::CinemaAnimIdle(const float delta_time)
 
 		m_is_touch_idle = true;
 
-		m_is_touch_move = false;
-
 		m_is_touch_dance = false;
 	}
 
 	// ボタンが押されるまでループ
 	AnimIdle(delta_time);
 	
-}
-
-void PlayerDraw::CinemaAnimMove(const float delta_time)
-{
-	if (!m_is_touch_move)
-	{
-		MV1DetachAnim(m_model_cinema_hdl, m_anim_move_index);
-
-		m_anim_move_index
-			= MV1AttachAnim(m_model_cinema_hdl, 0, m_anim_bone_move_cinema_hdl);
-
-		m_time_count_move
-			= MV1GetAttachAnimTotalTime(m_model_cinema_hdl, m_anim_move_index);
-
-		m_is_touch_move = true;
-
-		m_is_touch_idle = false;
-
-		m_is_touch_dance = false;
-	}
-
-	AnimMove(delta_time, m_model_cinema_hdl);
 }
 
 void PlayerDraw::CinemaAnimDance(const float delta_time)
@@ -334,8 +338,6 @@ void PlayerDraw::CinemaAnimDance(const float delta_time)
 		m_is_touch_dance = true;
 
 		m_is_touch_idle = false;
-
-		m_is_touch_move = false;
 	}
 
 	AnimDance(delta_time, m_model_cinema_hdl);

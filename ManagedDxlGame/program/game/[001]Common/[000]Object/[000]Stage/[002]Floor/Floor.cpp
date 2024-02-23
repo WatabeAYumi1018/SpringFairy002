@@ -15,6 +15,7 @@ Floor::Floor()
 	m_floor = dxe::Mesh::CreatePlaneMV(mesh_size);
 
     // プレーンを床とするため回転
+    // 90 : 床にするため９０度回転。変更なしのため直接入力。
 	m_floor->rot_
 		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90.0f));	
 }
@@ -64,7 +65,7 @@ void Floor::DrawFloor(std::shared_ptr<dxe::Camera> camera)
     // フロア間のスペース
     int spacing = Lane::LANE_SIZE;
 
-    float distance = static_cast<float> (Floor::DRAW_DISTANCE);
+    float distance = static_cast<float> (Floor::DRAW_OFFSET);
 
     if (m_mediator->GetNowStagePhaseState()
         == StagePhase::eStagePhase::e_wood)

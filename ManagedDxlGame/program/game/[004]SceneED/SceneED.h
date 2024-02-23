@@ -1,32 +1,40 @@
 #pragma once
-#include "../[000]GameEngine/[001]Scene/SceneBase.h"
+#include "../[000]GameEngine/[000]Scene/SceneBase.h"
+
+
+class ScreenShot;
+
+class EnterGraph;
+
+class Mediator;
 
 
 ///////////////////////////////////////////////////////////////////////////
 //
 // Endシーンの一括処理を行うクラス
+// 使用クラスも殆どなく意味もないため、今クラスはオブジェクト指向を使用しない
 //
 ///////////////////////////////////////////////////////////////////////////
 
-
-class ScreenShot;
-class EnterGraph;
-class Mediator;
 
 class SceneEd : public SceneBase
 {
 
 public:
 
-	SceneEd();
+	//--------------------------コンストラクタ、デストラクタ--------------------------//
 
+	SceneEd();
 	~SceneEd();
+
+	//--------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ変数-----------------------------------//
 
 private:
 
-	// エンターハンドル
-	int m_enter_hdl = 0;
-
+	// 各クラスのポインタ
 	std::shared_ptr<ScreenShot> m_screen_shot = nullptr;
 	std::shared_ptr<EnterGraph> m_enter_graph = nullptr;
 	std::shared_ptr<Mediator> m_mediator = nullptr;
@@ -35,7 +43,13 @@ private:
 	tnl::Sequence<SceneEd> m_sequence
 		= tnl::Sequence<SceneEd>(this, &SceneEd::SeqStart);
 
+	//--------------------------------------------------------------------------------//
+
+
+	//-----------------------------------メンバ関数-----------------------------------//
+
 	// シーケンス開始
+	// arg ... delta_time(前フレームからの経過時間)
 	bool SeqStart(const float delta_time);
 
 public:
@@ -45,4 +59,6 @@ public:
 	void Draw(const float delta_time) override;
 
 	void Finalize() override;
+
+	//--------------------------------------------------------------------------------//
 };

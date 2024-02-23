@@ -8,8 +8,6 @@
 
 void GimmickGenerator::Update(const float delta_time)
 {
- //   tnl_sequence_.update(delta_time);
-
     if(m_mediator->GetPlayerLookSideRight() 
        || m_mediator->GetPlayerLookSideLeft())
     {
@@ -54,10 +52,15 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
     // forwardとへ移行なベクトルを計算
     tnl::Vector3 perpendicular = DirectionCalcPos(forward);
     // 300 : 疑似プレイヤーとギミックとの最低距離
-    tnl::Vector3 start_offset = perpendicular * 300.0f;
+    float distance = 300.0f;
+
+    tnl::Vector3 start_offset = perpendicular * distance;
 
     tnl::Vector3 target_pos 
-        = m_mediator->GetCameraTargetPlayerPos() + start_offset;
+        = m_mediator->GetGameCameraTargetPos() + start_offset;
+
+    // 400 : ギミック同士の距離
+    float offset = 400.0f;
 
     for (std::shared_ptr<Gimmick>& gimmick : gimmicks)
     {
@@ -71,12 +74,13 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
             if (m_mediator->GetNowStagePhaseState() 
                 == StagePhase::eStagePhase::e_wood)
             {
-                target_pos += forward * 400.0f * 2;
+                // 2 : エリアwoodの時は木にぶつからないように間隔を広げる
+                target_pos += forward * offset * 2;
 			}
             else
             {
                 // ギミック同士の距離を設定
-                target_pos += forward * 400.0f;
+                target_pos += forward * offset;
             }
         }
         else
@@ -132,7 +136,7 @@ void GimmickGenerator::SetPlacePos(std::shared_ptr<Gimmick>& gimmick
     // ギミックの新しい位置を計算
     tnl::Vector3 pos = target_pos + perpendicular * forward_distance;
     
-    pos.y = Floor::DRAW_DISTANCE;
+    pos.y = Floor::DRAW_OFFSET;
 
     // 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
     if (m_mediator->GetNowStagePhaseState() 
@@ -164,7 +168,7 @@ void GimmickGenerator::CalcSkyFlowerPos(const float delta_time,Gimmick::eGimmick
 
     for (std::shared_ptr<Gimmick>& gimmick : gimmicks)
     {
-        if (m_mediator->CurrentCameraLane().s_id == 0)
+        if (m_mediator->CurrentTargetCameraLane().s_id == 0)
         {
             tnl::Vector3 pos = CalcRandomPos();
 
@@ -178,7 +182,7 @@ void GimmickGenerator::CalcSkyFlowerPos(const float delta_time,Gimmick::eGimmick
 
 tnl::Vector3 GimmickGenerator::CalcRandomPos()
 {
-    tnl::Vector3 player_pos = m_mediator->GetCameraTargetPlayerPos();
+    tnl::Vector3 player_pos = m_mediator->GetGameCameraTargetPos();
 
     float offset = 700.0f;
 
@@ -192,14 +196,6 @@ tnl::Vector3 GimmickGenerator::CalcRandomPos()
 
 bool GimmickGenerator::SeqFlower(const float delta_time)
 {
-    //// 足元idが1の場合移行
-    //if (m_gimmick_lane.s_id == 1)
-    //{
-    //    m_is_flower_active = false;
-
-    //	tnl_sequence_.change(&GimmickGenerator::SeqButterfly);
-    //}
-
     TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
     {
         CalcSkyFlowerPos(delta_time,Gimmick::eGimmickType::e_sky_flower);
@@ -208,30 +204,12 @@ bool GimmickGenerator::SeqFlower(const float delta_time)
     TNL_SEQ_CO_END;
 }
 
-//bool GimmickGenerator::SeqButterfly(const float delta_time)
-//{
-//    // 足元idが1の場合移行
-//    //if (m_gimmick_lane.s_id == 0)
-//    //{
-//    //    m_is_flower_active = true;
-//
-//    //    tnl_sequence_.change(&GimmickGenerator::SeqFlower);
-//    //}
-//
-//    TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&]()
-//        {
-//            GenerateGimmick(delta_time);
-//        });
-//
-//    TNL_SEQ_CO_END;
-//}
-
 void GimmickGenerator::CheckGimmicks(const float delta_time
                                      , Gimmick::eGimmickType type
                                      , std::shared_ptr<Gimmick> gimmick)
 {
     // 活性化していて条件を満たしていればリセット
-    if (m_mediator->IsCameraFixed())
+    if (m_mediator->GetIsCameraFixed())
     {
         gimmick->Reset();
 

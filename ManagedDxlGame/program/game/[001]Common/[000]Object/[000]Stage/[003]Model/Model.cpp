@@ -5,6 +5,22 @@
 #include "Model.h"
 
 
+Model::~Model()
+{
+	// モデルの情報を解放
+	for (sModelInfo& model : m_models_info)
+	{
+		MV1DeleteModel(model.s_model_hdl);
+	}
+	for (sTreeInfo& tree : m_trees_info)
+	{
+		MV1DeleteModel(tree.s_model_hdl);
+	}
+
+    m_models_info.clear();
+    m_trees_info.clear();
+}
+
 void Model::Initialize()
 {
 	// ステージモデルの情報を取得
@@ -67,7 +83,7 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
 void Model::CalcGridPos(int grid_size)
 {
 	tnl::Vector3 target_pos 
-        = m_mediator->GetCameraTargetPlayerPos();
+        = m_mediator->GetGameCameraTargetPos();
 
 	// プレイヤーの現在位置からグリッド座標を取得
     m_grid_x = static_cast<int>(target_pos.x / grid_size);
@@ -79,7 +95,7 @@ tnl::Vector3 Model::CalcModelPos(int x, int z,int grid_size)
 	tnl::Vector3 pos;
 
 	pos.x = static_cast<float>(x * grid_size);
-	pos.y = Floor::DRAW_DISTANCE;
+	pos.y = Floor::DRAW_OFFSET;
 
     if (m_mediator->GetNowStagePhaseState() 
         == StagePhase::eStagePhase::e_wood)
@@ -97,8 +113,12 @@ tnl::Vector3 Model::CalcModelPos(int x, int z,int grid_size)
 void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id)
 {
     // 描画範囲の設定（ターゲットの位置を中心に全方向に向けて）
+    // エリアによって密度を分けたい時も考えられるため、ここで設定
+    // ※本当はこのあたり、デバッグで外部から変更できるようにするのが好ましい
+    // ※制作規模と処理の複雑化を考慮して、今回は固定値で設定（以降も同様）
     int draw_range = 5;
-
+    // グリッドのサイズ（値が小さいほど密度が高くなる）
+    // エリアによって密度を分けたい時も考えられるため、ここで設定
     int grid_size = 1500;
 
     CalcGridPos(grid_size);
@@ -108,7 +128,7 @@ void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id)
         for (int x = m_grid_x - draw_range; x <= m_grid_x + draw_range; x++)
         {  
             m_pos = CalcModelPos(x, z,grid_size);
-
+            // 単位クォータニオンを設定
             m_rot = { 0,0,0,1 };
 
             MATRIX matrix = GetTransformMatrix();
@@ -123,8 +143,11 @@ void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id)
 
 void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id)
 {
+    // 描画範囲の設定（ターゲットの位置を中心に全方向に向けて）
+    // エリアによって密度を分けたい時も考えられるため、ここで設定
     int draw_range = 5;
-
+    // グリッドのサイズ（値が小さいほど密度が高くなる）
+    // エリアによって密度を分けたい時も考えられるため、ここで設定
     int grid_size = 1500;
 
     CalcGridPos(grid_size);
@@ -159,25 +182,27 @@ void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id)
 
 void Model::SetTreePos()
 {
+    // ステージ3描画のため、デフォルト座標を事前に設定
+    tnl::Vector3 pos;
+
+    // 読み取ったグリッドの最後の列を取得
+    int width = m_mediator->GetStageLaneWidth();
+
+    // 最後の列から一定の範囲内でランダムに樹木を配置
+    // 4 : なるべく広めに配置するための値
+    int range = 4;
+
     // 樹木モデルを10本描画
-    for (int i = 0; i < 10 ; ++i)
+    for (int i = 0; i < m_tree_create_num; ++i)
     {
-        // ステージ3描画のため、デフォルト座標を事前に設定
-        tnl::Vector3 pos;
-
-        // 読み取ったグリッドの最後の列を取得
-        int width = m_mediator->GetStageLaneWidth();
-
-        // 最後の列から一定の範囲内でランダムに樹木を配置
-        // 2 : なるべく広めに配置するための値
-        int range = 4;
-
         // ワールド座標に変換
         float max_x = static_cast<float>((width + range) * Lane::LANE_SIZE);
         float min_x = static_cast<float>((width - range) * Lane::LANE_SIZE);
 
         pos.x = tnl::GetRandomDistributionFloat(min_x, max_x);
-        pos.y = Floor::DRAW_DISTANCE;
+        pos.y = Floor::DRAW_OFFSET;
+        // 2 : ある程度のゆとりを持たせるための値
+        // この辺りの数値もデバッグで外部から変更できるようにするのが好ましい
         pos.z += Lane::LANE_SIZE * 2 * i;
 
 		VECTOR pos_vec = wta::ConvertToVECTOR(pos);

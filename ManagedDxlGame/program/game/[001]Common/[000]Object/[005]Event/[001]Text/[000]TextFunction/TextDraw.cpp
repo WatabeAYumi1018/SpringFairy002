@@ -2,6 +2,12 @@
 #include "TextDraw.h"
 
 
+TextDraw::~TextDraw()
+{
+	m_story_texts_all.clear();
+	m_lane_text_data.clear();
+}
+
 void TextDraw::Initialize()
 {
     m_story_texts_all = m_mediator->GetTextsLoadAll();

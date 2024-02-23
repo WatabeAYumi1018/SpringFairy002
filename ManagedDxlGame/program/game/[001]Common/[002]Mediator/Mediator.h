@@ -1,6 +1,10 @@
 #pragma once
+#include "../[000]Object/[000]Stage/[000]Back/CinemaBack.h"
+#include "../[000]Object/[000]Stage/[000]Back/SkyBox.h"
 #include "../[000]Object/[000]Stage/[001]Lane/Lane.h"
 #include "../[000]Object/[000]Stage/[003]Model/Model.h"
+#include "../[000]Object/[001]Character/[000]Player/CinemaPlayer.h"
+#include "../[000]Object/[001]Character/[003]Butterfly/Butterfly.h"
 #include "../[000]Object/[002]Gimmick/Gimmick.h"
 #include "../[000]Object/[003]Effect/Effect.h"
 #include "../[000]Object/[005]Event/[001]Text/Text.h"
@@ -12,16 +16,26 @@
 #include "../[003]Phase/CameraPhase.h"
 #include "../[003]Phase/StagePhase.h"
 
+
 ///////////////////////////////////////////////////////////////////////////
 //
 // クラス間の情報のやり取りを行うクラス（weak参照）
+// 
+// ①責任が重すぎること。かつ他クラスとの依存度も深いのが問題。
+// 　本来のメディエータとは異なるため、今後はリファクタリングが必要。
+// 　尚、今回は制作規模や、分割化での複雑さ軽減を考え、全てのクラスを参照。
+// 
+// ②各クラスへの参照をするため、毎フレーム大量のshared_ptrを生成するのも問題。
+// 　現状、設計の見直しをするのも現実的ではないため、今後はリファクタリングが必要。
+// 　但し、そうなると大量のshared_ptrを生成するクラスが多くなるため、設計の見直し必須。
+// 
+// ※今回はあくまで、コンストラクタの引数を無くし、参照を渡すことを目的に使用。
+// 　その上での改善点は多数あるため、次作にて対応を考える。
 //
 ///////////////////////////////////////////////////////////////////////////
 
 
-
-class CinemaBack;
-class SkyBox;
+class BackLoad;
 
 class LaneLoad;
 class LaneMove;
@@ -35,17 +49,16 @@ class PlayerLoad;
 class PlayerMove;	
 class PlayerDraw;
 class PlayerCollision;
-class CinemaPlayer;
+class CinemaPlayerLoad;
 
 class Partner;
 class PartnerLoad;
 class PartnerMove;
 class PartnerDraw;
 
-class CameraTargetPlayer;
+class GameCameraTarget;
 class CinemaCameraTarget;
 
-class Butterfly;
 class ButterflyLoad;
 		
 class Gimmick;
@@ -81,15 +94,28 @@ class ScreenShot;
 class Mediator
 {
 
+public:
+
+	//--------------------------コンストラクタ、デストラクタ--------------------------//
+
+	Mediator() {}
+	~Mediator() {}
+
+	//--------------------------------------------------------------------------------//
+
 private:
 
-	//--------------------ポインタ--------------------//
+	//-----------------------------------メンバ変数-----------------------------------//
+
+	// 各クラスのweak参照
+	// ※参照先のクラスが破棄された場合、自動的に無効化される
 
 	std::weak_ptr<CameraPhase> m_cameraPhase;
 	std::weak_ptr<StagePhase> m_stagePhase;
 
 	std::weak_ptr<CinemaBack> m_cinemaBack;
 	std::weak_ptr<SkyBox> m_skyBox;
+	std::weak_ptr<BackLoad> m_backLoad;
 
 	std::weak_ptr<Lane> m_lane;
 	std::weak_ptr<LaneLoad> m_laneLoad;
@@ -101,18 +127,19 @@ private:
 	std::weak_ptr<Character> m_character;
 
 	std::weak_ptr<Player> m_player;
+	std::weak_ptr<CinemaPlayer> m_cinemaPlayer;
 	std::weak_ptr<PlayerLoad> m_playerLoad;
 	std::weak_ptr<PlayerMove> m_playerMove;
 	std::weak_ptr<PlayerDraw> m_playerDraw;
 	std::weak_ptr<PlayerCollision> m_playerCollision;
-	std::weak_ptr<CinemaPlayer> m_cinemaPlayer;
+	std::weak_ptr<CinemaPlayerLoad> m_cinemaPlayerLoad;
 
 	std::weak_ptr<Partner> m_partner;
 	std::weak_ptr<PartnerLoad> m_partnerLoad;
 	std::weak_ptr<PartnerMove> m_partnerMove;
 	std::weak_ptr<PartnerDraw> m_partnerDraw;
 
-	std::weak_ptr<CameraTargetPlayer> m_cameraTargetPlayer;
+	std::weak_ptr<GameCameraTarget> m_gameCameraTarget;
 	std::weak_ptr<CinemaCameraTarget> m_cinemaCameraTarget;
 
 	std::weak_ptr<Butterfly> m_butterfly;
@@ -150,11 +177,11 @@ private:
 
 	std::weak_ptr<ScreenShot> m_screenShot;
 
-	//------------------------------------------------//
+	//--------------------------------------------------------------------------------//
 
 public:
 
-	//-------------------メンバ関数-------------------//
+	//-----------------------------------メンバ関数-----------------------------------//
 
 	//--------CameraPhase--------//
 
@@ -205,6 +232,23 @@ public:
 	// 参照元 ... SkyBox::m_is_op
 	// 参照先 ... OpCamera::Update(float delta_time)
 	void SetSkyIsOp(bool is_op);
+
+	//---------------------------//
+
+
+	//---------BackLoad----------//
+
+	// BackLoad
+
+	// シネマ背景画像データを取得
+	// 参照元 ... BackLoad::m_cinema_back_info
+	// 参照先 ... CinemaBack::関連する関数
+	const std::vector<CinemaBack::sCinemaBackInfo>& GetCinemaBackGraphInfo() const;
+
+	// スカイボックス画像データを取得
+	// 参照元 ... BackLoad::m_sky_box_info
+	// 参照先 ... SkyBox::関連する関数
+	const std::vector<SkyBox::sSkyBoxInfo>& GetSkyBoxGraphInfo() const;
 
 	//---------------------------//
 
@@ -334,6 +378,18 @@ public:
 	// 参照先 ... プレイヤーの前方向が必要な全クラス
 	tnl::Vector3 PlayerForward();
 
+	// cinemaPlayer
+
+	// シネマプレイヤーの座標取得
+	// 参照元 ... Player::m_pos
+	// 参照先 ... Playerの座標が必要な全クラス
+	const tnl::Vector3& GetCinemaPlayerPos() const;
+
+	// シネマプレイヤーのダンスフラグ取得
+	// 参照元 ... Player::m_is_dance
+	// 参照先 ... Player関連クラス
+	bool GetCinemaPlayerIsDance() const;
+
 	// playerLoad
 
 	// プレイヤーモデルハンドルの取得
@@ -355,11 +411,6 @@ public:
 	// 参照元 ... PlayerLoad::m_anim_bone_move_game_hdl
 	// 参照先 ... Player関連クラス
 	int GetPlayerAnimBoneMoveGameHdl() const;
-
-	// プレイヤーのシネマ移動ボーンハンドル取得
-	// 参照元 ... PlayerLoad::m_anim_bone_move_cinema_hdl
-	// 参照先 ... Player関連クラス
-	int GetPlayerAnimBoneMoveCinemaHdl() const;
 
 	// プレイヤーのブルームボーンハンドル取得
 	// 参照元 ... PlayerLoad::m_anim_bone_bloom_game_hdl
@@ -426,14 +477,10 @@ public:
 	void DrawPlayerModel();
 
 	// シネマプレイヤーのダンス経過時間設定
+	// 基本デフォルト0にリセットのため引数は空入力にする
 	// 参照元 ... Player::m_elapsed_time_dance
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void SetAnimElapsedTimeDance(float elapsed_time_dance);
-
-	// イベントによるダンスアニメーションフラグ設定
-	// 参照元 ... PlayerDraw::m_is_event_dance
-	// 参照先 ... CameraTargetPlayer::Update(float delta_time)
-	void SetIsPlayerEventDance(bool is_dance);
+	void SetAnimElapsedTimeDance(float elapsed_time_dance = 0);
 
 	// ブルームフラグ取得
 	// 参照元 ... PlayerDraw::m_is_bloom
@@ -445,20 +492,10 @@ public:
 	// 参照先 ... ダンスフラグが必要な全クラス
 	bool GetIsPlayerDance() const;
 
-	// イベントによるダンスアニメーションフラグ取得
-	// 参照元 ... PlayerDraw::m_is_event_dance
-	// 参照先 ... PhaseManager::Update(float delta_time)
-	bool GetIsPlayerEventDance() const;
-
 	// イベントによるidleアニメーション処理
 	// 参照元 ... PlayerDraw::CinemaAnimIdle(float delta_time)
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void CinemaPlayerAnimIdle(const float delta_time);
-
-	// イベントによるmoveアニメーション処理
-	// 参照元 ... PlayerDraw::CinemaAnimMove(float delta_time)
-	// 参照先 ... CinemaPlayer::Update(float delta_time)
-	void CinemaPlayerAnimMove(const float delta_time);
 	
 	// イベントによるdanceアニメーション処理
 	// 参照元 ... PlayerDraw::CinemaAnimDance(float delta_time)
@@ -477,17 +514,12 @@ public:
 	// 参照先 ... Player::Update(float delta_time)
 	void UpdateCollisionCheck();
 
-	// CinemaPlayer
+	// cinemaPlayerLoad
 
-	// シネマプレイヤーの座標取得
-	// 参照元 ... Player::m_pos
-	// 参照先 ... Playerの座標が必要な全クラス
-	const tnl::Vector3& GetCinemaPlayerPos() const;
-
-	// シネマプレイヤーのダンスフラグ取得
-	// 参照元 ... Player::m_is_dance
-	// 参照先 ... Player関連クラス
-	bool GetCinemaPlayerIsDance() const;
+	// シネマプレイヤーの各種パラメーター情報取得
+	// 参照元 ... CinemaPlayerLoad::m_parameter
+	// 参照先 ... CinemaPlayer関連クラス
+	const std::vector<CinemaPlayer::sCinemaPlayerParameter>& GetCinemaPlayerParameters() const;
 
 	//--------------------------//
 
@@ -520,11 +552,6 @@ public:
 	// 参照元 ... Partner::m_rot
 	// 参照先 ... Partnerの回転が必要な全クラス
 	const tnl::Quaternion& GetPartnerRot() const;
-
-	// 現在の足元カメラ取得
-	// 参照元 ... Partner::CurrentCamera()
-	// 参照先 ... GimmickGenerator::CalcGimmickRandomPos()
-	GameCamera::sCamera CurrentCameraLane();
 
 	// PartnerLoad
 
@@ -575,19 +602,24 @@ public:
 	//------------------------------//
 
 
-	//------CameraTargetPlayer------//
+	//------GameCameraTarget------//
 
-	// CameraTargetPlayer
+	// GameCameraTarget
 
 	// カメラのターゲット座標取得
-	// 参照元 ... CameraTargetPlayer::GetPos()
+	// 参照元 ... GameCameraTarget::GetPos()
 	// 参照先 ... OriginalCamera::target_
-	const tnl::Vector3& GetCameraTargetPlayerPos() const;
+	const tnl::Vector3& GetGameCameraTargetPos() const;
 
 	// 現在のカメラタイプ取得
-	// 参照元 ... CameraTargetPlayer::m_camera_info
-	// 参照先 ... 
+	// 参照元 ... GameCameraTarget::m_camera_info
+	// 参照先 ... GameCamera::関連する関数
 	const GameCamera::sCameraInfo& GetTargetCameraInfo() const;
+
+	// 現在の足元カメラ取得
+	// 参照元 ... Character::CurrentCameraLane()
+	// 参照先 ... GimmickGenerator::CalcGimmickRandomPos()
+	GameCamera::sCamera CurrentTargetCameraLane();
 
 	// キャラクターの足元イベントレーンを取得
 	// 参照元 ... Character::m_event
@@ -654,6 +686,11 @@ public:
 	// 参照元 ... ButterflyLoad::m_model_hdl
 	// 参照先 ... Butterfly関連クラス
 	int GetButterflyModelHdl() const;
+
+	// バタフライの各種パラメーター情報取得
+	// 参照元 ... ButterflyLoad::m_parameter
+	// 参照先 ... Butterfly関連クラス
+	const std::vector<Butterfly::sButterflyParameter>& GetButterflyParameters() const;
 
 	//-----------------------------//
 
@@ -909,19 +946,7 @@ public:
 	// カメラの固定フラグ取得
 	// 参照元 ... GameCamera::m_is_fixed
 	// 参照先 ... GimmickGenerator::CheckGimmicks(const float delta_time,)
-	bool IsCameraFixed() const;
-
-	// CameraLoad
-
-	// カメラ配列の情報取得
-	// 参照元 ... CameraLoad::m_cameras
-	// 参照先 ... Camera::関連する関数
-	const std::vector<GameCamera::sCamera>& GetCameraLaneVector() const;
-
-	// カメラ情報の取得
-	// 参照元 ... CameraLoad::GetCameraInfoById(int id)
-	// 参照先 ... Camera::関連する関数
-	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
+	bool GetIsCameraFixed() const;
 
 	// CinemaCamera
 
@@ -940,6 +965,18 @@ public:
 	// 参照先 ... シネマカメラの活性化フラグが必要な全クラス
 	bool GetCinemaCameraIsActive() const;
 
+	// CameraLoad
+
+	// カメラ配列の情報取得
+	// 参照元 ... CameraLoad::m_cameras
+	// 参照先 ... Camera::関連する関数
+	const std::vector<GameCamera::sCamera>& GetCameraLaneVector() const;
+
+	// カメラ情報の取得
+	// 参照元 ... CameraLoad::GetCameraInfoById(int id)
+	// 参照先 ... Camera::関連する関数
+	GameCamera::sCameraInfo GetCameraTypeInfoById(int id);
+
 	//---------------------------//
 
 
@@ -955,10 +992,12 @@ public:
 	//---------------------------//
 
 
-	//------------------------------------------------//
+	//--------------------------------------------------------------------------------//
 
 
-	//-----------------ポインタSetter-----------------//
+	//----------------------------------Setter&Getter----------------------------------//
+
+	// 各クラスのポインタを設定
 
 	void SetCameraPhase(std::shared_ptr<CameraPhase>& cameraPhase)
 	{
@@ -978,6 +1017,11 @@ public:
 	void SetSkyBox(std::shared_ptr<SkyBox>& skyBox)
 	{
 		m_skyBox = skyBox;
+	}
+
+	void SetBackLoad(std::shared_ptr<BackLoad>& backLoad)
+	{
+		m_backLoad = backLoad;
 	}
 
 	void SetLaneLoad(std::shared_ptr<LaneLoad>& laneLoad)
@@ -1010,6 +1054,11 @@ public:
 		m_player = player;
 	}
 
+	void SetCinemaPlayer(std::shared_ptr<CinemaPlayer>& cinemaPlayer)
+	{
+		m_cinemaPlayer = cinemaPlayer;
+	}
+
 	void SetPlayerLoad(std::shared_ptr<PlayerLoad>& playerLoad)
 	{
 		m_playerLoad = playerLoad;
@@ -1030,9 +1079,9 @@ public:
 		m_playerCollision = playerCollision;
 	}
 
-	void SetCinemaPlayer(std::shared_ptr<CinemaPlayer>& cinemaPlayer)
+	void SetCinemaPlayerLoad(std::shared_ptr<CinemaPlayerLoad>& cinemaPlayerLoad)
 	{
-		m_cinemaPlayer = cinemaPlayer;
+		m_cinemaPlayerLoad = cinemaPlayerLoad;
 	}
 
 	void SetPartner(std::shared_ptr<Partner>& partner)
@@ -1055,9 +1104,9 @@ public:
 		m_partnerDraw = partnerDraw;
 	}
 
-	void SetCameraTargetPlayer(std::shared_ptr<CameraTargetPlayer>& cameraTargetPlayer)
+	void SetCameraTargetPlayer(std::shared_ptr<GameCameraTarget>& gameCameraTarget)
 	{
-		m_cameraTargetPlayer = cameraTargetPlayer;
+		m_gameCameraTarget = gameCameraTarget;
 	}
 
 	void SetCinemaCameraTarget(std::shared_ptr<CinemaCameraTarget>& cinemaCameraTarget)
@@ -1185,5 +1234,5 @@ public:
 		m_screenShot = screenShot;
 	}
 
-	//------------------------------------------------//
+	//--------------------------------------------------------------------------------//
 };

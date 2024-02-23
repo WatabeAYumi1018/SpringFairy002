@@ -1,5 +1,5 @@
-#include "../[000]GameEngine/[001]Scene/SceneManager.h"
-#include "../[000]GameEngine/[002]Music/MusicManager.h"
+#include "../[000]GameEngine/[000]Scene/SceneManager.h"
+#include "../[000]GameEngine/[001]Music/MusicManager.h"
 #include "../[001]Common/[001]Camera/OpCamera.h"
 #include "../[001]Common/[005]Factory/OpFactory.h"
 #include "../[003]ScenePlay/ScenePlay.h"
@@ -10,7 +10,6 @@ SceneOp::SceneOp() : m_factory(std::make_shared<OpFactory>())
 {
 	Initialize();
 
-	//ChangeLightTypeDir(VGet(0.0f, -1.0f, 0.0f));
 	SetDefaultLightParameter("directional_light002.bin");
 }
 
@@ -22,7 +21,6 @@ SceneOp::~SceneOp()
 bool SceneOp::SeqStart(const float delta_time)
 {
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN))
-		//(m_opCamera->GetPos().z >= 1400)
 	{
 		MusicManager::GetInstance().PlaySE(0);
 	
@@ -75,6 +73,7 @@ void SceneOp::Draw(const float delta_time)
 void SceneOp::Finalize()
 {
 	MusicManager::GetInstance().StopBGM(0);
+	MusicManager::GetInstance().StopSE(0);
 
 	m_objects.clear();
 

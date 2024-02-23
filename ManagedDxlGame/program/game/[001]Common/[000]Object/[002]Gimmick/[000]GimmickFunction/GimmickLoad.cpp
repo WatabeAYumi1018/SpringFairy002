@@ -13,9 +13,6 @@ GimmickLoad::GimmickLoad()
 	m_csv_sky_flowers
 		= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/sky_flower.csv");
 
-	//m_csv_gimmick_butterfly
-	//	= tnl::LoadCsv<tnl::CsvCell>("csv/gimmick/butterfly.csv");
-
 	LoadGimmickTypeInfo(m_csv_ground_flowers, m_ground_flowers);
 	
 	LoadGimmickTypeInfo(m_csv_woods, m_woods);
@@ -36,11 +33,8 @@ GimmickLoad::~GimmickLoad()
 void GimmickLoad::LoadGimmickTypeInfo(std::vector<std::vector<tnl::CsvCell>>& csv_gimmick
 									 ,std::vector<Gimmick::sGimmickTypeInfo>& gimmicks)
 {
-	// マップタイルの総数を取得
-	int max_num = csv_gimmick.size();
-
 	// 0行目は説明文なので読み飛ばす
-	for (int y = 1; y < max_num; ++y)
+	for (int y = 1; y < csv_gimmick.size(); ++y)
 	{
 		Gimmick::sGimmickTypeInfo gimmick_info;
 
@@ -79,12 +73,6 @@ const std::vector<Gimmick::sGimmickTypeInfo>& GimmickLoad::GetGimmicksType(Gimmi
 		return m_sky_flowers;
 
 		break;
-
-	//case Gimmick::eGimmickType::butterfly:
-	//
-	//	return m_butterflys;
-	//
-	//	break;
 
 	default:
 
