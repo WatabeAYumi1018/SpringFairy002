@@ -89,6 +89,7 @@ void Effect::EffectTransCinema()
 	// ダンスに関連するエフェクト再生
 	if (m_mediator->GetCinemaPlayerIsDance())
 	{
+		// 該当するエフェクトIDを指定（csv参照）
 		SetEffectActive(12, 15, true);
 		EffectPlayerAction(12, 15, false);
 	}

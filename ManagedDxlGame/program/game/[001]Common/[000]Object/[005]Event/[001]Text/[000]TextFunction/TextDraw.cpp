@@ -59,10 +59,8 @@ void TextDraw::UpdateTexts()
 
     // テキスト描画をしないレーンIDの場合は処理を終了
     if (lane_event.s_id == -1
-        || lane_event.s_id == 1
         || lane_event.s_id == 7
         || lane_event.s_id == 10
-        || lane_event.s_id == 12
         || lane_event.s_id == 14)
     {
         return;
@@ -90,34 +88,41 @@ void TextDraw::DrawTextData(const float delta_time
                             , std::string text_line_first
                             , std::string text_line_second)
 {
-    m_elapsed_time_last_char += delta_time * 1.5f;
+    // 2 : 全角文字のため（固定値）
+    const int TEXT = 2;
+
+    float text_speed = 1.5f;
+
+    m_elapsed_time_last_char += delta_time * text_speed;
 
     if (m_elapsed_time_last_char >= m_char_interval)
     {
+        // 文字表示のウェイト時間をリセット
         m_elapsed_time_last_char = 0.0f;
 
         // 文字を1つずつ表示
         if (m_now_text_lane_num == 0 
-            && m_index_char_first < text_line_first.length() * 2)
+            && m_index_char_first < text_line_first.length() * TEXT)
         {
-            m_index_char_first += 2;
+            m_index_char_first += TEXT;
         }
         else if (m_now_text_lane_num == 1 
-            && m_index_char_second < text_line_second.length() * 2)
+            && m_index_char_second < text_line_second.length() * TEXT)
         {
-            m_index_char_second += 2;
+            m_index_char_second += TEXT;
         }
     }
 
     // 両方の行の文字の描画が完了したかどうかをチェック
-    if (m_index_char_first >= text_line_first.length() * 2 
+    if (m_index_char_first >= text_line_first.length() * TEXT
         && m_now_text_lane_num == 0)
     {
         m_now_text_lane_num = 1;
-        m_index_char_first = text_line_first.length() * 2; // 現在の行の長さを固定
+        // 現在の行の長さを固定
+        m_index_char_first = text_line_first.length() * TEXT;
     }
 
-    if (m_index_char_second >= text_line_second.length() * 2 
+    if (m_index_char_second >= text_line_second.length() * TEXT
         && m_now_text_lane_num == 1)
     {
         // 描画を停止し、ウェイトタイムに入る
@@ -132,10 +137,11 @@ void TextDraw::SetNextText(const float delta_time)
     float wait_time = 0.5f;
 
     // 最後に描画された行が特定の文字を含むかチェック
-    if (m_lane_text_data[m_now_text_id].s_text_line_second.find("Xボタン") != std::string::npos
-        ||m_lane_text_data[m_now_text_id].s_text_line_second.find("Zボタン") != std::string::npos) 
+    if (m_lane_text_data[m_now_text_id].s_text_line_second.find("Xボタン") 
+        != std::string::npos)
     {
         // 操作説明の場合は待機時間を5倍
+        // 基本的に変更する数値ではないため、固定値
         wait_time *= 5;  
     }
 
@@ -228,56 +234,3 @@ bool TextDraw::SeqSetNextText(const float delta_time)
 
     TNL_SEQ_CO_END;
 }
-
-
-
-
-
-
-/*
-* 
-* // テキストの表示が終了している場合は何もしない
-    if (m_index_line < m_text_line.size())
-    {
-        // 1文字ずつ表示する間隔を経過時間で計算
-        m_elapsed_time_last_char += delta_time * 2;
-
-        // 1文字ずつ表示する間隔を超えた場合
-        if (m_elapsed_time_last_char >= m_char_interval)
-        {
-            // 表示間隔のカウントを初期化
-            m_elapsed_time_last_char = 0.0f;
-        
-            // 1文字ずつ表示(全角文字のため、2ずつ加算)
-            m_index_char += 2;
-
-            // 現在の行を全て表示したら、次の行に移行する
-            if (m_index_char >= m_text_line[m_index_line].length())
-            {
-                m_index_line++;
-
-                m_index_char = 0;
-            } 
-        }
-    }
-    // テキストの表示が終了している場合は値を初期化
-    else
-    {
-        ResetText();
-    }
-
-std::string processed_line = line;
-元データを保護するために、元データをコピーしてprocessed_lineに格納
-元の文字列 line は sStoryText 構造体の一部であり、他の場所でも使われる可能性がある
-直接 line を変更すると、他の場所での使用に影響を与える可能性がある
-オリジナルのデータをそのままにしておき、加工用にはコピーを使用
-→後で line を別の目的で再利用する場合や、元の文字列を変更せずに保持したい場合に便利
-
-size_t : 非負整数（符号なし整数。負の値を持たない。０または正の整数のみ扱う）
-主に配列のサイズやコレクション内の要素のインデックス（位置）を指定するのに使用
-
-npos : string::nposは、string::find()やstring::rfind()の戻り値として使われる特別な値
-文字列中に検索文字列が見つからなかった場合にstring::nposを返す
-この値もsize_t型
-
-*/
