@@ -401,7 +401,6 @@
     <ClInclude Include="program\wta_library\wta_Astar.h" />
     <ClInclude Include="program\wta_library\wta_Collision.h" />
     <ClInclude Include="program\wta_library\wta_Convert.h" />
-    <ClInclude Include="program\wta_library\wta_SimplexNoise.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

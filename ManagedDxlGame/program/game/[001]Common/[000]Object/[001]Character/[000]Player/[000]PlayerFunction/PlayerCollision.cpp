@@ -18,9 +18,7 @@ void PlayerCollision::CollisionRegisterPlayerToGimmick()
 
 	m_collision_gimmick->registerIntersect( player_to_gimmick_key
 										, [this](std::shared_ptr<Player> player
-										, std::shared_ptr<Gimmick> gimmick)
-	{
-	});
+										, std::shared_ptr<Gimmick> gimmick){});
 }
 
 void PlayerCollision::CollisionRegisterMeshToGimmick()
@@ -60,8 +58,6 @@ void PlayerCollision::CollisionRegisterPlayerToPartner()
 		{
 			m_collision_chara->CorrectSphere(player, player->GetCollisionSize()
 											 , partner, partner->GetCollisionSize());
-
-			//m_mediator->SetIsPartnerPushed(true);
 		}
 	});
 }
@@ -96,32 +92,15 @@ void PlayerCollision::IsIntersectGimmickPos(std::shared_ptr<dxe::Mesh> mesh
 	{
 		// “–‚½‚è”»’è”­¶‡}
 		gimmick->SetIsHit(true);
-		//// •`‰æØ‚è‘Ö‚¦‡}
-		//gimmick->SetIsDrawChange(true);
-	}
 
-	// “–‚½‚è”»’è”­¶‡}”­¶’†
-	if (gimmick->GetIsHit())
-	{
-		// ŽË’öŠO‚Éo‚½‚ç“–‚½‚è”»’è‚ð‰ðœ
-		if (!m_collision_mesh->IsIntersectSphere(mesh, m_player->GetMeshs().size()
-			, gimmick, gimmick->GetCollisionSize(), pos_up))
-		{
-			gimmick->SetIsHit(false);
-		}
 		// ƒvƒŒƒCƒ„[‚ªƒAƒNƒVƒ‡ƒ“ó‘Ô‚È‚ç“–‚½‚è”»’è
-		else if (m_mediator->GetIsPlayerBloom())
+		if (m_mediator->GetIsPlayerBloom())
 		{
 			gimmick->SetIsCollision(true);
 		}
-		else if (m_mediator->GetIsPlayerDance() 
-				&& abs(m_player->GetPos().x - gimmick->GetPos().x) < 500
-				&& abs(m_player->GetPos().z - gimmick->GetPos().z) < 500)
+		else
 		{
-			gimmick->SetIsCollision(true);
+			gimmick->SetIsCollision(false);
 		}
 	}
 }
-
-
-

@@ -20,8 +20,10 @@ void LaneLoad::LoadLaneVector()
 {
 	// csvファイルの読み込み
 	m_csv_lane 
-		//= tnl::LoadCsv<int>("csv/stage/move/move_lane.csv");
-		= tnl::LoadCsv<int>("csv/stage/move/move_lane0219.csv");
+		= tnl::LoadCsv<int>("csv/stage/move/move_lane.csv");
+
+	// 審査会用に使用したミニマップ（必要時に使用予定）	
+	//= tnl::LoadCsv<int>("csv/stage/move/move_lane0219.csv");
 
 	// レーン配列の高さ
 	m_lane_height = m_csv_lane.size();
@@ -42,6 +44,7 @@ void LaneLoad::LoadLaneVector()
 			}
 
 			lane.s_id = m_csv_lane[y][x];
+
 			// ワールド座標に変換(配列数削減のため１マスを大きめに設定)
 			lane.s_pos 
 				= tnl::Vector3(x * Lane::LANE_SIZE, 0, y * Lane::LANE_SIZE);
@@ -55,8 +58,10 @@ void LaneLoad::LoadLaneEventVector()
 {
 	// csvファイルの読み込み
 	m_csv_lane_event 
-		//= tnl::LoadCsv<int>("csv/stage/event/event_lane.csv");
-		= tnl::LoadCsv<int>("csv/stage/event/event_lane0219.csv");
+		= tnl::LoadCsv<int>("csv/stage/event/event_lane.csv");
+
+	// 審査会用に使用したミニマップ（必要時に使用予定）	
+	//　= tnl::LoadCsv<int>("csv/stage/event/event_lane0219.csv");
 
 	Lane::sLaneEvent lane_event;
 

@@ -23,14 +23,20 @@
 // 
 // ①責任が重すぎること。かつ他クラスとの依存度も深いのが問題。
 // 　本来のメディエータとは異なるため、今後はリファクタリングが必要。
-// 　尚、今回は制作規模や、分割化での複雑さ軽減を考え、全てのクラスを参照。
+// 　尚、今回は制作規模や、分割化での複雑さ軽減を考え、ほぼ全てのクラスを参照。
 // 
 // ②各クラスへの参照をするため、毎フレーム大量のshared_ptrを生成するのも問題。
 // 　現状、設計の見直しをするのも現実的ではないため、今後はリファクタリングが必要。
-// 　但し、そうなると大量のshared_ptrを生成するクラスが多くなるため、設計の見直し必須。
+// 
+// ③多くの参照を持つため、カプセル化の概念を崩してしまっているのも問題。
+// 　カプセル化を維持させつつも、扱いやすく、かつ役割を明確化させるためのアプローチを検討中。
+// 　（今後は移譲という概念を用いて、必要なクラスに対してもっと直接的にアプローチをしてもいいかも。）
 // 
 // ※今回はあくまで、コンストラクタの引数を無くし、参照を渡すことを目的に使用。
 // 　その上での改善点は多数あるため、次作にて対応を考える。
+// 
+// ☆今回の実装により、循環参照について深く考えることができたのは大きい。
+// 　オブジェクト指向を保ちつつも、ポインタによる上記のような問題に向き合うきっかけともなった。
 //
 ///////////////////////////////////////////////////////////////////////////
 
@@ -46,7 +52,7 @@ class Character;
 
 class Player;
 class PlayerLoad;
-class PlayerMove;	
+class PlayerMove;
 class PlayerDraw;
 class PlayerCollision;
 class CinemaPlayerLoad;
@@ -60,7 +66,7 @@ class GameCameraTarget;
 class CinemaCameraTarget;
 
 class ButterflyLoad;
-		
+
 class Gimmick;
 class GimmickLoad;
 class GimmickGenerator;
@@ -99,6 +105,7 @@ public:
 	//--------------------------コンストラクタ、デストラクタ--------------------------//
 
 	Mediator() {}
+
 	~Mediator() {}
 
 	//--------------------------------------------------------------------------------//
@@ -167,7 +174,7 @@ private:
 	std::weak_ptr<GateLoad> m_gateLoad;
 
 	std::weak_ptr<EnterGraph> m_enterGraph;
-	std::weak_ptr<ChangeGraph> m_changeGraph;	
+	std::weak_ptr<ChangeGraph> m_changeGraph;
 	std::weak_ptr<ChildChangeGraph> m_childChangeGraph;
 	std::weak_ptr<OtherGraphLoad> m_otherGraphLoad;
 
@@ -190,7 +197,7 @@ public:
 	// カメラフェーズ取得
 	// 参照元 ... CameraPhase::m_now_camera
 	// 参照先 ... フェーズ状態の取得が必要な全クラス（フェーズ遷移の影響を持つクラス）
-	const CameraPhase::eCameraPhase& GetNowCameraPhaseState() const ;
+	const CameraPhase::eCameraPhase& GetNowCameraPhaseState() const;
 
 	//----------------------------//
 
@@ -222,8 +229,8 @@ public:
 	void SetIsCinemaBackBubble(bool is_bubble);
 
 	//----------------------------//
-	
-	
+
+
 	//-----------SkyBox-----------//
 
 	// SkyBox
@@ -283,14 +290,14 @@ public:
 	// 参照元 ... LoadMove::MoveAstar(float delta_time)
 	// 参照先 ... 自動経路による更新が必要な全クラス
 	void MoveAstarCharaUpdatePos(const float delta_time
-								 ,tnl::Vector3& pos);
+		, tnl::Vector3& pos);
 
 	// 自動移動による回転更新
 	// 参照元 ... LoadMove::MoveAstarRot(float delta_time)
 	// 参照先 ... 自動経路による更新が必要な全クラス
 	void MoveAstarCharaUpdateRot(const float delta_time
-								 , tnl::Vector3& pos
-								 , tnl::Quaternion& rot);
+		, tnl::Vector3& pos
+		, tnl::Quaternion& rot);
 
 	// 自動移動による座標更新
 	// 参照元 ... LoadMove::MoveAstarPos(float delta_time)
@@ -345,7 +352,7 @@ public:
 
 
 	//----------Player----------//
-	
+
 	// player 
 
 	// プレイヤーの座標設定
@@ -395,7 +402,7 @@ public:
 	// プレイヤーモデルハンドルの取得
 	// 参照元 ... PlayerLoad::m_model_game_hdl
 	// 参照先 ... Player関連クラス
-	int GetPlayerModelGameHdl() const; 
+	int GetPlayerModelGameHdl() const;
 
 	// プレイヤーシネマモデルハンドルの取得
 	// 参照元 ... PlayerLoad::m_model_cinema_hdl
@@ -496,7 +503,7 @@ public:
 	// 参照元 ... PlayerDraw::CinemaAnimIdle(float delta_time)
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
 	void CinemaPlayerAnimIdle(const float delta_time);
-	
+
 	// イベントによるdanceアニメーション処理
 	// 参照元 ... PlayerDraw::CinemaAnimDance(float delta_time)
 	// 参照先 ... CinemaPlayer::Update(float delta_time)
@@ -707,7 +714,7 @@ public:
 	// ギミックの当たり判定取得
 	// 参照元 ... Gimmick::m_is_collision
 	// 参照先 ... Gimmick::Update(float delta_time)
-	bool GetGimmickIsCollision() const ;
+	bool GetGimmickIsCollision() const;
 
 	// GimmickPool
 
@@ -721,7 +728,7 @@ public:
 	// アイテムフラワーのアクティブ状態取得
 	// 参照元 ... GimmickGenerator::m_is_flower_active
 	// 参照先 ... 
-	bool GetIsGimmickFlowerActive() const ; 
+	bool GetIsGimmickFlowerActive() const;
 
 	// 地面ギミックのアクティブ状態取得
 	// 参照元 ... GimmickGenerator::m_is_ground_active
@@ -753,11 +760,11 @@ public:
 	//----------Score-----------//
 
 	// Score
-	
+
 	// スコア加算判定フラグの設定
 	// 参照元 ... Score::m_is_add
 	// 参照先 ... Gimmick::Update(float delta_time)
-	void SetIsScoreAdd(bool is_add) ;
+	void SetIsScoreAdd(bool is_add);
 
 	//--------------------------//
 
@@ -812,7 +819,7 @@ public:
 
 	//---------------------------//
 
-	
+
 	//--------CharaGraph---------//
 
 	// CharaGraph
@@ -840,7 +847,7 @@ public:
 	//------------Title-----------//
 
 	// Title
-	
+
 	// タイトルの描画フラグ設定
 	// 参照元 ... Title::m_is_draw
 	// 参照先 ... OpCamera::Update(float delta_time)
@@ -1028,7 +1035,7 @@ public:
 	{
 		m_laneLoad = laneLoad;
 	}
-	
+
 	void SetLaneMove(std::shared_ptr<LaneMove>& laneMove)
 	{
 		m_laneMove = laneMove;
@@ -1178,7 +1185,7 @@ public:
 	{
 		m_charaGraph = charaGraph;
 	}
-	
+
 	void SetCharaGraphLoad(std::shared_ptr<CharaGraphLoad>& charaGraphLoad)
 	{
 		m_charaGraphLoad = charaGraphLoad;

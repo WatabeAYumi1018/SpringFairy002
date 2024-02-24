@@ -68,7 +68,6 @@ bool GameCameraTarget::SeqStop(const float delta_time)
 	TNL_SEQ_CO_TIM_YIELD_RETURN(10, delta_time, [&]()
 	{
 		// 10秒間座標更新速度を上げる
-
 		m_is_speed_up = true;
 
 		MoveMatrix(delta_time);

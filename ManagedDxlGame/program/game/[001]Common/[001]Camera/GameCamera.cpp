@@ -405,6 +405,8 @@ bool GameCamera::SeqRotateToFix(const float delta_time)
 
 // -----デバッグ用----- //
 
+// デバッグ用でプログラマー操作のため、固定値で扱っています
+
 void GameCamera::Control(const float delta_time)
 {
 	// マウスの移動量を取得

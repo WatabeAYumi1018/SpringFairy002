@@ -8,5 +8,5 @@
 
 
 void gameStart();
-void gameMain(float delta_time );
+void gameMain(const float delta_time );
 void gameEnd();

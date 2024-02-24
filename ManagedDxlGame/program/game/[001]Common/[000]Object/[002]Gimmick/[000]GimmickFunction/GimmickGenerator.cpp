@@ -61,6 +61,7 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
 
     // 400 : ギミック同士の距離
     float offset = 400.0f;
+    float area_offset = 800.0f;
 
     for (std::shared_ptr<Gimmick>& gimmick : gimmicks)
     {
@@ -75,7 +76,7 @@ void GimmickGenerator::CalcGroundPos(const float delta_time, Gimmick::eGimmickTy
                 == StagePhase::eStagePhase::e_wood)
             {
                 // 2 : エリアwoodの時は木にぶつからないように間隔を広げる
-                target_pos += forward * offset * 2;
+                target_pos += forward * area_offset;
 			}
             else
             {
@@ -100,6 +101,8 @@ tnl::Vector3 GimmickGenerator::DirectionCalcPos(const tnl::Vector3& forward)
     {
         if (m_mediator->GetPlayerLookSideRight())
         {
+            // 外積計算
+            // 1 : プレイヤーの向きによって外積の向きを変える
             perpendicular = tnl::Vector3::Cross(forward, tnl::Vector3(0, 1, 0));
         }
         else if (m_mediator->GetPlayerLookSideLeft())
@@ -130,8 +133,10 @@ void GimmickGenerator::SetPlacePos(std::shared_ptr<Gimmick>& gimmick
                                     , const tnl::Vector3& perpendicular)
 {
     // 自動経路の線分上からforward方向へのベクトルをランダム生成
+    // 800 : ギミックの生成位置の最小値（デバッグでの制御を推奨。後日修正をします。）
+    // 1000 : ギミックの生成位置の最大値（同様）
     float forward_distance 
-        = tnl::GetRandomDistributionFloat(600.0f, 1500.0f);
+        = tnl::GetRandomDistributionFloat(800.0f, 1000.0f);
 
     // ギミックの新しい位置を計算
     tnl::Vector3 pos = target_pos + perpendicular * forward_distance;
@@ -139,6 +144,7 @@ void GimmickGenerator::SetPlacePos(std::shared_ptr<Gimmick>& gimmick
     pos.y = Floor::DRAW_OFFSET;
 
     // 2 : エリアwoodの時は木にぶつからないようにフロアの描画位置を下げる
+    // 元モデルの大きさにも起因するため、変更はほぼなし。固定値とする。
     if (m_mediator->GetNowStagePhaseState() 
         == StagePhase::eStagePhase::e_wood)
     {
@@ -188,7 +194,7 @@ tnl::Vector3 GimmickGenerator::CalcRandomPos()
 
     tnl::Vector3 random_pos
         = tnl::Vector3(tnl::GetRandomDistributionFloat(player_pos.x - (offset * 2), player_pos.x - offset)
-                        , 800
+                        , offset
                         , player_pos.z + offset);
 
     return random_pos;

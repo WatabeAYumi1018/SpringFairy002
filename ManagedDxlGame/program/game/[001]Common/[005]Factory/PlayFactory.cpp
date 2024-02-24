@@ -36,6 +36,7 @@
 #include "../[000]Object//[005]Event/[002]CharaGraph/[000]CharaGraphFunction/CharaGraphLoad.h"
 #include "../[000]Object/[008]OtherGraph/ChangeGraph.h"
 #include "../[000]Object/[008]OtherGraph/ChildChangeGraph.h"
+#include "../[000]Object/[008]OtherGraph/EnterGraph.h"
 #include "../[000]Object/[008]OtherGraph/[000]OtherFunction/OtherGraphLoad.h"
 #include "../[001]Camera/GameCamera.h"
 #include "../[001]Camera/CinemaCamera.h"
@@ -68,8 +69,6 @@ PlayFactory::~PlayFactory()
 	m_objects_gameCamera.clear();
 	m_objects_cinemaCamera.clear();
 	m_gimmicks.clear();
-
-	SharedExReset();
 }
 
 void PlayFactory::CreateObject()
@@ -136,6 +135,7 @@ void PlayFactory::CreateObject()
 
 	m_changeGraph = std::make_shared<ChangeGraph>();
 	m_childChangeGraph = std::make_shared<ChildChangeGraph>();
+	m_enterGraph = std::make_shared<EnterGraph>();
 	m_otherGraphLoad = std::make_shared<OtherGraphLoad>();
 
 	m_gameCamera = std::make_shared<GameCamera>();
@@ -187,6 +187,7 @@ void PlayFactory::SetObjectReference()
 	m_mediator->SetCharaGraphLoad(m_charaGraphLoad);
 	m_mediator->SetChangeGraph(m_changeGraph);
 	m_mediator->SetChildChangeGraph(m_childChangeGraph);
+	m_mediator->SetEnterGraph(m_enterGraph);
 	m_mediator->SetOtherGraphLoad(m_otherGraphLoad);
 	m_mediator->SetScreenShot(m_screenShot);
 	m_mediator->SetGameCamera(m_gameCamera);
@@ -240,6 +241,8 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 	// 各タイプごとに生成するギミックの数
 	int create_num_per_type = m_gimmickPool->GetGimmickCreateNum();
 
+	// shared_ptrを一時的にweak_ptrに変換して、相互参照を解消する
+
 	for (const Gimmick::sGimmickTypeInfo& type_info : gimmick_types)
 	{
 		for (int i = 0; i < create_num_per_type; ++i)
@@ -250,11 +253,11 @@ void PlayFactory::PoolGimmickType(const std::vector<Gimmick::sGimmickTypeInfo>& 
 
 			if (type_info.s_type == Gimmick::eGimmickType::e_wood)
 			{
-				gimmick->SetCollisionSize(500);
+				gimmick->SetCollisionSize(Gimmick::GIMMICK_SIZE_WOOD);
 			}
 			else
 			{
-				gimmick->SetCollisionSize(300);
+				gimmick->SetCollisionSize(Gimmick::GIMMICK_SIZE_FLOWER);
 			}
 
 			gimmick->SetMediator(m_mediator);
@@ -291,6 +294,7 @@ void PlayFactory::StorageObjectGameCamera()
 	m_objects_gameCamera.emplace_back(m_charaGraph);
 	m_objects_gameCamera.emplace_back(m_text);
 	m_objects_gameCamera.emplace_back(m_childChangeGraph);
+	m_objects_gameCamera.emplace_back(m_enterGraph);
 }
 
 void PlayFactory::StorageObjectCinemaCamera()
@@ -307,58 +311,4 @@ void PlayFactory::StorageObjectCinemaCamera()
 	m_objects_cinemaCamera.emplace_back(m_effect);
 	// sceneチェンジ用画像
 	m_objects_cinemaCamera.emplace_back(m_changeGraph);
-}
-
-// 明示的なリセットは本来必要ないが、メモリリークが発生しているため一時的な対処として実装
-void PlayFactory::SharedExReset()
-{
-	m_astar.reset();
-	m_collision_player_item.reset();
-	m_collision_mesh_item.reset();
-	m_collision_player_partner.reset();
-	m_cameraPhase.reset();
-	m_stagePhase.reset();
-	m_skyBox.reset();
-	m_cinemaBack.reset();
-	m_backLoad.reset();
-	m_laneLoad.reset();
-	m_laneMove.reset();
-	m_floor.reset();
-	m_model.reset();
-	m_modelLoad.reset();
-	m_character.reset();
-	m_player.reset();
-	m_cinemaPlayer.reset();
-	m_playerLoad.reset();
-	m_playerMove.reset();
-	m_playerDraw.reset();
-	m_playerCollision.reset();
-	m_cinemaPlayerLoad.reset();
-	m_partner.reset();
-	m_partnerLoad.reset();
-	m_partnerMove.reset();
-	m_partnerDraw.reset();
-	m_gameCameraTarget.reset();
-	m_cinemaCameraTarget.reset();
-	m_butterfly.reset();
-	m_butterflyLoad.reset();
-	m_gimmickLoad.reset();
-	m_gimmickGenerator.reset();
-	m_gimmickPool.reset();
-	m_effect.reset();
-	m_effectLoad.reset();
-	m_score.reset();
-	m_text.reset();
-	m_textLoad.reset();
-	m_textDraw.reset();
-	m_charaGraph.reset();
-	m_charaGraphLoad.reset();
-	m_changeGraph.reset();
-	m_childChangeGraph.reset();
-	m_otherGraphLoad.reset();
-	m_gameCamera.reset();
-	m_cameraLoad.reset();
-	m_cinemaCamera.reset();
-	m_mediator.reset();
-	m_screenShot.reset();
 }

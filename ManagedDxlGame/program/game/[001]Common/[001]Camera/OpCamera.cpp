@@ -45,6 +45,10 @@ bool OpCamera::SeqNormal(const float delta_time)
 		m_mediator->SetSkyIsOp(true);
 	}
 
+	// 3 : 移動時間(秒)
+	// ※このあたりの値をデバッグにした方が最適。
+	// コルーチンのタイム指定など全てデバッグにすると膨大な量になるため、
+	// 今回はあくまで簡易的に設定。 
 	TNL_SEQ_CO_TIM_YIELD_RETURN(3, delta_time, [&]()
 	{
 		Fixed(m_offset);

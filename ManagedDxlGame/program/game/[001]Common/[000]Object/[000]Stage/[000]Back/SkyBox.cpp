@@ -20,6 +20,7 @@ void SkyBox::CreateSkyBox()
 {
 	for (sSkyBoxInfo& sky_info : m_skybox_info)
 	{
+		// 60000 : SkyBoxの大きさ。あまり変えることもない。
 		float size = 60000.0f;
 
 		m_mesh = dxe::Mesh::CreateCubeMV(size);
@@ -48,10 +49,12 @@ void SkyBox::Draw(std::shared_ptr<dxe::Camera> camera)
 {
 	m_screen_effect->renderBegin();
 
+	// OPのみの描画
 	if (m_is_op)
 	{
 		m_meshs[0]->render(camera);
 	}
+	// Playシーンの描画
 	else
 	{
 		if (m_mediator->GetNowStagePhaseState()
@@ -67,9 +70,7 @@ void SkyBox::Draw(std::shared_ptr<dxe::Camera> camera)
 		}
 
 		if (m_mediator->GetNowStagePhaseState()
-				== StagePhase::eStagePhase::e_fancy
-			|| m_mediator->GetNowStagePhaseState()
-				== StagePhase::eStagePhase::e_end)
+			== StagePhase::eStagePhase::e_fancy)
 		{
 			m_meshs[3]->render(camera);
 		}

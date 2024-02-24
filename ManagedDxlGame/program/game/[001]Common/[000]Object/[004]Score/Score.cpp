@@ -33,12 +33,10 @@ void Score::LoadScoreData()
 		= tnl::LoadCsv<tnl::CsvCell>("csv/ui/score/score_info.csv");
 
 	// マップタイルの総数を取得
-	int max_num = m_csv_score_data.size();
-
-	m_score_num = max_num - 1;
+	m_score_num = m_csv_score_data.size() - 1;
 
 	// 0行目は説明文なので読み飛ばす
-	for (int y = 1; y < max_num; ++y)
+	for (int y = 1; y < m_csv_score_data.size(); ++y)
 	{
 		Score::sScoreDate score_info;
 

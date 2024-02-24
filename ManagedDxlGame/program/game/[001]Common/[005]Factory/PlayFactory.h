@@ -73,6 +73,7 @@ class CharaGraphLoad;
 
 class ChangeGraph;
 class ChildChangeGraph;
+class EnterGraph;
 class OtherGraphLoad;
 
 class GameCamera;
@@ -176,8 +177,11 @@ private:
 	std::shared_ptr<CharaGraphLoad> m_charaGraphLoad = nullptr;
 
 	std::shared_ptr<ChangeGraph> m_changeGraph = nullptr;
+
 	std::shared_ptr<ChildChangeGraph> m_childChangeGraph = nullptr;
 	std::shared_ptr<OtherGraphLoad> m_otherGraphLoad = nullptr;
+
+	std::shared_ptr<EnterGraph> m_enterGraph = nullptr;
 
 	std::shared_ptr<GameCamera> m_gameCamera = nullptr;
 	std::shared_ptr<CameraLoad> m_cameraLoad = nullptr;
@@ -221,17 +225,6 @@ private:
 	// 生成したオブジェクトをシネマカメラの管轄listに格納
 	// tips ... 初期化時に一度だけ呼び出す関数
 	void StorageObjectCinemaCamera();
-
-	//	デストラクタにて循環参照を明示的に解消
-	//	今回、各クラスからメディエータへの参照がsharedで行われているため、
-	//	カウントが0にならないと思われる事案が発生。
-	//	改善策として、メディエータへのweak参照が挙げられますが、
-	//	毎フレーム大量のshared_ptrを生成する事になるため、
-	//	パフォーマンスへの影響を懸念。
-	//	作成終盤の現段階で設計の見直しは現実的でないため、
-	//	今回は明示的に解消する事にしました。
-	//  今後の大きな課題として、設計の見直しを行う事が挙げられます。
-	void SharedExReset();
 
 	//--------------------------------------------------------------------------------//
 

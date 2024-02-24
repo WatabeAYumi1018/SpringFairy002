@@ -61,10 +61,10 @@ bool StagePhase::SeqFancy(const float delta_time)
 		SetDefaultLightParameter("directional_light001.bin");
 	}
 
-	// 14‚É“ü‚Á‚½‚çED‚Ö
+	// 14‚É“ü‚Á‚ÄƒvƒŒƒCƒ„[‚ªã¸‚µ‚½‚çED‚Ö—U“±
 	if (m_mediator->GetPlayerPos().y > m_goal_pos_y)
 	{
-		m_now_stage = eStagePhase::e_end;
+		m_mediator->SetEnterGraphIsActive(true);
 	}
 
 	TNL_SEQ_CO_FRM_YIELD_RETURN(-1, delta_time, [&](){});

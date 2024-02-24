@@ -9,9 +9,6 @@
 #include "[000]GameEngine/[001]Music/MusicManager.h"
 #include "[002]SceneOP/SceneOp.h"
 
-#include <stdlib.h>
-#include <crtdbg.h>
-#define _CRTDBG_MAP_ALLOC
 //------------------------------------------------------------------------------------------------------------
 // ゲーム起動時に１度だけ実行されます
 void gameStart() 
@@ -30,7 +27,7 @@ void gameStart()
 
 //------------------------------------------------------------------------------------------------------------
 // 毎フレーム実行されます
-void gameMain(float delta_time) 
+void gameMain(const float delta_time) 
 {
 	SceneManager::GetInstance()->Update(delta_time);
 }
@@ -39,9 +36,5 @@ void gameMain(float delta_time)
 // ゲーム終了時に１度だけ実行されます
 void gameEnd() 
 {
-	SceneManager::GetInstance()->Finalize();
-	
-
-	// メモリリークのチェック
-	_CrtDumpMemoryLeaks();
+	SceneManager::GetInstance()->Finalize();	
 }

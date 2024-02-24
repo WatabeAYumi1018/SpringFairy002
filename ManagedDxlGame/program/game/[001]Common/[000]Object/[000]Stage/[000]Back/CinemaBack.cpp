@@ -114,6 +114,7 @@ void CinemaBack::UpdateFogBlend()
 	// 透明度の増加
 	m_alpha += m_alpha_speed;
 	
+	// 255 : 不透明
 	if (m_alpha > 255)
 	{
 		m_alpha = 255;
@@ -130,11 +131,14 @@ void CinemaBack::UpdateBubblesActive(const float delta_time)
 		bubble.s_size += bubble.s_life_time * delta_time;
 
 		// 透明度が範囲外に行った場合は方向を反転
+		// 255 : 不透明
 		if (bubble.s_alpha > 255)
 		{
 			// 透明度が最大に達したら減少させるための速度を設定
 			bubble.s_life_time = -bubble.s_life_time;
 		}
+
+		// 0 : 透明
 		if (bubble.s_alpha < 0)
 		{
 			// 透明度が最小に達したら増加させるための速度を設定

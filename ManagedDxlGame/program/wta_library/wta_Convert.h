@@ -74,17 +74,6 @@ namespace wta
         return dx_matrix;
     }
 
-    //inline MATRIX ConvertQuaternionToMatrix(const tnl::Quaternion& quaternion)
-    //{
-    //    tnl::Matrix mat = quaternion.getMatrix();
-
-    //    MATRIX dxm;
-
-    //    memcpy(&dxm, &mat.m, sizeof(float) * 16);
-
-    //    return dxm;
-    //}
-
     // tnl::Matrix‚©‚çDXlib‚ÌMATRIX‚Ö‚Ì•ÏŠ·
     inline MATRIX ConvertTnlToDxMatrix(const tnl::Matrix& tnl_matrix)
     {

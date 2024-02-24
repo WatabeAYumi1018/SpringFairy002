@@ -19,7 +19,10 @@ void PartnerMove::Update(const float delta_time)
 
     if (m_mediator->GetCurrentEventLane().s_id == 14)
     {
-        m_pos.y += delta_time * 1000;
+        // 物語終了後、エンドへ移行するための上昇速度
+        float move_speed_y = 1000.0f;
+
+        m_pos.y += delta_time * move_speed_y;
     }
 
 	// パートナーの位置と回転を更新
@@ -29,12 +32,15 @@ void PartnerMove::Update(const float delta_time)
 
 void PartnerMove::UpdateRandomPos(const float delta_time)
 {
+    float change_move_time = 3.0f;
+
     m_move_time += delta_time;
 
     // 周期的またはランダムに周波数を変更(3秒ごとに変更)
-    if (m_move_time - m_last_move_time > 3.0f)
+    if (m_move_time - m_last_move_time > change_move_time)
     {
         // 0.1～0.2の範囲でランダム
+        // わずかな数値で変化も殆どないため、固定値
         m_orbit_frequency
             = tnl::GetRandomDistributionFloat(0.1f, 0.2f);
        
@@ -57,6 +63,9 @@ void PartnerMove::UpdateRandomPos(const float delta_time)
 // 円同士の補正処理(Object2が弾かれる)
 void PartnerMove::CorrectPos(const float delta_time)
 {
+    // 弾かれる速度
+    float push_speed = 5.0f;
+
     tnl::Vector3 player_pos = m_mediator->GetPlayerPos();
     tnl::Vector3 partner_pos = m_mediator->GetPartnerPos();
 
@@ -81,9 +90,10 @@ void PartnerMove::CorrectPos(const float delta_time)
         tnl::Vector3 correct_vec = distance_vec * overlap;
         //// 補正にかかる時間
         //float lerp_time = 0.5f;
-        //tnl::Vector3 lerp_vec = tnl::Vector3(partner_pos + (correct_vec * lerp_time * delta_time));
-        player_pos -= correct_vec * 5 * delta_time;
-        partner_pos += correct_vec * 5 * delta_time;
+        //tnl::Vector3 lerp_vec 
+        // = tnl::Vector3(partner_pos + (correct_vec * lerp_time * delta_time));
+        player_pos -= correct_vec * push_speed * delta_time;
+        partner_pos += correct_vec * push_speed * delta_time;
 
         // オブジェクトの位置を補正
         m_mediator->SetPlayerPos(player_pos);

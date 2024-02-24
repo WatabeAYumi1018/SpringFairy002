@@ -16,5 +16,6 @@ void Object::SetLight(int model_hdl)
 	MV1SetMaterialAmbColor(model_hdl, 0, ambient);
 	MV1SetMaterialDifColor(model_hdl, 0, diffuse);
 	MV1SetMaterialSpcColor(model_hdl, 0, specular);
+	// 0.5f : 鏡面反射光の強さは強くても弱くても見にくく、値の変更もほとんどない。
 	MV1SetMaterialSpcPower(model_hdl, 0, 0.5f);	
 }

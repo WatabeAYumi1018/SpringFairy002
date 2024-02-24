@@ -76,6 +76,8 @@ private:
 
 	// アニメーションの速度
 	float m_anim_speed = 10;
+	// ブレンド速度
+	float m_blend_speed = 2.0f;
 	// ブレンド時間
 	float m_blend_timer = 0;
 	// ブレンド総時間
