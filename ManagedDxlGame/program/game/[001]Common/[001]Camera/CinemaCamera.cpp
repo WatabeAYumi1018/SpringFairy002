@@ -128,6 +128,9 @@ bool CinemaCamera::SeqTrigger(const float delta_time)
 
 bool CinemaCamera::SeqFirst(const float delta_time)
 {
+	// 4 秒間のみ実行
+	// こういった値もデバッグで調整するためにcsvに記載するのが好ましいですが、
+	// 今回は複雑さとプログラム上での調節の簡易さを重視し、固定値で実装しています。
 	TNL_SEQ_CO_TIM_YIELD_RETURN(4, delta_time, [&]()
 	{
 		Fixed({ m_paras[1].s_num,m_paras[2].s_num,m_paras[3].s_num });

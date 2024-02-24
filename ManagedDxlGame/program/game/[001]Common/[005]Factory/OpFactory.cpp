@@ -23,12 +23,10 @@ OpFactory::OpFactory()
 OpFactory::~OpFactory()
 {
 	m_objects.clear();
-
-	SharedExReset();
 }
 
 void OpFactory::CreateObject()
-{
+{	
 	m_object = std::make_shared<Object>();
 
 	m_skyBox = std::make_shared<SkyBox>();
@@ -73,20 +71,4 @@ void OpFactory::StorageObject()
 	m_objects.emplace_back(m_butterfly);
 	m_objects.emplace_back(m_title);
 	m_objects.emplace_back(m_enterGraph);
-}
-
-// 明示的なリセットは本来必要ないが、メモリリークが発生しているため一時的な対処として実装
-void OpFactory::SharedExReset()
-{
-	m_object.reset();
-	m_skyBox.reset();
-	m_backLoad.reset();
-	m_butterfly.reset();
-	m_butterflyLoad.reset();
-	m_title.reset();
-	m_gate.reset();
-	m_gateLoad.reset();
-	m_mediator.reset();
-	m_enterGraph.reset();
-	m_opCamera.reset();
 }

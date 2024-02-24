@@ -72,10 +72,11 @@ void PlayerDraw::Draw()
 void PlayerDraw::AnimBlend(const float delta_time,int model_hdl, int current_anim_index, int next_anim_index)
 {
 	// ブレンド処理
-	m_blend_timer += delta_time * 2;
-
+	m_blend_timer += delta_time * m_blend_speed;
+	// 1 : 毎秒ごとにブレンドする（変更予定もないため固定値）
 	float blend_rate = m_blend_timer / 1;
 	// クランプ
+	// 1 : 1以上の値は1にする（変更予定もないため固定値）
 	blend_rate = (blend_rate > 1) ? 1 : blend_rate;
 
 	// 現在のアニメーションのブレンド率を設定
@@ -202,6 +203,8 @@ bool PlayerDraw::SeqBloom(const float delta_time)
 	{
 		MV1DetachAnim(m_model_game_hdl, m_anim_move_index);
 
+		// 2 : 読み取ったアニメーションカウントフレームに対して2倍の速度で再生するとちょうどいい
+		// ※アニメーションモデルの元データに起因するためほぼ変更はない。
 		TNL_SEQ_CO_FRM_YIELD_RETURN(m_time_count_bloom * 2, delta_time, [&]()
 		{
 			AnimBloom(delta_time);
@@ -259,6 +262,8 @@ bool PlayerDraw::SeqDance(const float delta_time)
 	{
 		MV1DetachAnim(m_model_game_hdl, m_anim_move_index);
 
+		// 1.5 : 読み取ったアニメーションカウントフレームに対して2倍の速度で再生するとちょうどいい
+		// ※アニメーションモデルの元データに起因するためほぼ変更はない。
 		TNL_SEQ_CO_FRM_YIELD_RETURN(m_time_count_dance * 1.5f, delta_time, [&]()
 		{
 			AnimDance(delta_time, m_model_game_hdl);

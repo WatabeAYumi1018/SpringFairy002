@@ -21,7 +21,6 @@ public:
 	//--------------------------コンストラクタ、デストラクタ--------------------------//
 
 	PlayerCollision() {}
-
 	~PlayerCollision();
 
 	//---------------------------------------------------------------------------------//
@@ -37,6 +36,8 @@ private:
 	std::shared_ptr<Player> m_player = nullptr;
 	// パートナーのポインタ
 	std::shared_ptr<Partner> m_partner = nullptr;
+	// メディエータのポインタ
+	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 	// 当たり判定クラスのポインタ(プレイヤーとギミック)
 	std::shared_ptr<wta::Collision<Player, Gimmick>> m_collision_gimmick = nullptr;
@@ -45,9 +46,6 @@ private:
 	// 当たり判定クラスのポインタ(プレイヤーとパートナー)
 	std::shared_ptr<wta::Collision<Player, Partner>> m_collision_chara = nullptr;
 	
-	// メディエータのポインタ
-	std::shared_ptr<Mediator> m_mediator = nullptr;
-
 	//---------------------------------------------------------------------------------//
 
 

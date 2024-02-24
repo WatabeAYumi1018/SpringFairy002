@@ -6,6 +6,8 @@
 
 CinemaPlayer::CinemaPlayer()
 {
+	// 1 : 右向き　＋　-1 : 正面向き = 斜め
+	// モデルの元データに起因するため固定値
 	m_rot
 		= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, -1));
 }
@@ -37,6 +39,7 @@ void CinemaPlayer::Update(const float delta_time)
 	{
 		m_mediator->CinemaPlayerAnimIdle(delta_time);
 	}
+
 	else if (m_is_dance)
 	{
 		m_mediator->CinemaPlayerAnimDance(delta_time);
@@ -121,14 +124,14 @@ void CinemaPlayer::MoveRoundFrontToBack(const float delta_time)
 	// 90 : どのような円運動かによりますが、
 	//		基本的にはモデルのデフォルトに起因するため固定値
 	tnl::Vector3 nextPos 
-		= pos + tnl::Vector3(sin(angle + tnl::ToRadian(90.0f)), 0
-		, cos(angle + tnl::ToRadian(90.0f)));
+				= pos + tnl::Vector3(sin(angle + tnl::ToRadian(90.0f)), 0
+				, cos(angle + tnl::ToRadian(90.0f)));
 	
 	// 向きを変える
 	tnl::Quaternion direction_rot
 		= tnl::Quaternion::LookAt(m_pos, nextPos, tnl::Vector3(0, 1, 0));
 
-	// X軸周りに一定角度傾ける
+	// 1 : X軸周りに一定角度傾ける
 	// 50 : 50度(変更の可能性あり。）
 	tnl::Quaternion tilt_rot 
 		= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(m_paras[12].s_num));
@@ -152,7 +155,7 @@ void CinemaPlayer::MoveRotUpDown(const float delta_time,float speed,bool up)
 		total_rot -= tnl::ToRadian(m_paras[19].s_num);
 	}
 
-	// Y軸周りの回転クォータニオンを生成
+	// 1 : Y軸周りの回転クォータニオンを生成
 	tnl::Quaternion axis_rot
 		= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 1, 0), total_rot);
 
@@ -163,7 +166,7 @@ void CinemaPlayer::MoveRotUpDown(const float delta_time,float speed,bool up)
 	}
 	else
 	{
-		// Z軸周りに30度傾けるクォータニオンを生成
+		// -1 : Z軸周りに30度傾けるクォータニオンを生成
 		tnl::Quaternion tilt_rot
 			= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 0, -1)
 											, tnl::ToRadian(m_paras[16].s_num));
@@ -260,11 +263,12 @@ void CinemaPlayer::MoveRoundBackToFront(const float delta_time,float radian,bool
 
 	// 移動方向を向くための回転を計算
 	// 90 : どのような回転かによりますが、
-	//		モデルのデフォルトに起因するため固定値
+	//		モデルのデフォルトに起因するため固定値(進行方向を常に向くため変更は薄いと判断)
 	tnl::Vector3 next_direction 
 		= tnl::Vector3(sin(angle + tnl::ToRadian(90.0f)), 0
 					  , cos(angle + tnl::ToRadian(90.0f)));
 	
+	// 1 : Y軸周りの回転クォータニオンを生成
 	tnl::Quaternion direction_rot 
 		= tnl::Quaternion::LookAt(m_pos, m_pos + next_direction, tnl::Vector3(0, 1, 0));
 	
@@ -359,6 +363,10 @@ bool CinemaPlayer::SeqFirst(const float delta_time)
 	m_mediator->SetAnimElapsedTimeDance();
 
 	MusicManager::GetInstance().StopSE(3);
+
+	// 次のシネマへ移行した時、一瞬プレイヤーが描画されてしまうのを防ぐ
+	// ただの視覚的対策なので、変更の可能性はなし。固定値で見えないように右に配置。
+	m_pos = { 2000,0,0 };
 
 	tnl_sequence_.change(&CinemaPlayer::SeqTrigger);
 
@@ -486,6 +494,7 @@ bool CinemaPlayer::SeqThird(const float delta_time)
 		
 		m_pos.y += delta_time * m_paras[32].s_num;
 
+		// 座標のリセット
 		if (m_pos.y >= 0)
 		{
 			m_pos.y = 0;

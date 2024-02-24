@@ -55,9 +55,15 @@ public:
 
 	//---------------------------------------------------------------------------------//
 
-private:
 
 	//-----------------------------------メンバ変数------------------------------------//
+
+	// ギミックの当たり判定の半径（エリア１とエリア３の草花）
+	static const int GIMMICK_SIZE_FLOWER = 250;
+	// ギミックの当たり判定の半径(エリア２の樹木)
+	static const int GIMMICK_SIZE_WOOD = 500;
+
+private:
 
 	// エミッシブの値
 	float m_emissive_value = 0.0f;
@@ -91,10 +97,6 @@ private:
 	// アイテムフラワーの落下処理
 	// arg ... delta_time(前フレームからの経過時間)
 	void MoveFlower(const float delta_time);
-
-	// アイテムバタフライの移動処理
-	// arg ... delta_time(前フレームからの経過時間)
-	void MoveButterfly(const float delta_time);
 
 	// 初期状態
 	// arg ... delta_time(前フレームからの経過時間)

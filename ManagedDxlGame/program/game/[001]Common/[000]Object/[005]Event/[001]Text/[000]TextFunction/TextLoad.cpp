@@ -16,8 +16,10 @@ TextLoad::~TextLoad()
 void TextLoad::LoadText()
 {
 	m_csv_texts
-		//= tnl::LoadCsv<tnl::CsvCell>("csv/ui/text/text.csv");
-		= tnl::LoadCsv<tnl::CsvCell>("csv/ui/text/text0219.csv");
+		= tnl::LoadCsv<tnl::CsvCell>("csv/ui/text/text.csv");
+
+	// 審査会用に使用したミニマップ（必要時に使用予定）	
+	//= tnl::LoadCsv<tnl::CsvCell>("csv/ui/text/text0219.csv");
 
 	// csvの最初の行は題目なのでスキップ
 	for (int i = 1; i < m_csv_texts.size();++i)

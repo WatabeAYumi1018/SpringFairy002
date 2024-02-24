@@ -11,8 +11,8 @@ Player::Player()
 
 	for (int i = 0; i < m_mesh_create_num; ++i)
 	{
-		// 100 : メッシュの半径（当たり判定の調節で変更する可能性あり）
-		float radius = 100.0f;
+		// メッシュの半径
+		float radius = m_collision_size;
 
 		std::shared_ptr<dxe::Mesh> mesh
 				= dxe::Mesh::CreateSphereMV(radius);
@@ -99,7 +99,9 @@ void Player::UpdateMesh(const float delta_time)
 {
 	tnl::Vector3 forward = Forward();
 
+	// メッシュの位置を更新
 	float distance = 100.0f;
+	// Y軸におけるオフセット（必要に応じて設定）
 	float offset = 150.0f;
 
 	// 最初はプレイヤーの位置に設定

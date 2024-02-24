@@ -812,9 +812,6 @@
     <ClInclude Include="program\wta_library\wta_Convert.h">
       <Filter>program\[002]wta_library</Filter>
     </ClInclude>
-    <ClInclude Include="program\wta_library\wta_SimplexNoise.h">
-      <Filter>program\[002]wta_library</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction\EffectLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[003]Effect\[000]EffectFunction</Filter>
     </ClInclude>
@@ -881,9 +878,6 @@
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer\CinemaCameraTarget.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[002]CameraTargetPlayer</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h">
-      <Filter>program\[003] game\[001]Common\[002]Mediator</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\[001]Common\[005]Factory\PlayFactory.h">
       <Filter>program\[003] game\[001]Common\[005]Factory</Filter>
     </ClInclude>
@@ -937,6 +931,9 @@
     </ClInclude>
     <ClInclude Include="program\game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction\CinemaPlayerLoad.h">
       <Filter>program\[003] game\[001]Common\[000]Object\[001]Character\[000]Player\[001]CinemaPlayerFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\[001]Common\[002]Mediator\Mediator.h">
+      <Filter>program\[003] game\[001]Common\[002]Mediator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

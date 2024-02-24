@@ -84,17 +84,14 @@ bool SceneManager::SeqTransOut(const float delta_time)
 
 	if (alpha >= m_alpha)
 	{
-		m_sequence.change(&SceneManager::SeqTransIn);
-
-		//現在のシーンの終了処理
-		m_now_scene->Finalize();
-
 		delete m_now_scene;
 
 		m_now_scene = nullptr;
 
 		//次のシーンを現在のシーンに
 		m_now_scene = m_next_scene;
+
+		m_sequence.change(&SceneManager::SeqTransIn);
 	}
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);

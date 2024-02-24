@@ -14,6 +14,7 @@ SceneEd::SceneEd()
 	m_mediator = std::make_shared<Mediator>();
 
 	m_screen_shot->SetMediator(m_mediator);
+
 	m_mediator->SetEnterGraph(m_enter_graph);
 }
 
@@ -56,17 +57,4 @@ void SceneEd::Finalize()
 {
 	MusicManager::GetInstance().StopBGM(4);
 	MusicManager::GetInstance().StopSE(0);
-
-	//	デストラクタにて循環参照を明示的に解消
-	//	今回、各クラスからメディエータへの参照がsharedで行われているため、
-	//	カウントが0にならないと思われる事案が発生。
-	//	改善策として、メディエータへのweak参照が挙げられますが、
-	//	毎フレーム大量のshared_ptrを生成する事になるため、
-	//	パフォーマンスへの影響を懸念。
-	//	作成終盤の現段階で設計の見直しは現実的でないため、
-	//	今回は明示的に解消する事にしました。
-	//  今後の大きな課題として、設計の見直しを行う事が挙げられます。
-	m_enter_graph.reset();
-	m_mediator.reset();
-	m_screen_shot.reset();
 }

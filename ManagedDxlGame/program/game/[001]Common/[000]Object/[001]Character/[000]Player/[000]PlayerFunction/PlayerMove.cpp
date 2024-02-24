@@ -114,6 +114,7 @@ void PlayerMove::ControlMoveMatrix(const float delta_time)
 	tnl::Vector3 camera_right = m_mediator->GetCameraRight();
 
 	// 傾きをリセット（初期向きに戻す）
+	// 1 : 奥向き（元のモデルデータに起因するため固定値）
 	m_target_rot 
 		= tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, 1));
 	// 傾斜の初期化

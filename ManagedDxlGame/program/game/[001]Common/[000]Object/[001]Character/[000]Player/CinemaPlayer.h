@@ -64,9 +64,6 @@ private:
 	// コルーチンシーケンス
 	TNL_CO_SEQUENCE(CinemaPlayer, &CinemaPlayer::SeqTrigger);
 
-	// メディエータのポインタ
-	std::shared_ptr<Mediator> m_mediator = nullptr;
-
 	//---------------------------------------------------------------------------------//
 
 
@@ -129,12 +126,6 @@ public:
 
 	// ダンスフラグの取得
 	bool GetIsDance() const { return m_is_dance; }
-
-	// メディエータの設定
-	void SetMediator(std::shared_ptr<Mediator>& mediator)
-	{
-		m_mediator = mediator;
-	}
 
 	//---------------------------------------------------------------------------------//
 };

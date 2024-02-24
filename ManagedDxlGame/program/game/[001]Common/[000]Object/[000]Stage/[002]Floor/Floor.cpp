@@ -60,7 +60,7 @@ void Floor::DrawFloor(std::shared_ptr<dxe::Camera> camera)
 {
     // グリッドのサイズ
     int grid_size = 60;
-    // グリッドの半分のサイズ
+    // 2 : グリッドの半分のサイズ
     int half_grid_size = grid_size / 2;
     // フロア間のスペース
     int spacing = Lane::LANE_SIZE;

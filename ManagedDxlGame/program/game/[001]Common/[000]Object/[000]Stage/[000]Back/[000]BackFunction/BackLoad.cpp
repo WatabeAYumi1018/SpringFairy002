@@ -21,11 +21,8 @@ void BackLoad::LoadCinemaGraphInfo()
 	m_csv_cinemaBack_info
 		= tnl::LoadCsv<tnl::CsvCell>("csv/stage/back/cinemaBack_info.csv");
 
-	// マップタイルの総数を取得
-	int max_num = m_csv_cinemaBack_info.size();
-
 	// 0行目は説明文なので読み飛ばす
-	for (int y = 1; y < max_num; ++y)
+	for (int y = 1; y < m_csv_cinemaBack_info.size(); ++y)
 	{
 		CinemaBack::sCinemaBackInfo cinema_info;
 
@@ -44,11 +41,8 @@ void BackLoad::LoadSkyBoxInfo()
 	m_csv_skyBox_info
 		= tnl::LoadCsv<tnl::CsvCell>("csv/stage/back/skyBox_info.csv");
 
-	// マップタイルの総数を取得
-	int max_num = m_csv_skyBox_info.size();
-
 	// 0行目は説明文なので読み飛ばす
-	for (int y = 1; y < max_num; ++y)
+	for (int y = 1; y < m_csv_skyBox_info.size(); ++y)
 	{
 		SkyBox::sSkyBoxInfo sky_info;
 

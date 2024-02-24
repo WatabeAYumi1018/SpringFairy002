@@ -72,6 +72,9 @@ void Text::DrawWindow()
 	int start_x = 490;
 	int start_y = 500;
 
+	int offset_x = 300;
+	int offset_y = 200;
+
 	// アルファブレンドを設定
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_window_alpha);
 
@@ -79,7 +82,7 @@ void Text::DrawWindow()
 	if (m_window_alpha > 0)
 	{
 		DrawExtendGraph(start_x, start_y
-						, start_x + 300, start_y + 200
+						, start_x + offset_x, start_y + offset_y
 						, m_window_hdl, TRUE);
 	}
 

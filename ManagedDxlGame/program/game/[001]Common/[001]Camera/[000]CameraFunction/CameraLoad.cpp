@@ -35,8 +35,10 @@ void CameraLoad::LoadCameraVector()
 {
 	// csvファイルの読み込み
 	m_csv_camera_lane 
-		//= tnl::LoadCsv<int>("csv/stage/camera/camera_lane.csv");
-		= tnl::LoadCsv<int>("csv/stage/camera/camera_lane0219.csv");
+		= tnl::LoadCsv<int>("csv/stage/camera/camera_lane.csv");
+	
+	// 審査会用に使用したミニマップ（必要時に使用予定）	
+	// = tnl::LoadCsv<int>("csv/stage/camera/camera_lane0219.csv");
 
 	GameCamera::sCamera camera;
 

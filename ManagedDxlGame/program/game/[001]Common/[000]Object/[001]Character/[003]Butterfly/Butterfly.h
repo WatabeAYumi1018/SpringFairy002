@@ -70,8 +70,6 @@ private:
 
 	// メッシュのポインタ
 	std::shared_ptr<dxe::Mesh> m_mesh = nullptr;
-	// メディエータのポインタ
-	std::shared_ptr<Mediator> m_mediator = nullptr;
 
 	//---------------------------------------------------------------------------------//
 
@@ -132,12 +130,6 @@ public:
 
 	// シネマ描画フラグの取得
 	bool GetIsCinemaActive() const { return m_is_cinema_active; }
-
-	// メディエータの設定
-	void SetMediator(std::shared_ptr<Mediator>& mediator) 
-	{
-		m_mediator = mediator; 
-	}
 
 	//---------------------------------------------------------------------------------//
 };

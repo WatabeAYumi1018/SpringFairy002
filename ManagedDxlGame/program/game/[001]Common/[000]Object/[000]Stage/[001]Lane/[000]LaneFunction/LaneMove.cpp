@@ -37,6 +37,7 @@ void LaneMove::MoveAstarTarget(const float delta_time, tnl::Vector3& pos)
 	UpdateGrids();
 
 	// 次のグリッドの中心座標を取得
+	// 2 : 中心座標を取得するための定数
 	tnl::Vector3 next_center_pos
 		= wta::ConvertGridIntToFloat(m_next_grid, Lane::LANE_SIZE)
 		+ tnl::Vector3(Lane::LANE_SIZE / 2, 0, Lane::LANE_SIZE / 2);
@@ -117,21 +118,25 @@ void LaneMove::MoveAstarCharaRot(const float delta_time, tnl::Vector3& pos, tnl:
 
 void LaneMove::MoveSpeed(const float delta_time, tnl::Vector3& direction,tnl::Vector3& pos)
 {
+	float max_move_speed = 5;
+	float normal_move_speed = 2;
+
 	if (m_mediator->GetIsTargetSpeedUp())
 	{
 		// 移動速度を上げる
-		pos += direction * m_move_speed * delta_time * 5;
+		pos += direction * m_move_speed * delta_time * max_move_speed;
 	}
 	else
 	{
 		// 現在のグリッドの中心へ向かって移動
-		pos += direction * m_move_speed * delta_time * 2;
+		pos += direction * m_move_speed * delta_time * normal_move_speed;
 	}
 }
 
 void LaneMove::StepUpdate(const float delta_time, float distance, tnl::Vector3& pos)
 {
 	// 中心座標までの距離が一定以下になったら
+	// 100 : 中心点からの距離（殆ど変更予定ないため固定値）
 	if (distance <= Lane::LANE_SIZE / 100)
 	{
 		// 次のグリッドに進む
@@ -164,6 +169,7 @@ Lane::sLane LaneMove::GoalTile()
 
 	for (Lane::sLane& goal : goal_process)
 	{
+		// ゴールのレーンIDを取得
 		if (goal.s_id == 2)
 		{
 			return goal;

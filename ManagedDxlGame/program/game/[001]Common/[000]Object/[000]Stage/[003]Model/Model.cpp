@@ -65,6 +65,7 @@ void Model::Draw(std::shared_ptr<dxe::Camera> camera)
         if (m_mediator->GetNowStagePhaseState()
             == StagePhase::eStagePhase::e_flower)
         {
+            // 0 : ステージIDの番号（ステージによって描画モデルを変える）
             DrawStageRot(m_models_info, 0);
         }
         else if (m_mediator->GetNowStagePhaseState()
@@ -117,6 +118,7 @@ void Model::DrawStageNormal(std::vector<sModelInfo>& models_info, int id)
     // ※本当はこのあたり、デバッグで外部から変更できるようにするのが好ましい
     // ※制作規模と処理の複雑化を考慮して、今回は固定値で設定（以降も同様）
     int draw_range = 5;
+    
     // グリッドのサイズ（値が小さいほど密度が高くなる）
     // エリアによって密度を分けたい時も考えられるため、ここで設定
     int grid_size = 1500;
@@ -146,6 +148,7 @@ void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id)
     // 描画範囲の設定（ターゲットの位置を中心に全方向に向けて）
     // エリアによって密度を分けたい時も考えられるため、ここで設定
     int draw_range = 5;
+
     // グリッドのサイズ（値が小さいほど密度が高くなる）
     // エリアによって密度を分けたい時も考えられるため、ここで設定
     int grid_size = 1500;
@@ -160,14 +163,19 @@ void Model::DrawStageRot(std::vector<sModelInfo>& models_info,int id)
 
             if (m_mediator->GetPlayerLookSideRight())
             {
+                // -1 : 左向き(モデルの元データに起因する)
 				m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(-1, 0, 0));
-			}
+            }
+
             else if(m_mediator->GetPlayerLookSideLeft())
             {
+				// 1 : 右向き
 				m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(1, 0, 0));
 			}
+
             else if (m_look_side_front)
             {
+                // -1 : 正面向き
                 m_rot = tnl::Quaternion::LookAtAxisY(m_pos, m_pos + tnl::Vector3(0, 0, -1));
             }
 
@@ -200,6 +208,7 @@ void Model::SetTreePos()
         float min_x = static_cast<float>((width - range) * Lane::LANE_SIZE);
 
         pos.x = tnl::GetRandomDistributionFloat(min_x, max_x);
+
         pos.y = Floor::DRAW_OFFSET;
         // 2 : ある程度のゆとりを持たせるための値
         // この辺りの数値もデバッグで外部から変更できるようにするのが好ましい
